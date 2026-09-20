@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://cdseigfjnotw3"]
+
+[ext_resource type="Script" uid="uid://b5as8rft78ca2" path="res://UI/loading_screen.gd" id="1_1j043"]
+
+[node name="LoadingScreen" type="Control" unique_id=1133673070]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1j043")
+
+[node name="Background" type="ColorRect" parent="." unique_id=695229652]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.42745098, 0.07450981, 0.078431375, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=1089788262]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=746097131]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1486952977]
+layout_mode = 2
+text = "THE DEMONIC REALM"
+horizontal_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/VBoxContainer" unique_id=1065035779]
+layout_mode = 2
+text = "Awakening the realm..."
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="CenterContainer/VBoxContainer" unique_id=1899680338]
+custom_minimum_size = Vector2(400, 20)
+layout_mode = 2
+show_percentage = false

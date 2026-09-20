@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://dhl8mo6wt4dg0"]
+
+[ext_resource type="Script" uid="uid://ca55inucbeso6" path="res://UI/resource_panel.gd" id="1_6mjno"]
+
+[node name="ResourcePanel" type="Control" unique_id=1532266736]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_6mjno")
+
+[node name="ResourceContainer" type="HBoxContainer" parent="." unique_id=1304303000]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 10

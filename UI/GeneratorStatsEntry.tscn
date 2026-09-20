@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://rvq1puag443x"]
+
+[ext_resource type="Script" uid="uid://chif68670j7uf" path="res://UI/generator_stats_entry.gd" id="1_m8km3"]
+
+[node name="GeneratorStatsEntry" type="Control" unique_id=1667121199]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m8km3")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=318133986]
+propagate_maximum_size = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1873805923]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="HeaderButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=328359141]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HeaderContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton" unique_id=1644239890]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 4
+
+[node name="TopRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer" unique_id=949908356]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="GeneratorNameLabel" type="Label" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/TopRow" unique_id=1945643524]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+
+[node name="LevelLabel" type="Label" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/TopRow" unique_id=1599639561]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+
+[node name="RateRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer" unique_id=1018849455]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ProductionLabel" type="Label" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/RateRow" unique_id=749494009]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+
+[node name="ConsumptionLabel" type="Label" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/RateRow" unique_id=1917635751]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+
+[node name="DetailContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1737732265]
+layout_mode = 2

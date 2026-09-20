@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://br21k8ws3b3ir"]
+
+[ext_resource type="Script" uid="uid://dvs5ar3vwg83r" path="res://game.gd" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://dhl8mo6wt4dg0" path="res://UI/resource_panel.tscn" id="2_e2o6t"]
+[ext_resource type="PackedScene" uid="uid://brse7a5upnxtg" path="res://UI/StatsPanel.tscn" id="3_feb5d"]
+[ext_resource type="PackedScene" uid="uid://bmuknpykhpamo" path="res://UI/UpgradeInfoPopup.tscn" id="4_fc0e3"]
+[ext_resource type="PackedScene" uid="uid://cdseigfjnotw3" path="res://UI/loading_screen.tscn" id="5_7jktm"]
+
+[node name="Game" type="Control" unique_id=2017947086]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_80nbo")
+
+[node name="ResourcePanel" parent="." unique_id=1532266736 instance=ExtResource("2_e2o6t")]
+modulate = Color(0.50790143, 0.82818675, 0.9196969, 1)
+top_level = true
+layout_mode = 1
+offset_bottom = -576.0
+
+[node name="GeneratorScroll" type="ScrollContainer" parent="." unique_id=1072280317]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 72.0
+offset_right = 419.0
+offset_bottom = 592.0
+
+[node name="GeneratorContainer" type="VBoxContainer" parent="GeneratorScroll" unique_id=22294849]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="UpgradeScroll" type="ScrollContainer" parent="." unique_id=1068670661]
+visible = false
+layout_mode = 0
+offset_left = 427.0
+offset_top = 81.0
+offset_right = 1141.0
+offset_bottom = 590.0
+
+[node name="UpgradeContainer" type="VBoxContainer" parent="UpgradeScroll" unique_id=1945116082]
+layout_mode = 2
+
+[node name="StatsPanel" parent="." unique_id=682952637 instance=ExtResource("3_feb5d")]
+layout_mode = 1
+offset_left = 442.0
+offset_top = 66.0
+offset_right = -19.733154
+offset_bottom = -54.25287
+scale = Vector2(1.0213442, 0.9947947)
+
+[node name="RubButton" type="Button" parent="." unique_id=1682017612]
+layout_mode = 0
+offset_top = 601.0
+offset_right = 120.0
+offset_bottom = 644.0
+text = "RUB"
+
+[node name="UpgradesButton" type="Button" parent="." unique_id=876049299]
+layout_mode = 0
+offset_left = 123.0
+offset_top = 601.0
+offset_right = 243.0
+offset_bottom = 644.0
+text = "UPGRADES"
+
+[node name="StatsButton" type="Button" parent="." unique_id=1142714595]
+layout_mode = 0
+offset_left = 246.0
+offset_top = 601.0
+offset_right = 366.0
+offset_bottom = 644.0
+text = "STATS"
+
+[node name="UpgradeInfoPopup" parent="." unique_id=1574030057 instance=ExtResource("4_fc0e3")]
+visible = false
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 0
+
+[node name="LoadingScreen" parent="." unique_id=1133673070 instance=ExtResource("5_7jktm")]
+layout_mode = 1
+
+[connection signal="pressed" from="RubButton" to="." method="_on_rub_button_pressed"]
+[connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
+[connection signal="pressed" from="StatsButton" to="." method="_on_stats_button_pressed"]

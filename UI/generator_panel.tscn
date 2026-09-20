@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://dquaiifsxwxsq"]
+
+[ext_resource type="Script" uid="uid://bmgaw5o57e0ba" path="res://UI/generator_panel.gd" id="1_8xu6q"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dpddx"]
+content_margin_left = 8.0
+content_margin_top = 8.0
+content_margin_right = 8.0
+content_margin_bottom = 8.0
+bg_color = Color(0.58909595, 0.5890955, 0.5890956, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.11858138, 0.11858139, 0.11858133, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="GeneratorPanel" type="PanelContainer" unique_id=588531464]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_dpddx")
+script = ExtResource("1_8xu6q")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=196339853]
+layout_mode = 2
+
+[node name="GeneratorLabel" type="Label" parent="VBoxContainer" unique_id=199233595]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+
+[node name="LevelLabel" type="Label" parent="VBoxContainer" unique_id=375397751]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1878415476]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1305668435]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Status"
+
+[node name="PauseButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=330059524]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "Pause"
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer" unique_id=1308679323]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+
+[node name="InputLabel" type="Label" parent="VBoxContainer" unique_id=1555270847]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+
+[node name="ProductionLabel" type="Label" parent="VBoxContainer" unique_id=271061150]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+
+[node name="CostLabel" type="Label" parent="VBoxContainer" unique_id=512370589]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+
+[node name="BuyButton" type="Button" parent="VBoxContainer" unique_id=1369617974]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "BUY"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/BuyButton" to="." method="_on_buy_button_pressed"]

@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://brse7a5upnxtg"]
+
+[ext_resource type="Script" uid="uid://b5xwxlat6llu2" path="res://UI/stats_panel.gd" id="1_ff2w1"]
+
+[node name="StatsPanel" type="Control" unique_id=682952637]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ff2w1")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=753617594]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=1310331131]
+propagate_maximum_size = false
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TitleLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=35994137]
+layout_mode = 2
+text = "General Game Statistics:"
+
+[node name="TimeStatsContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=665679967]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TimeTitleLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimeStatsContainer" unique_id=1888328790]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Time"
+
+[node name="SessionTimeLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimeStatsContainer" unique_id=948567866]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Time"
+
+[node name="ActiveTimeLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimeStatsContainer" unique_id=1787340964]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Active Time: 0s"
+
+[node name="OfflineTimeLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimeStatsContainer" unique_id=1399373188]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Offline Time: 0s"
+
+[node name="GameTimeLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimeStatsContainer" unique_id=2018445424]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Game Time: 0s"
+
+[node name="TimeScaleLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimeStatsContainer" unique_id=43370042]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Time Speed: ×1.00"
+
+[node name="ResourceStatsContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=1478345356]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="GeneratorStatsContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=756537500]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 6

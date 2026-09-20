@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bmuknpykhpamo"]
+
+[ext_resource type="Script" uid="uid://cins605j4ldy5" path="res://UI/upgrade_info_popup.gd" id="1_6igbt"]
+
+[node name="UpgradeInfoPopup" type="PanelContainer" unique_id=1574030057]
+custom_minimum_size = Vector2(180, 0)
+mouse_filter = 2
+script = ExtResource("1_6igbt")
+
+[node name="MarginContainer" type="VBoxContainer" parent="." unique_id=1775368147]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer" unique_id=345276282]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer" unique_id=492512788]
+layout_mode = 2
+
+[node name="CostLabel" type="Label" parent="MarginContainer" unique_id=1241355445]
+layout_mode = 2
+
+[node name="RequirementLabel" type="Label" parent="MarginContainer" unique_id=1298757438]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="MarginContainer" unique_id=1137391681]
+layout_mode = 2
