@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://brse7a5upnxtg" path="res://UI/StatsPanel.tscn" id="3_feb5d"]
 [ext_resource type="PackedScene" uid="uid://bmuknpykhpamo" path="res://UI/UpgradeInfoPopup.tscn" id="4_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://cdseigfjnotw3" path="res://UI/loading_screen.tscn" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://6hk31507tbch" path="res://UI/PrestigePanel.tscn" id="6_prestige"]
 
 [node name="Game" type="Control" unique_id=2017947086]
 layout_mode = 3
@@ -74,6 +75,27 @@ offset_right = 366.0
 offset_bottom = 644.0
 text = "STATS"
 
+[node name="PrestigePanel" parent="." unique_id=34821011 instance=ExtResource("6_prestige")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 442.0
+offset_top = 66.0
+offset_right = 760.0
+offset_bottom = 250.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="PrestigeButton" type="Button" parent="." unique_id=123456789]
+layout_mode = 0
+offset_left = 369.0
+offset_top = 601.0
+offset_right = 489.0
+offset_bottom = 644.0
+text = "PRESTIGE"
+
 [node name="UpgradeInfoPopup" parent="." unique_id=1574030057 instance=ExtResource("4_fc0e3")]
 visible = false
 custom_minimum_size = Vector2(110, 0)
@@ -85,3 +107,4 @@ layout_mode = 1
 [connection signal="pressed" from="RubButton" to="." method="_on_rub_button_pressed"]
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="StatsButton" to="." method="_on_stats_button_pressed"]
+[connection signal="pressed" from="PrestigeButton" to="." method="_on_prestige_button_pressed"]

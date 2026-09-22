@@ -8,7 +8,7 @@ var level: int = 0
 var modifiers: Array[Modifier] = []
 var modifier_sensitivities: Array = []
 var production_progress: Dictionary = {}
-
+var initial_unlocked: bool = true
 var unlocked: bool = true
 var manually_paused: bool = false
 var operating: bool = false
@@ -27,6 +27,23 @@ func _init(generator_definition: GeneratorDefinition) -> void:
 			production_progress[output.resource_id] = 0.0
 
 
+
+func reset() -> void:
+	level = 0
+	modifiers.clear()
+	modifier_sensitivities.clear()
+	
+	unlocked = initial_unlocked
+	manually_paused = false
+	operating = false
+	
+	cycle_active = false
+	cycle_progress = 0.0
+	
+	for resource_id in production_progress:
+		production_progress[resource_id] = 0.0
+		
+		
 # Returns the maximum production rate this generator could produce
 # while operating at full capacity.
 func get_production_per_second(

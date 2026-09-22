@@ -1,4 +1,3 @@
-
 class_name GameState
 extends RefCounted
 
@@ -9,11 +8,17 @@ var upgrades: Dictionary = {}
 var upgrade_groups: Dictionary = {}
 var lava_mite_dormancy_penalty: float = 0.0
 
+var eternal_flame_state: EternalFlameState
 
 var heat_leak_threshold: float = 100000.0
 var heat_leak_base: float = 1.0
 var heat_leak_scaling: float = 16.4
 var heat_leak_exponent: float = 2.14
+
+var matter_decay_threshold: float = 10000.0
+var matter_decay_base: float = 0.0
+var matter_decay_scaling: float = 1
+var matter_decay_exponent: float = 2.0
 
 
 func _init() -> void:
@@ -21,6 +26,7 @@ func _init() -> void:
 	_initialize_generators()
 	_initialize_upgrade_groups()
 	_initialize_upgrades()
+	eternal_flame_state = EternalFlameState.new()
 
 
 # -------------------------------------------------------------------
@@ -128,7 +134,7 @@ func _create_molecular_agitation() -> Generator:
 	
 	var generator = Generator.new(definition)
 	generator.unlocked = false
-	
+	generator.initial_unlocked = false
 	return generator
 
 
@@ -160,7 +166,7 @@ func _create_thermal_furnace() -> Generator:
 	
 	var generator = Generator.new(definition)
 	generator.unlocked = false
-	
+	generator.initial_unlocked = false
 	return generator
 
 
@@ -191,7 +197,7 @@ func _create_matter_furnace() -> Generator:
 	
 	var generator = Generator.new(definition)
 	generator.unlocked = false
-	
+	generator.initial_unlocked = false
 	return generator
 
 
@@ -221,7 +227,7 @@ func _create_lava_mite_colony() -> Generator:
 	
 	var generator = Generator.new(definition)
 	generator.unlocked = false
-	
+	generator.initial_unlocked = false
 	return generator
 
 
@@ -257,7 +263,7 @@ func _create_infernal_forge() -> Generator:
 	
 	var generator = Generator.new(definition)
 	generator.unlocked = false
-	
+	generator.initial_unlocked = false
 	return generator
 
 
@@ -354,6 +360,10 @@ func _initialize_upgrades() -> void:
 		_create_efficient_atomic_processing()
 	)
 	
+	_register_upgrade(
+		_create_atomic_friction_refinement()
+	)
+	
 	# Molecular Agitation
 	_register_upgrade(
 		_create_molecular_agitation_upgrade()
@@ -369,6 +379,10 @@ func _initialize_upgrades() -> void:
 	
 	_register_upgrade(
 		_create_agitation_optimization()
+	)
+	
+	_register_upgrade(
+		_create_molecular_agitation_refinement()
 	)
 	
 	# Matter
@@ -389,6 +403,10 @@ func _initialize_upgrades() -> void:
 		_create_efficient_thermal_transfer()
 	)
 	
+	_register_upgrade(
+		_create_thermal_furnace_refinement()
+	)
+	
 	# Matter Furnace
 	_register_upgrade(
 		_create_thermal_conversion()
@@ -402,6 +420,10 @@ func _initialize_upgrades() -> void:
 		_create_matter_furnace_unlock()
 	)
 	
+	_register_upgrade(
+		_create_matter_furnace_refinement()
+	)
+	
 	# Ash Management
 	_register_upgrade(
 		_create_ashen_contamination()
@@ -411,7 +433,13 @@ func _initialize_upgrades() -> void:
 		_create_lava_mite_colony_unlock()
 	)
 	
-	_register_upgrade(_create_lava_mite_dormancy())
+	_register_upgrade(
+		_create_lava_mite_dormancy()
+	)
+	
+	_register_upgrade(
+		_create_lava_mite_refinement()
+	)
 	
 	# Infernal Forge
 	_register_upgrade(
@@ -420,6 +448,10 @@ func _initialize_upgrades() -> void:
 	
 	_register_upgrade(
 		_create_infernal_forge_immunity()
+	)
+	
+	_register_upgrade(
+		_create_infernal_forge_refinement()
 	)
 	
 	# Infernal Condensation Specialization
@@ -518,6 +550,37 @@ func _create_efficient_atomic_processing() -> Upgrade:
 		false,
 		"",
 		"atomic_friction"
+	)
+	
+	return Upgrade.new(definition)
+
+
+func _create_atomic_friction_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"atomic_friction_refinement",
+		"Friction Refinement",
+		"Refines Atomic Friction, increasing its Heat production by 15% per level.",
+		ResourceIds.HEAT,
+		5000.0,
+		[
+			UpgradeEffect.modifier(
+				"atomic_friction",
+				ModifierTypes.PRODUCTION,
+				1.15
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				25
+			)
+		],
+		false,
+		"",
+		"atomic_friction",
+		5,
+		1.55
 	)
 	
 	return Upgrade.new(definition)
@@ -639,6 +702,37 @@ func _create_agitation_optimization() -> Upgrade:
 		false,
 		"",
 		"molecular_agitation"
+	)
+	
+	return Upgrade.new(definition)
+
+
+func _create_molecular_agitation_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"molecular_agitation_refinement",
+		"Agitation Refinement",
+		"Refines Molecular Agitation, increasing its Heat production by 15% per level.",
+		ResourceIds.HEAT,
+		30000.0,
+		[
+			UpgradeEffect.modifier(
+				"molecular_agitation",
+				ModifierTypes.PRODUCTION,
+				1.15
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"molecular_agitation",
+				30
+			)
+		],
+		false,
+		"",
+		"molecular_agitation",
+		5,
+		1.55
 	)
 	
 	return Upgrade.new(definition)
@@ -782,6 +876,37 @@ func _create_efficient_thermal_transfer() -> Upgrade:
 	return Upgrade.new(definition)
 
 
+func _create_thermal_furnace_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"thermal_furnace_refinement",
+		"Condensation Refinement",
+		"Refines Infernal Condensation, increasing its output by 15% per level.",
+		ResourceIds.MATTER,
+		15000.0,
+		[
+			UpgradeEffect.modifier(
+				"thermal_furnace",
+				ModifierTypes.PRODUCTION,
+				1.15
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"thermal_furnace",
+				15
+			)
+		],
+		false,
+		"",
+		"thermal_furnace",
+		5,
+		1.55
+	)
+	
+	return Upgrade.new(definition)
+
+
 # -------------------------------------------------------------------
 # Matter Furnace upgrades
 # -------------------------------------------------------------------
@@ -884,6 +1009,37 @@ func _create_matter_furnace_unlock() -> Upgrade:
 	return Upgrade.new(definition)
 
 
+func _create_matter_furnace_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"matter_furnace_refinement",
+		"Combustion Refinement",
+		"Refines the Matter Furnace, increasing its output by 15% per level.",
+		ResourceIds.MATTER,
+		5000.0,
+		[
+			UpgradeEffect.modifier(
+				"matter_furnace",
+				ModifierTypes.PRODUCTION,
+				1.15
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"matter_furnace",
+				10
+			)
+		],
+		false,
+		"",
+		"matter_furnace",
+		5,
+		1.55
+	)
+	
+	return Upgrade.new(definition)
+
+
 # -------------------------------------------------------------------
 # Ash Management
 # -------------------------------------------------------------------
@@ -946,6 +1102,7 @@ func _create_lava_mite_colony_unlock() -> Upgrade:
 	
 	return Upgrade.new(definition)
 
+
 func _create_lava_mite_dormancy() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"lava_mite_dormancy",
@@ -976,7 +1133,40 @@ func _create_lava_mite_dormancy() -> Upgrade:
 	)
 	
 	return Upgrade.new(definition)
+
+
+func _create_lava_mite_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"lava_mite_refinement",
+		"Lava Mite Breeding",
+		"Improves the effectiveness of Lava Mite colonies by increasing their Ash consumption by 15% per level.",
+		ResourceIds.MATTER,
+		2500.0,
+		[
+			UpgradeEffect.modifier(
+				"lava_mite_colony",
+				ModifierTypes.INPUT_DRAW,
+				1.15,
+				ResourceIds.ASH
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"lava_mite_colony",
+				5
+			)
+		],
+		false,
+		"",
+		"lava_mite_colony",
+		5,
+		1.55
+	)
 	
+	return Upgrade.new(definition)
+
+
 # -------------------------------------------------------------------
 # Infernal Forge
 # -------------------------------------------------------------------
@@ -1049,6 +1239,37 @@ func _create_infernal_forge_immunity() -> Upgrade:
 		true,
 		"",
 		"infernal_forge"
+	)
+	
+	return Upgrade.new(definition)
+
+
+func _create_infernal_forge_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_refinement",
+		"Forge Refinement",
+		"Refines the Infernal Forge, increasing its crystallization output by 15% per level.",
+		ResourceIds.MATTER,
+		50000.0,
+		[
+			UpgradeEffect.modifier(
+				"infernal_forge",
+				ModifierTypes.PRODUCTION,
+				1.15
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"infernal_forge",
+				2
+			)
+		],
+		false,
+		"",
+		"infernal_forge",
+		5,
+		1.55
 	)
 	
 	return Upgrade.new(definition)
@@ -1226,6 +1447,7 @@ func set_resource_amount(
 	
 	resources[resource_id].amount = amount
 
+
 func get_lava_mite_dormancy_penalty() -> float:
 	return lava_mite_dormancy_penalty
 
@@ -1246,6 +1468,7 @@ func get_lava_mite_dormancy_multiplier() -> float:
 	var penalty = lava_mite_dormancy_penalty
 	
 	return 1.0 - penalty
+
 
 # -------------------------------------------------------------------
 # Generator registration / access
@@ -1431,6 +1654,10 @@ func get_upgrade_group(
 	return upgrade_groups[group_id]
 
 
+# -------------------------------------------------------------------
+# Heat leakage / Matter decay
+# -------------------------------------------------------------------
+
 func get_heat_leak_per_second() -> float:
 	var heat = get_resource_amount(
 		ResourceIds.HEAT
@@ -1456,3 +1683,50 @@ func get_heat_leak_per_second() -> float:
 			heat_leak_exponent
 		)
 	)
+
+
+func get_matter_decay_per_second() -> float:
+	var matter = get_resource_amount(
+		ResourceIds.MATTER
+	)
+	
+	if matter <= matter_decay_threshold:
+		return 0.0
+	
+	var excess_matter = (
+		matter - matter_decay_threshold
+	)
+	
+	var normalized_excess = (
+		excess_matter
+		/ matter_decay_threshold
+	)
+	
+	return (
+		matter_decay_base
+		+ matter_decay_scaling
+		* pow(
+			normalized_excess,
+			matter_decay_exponent
+		)
+	)
+
+
+# -------------------------------------------------------------------
+# Current run reset
+# -------------------------------------------------------------------
+
+func reset_current_run() -> void:
+	for resource_id in resources:
+		set_resource_amount(
+			resource_id,
+			0.0
+		)
+	
+	for generator in generators.values():
+		generator.reset()
+	
+	for upgrade in upgrades.values():
+		upgrade.reset()
+	
+	lava_mite_dormancy_penalty = 0.0

@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://6hk31507tbch"]
+
+[ext_resource type="Script" uid="uid://hpfo6sc3ufw3" path="res://UI/prestige_panel.gd" id="1_hr0sl"]
+
+[node name="PrestigePanel" type="Control" unique_id=1634673890]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hr0sl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=149505744]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer" unique_id=700344071]
+layout_mode = 2
+
+[node name="CrystallizedFlameLabel" type="Label" parent="VBoxContainer" unique_id=498019979]
+layout_mode = 2
+
+[node name="EternalFlameLabel" type="Label" parent="VBoxContainer" unique_id=1367747663]
+layout_mode = 2
+
+[node name="GainLabel" type="Label" parent="VBoxContainer" unique_id=110474591]
+layout_mode = 2
+
+[node name="SmashButton" type="Button" parent="VBoxContainer" unique_id=1018030104]
+layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/SmashButton" to="." method="_on_smash_button_pressed"]

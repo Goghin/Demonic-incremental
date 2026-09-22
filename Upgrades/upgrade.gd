@@ -20,3 +20,6 @@ func is_maxed() -> bool:
 
 func can_upgrade() -> bool:
 	return not is_maxed()
+
+func reset() -> void:
+	level = 0

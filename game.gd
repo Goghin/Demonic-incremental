@@ -84,7 +84,11 @@ func _ready() -> void:
 		state,
 		time_manager
 	)
-
+	$PrestigePanel.setup(
+	state,
+	save_manager,
+	time_manager
+	)
 	var upgrade_info_popup = $UpgradeInfoPopup
 
 	print(
@@ -325,6 +329,7 @@ func _on_stats_button_pressed() -> void:
 	
 	if $StatsPanel.visible:
 		$UpgradeScroll.visible = false
+		$PrestigePanel.visible = false
 
 
 func _on_upgrades_button_pressed() -> void:
@@ -332,3 +337,11 @@ func _on_upgrades_button_pressed() -> void:
 	
 	if $UpgradeScroll.visible:
 		$StatsPanel.visible = false
+		$PrestigePanel.visible = false
+		
+func _on_prestige_button_pressed() -> void:
+	$PrestigePanel.visible = not $PrestigePanel.visible
+	
+	if $PrestigePanel.visible:
+		$StatsPanel.visible = false
+		$UpgradeScroll.visible = false

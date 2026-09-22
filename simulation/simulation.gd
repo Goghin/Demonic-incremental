@@ -52,9 +52,13 @@ func update(delta: float) -> void:
 			generator,
 			delta
 		)
-		
-		apply_heat_leak(delta)
+	
+	apply_environmental_effects(delta)
 
+
+func apply_environmental_effects(delta: float) -> void:
+	apply_matter_decay(delta)
+	apply_heat_leak(delta)
 # Process one simulation step for a cycle-based generator.
 #
 # A cycle only progresses when all required inputs are available.
@@ -602,4 +606,36 @@ func apply_heat_leak(delta: float) -> void:
 			heat - leaked_heat,
 			0.0
 		)
+	)
+
+func apply_matter_decay(delta: float) -> void:
+	var decay_per_second = state.get_matter_decay_per_second()
+	
+	if decay_per_second <= 0.0:
+		return
+	
+	var matter = state.get_resource_amount(
+		ResourceIds.MATTER
+	)
+	
+	var decayed_matter = min(
+		decay_per_second * delta,
+		matter
+	)
+	
+	if decayed_matter <= 0.0:
+		return
+	
+	state.set_resource_amount(
+		ResourceIds.MATTER,
+		matter - decayed_matter
+	)
+	
+	var heat = state.get_resource_amount(
+		ResourceIds.HEAT
+	)
+	
+	state.set_resource_amount(
+		ResourceIds.HEAT,
+		heat + decayed_matter
 	)
