@@ -16,6 +16,8 @@ var cost_resource_id: String
 var cycle_based: bool
 var cycle_duration: float
 
+var illustration_path: String
+
 
 func _init(
 	generator_id: String,
@@ -27,7 +29,8 @@ func _init(
 	generator_cost_resource_id: String,
 	generator_cycle_based: bool = false,
 	generator_cycle_duration: float = 0.0,
-	generator_completion_outputs: Array[GeneratorIO] = []
+	generator_completion_outputs: Array[GeneratorIO] = [],
+	generator_illustration_path: String = ""
 ) -> void:
 	id = generator_id
 	display_name = generator_name
@@ -39,3 +42,4 @@ func _init(
 	cost_resource_id = generator_cost_resource_id
 	cycle_based = generator_cycle_based
 	cycle_duration = generator_cycle_duration
+	illustration_path = generator_illustration_path

@@ -16,7 +16,10 @@ const DYNAMIC_RESOURCE_SQRT_INVERSE = "resource_sqrt_inverse"
 const DYNAMIC_GENERATOR_LEVEL = "generator_level"
 const DYNAMIC_RESOURCE_EXPONENT = "resource_exponent"
 const DYNAMIC_LAVA_MITE_DORMANCY = "lava_mite_dormancy"
+const DYNAMIC_RESOURCE_POWER_THRESHOLD = "resource_power_threshold"
 
+var dynamic_threshold: float = 1000.0
+var dynamic_exponent: float = 0.35
 var dynamic: bool = false
 var dynamic_resource_id: String = ""
 var dynamic_formula: String = ""
@@ -131,5 +134,21 @@ func get_multiplier(state: GameState) -> float:
 		
 	if dynamic_formula == DYNAMIC_LAVA_MITE_DORMANCY:
 		return state.get_lava_mite_dormancy_multiplier()
+	
+	if dynamic_formula == DYNAMIC_RESOURCE_POWER_THRESHOLD:
+		var resource_amount = state.get_resource_amount(
+			dynamic_resource_id
+		)
+	
+		if resource_amount <= dynamic_threshold:
+			return 1.0
+	
+		return 1.0 + multiplier * (
+			pow(
+				resource_amount / dynamic_threshold,
+				dynamic_exponent
+			) - 1.0
+		)
+	
 			
 	return multiplier

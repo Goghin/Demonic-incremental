@@ -34,8 +34,9 @@ func _process(_delta: float) -> void:
 	
 	update_time_stats()
 	update_resource_stats()
+	update_pressure_stats()
 	update_generator_stats()
-
+	
 
 func _setup_resource_stats() -> void:
 	var container = (
@@ -317,3 +318,17 @@ func ensure_generator_stats() -> void:
 			stats,
 			generator_id
 		)
+
+func update_pressure_stats() -> void:
+	var heat_leakage = state.get_heat_leak_per_second()
+	var matter_decay = state.get_matter_decay_per_second()
+	
+	$ScrollContainer/VBoxContainer/PressureContainer/HeatLeakageLabel.text = (
+		"Heat Leakage: %s /s"
+		% NumberFormatter.format(heat_leakage)
+	)
+	
+	$ScrollContainer/VBoxContainer/PressureContainer/MatterDecayLabel.text = (
+		"Matter Decay: %s /s"
+		% NumberFormatter.format(matter_decay)
+	)

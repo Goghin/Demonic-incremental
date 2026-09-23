@@ -1,4 +1,3 @@
-
 class_name GeneratorPanel
 extends Control
 
@@ -6,7 +5,7 @@ extends Control
 var state: GameState
 var input_handler: InputHandler
 var generator_id: String
-
+var current_illustration_path: String = ""
 
 func setup(
 	game_state: GameState,
@@ -28,50 +27,52 @@ func _process(_delta: float) -> void:
 	if generator == null:
 		return
 	
+	update_illustration(generator)
+	
 	if not generator.unlocked:
-		$VBoxContainer/LevelLabel.text = "Locked"
-		$VBoxContainer/HBoxContainer/StatusLabel.text = ""
-		$VBoxContainer/HBoxContainer/PauseButton.disabled = true
-		$VBoxContainer/ProgressBar.visible = false
-		$VBoxContainer/InputLabel.text = ""
-		$VBoxContainer/ProductionLabel.text = ""
-		$VBoxContainer/CostLabel.text = ""
-		$VBoxContainer/BuyButton.disabled = true
+		$HBoxContainer/VBoxContainer/LevelLabel.text = "Locked"
+		$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.text = ""
+		$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.disabled = true
+		$HBoxContainer/VBoxContainer/ProgressBar.visible = false
+		$HBoxContainer/VBoxContainer/InputLabel.text = ""
+		$HBoxContainer/VBoxContainer/ProductionLabel.text = ""
+		$HBoxContainer/VBoxContainer/CostLabel.text = ""
+		$HBoxContainer/VBoxContainer/BuyButton.disabled = true
 		return
 	
-	$VBoxContainer/GeneratorLabel.text = (
+	$HBoxContainer/VBoxContainer/GeneratorLabel.text = (
 		generator.definition.display_name
 	)
 	
-	$VBoxContainer/LevelLabel.text = (
+	$HBoxContainer/VBoxContainer/LevelLabel.text = (
 		"Level: %d"
 		% generator.level
 	)
 	
 	var status = generator.get_status()
 	
-	$VBoxContainer/HBoxContainer/StatusLabel.text = (
+	$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.text = (
 		"Status: %s"
 		% status
 	)
 	
-	$VBoxContainer/HBoxContainer/PauseButton.text = (
+	$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.text = (
 		"Play"
 		if generator.manually_paused
 		else "Pause"
 	)
 	
-	$VBoxContainer/HBoxContainer/PauseButton.disabled = (
+	$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.disabled = (
 		generator.level <= 0
 	)
 	
 	if generator.definition.cycle_based:
-		$VBoxContainer/ProgressBar.visible = true
-		$VBoxContainer/ProgressBar.value = (
+		$HBoxContainer/VBoxContainer/ProgressBar.visible = true
+		$HBoxContainer/VBoxContainer/ProgressBar.value = (
 			generator.get_cycle_progress_percent()
 		)
 	else:
-		$VBoxContainer/ProgressBar.visible = false
+		$HBoxContainer/VBoxContainer/ProgressBar.visible = false
 	
 	var operating = generator.is_operating()
 	
@@ -98,7 +99,7 @@ func _process(_delta: float) -> void:
 			input_name
 		]
 	
-	$VBoxContainer/InputLabel.text = input_text
+	$HBoxContainer/VBoxContainer/InputLabel.text = input_text
 	
 	var production_outputs = (
 		generator.get_production_per_second(state)
@@ -124,20 +125,20 @@ func _process(_delta: float) -> void:
 			output_name
 		]
 	
-	$VBoxContainer/ProductionLabel.text = production_text
+	$HBoxContainer/VBoxContainer/ProductionLabel.text = production_text
 	
 	var cost_name = state.get_resource_display_name(
 		generator.definition.cost_resource_id
 	)
 	
-	$VBoxContainer/CostLabel.text = "Cost: %s %s" % [
+	$HBoxContainer/VBoxContainer/CostLabel.text = "Cost: %s %s" % [
 		NumberFormatter.format(
 			generator.get_cost(state)
 		),
 		cost_name
 	]
 	
-	$VBoxContainer/BuyButton.disabled = (
+	$HBoxContainer/VBoxContainer/BuyButton.disabled = (
 		not input_handler.can_buy_generator(
 			generator_id
 		)
@@ -158,3 +159,28 @@ func _on_pause_button_pressed() -> void:
 	input_handler.toggle_generator_pause(
 		generator_id
 	)
+
+func update_illustration(
+	generator: Generator
+	) -> void:
+	
+	var illustration = $HBoxContainer/IllustrationPanel/Illustration
+	var illustration_path = generator.definition.illustration_path
+	
+	if illustration_path == current_illustration_path:
+		return
+	
+	current_illustration_path = illustration_path
+	
+	if illustration_path == "":
+		illustration.texture = null
+		return
+	
+	var texture = load(
+		illustration_path
+	)
+	
+	if texture is Texture2D:
+		illustration.texture = texture
+	else:
+		illustration.texture = null

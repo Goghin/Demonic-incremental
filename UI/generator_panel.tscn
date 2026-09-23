@@ -18,60 +18,75 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="GeneratorPanel" type="PanelContainer" unique_id=588531464]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="GeneratorPanel" type="PanelContainer" unique_id=270267716]
+custom_minimum_size = Vector2(450, 170)
+size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_dpddx")
 script = ExtResource("1_8xu6q")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=196339853]
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1413839124]
 layout_mode = 2
 
-[node name="GeneratorLabel" type="Label" parent="VBoxContainer" unique_id=199233595]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=1351489811]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GeneratorLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1944715467]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
-[node name="LevelLabel" type="Label" parent="VBoxContainer" unique_id=375397751]
+[node name="LevelLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1266644673]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1878415476]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1972567599]
 layout_mode = 2
 
-[node name="StatusLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1305668435]
+[node name="StatusLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1633091438]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Status"
 
-[node name="PauseButton" type="Button" parent="VBoxContainer/HBoxContainer" unique_id=330059524]
+[node name="PauseButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=491545568]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Pause"
 
-[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer" unique_id=1308679323]
+[node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/VBoxContainer" unique_id=1057374181]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 
-[node name="InputLabel" type="Label" parent="VBoxContainer" unique_id=1555270847]
+[node name="InputLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=419617575]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
-[node name="ProductionLabel" type="Label" parent="VBoxContainer" unique_id=271061150]
+[node name="ProductionLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1206109155]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
-[node name="CostLabel" type="Label" parent="VBoxContainer" unique_id=512370589]
+[node name="CostLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=410299147]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
-[node name="BuyButton" type="Button" parent="VBoxContainer" unique_id=1369617974]
+[node name="BuyButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1842664264]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "BUY"
 
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/BuyButton" to="." method="_on_buy_button_pressed"]
+[node name="IllustrationPanel" type="PanelContainer" parent="HBoxContainer" unique_id=2135002673]
+custom_minimum_size = Vector2(225, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="Illustration" type="TextureRect" parent="HBoxContainer/IllustrationPanel" unique_id=454988067]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 5
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButton" to="." method="_on_buy_button_pressed"]

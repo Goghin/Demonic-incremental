@@ -510,7 +510,9 @@ func _add_modifier_to_generator(
 		modifier.dynamic_formula = effect.dynamic_formula
 		modifier.dynamic_resource_id = effect.dynamic_resource_id
 		modifier.dynamic_generator_id = effect.dynamic_generator_id
-	
+		modifier.dynamic_threshold = effect.dynamic_threshold
+		modifier.dynamic_exponent = effect.dynamic_exponent
+		
 	generator.modifiers.append(modifier)
 
 

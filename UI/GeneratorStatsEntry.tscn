@@ -3,12 +3,8 @@
 [ext_resource type="Script" uid="uid://chif68670j7uf" path="res://UI/generator_stats_entry.gd" id="1_m8km3"]
 
 [node name="GeneratorStatsEntry" type="Control" unique_id=1667121199]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_vertical = 0
 script = ExtResource("1_m8km3")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=318133986]
@@ -26,7 +22,7 @@ theme_override_constants/separation = 6
 [node name="HeaderButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=328359141]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 0
 
 [node name="HeaderContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton" unique_id=1644239890]
 layout_mode = 0

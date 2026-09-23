@@ -4,7 +4,7 @@ extends RefCounted
 
 
 const SAVE_PATH := "user://savegame.json"
-const SAVE_VERSION := 2
+const SAVE_VERSION := 3
 
 
 func save_game(
@@ -128,7 +128,12 @@ func state_to_dictionary(
 	var data = {
 		"resources": {},
 		"generators": {},
-		"upgrades": {}
+		"upgrades": {},
+		"eternal_flame_state": {
+			"eternal_flame": state.eternal_flame_state.eternal_flame,
+			"prestige_count": state.eternal_flame_state.prestige_count,
+			"total_crystallized_flame": state.eternal_flame_state.total_crystallized_flame
+		}
 	}
 	
 	for resource in state.get_resources().values():
@@ -196,7 +201,28 @@ func dictionary_to_state(
 			float(resources_data[resource_id])
 		)
 	
+		# --------------------------------------------------------
+	# ETERNAL FLAME
+	# --------------------------------------------------------
 	
+	if data.has("eternal_flame_state"):
+		var eternal_flame_data = data["eternal_flame_state"]
+		
+		if eternal_flame_data is Dictionary:
+			if eternal_flame_data.has("eternal_flame"):
+				state.eternal_flame_state.eternal_flame = float(
+					eternal_flame_data["eternal_flame"]
+				)
+			
+			if eternal_flame_data.has("prestige_count"):
+				state.eternal_flame_state.prestige_count = int(
+					eternal_flame_data["prestige_count"]
+				)
+			
+			if eternal_flame_data.has("total_crystallized_flame"):
+				state.eternal_flame_state.total_crystallized_flame = float(
+					eternal_flame_data["total_crystallized_flame"]
+				)
 	# --------------------------------------------------------
 	# GENERATORS
 	# --------------------------------------------------------

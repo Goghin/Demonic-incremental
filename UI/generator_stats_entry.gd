@@ -32,6 +32,9 @@ var stats: GameStats
 var generator_id: String
 var expanded: bool = false
 
+var detail_structure_signature: String = ""
+var detail_rows: Array[Dictionary] = []
+
 
 func _ready() -> void:
 	header_button.pressed.connect(_on_header_pressed)
@@ -62,10 +65,35 @@ func update_display() -> void:
 	if generator == null:
 		return
 	
-	var stats_data = stats.get_generator_stats(generator_id)
+	var stats_data = stats.get_generator_stats(
+		generator_id
+	)
 	
-	update_header(generator, stats_data)
-	update_details(generator, stats_data)
+	update_header(
+		generator,
+		stats_data
+	)
+	
+	if not expanded:
+		return
+	
+	var structure_signature = get_detail_structure_signature(
+		generator,
+		stats_data
+	)
+	
+	if structure_signature != detail_structure_signature:
+		rebuild_details(
+			generator,
+			stats_data,
+			structure_signature
+		)
+	
+	update_detail_values(
+		generator,
+		stats_data
+	)
+
 
 func _get_minimum_size() -> Vector2:
 	return $PanelContainer.get_combined_minimum_size()
@@ -117,31 +145,121 @@ func update_header(
 	consumption_label.text = consumption_text
 
 
-func update_details(
+func get_detail_structure_signature(
 	generator: Generator,
 	stats_data: Dictionary
+	) -> String:
+	
+	var signature = ""
+	
+	# Production resources
+	signature += "production:"
+	
+	for resource_id in stats_data["production"]:
+		signature += str(resource_id)
+		signature += ";"
+		
+		var modifiers = stats.get_generator_production_modifiers(
+			generator.definition.id,
+			resource_id
+		)
+		
+		signature += "modifiers:"
+		
+		for modifier in modifiers:
+			signature += str(
+				stats.get_modifier_source_name(
+					modifier
+				)
+			)
+			signature += ";"
+	
+	# Consumption resources
+	signature += "|consumption:"
+	
+	for resource_id in stats_data["consumption"]:
+		signature += str(resource_id)
+		signature += ";"
+		
+		var modifiers = stats.get_generator_input_modifiers(
+			generator_id,
+			resource_id
+		)
+		
+		signature += "modifiers:"
+		
+		for modifier in modifiers:
+			signature += str(
+				stats.get_modifier_source_name(
+					modifier
+				)
+			)
+			signature += ";"
+	
+	# Generator modifiers
+	signature += "|generator_modifiers:"
+	
+	var generator_modifiers = stats.get_generator_modifiers(
+		generator.definition.id
+	)
+	
+	for modifier in generator_modifiers:
+		signature += str(
+			modifier["type"]
+		)
+		signature += ":"
+		signature += str(
+			stats.get_modifier_source_name(
+				modifier
+			)
+		)
+		signature += ";"
+	
+	# Sensitivities
+	signature += "|sensitivities:"
+	
+	for sensitivity in generator.modifier_sensitivities:
+		signature += str(
+			sensitivity.modifier_id
+		)
+		signature += ":"
+		signature += str(
+			stats.get_sensitivity_source_name(
+				sensitivity
+			)
+		)
+		signature += ";"
+	
+	return signature
+
+
+func rebuild_details(
+	generator: Generator,
+	stats_data: Dictionary,
+	structure_signature: String
 	) -> void:
 	
 	for child in detail_container.get_children():
 		child.queue_free()
 	
-	if not expanded:
-		return
+	detail_rows.clear()
 	
-	add_production_details(
+	detail_structure_signature = structure_signature
+	
+	build_production_details(
 		generator,
 		stats_data
 	)
 	
-	add_consumption_details(
+	build_consumption_details(
 		stats_data
 	)
 	
-	add_modifier_details(
+	build_modifier_details(
 		generator
 	)
 	
-	add_sensitivity_details(
+	build_sensitivity_details(
 		generator
 	)
 
@@ -161,7 +279,24 @@ func create_stats_label(
 	return label
 
 
-func add_production_details(
+func add_detail_row(
+	label: Label,
+	row_type: String,
+	resource_id: String = "",
+	modifier_index: int = -1
+	) -> void:
+	
+	detail_container.add_child(label)
+	
+	detail_rows.append({
+		"label": label,
+		"type": row_type,
+		"resource_id": resource_id,
+		"modifier_index": modifier_index
+	})
+
+
+func build_production_details(
 	generator: Generator,
 	stats_data: Dictionary
 	) -> void:
@@ -170,85 +305,59 @@ func add_production_details(
 		"Production:",
 		11
 	)
-	detail_container.add_child(title)
+	
+	add_detail_row(
+		title,
+		"production_title"
+	)
 	
 	for resource_id in stats_data["production"]:
 		var resource_name = state.get_resource_display_name(
 			resource_id
 		)
 		
-		var base_production = stats_data["base_production"].get(
-			resource_id,
-			0.0
-		)
-		
-		var final_production = stats_data["production"][resource_id]
-		
 		var base_label = create_stats_label(
-			"  Base: %s %s/s" % [
-				NumberFormatter.format(base_production),
-				resource_name
-			],
+			"",
 			11
 		)
 		
-		detail_container.add_child(base_label)
+		add_detail_row(
+			base_label,
+			"production_base",
+			resource_id
+		)
 		
 		var modifiers = stats.get_generator_production_modifiers(
 			generator.definition.id,
 			resource_id
 		)
 		
-		for modifier in modifiers:
+		for modifier_index in range(modifiers.size()):
 			var modifier_label = create_stats_label(
 				"",
 				11
 			)
 			
-			var source_name = stats.get_modifier_source_name(
-				modifier
+			add_detail_row(
+				modifier_label,
+				"production_modifier",
+				resource_id,
+				modifier_index
 			)
-			
-			var raw_multiplier = modifier["current_multiplier"]
-			var effective_multiplier = modifier[
-				"effective_multiplier"
-			]
-			
-			if is_equal_approx(
-				raw_multiplier,
-				effective_multiplier
-			):
-				modifier_label.text = "  ×%s  Production — %s" % [
-					NumberFormatter.format(effective_multiplier),
-					source_name
-				]
-			else:
-				modifier_label.text = (
-					"  ×%s  Production — %s "
-					+ "(raw ×%s, sensitivity ×%s)"
-				) % [
-					NumberFormatter.format(effective_multiplier),
-					source_name,
-					NumberFormatter.format(raw_multiplier),
-					NumberFormatter.format(
-						modifier["sensitivity"]
-					)
-				]
-			
-			detail_container.add_child(modifier_label)
 		
 		var final_label = create_stats_label(
-			"  Final: %s %s/s" % [
-				NumberFormatter.format(final_production),
-				resource_name
-			],
+			"",
 			11
 		)
 		
-		detail_container.add_child(final_label)
+		add_detail_row(
+			final_label,
+			"production_final",
+			resource_id
+		)
 
 
-func add_consumption_details(
+func build_consumption_details(
 	stats_data: Dictionary
 	) -> void:
 	
@@ -259,68 +368,55 @@ func add_consumption_details(
 		"Consumption:",
 		11
 	)
-	detail_container.add_child(title)
+	
+	add_detail_row(
+		title,
+		"consumption_title"
+	)
 	
 	for resource_id in stats_data["consumption"]:
-		var resource_name = state.get_resource_display_name(
-			resource_id
-		)
-		
-		var base_consumption = (
-			stats.get_generator_base_consumption_per_second(
-				generator_id,
-				resource_id
-			)
-		)
-		
-		var final_consumption = stats_data["consumption"][
-			resource_id
-		]
-		
 		var base_label = create_stats_label(
-			"  Base: %s %s/s" % [
-				NumberFormatter.format(base_consumption),
-				resource_name
-			],
+			"",
 			11
 		)
 		
-		detail_container.add_child(base_label)
+		add_detail_row(
+			base_label,
+			"consumption_base",
+			resource_id
+		)
 		
 		var modifiers = stats.get_generator_input_modifiers(
 			generator_id,
 			resource_id
 		)
 		
-		for modifier in modifiers:
-			var source_name = stats.get_modifier_source_name(
-				modifier
-			)
-			
+		for modifier_index in range(modifiers.size()):
 			var modifier_label = create_stats_label(
-				"  ×%s  Input draw — %s" % [
-					NumberFormatter.format(
-						modifier["current_multiplier"]
-					),
-					source_name
-				],
+				"",
 				11
 			)
 			
-			detail_container.add_child(modifier_label)
+			add_detail_row(
+				modifier_label,
+				"consumption_modifier",
+				resource_id,
+				modifier_index
+			)
 		
 		var final_label = create_stats_label(
-			"  Final: %s %s/s" % [
-				NumberFormatter.format(final_consumption),
-				resource_name
-			],
+			"",
 			11
 		)
 		
-		detail_container.add_child(final_label)
+		add_detail_row(
+			final_label,
+			"consumption_final",
+			resource_id
+		)
 
 
-func add_modifier_details(
+func build_modifier_details(
 	generator: Generator
 	) -> void:
 	
@@ -335,61 +431,344 @@ func add_modifier_details(
 		"Modifiers:",
 		11
 	)
-	detail_container.add_child(title)
 	
-	for modifier in modifiers:
+	add_detail_row(
+		title,
+		"modifier_title"
+	)
+	
+	for modifier_index in range(modifiers.size()):
 		var label = create_stats_label(
-			"  %s: %s" % [
-				get_modifier_type_name(
-					modifier["type"]
-				),
-				stats.get_modifier_description_from_data(
-					modifier
-				)
-			],
+			"",
 			11
 		)
 		
-		detail_container.add_child(label)
+		add_detail_row(
+			label,
+			"modifier",
+			"",
+			modifier_index
+		)
 
 
-func add_sensitivity_details(
+func build_sensitivity_details(
 	generator: Generator
 	) -> void:
 	
 	if generator.modifier_sensitivities.is_empty():
 		return
 	
-	var title = Label.new()
-	title.add_theme_font_size_override(
-		"font_size",
+	var title = create_stats_label(
+		"Sensitivities:",
 		11
 	)
-	title.text = "Sensitivities:"
-	detail_container.add_child(title)
 	
-	for sensitivity in generator.modifier_sensitivities:
-		var label = Label.new()
-		label.add_theme_font_size_override(
-			"font_size",
+	add_detail_row(
+		title,
+		"sensitivity_title"
+	)
+	
+	for sensitivity_index in range(
+		generator.modifier_sensitivities.size()
+	):
+		var label = create_stats_label(
+			"",
 			11
 		)
 		
-		var source_name = stats.get_sensitivity_source_name(
-			sensitivity
+		add_detail_row(
+			label,
+			"sensitivity",
+			"",
+			sensitivity_index
 		)
+
+
+func update_detail_values(
+	generator: Generator,
+	stats_data: Dictionary
+	) -> void:
+	
+	for row in detail_rows:
+		var label: Label = row["label"]
+		var row_type: String = row["type"]
+		var resource_id: String = row["resource_id"]
+		var modifier_index: int = row["modifier_index"]
 		
-		label.text = "  %s: ×%s — %s" % [
-			stats.get_sensitivity_modifier_name(
-				sensitivity.modifier_id
-			),
-			NumberFormatter.format(
-				sensitivity.multiplier
-			),
+		match row_type:
+			"production_base":
+				update_production_base_label(
+					label,
+					resource_id,
+					stats_data
+				)
+			
+			"production_modifier":
+				update_production_modifier_label(
+					label,
+					generator,
+					resource_id,
+					modifier_index
+				)
+			
+			"production_final":
+				update_production_final_label(
+					label,
+					resource_id,
+					stats_data
+				)
+			
+			"consumption_base":
+				update_consumption_base_label(
+					label,
+					resource_id
+				)
+			
+			"consumption_modifier":
+				update_consumption_modifier_label(
+					label,
+					resource_id,
+					modifier_index
+				)
+			
+			"consumption_final":
+				update_consumption_final_label(
+					label,
+					resource_id,
+					stats_data
+				)
+			
+			"modifier":
+				update_modifier_label(
+					label,
+					generator,
+					modifier_index
+				)
+			
+			"sensitivity":
+				update_sensitivity_label(
+					label,
+					generator,
+					modifier_index
+				)
+
+
+func update_production_base_label(
+	label: Label,
+	resource_id: String,
+	stats_data: Dictionary
+	) -> void:
+	
+	var resource_name = state.get_resource_display_name(
+		resource_id
+	)
+	
+	var base_production = stats_data["base_production"].get(
+		resource_id,
+		0.0
+	)
+	
+	label.text = "  Base: %s %s/s" % [
+		NumberFormatter.format(base_production),
+		resource_name
+	]
+
+
+func update_production_modifier_label(
+	label: Label,
+	generator: Generator,
+	resource_id: String,
+	modifier_index: int
+	) -> void:
+	
+	var modifiers = stats.get_generator_production_modifiers(
+		generator.definition.id,
+		resource_id
+	)
+	
+	if modifier_index >= modifiers.size():
+		label.text = ""
+		return
+	
+	var modifier = modifiers[modifier_index]
+	
+	var source_name = stats.get_modifier_source_name(
+		modifier
+	)
+	
+	var raw_multiplier = modifier["current_multiplier"]
+	var effective_multiplier = modifier[
+		"effective_multiplier"
+	]
+	
+	if is_equal_approx(
+		raw_multiplier,
+		effective_multiplier
+	):
+		label.text = "  ×%s  Production — %s" % [
+			NumberFormatter.format(effective_multiplier),
 			source_name
 		]
-		
-		detail_container.add_child(label)
+	else:
+		label.text = (
+			"  ×%s  Production — %s "
+			+ "(raw ×%s, sensitivity ×%s)"
+		) % [
+			NumberFormatter.format(effective_multiplier),
+			source_name,
+			NumberFormatter.format(raw_multiplier),
+			NumberFormatter.format(
+				modifier["sensitivity"]
+			)
+		]
+
+
+func update_production_final_label(
+	label: Label,
+	resource_id: String,
+	stats_data: Dictionary
+	) -> void:
+	
+	var resource_name = state.get_resource_display_name(
+		resource_id
+	)
+	
+	var final_production = stats_data["production"][
+		resource_id
+	]
+	
+	label.text = "  Final: %s %s/s" % [
+		NumberFormatter.format(final_production),
+		resource_name
+	]
+
+
+func update_consumption_base_label(
+	label: Label,
+	resource_id: String
+	) -> void:
+	
+	var resource_name = state.get_resource_display_name(
+		resource_id
+	)
+	
+	var base_consumption = (
+		stats.get_generator_base_consumption_per_second(
+			generator_id,
+			resource_id
+		)
+	)
+	
+	label.text = "  Base: %s %s/s" % [
+		NumberFormatter.format(base_consumption),
+		resource_name
+	]
+
+
+func update_consumption_modifier_label(
+	label: Label,
+	resource_id: String,
+	modifier_index: int
+	) -> void:
+	
+	var modifiers = stats.get_generator_input_modifiers(
+		generator_id,
+		resource_id
+	)
+	
+	if modifier_index >= modifiers.size():
+		label.text = ""
+		return
+	
+	var modifier = modifiers[modifier_index]
+	
+	var source_name = stats.get_modifier_source_name(
+		modifier
+	)
+	
+	label.text = "  ×%s  Input draw — %s" % [
+		NumberFormatter.format(
+			modifier["current_multiplier"]
+		),
+		source_name
+	]
+
+
+func update_consumption_final_label(
+	label: Label,
+	resource_id: String,
+	stats_data: Dictionary
+	) -> void:
+	
+	var resource_name = state.get_resource_display_name(
+		resource_id
+	)
+	
+	var final_consumption = stats_data["consumption"][
+		resource_id
+	]
+	
+	label.text = "  Final: %s %s/s" % [
+		NumberFormatter.format(final_consumption),
+		resource_name
+	]
+
+
+func update_modifier_label(
+	label: Label,
+	generator: Generator,
+	modifier_index: int
+	) -> void:
+	
+	var modifiers = stats.get_generator_modifiers(
+		generator.definition.id
+	)
+	
+	if modifier_index >= modifiers.size():
+		label.text = ""
+		return
+	
+	var modifier = modifiers[modifier_index]
+	
+	label.text = "  %s: %s" % [
+		get_modifier_type_name(
+			modifier["type"]
+		),
+		stats.get_modifier_description_from_data(
+			modifier
+		)
+	]
+
+
+func update_sensitivity_label(
+	label: Label,
+	generator: Generator,
+	sensitivity_index: int
+	) -> void:
+	
+	if sensitivity_index >= generator.modifier_sensitivities.size():
+		label.text = ""
+		return
+	
+	var sensitivity = (
+		generator.modifier_sensitivities[
+			sensitivity_index
+		]
+	)
+	
+	var source_name = stats.get_sensitivity_source_name(
+		sensitivity
+	)
+	
+	label.text = "  %s: ×%s — %s" % [
+		stats.get_sensitivity_modifier_name(
+			sensitivity.modifier_id
+		),
+		NumberFormatter.format(
+			sensitivity.multiplier
+		),
+		source_name
+	]
 
 
 func get_modifier_type_name(
@@ -411,10 +790,39 @@ func get_modifier_type_name(
 	
 	return modifier_type
 
+
 func _on_header_pressed() -> void:
 	expanded = not expanded
 	detail_container.visible = expanded
 	
-	update_display()
+	if expanded:
+		var generator = state.get_generator(
+			generator_id
+		)
+		
+		if generator == null:
+			return
+		
+		var stats_data = stats.get_generator_stats(
+			generator_id
+		)
+		
+		var structure_signature = (
+			get_detail_structure_signature(
+				generator,
+				stats_data
+			)
+		)
+		
+		rebuild_details(
+			generator,
+			stats_data,
+			structure_signature
+		)
+		
+		update_detail_values(
+			generator,
+			stats_data
+		)
 	
 	update_minimum_size()

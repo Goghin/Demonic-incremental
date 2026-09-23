@@ -18,6 +18,8 @@ var dynamic_generator_id: String
 var sensitivity_modifier_id: String
 var sensitivity_multiplier: float
 
+var dynamic_threshold: float 
+var dynamic_exponent: float 
 
 func _init(
 	effect_type: String,
@@ -66,7 +68,9 @@ static func dynamic_resource_modifier(
 	effect_resource_id: String,
 	effect_dynamic_formula: String,
 	effect_modifier_id: String = "",
-	effect_modifier_target_id: String = ""
+	effect_modifier_target_id: String = "",
+	effect_dynamic_threshold: float = 1000.0,
+	effect_dynamic_exponent: float = 0.35
 	) -> UpgradeEffect:
 	
 	var effect = UpgradeEffect.new(
@@ -84,6 +88,9 @@ static func dynamic_resource_modifier(
 		effect_dynamic_formula,
 		effect_resource_id
 	)
+	
+	effect.dynamic_threshold = effect_dynamic_threshold
+	effect.dynamic_exponent = effect_dynamic_exponent
 	
 	effect.set_modifier_id(
 		effect_modifier_id

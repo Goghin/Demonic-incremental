@@ -85,3 +85,9 @@ func _on_smash_button_pressed() -> void:
 		state,
 		time_manager
 	)
+
+func _process(_delta: float) -> void:
+	if not visible:
+		return
+	
+	refresh()
