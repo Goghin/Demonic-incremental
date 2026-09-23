@@ -32,11 +32,14 @@ func _init() -> void:
 	_initialize_generators()
 	_initialize_upgrade_groups()
 	_initialize_upgrades()
+	
 	eternal_flame_state = EternalFlameState.new()
 	realm_effects = RealmEffects.new()
+	
 	realm_effects.rebuild(
 		eternal_flame_state,
-		heat_leak_threshold
+		heat_leak_threshold,
+		matter_decay_threshold
 	)
 
 # -------------------------------------------------------------------
@@ -1773,16 +1776,20 @@ func get_matter_decay_per_second() -> float:
 		ResourceIds.MATTER
 	)
 	
-	if matter <= matter_decay_threshold:
+	var effective_threshold = (
+		realm_effects.matter_decay_threshold
+	)
+	
+	if matter <= effective_threshold:
 		return 0.0
 	
 	var excess_matter = (
-		matter - matter_decay_threshold
+		matter - effective_threshold
 	)
 	
 	var normalized_excess = (
 		excess_matter
-		/ matter_decay_threshold
+		/ effective_threshold
 	)
 	
 	return (

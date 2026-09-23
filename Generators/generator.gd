@@ -58,6 +58,18 @@ func get_production_per_second(
 			* level
 		)
 		
+		if output.resource_id == ResourceIds.MATTER:
+			production *= (
+				state.eternal_flame_state
+				.get_density_matter_production_factor()
+			)
+			
+		if output.resource_id == ResourceIds.HEAT:
+			production *= (
+			state.eternal_flame_state
+			.get_intensity_heat_production_factor()
+			)
+		
 		for modifier in modifiers:
 			if modifier.applies_to(
 				ModifierTypes.PRODUCTION,

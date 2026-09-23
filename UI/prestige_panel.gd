@@ -34,6 +34,7 @@ func setup(
 	refresh()
 
 
+
 func _create_realm_ui() -> void:
 	if realm_container != null:
 		return
@@ -69,19 +70,26 @@ func _create_realm_ui() -> void:
 	)
 	
 	_create_realm_stat_row(
-		"intensity",
-		"Intensity"
+		"density",
+		"Density"
 	)
 	
 	_create_realm_stat_row(
-		"density",
-		"Density"
+		"integrity",
+		"Integrity"
+	)
+	
+	_create_realm_stat_row(
+		"intensity",
+		"Intensity"
 	)
 	
 	_create_realm_stat_row(
 		"resonance",
 		"Resonance"
 	)
+
+
 
 
 func _create_realm_stat_row(
@@ -149,8 +157,9 @@ func _on_realm_plus_pressed(stat_name: String) -> void:
 	
 	if eternal_flame_state.assign_flame(stat_name):
 		state.realm_effects.rebuild(
-			eternal_flame_state,
-			state.heat_leak_threshold
+			state.eternal_flame_state,
+			state.heat_leak_threshold,
+			state.matter_decay_threshold
 		)
 		
 		refresh()
@@ -168,8 +177,9 @@ func _on_realm_minus_pressed(stat_name: String) -> void:
 	
 	if eternal_flame_state.remove_flame(stat_name):
 		state.realm_effects.rebuild(
-			eternal_flame_state,
-			state.heat_leak_threshold
+			state.eternal_flame_state,
+			state.heat_leak_threshold,
+			state.matter_decay_threshold
 		)
 		
 		refresh()

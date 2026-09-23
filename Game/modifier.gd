@@ -82,12 +82,24 @@ func get_multiplier(state: GameState) -> float:
 	if dynamic_formula == DYNAMIC_RESOURCE_LOG10:
 		var resource_amount = state.get_resource_amount(
 			dynamic_resource_id
-		)
-		
+	)
+	
 		if resource_amount <= 1.0:
 			return 1.0
-		
-		return 1.0 + multiplier * log(resource_amount) / log(10.0)
+	
+		var scaling_multiplier = 1.0
+	
+		if source_upgrade_id == "thermic_mass":
+			scaling_multiplier = (
+			state.realm_effects.thermal_mass_multiplier
+		)
+	
+		return 1.0 + (
+			multiplier
+			* scaling_multiplier
+			* log(resource_amount)
+			/ log(10.0)
+		)
 		
 	if dynamic_formula == DYNAMIC_RESOURCE_SQRT:
 		var resource_amount = state.get_resource_amount(
@@ -113,16 +125,23 @@ func get_multiplier(state: GameState) -> float:
 		var resource_amount = state.get_resource_amount(
 			dynamic_resource_id
 		)
-		
+	
 		var threshold = 100.0
-		
+	
 		if resource_amount <= threshold:
 			return 1.0
-		
+	
 		var excess = sqrt(resource_amount) - sqrt(threshold)
-		
+	
+		var scaling_multiplier = multiplier
+	
+		if source_upgrade_id == "ashen_contamination":
+			scaling_multiplier /= (
+				state.eternal_flame_state.get_integrity_contamination_factor()
+			)
+	
 		return 1.0 / (
-			1.0 + multiplier * excess
+			1.0 + scaling_multiplier * excess
 		)
 	
 	if dynamic_formula == DYNAMIC_RESOURCE_EXPONENT:
