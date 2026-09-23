@@ -1,3 +1,4 @@
+
 class_name GameState
 extends RefCounted
 
@@ -9,6 +10,7 @@ var upgrade_groups: Dictionary = {}
 var lava_mite_dormancy_penalty: float = 0.0
 
 var eternal_flame_state: EternalFlameState
+var realm_effects: RealmEffects
 
 var heat_leak_threshold: float = 100000.0
 var heat_leak_base: float = 1.0
@@ -21,13 +23,21 @@ var matter_decay_scaling: float = 1
 var matter_decay_exponent: float = 2.0
 
 
+
+
+
+
 func _init() -> void:
 	_initialize_resources()
 	_initialize_generators()
 	_initialize_upgrade_groups()
 	_initialize_upgrades()
 	eternal_flame_state = EternalFlameState.new()
-
+	realm_effects = RealmEffects.new()
+	realm_effects.rebuild(
+		eternal_flame_state,
+		heat_leak_threshold
+	)
 
 # -------------------------------------------------------------------
 # Resources
@@ -84,12 +94,14 @@ func _initialize_generators() -> void:
 		_create_thermal_furnace()
 	)
 	
-	_register_generator(
-		_create_matter_furnace()
-	)
-	
+	# Ash Management / Lava Mites
 	_register_generator(
 		_create_lava_mite_colony()
+	)
+	
+	# Matter Furnace
+	_register_generator(
+		_create_matter_furnace()
 	)
 	
 	_register_generator(
@@ -133,7 +145,11 @@ func _create_molecular_agitation() -> Generator:
 		],
 		250.0,
 		1.23,
-		ResourceIds.HEAT
+		ResourceIds.HEAT,
+		false,
+		0.0,
+		[],
+		"res://Generators/Molecular_Agitation.png"
 	)
 	
 	var generator = Generator.new(definition)
@@ -165,38 +181,11 @@ func _create_thermal_furnace() -> Generator:
 		],
 		1000.0,
 		1.18,
-		ResourceIds.HEAT
-	)
-	
-	var generator = Generator.new(definition)
-	generator.unlocked = false
-	generator.initial_unlocked = false
-	return generator
-
-
-func _create_matter_furnace() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"matter_furnace",
-		"Matter Furnace",
-		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				0.5
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.HEAT,
-				2500.0
-			),
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				1.2
-			)
-		],
-		125.0,
-		1.3,
-		ResourceIds.MATTER
+		ResourceIds.HEAT,
+		false,
+		0.0,
+		[],
+		"res://Generators/Thermal_Condensation.png"
 	)
 	
 	var generator = Generator.new(definition)
@@ -226,7 +215,46 @@ func _create_lava_mite_colony() -> Generator:
 		[],
 		150.0,
 		1.2,
-		ResourceIds.MATTER
+		ResourceIds.MATTER,
+		false,
+		0.0,
+		[],
+		"res://Generators/Lava_Mite_Colony.png"
+	)
+	
+	var generator = Generator.new(definition)
+	generator.unlocked = false
+	generator.initial_unlocked = false
+	return generator
+
+
+func _create_matter_furnace() -> Generator:
+	var definition = GeneratorDefinition.new(
+		"matter_furnace",
+		"Matter Furnace",
+		[
+			GeneratorIO.new(
+				ResourceIds.MATTER,
+				2.5
+			)
+		],
+		[
+			GeneratorIO.new(
+				ResourceIds.HEAT,
+				7500.0
+			),
+			GeneratorIO.new(
+				ResourceIds.ASH,
+				1.5
+			)
+		],
+		175.0,
+		1.3,
+		ResourceIds.MATTER,
+		false,
+		0.0,
+		[],
+		"res://Generators/Matter_Furnace.png"
 	)
 	
 	var generator = Generator.new(definition)
@@ -262,7 +290,8 @@ func _create_infernal_forge() -> Generator:
 				1.0,
 				true
 			)
-		]
+		], 
+		"res://Generators/Infernal_Forge.png"
 	)
 	
 	var generator = Generator.new(definition)
@@ -311,19 +340,21 @@ func _initialize_upgrade_groups() -> void:
 		)
 	)
 	
-	_register_upgrade_group(
-		UpgradeGroupDefinition.new(
-			"matter_furnace",
-			"Matter Furnace",
-			"Develop the destruction and conversion of Matter back into thermal energy."
-		)
-	)
-	
+	# Ash Management comes before Matter Furnace because Lava Mites
+	# now form the earlier stage of the industrial progression.
 	_register_upgrade_group(
 		UpgradeGroupDefinition.new(
 			"ash_management",
 			"Ash Management",
 			"Understand and control the consequences of Ash accumulation."
+		)
+	)
+	
+	_register_upgrade_group(
+		UpgradeGroupDefinition.new(
+			"matter_furnace",
+			"Matter Furnace",
+			"Develop the destruction and conversion of Matter back into thermal energy."
 		)
 	)
 	
@@ -411,24 +442,7 @@ func _initialize_upgrades() -> void:
 		_create_thermal_furnace_refinement()
 	)
 	
-	# Matter Furnace
-	_register_upgrade(
-		_create_thermal_conversion()
-	)
-	
-	_register_upgrade(
-		_create_matter_refinement()
-	)
-	
-	_register_upgrade(
-		_create_matter_furnace_unlock()
-	)
-	
-	_register_upgrade(
-		_create_matter_furnace_refinement()
-	)
-	
-	# Ash Management
+	# Ash Management / Lava Mites
 	_register_upgrade(
 		_create_ashen_contamination()
 	)
@@ -448,6 +462,24 @@ func _initialize_upgrades() -> void:
 	_register_upgrade(
 		_create_lava_mite_adaptation()
 	)
+	
+	# Matter Furnace
+	_register_upgrade(
+		_create_thermal_conversion()
+	)
+	
+	_register_upgrade(
+		_create_matter_refinement()
+	)
+	
+	_register_upgrade(
+		_create_matter_furnace_unlock()
+	)
+	
+	_register_upgrade(
+		_create_matter_furnace_refinement()
+	)
+	
 	# Infernal Forge
 	_register_upgrade(
 		_create_infernal_forge_unlock()
@@ -718,7 +750,7 @@ func _create_molecular_agitation_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"molecular_agitation_refinement",
 		"Agitation Refinement",
-		"Refines Molecular Agitation, increasing its Heat production by 15% per level.",
+		"Refines Molecular Agitation, increasing its Heat production by 20% per level.",
 		ResourceIds.HEAT,
 		30000.0,
 		[
@@ -834,7 +866,8 @@ func _create_thermal_furnace_optimization() -> Upgrade:
 			UpgradeEffect.modifier(
 				"thermal_furnace",
 				ModifierTypes.PRODUCTION,
-				1.15,ResourceIds.MATTER
+				1.15,
+				ResourceIds.MATTER
 			)
 		],
 		[
@@ -915,140 +948,7 @@ func _create_thermal_furnace_refinement() -> Upgrade:
 
 
 # -------------------------------------------------------------------
-# Matter Furnace upgrades
-# -------------------------------------------------------------------
-
-func _create_thermal_conversion() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"thermal_conversion",
-		"Thermal Conversion",
-		"Improves Matter Furnace conversion by 10% per level, while increasing its Matter consumption by 10% per level.",
-		ResourceIds.HEAT,
-		25000.0,
-		[
-			UpgradeEffect.modifier(
-				"matter_furnace",
-				ModifierTypes.PRODUCTION,
-				1.10
-			),
-			UpgradeEffect.modifier(
-				"matter_furnace",
-				ModifierTypes.INPUT_DRAW,
-				1.25
-			)
-		],
-		[
-			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"matter_furnace",
-				1
-			)
-		],
-		false,
-		"",
-		"matter_furnace",
-		10,
-		1.35
-	)
-	
-	return Upgrade.new(definition)
-
-
-func _create_matter_refinement() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"matter_refinement",
-		"Matter Refinement",
-		"Refines the matter before combustion, reducing material consumption and improving the efficiency of furnace expansion.",
-		ResourceIds.HEAT,
-		800000.0,
-		[
-			UpgradeEffect.modifier(
-				"matter_furnace",
-				ModifierTypes.INPUT_DRAW,
-				0.80
-			),
-			UpgradeEffect.modifier(
-				"matter_furnace",
-				ModifierTypes.COST_SCALING,
-				0.95,
-				"matter_furnace"
-			)
-		],
-		[
-			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"matter_furnace",
-				5
-			)
-		],
-		false,
-		"",
-		"matter_furnace"
-	)
-	
-	return Upgrade.new(definition)
-
-
-func _create_matter_furnace_unlock() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"matter_furnace_unlock",
-		"Matter Combustion",
-		"Unlocks the Matter Furnace.",
-		ResourceIds.MATTER,
-		100.0,
-		[
-			UpgradeEffect.unlock_generator(
-				"matter_furnace"
-			)
-		],
-		[
-			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"thermal_furnace",
-				5
-			)
-		],
-		false,
-		"",
-		"matter_furnace"
-	)
-	
-	return Upgrade.new(definition)
-
-
-func _create_matter_furnace_refinement() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"matter_furnace_refinement",
-		"Combustion Refinement",
-		"Refines the Matter Furnace, increasing its output by 15% per level.",
-		ResourceIds.MATTER,
-		150.0,
-		[
-			UpgradeEffect.modifier(
-				"matter_furnace",
-				ModifierTypes.PRODUCTION,
-				1.15
-			)
-		],
-		[
-			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"matter_furnace",
-				10
-			)
-		],
-		false,
-		"",
-		"matter_furnace",
-		5,
-		1.55
-	)
-	
-	return Upgrade.new(definition)
-
-
-# -------------------------------------------------------------------
-# Ash Management
+# Ash Management / Lava Mite upgrades
 # -------------------------------------------------------------------
 
 func _create_ashen_contamination() -> Upgrade:
@@ -1166,12 +1066,13 @@ func _create_lava_mite_refinement() -> Upgrade:
 		],
 		false,
 		"",
-		"lava_mite_colony",
+		"ash_management",
 		5,
 		1.55
 	)
 	
 	return Upgrade.new(definition)
+
 
 func _create_lava_mite_adaptation() -> Upgrade:
 	var definition = UpgradeDefinition.new(
@@ -1202,12 +1103,151 @@ func _create_lava_mite_adaptation() -> Upgrade:
 		],
 		false,
 		"",
-		"lava_mite_colony",
+		"ash_management",
 		3,
 		2.0
 	)
 	
 	return Upgrade.new(definition)
+
+
+# -------------------------------------------------------------------
+# Matter Furnace upgrades
+# -------------------------------------------------------------------
+
+func _create_thermal_conversion() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"thermal_conversion",
+		"Thermal Conversion",
+		"Improves Matter Furnace conversion by 10% per level, while increasing its Matter consumption by 5% per level.",
+		ResourceIds.HEAT,
+		25000.0,
+		[
+			UpgradeEffect.modifier(
+				"matter_furnace",
+				ModifierTypes.PRODUCTION,
+				1.10
+			),
+			UpgradeEffect.modifier(
+				"matter_furnace",
+				ModifierTypes.INPUT_DRAW,
+				1.05
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"matter_furnace",
+				1
+			)
+		],
+		false,
+		"",
+		"matter_furnace",
+		10,
+		1.35
+	)
+	
+	return Upgrade.new(definition)
+
+
+func _create_matter_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"matter_refinement",
+		"Matter Refinement",
+		"Refines the matter before combustion, reducing material consumption and improving the efficiency of furnace expansion.",
+		ResourceIds.HEAT,
+		800000.0,
+		[
+			UpgradeEffect.modifier(
+				"matter_furnace",
+				ModifierTypes.INPUT_DRAW,
+				0.80
+			),
+			UpgradeEffect.modifier(
+				"matter_furnace",
+				ModifierTypes.COST_SCALING,
+				0.95,
+				"matter_furnace"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"matter_furnace",
+				5
+			)
+		],
+		false,
+		"",
+		"matter_furnace"
+	)
+	
+	return Upgrade.new(definition)
+
+
+func _create_matter_furnace_unlock() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"matter_furnace_unlock",
+		"Matter Combustion",
+		"Unlocks the Matter Furnace.",
+		ResourceIds.MATTER,
+		100.0,
+		[
+			UpgradeEffect.unlock_generator(
+				"matter_furnace"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"thermal_furnace",
+				25
+			),Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"lava_mite_colony",
+				10
+			)
+		],
+		false,
+		"",
+		"matter_furnace"
+	)
+	
+	return Upgrade.new(definition)
+
+
+func _create_matter_furnace_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"matter_furnace_refinement",
+		"Combustion Refinement",
+		"Refines the Matter Furnace, increasing its output by 15% per level.",
+		ResourceIds.MATTER,
+		150.0,
+		[
+			UpgradeEffect.modifier(
+				"matter_furnace",
+				ModifierTypes.PRODUCTION,
+				1.15
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"matter_furnace",
+				10
+			)
+		],
+		false,
+		"",
+		"matter_furnace",
+		5,
+		1.55
+	)
+	
+	return Upgrade.new(definition)
+
+
 # -------------------------------------------------------------------
 # Infernal Forge
 # -------------------------------------------------------------------
@@ -1704,16 +1744,18 @@ func get_heat_leak_per_second() -> float:
 		ResourceIds.HEAT
 	)
 	
-	if heat <= heat_leak_threshold:
+	var effective_threshold = realm_effects.heat_leak_threshold
+	
+	if heat <= effective_threshold:
 		return 0.0
 	
 	var excess_heat = (
-		heat - heat_leak_threshold
+		heat - effective_threshold
 	)
 	
 	var normalized_excess = (
 		excess_heat
-		/ heat_leak_threshold
+		/ effective_threshold
 	)
 	
 	return (
