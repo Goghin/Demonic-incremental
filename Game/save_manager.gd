@@ -131,10 +131,22 @@ func state_to_dictionary(
 		"upgrades": {},
 		"eternal_flame_state": {
 			"eternal_flame": state.eternal_flame_state.eternal_flame,
+			"spent_flames": state.eternal_flame_state.spent_flames,
 			"prestige_count": state.eternal_flame_state.prestige_count,
-			"total_crystallized_flame": state.eternal_flame_state.total_crystallized_flame
+			"total_crystallized_flame": state.eternal_flame_state.total_crystallized_flame,
+			"upgrade_levels": state.eternal_flame_state.upgrade_levels,
+			"unlocked_technologies": state.eternal_flame_state.unlocked_technologies
+		},
+		"realm_configuration": {
+			"stability": state.realm_configuration.stability,
+			"density": state.realm_configuration.density,
+			"integrity": state.realm_configuration.integrity,
+			"intensity": state.realm_configuration.intensity,
+			"resonance": state.realm_configuration.resonance,
+			"locked": state.realm_configuration.locked
+		},
+		"realm_stabilized": state.realm_stabilized
 		}
-	}
 	
 	for resource in state.get_resources().values():
 		var resource_id = resource.definition.id
@@ -223,6 +235,83 @@ func dictionary_to_state(
 				state.eternal_flame_state.total_crystallized_flame = float(
 					eternal_flame_data["total_crystallized_flame"]
 				)
+				
+			if eternal_flame_data.has("spent_flames"):
+				state.eternal_flame_state.spent_flames = float(
+				eternal_flame_data["spent_flames"]
+				)
+				
+			if eternal_flame_data.has("upgrade_levels"):
+				var upgrade_levels_data = (
+					eternal_flame_data["upgrade_levels"]
+				)
+				
+				if upgrade_levels_data is Dictionary:
+					state.eternal_flame_state.upgrade_levels.clear()
+					
+					for upgrade_id in upgrade_levels_data:
+						state.eternal_flame_state.upgrade_levels[upgrade_id] = int(
+							upgrade_levels_data[upgrade_id]
+						)
+						
+			if eternal_flame_data.has("unlocked_technologies"):
+				var unlocked_technologies_data = (
+					eternal_flame_data["unlocked_technologies"]
+				)
+				
+				if unlocked_technologies_data is Dictionary:
+					state.eternal_flame_state.unlocked_technologies.clear()
+					
+					for technology_id in unlocked_technologies_data:
+						state.eternal_flame_state.unlocked_technologies[technology_id] = bool(
+							unlocked_technologies_data[technology_id]
+						)
+
+
+	# --------------------------------------------------------
+	# REALM CONFIGURATION
+	# --------------------------------------------------------
+
+	if data.has("realm_configuration"):
+		var realm_configuration_data = data["realm_configuration"]
+	
+		if realm_configuration_data is Dictionary:
+			if realm_configuration_data.has("stability"):
+				state.realm_configuration.stability = int(
+				realm_configuration_data["stability"]
+			)
+		
+			if realm_configuration_data.has("density"):
+				state.realm_configuration.density = int(
+				realm_configuration_data["density"]
+			)
+		
+			if realm_configuration_data.has("integrity"):
+				state.realm_configuration.integrity = int(
+				realm_configuration_data["integrity"]
+			)
+		
+			if realm_configuration_data.has("intensity"):
+				state.realm_configuration.intensity = int(
+				realm_configuration_data["intensity"]
+			)
+		
+			if realm_configuration_data.has("resonance"):
+				state.realm_configuration.resonance = int(
+				realm_configuration_data["resonance"]
+			)
+		
+			if realm_configuration_data.has("locked"):
+				state.realm_configuration.locked = bool(
+				realm_configuration_data["locked"]
+			)
+
+
+	if data.has("realm_stabilized"):
+		state.realm_stabilized = bool(
+			data["realm_stabilized"]
+	)			
+
 	# --------------------------------------------------------
 	# GENERATORS
 	# --------------------------------------------------------
@@ -317,5 +406,14 @@ func dictionary_to_state(
 			upgrade.level = int(
 				upgrade_data["level"]
 			)
+			
+	state.realm_effects.rebuild(
+	state.realm_configuration,
+	state.eternal_flame_state,
+	state.eternal_flame_upgrade_manager,
+	state.heat_leak_threshold,
+	state.matter_decay_threshold
+	)
+	
 	
 	return true

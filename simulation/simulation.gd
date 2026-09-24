@@ -1,6 +1,8 @@
 class_name Simulation
 extends RefCounted
 
+signal generator_unlocked(generator_id: String)
+
 
 # Holds the current game state.
 var state: GameState
@@ -14,9 +16,13 @@ func _init(game_state: GameState) -> void:
 #
 # Continuous generators operate normally.
 # Cycle-based generators only operate while a cycle is active.
+
 func update(delta: float) -> void:
+	if not state.realm_stabilized:
+		return
 	
 	update_automatic_upgrades()
+	
 	
 	for generator in state.generators.values():
 		if not generator.unlocked:
@@ -229,17 +235,7 @@ func produce_outputs(
 			)
 
 
-func rub() -> void:
-	var amount = 10.0
-	
-	var current_heat = state.get_resource_amount(
-		ResourceIds.HEAT
-	)
-	
-	state.set_resource_amount(
-		ResourceIds.HEAT,
-		current_heat + amount
-	)
+
 
 
 func buy_generator(
@@ -447,7 +443,11 @@ func _apply_upgrade_effect(
 		)
 		
 		if generator != null:
-			generator.unlocked = true
+			if not generator.unlocked:
+				generator.unlocked = true
+				generator_unlocked.emit(
+					generator.definition.id
+				)
 	
 	elif effect.type == UpgradeEffectTypes.APPLY_MODIFIER:
 		if effect.target_id == "":

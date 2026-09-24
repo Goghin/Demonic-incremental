@@ -9,9 +9,6 @@ func _init(game_simulation: Simulation) -> void:
 	simulation = game_simulation
 
 
-func rub() -> void:
-	simulation.rub()
-
 
 func buy_generator(generator_id: String) -> bool:
 	return simulation.buy_generator(generator_id)

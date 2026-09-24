@@ -58,7 +58,7 @@ layout_mode = 0
 offset_top = 601.0
 offset_right = 120.0
 offset_bottom = 644.0
-text = "RUB"
+text = "SAVE"
 
 [node name="UpgradesButton" type="Button" parent="." unique_id=876049299]
 layout_mode = 0

@@ -10,7 +10,11 @@ var upgrade_groups: Dictionary = {}
 var lava_mite_dormancy_penalty: float = 0.0
 
 var eternal_flame_state: EternalFlameState
+var realm_configuration: RealmConfiguration
 var realm_effects: RealmEffects
+var eternal_flame_upgrade_manager: EternalFlameUpgradeManager
+
+var realm_stabilized: bool = true
 
 var heat_leak_threshold: float = 100000.0
 var heat_leak_base: float = 1.0
@@ -34,10 +38,14 @@ func _init() -> void:
 	_initialize_upgrades()
 	
 	eternal_flame_state = EternalFlameState.new()
+	eternal_flame_upgrade_manager = EternalFlameUpgradeManager.new()
+	realm_configuration = RealmConfiguration.new()
 	realm_effects = RealmEffects.new()
 	
 	realm_effects.rebuild(
+		realm_configuration,
 		eternal_flame_state,
+		eternal_flame_upgrade_manager,
 		heat_leak_threshold,
 		matter_decay_threshold
 	)
@@ -97,6 +105,10 @@ func _initialize_generators() -> void:
 		_create_thermal_furnace()
 	)
 	
+	_register_generator(
+		_create_thermal_compressor()
+	)
+	
 	# Ash Management / Lava Mites
 	_register_generator(
 		_create_lava_mite_colony()
@@ -132,7 +144,12 @@ func _create_atomic_friction() -> Generator:
 		"res://Generators/Atomic_Friction.png"
 	)
 	
-	return Generator.new(definition)
+	var generator = Generator.new(definition)
+	generator.level = 1
+	generator.unlocked = true
+	generator.initial_unlocked = true
+	
+	return generator
 
 
 func _create_molecular_agitation() -> Generator:
@@ -160,6 +177,40 @@ func _create_molecular_agitation() -> Generator:
 	generator.initial_unlocked = false
 	return generator
 
+func _create_thermal_compressor() -> Generator:
+	var definition = GeneratorDefinition.new(
+		"thermal_compressor",
+		"Thermal Compressor",
+		[
+			GeneratorIO.new(
+				ResourceIds.HEAT,
+				45000.0
+			)
+		],
+		[
+			GeneratorIO.new(
+				ResourceIds.MATTER,
+				24.0,
+				true
+			),
+			GeneratorIO.new(
+				ResourceIds.ASH,
+				8
+			)
+		],
+		2000000.0,
+		1.22,
+		ResourceIds.HEAT,
+		false,
+		0.0,
+		[],
+		"res://Generators/Thermal_Compressor.png"
+	)
+	
+	var generator = Generator.new(definition)
+	generator.unlocked = false
+	generator.initial_unlocked = false
+	return generator
 
 func _create_thermal_furnace() -> Generator:
 	var definition = GeneratorDefinition.new(
@@ -273,7 +324,7 @@ func _create_infernal_forge() -> Generator:
 		[
 			GeneratorIO.new(
 				ResourceIds.MATTER,
-				1.5
+				4.5
 			)
 		],
 		[
@@ -432,6 +483,22 @@ func _initialize_upgrades() -> void:
 		_create_thermic_mass()
 	)
 	
+	_register_upgrade(
+		_create_thermal_compressor_optimization()
+	)
+
+	_register_upgrade(
+		_create_thermal_compressor_efficiency()
+	)
+
+	_register_upgrade(
+		_create_high_pressure_compression()
+	)
+
+	_register_upgrade(
+		_create_thermal_recovery()
+	)
+	
 	# Infernal Condensation
 	_register_upgrade(
 		_create_thermal_furnace_optimization()
@@ -452,6 +519,10 @@ func _initialize_upgrades() -> void:
 	
 	_register_upgrade(
 		_create_lava_mite_colony_unlock()
+	)
+	
+	_register_upgrade(
+		_create_lava_mite_husbandry()
 	)
 	
 	_register_upgrade(
@@ -483,6 +554,9 @@ func _initialize_upgrades() -> void:
 		_create_matter_furnace_refinement()
 	)
 	
+	_register_upgrade(
+		_create_matter_furnace_ash_reduction()
+	)
 	# Infernal Forge
 	_register_upgrade(
 		_create_infernal_forge_unlock()
@@ -853,7 +927,140 @@ func _create_thermic_mass() -> Upgrade:
 	
 	return Upgrade.new(definition)
 
-
+func _create_thermal_compressor_optimization() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"thermal_compressor_optimization",
+		"Compression Optimization",
+		"Improves Thermal Compressor Matter production by 15% per level.",
+		ResourceIds.MATTER,
+		250.0,
+		[
+			UpgradeEffect.modifier(
+				"thermal_compressor",
+				ModifierTypes.PRODUCTION,
+				1.15,
+				ResourceIds.MATTER
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"thermal_compressor",
+				1
+			)
+		],
+		false,
+		"",
+		"matter",
+		10,
+		1.35
+	)
+	
+	return Upgrade.new(definition)
+	
+	
+func _create_thermal_compressor_efficiency() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"thermal_compressor_efficiency",
+		"Pressure Efficiency",
+		"Reduces the Heat required by the Thermal Compressor by 15% per level.",
+		ResourceIds.HEAT,
+		1500000.0,
+		[
+			UpgradeEffect.modifier(
+				"thermal_compressor",
+				ModifierTypes.INPUT_DRAW,
+				0.85,
+				ResourceIds.HEAT
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"thermal_compressor",
+				2
+			)
+		],
+		false,
+		"",
+		"matter",
+		5,
+		1.55
+	)
+	
+	return Upgrade.new(definition)
+	
+func _create_high_pressure_compression() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"high_pressure_compression",
+		"High-Pressure Compression",
+		"Pushes the Thermal Compressor beyond normal operating pressure, greatly reducing Ash production at the cost of increased Heat consumption.",
+		ResourceIds.MATTER,
+		2000.0,
+		[
+			UpgradeEffect.modifier(
+				"thermal_compressor",
+				ModifierTypes.PRODUCTION,
+				0.65,
+				ResourceIds.ASH
+			),
+			UpgradeEffect.modifier(
+				"thermal_compressor",
+				ModifierTypes.INPUT_DRAW,
+				1.60,
+				ResourceIds.HEAT
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"thermal_compressor",
+				3
+			)
+		],
+		false,
+		"thermal_compressor_specialization",
+		"matter"
+	)
+	
+	return Upgrade.new(definition)
+	
+func _create_thermal_recovery() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"thermal_recovery",
+		"Thermal Recovery",
+		"Recovers thermal energy normally lost during compression, reducing Heat consumption while providing a modest increase to Matter production.",
+		ResourceIds.MATTER,
+		2000.0,
+		[
+			UpgradeEffect.modifier(
+				"thermal_compressor",
+				ModifierTypes.PRODUCTION,
+				1.10,
+				ResourceIds.MATTER
+			),
+			UpgradeEffect.modifier(
+				"thermal_compressor",
+				ModifierTypes.INPUT_DRAW,
+				0.70,
+				ResourceIds.HEAT
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"thermal_compressor",
+				1
+			)
+		],
+		false,
+		"thermal_compressor_specialization",
+		"matter"
+	)
+	
+	return Upgrade.new(definition)	
+	
+	
 # -------------------------------------------------------------------
 # Infernal Condensation upgrades
 # -------------------------------------------------------------------
@@ -1044,6 +1251,36 @@ func _create_lava_mite_dormancy() -> Upgrade:
 	
 	return Upgrade.new(definition)
 
+func _create_lava_mite_husbandry() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"lava_mite_husbandry",
+		"Lava Mite Husbandry",
+		"Improves colony management, reducing the Matter cost of increasing Lava Mite Colony levels by 10% per level.",
+		ResourceIds.HEAT,
+		125000.0,
+		[
+			UpgradeEffect.modifier(
+				"lava_mite_colony",
+				ModifierTypes.COST,
+				0.9,
+				""
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"lava_mite_colony",
+				3
+			)
+		],
+		false,
+		"",
+		"ash_management",
+		5,
+		1.8
+	)
+	
+	return Upgrade.new(definition)
 
 func _create_lava_mite_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
@@ -1051,7 +1288,7 @@ func _create_lava_mite_refinement() -> Upgrade:
 		"Lava Mite Breeding",
 		"Improves the effectiveness of Lava Mite colonies by increasing their Ash consumption by 15% per level.",
 		ResourceIds.MATTER,
-		1500.0,
+		500.0,
 		[
 			UpgradeEffect.modifier(
 				"lava_mite_colony",
@@ -1081,7 +1318,7 @@ func _create_lava_mite_adaptation() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"lava_mite_adaptation",
 		"Lava Mite Adaptation",
-		"Lava Mites become increasingly ravenous for Ash as Ash accumulates.",
+		"Lava Mites become increasingly ravenous for Ash at higher Ash levels.",
 		ResourceIds.MATTER,
 		1000.0,
 		[
@@ -1102,7 +1339,7 @@ func _create_lava_mite_adaptation() -> Upgrade:
 				RequirementTypes.GENERATOR_LEVEL,
 				"lava_mite_colony",
 				10
-			)
+			),Requirement.new(RequirementTypes.RESOURCE,ResourceIds.ASH,1000)
 		],
 		false,
 		"",
@@ -1209,7 +1446,7 @@ func _create_matter_furnace_unlock() -> Upgrade:
 			),Requirement.new(
 				RequirementTypes.GENERATOR_LEVEL,
 				"lava_mite_colony",
-				10
+				5
 			)
 		],
 		false,
@@ -1224,14 +1461,15 @@ func _create_matter_furnace_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"matter_furnace_refinement",
 		"Combustion Refinement",
-		"Refines the Matter Furnace, increasing its output by 15% per level.",
+		"Refines the Matter Furnace, increasing its heat output by 15% per level.",
 		ResourceIds.MATTER,
 		150.0,
 		[
 			UpgradeEffect.modifier(
 				"matter_furnace",
 				ModifierTypes.PRODUCTION,
-				1.15
+				1.15,
+				ResourceIds.HEAT
 			)
 		],
 		[
@@ -1242,7 +1480,7 @@ func _create_matter_furnace_refinement() -> Upgrade:
 			)
 		],
 		false,
-		"",
+		"matter_furnace_specialization",
 		"matter_furnace",
 		5,
 		1.55
@@ -1250,7 +1488,36 @@ func _create_matter_furnace_refinement() -> Upgrade:
 	
 	return Upgrade.new(definition)
 
-
+func _create_matter_furnace_ash_reduction() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"matter_furnace_ash_reduction",
+		"Ash Purification",
+		"Refines the combustion process, reducing the Ash produced by the Matter Furnace by 20% per level.",
+		ResourceIds.MATTER,
+		150.0,
+		[
+			UpgradeEffect.modifier(
+				"matter_furnace",
+				ModifierTypes.PRODUCTION,
+				0.80,
+				ResourceIds.ASH
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"matter_furnace",
+				10
+			)
+		],
+		false,
+		"matter_furnace_specialization",
+		"matter_furnace",
+		5,
+		1.55
+	)
+	
+	return Upgrade.new(definition)
 # -------------------------------------------------------------------
 # Infernal Forge
 # -------------------------------------------------------------------
@@ -1820,3 +2087,69 @@ func reset_current_run() -> void:
 		upgrade.reset()
 	
 	lava_mite_dormancy_penalty = 0.0
+	
+	var atomic_friction = get_generator(
+		"atomic_friction"
+	)
+	
+	if atomic_friction != null:
+		atomic_friction.level = 1
+	
+	_apply_permanent_technology_unlocks()
+
+func get_unassigned_eternal_flames() -> int:
+	return eternal_flame_state.get_unassigned_flames(
+		realm_configuration
+	)
+
+
+func get_assigned_eternal_flames() -> int:
+	return realm_configuration.get_assigned_flames()
+
+
+func get_spent_eternal_flames() -> int:
+	return int(
+		eternal_flame_state.spent_flames
+	)
+
+
+func stabilize_realm() -> bool:
+	if realm_stabilized:
+		return false
+	
+	realm_configuration.lock()
+	realm_stabilized = true
+	
+	realm_effects.rebuild(
+		realm_configuration,
+		eternal_flame_state,
+		eternal_flame_upgrade_manager,
+		heat_leak_threshold,
+		matter_decay_threshold
+	)
+	
+	return true
+
+
+func begin_realm_configuration() -> void:
+	realm_configuration.reset()
+	realm_stabilized = false
+	
+	realm_effects.rebuild(
+		realm_configuration,
+		eternal_flame_state,
+		eternal_flame_upgrade_manager,
+		heat_leak_threshold,
+		matter_decay_threshold
+	)
+
+func _apply_permanent_technology_unlocks() -> void:
+	if eternal_flame_state.is_technology_unlocked(
+		EternalFlameState.THERMAL_COMPRESSOR_TECHNOLOGY_ID
+	):
+		var thermal_compressor = get_generator(
+			"thermal_compressor"
+		)
+		
+		if thermal_compressor != null:
+			thermal_compressor.unlocked = true

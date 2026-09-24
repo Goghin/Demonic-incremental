@@ -436,14 +436,16 @@ func get_generator_base_production_per_second(
 	
 	if resource_id == ResourceIds.MATTER:
 		total *= (
-			state.eternal_flame_state
-			.get_density_matter_production_factor()
-		)
-		
+		1.0
+		+ 0.05 * state.realm_configuration.density
+		+ 0.01 * state.get_unassigned_eternal_flames()
+	)
+
 	if resource_id == ResourceIds.HEAT:
 		total *= (
-		state.eternal_flame_state
-		.get_intensity_heat_production_factor()
+		1.0
+		+ 0.05 * state.realm_configuration.intensity
+		+ 0.01 * state.get_unassigned_eternal_flames()
 	)
 	
 	return total

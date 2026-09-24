@@ -25,7 +25,10 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	simulation = Simulation.new(state)
-
+	simulation.generator_unlocked.connect(
+		_on_generator_unlocked
+	)
+	
 	loading_screen.set_status("Preparing the flow of time...")
 	loading_screen.set_progress(0.25)
 
@@ -107,6 +110,9 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	for generator in state.generators.values():
+		if not generator.unlocked:
+			continue
+	
 		var panel = generator_panel_scene.instantiate()
 
 		$GeneratorScroll/GeneratorContainer.add_child(
@@ -311,17 +317,14 @@ func _process(delta: float) -> void:
 	time_manager.update(delta)
 
 func _on_rub_button_pressed() -> void:
-	input_handler.rub()
-	
-	print(
-		"Offline seconds: ",
-		time_manager.get_offline_seconds()
-	)
 	
 	save_manager.save_game(
 		state,
 		time_manager
 	)
+	print("Game Saved.")
+	
+	
 
 
 func _on_stats_button_pressed() -> void:
@@ -345,3 +348,48 @@ func _on_prestige_button_pressed() -> void:
 	if $PrestigePanel.visible:
 		$StatsPanel.visible = false
 		$UpgradeScroll.visible = false
+
+func _on_generator_unlocked(
+	generator_id: String
+	) -> void:
+	
+	var generator = state.get_generator(
+		generator_id
+	)
+	
+	if generator == null:
+		return
+	
+	var container = $GeneratorScroll/GeneratorContainer
+	
+	# Do not create a duplicate panel.
+	for child in container.get_children():
+		if child.has_method("setup"):
+			if child.generator_id == generator_id:
+				return
+	
+	var panel = generator_panel_scene.instantiate()
+	
+	panel.setup(
+		state,
+		input_handler,
+		generator_id
+	)
+	
+	container.add_child(panel)
+	
+	# Find the generator's intended position in the
+	# original GameState generator ordering.
+	var target_index = 0
+	
+	for existing_generator in state.generators.values():
+		if existing_generator.definition.id == generator_id:
+			break
+		
+		if existing_generator.unlocked:
+			target_index += 1
+	
+	container.move_child(
+		panel,
+		target_index
+	)

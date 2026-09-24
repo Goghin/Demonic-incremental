@@ -60,15 +60,23 @@ func get_production_per_second(
 		
 		if output.resource_id == ResourceIds.MATTER:
 			production *= (
-				state.eternal_flame_state
-				.get_density_matter_production_factor()
-			)
-			
+			1.0
+			+ 0.05 * state.realm_configuration.density
+			+ 0.01 * state.get_unassigned_eternal_flames()
+		)
+
 		if output.resource_id == ResourceIds.HEAT:
 			production *= (
-			state.eternal_flame_state
-			.get_intensity_heat_production_factor()
+			1.0
+			+ 0.05 * state.realm_configuration.intensity
+			+ 0.01 * state.get_unassigned_eternal_flames()
+		)
+			production *= (
+				state.eternal_flame_upgrade_manager.get_effective_multiplier(
+				"eternal_furnace",
+				state.eternal_flame_state
 			)
+	)
 		
 		for modifier in modifiers:
 			if modifier.applies_to(
