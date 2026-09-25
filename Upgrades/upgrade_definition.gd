@@ -14,6 +14,8 @@ var requirements: Array[Requirement]
 var automatic: bool
 var exclusivity_group: String
 var upgrade_group_id: String
+var generator_id: String
+var technology_id: String
 
 
 func _init(
@@ -28,7 +30,9 @@ func _init(
 	upgrade_exclusivity_group: String = "",
 	upgrade_ui_group_id: String = "",
 	upgrade_max_level: int = 1,
-	upgrade_cost_multiplier: float = 1.0
+	upgrade_cost_multiplier: float = 1.0,
+	upgrade_generator_id: String = "",
+	upgrade_technology_id: String = ""
 	) -> void:
 	
 	id = upgrade_id
@@ -43,3 +47,5 @@ func _init(
 	upgrade_group_id = upgrade_ui_group_id
 	max_level = upgrade_max_level
 	cost_multiplier = upgrade_cost_multiplier
+	generator_id = upgrade_generator_id
+	technology_id = upgrade_technology_id

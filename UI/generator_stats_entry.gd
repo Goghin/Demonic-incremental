@@ -159,6 +159,21 @@ func get_detail_structure_signature(
 		signature += str(resource_id)
 		signature += ";"
 		
+		var realm_effects = stats_data["realm_effects"].get(
+			resource_id,
+			[]
+		)
+
+		signature += "realm_effects:"
+
+		for effect in realm_effects:
+			signature += str(effect["name"])
+			signature += ";"
+		
+		
+		
+		
+		
 		var modifiers = stats.get_generator_production_modifiers(
 			generator.definition.id,
 			resource_id
@@ -327,6 +342,26 @@ func build_production_details(
 			resource_id
 		)
 		
+		# Realm effects
+		var realm_effects = stats_data["realm_effects"].get(
+			resource_id,
+			[]
+		)
+		
+		for realm_index in range(realm_effects.size()):
+			var realm_label = create_stats_label(
+				"",
+				11
+			)
+			
+			add_detail_row(
+				realm_label,
+				"production_realm_effect",
+				resource_id,
+				realm_index
+			)
+		
+		# Normal production modifiers
 		var modifiers = stats.get_generator_production_modifiers(
 			generator.definition.id,
 			resource_id
@@ -502,7 +537,13 @@ func update_detail_values(
 					resource_id,
 					stats_data
 				)
-			
+			"production_realm_effect":
+				update_production_realm_effect_label(
+					label,
+					resource_id,
+					modifier_index,
+					stats_data
+				)
 			"production_modifier":
 				update_production_modifier_label(
 					label,
@@ -571,6 +612,31 @@ func update_production_base_label(
 	label.text = "  Base: %s %s/s" % [
 		NumberFormatter.format(base_production),
 		resource_name
+	]
+
+func update_production_realm_effect_label(
+	label: Label,
+	resource_id: String,
+	effect_index: int,
+	stats_data: Dictionary
+	) -> void:
+	
+	var realm_effects = stats_data["realm_effects"].get(
+		resource_id,
+		[]
+	)
+	
+	if effect_index >= realm_effects.size():
+		label.text = ""
+		return
+	
+	var effect = realm_effects[effect_index]
+	var multiplier = effect["multiplier"]
+	var effect_name = effect["name"]
+	
+	label.text = "  ×%s  %s" % [
+		NumberFormatter.format(multiplier),
+		effect_name
 	]
 
 

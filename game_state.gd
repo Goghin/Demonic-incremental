@@ -84,6 +84,13 @@ func _initialize_resources() -> void:
 			"Crystalized Flame"
 		)
 	)
+	
+	_register_resource(
+		GameResource.new(
+			ResourceIds.ESSENCE,
+			"Essence"
+		)
+	)
 
 
 # -------------------------------------------------------------------
@@ -266,7 +273,14 @@ func _create_lava_mite_colony() -> Generator:
 				1.2
 			)
 		],
-		[],
+		[
+			GeneratorIO.new(
+				ResourceIds.ESSENCE,
+				0.0005,
+				true,
+				false
+			)
+		],
 		150.0,
 		1.2,
 		ResourceIds.MATTER,
@@ -617,7 +631,8 @@ func _create_atomic_friction_optimization() -> Upgrade:
 		"",
 		"atomic_friction",
 		10,
-		1.35
+		1.35,
+		"atomic_friction"
 	)
 	
 	return Upgrade.new(definition)
@@ -627,9 +642,9 @@ func _create_atomic_reorganization() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"atomic_reorganization",
 		"Atomic Reorganization",
-		"Improves Atomic Friction production.",
+		"Atomic Friction becomes more powerful per generator level bought.",
 		ResourceIds.HEAT,
-		1250.0,
+		125000.0,
 		[
 			UpgradeEffect.dynamic_generator_modifier(
 				"atomic_friction",
@@ -639,9 +654,18 @@ func _create_atomic_reorganization() -> Upgrade:
 				Modifier.DYNAMIC_GENERATOR_LEVEL
 			)
 		],
-		[],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				35
+			)
+		],
 		false,
 		"",
+		"atomic_friction",
+		1,
+		1,
 		"atomic_friction"
 	)
 	
@@ -654,7 +678,7 @@ func _create_efficient_atomic_processing() -> Upgrade:
 		"Efficient Atomic Processing",
 		"Reduces the cost of Atomic Friction.",
 		ResourceIds.HEAT,
-		1800.0,
+		15000.0,
 		[
 			UpgradeEffect.modifier(
 				"atomic_friction",
@@ -662,9 +686,17 @@ func _create_efficient_atomic_processing() -> Upgrade:
 				0.2
 			)
 		],
-		[],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				15
+			)],
 		false,
 		"",
+		"atomic_friction",
+		1,
+		1,
 		"atomic_friction"
 	)
 	
@@ -675,9 +707,9 @@ func _create_atomic_friction_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"atomic_friction_refinement",
 		"Friction Refinement",
-		"Refines Atomic Friction, increasing its Heat production by 15% per level.",
+		"Refines Atomic Friction, increasing its Heat production by another 15% per level.",
 		ResourceIds.HEAT,
-		5000.0,
+		30000.0,
 		[
 			UpgradeEffect.modifier(
 				"atomic_friction",
@@ -696,7 +728,7 @@ func _create_atomic_friction_refinement() -> Upgrade:
 		"",
 		"atomic_friction",
 		5,
-		1.55
+		1.85
 	)
 	
 	return Upgrade.new(definition)
@@ -710,7 +742,7 @@ func _create_molecular_agitation_upgrade() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"molecular_agitation",
 		"Molecular Agitation",
-		"Manipulates entire molecules to generate thermal energy.",
+		"Unlocks Manipulation of entire molecules to generate thermal energy.",
 		ResourceIds.HEAT,
 		1200.0,
 		[
@@ -727,7 +759,10 @@ func _create_molecular_agitation_upgrade() -> Upgrade:
 		],
 		false,
 		"",
-		"molecular_agitation"
+		"molecular_agitation",
+		1,
+		1,
+		"atomic_friction"
 	)
 	
 	return Upgrade.new(definition)
@@ -739,7 +774,7 @@ func _create_molecular_resonance() -> Upgrade:
 		"Molecular Resonance",
 		"Synchronizes molecular movement to amplify thermal output by 15% per level.",
 		ResourceIds.HEAT,
-		2000.0,
+		2500.0,
 		[
 			UpgradeEffect.modifier(
 				"molecular_agitation",
@@ -758,7 +793,8 @@ func _create_molecular_resonance() -> Upgrade:
 		"",
 		"molecular_agitation",
 		10,
-		1.35
+		1.45,
+		"molecular_agitation"
 	)
 	
 	return Upgrade.new(definition)
@@ -768,14 +804,14 @@ func _create_resonant_containment() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"resonant_containment",
 		"Resonant Containment",
-		"Contains the energy released by Molecular Agitation, increasing thermal output.",
+		"Contains the energy released by Molecular Agitation, massively increasing thermal output.",
 		ResourceIds.HEAT,
-		6500.0,
+		650000.0,
 		[
 			UpgradeEffect.modifier(
 				"molecular_agitation",
 				ModifierTypes.PRODUCTION,
-				1.80
+				2
 			)
 		],
 		[
@@ -787,6 +823,9 @@ func _create_resonant_containment() -> Upgrade:
 		],
 		false,
 		"",
+		"molecular_agitation",
+		1,
+		1,
 		"molecular_agitation"
 	)
 	
@@ -799,12 +838,12 @@ func _create_agitation_optimization() -> Upgrade:
 		"Agitation Optimization",
 		"Reduces the cost scaling of Molecular Agitation.",
 		ResourceIds.HEAT,
-		10000.0,
+		1000000.0,
 		[
 			UpgradeEffect.modifier(
 				"molecular_agitation",
 				ModifierTypes.COST_SCALING,
-				0.95,
+				0.98,
 				"molecular_agitation"
 			)
 		],
@@ -812,11 +851,14 @@ func _create_agitation_optimization() -> Upgrade:
 			Requirement.new(
 				RequirementTypes.GENERATOR_LEVEL,
 				"molecular_agitation",
-				20
+				25
 			)
 		],
 		false,
 		"",
+		"molecular_agitation",
+		3,
+		3,
 		"molecular_agitation"
 	)
 	
@@ -829,7 +871,7 @@ func _create_molecular_agitation_refinement() -> Upgrade:
 		"Agitation Refinement",
 		"Refines Molecular Agitation, increasing its Heat production by 20% per level.",
 		ResourceIds.HEAT,
-		30000.0,
+		300000.0,
 		[
 			UpgradeEffect.modifier(
 				"molecular_agitation",
@@ -848,7 +890,8 @@ func _create_molecular_agitation_refinement() -> Upgrade:
 		"",
 		"molecular_agitation",
 		5,
-		1.55
+		1.55,
+		"molecular_agitation"
 	)
 	
 	return Upgrade.new(definition)
@@ -862,9 +905,9 @@ func _create_atomic_mastery() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"atomic_mastery",
 		"Atomic Mastery",
-		"Greatly improves the entire Atomic Friction process. Unlocks Matter.",
+		"Greatly improves the entire Atomic Friction process. Unlocks Matter generation.",
 		ResourceIds.HEAT,
-		15000.0,
+		25000.0,
 		[
 			UpgradeEffect.modifier(
 				"atomic_friction",
@@ -884,12 +927,15 @@ func _create_atomic_mastery() -> Upgrade:
 			Requirement.new(
 				RequirementTypes.GENERATOR_LEVEL,
 				"atomic_friction",
-				50
+				35
 			)
 		],
 		false,
 		"",
-		"matter"
+		"matter",
+		1,
+		1,
+		"atomic_friction"
 	)
 	
 	return Upgrade.new(definition)
@@ -953,7 +999,8 @@ func _create_thermal_compressor_optimization() -> Upgrade:
 		"",
 		"matter",
 		10,
-		1.35
+		1.35,
+		"thermal_compressor"
 	)
 	
 	return Upgrade.new(definition)
@@ -985,7 +1032,8 @@ func _create_thermal_compressor_efficiency() -> Upgrade:
 		"",
 		"matter",
 		5,
-		1.55
+		1.55,
+		"thermal_compressor"
 	)
 	
 	return Upgrade.new(definition)
@@ -1007,7 +1055,7 @@ func _create_high_pressure_compression() -> Upgrade:
 			UpgradeEffect.modifier(
 				"thermal_compressor",
 				ModifierTypes.INPUT_DRAW,
-				1.60,
+				2.60,
 				ResourceIds.HEAT
 			)
 		],
@@ -1020,7 +1068,10 @@ func _create_high_pressure_compression() -> Upgrade:
 		],
 		false,
 		"thermal_compressor_specialization",
-		"matter"
+		"matter",
+		1,
+		1,
+		"thermal_compressor"
 	)
 	
 	return Upgrade.new(definition)
@@ -1029,14 +1080,14 @@ func _create_thermal_recovery() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"thermal_recovery",
 		"Thermal Recovery",
-		"Recovers thermal energy normally lost during compression, reducing Heat consumption while providing a modest increase to Matter production.",
+		"Recovers thermal energy normally lost during compression, reducing Heat consumption and cost while providing a modest increase to Matter production.",
 		ResourceIds.MATTER,
-		2000.0,
+		1000.0,
 		[
 			UpgradeEffect.modifier(
 				"thermal_compressor",
 				ModifierTypes.PRODUCTION,
-				1.10,
+				1.20,
 				ResourceIds.MATTER
 			),
 			UpgradeEffect.modifier(
@@ -1044,7 +1095,13 @@ func _create_thermal_recovery() -> Upgrade:
 				ModifierTypes.INPUT_DRAW,
 				0.70,
 				ResourceIds.HEAT
-			)
+			),
+			UpgradeEffect.modifier(
+				"thermal_compressor",
+				ModifierTypes.COST,
+				.75,
+				""
+				)
 		],
 		[
 			Requirement.new(
@@ -1055,7 +1112,10 @@ func _create_thermal_recovery() -> Upgrade:
 		],
 		false,
 		"thermal_compressor_specialization",
-		"matter"
+		"matter",
+		1,
+		1,
+		"thermal_compressor"
 	)
 	
 	return Upgrade.new(definition)	
@@ -1069,7 +1129,7 @@ func _create_thermal_furnace_optimization() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"thermal_furnace_optimization",
 		"Infernal Condensation Optimization",
-		"Improves Infernal Condensation output by 15% per level.",
+		"Improves Infernal Condensation Matter output by 15% per level.",
 		ResourceIds.MATTER,
 		50.0,
 		[
@@ -1091,7 +1151,8 @@ func _create_thermal_furnace_optimization() -> Upgrade:
 		"",
 		"thermal_furnace",
 		10,
-		1.35
+		1.35,
+		"thermal_furnace"
 	)
 	
 	return Upgrade.new(definition)
@@ -1101,14 +1162,14 @@ func _create_efficient_thermal_transfer() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"efficient_thermal_transfer",
 		"Efficient Thermal Transfer",
-		"Reduces the Heat input required by Infernal Condensation by 25%.",
+		"Reduces the Heat input required by Infernal Condensation by 35%.",
 		ResourceIds.HEAT,
-		25000.0,
+		750000.0,
 		[
 			UpgradeEffect.modifier(
 				"thermal_furnace",
 				ModifierTypes.INPUT_DRAW,
-				0.75
+				0.65
 			)
 		],
 		[
@@ -1120,6 +1181,9 @@ func _create_efficient_thermal_transfer() -> Upgrade:
 		],
 		false,
 		"",
+		"thermal_furnace",
+		1,
+		1,
 		"thermal_furnace"
 	)
 	
@@ -1132,7 +1196,7 @@ func _create_thermal_furnace_refinement() -> Upgrade:
 		"Condensation Refinement",
 		"Refines Infernal Condensation, increasing all output by 20% per level.",
 		ResourceIds.MATTER,
-		1500.0,
+		350.0,
 		[
 			UpgradeEffect.modifier(
 				"thermal_furnace",
@@ -1151,7 +1215,8 @@ func _create_thermal_furnace_refinement() -> Upgrade:
 		"",
 		"thermal_furnace",
 		5,
-		1.55
+		1.55,
+		"thermal_furnace"
 	)
 	
 	return Upgrade.new(definition)
@@ -1257,7 +1322,7 @@ func _create_lava_mite_husbandry() -> Upgrade:
 		"Lava Mite Husbandry",
 		"Improves colony management, reducing the Matter cost of increasing Lava Mite Colony levels by 10% per level.",
 		ResourceIds.HEAT,
-		125000.0,
+		285000.0,
 		[
 			UpgradeEffect.modifier(
 				"lava_mite_colony",
@@ -1277,7 +1342,8 @@ func _create_lava_mite_husbandry() -> Upgrade:
 		"",
 		"ash_management",
 		5,
-		1.8
+		1.8,
+		"lava_mite_colony"
 	)
 	
 	return Upgrade.new(definition)
@@ -1288,7 +1354,7 @@ func _create_lava_mite_refinement() -> Upgrade:
 		"Lava Mite Breeding",
 		"Improves the effectiveness of Lava Mite colonies by increasing their Ash consumption by 15% per level.",
 		ResourceIds.MATTER,
-		500.0,
+		300.0,
 		[
 			UpgradeEffect.modifier(
 				"lava_mite_colony",
@@ -1308,7 +1374,8 @@ func _create_lava_mite_refinement() -> Upgrade:
 		"",
 		"ash_management",
 		5,
-		1.55
+		1.55,
+		"lava_mite_colony"
 	)
 	
 	return Upgrade.new(definition)
@@ -1320,7 +1387,7 @@ func _create_lava_mite_adaptation() -> Upgrade:
 		"Lava Mite Adaptation",
 		"Lava Mites become increasingly ravenous for Ash at higher Ash levels.",
 		ResourceIds.MATTER,
-		1000.0,
+		1500.0,
 		[
 			UpgradeEffect.dynamic_resource_modifier(
 				"lava_mite_colony",
@@ -1330,8 +1397,8 @@ func _create_lava_mite_adaptation() -> Upgrade:
 				Modifier.DYNAMIC_RESOURCE_POWER_THRESHOLD,
 				"lava_mite_ash_adaptation",
 				ResourceIds.ASH,
-				300.0,
-				0.35
+				250.0,
+				0.3
 			)
 		],
 		[
@@ -1339,18 +1406,54 @@ func _create_lava_mite_adaptation() -> Upgrade:
 				RequirementTypes.GENERATOR_LEVEL,
 				"lava_mite_colony",
 				10
-			),Requirement.new(RequirementTypes.RESOURCE,ResourceIds.ASH,1000)
+			),
+			Requirement.new(
+				RequirementTypes.RESOURCE,
+				ResourceIds.ASH,
+				1000
+			)
 		],
 		false,
 		"",
 		"ash_management",
 		3,
-		2.0
+		2.0,
+		"lava_mite_colony"
 	)
 	
 	return Upgrade.new(definition)
 
+func _create_lava_mite_essence() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"lava_mite_essence",
+		"Essence Extraction",
+		"Discover how to extract the valuable Essence produced by Lava Mites.",
+		ResourceIds.MATTER,
+		5000.0,
+		[
+			UpgradeEffect.unlock_output(
+				"lava_mite_colony",
+				ResourceIds.ESSENCE
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"lava_mite_colony",
+				10
+			)
+		],
+		false,
+		"",
+		"ash_management",
+		1,
+		1,
+		"lava_mite_colony",
+		EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
+	)
 
+	return Upgrade.new(definition)
+	
 # -------------------------------------------------------------------
 # Matter Furnace upgrades
 # -------------------------------------------------------------------
@@ -1361,7 +1464,7 @@ func _create_thermal_conversion() -> Upgrade:
 		"Thermal Conversion",
 		"Improves Matter Furnace conversion by 10% per level, while increasing its Matter consumption by 5% per level.",
 		ResourceIds.HEAT,
-		25000.0,
+		1250000.0,
 		[
 			UpgradeEffect.modifier(
 				"matter_furnace",
@@ -1385,7 +1488,8 @@ func _create_thermal_conversion() -> Upgrade:
 		"",
 		"matter_furnace",
 		10,
-		1.35
+		1.35,
+		"matter_furnace"
 	)
 	
 	return Upgrade.new(definition)
@@ -1397,7 +1501,7 @@ func _create_matter_refinement() -> Upgrade:
 		"Matter Refinement",
 		"Refines the matter before combustion, reducing material consumption and improving the efficiency of furnace expansion.",
 		ResourceIds.HEAT,
-		800000.0,
+		5000000.0,
 		[
 			UpgradeEffect.modifier(
 				"matter_furnace",
@@ -1420,6 +1524,9 @@ func _create_matter_refinement() -> Upgrade:
 		],
 		false,
 		"",
+		"matter_furnace",
+		1,
+		1,
 		"matter_furnace"
 	)
 	
@@ -1483,7 +1590,8 @@ func _create_matter_furnace_refinement() -> Upgrade:
 		"matter_furnace_specialization",
 		"matter_furnace",
 		5,
-		1.55
+		1.55,
+		"matter_furnace"
 	)
 	
 	return Upgrade.new(definition)
@@ -1514,7 +1622,8 @@ func _create_matter_furnace_ash_reduction() -> Upgrade:
 		"matter_furnace_specialization",
 		"matter_furnace",
 		5,
-		1.55
+		1.85,
+		"matter_furnace"
 	)
 	
 	return Upgrade.new(definition)
@@ -1552,7 +1661,12 @@ func _create_infernal_forge_unlock() -> Upgrade:
 				ResourceIds.MATTER
 			)
 		],
-		[],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"matter_furnace",
+				1
+	)],
 		false,
 		"",
 		"infernal_forge"
@@ -1589,6 +1703,9 @@ func _create_infernal_forge_immunity() -> Upgrade:
 		],
 		true,
 		"",
+		"infernal_forge",
+		1,
+		1,
 		"infernal_forge"
 	)
 	
@@ -1606,7 +1723,7 @@ func _create_infernal_forge_refinement() -> Upgrade:
 			UpgradeEffect.modifier(
 				"infernal_forge",
 				ModifierTypes.COST,
-				0.85
+				0.9
 			)
 		],
 		[
@@ -1619,8 +1736,9 @@ func _create_infernal_forge_refinement() -> Upgrade:
 		false,
 		"",
 		"infernal_forge",
-		3,
-		1.55
+		5,
+		1.65,
+		"infernal_forge"
 	)
 	
 	return Upgrade.new(definition)
@@ -1636,7 +1754,7 @@ func _create_thermal_ash_filtration() -> Upgrade:
 		"Ash Filtration",
 		"Filters impurities from Infernal Condensation, reducing the Ash produced during Matter creation.",
 		ResourceIds.HEAT,
-		350000.0,
+		750000.0,
 		[
 			UpgradeEffect.modifier(
 				"thermal_furnace",
@@ -1654,6 +1772,9 @@ func _create_thermal_ash_filtration() -> Upgrade:
 		],
 		false,
 		"",
+		"thermal_furnace",
+		1,
+		1,
 		"thermal_furnace"
 	)
 	
@@ -1666,7 +1787,7 @@ func _create_thermal_furnace_mastery() -> Upgrade:
 		"Infernal Condensation Mastery",
 		"Each level of Infernal Condensation increases the production of all its outputs.",
 		ResourceIds.HEAT,
-		50000.0,
+		5000000.0,
 		[
 			UpgradeEffect.dynamic_generator_modifier(
 				"thermal_furnace",
@@ -1685,6 +1806,9 @@ func _create_thermal_furnace_mastery() -> Upgrade:
 		],
 		false,
 		"",
+		"thermal_furnace",
+		1,
+		1,
 		"thermal_furnace"
 	)
 	
@@ -1697,7 +1821,7 @@ func _create_thermal_furnace_efficiency() -> Upgrade:
 		"Condensation Efficiency",
 		"Improves the construction process of Infernal Condensation, lowering cost scaling and increasing resistance to Ashen Contamination.",
 		ResourceIds.HEAT,
-		750000.0,
+		7500000.0,
 		[
 			UpgradeEffect.modifier(
 				"thermal_furnace",
@@ -1719,7 +1843,11 @@ func _create_thermal_furnace_efficiency() -> Upgrade:
 		],
 		false,
 		"thermal_furnace_specialization",
-		"thermal_furnace_specialization"
+		"thermal_furnace_specialization",
+		1,
+		1,
+		"thermal_furnace"
+		
 	)
 	
 	return Upgrade.new(definition)
@@ -1731,7 +1859,7 @@ func _create_thermal_purity() -> Upgrade:
 		"Condensation Purity",
 		"Reduces Infernal Condensation's sensitivity to Ashen Contamination.",
 		ResourceIds.HEAT,
-		750000.0,
+		7500000.0,
 		[
 			UpgradeEffect.sensitivity(
 				"thermal_furnace",
@@ -1748,7 +1876,10 @@ func _create_thermal_purity() -> Upgrade:
 		],
 		false,
 		"thermal_furnace_specialization",
-		"thermal_furnace_specialization"
+		"thermal_furnace_specialization",
+		1,
+		1,
+		"thermal_furnace"
 	)
 	
 	return Upgrade.new(definition)
@@ -2153,3 +2284,32 @@ func _apply_permanent_technology_unlocks() -> void:
 		
 		if thermal_compressor != null:
 			thermal_compressor.unlocked = true
+
+func is_upgrade_visible(
+	upgrade: Upgrade
+	) -> bool:
+	
+	var has_generator_requirement = false
+	
+	for requirement in upgrade.definition.requirements:
+		if requirement.type != RequirementTypes.GENERATOR_LEVEL:
+			continue
+		
+		has_generator_requirement = true
+		
+		var generator = get_generator(
+			requirement.target_id
+		)
+		
+		if generator == null:
+			return false
+		
+		if not generator.unlocked:
+			return false
+	
+	# Upgrades without generator requirements are visible
+	# from the beginning.
+	if not has_generator_requirement:
+		return true
+	
+	return true

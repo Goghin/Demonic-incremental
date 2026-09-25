@@ -11,6 +11,8 @@ var value: float
 var modifier_target_id: String
 var modifier_id: String
 
+var output_resource_id: String
+
 var dynamic_formula: String
 var dynamic_resource_id: String
 var dynamic_generator_id: String
@@ -39,6 +41,19 @@ static func unlock_generator(
 		generator_id
 	)
 
+static func unlock_output(
+	generator_id: String,
+	resource_id: String
+	) -> UpgradeEffect:
+	
+	var effect = UpgradeEffect.new(
+		UpgradeEffectTypes.UNLOCK_OUTPUT,
+		generator_id
+	)
+	
+	effect.output_resource_id = resource_id
+	
+	return effect
 
 static func modifier(
 	effect_target_id: String,

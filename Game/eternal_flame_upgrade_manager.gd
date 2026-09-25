@@ -50,6 +50,20 @@ func _initialize_upgrades() -> void:
 			2.0
 		)
 	)
+	
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"essence_extraction",
+			"Essence Extraction",
+			"Unlocks the ability to research and extract the valuable Essence produced by Lava Mites.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			5,
+			1.0,
+			EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
+		)
+	)
 
 
 func _add_upgrade(
@@ -153,6 +167,10 @@ func purchase(
 	):
 		return false
 	
+	var upgrade = get_upgrade(
+		upgrade_id
+	)
+	
 	var cost = get_upgrade_cost(
 		upgrade_id,
 		state
@@ -167,6 +185,11 @@ func purchase(
 	state.increase_upgrade_level(
 		upgrade_id
 	)
+	
+	if upgrade.effect_type == EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY:
+		state.unlock_technology(
+			upgrade.technology_id
+		)
 	
 	return true
 

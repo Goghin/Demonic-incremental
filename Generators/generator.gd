@@ -1,4 +1,3 @@
-
 class_name Generator
 extends RefCounted
 
@@ -53,30 +52,26 @@ func get_production_per_second(
 	var production_outputs: Array[GeneratorRate] = []
 	
 	for output in definition.outputs:
+		if not output.unlocked:
+			continue
+			
 		var production = (
 			output.amount_per_second
 			* level
 		)
 		
+		
 		if output.resource_id == ResourceIds.MATTER:
-			production *= (
-			1.0
-			+ 0.05 * state.realm_configuration.density
-			+ 0.01 * state.get_unassigned_eternal_flames()
-		)
+			production *= state.realm_effects.matter_production_multiplier
 
-		if output.resource_id == ResourceIds.HEAT:
-			production *= (
-			1.0
-			+ 0.05 * state.realm_configuration.intensity
-			+ 0.01 * state.get_unassigned_eternal_flames()
-		)
+		if output.resource_id == ResourceIds.HEAT:			
+			production *= state.realm_effects.heat_production_multiplier
 			production *= (
 				state.eternal_flame_upgrade_manager.get_effective_multiplier(
-				"eternal_furnace",
-				state.eternal_flame_state
+					"eternal_furnace",
+					state.eternal_flame_state
+				)
 			)
-	)
 		
 		for modifier in modifiers:
 			if modifier.applies_to(
@@ -114,7 +109,11 @@ func get_cost(state: GameState) -> float:
 				self
 			)
 	
-	var cost = definition.base_cost * pow(
+	var cost = definition.base_cost
+	
+	cost *= state.realm_effects.generator_cost_multiplier
+	
+	cost *= pow(
 		scaling,
 		level
 	)

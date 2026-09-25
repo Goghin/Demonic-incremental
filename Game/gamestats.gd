@@ -335,18 +335,13 @@ func get_active_generators() -> Array:
 	return active_generators
 
 
-func get_generator_stats(
-	generator_id: String
-	) -> Dictionary:
-	
-	var generator = state.get_generator(
-		generator_id
-	)
+func get_generator_stats(generator_id: String) -> Dictionary:
+	var generator = state.generators.get(generator_id)
 	
 	if generator == null:
 		return {}
 	
-	var stats = {
+	var data = {
 		"level": generator.level,
 		"unlocked": generator.unlocked,
 		"operating": generator.is_operating(),
@@ -356,71 +351,72 @@ func get_generator_stats(
 		"production": {},
 		"actual_production": {},
 		"base_production": {},
+		"realm_effects": {},
 		"consumption": {},
 		"actual_consumption": {}
 	}
 	
-	var outputs = generator.get_production_per_second(
-		state
-	)
-	
-	for output in outputs:
-		stats["production"][output.resource_id] = (
-			output.amount_per_second
-		)
+	for output in generator.definition.outputs:
+		if not output.unlocked:
+			continue
 		
-		stats["base_production"][output.resource_id] = (
-			get_generator_base_production_per_second(
+		var resource_id = output.resource_id
+		
+		data["production"][resource_id] = (
+			get_generator_production_per_second(
 				generator_id,
-				output.resource_id
+				resource_id
 			)
 		)
 		
-		stats["actual_production"][output.resource_id] = (
+		data["base_production"][resource_id] = (
+			get_generator_base_production_per_second(
+				generator_id,
+				resource_id
+			)
+		)
+		
+		data["realm_effects"][resource_id] = (
+			get_generator_realm_effects(
+				generator_id,
+				resource_id
+			)
+		)
+		
+		data["actual_production"][resource_id] = (
 			get_generator_actual_production_per_second(
 				generator_id,
-				output.resource_id
+				resource_id
 			)
 		)
 	
 	for input in generator.definition.inputs:
-		var input_rate = generator.get_input_rate(
-			input,
-			state
+		var resource_id = input.resource_id
+		
+		data["consumption"][resource_id] = (
+			get_generator_consumption_per_second(
+				generator_id,
+				resource_id
+			)
 		)
 		
-		var potential_consumption = (
-			input_rate
-			* generator.level
-		)
-		
-		stats["consumption"][input.resource_id] = (
-			potential_consumption
-		)
-		
-		stats["actual_consumption"][input.resource_id] = (
+		data["actual_consumption"][resource_id] = (
 			get_generator_actual_consumption_per_second(
 				generator_id,
-				input.resource_id
+				resource_id
 			)
 		)
 	
-	return stats
+	return data
 
 
 func get_generator_base_production_per_second(
 	generator_id: String,
 	resource_id: String
 	) -> float:
-	
-	var generator = state.get_generator(
-		generator_id
-	)
+	var generator = state.generators.get(generator_id)
 	
 	if generator == null:
-		return 0.0
-	
-	if not generator.unlocked:
 		return 0.0
 	
 	var total = 0.0
@@ -429,28 +425,64 @@ func get_generator_base_production_per_second(
 		if output.resource_id != resource_id:
 			continue
 		
-		total += (
-			output.amount_per_second
-			* generator.level
-		)
-	
-	if resource_id == ResourceIds.MATTER:
-		total *= (
-		1.0
-		+ 0.05 * state.realm_configuration.density
-		+ 0.01 * state.get_unassigned_eternal_flames()
-	)
-
-	if resource_id == ResourceIds.HEAT:
-		total *= (
-		1.0
-		+ 0.05 * state.realm_configuration.intensity
-		+ 0.01 * state.get_unassigned_eternal_flames()
-	)
+		if not output.unlocked:
+			continue
+		
+		total += output.amount_per_second * generator.level
 	
 	return total
+	
+	
 
-
+func get_generator_realm_effects(
+	generator_id: String,
+	resource_id: String
+	) -> Array[Dictionary]:
+	var generator = state.generators.get(generator_id)
+	
+	if generator == null:
+		return []
+	
+	if generator.level <= 0:
+		return []
+	
+	var effects: Array[Dictionary] = []
+	
+	if resource_id == ResourceIds.MATTER:
+		var multiplier = state.realm_effects.matter_production_multiplier
+		
+		if not is_equal_approx(multiplier, 1.0):
+			effects.append({
+				"type": "realm",
+				"name": "Realm — Density",
+				"multiplier": multiplier
+			})
+	
+	elif resource_id == ResourceIds.HEAT:
+		var realm_multiplier = (
+			state.realm_effects.heat_production_realm_multiplier
+		)
+		
+		if not is_equal_approx(realm_multiplier, 1.0):
+			effects.append({
+				"type": "realm",
+				"name": "Realm — Intensity",
+				"multiplier": realm_multiplier
+			})
+		
+		var upgrade_multiplier = (
+			state.realm_effects.heat_production_upgrade_multiplier
+		)
+		
+		if not is_equal_approx(upgrade_multiplier, 1.0):
+			effects.append({
+				"type": "eternal_flame",
+				"name": "Eternal Furnace",
+				"multiplier": upgrade_multiplier
+			})
+	
+	return effects
+	
 func get_generator_base_consumption_per_second(
 	generator_id: String,
 	resource_id: String

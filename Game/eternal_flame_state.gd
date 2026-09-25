@@ -1,7 +1,10 @@
 class_name EternalFlameState
 extends RefCounted
 
+
 const THERMAL_COMPRESSOR_TECHNOLOGY_ID: String = "thermal_compressor"
+const LAVA_MITE_ESSENCE_TECHNOLOGY_ID: String = "lava_mite_essence"
+
 
 var eternal_flame: float = 0.0
 var spent_flames: float = 0.0
@@ -11,7 +14,6 @@ var total_crystallized_flame: float = 0.0
 
 var upgrade_levels: Dictionary = {}
 var unlocked_technologies: Dictionary = {}
-
 
 
 func get_spendable_flames(
@@ -98,6 +100,7 @@ func set_upgrade_level(
 		level
 	)
 
+
 func is_technology_unlocked(
 	technology_id: String
 	) -> bool:
@@ -115,6 +118,7 @@ func unlock_technology(
 	) -> void:
 	
 	unlocked_technologies[technology_id] = true
+
 
 func reset() -> void:
 	eternal_flame = 0.0

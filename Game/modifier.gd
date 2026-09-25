@@ -134,15 +134,11 @@ func get_multiplier(state: GameState) -> float:
 		var excess = sqrt(resource_amount) - sqrt(threshold)
 	
 		var scaling_multiplier = multiplier
-	
-		if source_upgrade_id == "ashen_contamination":
-			var integrity_factor = (
-			1.0
-			+ 0.05 * state.realm_configuration.integrity
-			+ 0.01 * state.get_unassigned_eternal_flames()
-		)
 
-			scaling_multiplier /= integrity_factor
+		if source_upgrade_id == "ashen_contamination":
+			scaling_multiplier /= (
+			state.realm_effects.ashen_contamination_multiplier
+		)
 	
 		return 1.0 / (
 			1.0 + scaling_multiplier * excess

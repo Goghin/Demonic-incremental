@@ -448,7 +448,19 @@ func _apply_upgrade_effect(
 				generator_unlocked.emit(
 					generator.definition.id
 				)
-	
+				
+	elif effect.type == UpgradeEffectTypes.UNLOCK_OUTPUT:
+		var generator = state.get_generator(
+			effect.target_id
+		)
+		
+		if generator != null:
+			for output in generator.definition.outputs:
+				if output.resource_id != effect.output_resource_id:
+					continue
+				
+				output.unlocked = true
+				
 	elif effect.type == UpgradeEffectTypes.APPLY_MODIFIER:
 		if effect.target_id == "":
 			for generator in state.get_generators().values():
