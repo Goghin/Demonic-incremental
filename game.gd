@@ -147,7 +147,9 @@ func _ready() -> void:
 	$PrestigePanel.technology_unlocked.connect(
 		_on_technology_unlocked
 	)
-	
+	$PrestigePanel.run_reset.connect(
+		_on_run_reset
+	)
 	print(
 		"Timestamp: ",
 		time_manager.last_real_timestamp
@@ -690,3 +692,58 @@ func _on_prestige_button_pressed() -> void:
 	if $PrestigePanel.visible:
 		$StatsPanel.visible = false
 		$UpgradeScroll.visible = false
+
+
+func _on_run_reset() -> void:
+	var generator_container = (
+		$GeneratorScroll/GeneratorContainer
+	)
+	
+	for child in generator_container.get_children():
+		child.queue_free()
+	
+	var upgrade_container = (
+		$UpgradeScroll/UpgradeContainer
+	)
+	
+	for child in upgrade_container.get_children():
+		child.queue_free()
+	
+	upgrade_group_containers.clear()
+	upgrade_flows.clear()
+	upgrade_panels.clear()
+	effects_flow = null
+	
+	await get_tree().process_frame
+	
+	_create_initial_generator_panels()
+	_create_initial_upgrade_ui()
+	
+func _rebuild_generator_ui() -> void:
+	var generator_container = (
+		$GeneratorScroll/GeneratorContainer
+	)
+	
+	for child in generator_container.get_children():
+		child.queue_free()
+	
+	await get_tree().process_frame
+	
+	_create_initial_generator_panels()	
+	
+func _rebuild_upgrade_ui() -> void:
+	var upgrade_container = (
+		$UpgradeScroll/UpgradeContainer
+	)
+	
+	for child in upgrade_container.get_children():
+		child.queue_free()
+	
+	upgrade_group_containers.clear()
+	upgrade_flows.clear()
+	upgrade_panels.clear()
+	effects_flow = null
+	
+	await get_tree().process_frame
+	
+	_create_initial_upgrade_ui()

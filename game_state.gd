@@ -550,7 +550,9 @@ func _initialize_upgrades() -> void:
 	_register_upgrade(
 		_create_lava_mite_adaptation()
 	)
-	
+	_register_upgrade(
+		_create_lava_mite_essence()
+	)
 	# Matter Furnace
 	_register_upgrade(
 		_create_thermal_conversion()
@@ -2284,6 +2286,18 @@ func _apply_permanent_technology_unlocks() -> void:
 		
 		if thermal_compressor != null:
 			thermal_compressor.unlocked = true
+	
+	if eternal_flame_state.is_technology_unlocked(
+		EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
+	):
+		var lava_mite_colony = get_generator(
+			"lava_mite_colony"
+		)
+		
+		if lava_mite_colony != null:
+			for output in lava_mite_colony.definition.outputs:
+				if output.resource_id == ResourceIds.ESSENCE:
+					output.unlocked = true
 
 func is_upgrade_visible(
 	upgrade: Upgrade

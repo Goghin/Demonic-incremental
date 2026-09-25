@@ -4,7 +4,7 @@ extends Control
 
 
 signal technology_unlocked(technology_id: String)
-
+signal run_reset
 
 var state: GameState
 var prestige_system: PrestigeSystem
@@ -843,11 +843,12 @@ func _on_smash_button_pressed() -> void:
 	
 	refresh()
 	
+	run_reset.emit()
+	
 	save_manager.save_game(
 		state,
 		time_manager
 	)
-
 
 # ----------------------------------------------------------------
 # Eternal Flame Shop
