@@ -833,7 +833,8 @@ func get_generator_input_modifiers(
 				generator
 			),
 			"sensitivity": generator.get_modifier_sensitivity(
-				modifier.id
+				modifier.id,
+				state
 			),
 			"dynamic": modifier.dynamic,
 			"formula": modifier.dynamic_formula,
@@ -872,7 +873,8 @@ func get_generator_input_modifiers(
 			"current_multiplier": raw_multiplier,
 			"effective_multiplier": effective_multiplier,
 			"sensitivity": generator.get_modifier_sensitivity(
-				first_modifier.id
+				first_modifier.id,
+				state
 			),
 			"dynamic": first_modifier.dynamic,
 			"formula": first_modifier.dynamic_formula,
@@ -915,7 +917,8 @@ func get_modifier_effective_multiplier(
 	)
 	
 	var sensitivity = generator.get_modifier_sensitivity(
-		modifier.id
+		modifier.id,
+		state
 	)
 	
 	return (
@@ -1018,7 +1021,8 @@ func get_modifier_sensitivity_data(
 		}
 	
 	var sensitivity = generator.get_modifier_sensitivity(
-		modifier_id
+		modifier_id,
+		state
 	)
 	
 	var sources: Array = []

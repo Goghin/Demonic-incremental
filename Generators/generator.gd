@@ -287,9 +287,9 @@ func get_cycle_progress_percent() -> float:
 		100.0
 	)
 
-
 func get_modifier_sensitivity(
-	modifier_id: String
+	modifier_id: String,
+	state: GameState
 	) -> float:
 	
 	var sensitivity = 1.0
@@ -298,10 +298,13 @@ func get_modifier_sensitivity(
 		if modifier_sensitivity.modifier_id != modifier_id:
 			continue
 		
-		sensitivity *= modifier_sensitivity.multiplier
+		sensitivity *= (
+			modifier_sensitivity.get_effective_multiplier(
+				state
+			)
+		)
 	
 	return sensitivity
-
 
 func get_status() -> String:
 	

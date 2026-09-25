@@ -540,6 +540,15 @@ func _add_modifier_sensitivity_to_generator(
 		source_upgrade_id
 	)
 	
+	if effect.sensitivity_dynamic_formula != "":
+		sensitivity.dynamic = true
+		sensitivity.dynamic_formula = (
+			effect.sensitivity_dynamic_formula
+		)
+		sensitivity.dynamic_resource_id = (
+			effect.sensitivity_dynamic_resource_id
+		)
+	
 	generator.modifier_sensitivities.append(
 		sensitivity
 	)

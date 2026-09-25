@@ -64,10 +64,12 @@ func get_effective_multiplier(
 	state: GameState,
 	generator: Generator
 ) -> float:
+	
 	var raw_multiplier = get_multiplier(state)
 	
 	var sensitivity = generator.get_modifier_sensitivity(
-		id
+		id,
+		state
 	)
 	
 	return 1.0 + (

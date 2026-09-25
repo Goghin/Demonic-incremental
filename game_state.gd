@@ -143,7 +143,7 @@ func _create_atomic_friction() -> Generator:
 			)
 		],
 		6.0,
-		1.21,
+		1.22,
 		ResourceIds.HEAT,
 		false,
 		0.0,
@@ -171,7 +171,7 @@ func _create_molecular_agitation() -> Generator:
 			)
 		],
 		250.0,
-		1.23,
+		1.22,
 		ResourceIds.HEAT,
 		false,
 		0.0,
@@ -237,11 +237,11 @@ func _create_thermal_furnace() -> Generator:
 			),
 			GeneratorIO.new(
 				ResourceIds.ASH,
-				0.07
+				0.08
 			)
 		],
 		1000.0,
-		1.18,
+		1.22,
 		ResourceIds.HEAT,
 		false,
 		0.0,
@@ -552,6 +552,10 @@ func _initialize_upgrades() -> void:
 	)
 	_register_upgrade(
 		_create_lava_mite_essence()
+	)
+	
+	_register_upgrade(
+		_create_essence_influence()
 	)
 	# Matter Furnace
 	_register_upgrade(
@@ -1456,6 +1460,44 @@ func _create_lava_mite_essence() -> Upgrade:
 
 	return Upgrade.new(definition)
 	
+func _create_essence_influence() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"essence_influence",
+		"Essence Influence",
+		"Essence intensifies the hunger of Lava Mites while weakening the influence of Crystallization.",
+		ResourceIds.ESSENCE,
+		0.0,
+		[
+			UpgradeEffect.dynamic_resource_modifier(
+				"lava_mite_colony",
+				ModifierTypes.INPUT_DRAW,
+				0.01,
+				ResourceIds.ESSENCE,
+				Modifier.DYNAMIC_RESOURCE_SQRT,
+				"essence_lava_mite_ash",
+				ResourceIds.ASH
+			),
+			UpgradeEffect.dynamic_sensitivity(
+				"",
+				"crystallization",
+				0.01,
+				ResourceIds.ESSENCE,
+				ModifierSensitivity.DYNAMIC_RESOURCE_SQRT_INVERSE
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.RESOURCE,
+				ResourceIds.ESSENCE,
+				1.0
+			)
+		],
+		true,
+		"",
+		"ash_management"
+	)
+	
+	return Upgrade.new(definition)
 # -------------------------------------------------------------------
 # Matter Furnace upgrades
 # -------------------------------------------------------------------
@@ -1650,7 +1692,7 @@ func _create_infernal_forge_unlock() -> Upgrade:
 				0.8,
 				ResourceIds.CRYSTALIZED_FLAME,
 				Modifier.DYNAMIC_RESOURCE_EXPONENT,
-				"crystallization_heat",
+				"crystallization",
 				ResourceIds.HEAT
 			),
 			UpgradeEffect.dynamic_resource_modifier(
@@ -1659,7 +1701,7 @@ func _create_infernal_forge_unlock() -> Upgrade:
 				0.8,
 				ResourceIds.CRYSTALIZED_FLAME,
 				Modifier.DYNAMIC_RESOURCE_EXPONENT,
-				"crystallization_matter",
+				"crystallization",
 				ResourceIds.MATTER
 			)
 		],
@@ -1681,7 +1723,7 @@ func _create_infernal_forge_immunity() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"infernal_forge_immunity",
 		"Forge Immunity",
-		"The Infernal Forge becomes immune to Ashen Contamination and the effects of Crystallization.",
+		"The Infernal Forge is immune to Ashen Contamination and the effects of Crystallization.",
 		ResourceIds.HEAT,
 		0.0,
 		[
