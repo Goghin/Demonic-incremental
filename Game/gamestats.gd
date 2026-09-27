@@ -79,7 +79,7 @@ func get_resource_consumption_per_second(
 		if not generator.unlocked:
 			continue
 		
-		for input in generator.definition.inputs:
+		for input in generator.get_active_inputs():
 			if input.resource_id != resource_id:
 				continue
 			
@@ -94,7 +94,6 @@ func get_resource_consumption_per_second(
 			)
 	
 	return total
-
 
 # Actual consumption rate.
 #
@@ -112,7 +111,7 @@ func get_resource_actual_consumption_per_second(
 		if not generator.is_operating():
 			continue
 		
-		for input in generator.definition.inputs:
+		for input in generator.get_active_inputs():
 			if input.resource_id != resource_id:
 				continue
 			
@@ -133,7 +132,7 @@ func get_resource_actual_consumption_per_second(
 		total += state.get_matter_decay_per_second()
 	
 	return total
-
+	
 # Potential net rate.
 func get_resource_net_per_second(
 	resource_id: String
@@ -233,7 +232,7 @@ func get_generator_consumption_per_second(
 	
 	var total = 0.0
 	
-	for input in generator.definition.inputs:
+	for input in generator.get_active_inputs():
 		if input.resource_id != resource_id:
 			continue
 		
@@ -248,7 +247,6 @@ func get_generator_consumption_per_second(
 		)
 	
 	return total
-
 
 # Actual consumption rate for one generator.
 func get_generator_actual_consumption_per_second(
@@ -358,7 +356,7 @@ func get_generator_stats(generator_id: String) -> Dictionary:
 		"actual_consumption": {}
 	}
 	
-	for output in generator.definition.outputs:
+	for output in generator.get_active_outputs():
 		if not output.unlocked:
 			continue
 		
@@ -392,7 +390,7 @@ func get_generator_stats(generator_id: String) -> Dictionary:
 			)
 		)
 	
-	for input in generator.definition.inputs:
+	for input in generator.get_active_inputs():
 		var resource_id = input.resource_id
 		
 		data["consumption"][resource_id] = (
@@ -411,11 +409,11 @@ func get_generator_stats(generator_id: String) -> Dictionary:
 	
 	return data
 
-
 func get_generator_base_production_per_second(
 	generator_id: String,
 	resource_id: String
 	) -> float:
+	
 	var generator = state.generators.get(generator_id)
 	
 	if generator == null:
@@ -423,7 +421,7 @@ func get_generator_base_production_per_second(
 	
 	var total = 0.0
 	
-	for output in generator.definition.outputs:
+	for output in generator.get_active_outputs():
 		if output.resource_id != resource_id:
 			continue
 		
@@ -432,9 +430,7 @@ func get_generator_base_production_per_second(
 		
 		total += output.amount_per_second * generator.level
 	
-	return total
-	
-	
+	return total	
 
 func get_generator_realm_effects(
 	generator_id: String,
@@ -502,7 +498,7 @@ func get_generator_base_consumption_per_second(
 	
 	var total = 0.0
 	
-	for input in generator.definition.inputs:
+	for input in generator.get_active_inputs():
 		if input.resource_id != resource_id:
 			continue
 		
@@ -512,7 +508,6 @@ func get_generator_base_consumption_per_second(
 		)
 	
 	return total
-
 
 # ------------------------------------------------------------
 # MODIFIERS

@@ -3,10 +3,10 @@ extends RefCounted
 
 
 static func create() -> Generator:
-	var crystallization_mode = GeneratorOperationMode.new(
-		"crystallization",
-		"Crystallization",
-		"Slowly crystallizes Matter into a Crystallized Flame.",
+	var normal_mode = GeneratorOperationMode.new(
+		"normal",
+		"Normal",
+		"Operates the Infernal Forge at standard efficiency.",
 		1.0,
 		1.0,
 		1.0,
@@ -119,36 +119,18 @@ static func create() -> Generator:
 		]
 	)
 	
+	
+	
 	var definition = GeneratorDefinition.new(
 		"infernal_forge",
 		"Infernal Forge",
-		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				4.5
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				5.0
-			)
-		],
 		10000000.0,
 		2.0,
 		ResourceIds.HEAT,
 		true,
-		600.0,
-		[
-			GeneratorIO.new(
-				ResourceIds.CRYSTALIZED_FLAME,
-				1.0,
-				true
-			)
-		],
 		"res://Generators/GeneratorDefinitions/Infernal_Forge.png",
 		[
-			crystallization_mode,
+			normal_mode,
 			fast_crystallization_mode,
 			violent_crystallization_mode,
 			infernal_crystallization_mode

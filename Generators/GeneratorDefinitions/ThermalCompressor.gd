@@ -3,9 +3,14 @@ extends RefCounted
 
 
 static func create() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"thermal_compressor",
-		"Thermal Compressor",
+	var normal_mode = GeneratorOperationMode.new(
+		"normal",
+		"Normal",
+		"Compresses immense quantities of Heat into Matter while producing Ash as a byproduct.",
+		1.0,
+		1.0,
+		1.0,
+		0.0,
 		[
 			GeneratorIO.new(
 				ResourceIds.HEAT,
@@ -20,17 +25,22 @@ static func create() -> Generator:
 			),
 			GeneratorIO.new(
 				ResourceIds.ASH,
-				8
+				8.0
 			)
-		],
+		]
+	)
+	
+	var definition = GeneratorDefinition.new(
+		"thermal_compressor",
+		"Thermal Compressor",
 		1200000.0,
 		1.4,
 		ResourceIds.HEAT,
 		false,
-		0.0,
-		[],
-		"res://Generators/GeneratorDefinitions/Thermal_Compressor.png"
-		
+		"res://Generators/GeneratorDefinitions/Thermal_Compressor.png",
+		[
+			normal_mode
+		]
 	)
 	
 	var generator = Generator.new(definition)

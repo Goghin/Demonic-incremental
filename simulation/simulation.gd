@@ -499,11 +499,12 @@ func _apply_upgrade_effect(
 		)
 		
 		if generator != null:
-			for output in generator.definition.outputs:
-				if output.resource_id != effect.output_resource_id:
-					continue
-				
-				output.unlocked = true
+			for mode in generator.definition.operation_modes:
+				for output in mode.outputs:
+					if output.resource_id != effect.output_resource_id:
+						continue
+					
+					output.unlocked = true
 				
 	elif effect.type == UpgradeEffectTypes.APPLY_MODIFIER:
 		if effect.target_id == "":
@@ -544,7 +545,6 @@ func _apply_upgrade_effect(
 					effect,
 					source_upgrade_id
 				)
-
 
 func _add_modifier_to_generator(
 	generator: Generator,

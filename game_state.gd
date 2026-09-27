@@ -2188,10 +2188,11 @@ func _apply_permanent_technology_unlocks() -> void:
 		)
 		
 		if lava_mite_colony != null:
-			for output in lava_mite_colony.definition.outputs:
+			for output in lava_mite_colony.get_active_outputs():
 				if output.resource_id == ResourceIds.ESSENCE:
 					output.unlocked = true
-
+					
+					
 func is_upgrade_visible(
 	upgrade: Upgrade
 	) -> bool:

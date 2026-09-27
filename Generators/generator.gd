@@ -395,48 +395,16 @@ func get_status() -> String:
 
 
 func get_active_inputs() -> Array[GeneratorIO]:
-	var operation_mode = get_operation_mode()
-	
-	if (
-		operation_mode != null
-		and not operation_mode.inputs.is_empty()
-	):
-		return operation_mode.inputs
-	
-	return definition.inputs
+	return get_operation_mode().inputs
 
 func get_active_outputs() -> Array[GeneratorIO]:
-	var operation_mode = get_operation_mode()
-	
-	if (
-		operation_mode != null
-		and not operation_mode.outputs.is_empty()
-	):
-		return operation_mode.outputs
-	
-	return definition.outputs
+	return get_operation_mode().outputs
 
 func get_active_completion_outputs() -> Array[GeneratorIO]:
-	var operation_mode = get_operation_mode()
-	
-	if (
-		operation_mode != null
-		and not operation_mode.completion_outputs.is_empty()
-	):
-		return operation_mode.completion_outputs
-	
-	return definition.completion_outputs
+	return get_operation_mode().completion_outputs
 
 func get_cycle_duration() -> float:
-	var operation_mode = get_operation_mode()
-	
-	if (
-		operation_mode != null
-		and operation_mode.cycle_duration > 0.0
-	):
-		return operation_mode.cycle_duration
-	
-	return definition.cycle_duration
+	return get_operation_mode().cycle_duration
 
 func load_operation_mode(
 	mode_id: String

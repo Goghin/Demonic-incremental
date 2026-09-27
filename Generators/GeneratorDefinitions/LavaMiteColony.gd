@@ -3,9 +3,14 @@ extends RefCounted
 
 
 static func create() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"lava_mite_colony",
-		"Lava Mite Colony",
+	var normal_mode = GeneratorOperationMode.new(
+		"normal",
+		"Normal",
+		"Maintains a colony of Lava Mites that converts Heat, Matter, and Ash into Essence.",
+		1.0,
+		1.0,
+		1.0,
+		0.0,
 		[
 			GeneratorIO.new(
 				ResourceIds.HEAT,
@@ -27,15 +32,20 @@ static func create() -> Generator:
 				true,
 				false
 			)
-		],
+		]
+	)
+	
+	var definition = GeneratorDefinition.new(
+		"lava_mite_colony",
+		"Lava Mite Colony",
 		150.0,
 		1.2,
 		ResourceIds.MATTER,
 		false,
-		0.0,
-		[],
-		"res://Generators/GeneratorDefinitions/Lava_Mite_Colony.png"
-		
+		"res://Generators/GeneratorDefinitions/Lava_Mite_Colony.png",
+		[
+			normal_mode
+		]
 	)
 	
 	var generator = Generator.new(definition)

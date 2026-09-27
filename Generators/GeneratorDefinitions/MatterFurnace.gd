@@ -9,7 +9,24 @@ static func create() -> Generator:
 		"Converts Matter into Heat and Ash at standard efficiency.",
 		1.0,
 		1.0,
-		1.0
+		1.0,
+		0.0,
+		[
+			GeneratorIO.new(
+				ResourceIds.MATTER,
+				2.5
+			)
+		],
+		[
+			GeneratorIO.new(
+				ResourceIds.HEAT,
+				7500.0
+			),
+			GeneratorIO.new(
+				ResourceIds.ASH,
+				1.5
+			)
+		]
 	)
 	
 	var ash_production_mode = GeneratorOperationMode.new(
@@ -36,28 +53,10 @@ static func create() -> Generator:
 	var definition = GeneratorDefinition.new(
 		"matter_furnace",
 		"Matter Furnace",
-		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				2.5
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.HEAT,
-				7500.0
-			),
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				1.5
-			)
-		],
 		175.0,
 		1.3,
 		ResourceIds.MATTER,
 		false,
-		0.0,
-		[],
 		"res://Generators/GeneratorDefinitions/Matter_Furnace.png",
 		[
 			normal_mode,
