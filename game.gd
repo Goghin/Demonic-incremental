@@ -24,6 +24,12 @@ var upgrade_panel_scene = preload(
 	"res://UI/upgrade_panel.tscn"
 )
 
+var realm_view_scene = preload(
+	"res://UI/RealmView.gd"
+)
+
+var realm_view: RealmView
+
 @onready var loading_screen: Control = $LoadingScreen
 
 
@@ -38,6 +44,8 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	state = GameState.new()
+
+	_create_realm_view()
 
 	loading_screen.set_status(
 		"Initializing the simulation..."
@@ -200,6 +208,19 @@ func _ready() -> void:
 
 	is_loading = false
 	loading_screen.visible = false
+
+
+func _create_realm_view() -> void:
+	realm_view = realm_view_scene.new()
+	realm_view.name = "RealmView"
+	realm_view.set_anchors_and_offsets_preset(
+		Control.PRESET_FULL_RECT
+	)
+	realm_view.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	realm_view.z_index = -10
+
+	add_child(realm_view)
+	realm_view.setup(state)
 
 
 # ============================================================
