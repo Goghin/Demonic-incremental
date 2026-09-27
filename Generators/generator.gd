@@ -77,9 +77,20 @@ func set_operation_mode(
 			continue
 		
 		operation_mode_id = mode.id
+		_ensure_discrete_production_progress(mode)
 		return true
 	
 	return false
+
+func _ensure_discrete_production_progress(
+	mode: GeneratorOperationMode
+	) -> void:
+	for output in mode.outputs:
+		if not output.discrete:
+			continue
+
+		if not production_progress.has(output.resource_id):
+			production_progress[output.resource_id] = 0.0
 
 func can_change_operation_mode() -> bool:
 	
@@ -415,6 +426,7 @@ func load_operation_mode(
 			continue
 		
 		operation_mode_id = mode.id
+		_ensure_discrete_production_progress(mode)
 		return true
 	
 	return false
