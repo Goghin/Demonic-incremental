@@ -7,7 +7,11 @@ var resources: Dictionary = {}
 var generators: Dictionary = {}
 var upgrades: Dictionary = {}
 var upgrade_groups: Dictionary = {}
-var lava_mite_dormancy_penalty: float = 0.0
+
+
+
+var resource_statistics: ResourceStatistics
+var current_run_statistics: ResourceStatistics
 
 var eternal_flame_state: EternalFlameState
 var realm_configuration: RealmConfiguration
@@ -15,6 +19,8 @@ var realm_effects: RealmEffects
 var eternal_flame_upgrade_manager: EternalFlameUpgradeManager
 
 var realm_stabilized: bool = true
+
+var lava_mite_dormancy_penalty: float = 0.0
 
 var heat_leak_threshold: float = 100000.0
 var heat_leak_base: float = 1.0
@@ -36,6 +42,9 @@ func _init() -> void:
 	_initialize_generators()
 	_initialize_upgrade_groups()
 	_initialize_upgrades()
+	
+	resource_statistics = ResourceStatistics.new()
+	current_run_statistics = ResourceStatistics.new()
 	
 	eternal_flame_state = EternalFlameState.new()
 	eternal_flame_upgrade_manager = EternalFlameUpgradeManager.new()
@@ -101,271 +110,34 @@ func _initialize_generators() -> void:
 	# Define all generators and their initial state.
 	
 	_register_generator(
-		_create_atomic_friction()
+		AtomicFriction.create()
 	)
 	
 	_register_generator(
-		_create_molecular_agitation()
+		MolecularAgitation.create()	
 	)
 	
 	_register_generator(
-		_create_thermal_furnace()
+		InfernalCondensation.create()
 	)
 	
 	_register_generator(
-		_create_thermal_compressor()
+		ThermalCompressor.create()
 	)
 	
 	# Ash Management / Lava Mites
 	_register_generator(
-		_create_lava_mite_colony()
+		LavaMiteColony.create()
 	)
 	
 	# Matter Furnace
 	_register_generator(
-		_create_matter_furnace()
+		MatterFurnace.create()
 	)
 	
 	_register_generator(
-		_create_infernal_forge()
+		InfernalForge.create()
 	)
-
-
-func _create_atomic_friction() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"atomic_friction",
-		"Atomic Friction",
-		[],
-		[
-			GeneratorIO.new(
-				ResourceIds.HEAT,
-				3.0
-			)
-		],
-		6.0,
-		1.22,
-		ResourceIds.HEAT,
-		false,
-		0.0,
-		[],
-		"res://Generators/Atomic_Friction.png"
-	)
-	
-	var generator = Generator.new(definition)
-	generator.level = 1
-	generator.unlocked = true
-	generator.initial_unlocked = true
-	
-	return generator
-
-
-func _create_molecular_agitation() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"molecular_agitation",
-		"Molecular Agitation",
-		[],
-		[
-			GeneratorIO.new(
-				ResourceIds.HEAT,
-				45.0
-			)
-		],
-		250.0,
-		1.22,
-		ResourceIds.HEAT,
-		false,
-		0.0,
-		[],
-		"res://Generators/Molecular_Agitation.png"
-	)
-	
-	var generator = Generator.new(definition)
-	generator.unlocked = false
-	generator.initial_unlocked = false
-	return generator
-
-func _create_thermal_compressor() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"thermal_compressor",
-		"Thermal Compressor",
-		[
-			GeneratorIO.new(
-				ResourceIds.HEAT,
-				45000.0
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				24.0,
-				true
-			),
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				8
-			)
-		],
-		2000000.0,
-		1.22,
-		ResourceIds.HEAT,
-		false,
-		0.0,
-		[],
-		"res://Generators/Thermal_Compressor.png"
-	)
-	
-	var generator = Generator.new(definition)
-	generator.unlocked = false
-	generator.initial_unlocked = false
-	return generator
-
-func _create_thermal_furnace() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"thermal_furnace",
-		"Infernal Condensation",
-		[
-			GeneratorIO.new(
-				ResourceIds.HEAT,
-				300.0
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				0.14,
-				true
-			),
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				0.08
-			)
-		],
-		1000.0,
-		1.22,
-		ResourceIds.HEAT,
-		false,
-		0.0,
-		[],
-		"res://Generators/Thermal_Condensation.png"
-	)
-	
-	var generator = Generator.new(definition)
-	generator.unlocked = false
-	generator.initial_unlocked = false
-	return generator
-
-
-func _create_lava_mite_colony() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"lava_mite_colony",
-		"Lava Mite Colony",
-		[
-			GeneratorIO.new(
-				ResourceIds.HEAT,
-				1000.0
-			),
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				0.15
-			),
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				1.2
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.ESSENCE,
-				0.0005,
-				true,
-				false
-			)
-		],
-		150.0,
-		1.2,
-		ResourceIds.MATTER,
-		false,
-		0.0,
-		[],
-		"res://Generators/Lava_Mite_Colony.png"
-	)
-	
-	var generator = Generator.new(definition)
-	generator.unlocked = false
-	generator.initial_unlocked = false
-	return generator
-
-
-func _create_matter_furnace() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"matter_furnace",
-		"Matter Furnace",
-		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				2.5
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.HEAT,
-				7500.0
-			),
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				1.5
-			)
-		],
-		175.0,
-		1.3,
-		ResourceIds.MATTER,
-		false,
-		0.0,
-		[],
-		"res://Generators/Matter_Furnace.png"
-	)
-	
-	var generator = Generator.new(definition)
-	generator.unlocked = false
-	generator.initial_unlocked = false
-	return generator
-
-
-func _create_infernal_forge() -> Generator:
-	var definition = GeneratorDefinition.new(
-		"infernal_forge",
-		"Infernal Forge",
-		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				4.5
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				5.0
-			)
-		],
-		10000000.0,
-		2.0,
-		ResourceIds.HEAT,
-		true,
-		600.0,
-		[
-			GeneratorIO.new(
-				ResourceIds.CRYSTALIZED_FLAME,
-				1.0,
-				true
-			)
-		], 
-		"res://Generators/Infernal_Forge.png"
-	)
-	
-	var generator = Generator.new(definition)
-	generator.unlocked = false
-	generator.initial_unlocked = false
-	return generator
 
 
 # -------------------------------------------------------------------
@@ -1391,20 +1163,35 @@ func _create_lava_mite_adaptation() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"lava_mite_adaptation",
 		"Lava Mite Adaptation",
-		"Lava Mites become increasingly ravenous for Ash at higher Ash levels.",
+		"Lava Mites become increasingly active at higher Ash levels.",
 		ResourceIds.MATTER,
 		1500.0,
 		[
-			UpgradeEffect.dynamic_resource_modifier(
+			(
+				UpgradeEffect.dynamic_resource_modifier(
 				"lava_mite_colony",
 				ModifierTypes.INPUT_DRAW,
 				0.20,
 				ResourceIds.ASH,
 				Modifier.DYNAMIC_RESOURCE_POWER_THRESHOLD,
 				"lava_mite_ash_adaptation",
-				ResourceIds.ASH,
+				"",
 				250.0,
 				0.3
+				)
+			),
+				(
+				UpgradeEffect.dynamic_resource_modifier(
+				"lava_mite_colony",
+				ModifierTypes.PRODUCTION,
+				0.30,
+				ResourceIds.ASH,
+				Modifier.DYNAMIC_RESOURCE_POWER_THRESHOLD,
+				"lava_mite_ash_adaptation",
+				"",
+				250.0,
+				0.4
+				)
 			)
 		],
 		[
@@ -1440,6 +1227,11 @@ func _create_lava_mite_essence() -> Upgrade:
 			UpgradeEffect.unlock_output(
 				"lava_mite_colony",
 				ResourceIds.ESSENCE
+			)
+			,UpgradeEffect.sensitivity(
+				"lava_mite_colony",
+				"ashen_contamination",
+				0
 			)
 		],
 		[
@@ -1972,6 +1764,63 @@ func set_resource_amount(
 		return
 	
 	resources[resource_id].amount = amount
+	
+	resource_statistics.update_highest(
+		resource_id,
+		amount
+	)
+	
+	current_run_statistics.update_highest(
+		resource_id,
+		amount
+	)
+
+func record_resource_produced(
+	resource_id: String,
+	amount: float
+	) -> void:
+	
+	resource_statistics.record_produced(
+		resource_id,
+		amount
+	)
+	
+	current_run_statistics.record_produced(
+		resource_id,
+		amount
+	)
+
+
+func record_resource_consumed(
+	resource_id: String,
+	amount: float
+	) -> void:
+	
+	resource_statistics.record_consumed(
+		resource_id,
+		amount
+	)
+	
+	current_run_statistics.record_consumed(
+		resource_id,
+		amount
+	)
+
+
+func record_resource_lost(
+	resource_id: String,
+	amount: float
+	) -> void:
+	
+	resource_statistics.record_lost(
+		resource_id,
+		amount
+	)
+	
+	current_run_statistics.record_lost(
+		resource_id,
+		amount
+	)
 
 
 func get_lava_mite_dormancy_penalty() -> float:
@@ -2262,6 +2111,8 @@ func reset_current_run() -> void:
 		upgrade.reset()
 	
 	lava_mite_dormancy_penalty = 0.0
+	
+	current_run_statistics.reset()
 	
 	var atomic_friction = get_generator(
 		"atomic_friction"

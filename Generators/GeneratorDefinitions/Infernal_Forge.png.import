@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://to8u2tmdq4v0"
-path="res://.godot/imported/Matter_Furnace.png-858809529d0f8f77219a626c0b4fd85a.ctex"
+uid="uid://6pc30dukgk3p"
+path="res://.godot/imported/Infernal_Forge.png-922d5fcc6e30c405da9e7abc50dae910.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generators/Matter_Furnace.png"
-dest_files=["res://.godot/imported/Matter_Furnace.png-858809529d0f8f77219a626c0b4fd85a.ctex"]
+source_file="res://Generators/GeneratorDefinitions/Infernal_Forge.png"
+dest_files=["res://.godot/imported/Infernal_Forge.png-922d5fcc6e30c405da9e7abc50dae910.ctex"]
 
 [params]
 

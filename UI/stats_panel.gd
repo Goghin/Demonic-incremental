@@ -8,14 +8,15 @@ const RESOURCE_AMOUNT_WIDTH := 100
 const RESOURCE_PRODUCTION_WIDTH := 115
 const RESOURCE_CONSUMPTION_WIDTH := 115
 const RESOURCE_NET_WIDTH := 115
-
+const RESOURCE_STATISTICS_NAME_WIDTH := 110
+const RESOURCE_STATISTICS_VALUE_WIDTH := 100
 
 var state: GameState
 var stats: GameStats
 var time_manager: TimeManager
 
 var resource_stat_rows: Dictionary = {}
-
+var resource_statistics_rows: Dictionary = {}
 
 func setup(
 	game_state: GameState,
@@ -26,7 +27,7 @@ func setup(
 	time_manager = game_time_manager
 	
 	_setup_resource_stats()
-
+	_setup_resource_statistics()
 
 func _process(_delta: float) -> void:
 	if stats == null or time_manager == null:
@@ -34,9 +35,9 @@ func _process(_delta: float) -> void:
 	
 	update_time_stats()
 	update_resource_stats()
+	update_resource_statistics()
 	update_pressure_stats()
 	update_generator_stats()
-	
 
 func _setup_resource_stats() -> void:
 	var container = (
@@ -155,6 +156,83 @@ func _setup_resource_stats() -> void:
 			"net": net_label
 		}
 
+func _setup_resource_statistics() -> void:
+	var container = (
+		$ScrollContainer/VBoxContainer/ResourceStatisticsContainer
+	)
+	
+	for child in container.get_children():
+		child.queue_free()
+	
+	for resource in state.get_resources().values():
+		var resource_id = resource.definition.id
+		
+		# Resource name
+		var name_label = _create_column_label(
+			resource.definition.display_name,
+			RESOURCE_STATISTICS_NAME_WIDTH,
+			HORIZONTAL_ALIGNMENT_LEFT,
+			11
+		)
+		
+		# Section containing This Realm and All Realms
+		var stats_container = VBoxContainer.new()
+		stats_container.size_flags_horizontal = (
+			Control.SIZE_EXPAND_FILL
+		)
+		
+		var this_realm_label = Label.new()
+		this_realm_label.text = "This Realm"
+		this_realm_label.add_theme_font_size_override(
+			"font_size",
+			10
+		)
+		
+		var this_realm_values = Label.new()
+		this_realm_values.add_theme_font_size_override(
+			"font_size",
+			11
+		)
+		
+		var all_realms_label = Label.new()
+		all_realms_label.text = "All Realms"
+		all_realms_label.add_theme_font_size_override(
+			"font_size",
+			10
+		)
+		
+		var all_realms_values = Label.new()
+		all_realms_values.add_theme_font_size_override(
+			"font_size",
+			11
+		)
+		
+		stats_container.add_child(
+			this_realm_label
+		)
+		stats_container.add_child(
+			this_realm_values
+		)
+		stats_container.add_child(
+			all_realms_label
+		)
+		stats_container.add_child(
+			all_realms_values
+		)
+		
+		var row = HBoxContainer.new()
+		row.custom_minimum_size = Vector2(0, 90)
+		
+		row.add_child(name_label)
+		row.add_child(stats_container)
+		
+		container.add_child(row)
+		
+		resource_statistics_rows[resource_id] = {
+			"this_realm": this_realm_values,
+			"all_realms": all_realms_values
+		}
+
 
 func _create_column_label(
 	text: String,
@@ -183,6 +261,74 @@ func _create_column_label(
 	
 	return label
 
+func update_resource_statistics() -> void:
+	for resource in state.get_resources().values():
+		var resource_id = resource.definition.id
+		
+		if not resource_statistics_rows.has(resource_id):
+			continue
+		
+		var row = resource_statistics_rows[resource_id]
+		
+		var current_run_statistics = (
+			state.current_run_statistics
+		)
+		
+		var lifetime_statistics = (
+			state.resource_statistics
+		)
+		
+		row["this_realm"].text = (
+			"Produced: %s    Consumed: %s    Lost: %s    Highest: %s"
+			% [
+				NumberFormatter.format(
+					current_run_statistics.get_total_produced(
+						resource_id
+					)
+				),
+				NumberFormatter.format(
+					current_run_statistics.get_total_consumed(
+						resource_id
+					)
+				),
+				NumberFormatter.format(
+					current_run_statistics.get_total_lost(
+						resource_id
+					)
+				),
+				NumberFormatter.format(
+					current_run_statistics.get_highest_amount(
+						resource_id
+					)
+				)
+			]
+		)
+		
+		row["all_realms"].text = (
+			"Produced: %s    Consumed: %s    Lost: %s    Highest: %s"
+			% [
+				NumberFormatter.format(
+					lifetime_statistics.get_total_produced(
+						resource_id
+					)
+				),
+				NumberFormatter.format(
+					lifetime_statistics.get_total_consumed(
+						resource_id
+					)
+				),
+				NumberFormatter.format(
+					lifetime_statistics.get_total_lost(
+						resource_id
+					)
+				),
+				NumberFormatter.format(
+					lifetime_statistics.get_highest_amount(
+						resource_id
+					)
+				)
+			]
+		)
 
 func update_time_stats() -> void:
 	$ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel.text = (
@@ -203,6 +349,11 @@ func update_time_stats() -> void:
 	$ScrollContainer/VBoxContainer/TimeStatsContainer/GameTimeLabel.text = (
 		"Game Time: %s"
 		% format_time(time_manager.game_time)
+	)
+	
+	$ScrollContainer/VBoxContainer/TimeStatsContainer/PrestigeTimeLabel.text = (
+		"Since Prestige: %s"
+		% format_time(time_manager.prestige_time)
 	)
 	
 	$ScrollContainer/VBoxContainer/TimeStatsContainer/TimeScaleLabel.text = (
@@ -323,12 +474,33 @@ func update_pressure_stats() -> void:
 	var heat_leakage = state.get_heat_leak_per_second()
 	var matter_decay = state.get_matter_decay_per_second()
 	
+	var heat_leak_threshold = (
+		state.realm_effects.heat_leak_threshold
+	)
+	
+	var matter_decay_threshold = (
+		state.realm_effects.matter_decay_threshold
+	)
+	
+	$ScrollContainer/VBoxContainer/PressureContainer/HeatLeakageThresholdLabel.text = (
+		"Leak Threshold: %s"
+		% NumberFormatter.format(heat_leak_threshold)
+	)
+	
 	$ScrollContainer/VBoxContainer/PressureContainer/HeatLeakageLabel.text = (
-		"Heat Leakage: %s /s"
+		"Leakage: %s /s"
 		% NumberFormatter.format(heat_leakage)
 	)
 	
+	$ScrollContainer/VBoxContainer/PressureContainer/MatterDecayThresholdLabel.text = (
+		"Decay Threshold: %s Matter"
+		% NumberFormatter.format(matter_decay_threshold)
+	)
+	
 	$ScrollContainer/VBoxContainer/PressureContainer/MatterDecayLabel.text = (
-		"Matter Decay: %s /s"
-		% NumberFormatter.format(matter_decay)
+		"Decay: %s Matter/s → %s Heat/s"
+		% [
+			NumberFormatter.format(matter_decay),
+			NumberFormatter.format(matter_decay)
+		]
 	)

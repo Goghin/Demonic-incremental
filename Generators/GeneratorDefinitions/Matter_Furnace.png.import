@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://do51wnf0jfev1"
-path="res://.godot/imported/Molecular_Agitation.png-14fd6452d1ee0319d64ed84cde64eef8.ctex"
+uid="uid://to8u2tmdq4v0"
+path="res://.godot/imported/Matter_Furnace.png-081529dab3da8b08528f8eb150f4904f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generators/Molecular_Agitation.png"
-dest_files=["res://.godot/imported/Molecular_Agitation.png-14fd6452d1ee0319d64ed84cde64eef8.ctex"]
+source_file="res://Generators/GeneratorDefinitions/Matter_Furnace.png"
+dest_files=["res://.godot/imported/Matter_Furnace.png-081529dab3da8b08528f8eb150f4904f.ctex"]
 
 [params]
 

@@ -1,4 +1,3 @@
-
 class_name SaveManager
 extends RefCounted
 
@@ -18,7 +17,14 @@ func save_game(
 		"last_real_timestamp": time_manager.get_current_timestamp(),
 		"game_time": time_manager.game_time,
 		"active_time": time_manager.active_time,
-		"offline_time": time_manager.offline_time
+		"offline_time": time_manager.offline_time,
+		"prestige_time": time_manager.prestige_time,
+		"stabilization_countdown_active": (
+			time_manager.stabilization_countdown_active
+		),
+		"stabilization_remaining": (
+			time_manager.stabilization_remaining
+		)
 	}
 	
 	var file = FileAccess.open(
@@ -118,6 +124,28 @@ func load_game(
 			save_data["offline_time"]
 		)
 	
+	if save_data.has("prestige_time"):
+		time_manager.prestige_time = float(
+			save_data["prestige_time"]
+		)
+	
+	if save_data.has("stabilization_countdown_active"):
+		time_manager.stabilization_countdown_active = bool(
+			save_data["stabilization_countdown_active"]
+		)
+	
+	if save_data.has("stabilization_remaining"):
+		time_manager.stabilization_remaining = max(
+			0.0,
+			float(
+				save_data["stabilization_remaining"]
+			)
+		)
+	
+	# A stabilized realm can never have an active countdown.
+	if state.realm_stabilized:
+		time_manager.cancel_stabilization_countdown()
+	
 	return true
 
 
@@ -129,6 +157,8 @@ func state_to_dictionary(
 		"resources": {},
 		"generators": {},
 		"upgrades": {},
+		"resource_statistics": state.resource_statistics.to_dictionary(),
+		"current_run_statistics": state.current_run_statistics.to_dictionary(),
 		"eternal_flame_state": {
 			"eternal_flame": state.eternal_flame_state.eternal_flame,
 			"spent_flames": state.eternal_flame_state.spent_flames,
@@ -146,7 +176,7 @@ func state_to_dictionary(
 			"locked": state.realm_configuration.locked
 		},
 		"realm_stabilized": state.realm_stabilized
-		}
+	}
 	
 	for resource in state.get_resources().values():
 		var resource_id = resource.definition.id
@@ -166,7 +196,8 @@ func state_to_dictionary(
 			"production_progress": generator.production_progress,
 			"manually_paused": generator.manually_paused,
 			"cycle_active": generator.cycle_active,
-			"cycle_progress": generator.cycle_progress
+			"cycle_progress": generator.cycle_progress,
+			"operation_mode_id": generator.operation_mode_id
 		}
 	
 	for upgrade in state.upgrades.values():
@@ -194,7 +225,6 @@ func dictionary_to_state(
 	if not data.has("upgrades"):
 		return false
 	
-	
 	# --------------------------------------------------------
 	# RESOURCES
 	# --------------------------------------------------------
@@ -212,8 +242,29 @@ func dictionary_to_state(
 			resource_id,
 			float(resources_data[resource_id])
 		)
+		
+	var resource_statistics_data = data.get(
+		"resource_statistics",
+		{}
+	)
+
+	if resource_statistics_data is Dictionary:
+		state.resource_statistics.from_dictionary(
+		resource_statistics_data
+	)
+
+
+	var current_run_statistics_data = data.get(
+		"current_run_statistics",
+		{}
+	)
+
+	if current_run_statistics_data is Dictionary:
+		state.current_run_statistics.from_dictionary(
+		current_run_statistics_data
+	)
 	
-		# --------------------------------------------------------
+	# --------------------------------------------------------
 	# ETERNAL FLAME
 	# --------------------------------------------------------
 	
@@ -235,12 +286,12 @@ func dictionary_to_state(
 				state.eternal_flame_state.total_crystallized_flame = float(
 					eternal_flame_data["total_crystallized_flame"]
 				)
-				
+			
 			if eternal_flame_data.has("spent_flames"):
 				state.eternal_flame_state.spent_flames = float(
-				eternal_flame_data["spent_flames"]
+					eternal_flame_data["spent_flames"]
 				)
-				
+			
 			if eternal_flame_data.has("upgrade_levels"):
 				var upgrade_levels_data = (
 					eternal_flame_data["upgrade_levels"]
@@ -253,7 +304,7 @@ func dictionary_to_state(
 						state.eternal_flame_state.upgrade_levels[upgrade_id] = int(
 							upgrade_levels_data[upgrade_id]
 						)
-						
+			
 			if eternal_flame_data.has("unlocked_technologies"):
 				var unlocked_technologies_data = (
 					eternal_flame_data["unlocked_technologies"]
@@ -266,52 +317,50 @@ func dictionary_to_state(
 						state.eternal_flame_state.unlocked_technologies[technology_id] = bool(
 							unlocked_technologies_data[technology_id]
 						)
-
-
+	
 	# --------------------------------------------------------
 	# REALM CONFIGURATION
 	# --------------------------------------------------------
-
+	
 	if data.has("realm_configuration"):
 		var realm_configuration_data = data["realm_configuration"]
-	
+		
 		if realm_configuration_data is Dictionary:
 			if realm_configuration_data.has("stability"):
 				state.realm_configuration.stability = int(
-				realm_configuration_data["stability"]
-			)
-		
+					realm_configuration_data["stability"]
+				)
+			
 			if realm_configuration_data.has("density"):
 				state.realm_configuration.density = int(
-				realm_configuration_data["density"]
-			)
-		
+					realm_configuration_data["density"]
+				)
+			
 			if realm_configuration_data.has("integrity"):
 				state.realm_configuration.integrity = int(
-				realm_configuration_data["integrity"]
-			)
-		
+					realm_configuration_data["integrity"]
+				)
+			
 			if realm_configuration_data.has("intensity"):
 				state.realm_configuration.intensity = int(
-				realm_configuration_data["intensity"]
-			)
-		
+					realm_configuration_data["intensity"]
+				)
+			
 			if realm_configuration_data.has("resonance"):
 				state.realm_configuration.resonance = int(
-				realm_configuration_data["resonance"]
-			)
-		
+					realm_configuration_data["resonance"]
+				)
+			
 			if realm_configuration_data.has("locked"):
 				state.realm_configuration.locked = bool(
-				realm_configuration_data["locked"]
-			)
-
-
+					realm_configuration_data["locked"]
+				)
+	
 	if data.has("realm_stabilized"):
 		state.realm_stabilized = bool(
 			data["realm_stabilized"]
-	)			
-
+		)
+	
 	# --------------------------------------------------------
 	# GENERATORS
 	# --------------------------------------------------------
@@ -369,8 +418,15 @@ func dictionary_to_state(
 			generator.cycle_progress = float(
 				generator_data["cycle_progress"]
 			)
+			
+		if generator_data.has("operation_mode_id"):
+			var operation_mode_id = str(
+			generator_data["operation_mode_id"]
+			)
 	
-	
+			generator.load_operation_mode(
+			operation_mode_id
+			)
 	# --------------------------------------------------------
 	# UPGRADES
 	# --------------------------------------------------------
@@ -406,14 +462,13 @@ func dictionary_to_state(
 			upgrade.level = int(
 				upgrade_data["level"]
 			)
-			
-	state.realm_effects.rebuild(
-	state.realm_configuration,
-	state.eternal_flame_state,
-	state.eternal_flame_upgrade_manager,
-	state.heat_leak_threshold,
-	state.matter_decay_threshold
-	)
 	
+	state.realm_effects.rebuild(
+		state.realm_configuration,
+		state.eternal_flame_state,
+		state.eternal_flame_upgrade_manager,
+		state.heat_leak_threshold,
+		state.matter_decay_threshold
+	)
 	
 	return true

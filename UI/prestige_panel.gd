@@ -1,4 +1,3 @@
-
 class_name PrestigePanel
 extends Control
 
@@ -96,6 +95,10 @@ func setup(
 	_create_shop_ui()
 	
 	_show_distribution_panel()
+	
+	# Offline simulation can finish a stabilization countdown
+	# before this panel exists.
+	_check_stabilization_completion()
 	
 	refresh()
 
@@ -281,7 +284,6 @@ func _create_realm_ui() -> void:
 	)
 
 
-
 func _create_realm_stat_row(
 	stat_name: String,
 	display_name: String
@@ -398,21 +400,21 @@ func _create_shop_ui() -> void:
 	
 	eternal_flame_shop_scroll = ScrollContainer.new()
 	eternal_flame_shop_scroll.name = "EternalFlameShopScroll"
-
+	
 	eternal_flame_shop_scroll.size_flags_horizontal = (
 		Control.SIZE_EXPAND_FILL
 	)
-
+	
 	eternal_flame_shop_scroll.size_flags_vertical = (
 		Control.SIZE_EXPAND_FILL
 	)
-
+	
 	eternal_flame_shop_scroll.custom_minimum_size = Vector2(0, 100)
-
+	
 	eternal_flame_shop_scroll.horizontal_scroll_mode = (
 		ScrollContainer.SCROLL_MODE_DISABLED
 	)
-
+	
 	shop_panel.add_child(
 		eternal_flame_shop_scroll
 	)
@@ -421,20 +423,20 @@ func _create_shop_ui() -> void:
 	eternal_flame_upgrade_container.name = (
 		"EternalFlameUpgradeContainer"
 	)
-
+	
 	eternal_flame_upgrade_container.size_flags_horizontal = (
 		Control.SIZE_EXPAND_FILL
 	)
-
+	
 	eternal_flame_upgrade_container.size_flags_vertical = (
 		Control.SIZE_SHRINK_BEGIN
 	)
-
+	
 	eternal_flame_upgrade_container.add_theme_constant_override(
 		"separation",
 		8
 	)
-
+	
 	eternal_flame_shop_scroll.add_child(
 		eternal_flame_upgrade_container
 	)
@@ -443,10 +445,12 @@ func _create_shop_ui() -> void:
 		_create_eternal_flame_upgrade_row(
 			upgrade_id
 		)
+	
 	print(
-	"Eternal Flame shop rows: ",
-	eternal_flame_upgrade_container.get_child_count()
+		"Eternal Flame shop rows: ",
+		eternal_flame_upgrade_container.get_child_count()
 	)
+
 
 func _create_eternal_flame_upgrade_row(
 	upgrade_id: String
@@ -568,21 +572,77 @@ func _show_shop_panel() -> void:
 
 
 # ----------------------------------------------------------------
-# Realm Interaction
+# Realm Stabilization
 # ----------------------------------------------------------------
 
 func _on_stabilize_realm_pressed() -> void:
-	if state == null:
+	if state == null or time_manager == null:
+		return
+	
+	if state.realm_stabilized:
+		return
+	
+	if time_manager.is_stabilization_countdown_active():
+		return
+	
+	if time_manager.start_stabilization_countdown():
+		save_manager.save_game(
+			state,
+			time_manager
+		)
+		
+		refresh()
+
+
+func _check_stabilization_completion() -> void:
+	if state == null or time_manager == null:
+		return
+	
+	if not time_manager.is_stabilization_countdown_active():
+		return
+	
+	if time_manager.get_stabilization_remaining() > 0.0:
+		return
+	
+	if state.realm_stabilized:
+		time_manager.cancel_stabilization_countdown()
 		return
 	
 	if state.stabilize_realm():
-		refresh()
+		time_manager.cancel_stabilization_countdown()
 		
 		save_manager.save_game(
 			state,
 			time_manager
 		)
 
+
+func _format_stabilization_time(
+	seconds: float
+	) -> String:
+	
+	var remaining = max(
+		0,
+		int(ceil(seconds))
+	)
+	
+	var minutes = int(
+		remaining / 60
+	)
+	
+	var seconds_part = int(
+		remaining % 60
+	)
+	
+	return "%02d:%02d" % [
+		minutes,
+		seconds_part
+	]
+
+
+# ----------------------------------------------------------------
+# Realm Interaction
+# ----------------------------------------------------------------
 
 func _on_realm_plus_pressed(
 	stat_name: String
@@ -693,8 +753,25 @@ func refresh() -> void:
 	_refresh_eternal_flame_upgrade_ui()
 	
 	if stabilize_button != null:
-		stabilize_button.visible = not state.realm_stabilized
-		stabilize_button.disabled = state.realm_stabilized
+		if state.realm_stabilized:
+			stabilize_button.visible = true
+			stabilize_button.disabled = true
+			stabilize_button.text = "REALM STABILIZED"
+		elif time_manager != null and (
+			time_manager.is_stabilization_countdown_active()
+		):
+			stabilize_button.visible = true
+			stabilize_button.disabled = true
+			stabilize_button.text = (
+				"STABILIZING  %s"
+				% _format_stabilization_time(
+					time_manager.get_stabilization_remaining()
+				)
+			)
+		else:
+			stabilize_button.visible = true
+			stabilize_button.disabled = false
+			stabilize_button.text = "STABILIZE REALM"
 
 
 func _refresh_realm_ui() -> void:
@@ -736,9 +813,9 @@ func _refresh_realm_ui() -> void:
 		)
 		
 		var row = realm_rows[stat_name]
-
+		
 		row["value_label"].text = str(value)
-
+		
 		row["effect_label"].text = (
 			_get_realm_effect_text(stat_name)
 		)
@@ -841,6 +918,11 @@ func _on_smash_button_pressed() -> void:
 		" Eternal Flame."
 	)
 	
+	# A new realm has now been created.
+	# Its prestige timer starts from zero immediately.
+	time_manager.reset_prestige_time()
+	time_manager.start_stabilization_countdown()
+	
 	refresh()
 	
 	run_reset.emit()
@@ -849,6 +931,7 @@ func _on_smash_button_pressed() -> void:
 		state,
 		time_manager
 	)
+
 
 # ----------------------------------------------------------------
 # Eternal Flame Shop
@@ -960,6 +1043,14 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 # ----------------------------------------------------------------
 
 func _process(_delta: float) -> void:
+	if state == null or time_manager == null:
+		return
+	
+	# This must run even when the Prestige panel is hidden.
+	# Offline simulation or normal gameplay can finish the countdown
+	# while the panel is not visible.
+	_check_stabilization_completion()
+	
 	if not visible:
 		return
 	

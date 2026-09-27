@@ -7,6 +7,7 @@ var input_handler: InputHandler
 var generator_id: String
 var current_illustration_path: String = ""
 
+
 func setup(
 	game_state: GameState,
 	game_input_handler: InputHandler,
@@ -28,6 +29,7 @@ func _process(_delta: float) -> void:
 		return
 	
 	update_illustration(generator)
+	update_operation_mode_ui(generator)
 	
 	if not generator.unlocked:
 		$HBoxContainer/VBoxContainer/LevelLabel.text = "Locked"
@@ -78,7 +80,7 @@ func _process(_delta: float) -> void:
 	
 	var input_text = ""
 	
-	for input in generator.definition.inputs:
+	for input in generator.get_active_inputs():
 		var input_rate = 0.0
 		
 		if operating:
@@ -145,6 +147,74 @@ func _process(_delta: float) -> void:
 	)
 
 
+func update_operation_mode_ui(
+	generator: Generator
+	) -> void:
+	
+	var option_button = (
+		$HBoxContainer/VBoxContainer/OperationModeOptionButton
+	)
+	
+	var modes = generator.definition.operation_modes
+	
+	if modes.size() <= 1:
+		option_button.visible = false
+		return
+	
+	option_button.visible = true
+	
+	var selected_index = 0
+	
+	if option_button.item_count != modes.size():
+		option_button.clear()
+		
+		for i in range(modes.size()):
+			var mode = modes[i]
+			
+			option_button.add_item(
+				mode.display_name
+			)
+			
+			if mode.id == generator.operation_mode_id:
+				selected_index = i
+		
+		option_button.select(selected_index)
+	else:
+		for i in range(modes.size()):
+			if modes[i].id == generator.operation_mode_id:
+				selected_index = i
+				break
+		
+		if option_button.selected != selected_index:
+			option_button.select(selected_index)
+	
+	option_button.disabled = (
+		not generator.can_change_operation_mode()
+	)
+
+
+func _on_operation_mode_option_button_item_selected(
+	index: int
+	) -> void:
+	
+	if state == null:
+		return
+	
+	var generator = state.get_generator(generator_id)
+	
+	if generator == null:
+		return
+	
+	var modes = generator.definition.operation_modes
+	
+	if index < 0 or index >= modes.size():
+		return
+	
+	generator.set_operation_mode(
+		modes[index].id
+	)
+
+
 func _on_buy_button_pressed() -> void:
 	if input_handler == null:
 		return
@@ -159,6 +229,7 @@ func _on_pause_button_pressed() -> void:
 	input_handler.toggle_generator_pause(
 		generator_id
 	)
+
 
 func update_illustration(
 	generator: Generator

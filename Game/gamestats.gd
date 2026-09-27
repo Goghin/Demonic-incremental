@@ -129,8 +129,10 @@ func get_resource_actual_consumption_per_second(
 	if resource_id == ResourceIds.HEAT:
 		total += get_heat_leak_per_second()
 	
+	elif resource_id == ResourceIds.MATTER:
+		total += state.get_matter_decay_per_second()
+	
 	return total
-
 
 # Potential net rate.
 func get_resource_net_per_second(

@@ -1,3 +1,4 @@
+
 class_name GeneratorStatsEntry
 extends Control
 
@@ -163,16 +164,12 @@ func get_detail_structure_signature(
 			resource_id,
 			[]
 		)
-
+		
 		signature += "realm_effects:"
-
+		
 		for effect in realm_effects:
 			signature += str(effect["name"])
 			signature += ";"
-		
-		
-		
-		
 		
 		var modifiers = stats.get_generator_production_modifiers(
 			generator.definition.id,
@@ -211,14 +208,20 @@ func get_detail_structure_signature(
 			)
 			signature += ";"
 	
-	# Generator modifiers
-	signature += "|generator_modifiers:"
+	# Misc modifiers
+	signature += "|misc:"
 	
 	var generator_modifiers = stats.get_generator_modifiers(
 		generator.definition.id
 	)
 	
 	for modifier in generator_modifiers:
+		if modifier["type"] == ModifierTypes.PRODUCTION:
+			continue
+		
+		if modifier["type"] == ModifierTypes.INPUT_DRAW:
+			continue
+		
 		signature += str(
 			modifier["type"]
 		)
@@ -226,21 +229,6 @@ func get_detail_structure_signature(
 		signature += str(
 			stats.get_modifier_source_name(
 				modifier
-			)
-		)
-		signature += ";"
-	
-	# Sensitivities
-	signature += "|sensitivities:"
-	
-	for sensitivity in generator.modifier_sensitivities:
-		signature += str(
-			sensitivity.modifier_id
-		)
-		signature += ":"
-		signature += str(
-			stats.get_sensitivity_source_name(
-				sensitivity
 			)
 		)
 		signature += ";"
@@ -266,19 +254,57 @@ func rebuild_details(
 		stats_data
 	)
 	
+	add_detail_separator()
+	
 	build_consumption_details(
 		stats_data
 	)
 	
+	add_detail_separator()
+	
 	build_modifier_details(
 		generator
 	)
+
+func apply_modifier_color(
+	label: Label,
+	modifier_type: String,
+	multiplier: float
+	) -> void:
 	
-	build_sensitivity_details(
-		generator
-	)
-
-
+	var is_positive = false
+	
+	match modifier_type:
+		ModifierTypes.PRODUCTION:
+			is_positive = multiplier > 1.0
+		
+		ModifierTypes.INPUT_DRAW:
+			is_positive = multiplier < 1.0
+		
+		ModifierTypes.COST:
+			is_positive = multiplier < 1.0
+		
+		ModifierTypes.COST_SCALING:
+			is_positive = multiplier < 1.0
+		
+		_:
+			is_positive = multiplier > 1.0
+	
+	if is_equal_approx(multiplier, 1.0):
+		label.remove_theme_color_override("font_color")
+		return
+	
+	if is_positive:
+		label.add_theme_color_override(
+			"font_color",
+			Color(0.35, 0.85, 0.45)
+		)
+	else:
+		label.add_theme_color_override(
+			"font_color",
+			Color(0.9, 0.35, 0.35)
+		)
+		
 func create_stats_label(
 	text: String,
 	font_size: int = 11
@@ -292,6 +318,12 @@ func create_stats_label(
 	)
 	
 	return label
+
+
+func add_detail_separator() -> void:
+	var separator = HSeparator.new()
+	
+	detail_container.add_child(separator)
 
 
 func add_detail_row(
@@ -311,6 +343,14 @@ func add_detail_row(
 	})
 
 
+
+func add_resource_separator() -> void:
+	var spacer = Control.new()
+	spacer.custom_minimum_size.y = 3.0
+	
+	detail_container.add_child(spacer)
+
+
 func build_production_details(
 	generator: Generator,
 	stats_data: Dictionary
@@ -326,7 +366,14 @@ func build_production_details(
 		"production_title"
 	)
 	
+	var production_index = 0
+	
 	for resource_id in stats_data["production"]:
+		if production_index > 0:
+			add_resource_separator()
+		
+		production_index += 1
+		
 		var resource_name = state.get_resource_display_name(
 			resource_id
 		)
@@ -351,7 +398,7 @@ func build_production_details(
 		for realm_index in range(realm_effects.size()):
 			var realm_label = create_stats_label(
 				"",
-				11
+				10
 			)
 			
 			add_detail_row(
@@ -370,7 +417,7 @@ func build_production_details(
 		for modifier_index in range(modifiers.size()):
 			var modifier_label = create_stats_label(
 				"",
-				11
+				10
 			)
 			
 			add_detail_row(
@@ -409,7 +456,14 @@ func build_consumption_details(
 		"consumption_title"
 	)
 	
+	var consumption_index = 0
+	
 	for resource_id in stats_data["consumption"]:
+		if consumption_index > 0:
+			add_resource_separator()
+		
+		consumption_index += 1
+		
 		var base_label = create_stats_label(
 			"",
 			11
@@ -429,7 +483,7 @@ func build_consumption_details(
 		for modifier_index in range(modifiers.size()):
 			var modifier_label = create_stats_label(
 				"",
-				11
+				10
 			)
 			
 			add_detail_row(
@@ -451,6 +505,8 @@ func build_consumption_details(
 		)
 
 
+
+
 func build_modifier_details(
 	generator: Generator
 	) -> void:
@@ -459,11 +515,22 @@ func build_modifier_details(
 		generator.definition.id
 	)
 	
-	if modifiers.is_empty():
+	var misc_modifiers: Array = []
+	
+	for modifier in modifiers:
+		if modifier["type"] == ModifierTypes.PRODUCTION:
+			continue
+		
+		if modifier["type"] == ModifierTypes.INPUT_DRAW:
+			continue
+		
+		misc_modifiers.append(modifier)
+	
+	if misc_modifiers.is_empty():
 		return
 	
 	var title = create_stats_label(
-		"Modifiers:",
+		"Misc:",
 		11
 	)
 	
@@ -472,10 +539,12 @@ func build_modifier_details(
 		"modifier_title"
 	)
 	
-	for modifier_index in range(modifiers.size()):
+	for modifier_index in range(
+		misc_modifiers.size()
+	):
 		var label = create_stats_label(
 			"",
-			11
+			10
 		)
 		
 		add_detail_row(
@@ -483,39 +552,6 @@ func build_modifier_details(
 			"modifier",
 			"",
 			modifier_index
-		)
-
-
-func build_sensitivity_details(
-	generator: Generator
-	) -> void:
-	
-	if generator.modifier_sensitivities.is_empty():
-		return
-	
-	var title = create_stats_label(
-		"Sensitivities:",
-		11
-	)
-	
-	add_detail_row(
-		title,
-		"sensitivity_title"
-	)
-	
-	for sensitivity_index in range(
-		generator.modifier_sensitivities.size()
-	):
-		var label = create_stats_label(
-			"",
-			11
-		)
-		
-		add_detail_row(
-			label,
-			"sensitivity",
-			"",
-			sensitivity_index
 		)
 
 
@@ -537,6 +573,7 @@ func update_detail_values(
 					resource_id,
 					stats_data
 				)
+			
 			"production_realm_effect":
 				update_production_realm_effect_label(
 					label,
@@ -544,6 +581,7 @@ func update_detail_values(
 					modifier_index,
 					stats_data
 				)
+			
 			"production_modifier":
 				update_production_modifier_label(
 					label,
@@ -585,13 +623,6 @@ func update_detail_values(
 					generator,
 					modifier_index
 				)
-			
-			"sensitivity":
-				update_sensitivity_label(
-					label,
-					generator,
-					modifier_index
-				)
 
 
 func update_production_base_label(
@@ -614,6 +645,7 @@ func update_production_base_label(
 		resource_name
 	]
 
+
 func update_production_realm_effect_label(
 	label: Label,
 	resource_id: String,
@@ -633,7 +665,11 @@ func update_production_realm_effect_label(
 	var effect = realm_effects[effect_index]
 	var multiplier = effect["multiplier"]
 	var effect_name = effect["name"]
-	
+	apply_modifier_color(
+	label,
+	ModifierTypes.PRODUCTION,
+	multiplier
+	)
 	label.text = "  ×%s  %s" % [
 		NumberFormatter.format(multiplier),
 		effect_name
@@ -666,7 +702,11 @@ func update_production_modifier_label(
 	var effective_multiplier = modifier[
 		"effective_multiplier"
 	]
-	
+	apply_modifier_color(
+	label,
+	ModifierTypes.PRODUCTION,
+	effective_multiplier
+	)
 	if is_equal_approx(
 		raw_multiplier,
 		effective_multiplier
@@ -752,12 +792,41 @@ func update_consumption_modifier_label(
 		modifier
 	)
 	
-	label.text = "  ×%s  Input draw — %s" % [
-		NumberFormatter.format(
-			modifier["current_multiplier"]
-		),
-		source_name
+	var raw_multiplier = modifier["current_multiplier"]
+	var effective_multiplier = modifier[
+		"effective_multiplier"
 	]
+	apply_modifier_color(
+	label,
+	ModifierTypes.INPUT_DRAW,
+	effective_multiplier
+	)
+	if is_equal_approx(
+		raw_multiplier,
+		effective_multiplier
+	):
+		label.text = "  ×%s  Input draw — %s" % [
+			NumberFormatter.format(
+				effective_multiplier
+			),
+			source_name
+		]
+	else:
+		label.text = (
+			"  ×%s  Input draw — %s "
+			+ "(raw ×%s, sensitivity ×%s)"
+		) % [
+			NumberFormatter.format(
+				effective_multiplier
+			),
+			source_name,
+			NumberFormatter.format(
+				raw_multiplier
+			),
+			NumberFormatter.format(
+				modifier["sensitivity"]
+			)
+		]
 
 
 func update_consumption_final_label(
@@ -790,12 +859,27 @@ func update_modifier_label(
 		generator.definition.id
 	)
 	
-	if modifier_index >= modifiers.size():
+	var misc_modifiers: Array = []
+	
+	for modifier in modifiers:
+		if modifier["type"] == ModifierTypes.PRODUCTION:
+			continue
+		
+		if modifier["type"] == ModifierTypes.INPUT_DRAW:
+			continue
+		
+		misc_modifiers.append(modifier)
+	
+	if modifier_index >= misc_modifiers.size():
 		label.text = ""
 		return
 	
-	var modifier = modifiers[modifier_index]
-	
+	var modifier = misc_modifiers[modifier_index]
+	apply_modifier_color(
+	label,
+	modifier["type"],
+	modifier["current_multiplier"]
+	)
 	label.text = "  %s: %s" % [
 		get_modifier_type_name(
 			modifier["type"]
@@ -803,37 +887,6 @@ func update_modifier_label(
 		stats.get_modifier_description_from_data(
 			modifier
 		)
-	]
-
-
-func update_sensitivity_label(
-	label: Label,
-	generator: Generator,
-	sensitivity_index: int
-	) -> void:
-	
-	if sensitivity_index >= generator.modifier_sensitivities.size():
-		label.text = ""
-		return
-	
-	var sensitivity = (
-		generator.modifier_sensitivities[
-			sensitivity_index
-		]
-	)
-	
-	var source_name = stats.get_sensitivity_source_name(
-		sensitivity
-	)
-	
-	label.text = "  %s: ×%s — %s" % [
-		stats.get_sensitivity_modifier_name(
-			sensitivity.modifier_id
-		),
-		NumberFormatter.format(
-			sensitivity.multiplier
-		),
-		source_name
 	]
 
 

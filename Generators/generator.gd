@@ -15,17 +15,21 @@ var operating: bool = false
 var cycle_active: bool = false
 var cycle_progress: float = 0.0
 
+var operation_mode_id: String = "normal"
 
 func _init(generator_definition: GeneratorDefinition) -> void:
 	definition = generator_definition
 	modifiers = []
 	production_progress = {}
 	
-	for output in definition.outputs:
+	if not definition.operation_modes.is_empty():
+		operation_mode_id = (
+			definition.operation_modes[0].id
+		)
+	
+	for output in get_active_outputs():
 		if output.discrete:
 			production_progress[output.resource_id] = 0.0
-
-
 
 func reset() -> void:
 	level = 0
@@ -39,10 +43,53 @@ func reset() -> void:
 	cycle_active = false
 	cycle_progress = 0.0
 	
+	operation_mode_id = "normal"
+	
+	if not definition.operation_modes.is_empty():
+		operation_mode_id = (
+			definition.operation_modes[0].id
+		)
+	
 	for resource_id in production_progress:
 		production_progress[resource_id] = 0.0
 		
+			
+func get_operation_mode() -> GeneratorOperationMode:
+	
+	for mode in definition.operation_modes:
+		if mode.id == operation_mode_id:
+			return mode
+	
+	if definition.operation_modes.is_empty():
+		return null
+	
+	return definition.operation_modes[0]	
 		
+func set_operation_mode(
+	mode_id: String
+	) -> bool:
+	
+	if not can_change_operation_mode():
+		return false
+	
+	for mode in definition.operation_modes:
+		if mode.id != mode_id:
+			continue
+		
+		operation_mode_id = mode.id
+		return true
+	
+	return false
+
+func can_change_operation_mode() -> bool:
+	
+	# Normal generators can change mode at any time.
+	if not definition.cycle_based:
+		return true
+	
+	# Cycle generators lock their mode once a cycle has started.
+	return not cycle_active
+	
 # Returns the maximum production rate this generator could produce
 # while operating at full capacity.
 func get_production_per_second(
@@ -50,22 +97,30 @@ func get_production_per_second(
 	) -> Array[GeneratorRate]:
 	
 	var production_outputs: Array[GeneratorRate] = []
+	var operation_mode = get_operation_mode()
 	
-	for output in definition.outputs:
+	for output in get_active_outputs():
 		if not output.unlocked:
 			continue
-			
+		
 		var production = (
 			output.amount_per_second
 			* level
 		)
 		
+		if operation_mode != null:
+			production *= operation_mode.production_multiplier
 		
 		if output.resource_id == ResourceIds.MATTER:
-			production *= state.realm_effects.matter_production_multiplier
+			production *= (
+				state.realm_effects.matter_production_multiplier
+			)
 
-		if output.resource_id == ResourceIds.HEAT:			
-			production *= state.realm_effects.heat_production_multiplier
+		if output.resource_id == ResourceIds.HEAT:
+			production *= (
+				state.realm_effects.heat_production_multiplier
+			)
+			
 			production *= (
 				state.eternal_flame_upgrade_manager.get_effective_multiplier(
 					"eternal_furnace",
@@ -94,7 +149,6 @@ func get_production_per_second(
 	
 	return production_outputs
 
-
 func get_cost(state: GameState) -> float:
 	var scaling = definition.cost_multiplier
 	
@@ -110,6 +164,11 @@ func get_cost(state: GameState) -> float:
 			)
 	
 	var cost = definition.base_cost
+	
+	var operation_mode = get_operation_mode()
+	
+	if operation_mode != null:
+		cost *= operation_mode.activation_cost_multiplier
 	
 	cost *= state.realm_effects.generator_cost_multiplier
 	
@@ -148,6 +207,10 @@ func get_input_rate(
 	) -> float:
 	
 	var input_per_second = input.amount_per_second
+	var operation_mode = get_operation_mode()
+	
+	if operation_mode != null:
+		input_per_second *= operation_mode.input_multiplier
 	
 	for modifier in modifiers:
 		if modifier.applies_to(
@@ -161,7 +224,6 @@ func get_input_rate(
 			)
 	
 	return input_per_second
-
 
 # Returns the actual input consumption rate for this generator,
 # including its current level and INPUT_DRAW modifiers.
@@ -203,7 +265,7 @@ func can_start_operating(
 	if definition.cycle_based and not cycle_active:
 		return false
 	
-	for input in definition.inputs:
+	for input in get_active_inputs():
 		var input_amount = state.get_resource_amount(
 			input.resource_id
 		)
@@ -230,7 +292,7 @@ func can_continue_operating(
 	if manually_paused:
 		return false
 	
-	for input in definition.inputs:
+	for input in get_active_inputs():
 		var input_amount = state.get_resource_amount(
 			input.resource_id
 		)
@@ -276,12 +338,14 @@ func set_production_progress(
 
 
 func get_cycle_progress_percent() -> float:
-	if definition.cycle_duration <= 0.0:
+	var cycle_duration = get_cycle_duration()
+	
+	if cycle_duration <= 0.0:
 		return 0.0
 	
 	return clamp(
 		cycle_progress
-		/ definition.cycle_duration
+		/ cycle_duration
 		* 100.0,
 		0.0,
 		100.0
@@ -328,3 +392,61 @@ func get_status() -> String:
 		return "Operating"
 	
 	return "Waiting for input"
+
+
+func get_active_inputs() -> Array[GeneratorIO]:
+	var operation_mode = get_operation_mode()
+	
+	if (
+		operation_mode != null
+		and not operation_mode.inputs.is_empty()
+	):
+		return operation_mode.inputs
+	
+	return definition.inputs
+
+func get_active_outputs() -> Array[GeneratorIO]:
+	var operation_mode = get_operation_mode()
+	
+	if (
+		operation_mode != null
+		and not operation_mode.outputs.is_empty()
+	):
+		return operation_mode.outputs
+	
+	return definition.outputs
+
+func get_active_completion_outputs() -> Array[GeneratorIO]:
+	var operation_mode = get_operation_mode()
+	
+	if (
+		operation_mode != null
+		and not operation_mode.completion_outputs.is_empty()
+	):
+		return operation_mode.completion_outputs
+	
+	return definition.completion_outputs
+
+func get_cycle_duration() -> float:
+	var operation_mode = get_operation_mode()
+	
+	if (
+		operation_mode != null
+		and operation_mode.cycle_duration > 0.0
+	):
+		return operation_mode.cycle_duration
+	
+	return definition.cycle_duration
+
+func load_operation_mode(
+	mode_id: String
+	) -> bool:
+	
+	for mode in definition.operation_modes:
+		if mode.id != mode_id:
+			continue
+		
+		operation_mode_id = mode.id
+		return true
+	
+	return false

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cejcn24vnpsea"
-path="res://.godot/imported/Thermal_Condensation.png-b4c37a147bed517a3771c94996c1029f.ctex"
+path="res://.godot/imported/Thermal_Condensation.png-308322a784cd8eea062c1ed2a1809287.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generators/Thermal_Condensation.png"
-dest_files=["res://.godot/imported/Thermal_Condensation.png-b4c37a147bed517a3771c94996c1029f.ctex"]
+source_file="res://Generators/GeneratorDefinitions/Thermal_Condensation.png"
+dest_files=["res://.godot/imported/Thermal_Condensation.png-308322a784cd8eea062c1ed2a1809287.ctex"]
 
 [params]
 

@@ -18,10 +18,10 @@ func _initialize_upgrades() -> void:
 			"Eternal Furnace",
 			"An eternal flame burns beneath the realm, permanently increasing Heat production.",
 			EternalFlameUpgrade.EFFECT_HEAT_PRODUCTION,
-			0.05,
+			0.15,
 			10,
 			2,
-			1.8
+			2
 		)
 	)
 	

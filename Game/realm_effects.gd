@@ -2,8 +2,8 @@ class_name RealmEffects
 extends RefCounted
 
 
-const STABILITY_THRESHOLD_BONUS: float = 0.05
-const UNASSIGNED_STABILITY_BONUS: float = 0.01
+const STABILITY_THRESHOLD_BONUS: float = 0.1
+const UNASSIGNED_STABILITY_BONUS: float = 0.02
 
 const DENSITY_THERMAL_MASS_BONUS: float = 0.05
 const UNASSIGNED_DENSITY_THERMAL_MASS_BONUS: float = 0.01

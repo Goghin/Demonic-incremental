@@ -57,6 +57,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Game Time: 0s"
 
+[node name="PrestigeTimeLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimeStatsContainer" unique_id=1615795830]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Current Prestige Time: 0s"
+
 [node name="TimeScaleLabel" type="Label" parent="ScrollContainer/VBoxContainer/TimeStatsContainer" unique_id=43370042]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
@@ -76,15 +81,28 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Pressure"
 
+[node name="HeatLeakageThresholdLabel" type="Label" parent="ScrollContainer/VBoxContainer/PressureContainer" unique_id=1227789898]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Heat Leakage: 0 /s"
+
 [node name="HeatLeakageLabel" type="Label" parent="ScrollContainer/VBoxContainer/PressureContainer" unique_id=318649275]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Heat Leakage: 0 /s"
 
+[node name="MatterDecayThresholdLabel" type="Label" parent="ScrollContainer/VBoxContainer/PressureContainer" unique_id=1064106923]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Matter Decay: 0 /s"
+
 [node name="MatterDecayLabel" type="Label" parent="ScrollContainer/VBoxContainer/PressureContainer" unique_id=764215832]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Matter Decay: 0 /s"
+
+[node name="ResourceStatisticsContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=306330940]
+layout_mode = 2
 
 [node name="GeneratorStatsContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=756537500]
 layout_mode = 2

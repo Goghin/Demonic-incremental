@@ -18,8 +18,8 @@ func _init(game_state: GameState) -> void:
 # Cycle-based generators only operate while a cycle is active.
 
 func update(delta: float) -> void:
-	if not state.realm_stabilized:
-		return
+	#if not state.realm_stabilized:
+		#return
 	
 	update_automatic_upgrades()
 	
@@ -106,17 +106,21 @@ func update_cycle_generator(
 	# Advance cycle progress.
 	generator.cycle_progress += delta
 	
-	if generator.cycle_progress >= generator.definition.cycle_duration:
-		generator.cycle_progress = generator.definition.cycle_duration
-		complete_cycle(generator)
+	var cycle_duration = generator.get_cycle_duration()
 
+	if generator.cycle_progress >= cycle_duration:
+		generator.cycle_progress = cycle_duration
+		complete_cycle(generator)
 
 # Complete an active cycle.
 #
 # Completion outputs are produced here, after the cycle has
 # successfully reached its duration.
-func complete_cycle(generator: Generator) -> void:
-	for output in generator.definition.completion_outputs:
+func complete_cycle(
+	generator: Generator
+	) -> void:
+	
+	for output in generator.get_active_completion_outputs():
 		var amount = (
 			output.amount_per_second
 			* generator.level
@@ -142,12 +146,27 @@ func complete_cycle(generator: Generator) -> void:
 			current_amount + amount
 		)
 		
+		state.record_resource_produced(
+			output.resource_id,
+			amount
+		)
+		
 		# Creating Crystallized Flame consumes all accumulated Heat.
 		if output.resource_id == ResourceIds.CRYSTALIZED_FLAME:
-			state.set_resource_amount(
-				ResourceIds.HEAT,
-				0.0
+			var current_heat = state.get_resource_amount(
+				ResourceIds.HEAT
 			)
+			
+			if current_heat > 0.0:
+				state.record_resource_lost(
+					ResourceIds.HEAT,
+					current_heat
+				)
+				
+				state.set_resource_amount(
+					ResourceIds.HEAT,
+					0.0
+				)
 	
 	generator.cycle_active = false
 	generator.operating = false
@@ -160,7 +179,7 @@ func consume_inputs(
 	delta: float
 	) -> void:
 	
-	for input in generator.definition.inputs:
+	for input in generator.get_active_inputs():
 		var input_amount = state.get_resource_amount(
 			input.resource_id
 		)
@@ -177,11 +196,23 @@ func consume_inputs(
 			* delta
 		)
 		
+		var consumed_input = min(
+			required_input,
+			input_amount
+		)
+		
+		if consumed_input <= 0.0:
+			continue
+		
 		state.set_resource_amount(
 			input.resource_id,
-			input_amount - required_input
+			input_amount - consumed_input
 		)
-
+		
+		state.record_resource_consumed(
+			input.resource_id,
+			consumed_input
+		)
 
 # Produce outputs for the current simulation step.
 func produce_outputs(
@@ -218,6 +249,11 @@ func produce_outputs(
 					current_amount + whole_units
 				)
 				
+				state.record_resource_produced(
+					output.resource_id,
+					whole_units
+				)
+				
 				progress -= whole_units
 			
 			generator.set_production_progress(
@@ -233,7 +269,11 @@ func produce_outputs(
 				output.resource_id,
 				current_amount + production
 			)
-
+			
+			state.record_resource_produced(
+				output.resource_id,
+				production
+			)
 
 
 
@@ -252,13 +292,13 @@ func buy_generator(
 	if not generator.unlocked:
 		return false
 	
-	# A cycle-based generator cannot be purchased again
-	# while it is currently processing.
 	if generator.definition.cycle_based:
 		if generator.cycle_active:
 			return false
 	
-	var cost = generator.get_cost(state)
+	var cost = generator.get_cost(
+		state
+	)
 	
 	var current_resource = state.get_resource_amount(
 		generator.definition.cost_resource_id
@@ -272,15 +312,18 @@ func buy_generator(
 		current_resource - cost
 	)
 	
+	state.record_resource_consumed(
+		generator.definition.cost_resource_id,
+		cost
+	)
+	
 	generator.level += 1
 	
-	# Purchasing a level starts a cycle for cycle-based generators.
 	if generator.definition.cycle_based:
 		generator.cycle_progress = 0.0
 		generator.cycle_active = true
 	
 	return true
-
 
 func can_buy_generator(
 	generator_id: String
@@ -325,12 +368,9 @@ func buy_upgrade(
 	if upgrade == null:
 		return false
 	
-	# The upgrade has reached its maximum level.
 	if upgrade.is_maxed():
 		return false
 	
-	# A levelled upgrade may not switch into an exclusivity
-	# group that has already been claimed by another upgrade.
 	if not state.upgrade_exclusivity_available(
 		upgrade
 	):
@@ -357,8 +397,12 @@ func buy_upgrade(
 		current_resource - cost
 	)
 	
-	upgrade.level += 1
+	state.record_resource_consumed(
+		upgrade.definition.cost_resource_id,
+		cost
+	)
 	
+	upgrade.level += 1
 	_apply_upgrade_level_effects(
 		upgrade
 	)
@@ -611,7 +655,10 @@ func toggle_generator_pause(
 		generator.operating = false
 
 
-func apply_heat_leak(delta: float) -> void:
+func apply_heat_leak(
+	delta: float
+	) -> void:
+	
 	var leak_per_second = state.get_heat_leak_per_second()
 	
 	if leak_per_second <= 0.0:
@@ -621,17 +668,28 @@ func apply_heat_leak(delta: float) -> void:
 		ResourceIds.HEAT
 	)
 	
-	var leaked_heat = leak_per_second * delta
+	var leaked_heat = min(
+		leak_per_second * delta,
+		heat
+	)
+	
+	if leaked_heat <= 0.0:
+		return
 	
 	state.set_resource_amount(
 		ResourceIds.HEAT,
-		max(
-			heat - leaked_heat,
-			0.0
-		)
+		heat - leaked_heat
+	)
+	
+	state.record_resource_lost(
+		ResourceIds.HEAT,
+		leaked_heat
 	)
 
-func apply_matter_decay(delta: float) -> void:
+func apply_matter_decay(
+	delta: float
+	) -> void:
+	
 	var decay_per_second = state.get_matter_decay_per_second()
 	
 	if decay_per_second <= 0.0:
@@ -654,6 +712,11 @@ func apply_matter_decay(delta: float) -> void:
 		matter - decayed_matter
 	)
 	
+	state.record_resource_lost(
+		ResourceIds.MATTER,
+		decayed_matter
+	)
+	
 	var heat = state.get_resource_amount(
 		ResourceIds.HEAT
 	)
@@ -661,4 +724,9 @@ func apply_matter_decay(delta: float) -> void:
 	state.set_resource_amount(
 		ResourceIds.HEAT,
 		heat + decayed_matter
+	)
+	
+	state.record_resource_produced(
+		ResourceIds.HEAT,
+		decayed_matter
 	)

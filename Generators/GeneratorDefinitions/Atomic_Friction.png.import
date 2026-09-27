@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7emopeyh0no8"
-path="res://.godot/imported/Lava_Mite_Colony.png-ba76a50a3cc2e9f3c2f08cd9d52d9844.ctex"
+uid="uid://hwvn36jt8s24"
+path="res://.godot/imported/Atomic_Friction.png-9fed14ea17edb8c208044fb10da6fc0e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generators/Lava_Mite_Colony.png"
-dest_files=["res://.godot/imported/Lava_Mite_Colony.png-ba76a50a3cc2e9f3c2f08cd9d52d9844.ctex"]
+source_file="res://Generators/GeneratorDefinitions/Atomic_Friction.png"
+dest_files=["res://.godot/imported/Atomic_Friction.png-9fed14ea17edb8c208044fb10da6fc0e.ctex"]
 
 [params]
 
