@@ -1,3 +1,4 @@
+
 class_name PrestigePanel
 extends Control
 
@@ -84,22 +85,22 @@ func setup(
 	game_save_manager: SaveManager,
 	game_time_manager: TimeManager
 	) -> void:
-	
+
 	state = game_state
 	save_manager = game_save_manager
 	time_manager = game_time_manager
 	prestige_system = PrestigeSystem.new()
-	
+
 	_create_main_ui()
 	_create_distribution_ui()
 	_create_shop_ui()
-	
+
 	_show_distribution_panel()
-	
+
 	# Offline simulation can finish a stabilization countdown
 	# before this panel exists.
 	_check_stabilization_completion()
-	
+
 	refresh()
 
 
@@ -110,72 +111,72 @@ func setup(
 func _create_main_ui() -> void:
 	if content_container != null:
 		return
-	
+
 	content_container = VBoxContainer.new()
 	content_container.name = "PrestigeContentContainer"
-	
+
 	content_container.size_flags_vertical = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	content_container.add_theme_constant_override(
 		"separation",
 		8
 	)
-	
+
 	$VBoxContainer.add_child(
 		content_container
 	)
-	
+
 	_create_tab_ui()
 
 
 func _create_tab_ui() -> void:
 	if tab_container != null:
 		return
-	
+
 	tab_container = HBoxContainer.new()
 	tab_container.name = "PrestigeTabContainer"
-	
+
 	tab_container.add_theme_constant_override(
 		"separation",
 		6
 	)
-	
+
 	content_container.add_child(
 		tab_container
 	)
-	
+
 	distribution_button = Button.new()
 	distribution_button.name = "FlameDistributionButton"
 	distribution_button.text = "FLAME DISTRIBUTION"
 	distribution_button.custom_minimum_size = Vector2(0, 40)
-	
+
 	distribution_button.size_flags_horizontal = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	tab_container.add_child(
 		distribution_button
 	)
-	
+
 	distribution_button.pressed.connect(
 		_show_distribution_panel
 	)
-	
+
 	shop_button = Button.new()
 	shop_button.name = "EternalFlameShopButton"
 	shop_button.text = "ETERNAL FLAME SHOP"
 	shop_button.custom_minimum_size = Vector2(0, 40)
-	
+
 	shop_button.size_flags_horizontal = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	tab_container.add_child(
 		shop_button
 	)
-	
+
 	shop_button.pressed.connect(
 		_show_shop_panel
 	)
@@ -188,96 +189,96 @@ func _create_tab_ui() -> void:
 func _create_distribution_ui() -> void:
 	if distribution_panel != null:
 		return
-	
+
 	distribution_panel = VBoxContainer.new()
 	distribution_panel.name = "FlameDistributionPanel"
-	
+
 	distribution_panel.size_flags_vertical = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	distribution_panel.add_theme_constant_override(
 		"separation",
 		6
 	)
-	
+
 	content_container.add_child(
 		distribution_panel
 	)
-	
+
 	_create_realm_ui()
 
 
 func _create_realm_ui() -> void:
 	if realm_container != null:
 		return
-	
+
 	realm_container = VBoxContainer.new()
 	realm_container.name = "RealmContainer"
-	
+
 	realm_container.size_flags_vertical = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	realm_container.add_theme_constant_override(
 		"separation",
 		6
 	)
-	
+
 	distribution_panel.add_child(
 		realm_container
 	)
-	
+
 	var title = Label.new()
 	title.text = "REALM"
 	title.custom_minimum_size = Vector2(0, 30)
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	
+
 	realm_container.add_child(title)
-	
+
 	realm_available_label = Label.new()
 	realm_container.add_child(
 		realm_available_label
 	)
-	
+
 	realm_assigned_label = Label.new()
 	realm_container.add_child(
 		realm_assigned_label
 	)
-	
+
 	stabilize_button = Button.new()
 	stabilize_button.name = "StabilizeRealmButton"
 	stabilize_button.text = "STABILIZE REALM"
 	stabilize_button.custom_minimum_size = Vector2(0, 40)
-	
+
 	stabilize_button.pressed.connect(
 		_on_stabilize_realm_pressed
 	)
-	
+
 	realm_container.add_child(
 		stabilize_button
 	)
-	
+
 	_create_realm_stat_row(
 		"stability",
 		"Stability"
 	)
-	
+
 	_create_realm_stat_row(
 		"density",
 		"Density"
 	)
-	
+
 	_create_realm_stat_row(
 		"integrity",
 		"Integrity"
 	)
-	
+
 	_create_realm_stat_row(
 		"intensity",
 		"Intensity"
 	)
-	
+
 	_create_realm_stat_row(
 		"resonance",
 		"Resonance"
@@ -288,81 +289,153 @@ func _create_realm_stat_row(
 	stat_name: String,
 	display_name: String
 	) -> void:
-	
+
 	var row = VBoxContainer.new()
 	row.name = "%sRow" % stat_name
-	
+
 	row.add_theme_constant_override(
 		"separation",
 		2
 	)
-	
+
 	realm_container.add_child(
 		row
 	)
-	
+
 	var assignment_row = HBoxContainer.new()
 	assignment_row.add_theme_constant_override(
 		"separation",
-		6
+		4
 	)
-	
+
 	row.add_child(
 		assignment_row
 	)
-	
+
 	var label = Label.new()
 	label.text = display_name
-	label.custom_minimum_size = Vector2(100, 0)
-	
+	label.custom_minimum_size = Vector2(90, 0)
+
 	assignment_row.add_child(label)
-	
+
+	# ------------------------------------------------------------
+	# -10
+	# ------------------------------------------------------------
+
+	var minus_10_button = Button.new()
+	minus_10_button.text = "-10"
+	minus_10_button.custom_minimum_size = Vector2(45, 30)
+
+	assignment_row.add_child(
+		minus_10_button
+	)
+
+	# ------------------------------------------------------------
+	# -1
+	# ------------------------------------------------------------
+
 	var minus_button = Button.new()
 	minus_button.text = "-"
 	minus_button.custom_minimum_size = Vector2(35, 30)
-	
-	assignment_row.add_child(minus_button)
-	
+
+	assignment_row.add_child(
+		minus_button
+	)
+
+	# ------------------------------------------------------------
+	# Value
+	# ------------------------------------------------------------
+
 	var value_label = Label.new()
 	value_label.text = "0"
 	value_label.horizontal_alignment = (
 		HORIZONTAL_ALIGNMENT_CENTER
 	)
-	value_label.custom_minimum_size = Vector2(40, 30)
-	
-	assignment_row.add_child(value_label)
-	
+	value_label.custom_minimum_size = Vector2(45, 30)
+
+	assignment_row.add_child(
+		value_label
+	)
+
+	# ------------------------------------------------------------
+	# +1
+	# ------------------------------------------------------------
+
 	var plus_button = Button.new()
 	plus_button.text = "+"
 	plus_button.custom_minimum_size = Vector2(35, 30)
-	
-	assignment_row.add_child(plus_button)
-	
+
+	assignment_row.add_child(
+		plus_button
+	)
+
+	# ------------------------------------------------------------
+	# +10
+	# ------------------------------------------------------------
+
+	var plus_10_button = Button.new()
+	plus_10_button.text = "+10"
+	plus_10_button.custom_minimum_size = Vector2(45, 30)
+
+	assignment_row.add_child(
+		plus_10_button
+	)
+
+	# ------------------------------------------------------------
+	# Effect
+	# ------------------------------------------------------------
+
 	var effect_label = Label.new()
 	effect_label.text = ""
 	effect_label.autowrap_mode = (
 		TextServer.AUTOWRAP_WORD_SMART
 	)
 	effect_label.modulate = Color(0.7, 0.7, 0.7)
-	
+
 	row.add_child(
 		effect_label
 	)
-	
+
+	# ------------------------------------------------------------
+	# Button connections
+	# ------------------------------------------------------------
+
+	minus_10_button.pressed.connect(
+		func():
+			_on_realm_batch_pressed(
+				stat_name,
+				-10
+			)
+	)
+
 	minus_button.pressed.connect(
 		func():
-			_on_realm_minus_pressed(stat_name)
+			_on_realm_minus_pressed(
+				stat_name
+			)
 	)
-	
+
 	plus_button.pressed.connect(
 		func():
-			_on_realm_plus_pressed(stat_name)
+			_on_realm_plus_pressed(
+				stat_name
+			)
 	)
-	
+
+	plus_10_button.pressed.connect(
+		func():
+			_on_realm_batch_pressed(
+				stat_name,
+				10
+			)
+	)
+
 	realm_rows[stat_name] = {
 		"value_label": value_label,
 		"minus_button": minus_button,
 		"plus_button": plus_button,
+		"minus_10_button": minus_10_button,
+		"plus_10_button": plus_10_button,
 		"effect_label": effect_label
 	}
 
@@ -374,78 +447,78 @@ func _create_realm_stat_row(
 func _create_shop_ui() -> void:
 	if shop_panel != null:
 		return
-	
+
 	shop_panel = VBoxContainer.new()
 	shop_panel.name = "EternalFlameShopPanel"
-	
+
 	shop_panel.size_flags_vertical = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	shop_panel.add_theme_constant_override(
 		"separation",
 		6
 	)
-	
+
 	content_container.add_child(
 		shop_panel
 	)
-	
+
 	var title = Label.new()
 	title.text = "ETERNAL FLAME SHOP"
 	title.custom_minimum_size = Vector2(0, 30)
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	
+
 	shop_panel.add_child(title)
-	
+
 	eternal_flame_shop_scroll = ScrollContainer.new()
 	eternal_flame_shop_scroll.name = "EternalFlameShopScroll"
-	
+
 	eternal_flame_shop_scroll.size_flags_horizontal = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	eternal_flame_shop_scroll.size_flags_vertical = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	eternal_flame_shop_scroll.custom_minimum_size = Vector2(0, 100)
-	
+
 	eternal_flame_shop_scroll.horizontal_scroll_mode = (
 		ScrollContainer.SCROLL_MODE_DISABLED
 	)
-	
+
 	shop_panel.add_child(
 		eternal_flame_shop_scroll
 	)
-	
+
 	eternal_flame_upgrade_container = VBoxContainer.new()
 	eternal_flame_upgrade_container.name = (
 		"EternalFlameUpgradeContainer"
 	)
-	
+
 	eternal_flame_upgrade_container.size_flags_horizontal = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	eternal_flame_upgrade_container.size_flags_vertical = (
 		Control.SIZE_SHRINK_BEGIN
 	)
-	
+
 	eternal_flame_upgrade_container.add_theme_constant_override(
 		"separation",
 		8
 	)
-	
+
 	eternal_flame_shop_scroll.add_child(
 		eternal_flame_upgrade_container
 	)
-	
+
 	for upgrade_id in ETERNAL_FLAME_UPGRADE_IDS:
 		_create_eternal_flame_upgrade_row(
 			upgrade_id
 		)
-	
+
 	print(
 		"Eternal Flame shop rows: ",
 		eternal_flame_upgrade_container.get_child_count()
@@ -455,85 +528,85 @@ func _create_shop_ui() -> void:
 func _create_eternal_flame_upgrade_row(
 	upgrade_id: String
 	) -> void:
-	
+
 	var upgrade = (
 		state.eternal_flame_upgrade_manager.get_upgrade(
 			upgrade_id
 		)
 	)
-	
+
 	if upgrade == null:
 		return
-	
+
 	var row = VBoxContainer.new()
 	row.name = "%sRow" % upgrade_id
-	
+
 	row.add_theme_constant_override(
 		"separation",
 		2
 	)
-	
+
 	eternal_flame_upgrade_container.add_child(
 		row
 	)
-	
+
 	var top_row = HBoxContainer.new()
 	top_row.add_theme_constant_override(
 		"separation",
 		6
 	)
-	
+
 	row.add_child(top_row)
-	
+
 	var name_label = Label.new()
 	name_label.text = upgrade.display_name
 	name_label.custom_minimum_size = Vector2(150, 0)
-	
+
 	name_label.size_flags_horizontal = (
 		Control.SIZE_EXPAND_FILL
 	)
-	
+
 	top_row.add_child(name_label)
-	
+
 	var level_label = Label.new()
 	level_label.custom_minimum_size = Vector2(80, 0)
 	level_label.horizontal_alignment = (
 		HORIZONTAL_ALIGNMENT_CENTER
 	)
-	
+
 	top_row.add_child(level_label)
-	
+
 	var cost_label = Label.new()
 	cost_label.custom_minimum_size = Vector2(100, 0)
 	cost_label.horizontal_alignment = (
 		HORIZONTAL_ALIGNMENT_RIGHT
 	)
-	
+
 	top_row.add_child(cost_label)
-	
+
 	var purchase_button = Button.new()
 	purchase_button.text = "BUY"
 	purchase_button.custom_minimum_size = Vector2(70, 30)
-	
+
 	top_row.add_child(purchase_button)
-	
+
 	var description_label = Label.new()
 	description_label.text = upgrade.description
 	description_label.autowrap_mode = (
 		TextServer.AUTOWRAP_WORD_SMART
 	)
-	
+
 	row.add_child(
 		description_label
 	)
-	
+
 	purchase_button.pressed.connect(
 		func():
 			_on_eternal_flame_upgrade_pressed(
 				upgrade_id
 			)
 	)
-	
+
 	eternal_flame_upgrade_rows[upgrade_id] = {
 		"name_label": name_label,
 		"level_label": level_label,
@@ -550,10 +623,10 @@ func _create_eternal_flame_upgrade_row(
 func _show_distribution_panel() -> void:
 	if distribution_panel == null:
 		return
-	
+
 	distribution_panel.visible = true
 	shop_panel.visible = false
-	
+
 	distribution_button.disabled = true
 	shop_button.disabled = false
 
@@ -561,13 +634,13 @@ func _show_distribution_panel() -> void:
 func _show_shop_panel() -> void:
 	if shop_panel == null:
 		return
-	
+
 	distribution_panel.visible = false
 	shop_panel.visible = true
-	
+
 	distribution_button.disabled = false
 	shop_button.disabled = true
-	
+
 	_refresh_eternal_flame_upgrade_ui()
 
 
@@ -578,39 +651,39 @@ func _show_shop_panel() -> void:
 func _on_stabilize_realm_pressed() -> void:
 	if state == null or time_manager == null:
 		return
-	
+
 	if state.realm_stabilized:
 		return
-	
+
 	if time_manager.is_stabilization_countdown_active():
 		return
-	
+
 	if time_manager.start_stabilization_countdown():
 		save_manager.save_game(
 			state,
 			time_manager
 		)
-		
+
 		refresh()
 
 
 func _check_stabilization_completion() -> void:
 	if state == null or time_manager == null:
 		return
-	
+
 	if not time_manager.is_stabilization_countdown_active():
 		return
-	
+
 	if time_manager.get_stabilization_remaining() > 0.0:
 		return
-	
+
 	if state.realm_stabilized:
 		time_manager.cancel_stabilization_countdown()
 		return
-	
+
 	if state.stabilize_realm():
 		time_manager.cancel_stabilization_countdown()
-		
+
 		save_manager.save_game(
 			state,
 			time_manager
@@ -620,20 +693,20 @@ func _check_stabilization_completion() -> void:
 func _format_stabilization_time(
 	seconds: float
 	) -> String:
-	
+
 	var remaining = max(
 		0,
 		int(ceil(seconds))
 	)
-	
+
 	var minutes = int(
 		remaining / 60
 	)
-	
+
 	var seconds_part = int(
 		remaining % 60
 	)
-	
+
 	return "%02d:%02d" % [
 		minutes,
 		seconds_part
@@ -647,16 +720,16 @@ func _format_stabilization_time(
 func _on_realm_plus_pressed(
 	stat_name: String
 	) -> void:
-	
+
 	if state == null:
 		return
-	
+
 	if state.realm_stabilized:
 		return
-	
+
 	if state.get_unassigned_eternal_flames() <= 0:
 		return
-	
+
 	if state.realm_configuration.assign_flame(
 		stat_name
 	):
@@ -667,9 +740,9 @@ func _on_realm_plus_pressed(
 			state.heat_leak_threshold,
 			state.matter_decay_threshold
 		)
-		
+
 		refresh()
-		
+
 		save_manager.save_game(
 			state,
 			time_manager
@@ -679,13 +752,13 @@ func _on_realm_plus_pressed(
 func _on_realm_minus_pressed(
 	stat_name: String
 	) -> void:
-	
+
 	if state == null:
 		return
-	
+
 	if state.realm_stabilized:
 		return
-	
+
 	if state.realm_configuration.remove_flame(
 		stat_name
 	):
@@ -696,13 +769,59 @@ func _on_realm_minus_pressed(
 			state.heat_leak_threshold,
 			state.matter_decay_threshold
 		)
-		
+
 		refresh()
-		
+
 		save_manager.save_game(
 			state,
 			time_manager
 		)
+
+
+func _on_realm_batch_pressed(
+	stat_name: String,
+	amount: int
+	) -> void:
+
+	if state == null:
+		return
+
+	if state.realm_stabilized:
+		return
+
+	if amount == 0:
+		return
+
+	var changed: int = 0
+
+	if amount > 0:
+		changed = state.realm_configuration.assign_flames(
+			stat_name,
+			amount
+		)
+	else:
+		changed = state.realm_configuration.remove_flames(
+			stat_name,
+			abs(amount)
+		)
+
+	if changed <= 0:
+		return
+
+	state.realm_effects.rebuild(
+		state.realm_configuration,
+		state.eternal_flame_state,
+		state.eternal_flame_upgrade_manager,
+		state.heat_leak_threshold,
+		state.matter_decay_threshold
+	)
+
+	refresh()
+
+	save_manager.save_game(
+		state,
+		time_manager
+	)
 
 
 # ----------------------------------------------------------------
@@ -712,46 +831,46 @@ func _on_realm_minus_pressed(
 func refresh() -> void:
 	if state == null:
 		return
-	
+
 	var crystallized_flame = (
 		state.get_resource_amount(
 			ResourceIds.CRYSTALIZED_FLAME
 		)
 	)
-	
+
 	var eternal_flame = (
 		state.eternal_flame_state.eternal_flame
 	)
-	
+
 	var eternal_flame_gain = (
 		prestige_system.calculate_eternal_flame_gain(
 			state
 		)
 	)
-	
+
 	crystallized_flame_label.text = (
 		"Crystallized Flame: %.0f"
 		% crystallized_flame
 	)
-	
+
 	eternal_flame_label.text = (
 		"Eternal Flame: %.0f"
 		% eternal_flame
 	)
-	
+
 	gain_label.text = (
 		"Eternal Flame on Smash: +%.0f"
 		% eternal_flame_gain
 	)
-	
+
 	smash_button.disabled = (
 		eternal_flame_gain <= 0.0
 		or not state.realm_stabilized
 	)
-	
+
 	_refresh_realm_ui()
 	_refresh_eternal_flame_upgrade_ui()
-	
+
 	if stabilize_button != null:
 		if state.realm_stabilized:
 			stabilize_button.visible = true
@@ -777,26 +896,26 @@ func refresh() -> void:
 func _refresh_realm_ui() -> void:
 	if realm_container == null:
 		return
-	
+
 	var configuration = state.realm_configuration
-	
+
 	var assigned = (
 		configuration.get_assigned_flames()
 	)
-	
+
 	var available = (
 		state.get_unassigned_eternal_flames()
 	)
-	
+
 	var total = int(
 		state.eternal_flame_state.eternal_flame
 	)
-	
+
 	realm_available_label.text = (
 		"Unassigned Eternal Flames: %d"
 		% available
 	)
-	
+
 	realm_assigned_label.text = (
 		"Assigned to Realm: %d / %d"
 		% [
@@ -804,29 +923,41 @@ func _refresh_realm_ui() -> void:
 			total
 		]
 	)
-	
+
 	for stat_name in realm_rows:
 		var value = (
 			configuration.get_stat_value(
 				stat_name
 			)
 		)
-		
+
 		var row = realm_rows[stat_name]
-		
+
 		row["value_label"].text = str(value)
-		
+
 		row["effect_label"].text = (
 			_get_realm_effect_text(stat_name)
 		)
-		
+
+		var locked: bool = state.realm_stabilized
+
 		row["minus_button"].disabled = (
-			state.realm_stabilized
+			locked
 			or value <= 0
 		)
-		
+
 		row["plus_button"].disabled = (
-			state.realm_stabilized
+			locked
+			or available <= 0
+		)
+
+		row["minus_10_button"].disabled = (
+			locked
+			or value <= 0
+		)
+
+		row["plus_10_button"].disabled = (
+			locked
 			or available <= 0
 		)
 
@@ -834,27 +965,27 @@ func _refresh_realm_ui() -> void:
 func _get_realm_effect_text(
 	stat_name: String
 	) -> String:
-	
+
 	var effects = state.realm_effects
-	
+
 	match stat_name:
 		"stability":
 			var threshold_multiplier = (
 				effects.heat_leak_threshold
 				/ state.heat_leak_threshold
 			)
-			
+
 			return (
 				"Heat Leak Threshold: x%.2f"
 				% threshold_multiplier
 			)
-		
+
 		"density":
 			var matter_decay_multiplier = (
 				effects.matter_decay_threshold
 				/ state.matter_decay_threshold
 			)
-			
+
 			return (
 				"Thermal Mass: x%.2f\n"
 				+ "Matter Production: x%.2f\n"
@@ -864,13 +995,13 @@ func _get_realm_effect_text(
 				effects.matter_production_multiplier,
 				matter_decay_multiplier
 			]
-		
+
 		"integrity":
 			var generator_cost_reduction = (
 				1.0
 				- effects.generator_cost_multiplier
 			) * 100.0
-			
+
 			return (
 				"Generator Cost: x%.2f (-%.1f%%)\n"
 				+ "Ashen Contamination Resistance: x%.2f"
@@ -879,16 +1010,16 @@ func _get_realm_effect_text(
 				generator_cost_reduction,
 				effects.ashen_contamination_multiplier
 			]
-		
+
 		"intensity":
 			return (
 				"Heat Production: x%.2f"
 				% effects.heat_production_realm_multiplier
 			)
-		
+
 		"resonance":
 			return "No effect"
-	
+
 	return ""
 
 
@@ -899,34 +1030,34 @@ func _get_realm_effect_text(
 func _on_smash_button_pressed() -> void:
 	if state == null:
 		return
-	
+
 	if not state.realm_stabilized:
 		return
-	
+
 	var eternal_flame_gain = (
 		prestige_system.smash(
 			state
 		)
 	)
-	
+
 	if eternal_flame_gain <= 0.0:
 		return
-	
+
 	print(
 		"Smash! Gained ",
 		eternal_flame_gain,
 		" Eternal Flame."
 	)
-	
+
 	# A new realm has now been created.
 	# Its prestige timer starts from zero immediately.
 	time_manager.reset_prestige_time()
 	time_manager.start_stabilization_countdown()
-	
+
 	refresh()
-	
+
 	run_reset.emit()
-	
+
 	save_manager.save_game(
 		state,
 		time_manager
@@ -940,26 +1071,26 @@ func _on_smash_button_pressed() -> void:
 func _on_eternal_flame_upgrade_pressed(
 	upgrade_id: String
 	) -> void:
-	
+
 	if state == null:
 		return
-	
+
 	var upgrade = (
 		state.eternal_flame_upgrade_manager.get_upgrade(
 			upgrade_id
 		)
 	)
-	
+
 	if upgrade == null:
 		return
-	
+
 	if not state.eternal_flame_upgrade_manager.purchase(
 		upgrade_id,
 		state.eternal_flame_state,
 		state.realm_configuration
 	):
 		return
-	
+
 	state.realm_effects.rebuild(
 		state.realm_configuration,
 		state.eternal_flame_state,
@@ -967,16 +1098,16 @@ func _on_eternal_flame_upgrade_pressed(
 		state.heat_leak_threshold,
 		state.matter_decay_threshold
 	)
-	
+
 	if upgrade.effect_type == (
 		EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY
 	):
 		technology_unlocked.emit(
 			upgrade.technology_id
 		)
-	
+
 	refresh()
-	
+
 	save_manager.save_game(
 		state,
 		time_manager
@@ -986,33 +1117,33 @@ func _on_eternal_flame_upgrade_pressed(
 func _refresh_eternal_flame_upgrade_ui() -> void:
 	if eternal_flame_upgrade_container == null:
 		return
-	
+
 	for upgrade_id in eternal_flame_upgrade_rows:
 		var upgrade = (
 			state.eternal_flame_upgrade_manager.get_upgrade(
 				upgrade_id
 			)
 		)
-		
+
 		if upgrade == null:
 			continue
-		
+
 		var level = (
 			state.eternal_flame_upgrade_manager.get_upgrade_level(
 				upgrade_id,
 				state.eternal_flame_state
 			)
 		)
-		
+
 		var cost = (
 			state.eternal_flame_upgrade_manager.get_upgrade_cost(
 				upgrade_id,
 				state.eternal_flame_state
 			)
 		)
-		
+
 		var row = eternal_flame_upgrade_rows[upgrade_id]
-		
+
 		row["level_label"].text = (
 			"Lv. %d / %d"
 			% [
@@ -1020,7 +1151,7 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 				upgrade.max_level
 			]
 		)
-		
+
 		if level >= upgrade.max_level:
 			row["cost_label"].text = "MAX"
 			row["purchase_button"].text = "MAX"
@@ -1030,9 +1161,9 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 				"%d Flame"
 				% cost
 			)
-			
+
 			row["purchase_button"].text = "BUY"
-			
+
 			row["purchase_button"].disabled = (
 				state.get_unassigned_eternal_flames() < cost
 			)
@@ -1045,13 +1176,13 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 func _process(_delta: float) -> void:
 	if state == null or time_manager == null:
 		return
-	
+
 	# This must run even when the Prestige panel is hidden.
 	# Offline simulation or normal gameplay can finish the countdown
 	# while the panel is not visible.
 	_check_stabilization_completion()
-	
+
 	if not visible:
 		return
-	
+
 	refresh()

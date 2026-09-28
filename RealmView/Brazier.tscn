@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://d146xomyvaa4n"]
+
+[ext_resource type="Script" uid="uid://v73fdvx5g03s" path="res://RealmView/brazier.gd" id="1_a8unq"]
+[ext_resource type="Texture2D" uid="uid://46o3ovx2vhjy" path="res://RealmView/brazier.png" id="1_ltdvk"]
+
+[node name="Brazier" type="Control" unique_id=1816871559]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_a8unq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=991767731]
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("1_ltdvk")

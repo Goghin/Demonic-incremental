@@ -82,7 +82,42 @@ func remove_flame(
 	
 	return true
 
+func assign_flames(
+	stat_name: String,
+	amount: int
+	) -> int:
 
+	if amount <= 0:
+		return 0
+
+	var assigned: int = 0
+
+	for i in range(amount):
+		if not assign_flame(stat_name):
+			break
+
+		assigned += 1
+
+	return assigned
+
+func remove_flames(
+	stat_name: String,
+	amount: int
+	) -> int:
+
+	if amount <= 0:
+		return 0
+
+	var removed: int = 0
+
+	for i in range(amount):
+		if not remove_flame(stat_name):
+			break
+
+		removed += 1
+
+	return removed
+	
 func get_stat_value(
 	stat_name: String
 	) -> int:

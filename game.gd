@@ -25,7 +25,7 @@ var upgrade_panel_scene = preload(
 )
 
 var realm_view_scene = preload(
-	"res://UI/RealmView.gd"
+	"res://RealmView/RealmView.gd"
 )
 
 var realm_view: RealmView

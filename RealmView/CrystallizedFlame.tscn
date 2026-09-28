@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://dovxs1m2sntl2"]
+
+[ext_resource type="Script" uid="uid://ccspsf2uxlq4q" path="res://RealmView/crystallized_flame.gd" id="1_apptw"]
+[ext_resource type="Texture2D" uid="uid://n4qbwc57xvqu" path="res://RealmView/crystallized_flame/frame_00_delay-0.125s.png" id="1_b8pmc"]
+[ext_resource type="Texture2D" uid="uid://c1b636fvq26uh" path="res://RealmView/crystallized_flame/frame_01_delay-0.125s.png" id="2_apptw"]
+[ext_resource type="Texture2D" uid="uid://c37tvjs3kvlxi" path="res://RealmView/crystallized_flame/frame_02_delay-0.125s.png" id="3_htdsh"]
+[ext_resource type="Texture2D" uid="uid://b4q46ncylm53k" path="res://RealmView/crystallized_flame/frame_03_delay-0.125s.png" id="4_lfds1"]
+[ext_resource type="Texture2D" uid="uid://c8vu3k7jfcen0" path="res://RealmView/crystallized_flame/frame_04_delay-0.125s.png" id="5_yms6h"]
+[ext_resource type="Texture2D" uid="uid://02ejd0u870w7" path="res://RealmView/crystallized_flame/frame_05_delay-0.125s.png" id="6_88iho"]
+[ext_resource type="Texture2D" uid="uid://45o0nwta0d3w" path="res://RealmView/crystallized_flame/frame_06_delay-0.125s.png" id="7_rkbrj"]
+[ext_resource type="Texture2D" uid="uid://dkvjx867vt2jb" path="res://RealmView/crystallized_flame/frame_11_delay-0.125s.png" id="8_f0ajn"]
+[ext_resource type="Texture2D" uid="uid://bkop7otqh237v" path="res://RealmView/crystallized_flame/frame_07_delay-0.125s.png" id="9_4amkx"]
+[ext_resource type="Texture2D" uid="uid://c5skimm2d6enm" path="res://RealmView/crystallized_flame/frame_08_delay-0.125s.png" id="10_t32cp"]
+[ext_resource type="Texture2D" uid="uid://c4634fyyrfkni" path="res://RealmView/crystallized_flame/frame_10_delay-0.125s.png" id="11_wcrib"]
+[ext_resource type="Texture2D" uid="uid://bxykb8hhaaf83" path="res://RealmView/crystallized_flame/frame_09_delay-0.125s.png" id="12_o262h"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ygdxb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_b8pmc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_apptw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_htdsh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_lfds1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_yms6h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_88iho")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_rkbrj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_4amkx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_t32cp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_o262h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_wcrib")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_f0ajn")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="CrystallizedFlame" type="Node2D" unique_id=1187534839]
+script = ExtResource("1_apptw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=420553853]
+sprite_frames = SubResource("SpriteFrames_ygdxb")
+frame = 6
+frame_progress = 0.15338664
