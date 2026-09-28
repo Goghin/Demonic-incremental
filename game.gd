@@ -15,6 +15,7 @@ var upgrade_flows: Dictionary = {}
 var upgrade_panels: Dictionary = {}
 
 var effects_flow: HFlowContainer
+var prestige_animation: PrestigeAnimation
 
 var generator_panel_scene = preload(
 	"res://UI/generator_panel.tscn"
@@ -44,9 +45,16 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	state = GameState.new()
-
+	prestige_animation = $PrestigeAnimation
+	prestige_animation.setup(realm_view)
 	_create_realm_view()
+	$PrestigePanel.prestige_requested.connect(
+		_on_prestige_requested
+	)	
 
+	prestige_animation.destruction_complete.connect(
+		_on_prestige_destruction_complete
+	)
 	loading_screen.set_status(
 		"Initializing the simulation..."
 	)
@@ -705,6 +713,13 @@ func _on_upgrades_button_pressed() -> void:
 		$StatsPanel.visible = false
 		$PrestigePanel.visible = false
 
+
+func _on_prestige_requested() -> void:
+	prestige_animation.play()
+
+
+func _on_prestige_destruction_complete() -> void:
+	$PrestigePanel.perform_smash()
 
 func _on_prestige_button_pressed() -> void:
 

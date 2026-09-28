@@ -39,17 +39,17 @@ static func create() -> Generator:
 		1.0,
 		1.0,
 		1.5,
-		180.0,
+		18.0,
 		[
 			GeneratorIO.new(
 				ResourceIds.MATTER,
-				150.0
+				15.0
 			)
 		],
 		[
 			GeneratorIO.new(
 				ResourceIds.ASH,
-				175
+				17.5
 			)
 		],
 		[

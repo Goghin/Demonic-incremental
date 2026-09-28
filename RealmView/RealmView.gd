@@ -10,18 +10,43 @@ var crystallized_flames: Array[CrystallizedFlame] = []
 var crystallized_flame_values: Array[float] = []
 var last_crystallized_flame_amount: float = -1.0
 
+
 const CRYSTAL_BASE_SCALE: float = 0.12
 const CRYSTAL_CENTER: Vector2 = Vector2(0.68, 0.3)
 
 const MAX_VISIBLE_CRYSTALS: int = 25
+
+const REALM_VISUAL_SCALE: float = 1.1
+const REALM_VISUAL_OFFSET: Vector2 = Vector2(-40.0, 0.0)
 
 
 var realm_layout_mode: bool = false
 var dragging_object: String = ""
 var drag_offset: Vector2 = Vector2.ZERO
 
-var generator_layout_positions: Dictionary = {}
 var generator_hitboxes: Dictionary = {}
+
+
+# Generator positions are stored as normalized coordinates
+# relative to the island rectangle.
+var generator_layout_positions: Dictionary = {
+	"atomic_friction": Vector2(0.511371, 0.422583),
+	"molecular_agitation": Vector2(0.460384, 0.359855),
+	"thermal_furnace": Vector2(0.574602, 0.378433),
+	"thermal_compressor": Vector2(0.615829, 0.254067),
+	"lava_mite_colony": Vector2(0.662417, 0.454621),
+	"matter_furnace": Vector2(0.399357, 0.253207),
+	"infernal_forge": Vector2(0.332365, 0.321587)
+}
+
+
+# Core position is stored as normalized coordinates
+# relative to the island rectangle.
+var core_layout_position: Vector2 = Vector2(
+	0.519077,
+	0.315870
+)
+
 
 # Brazier positions are stored as normalized coordinates
 # relative to the island rectangle.
@@ -33,7 +58,7 @@ var brazier_layout_positions: Dictionary = {
 	"resonance": Vector2(0.541076, 0.096425)
 }
 
-var core_layout_position: Vector2 = Vector2.ZERO
+
 var core_hitbox: Rect2 = Rect2()
 
 
@@ -44,9 +69,12 @@ const ISLAND_TEXTURE: Texture2D = preload(
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
 )
+
 const CRYSTALLIZED_FLAME_SCENE = preload(
 	"res://RealmView/CrystallizedFlame.tscn"
 )
+
+
 const BRAZIER_STATS: Array[String] = [
 	"stability",
 	"density",
@@ -58,6 +86,15 @@ const BRAZIER_STATS: Array[String] = [
 
 func setup(game_state: GameState) -> void:
 	state = game_state
+
+	scale = Vector2(
+		REALM_VISUAL_SCALE,
+		REALM_VISUAL_SCALE
+	)
+
+	pivot_offset = size * 0.5
+	position = REALM_VISUAL_OFFSET
+
 	generator_textures.clear()
 
 	for stat_name in BRAZIER_STATS:
@@ -66,7 +103,7 @@ func setup(game_state: GameState) -> void:
 
 		var brazier_instance: Brazier = (
 			BRAZIER_SCENE.instantiate()
-			)
+		)
 
 		brazier_instance.set_stat(stat_name)
 
@@ -77,10 +114,9 @@ func setup(game_state: GameState) -> void:
 		)
 
 		braziers[stat_name] = brazier_instance
-	
-	
+
 	queue_redraw()
-	
+
 
 func _create_crystal() -> void:
 	var crystal: CrystallizedFlame = (
@@ -97,7 +133,6 @@ func _create_crystal() -> void:
 	add_child(crystal)
 
 	crystallized_flames.append(crystal)
-
 
 
 func update_flame_visuals() -> void:
@@ -121,7 +156,8 @@ func update_flame_visuals() -> void:
 
 	_update_crystal_values(total_flames)
 	_position_crystals()
-	
+
+
 func _process(_delta: float) -> void:
 	if state == null:
 		return
@@ -207,23 +243,17 @@ func _position_crystals() -> void:
 			crystallized_flames[i]
 		)
 
-		var position: Vector2 = center + positions[i]
+		var crystal_position: Vector2 = (
+			center + positions[i]
+		)
 
 		var flame_value: float = 1.0
 
 		if i < crystallized_flame_values.size():
 			flame_value = crystallized_flame_values[i]
 
-		# ------------------------------------------------------------
-		# Crystal size
-		#
-		# Logarithmic scaling prevents large Flame counts from
-		# producing absurdly large crystals.
-		# ------------------------------------------------------------
-
 		var value_scale: float = 1.0 + (
-			log(flame_value) *
-			0.12
+			log(flame_value) * 0.12
 		)
 
 		value_scale = clamp(
@@ -239,17 +269,17 @@ func _position_crystals() -> void:
 
 		var rotation_amount: float = 0.0
 
-		if position.x < center.x:
+		if crystal_position.x < center.x:
 			rotation_amount = -0.20
-		elif position.x > center.x:
+		elif crystal_position.x > center.x:
 			rotation_amount = 0.20
 
 		crystal.set_base_transform(
-			position,
+			crystal_position,
 			rotation_amount
 		)
-	
-	
+
+
 func _remove_crystal() -> void:
 	if crystallized_flames.is_empty():
 		return
@@ -259,6 +289,7 @@ func _remove_crystal() -> void:
 	)
 
 	crystal.queue_free()
+
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -270,15 +301,24 @@ func _input(event: InputEvent) -> void:
 				if realm_layout_mode:
 					print("=== REALM LAYOUT ===")
 
-					print("Core -> ", core_layout_position)
+					print(
+						"Core -> ",
+						core_layout_position
+					)
+
+					print("--- Generators ---")
 
 					for generator_id in generator_layout_positions:
 						print(
 							"Generator ",
 							generator_id,
 							" -> ",
-							generator_layout_positions[generator_id]
+							generator_layout_positions[
+								generator_id
+							]
 						)
+
+					print("--- Braziers ---")
 
 					for stat_name in BRAZIER_STATS:
 						if braziers.has(stat_name):
@@ -286,11 +326,16 @@ func _input(event: InputEvent) -> void:
 								"Brazier ",
 								stat_name,
 								" -> ",
-								brazier_layout_positions[stat_name]
+								brazier_layout_positions[
+									stat_name
+								]
 							)
 
+					print("====================")
+
 				queue_redraw()
-				return
+
+			return
 
 	if not realm_layout_mode:
 		return
@@ -351,9 +396,17 @@ func _start_layout_drag(mouse_position: Vector2) -> void:
 		if core_hitbox.has_point(mouse_position):
 			dragging_object = "core"
 
+			var island_rect: Rect2 = _get_island_rect()
+
+			var current_core_position: Vector2 = (
+				island_rect.position +
+				island_rect.size *
+				core_layout_position
+			)
+
 			drag_offset = (
 				mouse_position -
-				core_hitbox.position
+				current_core_position
 			)
 
 			return
@@ -370,9 +423,14 @@ func _start_layout_drag(mouse_position: Vector2) -> void:
 		if hitbox.has_point(mouse_position):
 			dragging_object = generator_id
 
+			var generator_position: Vector2 = (
+				hitbox.position +
+				hitbox.size * 0.5
+			)
+
 			drag_offset = (
 				mouse_position -
-				hitbox.position
+				generator_position
 			)
 
 			return
@@ -384,11 +442,10 @@ func _draw() -> void:
 
 	var center: Vector2 = size * Vector2(0.68, 0.66)
 
-	if core_layout_position == Vector2.ZERO:
-		core_layout_position = center + Vector2(0, 10)
+	var realm: RealmConfiguration = (
+		state.realm_configuration
+	)
 
-	var realm: RealmConfiguration = state.realm_configuration
-	
 	for stat_name in BRAZIER_STATS:
 		if not braziers.has(stat_name):
 			continue
@@ -398,7 +455,7 @@ func _draw() -> void:
 		brazier.set_stat_value(
 			realm.get_stat_value(stat_name)
 		)
-		
+
 	var density: int = realm.density
 	var intensity: int = realm.intensity
 	var stability: int = realm.stability
@@ -409,16 +466,24 @@ func _draw() -> void:
 		ResourceIds.ASH
 	)
 
-	# Slightly larger realm to give the view more visual presence.
-	var realm_scale: float = 1.10
+	var realm_scale: float = 1.0
 
 	var density_factor: float = 1.0 + min(
 		float(density),
 		100.0
 	) * 0.003
 
-	var sx: float = 190.0 * realm_scale * density_factor
-	var sy: float = 78.0 * realm_scale * density_factor
+	var sx: float = (
+		190.0 *
+		realm_scale *
+		density_factor
+	)
+
+	var sy: float = (
+		78.0 *
+		realm_scale *
+		density_factor
+	)
 
 	# ----------------------------------------------------------------
 	# Background
@@ -441,7 +506,6 @@ func _draw() -> void:
 
 	# ----------------------------------------------------------------
 	# Distant realm particles
-	# Resonance currently only affects ambience.
 	# ----------------------------------------------------------------
 
 	var particle_count: int = 35 + resonance * 2
@@ -454,9 +518,12 @@ func _draw() -> void:
 			360.0
 		)
 
-		var particle_position: Vector2 = center + Vector2(
-			cos(angle) * distance,
-			sin(angle) * distance * 0.65
+		var particle_position: Vector2 = (
+			center +
+			Vector2(
+				cos(angle) * distance,
+				sin(angle) * distance * 0.65
+			)
 		)
 
 		var particle_size: float = 1.0 + fmod(
@@ -479,22 +546,42 @@ func _draw() -> void:
 		100.0
 	)
 
-	var glow_radius: float = 125.0 + intensity_value * 1.5
-	var glow_alpha: float = 0.10 + intensity_value * 0.002
+	var glow_radius: float = (
+		125.0 +
+		intensity_value * 1.5
+	)
+
+	var glow_alpha: float = (
+		0.10 +
+		intensity_value * 0.002
+	)
+
+	var island_rect: Rect2 = _get_island_rect()
+
+	var core_position: Vector2 = (
+		island_rect.position +
+		island_rect.size *
+		core_layout_position
+	)
 
 	draw_circle(
-		core_layout_position,
+		core_position,
 		glow_radius,
-		Color(1.0, 0.18, 0.03, glow_alpha)
+		Color(
+			1.0,
+			0.18,
+			0.03,
+			glow_alpha
+		)
 	)
 
 	# ----------------------------------------------------------------
 	# Floating island
 	# ----------------------------------------------------------------
 
-	var island_rect: Rect2 = _get_island_rect()
-
-	_initialize_brazier_positions(island_rect)
+	_initialize_brazier_positions(
+		island_rect
+	)
 
 	draw_texture_rect(
 		ISLAND_TEXTURE,
@@ -506,29 +593,32 @@ func _draw() -> void:
 	# Infernal core
 	# ----------------------------------------------------------------
 
-	var core_radius: float = 28.0 + intensity_value * 0.20
+	var core_radius: float = (
+		28.0 +
+		intensity_value * 0.20
+	)
 
 	draw_circle(
-		core_layout_position,
+		core_position,
 		core_radius + 20.0,
 		Color(1.0, 0.12, 0.02, 0.12)
 	)
 
 	draw_circle(
-		core_layout_position,
+		core_position,
 		core_radius,
 		Color(0.95, 0.20, 0.035, 0.80)
 	)
 
 	draw_circle(
-		core_layout_position + Vector2(0, -3),
+		core_position + Vector2(0, -3),
 		core_radius * 0.55,
 		Color(1.0, 0.55, 0.10, 0.98)
 	)
 
 	if realm_layout_mode:
 		core_hitbox = Rect2(
-			core_layout_position - Vector2(
+			core_position - Vector2(
 				core_radius + 20.0,
 				core_radius + 20.0
 			),
@@ -548,15 +638,20 @@ func _draw() -> void:
 	)
 
 	for i in range(lava_line_count):
-		var x: float = -sx * 0.72 + (
-			float(i) * sx * 1.35 /
-			float(max(lava_line_count - 1, 1))
+		var x: float = (
+			-sx * 0.72 +
+			(
+				float(i) *
+				sx *
+				1.35 /
+				float(max(lava_line_count - 1, 1))
+			)
 		)
 
-		var lava_alpha: float = 0.65 - min(
-			float(stability),
-			50.0
-		) * 0.006
+		var lava_alpha: float = (
+			0.65 -
+			min(float(stability), 50.0) * 0.006
+		)
 
 		draw_line(
 			center + Vector2(x, 15),
@@ -564,7 +659,12 @@ func _draw() -> void:
 				x,
 				80.0 + fmod(float(i * 19), 45.0)
 			),
-			Color(1.0, 0.22, 0.035, lava_alpha),
+			Color(
+				1.0,
+				0.22,
+				0.035,
+				lava_alpha
+			),
 			2.0
 		)
 
@@ -575,7 +675,8 @@ func _draw() -> void:
 	_draw_generators(
 		center,
 		sx,
-		sy
+		sy,
+		core_position
 	)
 
 	# ----------------------------------------------------------------
@@ -608,21 +709,32 @@ func _draw() -> void:
 func _get_island_rect() -> Rect2:
 	var center: Vector2 = size * Vector2(0.68, 0.66)
 
-	var realm: RealmConfiguration = state.realm_configuration
+	var realm: RealmConfiguration = (
+		state.realm_configuration
+	)
 
 	var density: int = realm.density
 
-	var realm_scale: float = 1.10
+	var realm_scale: float = 1.0
 
 	var density_factor: float = 1.0 + min(
 		float(density),
 		100.0
 	) * 0.003
 
-	var sx: float = 190.0 * realm_scale * density_factor
-	var sy: float = 78.0 * realm_scale * density_factor
+	var sx: float = (
+		190.0 *
+		realm_scale *
+		density_factor
+	)
 
-	var island_scale: float = 2.0
+	var sy: float = (
+		78.0 *
+		realm_scale *
+		density_factor
+	)
+
+	var island_scale: float = 2.5
 
 	var island_size: Vector2 = Vector2(
 		sx * 2.2 * island_scale,
@@ -637,8 +749,7 @@ func _get_island_rect() -> Rect2:
 
 func _initialize_brazier_positions(
 	island_rect: Rect2
-	) -> void:
-
+) -> void:
 	for stat_name in BRAZIER_STATS:
 		if not braziers.has(stat_name):
 			continue
@@ -694,15 +805,15 @@ func _draw_layout_overlay() -> void:
 		)
 
 		draw_line(
-			core_layout_position + Vector2(-45, 0),
-			core_layout_position + Vector2(45, 0),
+			core_hitbox.get_center() + Vector2(-45, 0),
+			core_hitbox.get_center() + Vector2(45, 0),
 			Color(1.0, 0.75, 0.20, 0.5),
 			1.0
 		)
 
 		draw_line(
-			core_layout_position + Vector2(0, -45),
-			core_layout_position + Vector2(0, 45),
+			core_hitbox.get_center() + Vector2(0, -45),
+			core_hitbox.get_center() + Vector2(0, 45),
 			Color(1.0, 0.75, 0.20, 0.5),
 			1.0
 		)
@@ -751,19 +862,24 @@ func _island_points(
 	center: Vector2,
 	sx: float,
 	sy: float
-	) -> PackedVector2Array:
-
+) -> PackedVector2Array:
 	var points: PackedVector2Array = PackedVector2Array()
 
 	for i in range(24):
-		var angle: float = TAU * float(i) / 24.0
+		var angle: float = (
+			TAU *
+			float(i) /
+			24.0
+		)
 
-		var wobble: float = 0.88 + (
+		var wobble: float = (
+			0.88 +
 			fmod(float(i * 17), 100.0) / 500.0
 		)
 
 		points.append(
-			center + Vector2(
+			center +
+			Vector2(
 				cos(angle) * sx * wobble,
 				sin(angle) * sy * wobble
 			)
@@ -775,11 +891,9 @@ func _island_points(
 func _draw_generators(
 	center: Vector2,
 	sx: float,
-	sy: float
-	) -> void:
-
-	# Do not use Array[Generator] here because values()
-	# returns an untyped array.
+	sy: float,
+	core_position: Vector2
+) -> void:
 	var active_generators: Array = []
 
 	for generator_value in state.generators.values():
@@ -794,10 +908,6 @@ func _draw_generators(
 		generator_hitboxes.clear()
 		return
 
-	# Initialize positions only once per generator.
-	#
-	# Existing generators keep their positions when a new
-	# generator is unlocked.
 	_initialize_generator_layout_positions(
 		center,
 		sx,
@@ -806,17 +916,32 @@ func _draw_generators(
 
 	generator_hitboxes.clear()
 
-	for generator in active_generators:
-		var generator_id: String = generator.definition.id
+	var island_rect: Rect2 = _get_island_rect()
 
-		var position: Vector2 = (
+	for generator in active_generators:
+		var generator_id: String = (
+			generator.definition.id
+		)
+
+		if not generator_layout_positions.has(
+			generator_id
+		):
+			continue
+
+		var normalized_position: Vector2 = (
 			generator_layout_positions[
 				generator_id
 			]
 		)
 
-		# Generator level controls the visual footprint.
-		var machine_size: float = 20.0 + (
+		var position: Vector2 = (
+			island_rect.position +
+			island_rect.size *
+			normalized_position
+		)
+
+		var machine_size: float = (
+			20.0 +
 			min(float(generator.level), 50.0) * 0.25
 		)
 
@@ -825,7 +950,9 @@ func _draw_generators(
 		)
 
 		if texture != null:
-			var texture_size: Vector2 = texture.get_size()
+			var texture_size: Vector2 = (
+				texture.get_size()
+			)
 
 			var texture_scale: float = min(
 				(machine_size * 2.0) /
@@ -845,8 +972,6 @@ func _draw_generators(
 
 			generator_hitboxes[generator_id] = rect
 
-			# Slightly dim inactive generators rather than
-			# replacing their artwork.
 			var modulation: Color = Color(
 				1.0,
 				1.0,
@@ -894,17 +1019,18 @@ func _draw_generators(
 				)
 			)
 
-			generator_hitboxes[generator_id] = fallback_rect
+			generator_hitboxes[generator_id] = (
+				fallback_rect
+			)
 
 			draw_rect(
 				fallback_rect,
 				fallback_color
 			)
 
-		# Keep the visual connection to the movable infernal core.
 		draw_line(
 			position,
-			core_layout_position,
+			core_position,
 			Color(0.55, 0.25, 0.10, 0.22),
 			1.0
 		)
@@ -914,50 +1040,17 @@ func _initialize_generator_layout_positions(
 	center: Vector2,
 	sx: float,
 	sy: float
-	) -> void:
-
-	# Use ALL generators when determining default positions.
+) -> void:
+	# Generator positions are stored directly as normalized
+	# coordinates relative to the island rectangle.
 	#
-	# This prevents the old behavior where unlocking a generator
-	# changed the number of positions and therefore moved every
-	# existing generator.
-
-	var all_generators: Array = []
-
-	for generator_value in state.generators.values():
-		var generator: Generator = generator_value
-		all_generators.append(generator)
-
-	var total_count: int = all_generators.size()
-
-	if total_count == 0:
-		return
-
-	for i in range(total_count):
-		var generator: Generator = all_generators[i]
-		var generator_id: String = generator.definition.id
-
-		if generator_layout_positions.has(generator_id):
-			continue
-
-		var angle: float = (
-			-PI * 0.85 +
-			PI * 1.7 * float(i) /
-			float(max(total_count - 1, 1))
-		)
-
-		var position: Vector2 = center + Vector2(
-			cos(angle) * sx * 0.62,
-			sin(angle) * sy * 0.45 - 8.0
-		)
-
-		generator_layout_positions[generator_id] = position
+	# This function intentionally does nothing.
+	pass
 
 
 func _get_generator_texture(
 	generator: Generator
-	) -> Texture2D:
-
+) -> Texture2D:
 	var path: String = (
 		generator.definition.illustration_path
 	)
@@ -965,7 +1058,9 @@ func _get_generator_texture(
 	if path.is_empty():
 		return null
 
-	var generator_id: String = generator.definition.id
+	var generator_id: String = (
+		generator.definition.id
+	)
 
 	if generator_textures.has(generator_id):
 		return generator_textures[generator_id]
@@ -981,8 +1076,7 @@ func _draw_ash(
 	center: Vector2,
 	sx: float,
 	ash: float
-	) -> void:
-
+) -> void:
 	if ash <= 0.0:
 		return
 
@@ -992,20 +1086,27 @@ func _draw_ash(
 	)
 
 	var particle_count: int = int(
-		8.0 + ash_factor * 35.0
+		8.0 +
+		ash_factor * 35.0
 	)
 
 	for i in range(particle_count):
 		var angle: float = float(i) * 2.71
 
-		var distance: float = sx * (
-			0.55 +
-			fmod(float(i * 13), 100.0) / 180.0
+		var distance: float = (
+			sx *
+			(
+				0.55 +
+				fmod(float(i * 13), 100.0) / 180.0
+			)
 		)
 
-		var position: Vector2 = center + Vector2(
-			cos(angle) * distance,
-			sin(angle) * distance * 0.45 - 35.0
+		var position: Vector2 = (
+			center +
+			Vector2(
+				cos(angle) * distance,
+				sin(angle) * distance * 0.45 - 35.0
+			)
 		)
 
 		draw_circle(
@@ -1023,9 +1124,10 @@ func _draw_ash(
 func _draw_heat_leak(
 	center: Vector2,
 	sx: float
-	) -> void:
-
-	var leak: float = state.get_heat_leak_per_second()
+) -> void:
+	var leak: float = (
+		state.get_heat_leak_per_second()
+	)
 
 	if leak <= 0.0:
 		return
@@ -1045,10 +1147,6 @@ func _draw_heat_leak(
 		1.0
 	)
 
-	# ------------------------------------------------------------
-	# Leak strength
-	# ------------------------------------------------------------
-
 	var leak_strength: float = clamp(
 		leak /
 		max(threshold * 0.25, 1.0),
@@ -1056,14 +1154,9 @@ func _draw_heat_leak(
 		1.0
 	)
 
-	# ------------------------------------------------------------
-	# Heat shimmer
-	#
-	# Even a small leak should make the realm feel unstable.
-	# ------------------------------------------------------------
-
-	var shimmer_count: int = 4 + int(
-		leak_strength * 8.0
+	var shimmer_count: int = (
+		4 +
+		int(leak_strength * 8.0)
 	)
 
 	for i in range(shimmer_count):
@@ -1073,16 +1166,19 @@ func _draw_heat_leak(
 		)
 
 		var distance: float = (
-			sx * (
+			sx *
+			(
 				0.35 +
 				fmod(float(i * 17), 100.0) / 180.0
 			)
 		)
 
-		var position: Vector2 = center + Vector2(
-			cos(angle) * distance,
-			sin(angle) * distance * 0.30 -
-			35.0
+		var position: Vector2 = (
+			center +
+			Vector2(
+				cos(angle) * distance,
+				sin(angle) * distance * 0.30 - 35.0
+			)
 		)
 
 		var shimmer_alpha: float = (
@@ -1101,12 +1197,9 @@ func _draw_heat_leak(
 			)
 		)
 
-	# ------------------------------------------------------------
-	# Heat vents / escape points
-	# ------------------------------------------------------------
-
-	var vent_count: int = 3 + int(
-		excess * 7.0
+	var vent_count: int = (
+		3 +
+		int(excess * 7.0)
 	)
 
 	for i in range(vent_count):
@@ -1121,18 +1214,19 @@ func _draw_heat_leak(
 			normalized
 		)
 
-		# Give each vent a deterministic offset so they don't
-		# all line up perfectly.
 		var offset: float = (
-			fmod(float(i * 37), 31.0) - 15.0
+			fmod(float(i * 37), 31.0) -
+			15.0
 		)
 
-		var vent_position: Vector2 = center + Vector2(
-			x,
-			12.0 + offset
+		var vent_position: Vector2 = (
+			center +
+			Vector2(
+				x,
+				12.0 + offset
+			)
 		)
 
-		# Small glowing source point.
 		var vent_radius: float = (
 			2.0 +
 			leak_strength * 3.0
@@ -1160,10 +1254,6 @@ func _draw_heat_leak(
 			)
 		)
 
-		# --------------------------------------------------------
-		# Escaping heat stream
-		# --------------------------------------------------------
-
 		var stream_length: float = lerp(
 			8.0,
 			65.0,
@@ -1189,7 +1279,6 @@ func _draw_heat_leak(
 			)
 		)
 
-		# Outer glow.
 		draw_line(
 			vent_position,
 			end_position,
@@ -1202,7 +1291,6 @@ func _draw_heat_leak(
 			5.0 + leak_strength * 4.0
 		)
 
-		# Main stream.
 		draw_line(
 			vent_position,
 			end_position,
@@ -1215,7 +1303,6 @@ func _draw_heat_leak(
 			1.5 + leak_strength * 1.5
 		)
 
-		# Hot inner core.
 		if leak_strength > 0.25:
 			draw_line(
 				vent_position,
@@ -1229,7 +1316,10 @@ func _draw_heat_leak(
 				0.7 + leak_strength
 			)
 
-func _update_layout_drag(mouse_position: Vector2) -> void:
+
+func _update_layout_drag(
+	mouse_position: Vector2
+) -> void:
 	if dragging_object == "":
 		return
 
@@ -1238,7 +1328,9 @@ func _update_layout_drag(mouse_position: Vector2) -> void:
 	# ------------------------------------------------------------
 
 	if dragging_object.begins_with("brazier:"):
-		var stat_name: String = dragging_object.substr(8)
+		var stat_name: String = (
+			dragging_object.substr(8)
+		)
 
 		if braziers.has(stat_name):
 			var new_position: Vector2 = (
@@ -1246,14 +1338,36 @@ func _update_layout_drag(mouse_position: Vector2) -> void:
 				drag_offset
 			)
 
-			var island_rect: Rect2 = _get_island_rect()
+			var island_rect: Rect2 = (
+				_get_island_rect()
+			)
 
-			brazier_layout_positions[stat_name] = (
+			var normalized_position: Vector2 = (
 				(new_position - island_rect.position) /
 				island_rect.size
 			)
 
-			braziers[stat_name].position = new_position
+			normalized_position.x = clamp(
+				normalized_position.x,
+				0.0,
+				1.0
+			)
+
+			normalized_position.y = clamp(
+				normalized_position.y,
+				0.0,
+				1.0
+			)
+
+			brazier_layout_positions[stat_name] = (
+				normalized_position
+			)
+
+			braziers[stat_name].position = (
+				island_rect.position +
+				island_rect.size *
+				normalized_position
+			)
 
 			queue_redraw()
 
@@ -1264,10 +1378,33 @@ func _update_layout_drag(mouse_position: Vector2) -> void:
 	# ------------------------------------------------------------
 
 	if dragging_object == "core":
-		core_layout_position = (
+		var new_position: Vector2 = (
 			mouse_position -
 			drag_offset
 		)
+
+		var island_rect: Rect2 = (
+			_get_island_rect()
+		)
+
+		var normalized_position: Vector2 = (
+			(new_position - island_rect.position) /
+			island_rect.size
+		)
+
+		normalized_position.x = clamp(
+			normalized_position.x,
+			0.0,
+			1.0
+		)
+
+		normalized_position.y = clamp(
+			normalized_position.y,
+			0.0,
+			1.0
+		)
+
+		core_layout_position = normalized_position
 
 		queue_redraw()
 
@@ -1277,21 +1414,45 @@ func _update_layout_drag(mouse_position: Vector2) -> void:
 	# Generator
 	# ------------------------------------------------------------
 
-	if generator_layout_positions.has(dragging_object):
-		generator_layout_positions[
-			dragging_object
-		] = (
+	if generator_layout_positions.has(
+		dragging_object
+	):
+		var new_position: Vector2 = (
 			mouse_position -
 			drag_offset
 		)
+
+		var island_rect: Rect2 = (
+			_get_island_rect()
+		)
+
+		var normalized_position: Vector2 = (
+			(new_position - island_rect.position) /
+			island_rect.size
+		)
+
+		normalized_position.x = clamp(
+			normalized_position.x,
+			0.0,
+			1.0
+		)
+
+		normalized_position.y = clamp(
+			normalized_position.y,
+			0.0,
+			1.0
+		)
+
+		generator_layout_positions[
+			dragging_object
+		] = normalized_position
 
 		queue_redraw()
 
 
 func _update_crystal_values(
 	total_flames: float
-	) -> void:
-
+) -> void:
 	crystallized_flame_values.clear()
 
 	var count: int = crystallized_flames.size()
@@ -1299,18 +1460,11 @@ func _update_crystal_values(
 	if count == 0:
 		return
 
-	# ------------------------------------------------------------
-	# Up to the visible capacity, every crystal represents at
-	# least one actual Crystallized Flame.
-	# ------------------------------------------------------------
-
 	var remaining: float = max(
 		total_flames - float(count),
 		0.0
 	)
 
-	# Increasing weights make the larger crystals naturally
-	# appear toward the later positions in the formation.
 	var total_weight: float = 0.0
 
 	for i in range(count):
@@ -1329,3 +1483,46 @@ func _update_crystal_values(
 			)
 
 		crystallized_flame_values.append(value)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_RESIZED:
+		pivot_offset = size * 0.5
+
+
+func begin_prestige_destruction() -> void:
+	print(
+		"BEGIN PRESTIGE DESTRUCTION: ",
+		crystallized_flames.size(),
+		" crystals"
+	)
+
+	if crystallized_flames.is_empty():
+		return
+
+	var order: Array[int] = []
+
+	for i in range(crystallized_flames.size()):
+		order.append(i)
+
+	order.shuffle()
+
+	for order_index in range(order.size()):
+		var crystal_index: int = order[order_index]
+
+		print(
+			"Triggering crystal ",
+			crystal_index,
+			" at ",
+			crystallized_flames[crystal_index].position
+		)
+
+		var delay: float = (
+			0.03 +
+			float(order_index) * 0.035 +
+			randf_range(0.0, 0.05)
+		)
+
+		crystallized_flames[
+			crystal_index
+		].begin_destruction(delay)

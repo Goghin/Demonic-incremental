@@ -5,6 +5,7 @@ extends Control
 
 signal technology_unlocked(technology_id: String)
 signal run_reset
+signal prestige_requested
 
 var state: GameState
 var prestige_system: PrestigeSystem
@@ -1035,6 +1036,29 @@ func _on_smash_button_pressed() -> void:
 		return
 
 	var eternal_flame_gain = (
+		prestige_system.calculate_eternal_flame_gain(
+			state
+		)
+	)
+
+	if eternal_flame_gain <= 0.0:
+		return
+
+	print(
+		"Prestige requested. Expected gain: ",
+		eternal_flame_gain,
+		" Eternal Flame."
+	)
+
+	smash_button.disabled = true
+
+	prestige_requested.emit()
+
+func perform_smash() -> void:
+	if state == null:
+		return
+
+	var eternal_flame_gain = (
 		prestige_system.smash(
 			state
 		)
@@ -1049,8 +1073,6 @@ func _on_smash_button_pressed() -> void:
 		" Eternal Flame."
 	)
 
-	# A new realm has now been created.
-	# Its prestige timer starts from zero immediately.
 	time_manager.reset_prestige_time()
 	time_manager.start_stabilization_countdown()
 
@@ -1062,7 +1084,6 @@ func _on_smash_button_pressed() -> void:
 		state,
 		time_manager
 	)
-
 
 # ----------------------------------------------------------------
 # Eternal Flame Shop

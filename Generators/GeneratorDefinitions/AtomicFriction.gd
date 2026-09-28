@@ -32,7 +32,7 @@ static func create() -> Generator:
 		[
 			GeneratorIO.new(
 				ResourceIds.HEAT,
-				6.0
+				60.0
 			)
 		]
 	)

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://brse7a5upnxtg" path="res://UI/StatsPanel.tscn" id="3_feb5d"]
 [ext_resource type="PackedScene" uid="uid://bmuknpykhpamo" path="res://UI/UpgradeInfoPopup.tscn" id="4_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://cdseigfjnotw3" path="res://UI/loading_screen.tscn" id="5_7jktm"]
+[ext_resource type="PackedScene" uid="uid://di77orwlxxxqx" path="res://UI/prestige_animation.tscn" id="6_eow3j"]
 [ext_resource type="PackedScene" uid="uid://6hk31507tbch" path="res://UI/PrestigePanel.tscn" id="6_prestige"]
 
 [node name="Game" type="Control" unique_id=2017947086]
@@ -101,6 +102,10 @@ text = "PRESTIGE"
 visible = false
 custom_minimum_size = Vector2(110, 0)
 layout_mode = 0
+
+[node name="PrestigeAnimation" parent="." unique_id=1499149280 instance=ExtResource("6_eow3j")]
+z_index = 100
+layout_mode = 1
 
 [node name="LoadingScreen" parent="." unique_id=1133673070 instance=ExtResource("5_7jktm")]
 layout_mode = 1
