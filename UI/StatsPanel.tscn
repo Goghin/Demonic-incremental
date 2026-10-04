@@ -91,6 +91,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "Heat Leakage: 0 /s"
 
+[node name="OverflowMultiplierLabel" type="Label" parent="ScrollContainer/VBoxContainer/PressureContainer" unique_id=1106676803]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Heat Leakage: 0 /s"
+
 [node name="MatterDecayThresholdLabel" type="Label" parent="ScrollContainer/VBoxContainer/PressureContainer" unique_id=1064106923]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10

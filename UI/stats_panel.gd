@@ -264,21 +264,21 @@ func _create_column_label(
 func update_resource_statistics() -> void:
 	for resource in state.get_resources().values():
 		var resource_id = resource.definition.id
-		
+
 		if not resource_statistics_rows.has(resource_id):
 			continue
-		
+
 		var row = resource_statistics_rows[resource_id]
-		
+
 		var current_run_statistics = (
 			state.current_run_statistics
 		)
-		
+
 		var lifetime_statistics = (
 			state.resource_statistics
 		)
-		
-		row["this_realm"].text = (
+
+		var this_realm_text = (
 			"Produced: %s    Consumed: %s    Lost: %s    Highest: %s"
 			% [
 				NumberFormatter.format(
@@ -303,8 +303,8 @@ func update_resource_statistics() -> void:
 				)
 			]
 		)
-		
-		row["all_realms"].text = (
+
+		var all_realms_text = (
 			"Produced: %s    Consumed: %s    Lost: %s    Highest: %s"
 			% [
 				NumberFormatter.format(
@@ -330,6 +330,25 @@ func update_resource_statistics() -> void:
 			]
 		)
 
+		# Overflow is specifically associated with Heat.
+		if resource_id == ResourceIds.HEAT:
+			this_realm_text += (
+				"    Overflow: %s"
+				% NumberFormatter.format(
+					current_run_statistics.get_total_overflow()
+				)
+			)
+
+			all_realms_text += (
+				"    Overflow: %s"
+				% NumberFormatter.format(
+					lifetime_statistics.get_total_overflow()
+				)
+			)
+
+		row["this_realm"].text = this_realm_text
+		row["all_realms"].text = all_realms_text
+		
 func update_time_stats() -> void:
 	$ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel.text = (
 		"This Session: %s"
@@ -471,32 +490,46 @@ func ensure_generator_stats() -> void:
 		)
 
 func update_pressure_stats() -> void:
-	var heat_leakage = state.get_heat_leak_per_second()
+	var overflow_rate = state.get_heat_leak_per_second()
 	var matter_decay = state.get_matter_decay_per_second()
-	
+
+	var crystallized_flames = state.get_resource_amount(
+		ResourceIds.CRYSTALIZED_FLAME
+	)
+
+	var overflow_multiplier = pow(
+		1.25,
+		crystallized_flames
+	)
+
 	var heat_leak_threshold = (
 		state.realm_effects.heat_leak_threshold
 	)
-	
+
 	var matter_decay_threshold = (
 		state.realm_effects.matter_decay_threshold
 	)
-	
+
 	$ScrollContainer/VBoxContainer/PressureContainer/HeatLeakageThresholdLabel.text = (
-		"Leak Threshold: %s"
+		"Overflow Threshold: %s"
 		% NumberFormatter.format(heat_leak_threshold)
 	)
-	
+
 	$ScrollContainer/VBoxContainer/PressureContainer/HeatLeakageLabel.text = (
-		"Leakage: %s /s"
-		% NumberFormatter.format(heat_leakage)
+		"Overflow Rate: %s /s"
+		% NumberFormatter.format(overflow_rate)
 	)
-	
+
+	$ScrollContainer/VBoxContainer/PressureContainer/OverflowMultiplierLabel.text = (
+		"Overflow Multiplier: ×%s"
+		% NumberFormatter.format(overflow_multiplier)
+	)
+
 	$ScrollContainer/VBoxContainer/PressureContainer/MatterDecayThresholdLabel.text = (
 		"Decay Threshold: %s Matter"
 		% NumberFormatter.format(matter_decay_threshold)
 	)
-	
+
 	$ScrollContainer/VBoxContainer/PressureContainer/MatterDecayLabel.text = (
 		"Decay: %s Matter/s → %s Heat/s"
 		% [

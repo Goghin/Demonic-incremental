@@ -1041,3 +1041,25 @@ func get_modifier_sensitivity_data(
 
 func get_heat_leak_per_second() -> float:
 	return state.get_heat_leak_per_second()
+
+# ------------------------------------------------------------
+# OVERFLOW STATISTICS
+# ------------------------------------------------------------
+
+func get_total_overflow_this_prestige() -> float:
+	return state.total_overflow_this_prestige
+
+
+func get_overflow_bonus_from_last_realm() -> float:
+	return state.overflow_bonus_from_last_realm
+
+
+func get_current_overflow_bonus() -> float:
+	return state.get_overflow_bonus()
+	
+func get_lifetime_total_overflow() -> float:
+	return state.resource_statistics.get_total_overflow()
+
+
+func get_run_total_overflow() -> float:
+	return state.current_run_statistics.get_total_overflow()

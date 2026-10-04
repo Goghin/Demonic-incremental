@@ -108,6 +108,7 @@ z_index = 100
 layout_mode = 1
 
 [node name="LoadingScreen" parent="." unique_id=1133673070 instance=ExtResource("5_7jktm")]
+z_index = 100
 layout_mode = 1
 
 [connection signal="pressed" from="RubButton" to="." method="_on_rub_button_pressed"]

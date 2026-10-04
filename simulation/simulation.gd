@@ -2,7 +2,7 @@ class_name Simulation
 extends RefCounted
 
 signal generator_unlocked(generator_id: String)
-
+signal crystallization_completed(crystals_created: float)
 
 # Holds the current game state.
 var state: GameState
@@ -152,7 +152,10 @@ func complete_cycle(
 		)
 		
 		# Creating Crystallized Flame consumes all accumulated Heat.
+		# and triggers the realm crystallization visual.
 		if output.resource_id == ResourceIds.CRYSTALIZED_FLAME:
+			crystallization_completed.emit(amount)
+			
 			var current_heat = state.get_resource_amount(
 				ResourceIds.HEAT
 			)
@@ -658,34 +661,56 @@ func toggle_generator_pause(
 func apply_heat_leak(
 	delta: float
 	) -> void:
-	
-	var leak_per_second = state.get_heat_leak_per_second()
-	
-	if leak_per_second <= 0.0:
+	var overflow_rate = state.get_heat_leak_per_second()
+
+	if overflow_rate <= 0.0:
 		return
-	
+
 	var heat = state.get_resource_amount(
 		ResourceIds.HEAT
 	)
-	
-	var leaked_heat = min(
-		leak_per_second * delta,
+
+	var overflow_amount = min(
+		overflow_rate * delta,
 		heat
 	)
-	
-	if leaked_heat <= 0.0:
+
+	if overflow_amount <= 0.0:
 		return
-	
+
 	state.set_resource_amount(
 		ResourceIds.HEAT,
-		heat - leaked_heat
-	)
-	
-	state.record_resource_lost(
-		ResourceIds.HEAT,
-		leaked_heat
+		heat - overflow_amount
 	)
 
+	state.record_resource_lost(
+		ResourceIds.HEAT,
+		overflow_amount
+	)
+
+	var crystallized_flames = state.get_resource_amount(
+		ResourceIds.CRYSTALIZED_FLAME
+	)
+
+	var overflow_multiplier = pow(
+		1.25,
+		crystallized_flames
+	)
+
+	var recorded_overflow = (
+		overflow_amount * overflow_multiplier
+	)
+
+	state.total_overflow_this_prestige += recorded_overflow
+
+	state.resource_statistics.record_overflow(
+		recorded_overflow
+	)
+
+	state.current_run_statistics.record_overflow(
+		recorded_overflow
+	)
+	
 func apply_matter_decay(
 	delta: float
 	) -> void:

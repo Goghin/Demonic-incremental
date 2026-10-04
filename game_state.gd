@@ -13,6 +13,10 @@ var upgrade_groups: Dictionary = {}
 var resource_statistics: ResourceStatistics
 var current_run_statistics: ResourceStatistics
 
+var realm_layout_id: String = "default"
+var realm_layout: RealmLayout
+
+
 var eternal_flame_state: EternalFlameState
 var realm_configuration: RealmConfiguration
 var realm_effects: RealmEffects
@@ -27,11 +31,13 @@ var heat_leak_base: float = 1.0
 var heat_leak_scaling: float = 16.4
 var heat_leak_exponent: float = 2.14
 
+var total_overflow_this_prestige: float = 0.0
+var overflow_bonus_from_last_realm: float = 1.0
+
 var matter_decay_threshold: float = 10000.0
 var matter_decay_base: float = 0.0
 var matter_decay_scaling: float = 1
 var matter_decay_exponent: float = 2.0
-
 
 
 
@@ -51,6 +57,11 @@ func _init() -> void:
 	realm_configuration = RealmConfiguration.new()
 	realm_effects = RealmEffects.new()
 	
+	realm_layout_id = "default"
+	realm_layout = RealmLayoutRegistry.create_layout(
+		realm_layout_id
+	)
+	
 	realm_effects.rebuild(
 		realm_configuration,
 		eternal_flame_state,
@@ -58,7 +69,6 @@ func _init() -> void:
 		heat_leak_threshold,
 		matter_decay_threshold
 	)
-
 # -------------------------------------------------------------------
 # Resources
 # -------------------------------------------------------------------
@@ -2120,6 +2130,8 @@ func reset_current_run() -> void:
 	
 	if atomic_friction != null:
 		atomic_friction.level = 1
+	overflow_bonus_from_last_realm = get_overflow_bonus()
+	total_overflow_this_prestige = 0.0
 	
 	_apply_permanent_technology_unlocks()
 
@@ -2221,3 +2233,18 @@ func is_upgrade_visible(
 		return true
 	
 	return true
+
+func get_overflow_bonus() -> float:
+	var overflow: float = total_overflow_this_prestige
+
+	if overflow <= 0.0:
+		return 1.0
+
+	return 1+(0.1 * log(overflow) / log(10.0))
+
+func get_overflow_multiplier() -> float:
+	var crystallized_flames: float = get_resource_amount(
+		ResourceIds.CRYSTALIZED_FLAME
+	)
+
+	return pow(1.25, crystallized_flames)

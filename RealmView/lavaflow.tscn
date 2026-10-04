@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dk0xoes0hp55y"]
+
+[ext_resource type="Script" uid="uid://cccq6t1gf01lr" path="res://RealmView/lavaflow.gd" id="1_kv3yc"]
+
+[node name="LavaFlow" type="Node2D" unique_id=1427928958]
+script = ExtResource("1_kv3yc")
+
+[node name="Channel" type="Polygon2D" parent="." unique_id=816469428]
+
+[node name="Rim" type="Line2D" parent="." unique_id=1217001648]
+visible = false
+
+[node name="Surface" type="Node2D" parent="." unique_id=1963184403]

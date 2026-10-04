@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cimpnaw5wsy0t"]
+
+[ext_resource type="Script" uid="uid://b35x21747tqc8" path="res://RealmView/crystallization_stream.gd" id="1_35gbm"]
+
+[node name="CrystallizationStream" type="Node2D" unique_id=788372458]
+script = ExtResource("1_35gbm")

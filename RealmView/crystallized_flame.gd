@@ -1,3 +1,4 @@
+
 class_name CrystallizedFlame
 extends Node2D
 
@@ -6,6 +7,13 @@ extends Node2D
 @export var float_speed: float = 1.5
 @export var rotation_amount: float = 0.025
 @export var animation_speed: float = 12.0
+var orbit_phase: float = 0.0
+var individual_orbit_speed: float = 0.20
+var individual_orbit_radius: float = 7.0
+
+const FLAME_WAVE_SCENE = preload(
+	"res://RealmView/flame_wave.gd"
+)
 
 
 var base_position: Vector2
@@ -23,7 +31,9 @@ var rotation_phase: float = 0.0
 var individual_rotation_amount: float = 0.025
 
 
+# --------------------------------
 # Prestige destruction
+# --------------------------------
 
 var destruction_active: bool = false
 var destruction_delay: float = 0.0
@@ -36,6 +46,8 @@ var crack_paths: Array[PackedVector2Array] = []
 
 var visual_center: Vector2 = Vector2.ZERO
 var visual_radius: float = 40.0
+
+var explosion_active: bool = false
 
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
@@ -57,43 +69,38 @@ func _ready() -> void:
 	animation_frame = randi_range(0, 11)
 	animation_direction = 1 if randf() > 0.5 else -1
 
+	orbit_phase = randf_range(0.0, TAU)
+
+	individual_orbit_speed = randf_range(
+		0.75,
+		1.25
+	)
+
+	individual_orbit_radius = randf_range(
+		5.0,
+		10.0
+	)
+
+
+
 	sprite.pause()
 	sprite.frame = animation_frame
 
 	_update_visual_geometry()
 
-	# Put our own drawing above the sprite.
+	# Draw our destruction effects above the sprite.
 	z_index = 1
 	sprite.z_index = -1
 
 
-func _update_visual_geometry() -> void:
-	visual_center = Vector2.ZERO
-
-	var texture: Texture2D = null
-
-	if sprite.sprite_frames != null:
-		texture = sprite.sprite_frames.get_frame_texture(
-			sprite.animation,
-			animation_frame
-		)
-
-	if texture == null:
-		return
-
-	var texture_size: Vector2 = texture.get_size()
-
-	visual_radius = (
-		min(
-			texture_size.x,
-			texture_size.y
-		)
-		* 0.28
-	)
 func _process(delta: float) -> void:
 	var time: float = Time.get_ticks_msec() * 0.001
 
 	if not destruction_active:
+		# --------------------------------
+		# Normal floating animation
+		# --------------------------------
+
 		var float_phase_current: float = (
 			time
 			* float_speed
@@ -101,9 +108,28 @@ func _process(delta: float) -> void:
 			+ float_phase
 		)
 
-		position.y = (
-			base_position.y
-			+ sin(float_phase_current) * float_height
+		var orbit_phase_current: float = (
+			time
+			* individual_orbit_speed
+			+ orbit_phase
+		)
+
+		var orbit_offset := Vector2(
+			cos(orbit_phase_current),
+			sin(orbit_phase_current)
+		) * individual_orbit_radius
+
+		position = (
+			base_position
+			+ orbit_offset
+		)
+
+		# Keep the existing vertical bobbing,
+		# but make it independent of the orbit.
+
+		position.y += (
+			sin(float_phase_current)
+			* float_height
 		)
 
 		var rotation_phase_current: float = (
@@ -127,9 +153,9 @@ func _process(delta: float) -> void:
 
 		return
 
-	# -------------------------
+	# --------------------------------
 	# Destruction animation
-	# -------------------------
+	# --------------------------------
 
 	destruction_timer += delta
 
@@ -140,7 +166,7 @@ func _process(delta: float) -> void:
 		destruction_timer - destruction_delay
 	)
 
-	const DESTRUCTION_DURATION: float = 0.72
+	const DESTRUCTION_DURATION: float = 1.44
 
 	destruction_progress = clamp(
 		active_time / DESTRUCTION_DURATION,
@@ -148,6 +174,7 @@ func _process(delta: float) -> void:
 		1.0
 	)
 
+	# Keep the flame animation moving faster as it destabilizes.
 	_update_animation(
 		delta,
 		animation_speed
@@ -155,33 +182,59 @@ func _process(delta: float) -> void:
 		* (1.0 + destruction_progress * 3.0)
 	)
 
+	# Stop the normal floating movement.
+	position = base_position
+	rotation = base_rotation
+
+	# --------------------------------
+	# Crystal growth / instability
+	# --------------------------------
+
 	var pulse: float = sin(
-		destruction_progress * TAU * 2.5
+		destruction_progress * TAU * 3.0
 	)
 
-	var scale_multiplier: float = (
-		1.0
-		+ destruction_progress * 0.10
-		+ max(pulse, 0.0) * 0.08
-	)
+	var scale_multiplier: float = 1.0
 
-	if destruction_progress > 0.78:
+	if destruction_progress < 0.55:
+		scale_multiplier = (
+			1.0
+			+ destruction_progress * 0.18
+			+ max(pulse, 0.0) * 0.10
+		)
+
+	elif destruction_progress < 0.78:
+		var growth_progress: float = (
+			destruction_progress - 0.55
+		) / 0.23
+
+		scale_multiplier = lerp(
+			1.10,
+			1.50,
+			growth_progress
+		)
+
+	else:
 		var burst_progress: float = (
 			destruction_progress - 0.78
 		) / 0.22
 
-		scale_multiplier += burst_progress * 0.35
+		scale_multiplier = lerp(
+			1.50,
+			1.85,
+			burst_progress
+		)
 
 	scale = destruction_base_scale * scale_multiplier
 
-	# Freeze normal floating movement.
-	position = base_position
-	rotation = base_rotation
+	# --------------------------------
+	# Fade only at the very end
+	# --------------------------------
 
-	if destruction_progress >= 0.86:
+	if destruction_progress > 0.82:
 		var fade_progress: float = (
-			destruction_progress - 0.86
-		) / 0.14
+			destruction_progress - 0.82
+		) / 0.18
 
 		modulate.a = 1.0 - fade_progress
 
@@ -233,9 +286,7 @@ func begin_destruction(delay: float = 0.0) -> void:
 		" base=",
 		base_position
 	)
-	
-	
-	
+
 	destruction_active = true
 	destruction_delay = max(delay, 0.0)
 	destruction_timer = 0.0
@@ -249,19 +300,46 @@ func begin_destruction(delay: float = 0.0) -> void:
 	modulate.a = 1.0
 	visible = true
 
+	explosion_active = false
+
 	_update_visual_geometry()
 	_build_cracks()
 
 	queue_redraw()
+
+
+func _update_visual_geometry() -> void:
+	visual_center = Vector2.ZERO
+
+	var texture: Texture2D = null
+
+	if sprite.sprite_frames != null:
+		texture = sprite.sprite_frames.get_frame_texture(
+			sprite.animation,
+			animation_frame
+		)
+
+	if texture == null:
+		return
+
+	var texture_size: Vector2 = texture.get_size()
+
+	visual_radius = (
+		min(
+			texture_size.x,
+			texture_size.y
+		) * 0.28
+	)
+
 
 func _build_cracks() -> void:
 	crack_paths.clear()
 
 	var radius: float = visual_radius
 
-	for i in range(4):
+	for i in range(6):
 		var angle: float = (
-			float(i) * TAU / 4.0
+			float(i) * TAU / 6.0
 			+ randf_range(-0.30, 0.30)
 		)
 
@@ -290,8 +368,8 @@ func _build_cracks() -> void:
 			)
 
 			var offset: float = randf_range(
-				-radius * 0.08,
-				radius * 0.08
+				-radius * 0.10,
+				radius * 0.10
 			)
 
 			path.append(
@@ -303,40 +381,66 @@ func _build_cracks() -> void:
 		crack_paths.append(path)
 
 
+func _create_flame_wave() -> void:
+	var wave := FLAME_WAVE_SCENE.new() as FlameWave
+
+	if wave == null:
+		return
+
+	var parent := get_parent()
+
+	if parent == null:
+		return
+
+	parent.add_child(wave)
+
+	wave.position = position
+	#wave.rotation = deg_to_rad(-18.0)
+	
+	wave.max_radius = 500.0
+	wave.expansion_speed = 600.0
+	wave.wave_width = 22.0
+
+
 func _draw() -> void:
 	if not destruction_active:
 		return
 
+	var p: float = destruction_progress
+
 	# --------------------------------
-	# Internal unstable glow
+	# Unstable glow
 	# --------------------------------
 
 	var glow_progress: float = clamp(
-		destruction_progress * 1.7,
+		p * 1.8,
 		0.0,
 		1.0
 	)
 
 	var pulse: float = (
-		0.65
-		+ sin(destruction_progress * TAU * 3.0) * 0.25
+		0.70
+		+ sin(p * TAU * 4.0) * 0.30
 	)
 
 	var glow_alpha: float = (
 		glow_progress
 		* pulse
-		* 0.35
+		* 0.55
 	)
 
-	var glow_radius: float = visual_radius * 1.15
+	var glow_radius: float = (
+		visual_radius
+		* (1.15 + p * 0.35)
+	)
 
 	draw_circle(
 		visual_center,
 		glow_radius,
 		Color(
 			1.0,
-			0.20,
-			0.02,
+			0.18,
+			0.01,
 			glow_alpha
 		)
 	)
@@ -346,9 +450,9 @@ func _draw() -> void:
 		glow_radius * 0.55,
 		Color(
 			1.0,
-			0.65,
+			0.70,
 			0.12,
-			glow_alpha * 1.8
+			glow_alpha * 1.5
 		)
 	)
 
@@ -357,13 +461,13 @@ func _draw() -> void:
 	# --------------------------------
 
 	var crack_progress: float = clamp(
-		(destruction_progress - 0.05) / 0.38,
+		(p - 0.03) / 0.42,
 		0.0,
 		1.0
 	)
 
 	for crack in crack_paths:
-		if crack.is_empty():
+		if crack.size() < 2:
 			continue
 
 		var visible_points := PackedVector2Array()
@@ -376,101 +480,74 @@ func _draw() -> void:
 				) * crack_progress
 			)
 
-		if visible_points.size() < 2:
-			continue
-
-		# Outer glow.
 		draw_polyline(
 			visible_points,
 			Color(
 				1.0,
-				0.25,
-				0.02,
-				0.65 * glow_progress
+				0.20,
+				0.01,
+				0.85 * glow_progress
 			),
-			6.0,
+			7.0,
 			true
 		)
 
-		# Hot core.
 		draw_polyline(
 			visible_points,
 			Color(
 				1.0,
-				0.85,
-				0.35,
-				0.95 * glow_progress
+				0.95,
+				0.45,
+				1.0 * glow_progress
 			),
-			2.0,
+			2.5,
 			true
 		)
 
 	# --------------------------------
-	# Final burst
+	# FLAME WAVE
 	# --------------------------------
 
-	if destruction_progress < 0.72:
+	if p < 0.68:
 		return
 
 	var burst_progress: float = (
-		destruction_progress - 0.72
-	) / 0.28
+		p - 0.68
+	) / 0.32
 
-	var burst_alpha: float = (
+	# Create the flame wave once.
+	if not explosion_active:
+		explosion_active = true
+		_create_flame_wave()
+
+	# Keep a small white-hot core behind
+	# the expanding wave.
+
+	var core_alpha: float = (
 		1.0 - burst_progress
-	)
-
-	var burst_radius: float = (
-		visual_radius * 0.25
-		+ burst_progress * visual_radius * 1.2
 	)
 
 	draw_circle(
 		visual_center,
-		burst_radius * 0.30,
+		visual_radius * 0.65,
 		Color(
 			1.0,
-			0.85,
-			0.50,
-			burst_alpha * 0.8
+			0.72,
+			0.12,
+			core_alpha * 0.85
 		)
 	)
 
-	for i in range(8):
-		var angle: float = (
-			float(i) * TAU / 8.0
-			+ 0.12
+	draw_circle(
+		visual_center,
+		visual_radius * 0.30,
+		Color(
+			1.0,
+			1.0,
+			0.85,
+			core_alpha
 		)
-
-		var direction: Vector2 = Vector2(
-			cos(angle),
-			sin(angle)
-		)
-
-		var start_distance: float = (
-			8.0
-			+ burst_progress * 5.0
-		)
-
-		var end_distance: float = (
-			burst_radius
-			* randf_range(0.75, 1.15)
-		)
-
-		draw_line(
-			visual_center
-			+ direction * start_distance,
-			visual_center
-			+ direction * end_distance,
-			Color(
-				1.0,
-				0.55,
-				0.08,
-				burst_alpha * 0.85
-			),
-			3.0,
-			true
-		)
+	)
 
 
 func set_base_position(new_position: Vector2) -> void:

@@ -42,7 +42,7 @@ static func create() -> Generator:
 		1.2,
 		ResourceIds.MATTER,
 		false,
-		"res://Generators/GeneratorDefinitions/Lava_Mite_Colony.png",
+		"res://Generators/GeneratorDefinitions/Lava_Mite_Colony_2.png",
 		[
 			normal_mode
 		]

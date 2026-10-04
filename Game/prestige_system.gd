@@ -2,6 +2,16 @@ class_name PrestigeSystem
 extends RefCounted
 
 
+func _get_new_realm_layout_id(
+	prestige_count: int
+	) -> String:
+
+	if prestige_count % 2 == 1:
+		return "test"
+
+	return "default"
+
+
 func calculate_eternal_flame_gain(
 	state: GameState
 	) -> float:
@@ -46,6 +56,15 @@ func smash(
 		)
 	
 	state.eternal_flame_state.prestige_count += 1
+	
+	# Select the physical layout for the new realm.
+	state.realm_layout_id = _get_new_realm_layout_id(
+		state.eternal_flame_state.prestige_count
+	)
+	
+	state.realm_layout = RealmLayoutRegistry.create_layout(
+		state.realm_layout_id
+	)
 	
 	state.eternal_flame_state.total_crystallized_flame += (
 		state.get_resource_amount(

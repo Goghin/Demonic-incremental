@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://b2yercssx8rec"]
+
+[ext_resource type="Script" uid="uid://dvox0tngnws0a" path="res://RealmView/lava_lake.gd" id="1_ffhw3"]
+[ext_resource type="Shader" uid="uid://bdd62vh1ixrwb" path="res://RealmView/lava_surface.gdshader" id="2_k5jev"]
+[ext_resource type="Texture2D" uid="uid://dqy2gtt3ydh6q" path="res://RealmView/lava1.png" id="3_msv3c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dpddx"]
+shader = ExtResource("2_k5jev")
+shader_parameter/lava_texture = ExtResource("3_msv3c")
+shader_parameter/texture_size = 22.0
+shader_parameter/texture_speed = Vector2(0.015, 0.008)
+shader_parameter/texture_strength = 0.8
+
+[node name="LavaLake" type="Node2D" unique_id=737180650]
+script = ExtResource("1_ffhw3")
+
+[node name="Background" type="Polygon2D" parent="." unique_id=1766437788]
+
+[node name="Rim" type="Polygon2D" parent="." unique_id=424185365]
+z_index = 1
+
+[node name="Surface" type="Polygon2D" parent="." unique_id=708598544]
+z_index = 2
+material = SubResource("ShaderMaterial_dpddx")
+
+[node name="InnerEdge" type="Line2D" parent="." unique_id=925762656]
+z_index = 3

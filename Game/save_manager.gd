@@ -175,7 +175,10 @@ func state_to_dictionary(
 			"resonance": state.realm_configuration.resonance,
 			"locked": state.realm_configuration.locked
 		},
-		"realm_stabilized": state.realm_stabilized
+		"realm_layout_id": state.realm_layout_id,
+		"realm_stabilized": state.realm_stabilized,
+		"total_overflow_this_prestige": state.total_overflow_this_prestige,
+		"overflow_bonus_from_last_realm": state.overflow_bonus_from_last_realm
 	}
 	
 	for resource in state.get_resources().values():
@@ -263,7 +266,19 @@ func dictionary_to_state(
 		state.current_run_statistics.from_dictionary(
 		current_run_statistics_data
 	)
-	
+		# --------------------------------------------------------
+	# OVERFLOW
+	# --------------------------------------------------------
+
+	state.total_overflow_this_prestige = max(
+		0.0,
+		float(data.get("total_overflow_this_prestige", 0.0))
+	)
+
+	state.overflow_bonus_from_last_realm = max(
+		1.0,
+		float(data.get("overflow_bonus_from_last_realm", 0.0))
+	)
 	# --------------------------------------------------------
 	# ETERNAL FLAME
 	# --------------------------------------------------------
@@ -360,7 +375,20 @@ func dictionary_to_state(
 		state.realm_stabilized = bool(
 			data["realm_stabilized"]
 		)
-	
+		# --------------------------------------------------------
+	# REALM LAYOUT
+	# --------------------------------------------------------
+
+	state.realm_layout_id = str(
+		data.get(
+			"realm_layout_id",
+			"default"
+		)
+	)
+
+	state.realm_layout = RealmLayoutRegistry.create_layout(
+		state.realm_layout_id
+	)
 	# --------------------------------------------------------
 	# GENERATORS
 	# --------------------------------------------------------

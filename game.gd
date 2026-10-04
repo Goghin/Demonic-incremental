@@ -25,9 +25,7 @@ var upgrade_panel_scene = preload(
 	"res://UI/upgrade_panel.tscn"
 )
 
-var realm_view_scene = preload(
-	"res://RealmView/RealmView.gd"
-)
+const realm_view_scene: PackedScene = preload("res://RealmView/RealmView.tscn")
 
 var realm_view: RealmView
 
@@ -43,14 +41,20 @@ func _ready() -> void:
 	)
 
 	await get_tree().process_frame
-
+	
 	state = GameState.new()
 	prestige_animation = $PrestigeAnimation
-	prestige_animation.setup(realm_view)
+	
 	_create_realm_view()
+	
+	
+		
+	prestige_animation.setup(realm_view)
+
 	$PrestigePanel.prestige_requested.connect(
 		_on_prestige_requested
-	)	
+	)
+
 
 	prestige_animation.destruction_complete.connect(
 		_on_prestige_destruction_complete
@@ -67,7 +71,9 @@ func _ready() -> void:
 	simulation = Simulation.new(
 		state
 	)
-
+	simulation.crystallization_completed.connect(
+		realm_view.play_crystallization_event
+		)
 	loading_screen.set_status(
 		"Preparing the flow of time..."
 	)
@@ -107,6 +113,9 @@ func _ready() -> void:
 	var loaded = save_manager.load_game(
 		state,
 		time_manager
+	)
+	realm_view.rebuild_realm(
+		state.realm_layout
 	)
 
 	if loaded:
@@ -219,7 +228,7 @@ func _ready() -> void:
 
 
 func _create_realm_view() -> void:
-	realm_view = realm_view_scene.new()
+	realm_view = realm_view_scene.instantiate()
 	realm_view.name = "RealmView"
 	realm_view.set_anchors_and_offsets_preset(
 		Control.PRESET_FULL_RECT
@@ -229,7 +238,6 @@ func _create_realm_view() -> void:
 
 	add_child(realm_view)
 	realm_view.setup(state)
-
 
 # ============================================================
 # GENERATORS
@@ -715,12 +723,20 @@ func _on_upgrades_button_pressed() -> void:
 
 
 func _on_prestige_requested() -> void:
+	$StatsPanel.hide()
+	$UpgradeScroll.hide()
+	$GeneratorScroll.hide()
+	$PrestigePanel.hide()
+
 	prestige_animation.play()
 
 
 func _on_prestige_destruction_complete() -> void:
 	$PrestigePanel.perform_smash()
 
+	$GeneratorScroll.show()
+	$PrestigePanel.show()
+	
 func _on_prestige_button_pressed() -> void:
 
 	$PrestigePanel.visible = not $PrestigePanel.visible
@@ -731,27 +747,44 @@ func _on_prestige_button_pressed() -> void:
 
 
 func _on_run_reset() -> void:
+	# ------------------------------------------------------------
+	# Rebuild the physical realm
+	# ------------------------------------------------------------
+
+	if realm_view != null:
+		realm_view.rebuild_realm(
+			state.realm_layout
+		)
+
+	# ------------------------------------------------------------
+	# Rebuild generator UI
+	# ------------------------------------------------------------
+
 	var generator_container = (
 		$GeneratorScroll/GeneratorContainer
 	)
-	
+
 	for child in generator_container.get_children():
 		child.queue_free()
-	
+
+	# ------------------------------------------------------------
+	# Rebuild upgrade UI
+	# ------------------------------------------------------------
+
 	var upgrade_container = (
 		$UpgradeScroll/UpgradeContainer
 	)
-	
+
 	for child in upgrade_container.get_children():
 		child.queue_free()
-	
+
 	upgrade_group_containers.clear()
 	upgrade_flows.clear()
 	upgrade_panels.clear()
 	effects_flow = null
-	
+
 	await get_tree().process_frame
-	
+
 	_create_initial_generator_panels()
 	_create_initial_upgrade_ui()
 	

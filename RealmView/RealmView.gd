@@ -2,22 +2,355 @@ class_name RealmView
 extends Control
 
 
+class AtomicFrictionParticleOverlay extends Node2D:
+	var time: float = 0.0
+	var active: bool = false
+	var generator_level: int = 1
+
+	func _process(delta: float) -> void:
+		time += delta
+		queue_redraw()
+
+	func _draw() -> void:
+		if not active:
+			return
+
+
+		var level: float = float(max(generator_level, 1))
+
+
+
+		# Particle count increases with level, with diminishing returns.
+		var particle_count: int = int(
+			2.0 + min(max(level - 1.0, 0.0) * 14.0 / 99.0, 14.0)
+		)
+
+		# Higher levels make particles vibrate faster.
+		var intensity: float = 1.0 + 0.05 * sqrt(level - 1.0)
+
+		for i in range(particle_count):
+			var seed: float = float(i) * 17.31
+
+			var phase: float = (
+				time * (5.0 + fmod(seed, 4.0)) * intensity
+				+ seed
+			)
+
+			var cycle: float = fmod(
+				time * (0.65 + fmod(seed, 0.4)) * intensity
+				+ seed,
+				1.0
+			)
+
+			# Particles remain clustered around the machine.
+			var radius: float = (
+				3.0
+				+ fmod(seed * 2.7, 7.0)
+				+ sin(phase) * (1.5 + 0.25 * (intensity - 1.0))
+			)
+
+			var angle: float = (
+				seed + sin(phase * 0.7) * 0.8
+			)
+
+			var particle_position: Vector2 = Vector2(
+				cos(angle) * radius,
+				sin(angle) * radius * 0.75
+			)
+
+			# Particle brightness increases slightly with level.
+			var alpha: float = clamp(
+				0.45
+				+ 0.35 * (0.5 + 0.5 * sin(phase))
+				+ 0.08 * (intensity - 1.0),
+				0.0,
+				1.0
+			)
+
+			var particle_size: float = (
+				0.3 * min(1.0 + 0.08 * sqrt(level - 1.0), 1.2)
+			)
+
+			draw_circle(
+				particle_position,
+				particle_size,
+				Color(0.05, 0.85, 0.78, alpha)
+			)
+
+			# Sparks escape more often as the machine levels up.
+			var spark_threshold: float = max(
+				0.62,
+				0.78 - 0.025 * sqrt(level - 1.0)
+			)
+
+			if cycle > spark_threshold:
+				var spark_progress: float = (
+					(cycle - spark_threshold)
+					/ (1.0 - spark_threshold)
+				)
+
+				var spark_direction: Vector2 = Vector2(
+					cos(angle + sin(seed) * 0.5),
+					sin(angle + sin(seed) * 0.5)
+				)
+
+				var spark_start: Vector2 = (
+					particle_position + spark_direction * 2.0
+				)
+
+				var spark_length: float = (
+					2.0 + spark_progress * 5.0
+				) * min(intensity, 2.0)
+
+				var spark_end: Vector2 = (
+					spark_start + spark_direction * spark_length
+				)
+
+				var spark_alpha: float = (
+					1.0 - spark_progress
+				)
+
+				draw_line(
+					spark_start,
+					spark_end,
+					Color(0.35, 0.95, 1.0, spark_alpha),
+					1.0
+				)
+
+				draw_circle(
+					spark_end,
+					0.65 * min(intensity, 1.5),
+					Color(0.8, 1.0, 1.0, spark_alpha)
+				)
+
+class ForgeGlowOverlay extends Node2D:
+	var glow_radius: float = 0.0
+	var glow_alpha: float = 0.0
+	var pulse: float = 0.0
+	var core_alpha: float = 1.0
+
+	func _draw() -> void:
+		draw_circle(
+			Vector2.ZERO,
+			glow_radius,
+			Color(
+				1.0,
+				0.25,
+				0.02,
+				glow_alpha
+			)
+		)
+
+		draw_circle(
+			Vector2.ZERO,
+			glow_radius * 0.35,
+			Color(
+				1.0,
+				0.55,
+				0.08,
+				glow_alpha * 1.5
+			)
+		)
+
+		draw_circle(
+			Vector2.ZERO,
+			1.0 + pulse * 3.0,
+			Color(
+				1.0,
+				0.85,
+				0.35,
+				core_alpha
+			)
+		)
+
+class FurnaceSwirlOverlay extends Node2D:
+	var time: float = 0.0
+	var active: bool = false
+	var speed_multiplier: float = 1.0
+
+	func _process(delta: float) -> void:
+		time += delta
+		queue_redraw()
+
+	func _draw() -> void:
+		if not active:
+			return
+
+		var center := Vector2.ZERO
+
+		for i in range(5):
+			var phase: float = (
+				time *
+				(1.4 + i * 0.18) *
+				speed_multiplier +
+				i * TAU / 5.0
+			)
+
+			var cycle: float = fmod(
+				time * 0.7 * speed_multiplier +
+				i * 0.23,
+				1.0
+			)
+			var inward: float = pow(cycle, 2.2)
+			var radius: float = lerp(13.0, 2.5, inward)
+
+			var orb_position := center + Vector2(
+				cos(phase),
+				sin(phase)
+			) * radius
+
+			orb_position += Vector2(
+				sin(time * 3.0 + i * 2.1),
+				cos(time * 2.4 + i * 1.7)
+			) * 1.5
+
+			var alpha: float = 0.7 * (1.0 - inward * 0.75)
+
+			draw_circle(
+				orb_position,
+				1.8,
+				Color(1.0, 0.35, 0.04, alpha)
+			)
+
+			draw_circle(
+				orb_position,
+				0.8,
+				Color(1.0, 0.85, 0.3, alpha)
+			)
+
+class ForgeSparkOverlay extends Node2D:
+	var time: float = 0.0
+	var active: bool = false
+
+	func _process(delta: float) -> void:
+		time += delta
+		queue_redraw()
+
+	func _draw() -> void:
+		if not active:
+			return
+
+		for i in range(11):
+			var seed: float = float(i) * 17.31
+
+			var cycle: float = fmod(
+				time * (0.35 + fmod(seed, 0.25)) +
+				seed,
+				1.0
+			)
+
+			# Evenly distributed directions around the forge.
+			var angle: float = (
+				float(i) * TAU / 9.0 +
+				sin(seed) * 0.25
+			)
+
+			var distance: float = lerp(
+				2.0,
+				24.0,
+				cycle
+			)
+
+			# Slight irregularity in the outward path.
+			var wobble: float = sin(
+				time * 5.0 +
+				seed
+			) * 1.0
+
+			var spark_position := Vector2(
+				cos(angle),
+				sin(angle)
+			) * (distance + wobble)
+
+			var alpha: float = (
+				sin(cycle * PI) *
+				0.75
+			)
+
+			var spark_size: float = (
+				0.45 +
+				fmod(seed, 0.35)
+			)
+
+			draw_circle(
+				spark_position,
+				spark_size,
+				Color(
+					1.0,
+					0.65,
+					0.15,
+					alpha
+				)
+			)
+
 var state: GameState
 var generator_textures: Dictionary = {}
+var generator_sprites: Dictionary = {}
+var furnace_inner_sprite: Sprite2D
+
+var atomic_friction_particles: Node2D
+
+const LAVA_MITE_ANIMATION_PATH: String = (
+	"res://Generators/GeneratorDefinitions/Lava_Mite_Colony_Animated.png"
+)
+
+const LAVA_MITE_ANIMATION_HFRAMES: int = 4
+const LAVA_MITE_ANIMATION_VFRAMES: int = 4
+const LAVA_MITE_ANIMATION_FPS: float = 4.0
+
+var forge_glow_overlay: Node2D
+var forge_spark_overlay: Node2D
+
+var furnace_swirl_overlay: Node2D
+const THERMAL_FURNACE_ROTATION_SPEED: float = 1
+
+const ATOMIC_FRICTION_BASE_ROTATION_SPEED: float = -0.45
+const ATOMIC_FRICTION_BASE_PULSE_SPEED: float = 1.2
+
+const ATOMIC_FRICTION_ROTATION_LEVEL_BONUS: float = 0.12
+const ATOMIC_FRICTION_PULSE_LEVEL_BONUS: float = 0.20
+
+var atomic_friction_time: float = 0.0
 
 var braziers: Dictionary = {}
+
 var crystallized_flames: Array[CrystallizedFlame] = []
 var crystallized_flame_values: Array[float] = []
 var last_crystallized_flame_amount: float = -1.0
 
+var lava_flows: Array[LavaFlow] = []
+var lava_falls: Array[LavaFall] = []
+var lava_lakes: Array[LavaLake] = []
 
-const CRYSTAL_BASE_SCALE: float = 0.12
-const CRYSTAL_CENTER: Vector2 = Vector2(0.68, 0.3)
+const CRYSTAL_BASE_SCALE: float = 0.08
+const CRYSTAL_CENTER: Vector2 = Vector2(0.68, 0.33)
 
 const MAX_VISIBLE_CRYSTALS: int = 25
 
-const REALM_VISUAL_SCALE: float = 1.1
-const REALM_VISUAL_OFFSET: Vector2 = Vector2(-40.0, 0.0)
+const REALM_VISUAL_SCALE: float = 1.0
+const REALM_VISUAL_OFFSET: Vector2 = Vector2(0.0, 0.0)
+const ISLAND_BASE_SIZE: Vector2 = Vector2(418.0, 156.0)
+const ISLAND_SCALE: float = 2.0
+
+
+const LAVA_EDGE_VARIATION: float = 0.55
+
+var realm_layout: Resource
+var island: Sprite2D
+
+var default_realm_layout = preload("res://RealmView/Layouts/TestRealmLayout.gd").new()
+
+const LAVA_LAKE_SCENE = preload(
+	"res://RealmView/LavaLake.tscn"
+)
+
+const LAVA_FLOW_SCENE = preload(
+	"res://RealmView/lavaflow.tscn"
+)
+
+const LAVA_FALL_SCENE = preload(
+	"res://RealmView/lavafall.tscn"
+)
 
 
 var realm_layout_mode: bool = false
@@ -26,45 +359,12 @@ var drag_offset: Vector2 = Vector2.ZERO
 
 var generator_hitboxes: Dictionary = {}
 
+var forge_glow_time: float = 0.0
 
-# Generator positions are stored as normalized coordinates
-# relative to the island rectangle.
-var generator_layout_positions: Dictionary = {
-	"atomic_friction": Vector2(0.511371, 0.422583),
-	"molecular_agitation": Vector2(0.460384, 0.359855),
-	"thermal_furnace": Vector2(0.574602, 0.378433),
-	"thermal_compressor": Vector2(0.615829, 0.254067),
-	"lava_mite_colony": Vector2(0.662417, 0.454621),
-	"matter_furnace": Vector2(0.399357, 0.253207),
-	"infernal_forge": Vector2(0.332365, 0.321587)
-}
-
-
-# Core position is stored as normalized coordinates
-# relative to the island rectangle.
-var core_layout_position: Vector2 = Vector2(
-	0.519077,
-	0.315870
-)
-
-
-# Brazier positions are stored as normalized coordinates
-# relative to the island rectangle.
-var brazier_layout_positions: Dictionary = {
-	"stability": Vector2(0.284469, 0.12257),
-	"density": Vector2(0.225378, 0.263042),
-	"integrity": Vector2(0.831101, 0.231573),
-	"intensity": Vector2(0.688068, 0.179388),
-	"resonance": Vector2(0.541076, 0.096425)
-}
-
-
-var core_hitbox: Rect2 = Rect2()
-
-
-const ISLAND_TEXTURE: Texture2D = preload(
-	"res://RealmView/infernal_island.png"
-)
+const FORGE_ACTIVE_GLOW_RADIUS: float = 15.0
+const FORGE_ACTIVE_GLOW_ALPHA: float = 0.28
+const FORGE_ACTIVE_CORE_ALPHA: float = 0.75
+const FORGE_ACTIVE_PULSE_SPEED: float = 5.0
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
@@ -73,7 +373,6 @@ const BRAZIER_SCENE = preload(
 const CRYSTALLIZED_FLAME_SCENE = preload(
 	"res://RealmView/CrystallizedFlame.tscn"
 )
-
 
 const BRAZIER_STATS: Array[String] = [
 	"stability",
@@ -95,8 +394,11 @@ func setup(game_state: GameState) -> void:
 	pivot_offset = size * 0.5
 	position = REALM_VISUAL_OFFSET
 
-	generator_textures.clear()
+	_setup_braziers()
 
+	rebuild_realm(state.realm_layout)
+
+func _setup_braziers() -> void:
 	for stat_name in BRAZIER_STATS:
 		if braziers.has(stat_name):
 			continue
@@ -109,15 +411,139 @@ func setup(game_state: GameState) -> void:
 
 		add_child(brazier_instance)
 
+		brazier_instance.z_index = 15
+
 		brazier_instance.mouse_filter = (
 			Control.MOUSE_FILTER_IGNORE
 		)
 
 		braziers[stat_name] = brazier_instance
 
+func rebuild_realm(new_layout: RealmLayout) -> void:
+	if state == null:
+		return
+
+	if new_layout == null:
+		push_warning(
+			"RealmView: Cannot rebuild realm without a RealmLayout."
+		)
+		return
+
+	realm_layout = new_layout
+
+	# ------------------------------------------------------------
+	# Remove old lava network
+	# ------------------------------------------------------------
+
+	for flow in lava_flows:
+		if is_instance_valid(flow):
+			flow.queue_free()
+
+	for fall in lava_falls:
+		if is_instance_valid(fall):
+			fall.queue_free()
+
+	for lake in lava_lakes:
+		if is_instance_valid(lake):
+			lake.queue_free()
+
+	lava_flows.clear()
+	lava_falls.clear()
+	lava_lakes.clear()
+
+	# ------------------------------------------------------------
+	# Reset generator visual effects
+	# ------------------------------------------------------------
+
+	if furnace_inner_sprite != null:
+		furnace_inner_sprite.visible = false
+		furnace_inner_sprite.rotation = 0.0
+
+	if atomic_friction_particles != null:
+		atomic_friction_particles.active = false
+		atomic_friction_particles.visible = false
+		atomic_friction_particles.time = 0.0
+
+	if forge_glow_overlay != null:
+		forge_glow_overlay.visible = false
+
+	if forge_spark_overlay != null:
+		forge_spark_overlay.visible = false
+
+	if furnace_swirl_overlay != null:
+		furnace_swirl_overlay.visible = false
+
+	# ------------------------------------------------------------
+	# Reset lava mite animation
+	# ------------------------------------------------------------
+
+	if generator_sprites.has("lava_mite_colony"):
+		var lava_mite_sprite: AnimatedSprite2D = (
+			generator_sprites["lava_mite_colony"]
+			as AnimatedSprite2D
+		)
+
+		if lava_mite_sprite != null:
+			lava_mite_sprite.stop()
+			lava_mite_sprite.frame = 0
+
+	# ------------------------------------------------------------
+	# Reset generator rotations
+	# ------------------------------------------------------------
+
+	for generator_id in generator_sprites:
+		if generator_id == "lava_mite_colony":
+			continue
+
+		var sprite: Sprite2D = (
+			generator_sprites[generator_id]
+		)
+
+		if sprite == null:
+			continue
+
+		sprite.rotation = 0.0
+
+	generator_textures.clear()
+
+	# ------------------------------------------------------------
+	# Build the new realm
+	# ------------------------------------------------------------
+
+	_update_island_sprite()
+
+	_create_lava_network()
+
+	_create_lava_lakes()
+
+	_update_lava_network_positions()
+
+	_update_lava_lake_positions()
+
+	_draw_generators()
+
+	# Force brazier positions to update immediately.
+	var island_rect: Rect2 = _get_island_rect()
+
+	_initialize_brazier_positions(
+		island_rect
+	)
+
+	# ------------------------------------------------------------
+	# Crystallized flame visuals
+	# ------------------------------------------------------------
+
+	last_crystallized_flame_amount = -1.0
+	update_flame_visuals()
+
+	# ------------------------------------------------------------
+	# Initial lava state
+	# ------------------------------------------------------------
+
+	_update_lava_flow_states()
+
 	queue_redraw()
-
-
+	
 func _create_crystal() -> void:
 	var crystal: CrystallizedFlame = (
 		CRYSTALLIZED_FLAME_SCENE.instantiate()
@@ -131,6 +557,8 @@ func _create_crystal() -> void:
 	crystal.position = size * CRYSTAL_CENTER
 
 	add_child(crystal)
+
+	crystal.z_index = 25
 
 	crystallized_flames.append(crystal)
 
@@ -173,6 +601,13 @@ func _process(_delta: float) -> void:
 		last_crystallized_flame_amount = current_flames
 		update_flame_visuals()
 
+	forge_glow_time += _delta
+	_update_generator_animations(_delta)
+	_update_lava_lakes()
+	_update_lava_flow_states()
+	_update_furnace_swirl()
+	_update_atomic_friction_particles()
+	_update_atomic_friction_animation(_delta)
 	queue_redraw()
 
 
@@ -291,6 +726,7 @@ func _remove_crystal() -> void:
 	crystal.queue_free()
 
 
+
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.pressed and not event.echo:
@@ -301,19 +737,14 @@ func _input(event: InputEvent) -> void:
 				if realm_layout_mode:
 					print("=== REALM LAYOUT ===")
 
-					print(
-						"Core -> ",
-						core_layout_position
-					)
-
 					print("--- Generators ---")
 
-					for generator_id in generator_layout_positions:
+					for generator_id in realm_layout.generator_layout_positions:
 						print(
 							"Generator ",
 							generator_id,
 							" -> ",
-							generator_layout_positions[
+							realm_layout.generator_layout_positions[
 								generator_id
 							]
 						)
@@ -326,12 +757,19 @@ func _input(event: InputEvent) -> void:
 								"Brazier ",
 								stat_name,
 								" -> ",
-								brazier_layout_positions[
+								realm_layout.brazier_layout_positions[
 									stat_name
 								]
 							)
 
+					if not lava_lakes.is_empty():
+						var main_lake: LavaLake = lava_lakes[0]
+						print("MAIN LAKE FILL: ", main_lake.fill)
+				
 					print("====================")
+					print(
+						"Shift + Left Click = print normalized position"
+					)
 
 				queue_redraw()
 
@@ -343,9 +781,21 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				_start_layout_drag(
+
+				var mouse_position: Vector2 = (
 					get_local_mouse_position()
 				)
+
+				if event.shift_pressed:
+					_print_layout_point(
+						mouse_position
+					)
+					return
+
+				_start_layout_drag(
+					mouse_position
+				)
+
 			else:
 				dragging_object = ""
 
@@ -356,6 +806,41 @@ func _input(event: InputEvent) -> void:
 		_update_layout_drag(
 			get_local_mouse_position()
 		)
+
+
+func _print_layout_point(
+	mouse_position: Vector2
+) -> void:
+	var island_rect: Rect2 = _get_island_rect()
+
+	var normalized_position: Vector2 = (
+		(mouse_position - island_rect.position) /
+		island_rect.size
+	)
+
+	print(
+		"CLICKED POINT"
+	)
+
+	print(
+		"Normalized -> Vector2(",
+		"%.6f" % normalized_position.x,
+		", ",
+		"%.6f" % normalized_position.y,
+		")"
+	)
+
+	print(
+		"Island local -> Vector2(",
+		"%.2f" % (mouse_position.x - island_rect.position.x),
+		", ",
+		"%.2f" % (mouse_position.y - island_rect.position.y)
+	)
+
+	print(
+		"Screen/local -> ",
+		mouse_position
+	)
 
 
 func _start_layout_drag(mouse_position: Vector2) -> void:
@@ -380,33 +865,6 @@ func _start_layout_drag(mouse_position: Vector2) -> void:
 			drag_offset = (
 				mouse_position -
 				brazier.position
-			)
-
-			return
-
-	# ------------------------------------------------------------
-	# Core
-	# ------------------------------------------------------------
-
-	if (
-		core_hitbox.size.x > 0.0
-		and
-		core_hitbox.size.y > 0.0
-	):
-		if core_hitbox.has_point(mouse_position):
-			dragging_object = "core"
-
-			var island_rect: Rect2 = _get_island_rect()
-
-			var current_core_position: Vector2 = (
-				island_rect.position +
-				island_rect.size *
-				core_layout_position
-			)
-
-			drag_offset = (
-				mouse_position -
-				current_core_position
 			)
 
 			return
@@ -456,22 +914,16 @@ func _draw() -> void:
 			realm.get_stat_value(stat_name)
 		)
 
-	var density: int = realm.density
-	var intensity: int = realm.intensity
-	var stability: int = realm.stability
-	var integrity: int = realm.integrity
-	var resonance: int = realm.resonance
-
 	var ash: float = state.get_resource_amount(
 		ResourceIds.ASH
 	)
 
-	var realm_scale: float = 1.0
+	# ------------------------------------------------------------
+	# Neutral realm dimensions
+	# ------------------------------------------------------------
 
-	var density_factor: float = 1.0 + min(
-		float(density),
-		100.0
-	) * 0.003
+	var realm_scale: float = 1.0
+	var density_factor: float = 1.0
 
 	var sx: float = (
 		190.0 *
@@ -485,18 +937,18 @@ func _draw() -> void:
 		density_factor
 	)
 
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 	# Background
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 
 	draw_rect(
 		Rect2(Vector2.ZERO, size),
 		Color(0.025, 0.014, 0.045)
 	)
 
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 	# Ambient haze
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 
 	draw_circle(
 		center + Vector2(0, 25),
@@ -504,11 +956,11 @@ func _draw() -> void:
 		Color(0.12, 0.06, 0.16, 0.10)
 	)
 
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 	# Distant realm particles
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 
-	var particle_count: int = 35 + resonance * 2
+	var particle_count: int = 35
 
 	for i in range(particle_count):
 		var angle: float = float(i) * 2.399
@@ -537,151 +989,27 @@ func _draw() -> void:
 			Color(0.55, 0.36, 0.65, 0.30)
 		)
 
-	# ----------------------------------------------------------------
-	# Heat / intensity aura
-	# ----------------------------------------------------------------
-
-	var intensity_value: float = min(
-		float(intensity),
-		100.0
-	)
-
-	var glow_radius: float = (
-		125.0 +
-		intensity_value * 1.5
-	)
-
-	var glow_alpha: float = (
-		0.10 +
-		intensity_value * 0.002
-	)
-
 	var island_rect: Rect2 = _get_island_rect()
 
-	var core_position: Vector2 = (
-		island_rect.position +
-		island_rect.size *
-		core_layout_position
-	)
-
-	draw_circle(
-		core_position,
-		glow_radius,
-		Color(
-			1.0,
-			0.18,
-			0.03,
-			glow_alpha
-		)
-	)
-
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 	# Floating island
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 
 	_initialize_brazier_positions(
 		island_rect
 	)
 
-	draw_texture_rect(
-		ISLAND_TEXTURE,
-		island_rect,
-		false
-	)
-
-	# ----------------------------------------------------------------
-	# Infernal core
-	# ----------------------------------------------------------------
-
-	var core_radius: float = (
-		28.0 +
-		intensity_value * 0.20
-	)
-
-	draw_circle(
-		core_position,
-		core_radius + 20.0,
-		Color(1.0, 0.12, 0.02, 0.12)
-	)
-
-	draw_circle(
-		core_position,
-		core_radius,
-		Color(0.95, 0.20, 0.035, 0.80)
-	)
-
-	draw_circle(
-		core_position + Vector2(0, -3),
-		core_radius * 0.55,
-		Color(1.0, 0.55, 0.10, 0.98)
-	)
-
-	if realm_layout_mode:
-		core_hitbox = Rect2(
-			core_position - Vector2(
-				core_radius + 20.0,
-				core_radius + 20.0
-			),
-			Vector2(
-				(core_radius + 20.0) * 2.0,
-				(core_radius + 20.0) * 2.0
-			)
-		)
-
-	# ----------------------------------------------------------------
-	# Lava channels
-	# ----------------------------------------------------------------
-
-	var lava_line_count: int = 3 + min(
-		intensity / 15,
-		8
-	)
-
-	for i in range(lava_line_count):
-		var x: float = (
-			-sx * 0.72 +
-			(
-				float(i) *
-				sx *
-				1.35 /
-				float(max(lava_line_count - 1, 1))
-			)
-		)
-
-		var lava_alpha: float = (
-			0.65 -
-			min(float(stability), 50.0) * 0.006
-		)
-
-		draw_line(
-			center + Vector2(x, 15),
-			center + Vector2(
-				x,
-				80.0 + fmod(float(i * 19), 45.0)
-			),
-			Color(
-				1.0,
-				0.22,
-				0.035,
-				lava_alpha
-			),
-			2.0
-		)
-
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 	# Generators
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 
-	_draw_generators(
-		center,
-		sx,
-		sy,
-		core_position
-	)
+	_draw_generators()
 
-	# ----------------------------------------------------------------
+	_draw_forge_active_glow()
+
+	# ------------------------------------------------------------
 	# Ash
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 
 	_draw_ash(
 		center,
@@ -689,18 +1017,9 @@ func _draw() -> void:
 		ash
 	)
 
-	# ----------------------------------------------------------------
-	# Heat leak
-	# ----------------------------------------------------------------
-
-	_draw_heat_leak(
-		center,
-		sx
-	)
-
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 	# Layout mode
-	# ----------------------------------------------------------------
+	# ------------------------------------------------------------
 
 	if realm_layout_mode:
 		_draw_layout_overlay()
@@ -708,44 +1027,12 @@ func _draw() -> void:
 
 func _get_island_rect() -> Rect2:
 	var center: Vector2 = size * Vector2(0.68, 0.66)
-
-	var realm: RealmConfiguration = (
-		state.realm_configuration
-	)
-
-	var density: int = realm.density
-
-	var realm_scale: float = 1.0
-
-	var density_factor: float = 1.0 + min(
-		float(density),
-		100.0
-	) * 0.003
-
-	var sx: float = (
-		190.0 *
-		realm_scale *
-		density_factor
-	)
-
-	var sy: float = (
-		78.0 *
-		realm_scale *
-		density_factor
-	)
-
-	var island_scale: float = 2.5
-
-	var island_size: Vector2 = Vector2(
-		sx * 2.2 * island_scale,
-		sy * 2.0 * island_scale
-	)
+	var island_size: Vector2 = ISLAND_BASE_SIZE * ISLAND_SCALE
 
 	return Rect2(
 		center - island_size * 0.5,
 		island_size
 	)
-
 
 func _initialize_brazier_positions(
 	island_rect: Rect2
@@ -755,7 +1042,9 @@ func _initialize_brazier_positions(
 			continue
 
 		var normalized_position: Vector2 = (
-			brazier_layout_positions[stat_name]
+			realm_layout.brazier_layout_positions[
+				stat_name
+			]
 		)
 
 		var brazier: Control = braziers[stat_name]
@@ -766,9 +1055,7 @@ func _initialize_brazier_positions(
 			normalized_position
 		)
 
-
 func _draw_layout_overlay() -> void:
-	# Border around the RealmView.
 	draw_rect(
 		Rect2(Vector2.ZERO, size),
 		Color(1.0, 0.75, 0.20, 0.65),
@@ -789,32 +1076,6 @@ func _draw_layout_overlay() -> void:
 			hitbox.grow(3.0),
 			Color(1.0, 0.75, 0.20, 0.75),
 			false,
-			1.0
-		)
-
-	# ------------------------------------------------------------
-	# Core selection marker
-	# ------------------------------------------------------------
-
-	if core_hitbox.size != Vector2.ZERO:
-		draw_rect(
-			core_hitbox.grow(3.0),
-			Color(1.0, 0.35, 0.05, 0.85),
-			false,
-			2.0
-		)
-
-		draw_line(
-			core_hitbox.get_center() + Vector2(-45, 0),
-			core_hitbox.get_center() + Vector2(45, 0),
-			Color(1.0, 0.75, 0.20, 0.5),
-			1.0
-		)
-
-		draw_line(
-			core_hitbox.get_center() + Vector2(0, -45),
-			core_hitbox.get_center() + Vector2(0, 45),
-			Color(1.0, 0.75, 0.20, 0.5),
 			1.0
 		)
 
@@ -858,195 +1119,291 @@ func _draw_layout_overlay() -> void:
 		)
 
 
-func _island_points(
-	center: Vector2,
-	sx: float,
-	sy: float
-) -> PackedVector2Array:
-	var points: PackedVector2Array = PackedVector2Array()
-
-	for i in range(24):
-		var angle: float = (
-			TAU *
-			float(i) /
-			24.0
-		)
-
-		var wobble: float = (
-			0.88 +
-			fmod(float(i * 17), 100.0) / 500.0
-		)
-
-		points.append(
-			center +
-			Vector2(
-				cos(angle) * sx * wobble,
-				sin(angle) * sy * wobble
-			)
-		)
-
-	return points
 
 
-func _draw_generators(
-	center: Vector2,
-	sx: float,
-	sy: float,
-	core_position: Vector2
-) -> void:
+func _draw_generators() -> void:
 	var active_generators: Array = []
 
 	for generator_value in state.generators.values():
 		var generator: Generator = generator_value
+		var generator_id: String = generator.definition.id
 
-		if generator.unlocked and generator.level > 0:
+		if generator.unlocked and (
+			generator.level > 0 or
+			generator_id == "infernal_forge"
+		):
 			active_generators.append(generator)
-
-	var count: int = active_generators.size()
-
-	if count == 0:
-		generator_hitboxes.clear()
-		return
-
-	_initialize_generator_layout_positions(
-		center,
-		sx,
-		sy
-	)
 
 	generator_hitboxes.clear()
 
 	var island_rect: Rect2 = _get_island_rect()
+	var active_ids: Dictionary = {}
+
+	var machine_size: float = 20.0
 
 	for generator in active_generators:
-		var generator_id: String = (
-			generator.definition.id
-		)
+		var generator_id: String = generator.definition.id
 
-		if not generator_layout_positions.has(
+		active_ids[generator_id] = true
+
+		if not realm_layout.generator_layout_positions.has(
 			generator_id
 		):
 			continue
 
 		var normalized_position: Vector2 = (
-			generator_layout_positions[
+			realm_layout.generator_layout_positions[
 				generator_id
 			]
 		)
 
-		var position: Vector2 = (
+		var generator_position: Vector2 = (
 			island_rect.position +
-			island_rect.size *
-			normalized_position
+			island_rect.size * normalized_position
 		)
 
-		var machine_size: float = (
-			20.0 +
-			min(float(generator.level), 50.0) * 0.25
-		)
+		var size_multiplier: float = 1.0
 
-		var texture: Texture2D = _get_generator_texture(
-			generator
-		)
+		if generator_id == "infernal_forge":
+			size_multiplier = 2.2
 
-		if texture != null:
-			var texture_size: Vector2 = (
-				texture.get_size()
+		# ---------------------------------------------------------
+		# Lava Mite Colony
+		# ---------------------------------------------------------
+		if generator_id == "lava_mite_colony":
+			var animated_sprite: AnimatedSprite2D = (
+				_get_lava_mite_sprite()
+			)
+
+			var frame_size: Vector2 = Vector2(
+				256.0,
+				256.0
+			)
+
+			# Level 1 = 80%
+			# Level 21 = 100%
+			# Above level 21 = diminishing growth
+			var colony_size_multiplier: float = (
+				_get_lava_mite_size_multiplier(
+					generator.level
+				)
+			)
+
+			var target_size: float = (
+				machine_size *
+				2.0 *
+				size_multiplier *
+				colony_size_multiplier
 			)
 
 			var texture_scale: float = min(
-				(machine_size * 2.0) /
-				max(texture_size.x, 1.0),
-				(machine_size * 2.0) /
-				max(texture_size.y, 1.0)
+				target_size / max(frame_size.x, 1.0),
+				target_size / max(frame_size.y, 1.0)
 			)
 
 			var draw_size: Vector2 = (
-				texture_size * texture_scale
+				frame_size * texture_scale
 			)
 
-			var rect: Rect2 = Rect2(
-				position - draw_size * 0.5,
+			var hitbox: Rect2 = Rect2(
+				generator_position - draw_size * 0.5,
 				draw_size
 			)
 
-			generator_hitboxes[generator_id] = rect
+			generator_hitboxes[generator_id] = hitbox
 
-			var modulation: Color = Color(
-				1.0,
-				1.0,
-				1.0,
-				1.0
+			animated_sprite.position = generator_position
+			animated_sprite.scale = Vector2(
+				texture_scale,
+				texture_scale
+			)
+			animated_sprite.z_index = 10
+			animated_sprite.visible = true
+
+			# Update animation speed based on level.
+			_update_lava_mite_animation_speed(
+				animated_sprite,
+				generator.level
 			)
 
-			if not generator.is_operating():
-				modulation = Color(
+			if generator.is_operating():
+				animated_sprite.modulate = Color(
+					1.0,
+					1.0,
+					1.0,
+					0.75
+				)
+
+				if animated_sprite.animation != &"default":
+					animated_sprite.animation = &"default"
+
+				if not animated_sprite.is_playing():
+					animated_sprite.play()
+			else:
+				animated_sprite.modulate = Color(
 					0.70,
 					0.70,
 					0.70,
 					1.0
 				)
 
-			draw_texture_rect(
-				texture,
-				rect,
-				false,
-				modulation
-			)
+				if animated_sprite.is_playing():
+					animated_sprite.pause()
 
-		else:
-			var fallback_color: Color = Color(
-				1.0,
-				0.32,
-				0.08
-			)
+			continue
 
-			if not generator.is_operating():
-				fallback_color = Color(
-					0.60,
-					0.32,
-					0.18
-				)
-
-			var fallback_rect: Rect2 = Rect2(
-				position - Vector2(
-					machine_size,
-					machine_size
-				),
-				Vector2(
-					machine_size * 2.0,
-					machine_size * 2.0
-				)
-			)
-
-			generator_hitboxes[generator_id] = (
-				fallback_rect
-			)
-
-			draw_rect(
-				fallback_rect,
-				fallback_color
-			)
-
-		draw_line(
-			position,
-			core_position,
-			Color(0.55, 0.25, 0.10, 0.22),
-			1.0
+		# ---------------------------------------------------------
+		# Normal generators
+		# ---------------------------------------------------------
+		var texture: Texture2D = _get_generator_texture(
+			generator
 		)
 
+		if texture != null:
+			var texture_size: Vector2 = texture.get_size()
 
-func _initialize_generator_layout_positions(
-	center: Vector2,
-	sx: float,
-	sy: float
-) -> void:
-	# Generator positions are stored directly as normalized
-	# coordinates relative to the island rectangle.
-	#
-	# This function intentionally does nothing.
-	pass
+			var target_size: float = (
+				machine_size *
+				2.0 *
+				size_multiplier
+			)
 
+			var texture_scale: float = min(
+				target_size / max(texture_size.x, 1.0),
+				target_size / max(texture_size.y, 1.0)
+			)
+
+			var draw_size: Vector2 = (
+				texture_size * texture_scale
+			)
+
+			var hitbox: Rect2 = Rect2(
+				generator_position - draw_size * 0.5,
+				draw_size
+			)
+
+			generator_hitboxes[generator_id] = hitbox
+
+			var sprite: Sprite2D
+
+			if generator_sprites.has(generator_id):
+				sprite = generator_sprites[generator_id]
+			else:
+				sprite = Sprite2D.new()
+				sprite.name = "Generator_" + generator_id
+				add_child(sprite)
+				generator_sprites[generator_id] = sprite
+
+			sprite.z_index = 10
+			sprite.texture = texture
+			sprite.position = generator_position
+
+			if generator_id == "atomic_friction":
+				if not sprite.has_meta(
+					"atomic_friction_base_scale"
+				):
+					sprite.set_meta(
+						"atomic_friction_base_scale",
+						Vector2(
+							texture_scale,
+							texture_scale
+						)
+					)
+			else:
+				sprite.scale = Vector2(
+					texture_scale,
+					texture_scale
+				)
+
+			sprite.visible = true
+
+			if generator.is_operating():
+				sprite.modulate = Color(
+					1.0,
+					1.0,
+					1.0,
+					0.75
+				)
+			else:
+				sprite.modulate = Color(
+					0.70,
+					0.70,
+					0.70,
+					1.0
+				)
+
+		else:
+			var fallback_size: float = (
+				machine_size *
+				size_multiplier
+			)
+
+			var fallback_rect: Rect2 = Rect2(
+				generator_position - Vector2(
+					fallback_size,
+					fallback_size
+				),
+				Vector2(
+					fallback_size * 2.0,
+					fallback_size * 2.0
+				)
+			)
+
+			generator_hitboxes[generator_id] = fallback_rect
+
+	# Hide normal generators that are no longer active.
+	for generator_id in generator_sprites:
+		if generator_id == "lava_mite_colony":
+			continue
+
+		if not active_ids.has(generator_id):
+			var sprite: Sprite2D = generator_sprites[
+				generator_id
+			]
+			sprite.visible = false
+
+	# Hide the lava mite colony when it is no longer active.
+	if generator_sprites.has("lava_mite_colony"):
+		var lava_mite_sprite: AnimatedSprite2D = (
+			generator_sprites[
+				"lava_mite_colony"
+			] as AnimatedSprite2D
+		)
+
+		if lava_mite_sprite != null:
+			lava_mite_sprite.visible = (
+				active_ids.has("lava_mite_colony")
+			)
+
+
+
+
+func _get_generator_position(
+	generator_id: String
+) -> Vector2:
+	if not realm_layout.generator_layout_positions.has(
+		generator_id
+	):
+		return size * Vector2(
+			0.5,
+			0.5
+		)
+
+	var island_rect: Rect2 = (
+		_get_island_rect()
+	)
+
+	var normalized_position: Vector2 = (
+		realm_layout.generator_layout_positions[
+			generator_id
+		]
+	)
+
+	return (
+		island_rect.position +
+		island_rect.size *
+		normalized_position
+	)
 
 func _get_generator_texture(
 	generator: Generator
@@ -1121,202 +1478,6 @@ func _draw_ash(
 		)
 
 
-func _draw_heat_leak(
-	center: Vector2,
-	sx: float
-) -> void:
-	var leak: float = (
-		state.get_heat_leak_per_second()
-	)
-
-	if leak <= 0.0:
-		return
-
-	var threshold: float = (
-		state.realm_effects.heat_leak_threshold
-	)
-
-	var heat: float = state.get_resource_amount(
-		ResourceIds.HEAT
-	)
-
-	var excess: float = clamp(
-		(heat - threshold) /
-		max(threshold, 1.0),
-		0.0,
-		1.0
-	)
-
-	var leak_strength: float = clamp(
-		leak /
-		max(threshold * 0.25, 1.0),
-		0.0,
-		1.0
-	)
-
-	var shimmer_count: int = (
-		4 +
-		int(leak_strength * 8.0)
-	)
-
-	for i in range(shimmer_count):
-		var angle: float = (
-			float(i) * 2.37 +
-			Time.get_ticks_msec() * 0.00015
-		)
-
-		var distance: float = (
-			sx *
-			(
-				0.35 +
-				fmod(float(i * 17), 100.0) / 180.0
-			)
-		)
-
-		var position: Vector2 = (
-			center +
-			Vector2(
-				cos(angle) * distance,
-				sin(angle) * distance * 0.30 - 35.0
-			)
-		)
-
-		var shimmer_alpha: float = (
-			0.05 +
-			leak_strength * 0.12
-		)
-
-		draw_circle(
-			position,
-			2.0 + leak_strength * 2.0,
-			Color(
-				1.0,
-				0.30,
-				0.06,
-				shimmer_alpha
-			)
-		)
-
-	var vent_count: int = (
-		3 +
-		int(excess * 7.0)
-	)
-
-	for i in range(vent_count):
-		var normalized: float = (
-			float(i) /
-			float(max(vent_count - 1, 1))
-		)
-
-		var x: float = lerp(
-			-sx * 0.78,
-			sx * 0.78,
-			normalized
-		)
-
-		var offset: float = (
-			fmod(float(i * 37), 31.0) -
-			15.0
-		)
-
-		var vent_position: Vector2 = (
-			center +
-			Vector2(
-				x,
-				12.0 + offset
-			)
-		)
-
-		var vent_radius: float = (
-			2.0 +
-			leak_strength * 3.0
-		)
-
-		draw_circle(
-			vent_position,
-			vent_radius * 2.5,
-			Color(
-				1.0,
-				0.16,
-				0.02,
-				0.08 + leak_strength * 0.10
-			)
-		)
-
-		draw_circle(
-			vent_position,
-			vent_radius,
-			Color(
-				1.0,
-				0.42,
-				0.08,
-				0.55 + leak_strength * 0.30
-			)
-		)
-
-		var stream_length: float = lerp(
-			8.0,
-			65.0,
-			excess
-		)
-
-		var wave: float = sin(
-			Time.get_ticks_msec() * 0.004 +
-			float(i) * 1.7
-		)
-
-		var wave_strength: float = lerp(
-			2.0,
-			12.0,
-			excess
-		)
-
-		var end_position: Vector2 = (
-			vent_position +
-			Vector2(
-				wave * wave_strength,
-				-stream_length
-			)
-		)
-
-		draw_line(
-			vent_position,
-			end_position,
-			Color(
-				1.0,
-				0.18,
-				0.025,
-				0.08 + leak_strength * 0.12
-			),
-			5.0 + leak_strength * 4.0
-		)
-
-		draw_line(
-			vent_position,
-			end_position,
-			Color(
-				1.0,
-				0.30,
-				0.05,
-				0.20 + leak_strength * 0.45
-			),
-			1.5 + leak_strength * 1.5
-		)
-
-		if leak_strength > 0.25:
-			draw_line(
-				vent_position,
-				end_position,
-				Color(
-					1.0,
-					0.72,
-					0.20,
-					0.25 + leak_strength * 0.45
-				),
-				0.7 + leak_strength
-			)
-
-
 func _update_layout_drag(
 	mouse_position: Vector2
 ) -> void:
@@ -1359,9 +1520,9 @@ func _update_layout_drag(
 				1.0
 			)
 
-			brazier_layout_positions[stat_name] = (
-				normalized_position
-			)
+			realm_layout.brazier_layout_positions[
+				stat_name
+			] = normalized_position
 
 			braziers[stat_name].position = (
 				island_rect.position +
@@ -1374,47 +1535,10 @@ func _update_layout_drag(
 			return
 
 	# ------------------------------------------------------------
-	# Core
-	# ------------------------------------------------------------
-
-	if dragging_object == "core":
-		var new_position: Vector2 = (
-			mouse_position -
-			drag_offset
-		)
-
-		var island_rect: Rect2 = (
-			_get_island_rect()
-		)
-
-		var normalized_position: Vector2 = (
-			(new_position - island_rect.position) /
-			island_rect.size
-		)
-
-		normalized_position.x = clamp(
-			normalized_position.x,
-			0.0,
-			1.0
-		)
-
-		normalized_position.y = clamp(
-			normalized_position.y,
-			0.0,
-			1.0
-		)
-
-		core_layout_position = normalized_position
-
-		queue_redraw()
-
-		return
-
-	# ------------------------------------------------------------
 	# Generator
 	# ------------------------------------------------------------
 
-	if generator_layout_positions.has(
+	if realm_layout.generator_layout_positions.has(
 		dragging_object
 	):
 		var new_position: Vector2 = (
@@ -1443,12 +1567,11 @@ func _update_layout_drag(
 			1.0
 		)
 
-		generator_layout_positions[
+		realm_layout.generator_layout_positions[
 			dragging_object
 		] = normalized_position
 
 		queue_redraw()
-
 
 func _update_crystal_values(
 	total_flames: float
@@ -1487,42 +1610,971 @@ func _update_crystal_values(
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
-		pivot_offset = size * 0.5
+		_update_lava_network_positions()
+		_update_island_sprite()
+		_update_lava_lake_positions()
 
 
 func begin_prestige_destruction() -> void:
+	if crystallized_flames.is_empty():
+		return
+
 	print(
 		"BEGIN PRESTIGE DESTRUCTION: ",
 		crystallized_flames.size(),
 		" crystals"
 	)
 
-	if crystallized_flames.is_empty():
+	var first_index: int = randi_range(
+		0,
+		crystallized_flames.size() - 1
+	)
+
+	var first_crystal: CrystallizedFlame = (
+		crystallized_flames[first_index]
+	)
+
+	print(
+		"Starting chain reaction with crystal ",
+		first_index,
+		" at ",
+		first_crystal.position
+	)
+
+	first_crystal.begin_destruction(0.0)
+
+
+func play_crystallization_event(
+	crystals_created: float
+) -> void:
+	if state == null:
 		return
 
-	var order: Array[int] = []
+	if crystals_created <= 0.0:
+		return
 
-	for i in range(crystallized_flames.size()):
-		order.append(i)
+	var forge_position: Vector2 = (
+		_get_generator_position(
+			"infernal_forge"
+		)
+	)
 
-	order.shuffle()
+	var old_count: int = (
+		crystallized_flames.size()
+	)
 
-	for order_index in range(order.size()):
-		var crystal_index: int = order[order_index]
+	update_flame_visuals()
 
-		print(
-			"Triggering crystal ",
-			crystal_index,
-			" at ",
-			crystallized_flames[crystal_index].position
+	var new_count: int = (
+		crystallized_flames.size()
+	)
+
+	if new_count <= old_count:
+		return
+
+	for i in range(old_count, new_count):
+		var crystal: CrystallizedFlame = (
+			crystallized_flames[i]
 		)
 
-		var delay: float = (
-			0.03 +
-			float(order_index) * 0.035 +
-			randf_range(0.0, 0.05)
+		var target_position: Vector2 = (
+			crystal.base_position
 		)
 
-		crystallized_flames[
-			crystal_index
-		].begin_destruction(delay)
+		crystal.scale = Vector2.ZERO
+
+		_play_crystal_stream(
+			forge_position,
+			target_position,
+			crystal
+		)
+
+
+func _play_crystal_stream(
+	from_position: Vector2,
+	target_position: Vector2,
+	crystal: CrystallizedFlame
+) -> void:
+	var stream := CrystallizationStream.new()
+
+	stream.setup(
+		from_position,
+		target_position
+	)
+
+	stream.z_index = 20
+
+	add_child(stream)
+
+	crystal.scale = Vector2.ZERO
+
+	var target_scale := Vector2(
+		CRYSTAL_BASE_SCALE,
+		CRYSTAL_BASE_SCALE
+	)
+
+	var formation_delay := (
+		stream.duration * 0.72
+	)
+
+	var tween := create_tween()
+
+	tween.tween_interval(
+		formation_delay
+	)
+
+	tween.tween_property(
+		crystal,
+		"scale",
+		target_scale * 0.18,
+		0.10
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	tween.tween_property(
+		crystal,
+		"scale",
+		target_scale * 1.18,
+		0.24
+	).set_trans(
+		Tween.TRANS_BACK
+	).set_ease(
+		Tween.EASE_OUT
+	)
+
+	tween.tween_property(
+		crystal,
+		"scale",
+		target_scale,
+		0.18
+	).set_trans(
+		Tween.TRANS_QUAD
+	).set_ease(
+		Tween.EASE_IN_OUT
+	)
+
+
+
+
+
+func _draw_forge_active_glow() -> void:
+	if state == null:
+		return
+
+	if not state.generators.has("infernal_forge"):
+		return
+
+	var forge: Generator = state.generators["infernal_forge"]
+
+	if not forge.unlocked:
+		if forge_glow_overlay != null:
+			forge_glow_overlay.visible = false
+
+		if forge_spark_overlay != null:
+			forge_spark_overlay.visible = false
+
+		return
+
+	if forge_glow_overlay == null:
+		forge_glow_overlay = ForgeGlowOverlay.new()
+		forge_glow_overlay.name = "ForgeGlowOverlay"
+		forge_glow_overlay.z_index = 20
+		add_child(forge_glow_overlay)
+
+	if not forge.operating:
+		forge_glow_overlay.visible = false
+
+		if forge_spark_overlay != null:
+			forge_spark_overlay.visible = false
+
+		return
+
+	forge_glow_overlay.visible = true
+
+	var forge_position: Vector2 = _get_generator_position(
+		"infernal_forge"
+	)
+
+	var pulse: float = (
+		0.5 +
+		0.5 * sin(
+			forge_glow_time *
+			FORGE_ACTIVE_PULSE_SPEED
+		)
+	)
+
+	var glow_radius: float = (
+		FORGE_ACTIVE_GLOW_RADIUS +
+		pulse * 5.0
+	)
+
+	var glow_alpha: float = (
+		FORGE_ACTIVE_GLOW_ALPHA +
+		pulse * 0.08
+	)
+
+	forge_glow_overlay.position = (
+		forge_position +
+		Vector2(0, 5)
+	)
+	forge_glow_overlay.glow_radius = glow_radius
+	forge_glow_overlay.glow_alpha = glow_alpha
+	forge_glow_overlay.pulse = pulse
+	forge_glow_overlay.core_alpha = FORGE_ACTIVE_CORE_ALPHA
+
+	forge_glow_overlay.queue_redraw()
+	if forge_spark_overlay == null:
+		forge_spark_overlay = ForgeSparkOverlay.new()
+		forge_spark_overlay.name = "ForgeSparkOverlay"
+		forge_spark_overlay.z_index = 21
+		add_child(forge_spark_overlay)
+
+	forge_spark_overlay.position = forge_position + Vector2(0, 5)
+	forge_spark_overlay.visible = true
+
+	var sparks: ForgeSparkOverlay = forge_spark_overlay
+	sparks.active = true
+	sparks.queue_redraw()
+
+
+# ------------------------------------------------------------
+# LAVA NETWORK
+# ------------------------------------------------------------
+
+
+
+func _create_lava_network() -> void:
+	# If setup() is ever called more than once, don't create
+	# duplicate lava flows.
+	for flow in lava_flows:
+		if is_instance_valid(flow):
+			flow.queue_free()
+
+	for fall in lava_falls:
+		if is_instance_valid(fall):
+			fall.queue_free()
+
+	lava_flows.clear()
+	lava_falls.clear()
+
+	var island_rect: Rect2 = _get_island_rect()
+
+	for definition in realm_layout.lava_flow_definitions:
+		var normalized_points: PackedVector2Array = (
+			definition["points"]
+		)
+
+		if normalized_points.is_empty():
+			continue
+
+		var flow: LavaFlow = (
+			LAVA_FLOW_SCENE.instantiate()
+		)
+		flow.fill_speed_multiplier = randf_range(0.8, 1.25)
+		add_child(flow)
+
+		var flow_points: PackedVector2Array = (
+			_convert_lava_points(
+				normalized_points,
+				island_rect
+			)
+		)
+
+		var flow_widths: PackedFloat32Array = (
+			definition["widths"]
+		)
+
+		flow.setup(
+			flow_points,
+			flow_widths,
+			definition["speed"],
+			definition["thickness"]
+		)
+
+		flow.z_index = int(
+			definition["flow_z"]
+		)
+
+		lava_flows.append(flow)
+
+		# --------------------------------------------------------
+		# Fall
+		# --------------------------------------------------------
+
+		var fall: LavaFall = (
+			LAVA_FALL_SCENE.instantiate()
+		)
+
+		add_child(fall)
+
+		var last_normalized_point: Vector2 = (
+			normalized_points[
+				normalized_points.size() - 1
+			]
+		)
+
+		fall.position = (
+			island_rect.position +
+			island_rect.size *
+			last_normalized_point
+		)
+
+		fall.setup(
+			float(definition["fall_width"]),
+			float(definition["fall_length"]),
+			float(definition["fall_speed"])
+		)
+
+		fall.z_index = int(
+			definition["fall_z"]
+		)
+
+		lava_falls.append(fall)
+
+
+func _update_lava_network_positions() -> void:
+	if lava_flows.is_empty():
+		return
+
+	var island_rect: Rect2 = _get_island_rect()
+
+	var flow_definitions: Array[Dictionary] = (
+		realm_layout.lava_flow_definitions
+	)
+
+	var flow_count: int = min(
+		lava_flows.size(),
+		flow_definitions.size()
+	)
+
+	for i in range(flow_count):
+		var flow: LavaFlow = lava_flows[i]
+
+		if not is_instance_valid(flow):
+			continue
+
+		var definition: Dictionary = (
+			flow_definitions[i]
+		)
+
+		var normalized_points: PackedVector2Array = (
+			definition["points"]
+		)
+
+		var flow_points: PackedVector2Array = (
+			_convert_lava_points(
+				normalized_points,
+				island_rect
+			)
+		)
+
+		flow.reposition_from_points(
+			flow_points
+		)
+
+		if i < lava_falls.size():
+			var fall: LavaFall = lava_falls[i]
+
+			if is_instance_valid(fall):
+				if not normalized_points.is_empty():
+					var last_normalized_point: Vector2 = (
+						normalized_points[
+							normalized_points.size() - 1
+						]
+					)
+
+					fall.position = (
+						island_rect.position +
+						island_rect.size *
+						last_normalized_point
+					)
+
+func _convert_lava_points(
+	normalized_points: PackedVector2Array,
+	island_rect: Rect2
+) -> PackedVector2Array:
+	var points := PackedVector2Array()
+
+	for normalized_point in normalized_points:
+		points.append(
+			island_rect.position +
+			island_rect.size *
+			normalized_point
+		)
+
+	return points
+
+func _update_island_sprite() -> void:
+	var island: Sprite2D = get_node_or_null("Island") as Sprite2D
+
+	if island == null:
+		return
+
+	if realm_layout == null:
+		return
+
+	var island_rect: Rect2 = _get_island_rect()
+
+	var island_texture: Texture2D = (
+		realm_layout.island_texture
+	)
+
+	if island_texture == null:
+		return
+
+	island.texture = island_texture
+	island.position = (
+		island_rect.position +
+		island_rect.size * 0.5
+	)
+	island.scale = (
+		island_rect.size /
+		island_texture.get_size()
+	)
+	island.z_index = 5
+
+func _create_lava_lakes() -> void:
+	for lake in lava_lakes:
+		if is_instance_valid(lake):
+			lake.queue_free()
+
+	lava_lakes.clear()
+
+	var island_rect: Rect2 = _get_island_rect()
+
+	# MAIN LAKE
+	var main_lake: LavaLake = LAVA_LAKE_SCENE.instantiate()
+	add_child(main_lake)
+	main_lake.z_index = 6
+
+	main_lake.setup(
+		realm_layout.main_lake_edge_points,
+		island_rect
+	)
+	
+	
+	var overflow: float = (
+		state.get_heat_leak_per_second() *
+		state.get_overflow_multiplier()
+	)
+
+	var threshold: float = state.realm_effects.heat_leak_threshold
+
+	main_lake.set_heat(
+		overflow,
+		threshold
+	)
+	
+
+	lava_lakes.append(main_lake)
+
+	# SMALLER LAKES
+	for definition in realm_layout.small_lake_definitions:
+		var lake: LavaLake = LAVA_LAKE_SCENE.instantiate()
+		add_child(lake)
+		lake.z_index = 6
+
+		lake.setup(
+			definition["points"],
+			island_rect
+		)
+
+		lake.set_fill(0.01)
+		lava_lakes.append(lake)
+
+func _update_lava_lakes() -> void:
+	if lava_lakes.is_empty():
+		return
+
+	var overflow_rate: float = (
+		state.get_heat_leak_per_second() *
+		state.get_overflow_multiplier()
+	)
+
+	var main_lake: LavaLake = lava_lakes[0]
+
+	main_lake.set_heat(
+		overflow_rate,
+		state.realm_effects.heat_leak_threshold
+	)
+
+	var main_fill: float = main_lake.fill
+
+	for i in range(realm_layout.small_lake_definitions.size()):
+		var lake_index: int = i + 1
+
+		if lake_index >= lava_lakes.size():
+			break
+
+		var lake: LavaLake = lava_lakes[lake_index]
+		var definition: Dictionary = realm_layout.small_lake_definitions[i]
+
+		var start_fill: float = definition["start_fill"]
+		var full_fill: float = definition["full_fill"]
+
+		var small_fill: float = 0.01
+
+		if main_fill > start_fill:
+			var fill_range: float = max(
+				full_fill - start_fill,
+				0.001
+			)
+
+			var progress: float = clamp(
+				(main_fill - start_fill) / fill_range,
+				0.0,
+				1.0
+			)
+
+			small_fill = lerp(
+				0.01,
+				1.0,
+				progress
+			)
+
+		lake.set_fill(small_fill)
+
+func _update_lava_lake_positions() -> void:
+	var island_rect: Rect2 = _get_island_rect()
+
+	for lake in lava_lakes:
+		if not is_instance_valid(lake):
+			continue
+
+		lake.reposition(island_rect)
+
+
+
+func _update_lava_flow_states() -> void:
+	if state == null:
+		return
+
+	if lava_lakes.is_empty():
+		return
+
+	var lake: LavaLake = lava_lakes[0]
+
+	if not is_instance_valid(lake):
+		return
+
+	var lake_fill: float = lake.fill
+
+	var flow_count: int = min(
+		lava_flows.size(),
+		realm_layout.lava_flow_definitions.size()
+	)
+
+	for i in range(flow_count):
+		var flow: LavaFlow = lava_flows[i]
+
+		if not is_instance_valid(flow):
+			continue
+
+		var definition: Dictionary = (
+			realm_layout.lava_flow_definitions[i]
+		)
+
+		var start_fill: float = definition["start_fill"]
+		var stop_fill: float = definition["stop_fill"]
+		var requires_flow: int = definition.get("requires_flow", -1)
+
+		var dependency_ready: bool = true
+
+		if requires_flow >= 0:
+			if requires_flow >= lava_flows.size():
+				dependency_ready = false
+			else:
+				var required_flow: LavaFlow = lava_flows[requires_flow]
+
+				if not is_instance_valid(required_flow):
+					dependency_ready = false
+				else:
+					dependency_ready = (
+						required_flow.flow_state ==
+						LavaFlow.FlowState.FLOWING
+					)
+
+		var should_flow: bool = false
+
+		if flow.flow_state == LavaFlow.FlowState.FLOWING:
+			should_flow = lake_fill >= stop_fill
+		else:
+			should_flow = (
+				lake_fill >= start_fill
+				and dependency_ready
+			)
+
+		flow.set_active(should_flow)
+
+		if i < lava_falls.size():
+			var fall: LavaFall = lava_falls[i]
+
+			if is_instance_valid(fall):
+				var endpoint_filled: bool = (
+					flow.flow_state == LavaFlow.FlowState.FLOWING
+				)
+
+				if flow.flow_state == LavaFlow.FlowState.STOPPING:
+					endpoint_filled = flow.cooling_length < 1.0
+
+				fall.set_filled(endpoint_filled)	
+		
+		
+func _update_generator_animations(delta: float) -> void:
+	if state == null:
+		return
+
+	if not generator_sprites.has("thermal_furnace"):
+		return
+
+	var furnace: Generator = state.generators.get(
+		"thermal_furnace"
+	)
+
+	if furnace == null:
+		return
+
+	var sprite: Sprite2D = generator_sprites["thermal_furnace"]
+
+	if not sprite.visible:
+		if furnace_inner_sprite != null:
+			furnace_inner_sprite.visible = false
+		return
+
+	if furnace.is_operating():
+		var level_speed_multiplier: float = (
+			1.0 +
+			max(furnace.level - 1, 0) * 0.05
+		)
+
+		var rotation_speed: float = (
+			THERMAL_FURNACE_ROTATION_SPEED *
+			level_speed_multiplier
+		)
+
+		sprite.rotation += (
+			rotation_speed * delta
+		)
+
+		if furnace_inner_sprite == null:
+			furnace_inner_sprite = Sprite2D.new()
+			furnace_inner_sprite.name = "ThermalFurnaceSecondSwirl"
+			furnace_inner_sprite.z_index = 11
+			add_child(furnace_inner_sprite)
+
+		furnace_inner_sprite.texture = sprite.texture
+		furnace_inner_sprite.visible = true
+		furnace_inner_sprite.position = sprite.position
+		furnace_inner_sprite.scale = sprite.scale
+		furnace_inner_sprite.modulate = Color(
+			1.0,
+			1,
+			1,
+			.75
+		)
+
+		# Same size, opposite direction,
+		# slightly faster than the main sprite.
+		furnace_inner_sprite.rotation += (
+			rotation_speed * 1.2 * delta
+		)
+	else:
+		if furnace_inner_sprite != null:
+			furnace_inner_sprite.visible = false
+			
+func _update_furnace_swirl() -> void:
+	if state == null:
+		return
+
+	if not generator_sprites.has("thermal_furnace"):
+		return
+
+	var furnace: Generator = state.generators.get(
+		"thermal_furnace"
+	)
+
+	if furnace == null:
+		return
+
+	var sprite: Sprite2D = generator_sprites["thermal_furnace"]
+
+	if not sprite.visible:
+		if furnace_swirl_overlay != null:
+			furnace_swirl_overlay.visible = false
+		return
+
+	if furnace_swirl_overlay == null:
+		furnace_swirl_overlay = FurnaceSwirlOverlay.new()
+		furnace_swirl_overlay.name = "FurnaceSwirlOverlay"
+		furnace_swirl_overlay.z_index = 11
+		add_child(furnace_swirl_overlay)
+
+	furnace_swirl_overlay.position = sprite.position
+	furnace_swirl_overlay.visible = furnace.is_operating()
+
+	var swirl: FurnaceSwirlOverlay = furnace_swirl_overlay
+
+	swirl.active = furnace.is_operating()
+
+	swirl.speed_multiplier = (
+		1.0 +
+		max(furnace.level - 1, 0) * 0.03
+	)
+
+
+func _update_atomic_friction_particles() -> void:
+	if state == null:
+		return
+
+	if not generator_sprites.has("atomic_friction"):
+		return
+
+	var generator: Generator = state.generators.get(
+		"atomic_friction"
+	)
+
+	if generator == null:
+		return
+
+	var sprite: Sprite2D = generator_sprites[
+		"atomic_friction"
+	]
+
+	if atomic_friction_particles == null:
+		atomic_friction_particles = (
+			AtomicFrictionParticleOverlay.new()
+		)
+
+		atomic_friction_particles.name = (
+			"AtomicFrictionParticleOverlay"
+		)
+
+		atomic_friction_particles.z_index = 11
+		add_child(atomic_friction_particles)
+
+	var particles: AtomicFrictionParticleOverlay = (
+		atomic_friction_particles
+	)
+
+	particles.position = sprite.position
+	particles.visible = (
+		sprite.visible and generator.is_operating()
+	)
+
+	particles.active = (
+		sprite.visible and generator.is_operating()
+	)
+
+	particles.generator_level = generator.level
+
+
+
+func _update_atomic_friction_animation(delta: float) -> void:
+	if state == null:
+		return
+
+	if not generator_sprites.has("atomic_friction"):
+		return
+
+	var generator: Generator = state.generators.get(
+		"atomic_friction"
+	)
+
+	if generator == null:
+		return
+
+	var sprite: Sprite2D = generator_sprites[
+		"atomic_friction"
+	]
+
+	if not sprite.visible or not generator.is_operating():
+		return
+
+	var level: int = generator.level
+
+	atomic_friction_time += delta
+
+	var rotation_speed: float = (
+		ATOMIC_FRICTION_BASE_ROTATION_SPEED *
+		(1.0 + ATOMIC_FRICTION_ROTATION_LEVEL_BONUS * sqrt(float(level)))
+	)
+
+	var pulse_speed: float = (
+		ATOMIC_FRICTION_BASE_PULSE_SPEED *
+		(1.0 + ATOMIC_FRICTION_PULSE_LEVEL_BONUS * sqrt(float(level)))
+	)
+
+	sprite.rotation += rotation_speed * delta
+
+	var pulse: float = (
+		sin(atomic_friction_time * pulse_speed) + 1.0
+	) / 2.0
+
+	var pulse_scale: float = lerp(0.58, .7, pulse)
+
+	var base_scale: Vector2 = sprite.get_meta(
+		"atomic_friction_base_scale"
+	)
+
+	sprite.scale = base_scale * pulse_scale
+
+func _get_lava_mite_sprite() -> AnimatedSprite2D:
+	if generator_sprites.has("lava_mite_colony"):
+		return generator_sprites[
+			"lava_mite_colony"
+		] as AnimatedSprite2D
+
+	var sprite: AnimatedSprite2D = AnimatedSprite2D.new()
+
+	sprite.name = "Generator_lava_mite_colony"
+
+	var sheet: Texture2D = load(
+		LAVA_MITE_ANIMATION_PATH
+	) as Texture2D
+
+	if sheet == null:
+		push_warning(
+			"Could not load Lava Mite animation: " +
+			LAVA_MITE_ANIMATION_PATH
+		)
+		return sprite
+
+	var sprite_frames: SpriteFrames = SpriteFrames.new()
+
+	var animation_name: StringName = &"default"
+
+	if not sprite_frames.has_animation(animation_name):
+		sprite_frames.add_animation(animation_name)
+
+	sprite_frames.set_animation_speed(
+		animation_name,
+		LAVA_MITE_ANIMATION_FPS
+	)
+
+	sprite_frames.set_animation_loop(
+		animation_name,
+		true
+	)
+
+	var frame_width: int = (
+		sheet.get_width() /
+		LAVA_MITE_ANIMATION_HFRAMES
+	)
+
+	var frame_height: int = (
+		sheet.get_height() /
+		LAVA_MITE_ANIMATION_VFRAMES
+	)
+
+	for row in range(LAVA_MITE_ANIMATION_VFRAMES):
+		for column in range(LAVA_MITE_ANIMATION_HFRAMES):
+			var atlas_texture: AtlasTexture = AtlasTexture.new()
+
+			atlas_texture.atlas = sheet
+			atlas_texture.region = Rect2(
+				column * frame_width,
+				row * frame_height,
+				frame_width,
+				frame_height
+			)
+
+			sprite_frames.add_frame(
+				animation_name,
+				atlas_texture
+			)
+
+	sprite.sprite_frames = sprite_frames
+	sprite.animation = animation_name
+	sprite.autoplay = animation_name
+	sprite.frame = 0
+	sprite.z_index = 10
+
+	add_child(sprite)
+
+	generator_sprites["lava_mite_colony"] = sprite
+
+	return sprite
+
+func _get_lava_mite_size_multiplier(level: int) -> float:
+	if level <= 1:
+		return 0.70
+
+	if level <= 21:
+		var progress: float = (
+			float(level - 1) / 20.0
+		)
+
+		return lerp(
+			0.70,
+			1.00,
+			progress
+		)
+
+	# Diminishing growth after level 21.
+	#
+	# Level 21 -> 1.00
+	# Then approaches 1.25 asymptotically.
+	var levels_after_21: float = (
+		float(level - 21)
+	)
+
+	return 1.0 + (
+		0.45 *
+		(
+			1.0 -
+			exp(-levels_after_21 / 30.0)
+		)
+	)
+	
+func _update_lava_mite_animation_speed(
+	animated_sprite: AnimatedSprite2D,
+	level: int
+) -> void:
+	if animated_sprite.sprite_frames == null:
+		return
+
+	var animation_name: StringName = &"default"
+
+	if not animated_sprite.sprite_frames.has_animation(
+		animation_name
+	):
+		return
+
+	var animation_speed: float
+
+	if level <= 1:
+		animation_speed = 2.5
+	elif level <= 50:
+		var progress: float = (
+			float(level - 1) / 49.0
+		)
+
+		animation_speed = lerp(
+			2.5,
+			6.5,
+			progress
+		)
+	else:
+		# Diminishing speed increase after level 50.
+		#
+		# Level 50 -> 6.5 FPS
+		# Then approaches 8.5 FPS.
+		var levels_after_50: float = (
+			float(level - 50)
+		)
+
+		animation_speed = 6.5 + (
+			2.0 *
+			(
+				1.0 -
+				exp(-levels_after_50 / 50.0)
+			)
+		)
+
+	animated_sprite.sprite_frames.set_animation_speed(
+		animation_name,
+		animation_speed
+	)

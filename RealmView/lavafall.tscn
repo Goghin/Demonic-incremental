@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://d2hraalb7tkmr"]
+
+[ext_resource type="Script" uid="uid://bs6m02sqyqg7q" path="res://RealmView/lavafall.gd" id="1"]
+
+[node name="LavaFall" type="Node2D" unique_id=1054430357]
+script = ExtResource("1")
+
+[node name="Rim" type="Polygon2D" parent="." unique_id=540571330]
+
+[node name="Surface" type="Polygon2D" parent="." unique_id=203697684]
