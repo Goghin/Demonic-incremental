@@ -76,6 +76,8 @@ const ETERNAL_FLAME_UPGRADE_IDS: Array[String] = [
 	$VBoxContainer/SmashButton
 )
 
+var overflow_bonus_label: Label
+
 
 # ----------------------------------------------------------------
 # Setup
@@ -95,7 +97,7 @@ func setup(
 	_create_main_ui()
 	_create_distribution_ui()
 	_create_shop_ui()
-
+	_apply_compact_style()
 	_show_distribution_panel()
 
 	# Offline simulation can finish a stabilization countdown
@@ -129,8 +131,171 @@ func _create_main_ui() -> void:
 		content_container
 	)
 
+	_create_overflow_bonus_label()
 	_create_tab_ui()
 
+
+func _apply_compact_style() -> void:
+	# Main panel spacing.
+	$VBoxContainer.add_theme_constant_override(
+		"separation",
+		1
+	)
+
+	content_container.add_theme_constant_override(
+		"separation",
+		4
+	)
+
+	# Reduce the font size of the existing prestige labels.
+	for label in [
+		crystallized_flame_label,
+		eternal_flame_label,
+		gain_label
+	]:
+		label.add_theme_font_size_override(
+			"font_size",
+			12
+		)
+
+	# Compact prestige action button.
+	smash_button.custom_minimum_size = Vector2(0, 25)
+	smash_button.add_theme_font_size_override(
+		"font_size",
+		12
+	)
+
+	# Compact overflow breakdown.
+	if overflow_bonus_label != null:
+		overflow_bonus_label.add_theme_font_size_override(
+			"font_size",
+			10
+		)
+
+	# Compact tabs.
+	if tab_container != null:
+		tab_container.add_theme_constant_override(
+			"separation",
+			3
+		)
+
+	for button in [distribution_button, shop_button]:
+		if button != null:
+			button.custom_minimum_size = Vector2(0, 24)
+			button.add_theme_font_size_override(
+				"font_size",
+				11
+			)
+
+	# Compact realm controls.
+	if realm_container != null:
+		realm_container.add_theme_constant_override(
+			"separation",
+			3
+		)
+
+	if stabilize_button != null:
+		stabilize_button.custom_minimum_size = Vector2(0, 24)
+		stabilize_button.add_theme_font_size_override(
+			"font_size",
+			11
+		)
+
+	for stat_name in realm_rows:
+		var row = realm_rows[stat_name]
+
+		for key in [
+			"minus_button",
+			"plus_button",
+			"minus_10_button",
+			"plus_10_button"
+		]:
+			var button: Button = row[key]
+			button.custom_minimum_size = Vector2(
+				button.custom_minimum_size.x,
+				20
+			)
+			button.add_theme_font_size_override(
+				"font_size",
+				11
+			)
+
+		for key in ["value_label", "effect_label"]:
+			var label: Label = row[key]
+			label.add_theme_font_size_override(
+				"font_size",
+				11
+			)
+
+	# Compact Eternal Flame shop.
+	if shop_panel != null:
+		shop_panel.add_theme_constant_override(
+			"separation",
+			3
+		)
+
+	if eternal_flame_upgrade_container != null:
+		eternal_flame_upgrade_container.add_theme_constant_override(
+			"separation",
+			4
+		)
+
+	for upgrade_id in eternal_flame_upgrade_rows:
+		var row = eternal_flame_upgrade_rows[upgrade_id]
+
+		for key in [
+			"name_label",
+			"level_label",
+			"cost_label",
+			"description_label"
+		]:
+			var label: Label = row[key]
+			label.add_theme_font_size_override(
+				"font_size",
+				11
+			)
+
+		var purchase_button: Button = row["purchase_button"]
+		purchase_button.custom_minimum_size = Vector2(0, 20)
+		purchase_button.add_theme_font_size_override(
+			"font_size",
+			11
+		)
+
+func _create_overflow_bonus_label() -> void:
+	if overflow_bonus_label != null:
+		return
+
+	overflow_bonus_label = Label.new()
+	overflow_bonus_label.name = "OverflowBonusLabel"
+
+	overflow_bonus_label.add_theme_font_size_override(
+		"font_size",
+		12
+	)
+
+	overflow_bonus_label.autowrap_mode = (
+		TextServer.AUTOWRAP_WORD_SMART
+	)
+
+	overflow_bonus_label.modulate = Color(
+		0.75,
+		0.85,
+		0.75
+	)
+
+	overflow_bonus_label.size_flags_horizontal = (
+		Control.SIZE_EXPAND_FILL
+	)
+
+	$VBoxContainer.add_child(
+		overflow_bonus_label
+	)
+
+	$VBoxContainer.move_child(
+		overflow_bonus_label,
+		gain_label.get_index() + 1
+	)
 
 func _create_tab_ui() -> void:
 	if tab_container != null:
@@ -319,10 +484,6 @@ func _create_realm_stat_row(
 
 	assignment_row.add_child(label)
 
-	# ------------------------------------------------------------
-	# -10
-	# ------------------------------------------------------------
-
 	var minus_10_button = Button.new()
 	minus_10_button.text = "-10"
 	minus_10_button.custom_minimum_size = Vector2(45, 30)
@@ -331,10 +492,6 @@ func _create_realm_stat_row(
 		minus_10_button
 	)
 
-	# ------------------------------------------------------------
-	# -1
-	# ------------------------------------------------------------
-
 	var minus_button = Button.new()
 	minus_button.text = "-"
 	minus_button.custom_minimum_size = Vector2(35, 30)
@@ -342,10 +499,6 @@ func _create_realm_stat_row(
 	assignment_row.add_child(
 		minus_button
 	)
-
-	# ------------------------------------------------------------
-	# Value
-	# ------------------------------------------------------------
 
 	var value_label = Label.new()
 	value_label.text = "0"
@@ -358,10 +511,6 @@ func _create_realm_stat_row(
 		value_label
 	)
 
-	# ------------------------------------------------------------
-	# +1
-	# ------------------------------------------------------------
-
 	var plus_button = Button.new()
 	plus_button.text = "+"
 	plus_button.custom_minimum_size = Vector2(35, 30)
@@ -370,10 +519,6 @@ func _create_realm_stat_row(
 		plus_button
 	)
 
-	# ------------------------------------------------------------
-	# +10
-	# ------------------------------------------------------------
-
 	var plus_10_button = Button.new()
 	plus_10_button.text = "+10"
 	plus_10_button.custom_minimum_size = Vector2(45, 30)
@@ -381,10 +526,6 @@ func _create_realm_stat_row(
 	assignment_row.add_child(
 		plus_10_button
 	)
-
-	# ------------------------------------------------------------
-	# Effect
-	# ------------------------------------------------------------
 
 	var effect_label = Label.new()
 	effect_label.text = ""
@@ -396,10 +537,6 @@ func _create_realm_stat_row(
 	row.add_child(
 		effect_label
 	)
-
-	# ------------------------------------------------------------
-	# Button connections
-	# ------------------------------------------------------------
 
 	minus_10_button.pressed.connect(
 		func():
@@ -779,6 +916,7 @@ func _on_realm_minus_pressed(
 		)
 
 
+
 func _on_realm_batch_pressed(
 	stat_name: String,
 	amount: int
@@ -796,14 +934,40 @@ func _on_realm_batch_pressed(
 	var changed: int = 0
 
 	if amount > 0:
+		var available: int = (
+			state.get_unassigned_eternal_flames()
+		)
+
+		var amount_to_assign: int = min(
+			amount,
+			available
+		)
+
+		if amount_to_assign <= 0:
+			return
+
 		changed = state.realm_configuration.assign_flames(
 			stat_name,
-			amount
+			amount_to_assign
 		)
 	else:
+		var stat_value: int = (
+			state.realm_configuration.get_stat_value(
+				stat_name
+			)
+		)
+
+		var amount_to_remove: int = min(
+			abs(amount),
+			stat_value
+		)
+
+		if amount_to_remove <= 0:
+			return
+
 		changed = state.realm_configuration.remove_flames(
 			stat_name,
-			abs(amount)
+			amount_to_remove
 		)
 
 	if changed <= 0:
@@ -823,7 +987,6 @@ func _on_realm_batch_pressed(
 		state,
 		time_manager
 	)
-
 
 # ----------------------------------------------------------------
 # Prestige Refresh
@@ -869,6 +1032,7 @@ func refresh() -> void:
 		or not state.realm_stabilized
 	)
 
+	_update_overflow_bonus_ui()
 	_refresh_realm_ui()
 	_refresh_eternal_flame_upgrade_ui()
 
@@ -893,6 +1057,64 @@ func refresh() -> void:
 			stabilize_button.disabled = false
 			stabilize_button.text = "STABILIZE REALM"
 
+
+
+func _update_overflow_bonus_ui() -> void:
+	if state == null or overflow_bonus_label == null:
+		return
+
+	var crystallized_flame: float = (
+		state.get_resource_amount(
+			ResourceIds.CRYSTALIZED_FLAME
+		)
+	)
+
+	var infernal_forge = state.get_generator(
+		"infernal_forge"
+	)
+
+	var overflow_multiplier: float = (
+		state.get_overflow_bonus()
+	)
+
+	var next_overflow_multiplier: float = (
+		state.next_overflow_bonus()
+	)
+
+	var base_gain: int = 0
+	var final_gain: int = 0
+
+	if infernal_forge != null:
+		var forge_level: int = infernal_forge.level
+
+		if forge_level > 0 and crystallized_flame > 0.0:
+			base_gain = floori(
+				crystallized_flame
+				* sqrt(float(forge_level))
+			)
+
+			final_gain = floori(
+				crystallized_flame
+				* sqrt(float(forge_level))
+				* overflow_multiplier
+			)
+
+	var overflow_contribution: int = max(
+		0,
+		final_gain - base_gain
+	)
+
+	overflow_bonus_label.text = (
+		"Base Gain: %d\n"
+		+ "Current Overflow Multiplier: x%.2f\n"
+		+ "Current Overflow Contribution: +%d\n"
+		+ "Next Prestige Overflow Multiplier: x%.2f"
+	) % [
+		base_gain,
+		overflow_multiplier,
+		overflow_contribution,
+		next_overflow_multiplier
+	]
 
 func _refresh_realm_ui() -> void:
 	if realm_container == null:
@@ -1054,6 +1276,7 @@ func _on_smash_button_pressed() -> void:
 
 	prestige_requested.emit()
 
+
 func perform_smash() -> void:
 	if state == null:
 		return
@@ -1084,6 +1307,7 @@ func perform_smash() -> void:
 		state,
 		time_manager
 	)
+
 
 # ----------------------------------------------------------------
 # Eternal Flame Shop

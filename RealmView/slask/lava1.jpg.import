@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://llr6hn6op56d"
-path="res://.godot/imported/davinci_pixel_art_asset_for_a_game__256x256_pixels_with_a_.png-cad5c9b32c2e15615b712eb455f84467.ctex"
+uid="uid://b3lt5a0wc5krn"
+path="res://.godot/imported/lava1.jpg-1327cd794aa4d338714c7a9844940ced.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://RealmView/davinci_pixel_art_asset_for_a_game__256x256_pixels_with_a_.png"
-dest_files=["res://.godot/imported/davinci_pixel_art_asset_for_a_game__256x256_pixels_with_a_.png-cad5c9b32c2e15615b712eb455f84467.ctex"]
+source_file="res://RealmView/slask/lava1.jpg"
+dest_files=["res://.godot/imported/lava1.jpg-1327cd794aa4d338714c7a9844940ced.ctex"]
 
 [params]
 

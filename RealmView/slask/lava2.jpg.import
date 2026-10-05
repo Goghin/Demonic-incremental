@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqh3d7kdnarl0"
-path="res://.godot/imported/Thermal_Condensation_2.png-d233c918956a042e9205dccad2705d93.ctex"
+uid="uid://biy1540if1s06"
+path="res://.godot/imported/lava2.jpg-78432075e7ced12f49e93d310657772e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generators/GeneratorDefinitions/Thermal_Condensation_2.png"
-dest_files=["res://.godot/imported/Thermal_Condensation_2.png-d233c918956a042e9205dccad2705d93.ctex"]
+source_file="res://RealmView/slask/lava2.jpg"
+dest_files=["res://.godot/imported/lava2.jpg-78432075e7ced12f49e93d310657772e.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cva5y1aj6pmkp"
-path="res://.godot/imported/davinci__image1_add_6_small_empty_channels_from_the_centra.png-0241a1c7346d740d04858a9998b4a509.ctex"
+uid="uid://chj4rq404irp7"
+path="res://.godot/imported/davinci_pixel_art_asset_for_a_game__256x256_pixels_with_a_.png-7f40758048c68aa4c79cf8451e844ba6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://RealmView/davinci__image1_add_6_small_empty_channels_from_the_centra.png"
-dest_files=["res://.godot/imported/davinci__image1_add_6_small_empty_channels_from_the_centra.png-0241a1c7346d740d04858a9998b4a509.ctex"]
+source_file="res://RealmView/slask/davinci_pixel_art_asset_for_a_game__256x256_pixels_with_a_.png"
+dest_files=["res://.godot/imported/davinci_pixel_art_asset_for_a_game__256x256_pixels_with_a_.png-7f40758048c68aa4c79cf8451e844ba6.ctex"]
 
 [params]
 

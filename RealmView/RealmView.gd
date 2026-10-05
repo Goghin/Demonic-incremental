@@ -298,6 +298,15 @@ const LAVA_MITE_ANIMATION_HFRAMES: int = 4
 const LAVA_MITE_ANIMATION_VFRAMES: int = 4
 const LAVA_MITE_ANIMATION_FPS: float = 4.0
 
+const MATTER_FURNACE_ANIMATION_PATH: String = (
+	"res://Generators/GeneratorDefinitions/matter furnace_animated.png"
+)
+
+const MATTER_FURNACE_ANIMATION_HFRAMES: int = 4
+const MATTER_FURNACE_ANIMATION_VFRAMES: int = 4
+const MATTER_FURNACE_ANIMATION_FPS: float = 10.0
+const MATTER_FURNACE_SIZE_MULTIPLIER: float = 1.4
+
 var forge_glow_overlay: Node2D
 var forge_spark_overlay: Node2D
 
@@ -474,7 +483,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 		furnace_swirl_overlay.visible = false
 
 	# ------------------------------------------------------------
-	# Reset lava mite animation
+	# Reset lava mite  and matter furnace animation
 	# ------------------------------------------------------------
 
 	if generator_sprites.has("lava_mite_colony"):
@@ -486,13 +495,27 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 		if lava_mite_sprite != null:
 			lava_mite_sprite.stop()
 			lava_mite_sprite.frame = 0
+	
+	if generator_sprites.has("matter_furnace"):
+		var matter_furnace_sprite: AnimatedSprite2D = (
+			generator_sprites["matter_furnace"]
+			as AnimatedSprite2D
+		)
 
+		if matter_furnace_sprite != null:
+			matter_furnace_sprite.stop()
+			matter_furnace_sprite.frame = 0
+		
 	# ------------------------------------------------------------
 	# Reset generator rotations
 	# ------------------------------------------------------------
 
 	for generator_id in generator_sprites:
-		if generator_id == "lava_mite_colony":
+		if (
+			generator_id == "lava_mite_colony"
+			or
+			generator_id == "matter_furnace"
+		):
 			continue
 
 		var sprite: Sprite2D = (
@@ -1165,8 +1188,8 @@ func _draw_generators() -> void:
 		var size_multiplier: float = 1.0
 
 		if generator_id == "infernal_forge":
-			size_multiplier = 2.2
-
+			size_multiplier = 1.8
+		
 		# ---------------------------------------------------------
 		# Lava Mite Colony
 		# ---------------------------------------------------------
@@ -1251,7 +1274,77 @@ func _draw_generators() -> void:
 					animated_sprite.pause()
 
 			continue
+			
+		# ---------------------------------------------------------
+		# Matter Furnace
+		# ---------------------------------------------------------
+		if generator_id == "matter_furnace":
+			var animated_sprite: AnimatedSprite2D = (
+				_get_matter_furnace_sprite()
+			)
 
+			var frame_size: Vector2 = Vector2(
+				314.0,
+				321.0
+			)
+
+			var target_size: float = (
+				machine_size *
+				2.0 *
+				MATTER_FURNACE_SIZE_MULTIPLIER
+			)
+
+			var texture_scale: float = min(
+				target_size / max(frame_size.x, 1.0),
+				target_size / max(frame_size.y, 1.0)
+			)
+
+			var draw_size: Vector2 = (
+				frame_size * texture_scale
+			)
+
+			var hitbox: Rect2 = Rect2(
+				generator_position - draw_size * 0.5,
+				draw_size
+			)
+
+			generator_hitboxes[generator_id] = hitbox
+
+			animated_sprite.position = generator_position
+			animated_sprite.scale = Vector2(
+				texture_scale,
+				texture_scale
+			)
+
+			animated_sprite.z_index = 10
+			animated_sprite.visible = true
+
+			if generator.is_operating():
+				animated_sprite.modulate = Color(
+					1.0,
+					1.0,
+					1.0,
+					0.75
+				)
+
+				if animated_sprite.animation != &"default":
+					animated_sprite.animation = &"default"
+
+				if not animated_sprite.is_playing():
+					animated_sprite.play()
+			else:
+				animated_sprite.modulate = Color(
+					0.70,
+					0.70,
+					0.70,
+					1.0
+				)
+
+				if animated_sprite.is_playing():
+					animated_sprite.pause()
+
+			continue
+			
 		# ---------------------------------------------------------
 		# Normal generators
 		# ---------------------------------------------------------
@@ -1353,7 +1446,11 @@ func _draw_generators() -> void:
 
 	# Hide normal generators that are no longer active.
 	for generator_id in generator_sprites:
-		if generator_id == "lava_mite_colony":
+		if (
+			generator_id == "lava_mite_colony"
+			or
+			generator_id == "matter_furnace"
+		):
 			continue
 
 		if not active_ids.has(generator_id):
@@ -1375,6 +1472,18 @@ func _draw_generators() -> void:
 				active_ids.has("lava_mite_colony")
 			)
 
+	# Hide the matter furnace when it is no longer active.
+	if generator_sprites.has("matter_furnace"):
+		var matter_furnace_sprite: AnimatedSprite2D = (
+			generator_sprites[
+				"matter_furnace"
+			] as AnimatedSprite2D
+		)
+
+		if matter_furnace_sprite != null:
+			matter_furnace_sprite.visible = (
+				active_ids.has("matter_furnace")
+			)
 
 
 
@@ -2058,7 +2167,7 @@ func _create_lava_lakes() -> void:
 	
 	var overflow: float = (
 		state.get_heat_leak_per_second() *
-		state.get_overflow_multiplier()
+		state.get_overflow_crystallization_multiplier()
 	)
 
 	var threshold: float = state.realm_effects.heat_leak_threshold
@@ -2091,7 +2200,7 @@ func _update_lava_lakes() -> void:
 
 	var overflow_rate: float = (
 		state.get_heat_leak_per_second() *
-		state.get_overflow_multiplier()
+		state.get_overflow_crystallization_multiplier()
 	)
 
 	var main_lake: LavaLake = lava_lakes[0]
@@ -2498,6 +2607,86 @@ func _get_lava_mite_sprite() -> AnimatedSprite2D:
 
 	return sprite
 
+func _get_matter_furnace_sprite() -> AnimatedSprite2D:
+	if generator_sprites.has("matter_furnace"):
+		return generator_sprites[
+			"matter_furnace"
+	] as AnimatedSprite2D
+
+	var sprite: AnimatedSprite2D = AnimatedSprite2D.new()
+
+	sprite.name = "Generator_matter_furnace"
+
+	var sheet: Texture2D = load(
+		MATTER_FURNACE_ANIMATION_PATH
+	) as Texture2D
+
+	if sheet == null:
+		push_warning(
+			"Could not load Matter Furnace animation: " +
+			MATTER_FURNACE_ANIMATION_PATH
+		)
+		return sprite
+
+	var sprite_frames: SpriteFrames = SpriteFrames.new()
+
+	var animation_name: StringName = &"default"
+
+	if not sprite_frames.has_animation(animation_name):
+		sprite_frames.add_animation(animation_name)
+
+	sprite_frames.set_animation_speed(
+		animation_name,
+		MATTER_FURNACE_ANIMATION_FPS
+	)
+
+	sprite_frames.set_animation_loop(
+		animation_name,
+		true
+	)
+
+	var frame_width: int = (
+		sheet.get_width() /
+		MATTER_FURNACE_ANIMATION_HFRAMES
+	)
+
+	var frame_height: int = (
+		sheet.get_height() /
+		MATTER_FURNACE_ANIMATION_VFRAMES
+	)
+
+	for row in range(MATTER_FURNACE_ANIMATION_VFRAMES):
+		for column in range(MATTER_FURNACE_ANIMATION_HFRAMES):
+			var atlas_texture: AtlasTexture = (
+				AtlasTexture.new()
+			)
+
+			atlas_texture.atlas = sheet
+
+			atlas_texture.region = Rect2(
+				column * frame_width,
+				row * frame_height,
+				frame_width,
+				frame_height
+			)
+
+			sprite_frames.add_frame(
+				animation_name,
+				atlas_texture
+			)
+
+	sprite.sprite_frames = sprite_frames
+	sprite.animation = animation_name
+	sprite.autoplay = animation_name
+	sprite.frame = 0
+	sprite.z_index = 10
+
+	add_child(sprite)
+
+	generator_sprites["matter_furnace"] = sprite
+
+	return sprite
+	
 func _get_lava_mite_size_multiplier(level: int) -> float:
 	if level <= 1:
 		return 0.70

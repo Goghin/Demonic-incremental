@@ -2130,7 +2130,7 @@ func reset_current_run() -> void:
 	
 	if atomic_friction != null:
 		atomic_friction.level = 1
-	overflow_bonus_from_last_realm = get_overflow_bonus()
+	overflow_bonus_from_last_realm = next_overflow_bonus()
 	total_overflow_this_prestige = 0.0
 	
 	_apply_permanent_technology_unlocks()
@@ -2234,7 +2234,16 @@ func is_upgrade_visible(
 	
 	return true
 
+
 func get_overflow_bonus() -> float:
+	var overflow: float = overflow_bonus_from_last_realm
+
+	if overflow <= 0.0:
+		return 1.0
+
+	return overflow
+	
+func next_overflow_bonus() -> float:
 	var overflow: float = total_overflow_this_prestige
 
 	if overflow <= 0.0:
@@ -2242,7 +2251,7 @@ func get_overflow_bonus() -> float:
 
 	return 1+(0.1 * log(overflow) / log(10.0))
 
-func get_overflow_multiplier() -> float:
+func get_overflow_crystallization_multiplier() -> float:
 	var crystallized_flames: float = get_resource_amount(
 		ResourceIds.CRYSTALIZED_FLAME
 	)

@@ -6,7 +6,7 @@ static func create() -> Generator:
 	var normal_mode = GeneratorOperationMode.new(
 		"normal",
 		"Normal",
-		"Maintains a colony of Lava Mites that converts Heat, Matter, and Ash into Essence.",
+		"Maintains a colony of Lava Mites that consumes Heat and Ash.",
 		1.0,
 		1.0,
 		1.0,
@@ -14,18 +14,17 @@ static func create() -> Generator:
 		[
 			GeneratorIO.new(
 				ResourceIds.HEAT,
-				1000.0
+				100.0
 			),
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				0.15
-			),
+			#Test as negative output
 			GeneratorIO.new(
 				ResourceIds.ASH,
-				1.2
+				0.5
 			)
 		],
 		[
+			
+			#Starts locked, requires upgrade
 			GeneratorIO.new(
 				ResourceIds.ESSENCE,
 				0.0005,
@@ -38,9 +37,9 @@ static func create() -> Generator:
 	var definition = GeneratorDefinition.new(
 		"lava_mite_colony",
 		"Lava Mite Colony",
-		150.0,
-		1.2,
-		ResourceIds.MATTER,
+		1000.0,
+		1.22,
+		ResourceIds.HEAT,
 		false,
 		"res://Generators/GeneratorDefinitions/Lava_Mite_Colony_2.png",
 		[

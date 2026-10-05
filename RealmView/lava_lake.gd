@@ -54,11 +54,11 @@ func _update_fill() -> void:
 	)
 
 	fill = clamp(
-		0.02 +
+		0.12 +
 		1.10 *
 		log(1.0 + heat_ratio) /
 		log(500.0),
-		0.01,
+		0.12,
 		1.1
 	)
 	

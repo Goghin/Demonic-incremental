@@ -14,18 +14,18 @@ static func create() -> Generator:
 		[
 			GeneratorIO.new(
 				ResourceIds.HEAT,
-				300.0
+				1000.0
 			)
 		],
 		[
 			GeneratorIO.new(
 				ResourceIds.MATTER,
-				0.14,
+				0.25,
 				true
 			),
 			GeneratorIO.new(
 				ResourceIds.ASH,
-				0.08
+				0.3
 			)
 		]
 	)
@@ -33,7 +33,7 @@ static func create() -> Generator:
 	var definition = GeneratorDefinition.new(
 		"thermal_furnace",
 		"Infernal Condensation",
-		1000.0,
+		5000.0,
 		1.22,
 		ResourceIds.HEAT,
 		false,

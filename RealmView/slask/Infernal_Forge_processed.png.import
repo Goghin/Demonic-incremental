@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cfgedbry5rm7k"
-path="res://.godot/imported/lava2.jpg-a4858ba750a12e509d24c9a45be6e012.ctex"
+uid="uid://bditajlq05scy"
+path="res://.godot/imported/Infernal_Forge_processed.png-f85d6ed28a6b83325485525442e0a06c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://RealmView/lava2.jpg"
-dest_files=["res://.godot/imported/lava2.jpg-a4858ba750a12e509d24c9a45be6e012.ctex"]
+source_file="res://RealmView/slask/Infernal_Forge_processed.png"
+dest_files=["res://.godot/imported/Infernal_Forge_processed.png-f85d6ed28a6b83325485525442e0a06c.ctex"]
 
 [params]
 

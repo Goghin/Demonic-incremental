@@ -53,8 +53,8 @@ static func create() -> Generator:
 	var definition = GeneratorDefinition.new(
 		"matter_furnace",
 		"Matter Furnace",
-		175.0,
-		1.3,
+		75.0,
+		1.22,
 		ResourceIds.MATTER,
 		false,
 		"res://Generators/GeneratorDefinitions/Matter_Furnace.png",

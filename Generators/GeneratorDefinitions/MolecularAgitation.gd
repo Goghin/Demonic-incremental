@@ -16,6 +16,10 @@ static func create() -> Generator:
 			GeneratorIO.new(
 				ResourceIds.HEAT,
 				45.0
+			),
+			GeneratorIO.new(
+				ResourceIds.ASH,
+				0.1
 			)
 		]
 	)

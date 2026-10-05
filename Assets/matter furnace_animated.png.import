@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bws4vsd1g8uua"
-path="res://.godot/imported/lava1.jpg-a00bbfb36909ac7e79ed4459e532ec65.ctex"
+uid="uid://blxcunbxjvcqo"
+path="res://.godot/imported/matter furnace_animated.png-77754f109ce2c932695830f65fbf0c75.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://RealmView/lava1.jpg"
-dest_files=["res://.godot/imported/lava1.jpg-a00bbfb36909ac7e79ed4459e532ec65.ctex"]
+source_file="res://Assets/matter furnace_animated.png"
+dest_files=["res://.godot/imported/matter furnace_animated.png-77754f109ce2c932695830f65fbf0c75.ctex"]
 
 [params]
 
