@@ -966,7 +966,7 @@ func _draw() -> void:
 
 	draw_rect(
 		Rect2(Vector2.ZERO, size),
-		Color(0.025, 0.014, 0.045)
+		Color(0.04, 0.029, 0.074, 1.0)
 	)
 
 	# ------------------------------------------------------------
@@ -974,16 +974,16 @@ func _draw() -> void:
 	# ------------------------------------------------------------
 
 	draw_circle(
-		center + Vector2(0, 25),
-		260.0,
-		Color(0.12, 0.06, 0.16, 0.10)
+		center + Vector2(0, -25),
+		250.0,
+		Color(0.16, 0.07, 0.22, 0.12)
 	)
 
 	# ------------------------------------------------------------
 	# Distant realm particles
 	# ------------------------------------------------------------
 
-	var particle_count: int = 35
+	var particle_count: int = 65
 
 	for i in range(particle_count):
 		var angle: float = float(i) * 2.399
@@ -1001,9 +1001,9 @@ func _draw() -> void:
 			)
 		)
 
-		var particle_size: float = 1.0 + fmod(
+		var particle_size: float = 0.4 + fmod(
 			float(i),
-			2.0
+			1.6
 		)
 
 		draw_circle(

@@ -124,7 +124,7 @@ static func create() -> Generator:
 	var definition = GeneratorDefinition.new(
 		"infernal_forge",
 		"Infernal Forge",
-		10000000.0,
+		1000000.0,
 		2.0,
 		ResourceIds.HEAT,
 		true,

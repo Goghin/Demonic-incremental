@@ -71,16 +71,21 @@ func update_info() -> void:
 				upgrade
 			)
 			
-			$MarginContainer/CostLabel.text = (
-				"Level: %d / %d\nNext level: %d\nCost: %.2f %s"
-				% [
-					upgrade.level,
-					upgrade.definition.max_level,
-					upgrade.level + 1,
-					next_cost,
-					cost_name
-				]
-			)
+			if next_cost <= 0.0:
+				$MarginContainer/CostLabel.text = ""
+			else:
+				$MarginContainer/CostLabel.text = (
+					"Level: %d / %d\nNext level: %d\nCost: %s %s"
+					% [
+						upgrade.level,
+						upgrade.definition.max_level,
+						upgrade.level + 1,
+						NumberFormatter.format(
+							next_cost
+						),
+						cost_name
+					]
+				)
 	else:
 		var cost_name = (
 			state.get_resource_display_name(
@@ -88,18 +93,23 @@ func update_info() -> void:
 			)
 		)
 		
-		$MarginContainer/CostLabel.text = (
-			"Cost: %.2f %s"
-			% [
-				upgrade.definition.cost,
-				cost_name
-			]
-		)
+		if upgrade.definition.cost <= 0.0:
+			$MarginContainer/CostLabel.text = ""
+		else:
+			$MarginContainer/CostLabel.text = (
+				"Cost: %s %s"
+				% [
+					NumberFormatter.format(
+						upgrade.definition.cost
+					),
+					cost_name
+				]
+			)
 	
 	var requirement_text = ""
 	
 	for requirement in upgrade.definition.requirements:
-		if state.requirement_met(
+		if state.upgrade_system.requirement_met(
 			requirement
 		):
 			continue
@@ -130,7 +140,7 @@ func update_info() -> void:
 			status_text = "MAX LEVEL"
 	else:
 		var exclusive_upgrade = (
-			state.get_exclusive_upgrade(
+			state.upgrade_system.get_exclusive_upgrade(
 				upgrade
 			)
 		)
@@ -140,7 +150,7 @@ func update_info() -> void:
 				"LOCKED\nConflicts with: %s"
 				% exclusive_upgrade.definition.display_name
 			)
-		elif not state.requirements_met(
+		elif not state.upgrade_system.requirements_met(
 			upgrade.definition.requirements
 		):
 			status_text = "Requirements not met"
@@ -180,11 +190,17 @@ func get_requirement_text(
 			)
 		)
 		
-		return "Requires %.0f %s (%.0f / %.0f)" % [
-			requirement.value,
+		return "Requires %s %s (%s / %s)" % [
+			NumberFormatter.format(
+				requirement.value
+			),
 			resource_name,
-			current_amount,
-			requirement.value
+			NumberFormatter.format(
+				current_amount
+			),
+			NumberFormatter.format(
+				requirement.value
+			)
 		]
 	
 	if requirement.type == RequirementTypes.GENERATOR_LEVEL:

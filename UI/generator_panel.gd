@@ -7,6 +7,8 @@ var input_handler: InputHandler
 var generator_id: String
 var current_illustration_path: String = ""
 
+signal upgrades_requested(generator_id: String)
+
 
 func setup(
 	game_state: GameState,
@@ -59,9 +61,9 @@ func _process(_delta: float) -> void:
 	)
 	
 	$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.text = (
-		"Play"
+		"Start"
 		if generator.manually_paused
-		else "Pause"
+		else "Stop"
 	)
 	
 	$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.disabled = (
@@ -230,6 +232,8 @@ func _on_pause_button_pressed() -> void:
 		generator_id
 	)
 
+func _on_upgrades_button_pressed() -> void:
+	upgrades_requested.emit(generator_id)
 
 func update_illustration(
 	generator: Generator

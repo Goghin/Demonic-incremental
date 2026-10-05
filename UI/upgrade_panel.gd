@@ -77,7 +77,7 @@ func _update_button(upgrade: Upgrade) -> void:
 		
 		return
 	
-	var exclusive_upgrade = state.get_exclusive_upgrade(
+	var exclusive_upgrade = state.upgrade_system.get_exclusive_upgrade(
 		upgrade
 	)
 	
@@ -98,7 +98,7 @@ func _update_button(upgrade: Upgrade) -> void:
 		) >= next_cost
 	)
 	
-	var requirements_met = state.requirements_met(
+	var requirements_met = state.upgrade_system.requirements_met(
 		upgrade.definition.requirements
 	)
 	

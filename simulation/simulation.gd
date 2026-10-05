@@ -374,12 +374,12 @@ func buy_upgrade(
 	if upgrade.is_maxed():
 		return false
 	
-	if not state.upgrade_exclusivity_available(
+	if not state.upgrade_system.upgrade_exclusivity_available(
 		upgrade
 	):
 		return false
 	
-	if not state.requirements_met(
+	if not state.upgrade_system.requirements_met(
 		upgrade.definition.requirements
 	):
 		return false
@@ -427,12 +427,12 @@ func can_buy_upgrade(
 	if upgrade.is_maxed():
 		return false
 	
-	if not state.upgrade_exclusivity_available(
+	if not state.upgrade_system.upgrade_exclusivity_available(
 		upgrade
 	):
 		return false
 	
-	if not state.requirements_met(
+	if not state.upgrade_system.requirements_met(
 		upgrade.definition.requirements
 	):
 		return false
@@ -627,7 +627,7 @@ func update_automatic_upgrades() -> void:
 		if upgrade.is_maxed():
 			continue
 		
-		if not state.requirements_met(
+		if not state.upgrade_system.requirements_met(
 			upgrade.definition.requirements
 		):
 			continue

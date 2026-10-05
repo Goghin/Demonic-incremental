@@ -14,8 +14,12 @@ var upgrade_group_containers: Dictionary = {}
 var upgrade_flows: Dictionary = {}
 var upgrade_panels: Dictionary = {}
 
+var selected_upgrade_generator_id: String = ""
+
 var effects_flow: HFlowContainer
 var prestige_animation: PrestigeAnimation
+
+var generator_upgrade_tree: GeneratorUpgradeTree
 
 var generator_panel_scene = preload(
 	"res://UI/generator_panel.tscn"
@@ -23,6 +27,9 @@ var generator_panel_scene = preload(
 
 var upgrade_panel_scene = preload(
 	"res://UI/upgrade_panel.tscn"
+)
+var generator_upgrade_tree_scene = preload(
+	"res://UI/generator_upgrade_tree.tscn"
 )
 
 const realm_view_scene: PackedScene = preload("res://RealmView/RealmView.tscn")
@@ -206,7 +213,8 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	_create_initial_upgrade_ui()
-
+	_create_generator_upgrade_tree()
+	
 	# Runtime generator unlocks happen after loading is complete.
 	# Connecting here means offline simulation cannot modify
 	# the UI while the initial UI is still being constructed.
@@ -290,7 +298,9 @@ func _create_generator_panel(
 		input_handler,
 		generator_id
 	)
-
+	generator_panel.upgrades_requested.connect(
+		_on_generator_upgrades_requested
+	)
 	# Preserve the original generator order.
 	var target_index := 0
 
@@ -307,35 +317,6 @@ func _create_generator_panel(
 	)
 
 
-# ============================================================
-# UPGRADE VISIBILITY
-# ============================================================
-
-func is_upgrade_visible(
-	upgrade: Upgrade
-	) -> bool:
-
-	var definition = upgrade.definition
-	
-	# Eternal Flame technology requirement.
-	if definition.technology_id != "":
-		if not state.eternal_flame_state.is_technology_unlocked(
-			definition.technology_id
-		):
-			return false
-	
-	# No generator association means this is a global upgrade.
-	if definition.generator_id == "":
-		return true
-	
-	var generator = state.get_generator(
-		definition.generator_id
-	)
-	
-	if generator == null:
-		return false
-	
-	return generator.unlocked
 
 # ============================================================
 # UPGRADE UI
@@ -355,18 +336,22 @@ func _create_initial_upgrade_ui() -> void:
 		VERTICAL_ALIGNMENT_CENTER
 	)
 
-	$UpgradeScroll/UpgradeContainer.add_child(
+	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(
 		upgrades_label
 	)
 
 	var automatic_upgrades: Array = []
 
 	for upgrade in state.upgrades.values():
-		if not is_upgrade_visible(
-			upgrade
-		):
+		
+		if upgrade.definition.generator_id != "":
 			continue
-
+		
+		if not state.upgrade_system.is_upgrade_visible(
+			upgrade
+			):
+			continue
+		
 		if upgrade.definition.automatic:
 			automatic_upgrades.append(
 				upgrade
@@ -391,9 +376,7 @@ func add_upgrade_panel(
 	):
 		return
 
-	if not is_upgrade_visible(
-		upgrade
-	):
+	if not state.upgrade_system.is_upgrade_visible(upgrade):
 		return
 
 	var group_id = (
@@ -437,6 +420,34 @@ func add_upgrade_panel(
 	] = panel
 
 
+func _update_upgrade_view() -> void:
+
+	var general_container = (
+		$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer
+	)
+
+	var generator_container = (
+		$UpgradeScroll/UpgradeContent/GeneratorUpgradeContainer
+	)
+
+	if selected_upgrade_generator_id == "":
+		general_container.visible = true
+		generator_container.visible = false
+		return
+
+	general_container.visible = false
+	generator_container.visible = true
+
+	if generator_upgrade_tree != null:
+		generator_upgrade_tree.setup(
+			state,
+			simulation,
+			input_handler,
+			selected_upgrade_generator_id,
+			$UpgradeInfoPopup
+		)
+
+
 func create_upgrade_group(
 	group_id: String
 	) -> void:
@@ -457,7 +468,7 @@ func create_upgrade_group(
 		6
 	)
 
-	$UpgradeScroll/UpgradeContainer.add_child(
+	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(
 		group_container
 	)
 
@@ -541,7 +552,7 @@ func _create_effects_container() -> void:
 		VERTICAL_ALIGNMENT_CENTER
 	)
 
-	$UpgradeScroll/UpgradeContainer.add_child(
+	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(
 		effects_label
 	)
 
@@ -564,7 +575,7 @@ func _create_effects_container() -> void:
 		4
 	)
 
-	$UpgradeScroll/UpgradeContainer.add_child(
+	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(
 		effects_flow
 	)
 
@@ -578,9 +589,7 @@ func add_automatic_upgrade_panel(
 	):
 		return
 
-	if not is_upgrade_visible(
-		upgrade
-	):
+	if not state.upgrade_system.is_upgrade_visible(upgrade):
 		return
 
 	_create_effects_container()
@@ -627,9 +636,7 @@ func _on_generator_unlocked(
 	# Add all upgrades that become visible because
 	# this generator is now unlocked.
 	for upgrade in state.upgrades.values():
-		if not is_upgrade_visible(
-			upgrade
-		):
+		if not state.upgrade_system.is_upgrade_visible(upgrade):
 			continue
 
 		if upgrade.definition.generator_id != generator_id:
@@ -650,9 +657,7 @@ func _on_technology_unlocked(
 	) -> void:
 
 	for upgrade in state.upgrades.values():
-		if not is_upgrade_visible(
-			upgrade
-		):
+		if not state.upgrade_system.is_upgrade_visible(upgrade):
 			continue
 		
 		if upgrade_panels.has(
@@ -713,14 +718,33 @@ func _on_stats_button_pressed() -> void:
 		$PrestigePanel.visible = false
 
 
+
 func _on_upgrades_button_pressed() -> void:
 
-	$UpgradeScroll.visible = not $UpgradeScroll.visible
-
-	if $UpgradeScroll.visible:
+	if not $UpgradeScroll.visible:
+		$UpgradeScroll.visible = true
 		$StatsPanel.visible = false
 		$PrestigePanel.visible = false
 
+		selected_upgrade_generator_id = ""
+
+		_update_upgrade_view()
+
+		return
+
+	# Upgrade panel is already open.
+
+	if selected_upgrade_generator_id == "":
+		$UpgradeScroll.visible = false
+
+		return
+
+	# A generator upgrade tree is open.
+	# Switch back to the general upgrade panel.
+
+	selected_upgrade_generator_id = ""
+
+	_update_upgrade_view()
 
 func _on_prestige_requested() -> void:
 	$StatsPanel.hide()
@@ -757,37 +781,12 @@ func _on_run_reset() -> void:
 		)
 
 	# ------------------------------------------------------------
-	# Rebuild generator UI
+	# Rebuild UI
 	# ------------------------------------------------------------
 
-	var generator_container = (
-		$GeneratorScroll/GeneratorContainer
-	)
+	await _rebuild_generator_ui()
+	await _rebuild_upgrade_ui()
 
-	for child in generator_container.get_children():
-		child.queue_free()
-
-	# ------------------------------------------------------------
-	# Rebuild upgrade UI
-	# ------------------------------------------------------------
-
-	var upgrade_container = (
-		$UpgradeScroll/UpgradeContainer
-	)
-
-	for child in upgrade_container.get_children():
-		child.queue_free()
-
-	upgrade_group_containers.clear()
-	upgrade_flows.clear()
-	upgrade_panels.clear()
-	effects_flow = null
-
-	await get_tree().process_frame
-
-	_create_initial_generator_panels()
-	_create_initial_upgrade_ui()
-	
 func _rebuild_generator_ui() -> void:
 	var generator_container = (
 		$GeneratorScroll/GeneratorContainer
@@ -802,7 +801,7 @@ func _rebuild_generator_ui() -> void:
 	
 func _rebuild_upgrade_ui() -> void:
 	var upgrade_container = (
-		$UpgradeScroll/UpgradeContainer
+		$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer
 	)
 	
 	for child in upgrade_container.get_children():
@@ -816,3 +815,41 @@ func _rebuild_upgrade_ui() -> void:
 	await get_tree().process_frame
 	
 	_create_initial_upgrade_ui()
+
+
+func _on_generator_upgrades_requested(
+	generator_id: String
+	) -> void:
+
+	$StatsPanel.visible = false
+	$PrestigePanel.visible = false
+
+	# If the requested generator tree is already open,
+	# close the upgrade panel.
+	if (
+		$UpgradeScroll.visible
+		and selected_upgrade_generator_id == generator_id
+	):
+		$UpgradeScroll.visible = false
+		selected_upgrade_generator_id = ""
+
+		return
+
+	# Otherwise open/switch to this generator's tree.
+	$UpgradeScroll.visible = true
+	selected_upgrade_generator_id = generator_id
+
+	_update_upgrade_view()
+
+func _create_generator_upgrade_tree() -> void:
+
+	if generator_upgrade_tree != null:
+		return
+
+	generator_upgrade_tree = (
+		generator_upgrade_tree_scene.instantiate()
+	)
+
+	$UpgradeScroll/UpgradeContent/GeneratorUpgradeContainer.add_child(
+		generator_upgrade_tree
+	)

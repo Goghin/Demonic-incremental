@@ -34,7 +34,7 @@ offset_bottom = 592.0
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="UpgradeScroll" type="ScrollContainer" parent="." unique_id=1068670661]
+[node name="UpgradeScroll" type="ScrollContainer" parent="." unique_id=1357864504]
 visible = false
 layout_mode = 0
 offset_left = 505.0
@@ -42,7 +42,14 @@ offset_top = 81.0
 offset_right = 1148.0
 offset_bottom = 590.0
 
-[node name="UpgradeContainer" type="VBoxContainer" parent="UpgradeScroll" unique_id=1945116082]
+[node name="UpgradeContent" type="VBoxContainer" parent="UpgradeScroll" unique_id=631500945]
+layout_mode = 2
+
+[node name="GeneralUpgradeContainer" type="VBoxContainer" parent="UpgradeScroll/UpgradeContent" unique_id=667329354]
+layout_mode = 2
+
+[node name="GeneratorUpgradeContainer" type="VBoxContainer" parent="UpgradeScroll/UpgradeContent" unique_id=100468108]
+visible = false
 layout_mode = 2
 
 [node name="StatsPanel" parent="." unique_id=682952637 instance=ExtResource("3_feb5d")]

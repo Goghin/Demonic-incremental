@@ -17,6 +17,8 @@ var upgrade_group_id: String
 var generator_id: String
 var technology_id: String
 
+var icon_path: String = ""
+
 
 func _init(
 	upgrade_id: String,
@@ -32,7 +34,8 @@ func _init(
 	upgrade_max_level: int = 1,
 	upgrade_cost_multiplier: float = 1.0,
 	upgrade_generator_id: String = "",
-	upgrade_technology_id: String = ""
+	upgrade_technology_id: String = "",
+	upgrade_icon_path: String = ""
 	) -> void:
 	
 	id = upgrade_id
@@ -49,3 +52,4 @@ func _init(
 	cost_multiplier = upgrade_cost_multiplier
 	generator_id = upgrade_generator_id
 	technology_id = upgrade_technology_id
+	icon_path = upgrade_icon_path
