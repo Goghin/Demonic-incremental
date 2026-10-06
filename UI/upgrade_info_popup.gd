@@ -74,6 +74,7 @@ func setup(
 	update_info()
 
 
+
 func update_info() -> void:
 
 	if state == null:
@@ -166,21 +167,23 @@ func update_info() -> void:
 
 	var requirement_text := ""
 
-	for requirement in upgrade.definition.requirements:
+	if upgrade.level == 0:
 
-		if state.upgrade_system.requirement_met(
-			requirement
-		):
-			continue
+		for requirement in upgrade.definition.requirements:
 
-		if requirement_text != "":
-			requirement_text += "\n"
-
-		requirement_text += (
-			get_requirement_text(
+			if state.upgrade_system.requirement_met(
 				requirement
+			):
+				continue
+
+			if requirement_text != "":
+				requirement_text += "\n"
+
+			requirement_text += (
+				get_requirement_text(
+					requirement
+				)
 			)
-		)
 
 	if requirement_text == "":
 
@@ -243,6 +246,7 @@ func update_info() -> void:
 	$MarginContainer/VBoxContainer/StatusLabel.text = status_text
 
 	_update_popup_width()
+
 
 
 func _update_popup_width() -> void:

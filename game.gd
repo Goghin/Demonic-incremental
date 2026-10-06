@@ -367,6 +367,7 @@ func _create_initial_upgrade_ui() -> void:
 	)
 
 
+
 func add_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
@@ -399,8 +400,13 @@ func add_upgrade_panel(
 	)
 
 	panel.custom_minimum_size = Vector2(
-		65,
-		65
+		70,
+		70
+	)
+
+	panel.size = Vector2(
+		70,
+		70
 	)
 
 	upgrade_flow.add_child(
@@ -418,6 +424,7 @@ func add_upgrade_panel(
 	upgrade_panels[
 		upgrade.definition.id
 	] = panel
+
 
 
 func _update_upgrade_view() -> void:
@@ -580,6 +587,7 @@ func _create_effects_container() -> void:
 	)
 
 
+
 func add_automatic_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
@@ -603,9 +611,12 @@ func add_automatic_upgrade_panel(
 		70
 	)
 
-	effects_flow.add_child(
-		panel
+	panel.size = Vector2(
+		70,
+		70
 	)
+
+	effects_flow.add_child(panel)
 
 	panel.setup(
 		state,
@@ -618,6 +629,7 @@ func add_automatic_upgrade_panel(
 	upgrade_panels[
 		upgrade.definition.id
 	] = panel
+
 
 
 # ============================================================
