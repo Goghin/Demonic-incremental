@@ -20,10 +20,12 @@ script = ExtResource("1_80nbo")
 [node name="ResourcePanel" parent="." unique_id=1532266736 instance=ExtResource("2_e2o6t")]
 modulate = Color(0.50790143, 0.82818675, 0.9196969, 1)
 top_level = true
+z_index = 50
 layout_mode = 1
 offset_bottom = -576.0
 
 [node name="GeneratorScroll" type="ScrollContainer" parent="." unique_id=1072280317]
+z_index = 50
 layout_mode = 0
 offset_left = 12.0
 offset_top = 72.0
@@ -36,6 +38,7 @@ theme_override_constants/separation = 8
 
 [node name="UpgradeScroll" type="ScrollContainer" parent="." unique_id=1357864504]
 visible = false
+z_index = 50
 layout_mode = 0
 offset_left = 505.0
 offset_top = 81.0
@@ -54,6 +57,7 @@ layout_mode = 2
 
 [node name="StatsPanel" parent="." unique_id=682952637 instance=ExtResource("3_feb5d")]
 visible = false
+z_index = 50
 layout_mode = 1
 offset_left = 505.0
 offset_top = 66.0
@@ -107,7 +111,7 @@ text = "PRESTIGE"
 
 [node name="UpgradeInfoPopup" parent="." unique_id=1574030057 instance=ExtResource("4_fc0e3")]
 visible = false
-custom_minimum_size = Vector2(110, 0)
+z_index = 55
 layout_mode = 0
 
 [node name="PrestigeAnimation" parent="." unique_id=1499149280 instance=ExtResource("6_eow3j")]

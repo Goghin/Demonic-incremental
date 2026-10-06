@@ -242,65 +242,134 @@ func _on_buy_button_pressed() -> void:
 	)
 
 
+
 func _on_upgrade_button_mouse_entered() -> void:
+
 	if info_popup == null:
 		return
-	
+
 	info_popup.setup(
-	state,
-	simulation,
-	upgrade_id
+		state,
+		simulation,
+		upgrade_id
 	)
-	
-	var popup_position = (
-		global_position
-		+ Vector2(
-			size.x + 10.0,
-			0.0
-		)
+
+	info_popup.visible = true
+
+	# Wait for the popup containers and labels to
+	# calculate their final size before positioning it.
+	await get_tree().process_frame
+
+	if not is_instance_valid(info_popup):
+		return
+
+	if not info_popup.visible:
+		return
+
+	_position_info_popup()
+
+
+func _position_info_popup() -> void:
+
+	var viewport_size := get_viewport_rect().size
+
+	var popup_size := info_popup.size
+
+	var node_rect := Rect2(
+		global_position,
+		size
 	)
-	
-	var viewport_size = (
-		get_viewport_rect().size
+
+	const GAP := 10.0
+	const EDGE_MARGIN := 10.0
+
+	# Vertically center the popup against the upgrade.
+	var centered_y := (
+		node_rect.position.y
+		+ (node_rect.size.y - popup_size.y) / 2.0
 	)
-	
-	var popup_size = (
-		info_popup.size
+
+	# Preferred position: right side.
+	var right_position := Vector2(
+		node_rect.end.x + GAP,
+		centered_y
 	)
-	
-	if popup_position.x + popup_size.x > viewport_size.x:
-		popup_position.x = (
-			global_position.x
+
+	# Alternative: left side.
+	var left_position := Vector2(
+		node_rect.position.x
 			- popup_size.x
-			- 10.0
-		)
-	
-	if popup_position.y + popup_size.y > viewport_size.y:
-		popup_position.y = (
+			- GAP,
+		centered_y
+	)
+
+	var right_space := (
+		viewport_size.x
+		- node_rect.end.x
+		- EDGE_MARGIN
+	)
+
+	var left_space := (
+		node_rect.position.x
+		- EDGE_MARGIN
+	)
+
+	var popup_position: Vector2
+
+	# Prefer the right side when it fits.
+	if right_space >= popup_size.x:
+
+		popup_position = right_position
+
+	# Otherwise use the left side if it fits.
+	elif left_space >= popup_size.x:
+
+		popup_position = left_position
+
+	# If neither side has enough room, use whichever
+	# side has more available space.
+	elif right_space >= left_space:
+
+		popup_position = right_position
+
+	else:
+
+		popup_position = left_position
+
+	# Keep the popup vertically inside the viewport.
+	popup_position.y = clamp(
+		popup_position.y,
+		EDGE_MARGIN,
+		max(
+			EDGE_MARGIN,
 			viewport_size.y
 			- popup_size.y
-			- 10.0
+			- EDGE_MARGIN
 		)
-	
-	popup_position.x = max(
+	)
+
+	# Also prevent it from going off-screen horizontally.
+	popup_position.x = clamp(
 		popup_position.x,
-		10.0
+		EDGE_MARGIN,
+		max(
+			EDGE_MARGIN,
+			viewport_size.x
+			- popup_size.x
+			- EDGE_MARGIN
+		)
 	)
-	
-	popup_position.y = max(
-		popup_position.y,
-		10.0
-	)
-	
+
 	info_popup.position = popup_position
-	info_popup.visible = true
 
 
 func _on_upgrade_button_mouse_exited() -> void:
+
 	if info_popup == null:
 		return
-	
+
 	info_popup.visible = false
+
 
 
 func _set_button_state(

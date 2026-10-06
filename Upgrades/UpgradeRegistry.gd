@@ -5,21 +5,30 @@ extends RefCounted
 static func create_upgrades() -> Dictionary:
 	var upgrades: Dictionary = {}
 
+
 	# Atomic Friction
+	
 	_register(upgrades, _create_atomic_friction_optimization())
 	_register(upgrades, _create_atomic_reorganization())
-	_register(upgrades, _create_efficient_atomic_processing())
 	_register(upgrades, _create_atomic_friction_refinement())
-
-	# Molecular Agitation
 	_register(upgrades, _create_molecular_agitation_upgrade())
+	_register(upgrades, _create_atomic_process_optimization())
+	_register(upgrades, _create_efficient_atomic_processing())
+	_register(upgrades, _create_atomic_mastery())
+	_register(upgrades, _create_crystallization_adaptation())
+	_register(upgrades, _create_contamination_adaptation())
+	_register(upgrades, _create_molecular_agitation_upgrade())
+	_register(upgrades, _create_atomic_mastery())
+	
+	# Molecular Agitation
+	
 	_register(upgrades, _create_molecular_resonance())
 	_register(upgrades, _create_resonant_containment())
 	_register(upgrades, _create_agitation_optimization())
 	_register(upgrades, _create_molecular_agitation_refinement())
 
 	# Matter
-	_register(upgrades, _create_atomic_mastery())
+
 	_register(upgrades, _create_thermic_mass())
 	_register(upgrades, _create_thermal_compressor_optimization())
 	_register(upgrades, _create_thermal_compressor_efficiency())
@@ -93,7 +102,7 @@ static func _create_atomic_friction_optimization() -> Upgrade:
 			Requirement.new(
 				RequirementTypes.GENERATOR_LEVEL,
 				"atomic_friction",
-				10
+				15
 			)
 		],
 		false,
@@ -106,19 +115,18 @@ static func _create_atomic_friction_optimization() -> Upgrade:
 	
 	return Upgrade.new(definition)
 
-
 static func _create_atomic_reorganization() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"atomic_reorganization",
 		"Atomic Reorganization",
 		"Atomic Friction becomes more powerful per generator level bought.",
 		ResourceIds.HEAT,
-		125000.0,
+		50000.0,
 		[
 			UpgradeEffect.dynamic_generator_modifier(
 				"atomic_friction",
 				ModifierTypes.PRODUCTION,
-				0.05,
+				0.008,
 				"atomic_friction",
 				Modifier.DYNAMIC_GENERATOR_LEVEL
 			)
@@ -127,50 +135,18 @@ static func _create_atomic_reorganization() -> Upgrade:
 			Requirement.new(
 				RequirementTypes.GENERATOR_LEVEL,
 				"atomic_friction",
-				35
+				25
 			)
 		],
 		false,
-		"",
+		"atomic_friction_specialization",
 		"atomic_friction",
-		1,
-		1,
+		3,
+		2.8,
 		"atomic_friction"
 	)
 	
 	return Upgrade.new(definition)
-
-
-static func _create_efficient_atomic_processing() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"efficient_atomic_processing",
-		"Efficient Atomic Processing",
-		"Reduces the cost of Atomic Friction.",
-		ResourceIds.HEAT,
-		15000.0,
-		[
-			UpgradeEffect.modifier(
-				"atomic_friction",
-				ModifierTypes.COST,
-				0.2
-			)
-		],
-		[
-			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"atomic_friction",
-				15
-			)],
-		false,
-		"",
-		"atomic_friction",
-		1,
-		1,
-		"atomic_friction"
-	)
-	
-	return Upgrade.new(definition)
-
 
 static func _create_atomic_friction_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
@@ -194,19 +170,14 @@ static func _create_atomic_friction_refinement() -> Upgrade:
 			)
 		],
 		false,
-		"",
+		"atomic_friction_specialization",
 		"atomic_friction",
 		5,
-		1.85,
+		1.5,
 		"atomic_friction"
 	)
 	
 	return Upgrade.new(definition)
-
-
-# -------------------------------------------------------------------
-# Molecular Agitation upgrades
-# -------------------------------------------------------------------
 
 static func _create_molecular_agitation_upgrade() -> Upgrade:
 	var definition = UpgradeDefinition.new(
@@ -214,7 +185,7 @@ static func _create_molecular_agitation_upgrade() -> Upgrade:
 		"Molecular Agitation",
 		"Unlocks Manipulation of entire molecules to generate thermal energy.",
 		ResourceIds.HEAT,
-		1200.0,
+		25000.0,
 		[
 			UpgradeEffect.unlock_generator(
 				"molecular_agitation"
@@ -224,18 +195,195 @@ static func _create_molecular_agitation_upgrade() -> Upgrade:
 			Requirement.new(
 				RequirementTypes.GENERATOR_LEVEL,
 				"atomic_friction",
-				25
+				30
 			)
 		],
 		false,
 		"",
-		"molecular_agitation",
+		"atomic_friction",
 		1,
 		1,
 		"atomic_friction"
 	)
 	
 	return Upgrade.new(definition)
+
+static func _create_efficient_atomic_processing() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"efficient_atomic_processing",
+		"Efficient Atomic Processing",
+		"Reduces the cost scaling of Atomic Friction.",
+		ResourceIds.HEAT,
+		1500000.0,
+		[
+			UpgradeEffect.modifier(
+				"atomic_friction",
+				ModifierTypes.COST_SCALING,
+				0.95
+			),	
+			UpgradeEffect.modifier(
+				"atomic_friction",
+				ModifierTypes.COST,
+				0.2
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				45
+			)],
+		false,
+		"atomic_friction_mastery",
+		"atomic_friction",
+		1,
+		1,
+		"atomic_friction"
+	)
+	
+	return Upgrade.new(definition)
+
+static func _create_atomic_mastery() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"atomic_mastery",
+		"Atomic Mastery",
+		"Greatly improves the entire Atomic Friction process.",
+		ResourceIds.HEAT,
+		650000.0,
+		[
+			UpgradeEffect.modifier(
+				"atomic_friction",
+				ModifierTypes.PRODUCTION,
+				1.75
+			),
+			UpgradeEffect.modifier(
+				"atomic_friction",
+				ModifierTypes.COST,
+				0.5
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				45
+			)
+		],
+		false,
+		"atomic_friction_mastery",
+		"atomic_friction",
+		3,
+		3,
+		"atomic_friction"
+	)
+	
+	return Upgrade.new(definition)
+
+
+static func _create_atomic_process_optimization() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"atomic_process_optimization",
+		"Atomic Process Optimization",
+		"Further optimizes the Atomic Friction process, increasing production and reducing its cost.",
+		ResourceIds.HEAT,
+		250000.0,
+		[
+			UpgradeEffect.modifier(
+				"atomic_friction",
+				ModifierTypes.PRODUCTION,
+				1.22
+			),
+			UpgradeEffect.modifier(
+				"atomic_friction",
+				ModifierTypes.COST,
+				0.78
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				40
+			)
+		],
+		false,
+		"",
+		"atomic_friction",
+		5,
+		1.5,
+		"atomic_friction"
+	)
+
+	return Upgrade.new(definition)
+
+
+static func _create_crystallization_adaptation() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"crystallization_adaptation",
+		"Crystallization Adaptation",
+		"Reduces Atomic Friction's sensitivity to Crystallization while retaining its full overflow benefit.",
+		ResourceIds.HEAT,
+		5000000.0,
+		[
+			UpgradeEffect.sensitivity(
+				"atomic_friction",
+				"crystallization",
+				0.85
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				65
+			)
+		],
+		false,
+		"atomic_friction_late_specialization",
+		"atomic_friction",
+		1,
+		1,
+		"atomic_friction"
+	)
+
+	return Upgrade.new(definition)
+
+
+static func _create_contamination_adaptation() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"contamination_adaptation",
+		"Contamination Adaptation",
+		"Reduces Atomic Friction's sensitivity to Ash contamination.",
+		ResourceIds.HEAT,
+		5000000.0,
+		[
+			UpgradeEffect.sensitivity(
+				"atomic_friction",
+				"ashen_contamination",
+				0.66
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				65
+			)
+		],
+		false,
+		"atomic_friction_late_specialization",
+		"atomic_friction",
+		1,
+		1,
+		"atomic_friction"
+	)
+
+	return Upgrade.new(definition)
+
+# -------------------------------------------------------------------
+# Molecular Agitation upgrades
+# -------------------------------------------------------------------
+
 
 
 static func _create_molecular_resonance() -> Upgrade:
@@ -339,7 +487,7 @@ static func _create_molecular_agitation_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"molecular_agitation_refinement",
 		"Agitation Refinement",
-		"Refines Molecular Agitation, increasing its Heat production by 20% per level.",
+		"UNLOCK COND. Refines Molecular Agitation, increasing its Heat production by 20% per level.",
 		ResourceIds.HEAT,
 		300000.0,
 		[
@@ -347,6 +495,9 @@ static func _create_molecular_agitation_refinement() -> Upgrade:
 				"molecular_agitation",
 				ModifierTypes.PRODUCTION,
 				1.2
+			),
+			UpgradeEffect.unlock_generator(
+				"thermal_furnace"
 			)
 		],
 		[
@@ -367,48 +518,13 @@ static func _create_molecular_agitation_refinement() -> Upgrade:
 	return Upgrade.new(definition)
 
 
+
+
+
 # -------------------------------------------------------------------
 # Matter upgrades
 # -------------------------------------------------------------------
 
-static func _create_atomic_mastery() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"atomic_mastery",
-		"Atomic Mastery",
-		"Greatly improves the entire Atomic Friction process. Unlocks Matter generation.",
-		ResourceIds.HEAT,
-		25000.0,
-		[
-			UpgradeEffect.modifier(
-				"atomic_friction",
-				ModifierTypes.PRODUCTION,
-				1.5
-			),
-			UpgradeEffect.modifier(
-				"atomic_friction",
-				ModifierTypes.COST,
-				0.5
-			),
-			UpgradeEffect.unlock_generator(
-				"thermal_furnace"
-			)
-		],
-		[
-			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"atomic_friction",
-				35
-			)
-		],
-		false,
-		"",
-		"matter",
-		1,
-		1,
-		"atomic_friction"
-	)
-	
-	return Upgrade.new(definition)
 
 
 static func _create_thermic_mass() -> Upgrade:
@@ -733,8 +849,8 @@ static func _create_lava_mite_colony_unlock() -> Upgrade:
 		"lava_mite_colony_unlock",
 		"Lava Mite Colony",
 		"Unleashes colonies of lava mites that feed on the Ash contaminating your realm.",
-		ResourceIds.MATTER,
-		100.0,
+		ResourceIds.HEAT,
+		0.0,
 		[
 			UpgradeEffect.unlock_generator(
 				"lava_mite_colony"
@@ -744,10 +860,10 @@ static func _create_lava_mite_colony_unlock() -> Upgrade:
 			Requirement.new(
 				RequirementTypes.RESOURCE,
 				ResourceIds.ASH,
-				200.0
+				100.0
 			)
 		],
-		false,
+		true ,
 		"",
 		"ash_management"
 	)
