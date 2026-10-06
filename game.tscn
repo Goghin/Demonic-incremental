@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cdseigfjnotw3" path="res://UI/loading_screen.tscn" id="5_7jktm"]
 [ext_resource type="PackedScene" uid="uid://di77orwlxxxqx" path="res://UI/prestige_animation.tscn" id="6_eow3j"]
 [ext_resource type="PackedScene" uid="uid://6hk31507tbch" path="res://UI/PrestigePanel.tscn" id="6_prestige"]
+[ext_resource type="Theme" path="res://UI/GameTheme.tres" id="X_theme"]
 
 [node name="Game" type="Control" unique_id=2017947086]
 layout_mode = 3

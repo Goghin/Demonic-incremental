@@ -25,7 +25,7 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer.mouse_filter = (
 		Control.MOUSE_FILTER_IGNORE
 	)
-
+	_setup_font_size()
 
 func _setup_popup_style() -> void:
 
@@ -278,18 +278,25 @@ func get_requirement_text(
 			)
 		)
 
+
+		var current_text := NumberFormatter.format(
+			current_amount
+		)
+
 		return "Requires %s %s (%s / %s)" % [
 			NumberFormatter.format(
 				requirement.value
 			),
 			resource_name,
-			NumberFormatter.format(
+			_format_requirement_amount(
 				current_amount
 			),
 			NumberFormatter.format(
 				requirement.value
 			)
-		]
+]
+
+
 
 	if requirement.type == RequirementTypes.GENERATOR_LEVEL:
 
@@ -335,3 +342,45 @@ func get_requirement_text(
 		]
 
 	return "Unknown requirement."
+
+func _format_requirement_amount(
+	value: float
+	) -> String:
+
+	if value < 10.0:
+		return "%.2f" % value
+
+	if value < 100.0:
+		return "%.1f" % value
+
+	return "%.0f" % value
+
+
+func _setup_font_size() -> void:
+
+	var font_size := 11
+
+	$MarginContainer/VBoxContainer/NameLabel.add_theme_font_size_override(
+		"font_size",
+		14
+	)
+
+	$MarginContainer/VBoxContainer/DescriptionLabel.add_theme_font_size_override(
+		"font_size",
+		font_size
+	)
+
+	$MarginContainer/VBoxContainer/CostLabel.add_theme_font_size_override(
+		"font_size",
+		font_size
+	)
+
+	$MarginContainer/VBoxContainer/RequirementLabel.add_theme_font_size_override(
+		"font_size",
+		font_size
+	)
+
+	$MarginContainer/VBoxContainer/StatusLabel.add_theme_font_size_override(
+		"font_size",
+		font_size
+	)

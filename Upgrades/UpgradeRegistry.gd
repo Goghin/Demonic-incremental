@@ -110,7 +110,9 @@ static func _create_atomic_friction_optimization() -> Upgrade:
 		"atomic_friction",
 		10,
 		1.35,
-		"atomic_friction"
+		"atomic_friction",
+		"",
+		"res://Assets/ICONS/tile000.png"
 	)
 	
 	return Upgrade.new(definition)

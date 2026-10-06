@@ -1,3 +1,4 @@
+
 class_name NumberFormatter
 extends RefCounted
 
@@ -5,26 +6,26 @@ extends RefCounted
 static func format(value: float) -> String:
 	if is_nan(value) or is_inf(value):
 		return "0"
-	
+
 	var absolute_value = abs(value)
-	
+
 	if absolute_value < 1000.0:
 		return _format_small(value)
-	
+
 	if absolute_value < 1000000.0:
 		return _format_scaled(
 			value,
 			1000.0,
 			"K"
 		)
-	
+
 	if absolute_value < 1000000000.0:
 		return _format_scaled(
 			value,
 			1000000.0,
 			"M"
 		)
-	
+
 	return _format_scaled(
 		value,
 		1000000000.0,
@@ -32,16 +33,29 @@ static func format(value: float) -> String:
 	)
 
 
+ 
 static func _format_small(value: float) -> String:
-	if is_equal_approx(value, round(value)):
-		return "%d" % int(round(value))
-	
-	var text = "%.4f" % value
-	
+	var absolute_value = abs(value)
+
+	if absolute_value >= 100.0:
+		return "%.0f" % value
+
+	var text: String
+
+	if absolute_value < 1.0:
+		text = "%.4f" % value
+
+	elif absolute_value < 10.0:
+		text = "%.2f" % value
+
+	else:
+		text = "%.1f" % value
+
 	text = text.rstrip("0")
 	text = text.rstrip(".")
-	
+
 	return text
+
 
 
 static func _format_scaled(
@@ -49,24 +63,24 @@ static func _format_scaled(
 	divisor: float,
 	suffix: String
 	) -> String:
-	
+
 	var scaled = value / divisor
-	
+
 	var text: String
-	
+
 	if abs(scaled) >= 100.0:
-		# Already displaying a whole number.
-		# Do NOT strip zeroes, since they may be significant.
 		text = "%.0f" % scaled
+
 	elif abs(scaled) >= 10.0:
 		text = "%.1f" % scaled
 		text = text.rstrip("0")
 		text = text.rstrip(".")
+
 	else:
 		text = "%.2f" % scaled
 		text = text.rstrip("0")
 		text = text.rstrip(".")
-	
+
 	return "%s %s" % [
 		text,
 		suffix

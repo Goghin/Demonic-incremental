@@ -57,113 +57,70 @@ func _process(_delta: float) -> void:
 
 
 
+
 func _update_button(upgrade: Upgrade) -> void:
-	var display_name = upgrade.definition.display_name
+
 	
-	$UpgradeButton.text = get_button_text(
-		display_name,
-		upgrade
-	)
-	
+
+	$UpgradeButton.text = ""
+
+	$UpgradeButton/Icon.texture = null
+
+	if not upgrade.definition.icon_path.is_empty():
+		var icon := load(
+			upgrade.definition.icon_path
+		) as Texture2D
+
+		if icon != null:
+			$UpgradeButton/Icon.texture = icon
+
+	if upgrade.definition.max_level > 1:
+		$UpgradeButton/LevelLabel.text = "%d/%d" % [
+			upgrade.level,
+			upgrade.definition.max_level
+		]
+	else:
+		$UpgradeButton/LevelLabel.text = ""
+
 	if upgrade.is_maxed():
 		if upgrade.definition.automatic:
-			_set_button_state(
-				"active"
-			)
+			_set_button_state("active")
 		else:
-			_set_button_state(
-				"purchased"
-			)
-		
+			_set_button_state("purchased")
 		return
-	
+
 	var exclusive_upgrade = state.upgrade_system.get_exclusive_upgrade(
 		upgrade
 	)
-	
+
 	if exclusive_upgrade != null:
-		_set_button_state(
-			"exclusive"
-		)
-		
+		_set_button_state("exclusive")
 		return
-	
+
 	var next_cost = simulation.get_upgrade_cost(
-		upgrade	
-		)
-	
+		upgrade
+	)
+
 	var can_afford = (
 		state.get_resource_amount(
 			upgrade.definition.cost_resource_id
 		) >= next_cost
 	)
-	
+
 	var requirements_met = state.upgrade_system.requirements_met(
 		upgrade.definition.requirements
 	)
-	
+
 	if not requirements_met:
-		_set_button_state(
-			"requirements"
-		)
-		
+		_set_button_state("requirements")
 		return
-	
+
 	if not can_afford:
-		_set_button_state(
-			"cannot_afford"
-		)
-		
+		_set_button_state("cannot_afford")
 		return
-	
-	_set_button_state(
-		"available"
-	)
 
+	_set_button_state("available")
 
-func get_button_text(
-	display_name: String,
-	upgrade: Upgrade
-	) -> String:
-	
-	var initials = get_initials(
-		display_name
-	)
-	
-	if upgrade.definition.max_level <= 1:
-		return initials
-	
-	return "%s\n%d/%d" % [
-		initials,
-		upgrade.level,
-		upgrade.definition.max_level
-	]
-
-
-
-
-
-func get_initials(display_name: String) -> String:
-	var words = display_name.split(
-		" ",
-		false
-	)
-	
-	if words.size() == 1:
-		return words[0].left(2).to_upper()
-	
-	var initials = ""
-	
-	for word in words:
-		if word.is_empty():
-			continue
-		
-		initials += word[0].to_upper()
-		
-		if initials.length() >= 3:
-			break
-	
-	return initials
 
 
 func get_requirement_text(
@@ -375,55 +332,140 @@ func _on_upgrade_button_mouse_exited() -> void:
 func _set_button_state(
 	state_name: String
 	) -> void:
-	
+	print(
+		"BUTTON STATE: ",
+		upgrade_id,
+		" -> ",
+		state_name
+	)
+	var button := $UpgradeButton
+
 	match state_name:
+
 		"active":
-			$UpgradeButton.disabled = true
-			$UpgradeButton.modulate = Color(
-				0.6,
+			button.disabled = true
+			button.modulate = Color(
+				0.75,
 				1.0,
-				0.6
+				0.75
 			)
-			
+			button.add_theme_stylebox_override(
+				"disabled",
+				_create_state_style(
+					Color(0.22, 0.32, 0.24),
+					Color(0.45, 0.75, 0.48)
+				)
+			)
+
 		"available":
-			$UpgradeButton.disabled = false
-			$UpgradeButton.modulate = Color(
+			button.disabled = false
+			button.modulate = Color(
 				1.0,
 				1.0,
 				1.0
 			)
-		
+			button.add_theme_stylebox_override(
+				"normal",
+				_create_state_style(
+					Color(0.34, 0.34, 0.40),
+					Color(0.75, 0.75, 0.85)
+				)
+			)
+			button.add_theme_stylebox_override(
+				"hover",
+				_create_state_style(
+					Color(0.45, 0.45, 0.52),
+					Color(0.95, 0.95, 1.0)
+				)
+			)
+
 		"cannot_afford":
-			$UpgradeButton.disabled = true
-			$UpgradeButton.modulate = Color(
+			button.disabled = true
+			button.modulate = Color(
 				0.65,
 				0.65,
 				0.65
 			)
-		
-		"requirements":
-			$UpgradeButton.disabled = true
-			$UpgradeButton.modulate = Color(
-				0.45,
-				0.45,
-				0.45
+			button.add_theme_stylebox_override(
+				"disabled",
+				_create_state_style(
+					Color(0.27, 0.27, 0.30),
+					Color(0.18, 0.18, 0.21)
+				)
 			)
-		
+
+		"requirements":
+			button.disabled = true
+			button.modulate = Color(
+				0.50,
+				0.50,
+				0.50
+			)
+			button.add_theme_stylebox_override(
+				"disabled",
+				_create_state_style(
+					Color(0.22, 0.22, 0.25),
+					Color(0.14, 0.14, 0.17)
+				)
+			)
+
 		"exclusive":
-			$UpgradeButton.disabled = true
-			$UpgradeButton.modulate = Color(
+			button.disabled = true
+			button.modulate = Color(
 				0.35,
 				0.35,
 				0.35
 			)
-		
-		"purchased":
-			$UpgradeButton.disabled = true
-			$UpgradeButton.modulate = Color(
-				0.6,
-				1.0,
-				0.6
+			button.add_theme_stylebox_override(
+				"disabled",
+				_create_state_style(
+					Color(0.17, 0.17, 0.19),
+					Color(0.10, 0.10, 0.12)
+				)
 			)
+
+		"purchased":
+			button.disabled = true
+			
+			var purchased_style := _create_state_style(
+				Color(0.381, 0.62, 0.24, 1.0),
+				Color(0.616, 0.475, 0.124, 1.0)
+			)
+
+			button.add_theme_stylebox_override(
+				"normal",
+				purchased_style
+			)
+
+			button.add_theme_stylebox_override(
+				"disabled",
+				purchased_style
+			)
+
+
+func _create_state_style(
+	background_color: Color,
+	border_color: Color
+	) -> StyleBoxFlat:
+
+	var style := StyleBoxFlat.new()
+
+	style.bg_color = background_color
+
+	style.border_width_left = 2
+	style.border_width_top = 2
+	style.border_width_right = 2
+	style.border_width_bottom = 2
+
+	style.border_color = border_color
+
+	style.corner_radius_top_left = 5
+	style.corner_radius_top_right = 5
+	style.corner_radius_bottom_left = 5
+	style.corner_radius_bottom_right = 5
+
+	return style
+
 
 
 func _setup_button_style() -> void:

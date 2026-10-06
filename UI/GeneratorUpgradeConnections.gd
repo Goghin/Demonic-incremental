@@ -1,3 +1,4 @@
+
 class_name GeneratorUpgradeConnections
 extends Control
 
@@ -5,7 +6,14 @@ extends Control
 var layout: GeneratorUpgradeLayout
 var node_size := Vector2(70, 70)
 
-const LINE_WIDTH := 3.0
+const LINE_WIDTH := 2.0
+
+const LINE_COLOR := Color(
+	0.40,
+	0.40,
+	0.44,
+	0.85
+)
 
 
 func setup(
@@ -56,13 +64,6 @@ func _draw_connection(
 		to_position.y
 	)
 
-	var line_color := Color(
-		0.55,
-		0.55,
-		0.60,
-		1.0
-	)
-
 	# Straight vertical connection.
 	if is_equal_approx(
 		from_bottom.x,
@@ -72,7 +73,7 @@ func _draw_connection(
 		draw_line(
 			from_bottom,
 			to_top,
-			line_color,
+			LINE_COLOR,
 			LINE_WIDTH,
 			true
 		)
@@ -100,7 +101,7 @@ func _draw_connection(
 	draw_line(
 		from_bottom,
 		first_point,
-		line_color,
+		LINE_COLOR,
 		LINE_WIDTH,
 		true
 	)
@@ -108,7 +109,7 @@ func _draw_connection(
 	draw_line(
 		first_point,
 		second_point,
-		line_color,
+		LINE_COLOR,
 		LINE_WIDTH,
 		true
 	)
@@ -116,7 +117,7 @@ func _draw_connection(
 	draw_line(
 		second_point,
 		to_top,
-		line_color,
+		LINE_COLOR,
 		LINE_WIDTH,
 		true
 	)
