@@ -41,10 +41,10 @@ func refresh() -> void:
 		var maxed: bool = level >= upgrade.max_level
 
 		node.text = "%s\nLv. %d / %d\n%s" % [
-			upgrade.display_name,
+			_format_node_title(upgrade.display_name),
 			level,
 			upgrade.max_level,
-			"MAXED" if maxed else "%d Eternal Flame%s" % [cost, "" if cost == 1 else "s"]
+			"MAXED" if maxed else "%d Flame%s" % [cost, "" if cost == 1 else "s"]
 		]
 		node.tooltip_text = upgrade.description
 		node.disabled = maxed or not can_buy
@@ -80,7 +80,6 @@ func _build_tree() -> void:
 		node.position = layout.positions[upgrade_id]
 		node.custom_minimum_size = NODE_SIZE
 		node.size = NODE_SIZE
-		node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		node.add_theme_font_size_override("font_size", 13)
 		node.focus_mode = Control.FOCUS_NONE
 		node.pressed.connect(_on_upgrade_node_pressed.bind(upgrade_id))
@@ -134,3 +133,26 @@ func _create_node_style(background: Color, border: Color) -> StyleBoxFlat:
 	style.content_margin_top = 6.0
 	style.content_margin_bottom = 6.0
 	return style
+
+ 
+func _format_node_title(display_name: String) -> String:
+	var words: PackedStringArray = display_name.split(" ")
+	var lines: Array[String] = []
+	var current_line: String = ""
+
+	for word in words:
+		if current_line.is_empty():
+			current_line = word
+		elif current_line.length() + word.length() + 1 <= 19:
+			current_line += " " + word
+		else:
+			lines.append(current_line)
+			current_line = word
+
+	if not current_line.is_empty():
+		lines.append(current_line)
+
+	if lines.size() <= 2:
+		return "\\n".join(lines)
+
+	return lines[0] + "\\n" + lines[1]
