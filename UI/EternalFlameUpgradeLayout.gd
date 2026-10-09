@@ -3,7 +3,7 @@ extends RefCounted
 
 
 var positions: Dictionary = {}
-var connections: Array[Dictionary] = {}
+var connections: Array[Dictionary] = []
 
 
 const NODE_SIZE := Vector2(95, 56)
