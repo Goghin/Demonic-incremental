@@ -46,55 +46,6 @@ var realm_rows: Dictionary = {}
 var eternal_flame_shop_scroll: ScrollContainer
 var eternal_flame_upgrade_container: EternalFlameShopTree
 var eternal_flame_shop_available_label: Label
-var eternal_flame_upgrade_rows: Dictionary = {}
-
-
-const ETERNAL_FLAME_UPGRADE_IDS: Array[String] = [
-# Realm and Eternal Flame upgrades
-"eternal_furnace",
-"realm_attunement",
-"infernal_foundation",
-"essence_extraction",
-
-
-# Starting generator levels
-"accelerated_friction",
-"accelerated_agitation",
-"established_colony",
-"accelerated_condensation",
-
-# Atomic Friction automation
-"unlock_generator_automation_atomic_friction",
-"generator_automation_cooldown_atomic_friction",
-
-# Molecular Agitation automation
-"unlock_generator_automation_molecular_agitation",
-"generator_automation_cooldown_molecular_agitation",
-
-# Infernal Condensation automation
-"unlock_generator_automation_thermal_furnace",
-"generator_automation_cooldown_thermal_furnace",
-
-# Thermal Compressor automation
-"unlock_generator_automation_thermal_compressor",
-"generator_automation_cooldown_thermal_compressor",
-
-# Lava Mite Colony automation
-"unlock_generator_automation_lava_mite_colony",
-"generator_automation_cooldown_lava_mite_colony",
-
-# Matter Furnace automation
-"unlock_generator_automation_matter_furnace",
-"generator_automation_cooldown_matter_furnace",
-
-# Generator upgrade automation
-"unlock_upgrade_automation_atomic_friction",
-"unlock_upgrade_automation_molecular_agitation",
-"unlock_upgrade_automation_thermal_furnace",
-"unlock_upgrade_automation_lava_mite_colony",
-"unlock_upgrade_automation_matter_furnace"
-
-]
 
 
 # ----------------------------------------------------------------
@@ -281,27 +232,6 @@ func _apply_compact_style() -> void:
 			4
 		)
 
-	for upgrade_id in eternal_flame_upgrade_rows:
-		var row = eternal_flame_upgrade_rows[upgrade_id]
-
-		for key in [
-			"name_label",
-			"level_label",
-			"cost_label",
-			"description_label"
-		]:
-			var label: Label = row[key]
-			label.add_theme_font_size_override(
-				"font_size",
-				11
-			)
-
-		var purchase_button: Button = row["purchase_button"]
-		purchase_button.custom_minimum_size = Vector2(0, 20)
-		purchase_button.add_theme_font_size_override(
-			"font_size",
-			11
-		)
 
 func _create_overflow_bonus_label() -> void:
 	if overflow_bonus_label != null:
