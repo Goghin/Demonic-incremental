@@ -4,7 +4,8 @@ extends Control
 
 var layout: EternalFlameUpgradeLayout
 
-const LINE_WIDTH := 3.0
+
+const LINE_WIDTH := 1.5
 const LINE_COLOR := Color(0.58, 0.40, 0.22, 0.85)
 
 
