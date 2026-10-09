@@ -178,6 +178,17 @@ func _initialize_upgrades() -> void:
 	)	
 	
 
+	# --------------------------------------------------------
+	# GENERATOR UPGRADE AUTOMATION
+	# --------------------------------------------------------
+
+	_add_upgrade_automation_upgrade("atomic_friction", "Atomic Friction", 3)
+	_add_upgrade_automation_upgrade("molecular_agitation", "Molecular Agitation", 8)
+	_add_upgrade_automation_upgrade("thermal_furnace", "Infernal Condensation", 12)
+	_add_upgrade_automation_upgrade("lava_mite_colony", "Lava Mite Colony", 25)
+	_add_upgrade_automation_upgrade("matter_furnace", "Matter Furnace", 40)
+
+
 func _add_upgrade(
 	upgrade: EternalFlameUpgrade
 	) -> void:
@@ -401,5 +412,28 @@ func _add_generator_automation_upgrades(
 			"",
 			unlock_upgrade_id,
 			1
+		)
+	)
+
+
+func _add_upgrade_automation_upgrade(
+	generator_id: String,
+	generator_name: String,
+	unlock_cost: int
+) -> void:
+	var upgrade_id: String = "unlock_upgrade_automation_" + generator_id
+	var technology_id: String = "upgrade_automation_" + generator_id
+
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			upgrade_id,
+			generator_name + " Upgrade Automation",
+			"Permanently unlocks automatic purchasing for " + generator_name + " upgrades.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			unlock_cost,
+			1.0,
+			technology_id
 		)
 	)
