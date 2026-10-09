@@ -114,8 +114,8 @@ func _create_upgrade_nodes() -> void:
 
 	# Give the tree enough height for every node.
 	$TreeArea.custom_minimum_size.y = max_y + 20.0
-	custom_minimum_size.y = max_y + 20.0
-	size.y = max_y + 20.0
+	custom_minimum_size.y = max_y + 82.0
+	size.y = max_y + 82.0
 
 
 func _create_automation_controls() -> void:
