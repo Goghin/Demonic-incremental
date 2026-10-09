@@ -44,7 +44,7 @@ var realm_rows: Dictionary = {}
 # ----------------------------------------------------------------
 
 var eternal_flame_shop_scroll: ScrollContainer
-var eternal_flame_upgrade_container: VBoxContainer
+var eternal_flame_upgrade_container: EternalFlameShopTree
 var eternal_flame_shop_available_label: Label
 var eternal_flame_upgrade_rows: Dictionary = {}
 
@@ -629,184 +629,39 @@ func _create_shop_ui() -> void:
 
 	shop_panel = VBoxContainer.new()
 	shop_panel.name = "EternalFlameShopPanel"
+	shop_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	shop_panel.add_theme_constant_override("separation", 6)
+	content_container.add_child(shop_panel)
 
-	shop_panel.size_flags_vertical = (
-		Control.SIZE_EXPAND_FILL
-	)
-
-	shop_panel.add_theme_constant_override(
-		"separation",
-		6
-	)
-
-	content_container.add_child(
-		shop_panel
-	)
-
-	var title = Label.new()
+	var title := Label.new()
 	title.text = "ETERNAL FLAME SHOP"
 	title.custom_minimum_size = Vector2(0, 30)
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-
 	shop_panel.add_child(title)
+
 	eternal_flame_shop_available_label = Label.new()
-	eternal_flame_shop_available_label.name = (
-		"EternalFlameShopAvailableLabel"
-	)
-	eternal_flame_shop_available_label.text = (
-		"Available Eternal Flames: 0"
-	)
-
-	shop_panel.add_child(
-		eternal_flame_shop_available_label
-	)
-
-
-
+	eternal_flame_shop_available_label.name = "EternalFlameShopAvailableLabel"
+	eternal_flame_shop_available_label.text = "Available Eternal Flames: 0"
+	shop_panel.add_child(eternal_flame_shop_available_label)
 
 	eternal_flame_shop_scroll = ScrollContainer.new()
 	eternal_flame_shop_scroll.name = "EternalFlameShopScroll"
-
-	eternal_flame_shop_scroll.size_flags_horizontal = (
-		Control.SIZE_EXPAND_FILL
-	)
-
-	eternal_flame_shop_scroll.size_flags_vertical = (
-		Control.SIZE_EXPAND_FILL
-	)
-
+	eternal_flame_shop_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	eternal_flame_shop_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	eternal_flame_shop_scroll.custom_minimum_size = Vector2(0, 100)
+	eternal_flame_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	eternal_flame_shop_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	shop_panel.add_child(eternal_flame_shop_scroll)
 
-	eternal_flame_shop_scroll.horizontal_scroll_mode = (
-		ScrollContainer.SCROLL_MODE_DISABLED
+	eternal_flame_upgrade_container = EternalFlameShopTree.new()
+	eternal_flame_upgrade_container.name = "EternalFlameShopTree"
+	eternal_flame_upgrade_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	eternal_flame_upgrade_container.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	eternal_flame_shop_scroll.add_child(eternal_flame_upgrade_container)
+	eternal_flame_upgrade_container.purchase_requested.connect(
+		_on_eternal_flame_upgrade_pressed
 	)
-
-	shop_panel.add_child(
-		eternal_flame_shop_scroll
-	)
-
-	eternal_flame_upgrade_container = VBoxContainer.new()
-	eternal_flame_upgrade_container.name = (
-		"EternalFlameUpgradeContainer"
-	)
-
-	eternal_flame_upgrade_container.size_flags_horizontal = (
-		Control.SIZE_EXPAND_FILL
-	)
-
-	eternal_flame_upgrade_container.size_flags_vertical = (
-		Control.SIZE_SHRINK_BEGIN
-	)
-
-	eternal_flame_upgrade_container.add_theme_constant_override(
-		"separation",
-		8
-	)
-
-	eternal_flame_shop_scroll.add_child(
-		eternal_flame_upgrade_container
-	)
-
-	for upgrade_id in ETERNAL_FLAME_UPGRADE_IDS:
-		_create_eternal_flame_upgrade_row(
-			upgrade_id
-		)
-
-	print(
-		"Eternal Flame shop rows: ",
-		eternal_flame_upgrade_container.get_child_count()
-	)
-
-
-func _create_eternal_flame_upgrade_row(
-	upgrade_id: String
-	) -> void:
-
-	var upgrade = (
-		state.eternal_flame_upgrade_manager.get_upgrade(
-			upgrade_id
-		)
-	)
-
-	if upgrade == null:
-		return
-
-	var row = VBoxContainer.new()
-	row.name = "%sRow" % upgrade_id
-
-	row.add_theme_constant_override(
-		"separation",
-		2
-	)
-
-	eternal_flame_upgrade_container.add_child(
-		row
-	)
-
-	var top_row = HBoxContainer.new()
-	top_row.add_theme_constant_override(
-		"separation",
-		6
-	)
-
-	row.add_child(top_row)
-
-	var name_label = Label.new()
-	name_label.text = upgrade.display_name
-	name_label.custom_minimum_size = Vector2(150, 0)
-
-	name_label.size_flags_horizontal = (
-		Control.SIZE_EXPAND_FILL
-	)
-
-	top_row.add_child(name_label)
-
-	var level_label = Label.new()
-	level_label.custom_minimum_size = Vector2(80, 0)
-	level_label.horizontal_alignment = (
-		HORIZONTAL_ALIGNMENT_CENTER
-	)
-
-	top_row.add_child(level_label)
-
-	var cost_label = Label.new()
-	cost_label.custom_minimum_size = Vector2(100, 0)
-	cost_label.horizontal_alignment = (
-		HORIZONTAL_ALIGNMENT_RIGHT
-	)
-
-	top_row.add_child(cost_label)
-
-	var purchase_button = Button.new()
-	purchase_button.text = "BUY"
-	purchase_button.custom_minimum_size = Vector2(70, 30)
-
-	top_row.add_child(purchase_button)
-
-	var description_label = Label.new()
-	description_label.text = upgrade.description
-	description_label.autowrap_mode = (
-		TextServer.AUTOWRAP_WORD_SMART
-	)
-
-	row.add_child(
-		description_label
-	)
-
-	purchase_button.pressed.connect(
-		func():
-			_on_eternal_flame_upgrade_pressed(
-				upgrade_id
-			)
-	)
-
-	eternal_flame_upgrade_rows[upgrade_id] = {
-		"name_label": name_label,
-		"level_label": level_label,
-		"cost_label": cost_label,
-		"purchase_button": purchase_button,
-		"description_label": description_label
-	}
+	eternal_flame_upgrade_container.setup(state)
 
 
 # ----------------------------------------------------------------
@@ -1419,7 +1274,7 @@ func _on_eternal_flame_upgrade_pressed(
 
 
 func _refresh_eternal_flame_upgrade_ui() -> void:
-	if eternal_flame_upgrade_container == null:
+	if eternal_flame_upgrade_container == null or state == null:
 		return
 
 	if eternal_flame_shop_available_label != null:
@@ -1428,60 +1283,7 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 			% state.get_unassigned_eternal_flames()
 		)
 
-	for upgrade_id in eternal_flame_upgrade_rows:
-		var upgrade = (
-			state.eternal_flame_upgrade_manager.get_upgrade(
-				upgrade_id
-			)
-		)
-
-		if upgrade == null:
-			continue
-
-		var level = (
-			state.eternal_flame_upgrade_manager.get_upgrade_level(
-				upgrade_id,
-				state.eternal_flame_state
-			)
-		)
-
-		var cost = (
-			state.eternal_flame_upgrade_manager.get_upgrade_cost(
-				upgrade_id,
-				state.eternal_flame_state
-			)
-		)
-
-		var row = eternal_flame_upgrade_rows[upgrade_id]
-
-		row["level_label"].text = (
-			"Lv. %d / %d"
-			% [
-				level,
-				upgrade.max_level
-			]
-		)
-
-		if level >= upgrade.max_level:
-			row["cost_label"].text = "MAX"
-			row["purchase_button"].text = "MAX"
-			row["purchase_button"].disabled = true
-		else:
-			row["cost_label"].text = (
-				"%d Flame"
-				% cost
-			)
-
-			row["purchase_button"].text = "BUY"
-
-			row["purchase_button"].disabled = (
-			not state.eternal_flame_upgrade_manager.can_purchase(
-				upgrade_id,
-				state.eternal_flame_state,
-				state.realm_configuration,
-				
-			)
-		)
+	eternal_flame_upgrade_container.refresh()
 
 
 # ----------------------------------------------------------------
