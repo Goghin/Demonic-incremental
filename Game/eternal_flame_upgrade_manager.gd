@@ -64,7 +64,19 @@ func _initialize_upgrades() -> void:
 			EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
 		)
 	)
-
+	_add_upgrade(
+	EternalFlameUpgrade.new(
+		"accelerated_friction",
+		"Accelerated Friction",
+		"Begins each new realm with Atomic Friction at a higher level. Levels: 10, 15, 20, and 25.",
+		EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+		0.0,
+		4,
+		5,
+		2.0,
+		EternalFlameState.ACCELERATED_FRICTION_TECHNOLOGY_ID
+	)
+)
 
 func _add_upgrade(
 	upgrade: EternalFlameUpgrade
@@ -123,37 +135,53 @@ func get_upgrade_cost(
 	)
 
 
+
 func can_purchase(
 	upgrade_id: String,
 	state: EternalFlameState,
 	realm_configuration: RealmConfiguration
 	) -> bool:
-	
+
 	var upgrade = get_upgrade(
 		upgrade_id
 	)
-	
+
 	if upgrade == null:
 		return false
-	
+
 	var current_level = state.get_upgrade_level(
 		upgrade_id
 	)
-	
+
 	if current_level >= upgrade.max_level:
 		return false
-	
+
+	# Check whether the prerequisite has been met.
+	if upgrade.prerequisite_upgrade_id != "":
+		var prerequisite = get_upgrade(
+			upgrade.prerequisite_upgrade_id
+		)
+
+		if prerequisite == null:
+			return false
+
+		var prerequisite_level = state.get_upgrade_level(
+			upgrade.prerequisite_upgrade_id
+		)
+
+		if prerequisite_level < upgrade.prerequisite_level:
+			return false
+
 	var cost = get_upgrade_cost(
 		upgrade_id,
 		state
 	)
-	
+
 	return state.can_spend_flames(
 		cost,
 		realm_configuration
 	)
-
-
+	
 func purchase(
 	upgrade_id: String,
 	state: EternalFlameState,

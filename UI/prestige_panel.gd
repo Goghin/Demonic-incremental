@@ -45,6 +45,7 @@ var realm_rows: Dictionary = {}
 
 var eternal_flame_shop_scroll: ScrollContainer
 var eternal_flame_upgrade_container: VBoxContainer
+var eternal_flame_shop_available_label: Label
 var eternal_flame_upgrade_rows: Dictionary = {}
 
 
@@ -52,7 +53,8 @@ const ETERNAL_FLAME_UPGRADE_IDS: Array[String] = [
 	"eternal_furnace",
 	"realm_attunement",
 	"infernal_foundation",
-	"essence_extraction"
+	"essence_extraction",
+	"accelerated_friction"
 ]
 
 
@@ -608,6 +610,20 @@ func _create_shop_ui() -> void:
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 
 	shop_panel.add_child(title)
+	eternal_flame_shop_available_label = Label.new()
+	eternal_flame_shop_available_label.name = (
+		"EternalFlameShopAvailableLabel"
+	)
+	eternal_flame_shop_available_label.text = (
+		"Available Eternal Flames: 0"
+	)
+
+	shop_panel.add_child(
+		eternal_flame_shop_available_label
+	)
+
+
+
 
 	eternal_flame_shop_scroll = ScrollContainer.new()
 	eternal_flame_shop_scroll.name = "EternalFlameShopScroll"
@@ -1130,8 +1146,12 @@ func _refresh_realm_ui() -> void:
 		state.get_unassigned_eternal_flames()
 	)
 
-	var total = int(
-		state.eternal_flame_state.eternal_flame
+	var total: int = max(
+		0,
+		int(
+			state.eternal_flame_state.eternal_flame
+			- state.eternal_flame_state.spent_flames
+		)
 	)
 
 	realm_available_label.text = (
@@ -1363,6 +1383,12 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 	if eternal_flame_upgrade_container == null:
 		return
 
+	if eternal_flame_shop_available_label != null:
+		eternal_flame_shop_available_label.text = (
+			"Available Eternal Flames: %d"
+			% state.get_unassigned_eternal_flames()
+		)
+
 	for upgrade_id in eternal_flame_upgrade_rows:
 		var upgrade = (
 			state.eternal_flame_upgrade_manager.get_upgrade(
@@ -1389,6 +1415,33 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 
 		var row = eternal_flame_upgrade_rows[upgrade_id]
 
+		var description_text: String = upgrade.description
+
+		if upgrade.prerequisite_upgrade_id != "":
+			var prerequisite = (
+				state.eternal_flame_upgrade_manager.get_upgrade(
+					upgrade.prerequisite_upgrade_id
+				)
+			)
+
+			var prerequisite_level = (
+				state.eternal_flame_state.get_upgrade_level(
+					upgrade.prerequisite_upgrade_id
+				)
+			)
+
+			if prerequisite != null:
+				description_text += (
+					"\nRequires: %s Lv. %d (currently Lv. %d)"
+					% [
+						prerequisite.display_name,
+						upgrade.prerequisite_level,
+						prerequisite_level
+					]
+				)
+
+		row["description_label"].text = description_text
+
 		row["level_label"].text = (
 			"Lv. %d / %d"
 			% [
@@ -1410,9 +1463,12 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 			row["purchase_button"].text = "BUY"
 
 			row["purchase_button"].disabled = (
-				state.get_unassigned_eternal_flames() < cost
+				not state.eternal_flame_upgrade_manager.can_purchase(
+					upgrade_id,
+					state.eternal_flame_state,
+					state.realm_configuration
+				)
 			)
-
 
 # ----------------------------------------------------------------
 # Process

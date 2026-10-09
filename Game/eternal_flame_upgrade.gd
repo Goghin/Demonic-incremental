@@ -1,3 +1,4 @@
+
 class_name EternalFlameUpgrade
 extends RefCounted
 
@@ -17,6 +18,9 @@ var effect_type: String = EFFECT_NONE
 var effect_per_level: float = 0.0
 var technology_id: String = ""
 
+var prerequisite_upgrade_id: String = ""
+var prerequisite_level: int = 0
+
 var level: int = 0
 var max_level: int = 1
 
@@ -33,17 +37,22 @@ func _init(
 	upgrade_max_level: int,
 	upgrade_base_cost: int,
 	upgrade_cost_multiplier: float,
-	upgrade_technology_id: String = ""
+	upgrade_technology_id: String = "",
+	upgrade_prerequisite_upgrade_id: String = "",
+	upgrade_prerequisite_level: int = 0
 	) -> void:
-	
+
 	id = upgrade_id
 	display_name = upgrade_display_name
 	description = upgrade_description
-	
+
 	effect_type = upgrade_effect_type
 	effect_per_level = upgrade_effect_per_level
 	technology_id = upgrade_technology_id
-	
+
+	prerequisite_upgrade_id = upgrade_prerequisite_upgrade_id
+	prerequisite_level = max(0, upgrade_prerequisite_level)
+
 	max_level = upgrade_max_level
 	base_cost = upgrade_base_cost
 	cost_multiplier = upgrade_cost_multiplier
@@ -56,7 +65,7 @@ func is_maxed() -> bool:
 func get_cost() -> int:
 	if is_maxed():
 		return 0
-	
+
 	return int(
 		ceil(
 			base_cost

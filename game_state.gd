@@ -424,9 +424,22 @@ func reset_current_run() -> void:
 	var atomic_friction = get_generator(
 		"atomic_friction"
 	)
-	
+
 	if atomic_friction != null:
-		atomic_friction.level = 1
+		var accelerated_friction_level: int = (
+			eternal_flame_state.get_upgrade_level(
+				"accelerated_friction"
+			)
+		)
+
+		if accelerated_friction_level <= 0:
+			atomic_friction.level = 1
+		else:
+			atomic_friction.level = (
+				5 + accelerated_friction_level * 5
+			)
+		
+		
 	overflow_bonus_from_last_realm = next_overflow_bonus()
 	total_overflow_this_prestige = 0.0
 	
@@ -484,19 +497,19 @@ func _apply_permanent_technology_unlocks() -> void:
 		)
 		
 		if thermal_compressor != null:
-			thermal_compressor.unlocked = true
-	
-	if eternal_flame_state.is_technology_unlocked(
-		EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
-	):
-		var lava_mite_colony = get_generator(
-			"lava_mite_colony"
-		)
-		
-		if lava_mite_colony != null:
-			for output in lava_mite_colony.get_active_outputs():
-				if output.resource_id == ResourceIds.ESSENCE:
-					output.unlocked = true
+			thermal_compressor.unlocked = false
+	#
+	#if eternal_flame_state.is_technology_unlocked(
+		#EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
+	#):
+		#var lava_mite_colony = get_generator(
+			#"lava_mite_colony"
+		#)
+		#
+		#if lava_mite_colony != null:
+			#for output in lava_mite_colony.get_active_outputs():
+				#if output.resource_id == ResourceIds.ESSENCE:
+					#output.unlocked = true
 
 func get_overflow_bonus() -> float:
 	var overflow: float = overflow_bonus_from_last_realm
