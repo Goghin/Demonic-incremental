@@ -5,6 +5,13 @@ extends Control
 
 signal automation_settings_changed
 
+var _last_styled_enabled: bool = false
+var _has_styled_enabled: bool = false
+
+
+func _ready() -> void:
+	_setup_automation_button_style()
+
 
 var state: GameState
 var simulation: Simulation
@@ -43,6 +50,10 @@ func setup(
 
 	_rebuild()
 
+func _process(_delta: float) -> void:
+	_update_automation_button()
+
+
 func _rebuild() -> void:
 
 	_clear_tree()
@@ -66,7 +77,7 @@ func _rebuild() -> void:
 
 	_create_connection_renderer()
 	_create_upgrade_nodes()
-	_create_automation_controls()
+	_update_automation_button()
 
 
 func _create_upgrade_nodes() -> void:
@@ -99,6 +110,10 @@ func _create_upgrade_nodes() -> void:
 
 		panel.position = position
 
+		panel.exclusive_preference_changed.connect(
+			_on_upgrade_panel_exclusive_preference_changed
+		)
+
 		panel.setup(
 			state,
 			simulation,
@@ -118,54 +133,82 @@ func _create_upgrade_nodes() -> void:
 	size.y = max_y + 82.0
 
 
-func _create_automation_controls() -> void:
-	var controls: HFlowContainer = $AutomationControls
-
-	for child in controls.get_children():
-		child.queue_free()
-
-	if state == null or not state.upgrade_automation_manager.is_automation_unlocked(generator_id):
-		var locked_label := Label.new()
-		locked_label.text = "Upgrade automation: locked in Eternal Flame Shop"
-		controls.add_child(locked_label)
+func _update_automation_button() -> void:
+	if state == null:
 		return
 
 	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	var unlocked: bool = manager.is_automation_unlocked(generator_id)
+	$AutomationToggleButton.visible = unlocked
 
-	var automation_toggle := CheckBox.new()
-	automation_toggle.text = "AUTO BUY"
-	automation_toggle.button_pressed = manager.is_enabled(generator_id)
-	automation_toggle.toggled.connect(
-		func(enabled: bool):
-			if manager.set_enabled(generator_id, enabled):
-				automation_settings_changed.emit()
+	if not unlocked:
+		return
+
+	var enabled: bool = manager.is_enabled(generator_id)
+	$AutomationToggleButton.text = (
+		"UPGRADE AUTO: ON"
+		if enabled
+		else "UPGRADE AUTO: OFF"
 	)
-	controls.add_child(automation_toggle)
 
-	for upgrade_value in state.upgrades.values():
-		var upgrade: Upgrade = upgrade_value
-
-		if upgrade.definition.generator_id != generator_id:
-			continue
-
-		if upgrade.definition.exclusivity_group == "":
-			continue
-
-		if not state.upgrade_system.is_upgrade_visible(upgrade):
-			continue
-
-		var preference_toggle := CheckBox.new()
-		preference_toggle.text = upgrade.definition.display_name
-		preference_toggle.tooltip_text = "Allow the autobuyer to choose this exclusive upgrade."
-		preference_toggle.button_pressed = manager.is_exclusive_preference_selected(
-			upgrade.definition.id
+	if not _has_styled_enabled or enabled != _last_styled_enabled:
+		var background: Color = (
+			Color(0.18, 0.36, 0.22, 1.0)
+			if enabled
+			else Color(0.25, 0.20, 0.20, 1.0)
 		)
-		preference_toggle.toggled.connect(
-			_on_exclusive_preference_toggled.bind(
-				upgrade.definition.id
-			)
+		var border: Color = (
+			Color(0.55, 0.90, 0.52, 1.0)
+			if enabled
+			else Color(0.90, 0.52, 0.42, 1.0)
 		)
-		controls.add_child(preference_toggle)
+		$AutomationToggleButton.add_theme_stylebox_override(
+			"normal",
+			_create_toggle_style(background, border)
+		)
+		$AutomationToggleButton.add_theme_stylebox_override(
+			"hover",
+			_create_toggle_style(background.lightened(0.12), border.lightened(0.12))
+		)
+		$AutomationToggleButton.add_theme_stylebox_override(
+			"pressed",
+			_create_toggle_style(background.darkened(0.10), border)
+		)
+		_last_styled_enabled = enabled
+		_has_styled_enabled = true
+
+
+func _setup_automation_button_style() -> void:
+	$AutomationToggleButton.custom_minimum_size = Vector2(170, 28)
+	$AutomationToggleButton.add_theme_font_size_override("font_size", 12)
+	$AutomationToggleButton.focus_mode = Control.FOCUS_NONE
+
+
+func _create_toggle_style(background: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(4)
+	style.content_margin_left = 8.0
+	style.content_margin_right = 8.0
+	style.content_margin_top = 4.0
+	style.content_margin_bottom = 4.0
+	return style
+
+
+func _on_automation_toggle_button_pressed() -> void:
+	if state == null:
+		return
+
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	if manager.set_enabled(generator_id, not manager.is_enabled(generator_id)):
+		_update_automation_button()
+		automation_settings_changed.emit()
+
+
+func _on_upgrade_panel_exclusive_preference_changed() -> void:
+	automation_settings_changed.emit()
 
 
 func _clear_tree() -> void:
@@ -210,14 +253,3 @@ func _create_connection_renderer() -> void:
 		UPGRADE_SIZE
 	)
 
-
-func _on_exclusive_preference_toggled(
-	selected: bool,
-	upgrade_id: String
-) -> void:
-	state.upgrade_automation_manager.set_exclusive_preference(
-		upgrade_id,
-		selected
-	)
-	_create_automation_controls()
-	automation_settings_changed.emit()
