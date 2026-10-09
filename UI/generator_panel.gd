@@ -6,6 +6,8 @@ var state: GameState
 var input_handler: InputHandler
 var generator_id: String
 var current_illustration_path: String = ""
+var _last_automation_style_enabled: bool = false
+var _has_automation_style: bool = false
 var _last_upgrade_automation_style_enabled: bool = false
 var _has_upgrade_automation_style: bool = false
 
@@ -34,9 +36,7 @@ func _process(_delta: float) -> void:
 		return
 	
 	var automation_manager = state.generator_automation_manager
-	var automation_button = (
-		$HBoxContainer/VBoxContainer/HBoxContainer/AutomationButton
-	)
+	var automation_button: Button = $HBoxContainer/VBoxContainer/BuyButtons/AutomationButton
 
 	var upgrade_automation_manager: UpgradeAutomationManager = state.upgrade_automation_manager
 	var upgrade_automation_button: Button = $HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton
@@ -61,12 +61,19 @@ func _process(_delta: float) -> void:
 	)
 
 	if automation_button.visible:
+		var auto_enabled: bool = automation_manager.is_enabled(generator_id)
 		automation_button.text = (
 			"AUTO: ON"
-			if automation_manager.is_enabled(generator_id)
+			if auto_enabled
 			else "AUTO: OFF"
-		)	
-	
+		)
+		if (
+			not _has_automation_style
+			or auto_enabled != _last_automation_style_enabled
+		):
+			_update_automation_button_style(automation_button, auto_enabled)
+			_last_automation_style_enabled = auto_enabled
+			_has_automation_style = true
 	update_illustration(generator)
 	update_operation_mode_ui(generator)
 	
@@ -78,7 +85,7 @@ func _process(_delta: float) -> void:
 		$HBoxContainer/VBoxContainer/InputLabel.text = ""
 		$HBoxContainer/VBoxContainer/ProductionLabel.text = ""
 		$HBoxContainer/VBoxContainer/CostLabel.text = ""
-		$HBoxContainer/VBoxContainer/BuyButton.disabled = true
+		$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = true
 		return
 	
 	$HBoxContainer/VBoxContainer/GeneratorLabel.text = (
@@ -179,7 +186,7 @@ func _process(_delta: float) -> void:
 		cost_name
 	]
 	
-	$HBoxContainer/VBoxContainer/BuyButton.disabled = (
+	$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = (
 		not input_handler.can_buy_generator(
 			generator_id
 		)
@@ -317,7 +324,15 @@ func _on_upgrade_automation_button_pressed() -> void:
 		upgrade_automation_changed.emit()
 
 
+func _update_automation_button_style(button: Button, enabled: bool) -> void:
+	_update_toggle_button_style(button, enabled)
+
+
 func _update_upgrade_automation_button_style(button: Button, enabled: bool) -> void:
+	_update_toggle_button_style(button, enabled)
+
+
+func _update_toggle_button_style(button: Button, enabled: bool) -> void:
 	var style := StyleBoxFlat.new()
 	style.bg_color = (
 		Color(0.18, 0.36, 0.22, 1.0)
