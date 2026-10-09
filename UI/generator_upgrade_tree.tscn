@@ -17,11 +17,14 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "TITLE"
 
-[node name="AutomationControls" type="HFlowContainer" parent="." unique_id=77701001]
+[node name="AutomationToggleButton" type="Button" parent="."]
 layout_mode = 0
-offset_top = 26.0
-offset_right = 600.0
-offset_bottom = 58.0
+offset_left = 0.0
+offset_top = 27.0
+offset_right = 170.0
+offset_bottom = 56.0
+text = "UPGRADE AUTO: OFF"
+visible = false
 
 [node name="TreeArea" type="Control" parent="." unique_id=1316874414]
 layout_mode = 1
@@ -32,3 +35,5 @@ offset_top = 62.0
 offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[connection signal="pressed" from="AutomationToggleButton" to="." method="_on_automation_toggle_button_pressed"]
