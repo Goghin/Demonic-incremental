@@ -40,9 +40,14 @@ func refresh() -> void:
 		)
 		var maxed: bool = level >= upgrade.max_level
 		var prerequisite_met: bool = _prerequisites_met(upgrade, manager)
-		var status_text: String = "MAXED" if maxed else (
-			"LOCKED" if not prerequisite_met else "%d Flame%s" % [cost, "" if cost == 1 else "s"]
-		)
+		var status_text: String = "%d Flame%s" % [
+			cost,
+			"" if cost == 1 else "s"
+		]
+		if maxed:
+			status_text = "MAXED"
+		elif not prerequisite_met:
+			status_text = "LOCKED"
 
 		node.text = "%s\nLv. %d / %d\n%s" % [
 			_format_node_title(upgrade.display_name),
