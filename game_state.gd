@@ -20,6 +20,7 @@ var eternal_flame_state: EternalFlameState
 var realm_configuration: RealmConfiguration
 var realm_effects: RealmEffects
 var eternal_flame_upgrade_manager: EternalFlameUpgradeManager
+var generator_automation_manager: GeneratorAutomationManager
 
 var realm_stabilized: bool = true
 
@@ -57,6 +58,9 @@ func _init() -> void:
 	
 	eternal_flame_state = EternalFlameState.new()
 	eternal_flame_upgrade_manager = EternalFlameUpgradeManager.new()
+	
+	generator_automation_manager = GeneratorAutomationManager.new(self)
+	
 	realm_configuration = RealmConfiguration.new()
 	realm_effects = RealmEffects.new()
 	
@@ -419,26 +423,11 @@ func reset_current_run() -> void:
 	
 	lava_mite_dormancy_penalty = 0.0
 	
-	current_run_statistics.reset()
+	generator_automation_manager.reset_for_new_run()
 	
-	var atomic_friction = get_generator(
-		"atomic_friction"
-	)
-
-	if atomic_friction != null:
-		var accelerated_friction_level: int = (
-			eternal_flame_state.get_upgrade_level(
-				"accelerated_friction"
-			)
-		)
-
-		if accelerated_friction_level <= 0:
-			atomic_friction.level = 1
-		else:
-			atomic_friction.level = (
-				5 + accelerated_friction_level * 5
-			)
-		
+	current_run_statistics.reset()
+	_apply_permanent_starting_generator_levels()
+	
 		
 	overflow_bonus_from_last_realm = next_overflow_bonus()
 	total_overflow_this_prestige = 0.0
@@ -549,3 +538,35 @@ func reset_lava_mite_dormancy_parameters() -> void:
 	lava_mite_dormancy_delay = 600.0
 	lava_mite_dormancy_duration = 13800.0
 	lava_mite_dormancy_max_penalty = 0.90
+
+func _apply_permanent_starting_generator_levels() -> void:
+	# Atomic Friction always starts at level 1.
+	var atomic_friction = get_generator("atomic_friction")
+
+	if atomic_friction != null:
+		atomic_friction.level = 1
+
+	# Apply permanent starting-level upgrades.
+	for upgrade in eternal_flame_upgrade_manager.upgrades.values():
+		if upgrade.effect_type != EternalFlameUpgrade.EFFECT_STARTING_GENERATOR_LEVEL:
+			continue
+
+		var upgrade_level: int = (
+			eternal_flame_state.get_upgrade_level(
+				upgrade.id
+			)
+		)
+
+		if upgrade_level <= 0:
+			continue
+
+		var generator = get_generator(
+			upgrade.target_generator_id
+		)
+
+		if generator == null:
+			continue
+
+		generator.level = int(
+			upgrade.effect_per_level * upgrade_level
+		)

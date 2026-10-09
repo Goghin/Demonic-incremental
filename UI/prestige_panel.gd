@@ -50,12 +50,46 @@ var eternal_flame_upgrade_rows: Dictionary = {}
 
 
 const ETERNAL_FLAME_UPGRADE_IDS: Array[String] = [
-	"eternal_furnace",
-	"realm_attunement",
-	"infernal_foundation",
-	"essence_extraction",
-	"accelerated_friction"
+# Realm and Eternal Flame upgrades
+"eternal_furnace",
+"realm_attunement",
+"infernal_foundation",
+"essence_extraction",
+
+
+# Starting generator levels
+"accelerated_friction",
+"accelerated_agitation",
+"established_colony",
+"accelerated_condensation",
+
+# Atomic Friction automation
+"unlock_generator_automation_atomic_friction",
+"generator_automation_cooldown_atomic_friction",
+
+# Molecular Agitation automation
+"unlock_generator_automation_molecular_agitation",
+"generator_automation_cooldown_molecular_agitation",
+
+# Infernal Condensation automation
+"unlock_generator_automation_thermal_furnace",
+"generator_automation_cooldown_thermal_furnace",
+
+# Thermal Compressor automation
+"unlock_generator_automation_thermal_compressor",
+"generator_automation_cooldown_thermal_compressor",
+
+# Lava Mite Colony automation
+"unlock_generator_automation_lava_mite_colony",
+"generator_automation_cooldown_lava_mite_colony",
+
+# Matter Furnace automation
+"unlock_generator_automation_matter_furnace",
+"generator_automation_cooldown_matter_furnace"
+
+
 ]
+
 
 
 # ----------------------------------------------------------------
@@ -1415,33 +1449,6 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 
 		var row = eternal_flame_upgrade_rows[upgrade_id]
 
-		var description_text: String = upgrade.description
-
-		if upgrade.prerequisite_upgrade_id != "":
-			var prerequisite = (
-				state.eternal_flame_upgrade_manager.get_upgrade(
-					upgrade.prerequisite_upgrade_id
-				)
-			)
-
-			var prerequisite_level = (
-				state.eternal_flame_state.get_upgrade_level(
-					upgrade.prerequisite_upgrade_id
-				)
-			)
-
-			if prerequisite != null:
-				description_text += (
-					"\nRequires: %s Lv. %d (currently Lv. %d)"
-					% [
-						prerequisite.display_name,
-						upgrade.prerequisite_level,
-						prerequisite_level
-					]
-				)
-
-		row["description_label"].text = description_text
-
 		row["level_label"].text = (
 			"Lv. %d / %d"
 			% [
@@ -1463,12 +1470,14 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 			row["purchase_button"].text = "BUY"
 
 			row["purchase_button"].disabled = (
-				not state.eternal_flame_upgrade_manager.can_purchase(
-					upgrade_id,
-					state.eternal_flame_state,
-					state.realm_configuration
-				)
+			not state.eternal_flame_upgrade_manager.can_purchase(
+				upgrade_id,
+				state.eternal_flame_state,
+				state.realm_configuration,
+				
 			)
+		)
+
 
 # ----------------------------------------------------------------
 # Process

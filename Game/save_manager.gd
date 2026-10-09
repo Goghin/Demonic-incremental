@@ -3,7 +3,7 @@ extends RefCounted
 
 
 const SAVE_PATH := "user://savegame.json"
-const SAVE_VERSION := 3
+const SAVE_VERSION := 4
 
 
 func save_game(
@@ -178,7 +178,10 @@ func state_to_dictionary(
 		"realm_layout_id": state.realm_layout_id,
 		"realm_stabilized": state.realm_stabilized,
 		"total_overflow_this_prestige": state.total_overflow_this_prestige,
-		"overflow_bonus_from_last_realm": state.overflow_bonus_from_last_realm
+		"overflow_bonus_from_last_realm": state.overflow_bonus_from_last_realm,
+		"generator_automation": (
+			state.generator_automation_manager.get_save_data()
+		),
 	}
 	
 	for resource in state.get_resources().values():
@@ -498,5 +501,7 @@ func dictionary_to_state(
 		state.heat_leak_threshold,
 		state.matter_decay_threshold
 	)
-	
+	state.generator_automation_manager.load_save_data(
+		data.get("generator_automation", {})
+	)
 	return true

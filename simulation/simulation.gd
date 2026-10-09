@@ -60,7 +60,10 @@ func update(delta: float) -> void:
 		)
 	
 	apply_environmental_effects(delta)
-
+	state.generator_automation_manager.update(
+	delta,
+	self
+)
 
 func apply_environmental_effects(delta: float) -> void:
 	apply_matter_decay(delta)

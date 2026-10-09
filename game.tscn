@@ -91,6 +91,7 @@ text = "STATS"
 
 [node name="PrestigePanel" parent="." unique_id=34821011 instance=ExtResource("6_prestige")]
 visible = false
+z_index = 50
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0

@@ -8,7 +8,8 @@ const EFFECT_HEAT_PRODUCTION = "heat_production"
 const EFFECT_ASSIGNED_FLAME = "assigned_flame"
 const EFFECT_UNASSIGNED_FLAME = "unassigned_flame"
 const EFFECT_UNLOCK_TECHNOLOGY = "unlock_technology"
-
+const EFFECT_STARTING_GENERATOR_LEVEL = "starting_generator_level"
+const EFFECT_AUTOMATION_COOLDOWN = "automation_cooldown"
 
 var id: String = ""
 var display_name: String = ""
@@ -17,9 +18,13 @@ var description: String = ""
 var effect_type: String = EFFECT_NONE
 var effect_per_level: float = 0.0
 var technology_id: String = ""
+var target_generator_id: String = ""
 
 var prerequisite_upgrade_id: String = ""
 var prerequisite_level: int = 0
+
+var prerequisite_generator_id: String = ""
+var prerequisite_generator_level: int = 0
 
 var level: int = 0
 var max_level: int = 1
@@ -39,7 +44,10 @@ func _init(
 	upgrade_cost_multiplier: float,
 	upgrade_technology_id: String = "",
 	upgrade_prerequisite_upgrade_id: String = "",
-	upgrade_prerequisite_level: int = 0
+	upgrade_prerequisite_level: int = 0,
+	upgrade_target_generator_id: String = "",
+	upgrade_prerequisite_generator_id: String = "",
+	upgrade_prerequisite_generator_level: int = 0
 	) -> void:
 
 	id = upgrade_id
@@ -49,9 +57,16 @@ func _init(
 	effect_type = upgrade_effect_type
 	effect_per_level = upgrade_effect_per_level
 	technology_id = upgrade_technology_id
+	target_generator_id = upgrade_target_generator_id
 
 	prerequisite_upgrade_id = upgrade_prerequisite_upgrade_id
 	prerequisite_level = max(0, upgrade_prerequisite_level)
+
+	prerequisite_generator_id = upgrade_prerequisite_generator_id
+	prerequisite_generator_level = max(
+		0,
+		upgrade_prerequisite_generator_level
+	)
 
 	max_level = upgrade_max_level
 	base_cost = upgrade_base_cost
