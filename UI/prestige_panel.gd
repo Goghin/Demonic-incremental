@@ -579,7 +579,7 @@ func _create_shop_ui() -> void:
 	eternal_flame_shop_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	eternal_flame_shop_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	eternal_flame_shop_scroll.custom_minimum_size = Vector2(0, 100)
-	eternal_flame_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	eternal_flame_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	eternal_flame_shop_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	shop_panel.add_child(eternal_flame_shop_scroll)
 
