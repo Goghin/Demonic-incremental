@@ -153,6 +153,6 @@ func _format_node_title(display_name: String) -> String:
 		lines.append(current_line)
 
 	if lines.size() <= 2:
-		return "\\n".join(lines)
+		return "\n".join(lines)
 
-	return lines[0] + "\\n" + lines[1]
+	return lines[0] + "\n" + lines[1]
