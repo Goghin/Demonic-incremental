@@ -85,7 +85,14 @@ const ETERNAL_FLAME_UPGRADE_IDS: Array[String] = [
 
 # Matter Furnace automation
 "unlock_generator_automation_matter_furnace",
-"generator_automation_cooldown_matter_furnace"
+"generator_automation_cooldown_matter_furnace",
+
+# Generator upgrade automation
+"unlock_upgrade_automation_atomic_friction",
+"unlock_upgrade_automation_molecular_agitation",
+"unlock_upgrade_automation_thermal_furnace",
+"unlock_upgrade_automation_lava_mite_colony",
+"unlock_upgrade_automation_matter_furnace"
 
 ]
 
