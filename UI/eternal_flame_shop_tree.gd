@@ -103,7 +103,7 @@ func _build_tree() -> void:
 		node.position = layout.positions[upgrade_id]
 		node.custom_minimum_size = NODE_SIZE
 		node.size = NODE_SIZE
-		node.add_theme_font_size_override("font_size", 8)
+		node.add_theme_font_size_override("font_size", 9)
 		node.focus_mode = Control.FOCUS_NONE
 		node.pressed.connect(_on_upgrade_node_pressed.bind(upgrade_id))
 		add_child(node)
