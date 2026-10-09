@@ -8,7 +8,7 @@ var input_handler: InputHandler
 var upgrade_id: String
 var info_popup: UpgradeInfoPopup
 var simulation: Simulation
-var exclusive_preference_checkbox: CheckBox
+var exclusive_preference_checkbox: Button
 
 signal exclusive_preference_changed
 
@@ -78,15 +78,18 @@ func _update_exclusive_preference_checkbox(upgrade: Upgrade) -> void:
 		return
 
 	if exclusive_preference_checkbox == null:
-		exclusive_preference_checkbox = CheckBox.new()
+		exclusive_preference_checkbox = Button.new()
 		exclusive_preference_checkbox.name = "ExclusivePreferenceCheckbox"
-		exclusive_preference_checkbox.text = ""
+		exclusive_preference_checkbox.toggle_mode = true
+		exclusive_preference_checkbox.text = "○"
 		exclusive_preference_checkbox.tooltip_text = "Allow the upgrade autobuyer to buy this option. Only one option per exclusive group can be selected."
 		exclusive_preference_checkbox.custom_minimum_size = Vector2(28, 28)
 		exclusive_preference_checkbox.size = Vector2(28, 28)
 		exclusive_preference_checkbox.position = Vector2(50, -8)
 		exclusive_preference_checkbox.z_index = 5
 		exclusive_preference_checkbox.mouse_filter = Control.MOUSE_FILTER_STOP
+		exclusive_preference_checkbox.focus_mode = Control.FOCUS_NONE
+		exclusive_preference_checkbox.add_theme_font_size_override("font_size", 20)
 		add_child(exclusive_preference_checkbox)
 		exclusive_preference_checkbox.toggled.connect(
 			_on_exclusive_preference_checkbox_toggled
@@ -117,12 +120,89 @@ func _update_exclusive_preference_checkbox(upgrade: Upgrade) -> void:
 			manager.is_exclusive_preference_selected(upgrade.definition.id)
 		)
 
-	# Make the unchecked indicator easier to see against the dark upgrade panel.
-	exclusive_preference_checkbox.modulate = (
-		Color(1.30, 1.30, 1.30, 1.0)
-		if not exclusive_preference_checkbox.button_pressed
-		else Color.WHITE
+	_update_exclusive_preference_button_appearance()
+
+
+func _update_exclusive_preference_button_appearance() -> void:
+	if exclusive_preference_checkbox == null:
+		return
+
+	var selected: bool = exclusive_preference_checkbox.button_pressed
+	exclusive_preference_checkbox.text = "✓" if selected else "○"
+
+	var background: Color = (
+		Color(0.34, 0.22, 0.10, 1.0)
+		if selected
+		else Color(0.10, 0.10, 0.12, 1.0)
 	)
+	var border: Color = (
+		Color(1.0, 0.72, 0.28, 1.0)
+		if selected
+		else Color(0.95, 0.78, 0.48, 1.0)
+	)
+	var font_color: Color = (
+		Color(1.0, 0.90, 0.62, 1.0)
+		if selected
+		else Color(1.0, 0.90, 0.70, 1.0)
+	)
+
+	exclusive_preference_checkbox.add_theme_stylebox_override(
+		"normal",
+		_create_exclusive_preference_style(background, border)
+	)
+	exclusive_preference_checkbox.add_theme_stylebox_override(
+		"hover",
+		_create_exclusive_preference_style(
+			background.lightened(0.18),
+			border.lightened(0.10)
+		)
+	)
+	exclusive_preference_checkbox.add_theme_stylebox_override(
+		"pressed",
+		_create_exclusive_preference_style(
+			background.darkened(0.10),
+			border
+		)
+	)
+	exclusive_preference_checkbox.add_theme_stylebox_override(
+		"disabled",
+		_create_exclusive_preference_style(
+			background.darkened(0.12),
+			border.darkened(0.15)
+		)
+	)
+	exclusive_preference_checkbox.add_theme_color_override(
+		"font_color",
+		font_color
+	)
+	exclusive_preference_checkbox.add_theme_color_override(
+		"font_hover_color",
+		Color.WHITE
+	)
+	exclusive_preference_checkbox.add_theme_color_override(
+		"font_pressed_color",
+		font_color
+	)
+	exclusive_preference_checkbox.add_theme_color_override(
+		"font_disabled_color",
+		font_color
+	)
+
+
+func _create_exclusive_preference_style(
+	background_color: Color,
+	border_color: Color
+	) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background_color
+	style.border_color = border_color
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(5)
+	style.content_margin_left = 0.0
+	style.content_margin_right = 0.0
+	style.content_margin_top = 0.0
+	style.content_margin_bottom = 0.0
+	return style
 
 
 func _get_purchased_exclusive_choice(upgrade: Upgrade) -> Upgrade:
