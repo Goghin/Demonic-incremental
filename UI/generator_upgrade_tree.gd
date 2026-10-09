@@ -161,10 +161,9 @@ func _create_automation_controls() -> void:
 			upgrade.definition.id
 		)
 		preference_toggle.toggled.connect(
-			func(selected: bool, upgrade_id: String = upgrade.definition.id):
-				manager.set_exclusive_preference(upgrade_id, selected)
-				_create_automation_controls()
-				automation_settings_changed.emit()
+			_on_exclusive_preference_toggled.bind(
+				upgrade.definition.id
+			)
 		)
 		controls.add_child(preference_toggle)
 
@@ -210,3 +209,15 @@ func _create_connection_renderer() -> void:
 		layout,
 		UPGRADE_SIZE
 	)
+
+
+func _on_exclusive_preference_toggled(
+	selected: bool,
+	upgrade_id: String
+) -> void:
+	state.upgrade_automation_manager.set_exclusive_preference(
+		upgrade_id,
+		selected
+	)
+	_create_automation_controls()
+	automation_settings_changed.emit()
