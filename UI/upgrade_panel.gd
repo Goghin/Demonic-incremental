@@ -9,6 +9,7 @@ var upgrade_id: String
 var info_popup: UpgradeInfoPopup
 var simulation: Simulation
 var exclusive_preference_checkbox: Button
+var _exclusive_checkbox_style_state: String = ""
 
 signal exclusive_preference_changed
 
@@ -129,6 +130,15 @@ func _update_exclusive_preference_button_appearance() -> void:
 
 	var selected: bool = exclusive_preference_checkbox.button_pressed
 	exclusive_preference_checkbox.text = "✓" if selected else "○"
+
+	var style_state: String = (
+		"selected" if selected else "unselected"
+	)
+	if exclusive_preference_checkbox.disabled:
+		style_state += "_disabled"
+	if _exclusive_checkbox_style_state == style_state:
+		return
+	_exclusive_checkbox_style_state = style_state
 
 	var background: Color = (
 		Color(0.34, 0.22, 0.10, 1.0)
