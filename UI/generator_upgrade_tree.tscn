@@ -17,12 +17,18 @@ offset_right = 40.0
 offset_bottom = 23.0
 text = "TITLE"
 
+[node name="AutomationControls" type="HFlowContainer" parent="." unique_id=77701001]
+layout_mode = 0
+offset_top = 26.0
+offset_right = 600.0
+offset_bottom = 58.0
+
 [node name="TreeArea" type="Control" parent="." unique_id=1316874414]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 30.0
+offset_top = 62.0
 offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
