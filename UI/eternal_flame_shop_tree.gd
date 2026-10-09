@@ -39,16 +39,29 @@ func refresh() -> void:
 			state.realm_configuration
 		)
 		var maxed: bool = level >= upgrade.max_level
+		var prerequisite_met: bool = _prerequisites_met(upgrade, manager)
+		var status_text: String = "MAXED" if maxed else (
+			"LOCKED" if not prerequisite_met else "%d Flame%s" % [cost, "" if cost == 1 else "s"]
+		)
 
 		node.text = "%s\nLv. %d / %d\n%s" % [
 			_format_node_title(upgrade.display_name),
 			level,
 			upgrade.max_level,
-			"MAXED" if maxed else "%d Flame%s" % [cost, "" if cost == 1 else "s"]
+			status_text
 		]
 		node.tooltip_text = upgrade.description
+		if not prerequisite_met and upgrade.prerequisite_upgrade_id != "":
+			var prerequisite: EternalFlameUpgrade = manager.get_upgrade(
+				upgrade.prerequisite_upgrade_id
+			)
+			if prerequisite != null:
+				node.tooltip_text += "\n\nRequires %s level %d." % [
+					prerequisite.display_name,
+					upgrade.prerequisite_level
+				]
 		node.disabled = maxed or not can_buy
-		_style_node(node, maxed, can_buy)
+		_style_node(node, maxed, can_buy, prerequisite_met)
 
 
 func _build_tree() -> void:
@@ -94,7 +107,7 @@ func _on_upgrade_node_pressed(upgrade_id: String) -> void:
 	purchase_requested.emit(upgrade_id)
 
 
-func _style_node(node: Button, maxed: bool, can_buy: bool) -> void:
+func _style_node(node: Button, maxed: bool, can_buy: bool, prerequisite_met: bool) -> void:
 	var background := Color(0.15, 0.15, 0.18, 1.0)
 	var border := Color(0.42, 0.42, 0.48, 1.0)
 
@@ -104,6 +117,9 @@ func _style_node(node: Button, maxed: bool, can_buy: bool) -> void:
 	elif can_buy:
 		background = Color(0.30, 0.21, 0.12, 1.0)
 		border = Color(0.95, 0.66, 0.30, 1.0)
+	elif not prerequisite_met:
+		background = Color(0.12, 0.12, 0.15, 1.0)
+		border = Color(0.32, 0.32, 0.38, 1.0)
 
 	node.add_theme_stylebox_override("normal", _create_node_style(background, border))
 	node.add_theme_stylebox_override(
@@ -156,3 +172,16 @@ func _format_node_title(display_name: String) -> String:
 		return "\n".join(lines)
 
 	return lines[0] + "\n" + lines[1]
+
+
+func _prerequisites_met(
+	upgrade: EternalFlameUpgrade,
+	manager: EternalFlameUpgradeManager
+) -> bool:
+	if upgrade.prerequisite_upgrade_id == "":
+		return true
+
+	return manager.get_upgrade_level(
+		upgrade.prerequisite_upgrade_id,
+		state.eternal_flame_state
+	) >= upgrade.prerequisite_level
