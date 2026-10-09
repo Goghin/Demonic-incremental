@@ -172,7 +172,7 @@ func _create_node_style(background: Color, border: Color) -> StyleBoxFlat:
  
 func _format_node_title(display_name: String) -> String:
 	var words: PackedStringArray = display_name.split(" ")
-	var lines: Array[String] = []
+	var lines: PackedStringArray = PackedStringArray()
 	var current_line: String = ""
 
 	for word in words:
