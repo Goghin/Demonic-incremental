@@ -154,7 +154,10 @@ func _style_node(node: Button, maxed: bool, can_buy: bool, prerequisite_met: boo
 		"font_color",
 		Color(1.0, 0.92, 0.78, 1.0) if maxed or can_buy else Color(0.70, 0.70, 0.73, 1.0)
 	)
-	node.add_theme_color_override("font_disabled_color", Color(0.70, 0.70, 0.73, 1.0))
+	node.add_theme_color_override(
+		"font_disabled_color",
+		Color(0.78, 0.94, 0.62, 1.0) if maxed else Color(0.70, 0.70, 0.73, 1.0)
+	)
 
 
 func _create_node_style(background: Color, border: Color) -> StyleBoxFlat:
