@@ -307,6 +307,9 @@ func _create_generator_panel(
 	generator_panel.upgrades_requested.connect(
 		_on_generator_upgrades_requested
 	)
+	generator_panel.upgrade_automation_changed.connect(
+		_on_upgrade_automation_settings_changed
+	)
 	# Preserve the original generator order.
 	var target_index := 0
 
