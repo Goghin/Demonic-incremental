@@ -41,22 +41,25 @@ func refresh() -> void:
 		)
 		var maxed: bool = level >= upgrade.max_level
 		var prerequisite_met: bool = _prerequisites_met(upgrade, manager)
-		var status_text: String = "%d Flame%s" % [
-			cost,
-			"" if cost == 1 else "s"
-		]
+		var status_text: String = "%d F" % cost
 		if maxed:
 			status_text = "MAXED"
 		elif not prerequisite_met:
 			status_text = "LOCKED"
 
-		node.text = "%s\nLv. %d / %d\n%s" % [
+		node.text = "%s\nLv. %d/%d\n%s" % [
 			_format_node_title(upgrade.display_name),
 			level,
 			upgrade.max_level,
 			status_text
 		]
-		node.tooltip_text = upgrade.description
+		node.tooltip_text = "%s\n\nLevel: %d / %d\nCost: %d Eternal Flame%s" % [
+			upgrade.description,
+			level,
+			upgrade.max_level,
+			cost,
+			"" if cost == 1 else "s"
+		]
 		if not prerequisite_met and upgrade.prerequisite_upgrade_id != "":
 			var prerequisite: EternalFlameUpgrade = manager.get_upgrade(
 				upgrade.prerequisite_upgrade_id
@@ -100,7 +103,7 @@ func _build_tree() -> void:
 		node.position = layout.positions[upgrade_id]
 		node.custom_minimum_size = NODE_SIZE
 		node.size = NODE_SIZE
-		node.add_theme_font_size_override("font_size", 13)
+		node.add_theme_font_size_override("font_size", 8)
 		node.focus_mode = Control.FOCUS_NONE
 		node.pressed.connect(_on_upgrade_node_pressed.bind(upgrade_id))
 		add_child(node)
@@ -164,15 +167,15 @@ func _create_node_style(background: Color, border: Color) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = background
 	style.border_color = border
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(7)
-	style.content_margin_left = 8.0
-	style.content_margin_right = 8.0
-	style.content_margin_top = 6.0
-	style.content_margin_bottom = 6.0
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(4)
+	style.content_margin_left = 2.0
+	style.content_margin_right = 2.0
+	style.content_margin_top = 2.0
+	style.content_margin_bottom = 2.0
 	return style
 
- 
+
 func _format_node_title(display_name: String) -> String:
 	var words: PackedStringArray = display_name.split(" ")
 	var lines: PackedStringArray = PackedStringArray()
@@ -181,7 +184,7 @@ func _format_node_title(display_name: String) -> String:
 	for word in words:
 		if current_line.is_empty():
 			current_line = word
-		elif current_line.length() + word.length() + 1 <= 19:
+		elif current_line.length() + word.length() + 1 <= 12:
 			current_line += " " + word
 		else:
 			lines.append(current_line)
