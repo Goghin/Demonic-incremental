@@ -871,6 +871,20 @@ func _create_generator_upgrade_tree() -> void:
 	$UpgradeScroll/UpgradeContent/GeneratorUpgradeContainer.add_child(
 		generator_upgrade_tree
 	)
+	generator_upgrade_tree.automation_settings_changed.connect(
+		_on_upgrade_automation_settings_changed
+	)
+
+
+func _on_upgrade_automation_settings_changed() -> void:
+	if save_manager == null or time_manager == null:
+		return
+
+	save_manager.save_game(
+		state,
+		time_manager
+	)
+
 
 func _on_offline_simulation_progress(
 	current_tick: int,
