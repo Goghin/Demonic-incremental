@@ -3,6 +3,9 @@ class_name GeneratorUpgradeTree
 extends Control
 
 
+signal automation_settings_changed
+
+
 var state: GameState
 var simulation: Simulation
 var input_handler: InputHandler
@@ -63,6 +66,7 @@ func _rebuild() -> void:
 
 	_create_connection_renderer()
 	_create_upgrade_nodes()
+	_create_automation_controls()
 
 
 func _create_upgrade_nodes() -> void:
@@ -112,6 +116,57 @@ func _create_upgrade_nodes() -> void:
 	$TreeArea.custom_minimum_size.y = max_y + 20.0
 	custom_minimum_size.y = max_y + 20.0
 	size.y = max_y + 20.0
+
+
+func _create_automation_controls() -> void:
+	var controls: HFlowContainer = $AutomationControls
+
+	for child in controls.get_children():
+		child.queue_free()
+
+	if state == null or not state.upgrade_automation_manager.is_automation_unlocked(generator_id):
+		var locked_label := Label.new()
+		locked_label.text = "Upgrade automation: locked in Eternal Flame Shop"
+		controls.add_child(locked_label)
+		return
+
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+
+	var automation_toggle := CheckBox.new()
+	automation_toggle.text = "AUTO BUY"
+	automation_toggle.button_pressed = manager.is_enabled(generator_id)
+	automation_toggle.toggled.connect(
+		func(enabled: bool):
+			if manager.set_enabled(generator_id, enabled):
+				automation_settings_changed.emit()
+	)
+	controls.add_child(automation_toggle)
+
+	for upgrade_value in state.upgrades.values():
+		var upgrade: Upgrade = upgrade_value
+
+		if upgrade.definition.generator_id != generator_id:
+			continue
+
+		if upgrade.definition.exclusivity_group == "":
+			continue
+
+		if not state.upgrade_system.is_upgrade_visible(upgrade):
+			continue
+
+		var preference_toggle := CheckBox.new()
+		preference_toggle.text = upgrade.definition.display_name
+		preference_toggle.tooltip_text = "Allow the autobuyer to choose this exclusive upgrade."
+		preference_toggle.button_pressed = manager.is_exclusive_preference_selected(
+			upgrade.definition.id
+		)
+		preference_toggle.toggled.connect(
+			func(selected: bool, upgrade_id: String = upgrade.definition.id):
+				manager.set_exclusive_preference(upgrade_id, selected)
+				_create_automation_controls()
+				automation_settings_changed.emit()
+		)
+		controls.add_child(preference_toggle)
 
 
 func _clear_tree() -> void:
