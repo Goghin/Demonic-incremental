@@ -6,6 +6,8 @@ var state: GameState
 var input_handler: InputHandler
 var generator_id: String
 var current_illustration_path: String = ""
+var _last_upgrade_automation_style_enabled: bool = false
+var _has_upgrade_automation_style: bool = false
 
 signal upgrades_requested(generator_id: String)
 signal upgrade_automation_changed
@@ -46,7 +48,13 @@ func _process(_delta: float) -> void:
 			if upgrade_auto_enabled
 			else "UPGRADE AUTO: OFF"
 		)
-		_update_upgrade_automation_button_style(upgrade_automation_button, upgrade_auto_enabled)
+		if (
+			not _has_upgrade_automation_style
+			or upgrade_auto_enabled != _last_upgrade_automation_style_enabled
+		):
+			_update_upgrade_automation_button_style(upgrade_automation_button, upgrade_auto_enabled)
+			_last_upgrade_automation_style_enabled = upgrade_auto_enabled
+			_has_upgrade_automation_style = true
 
 	automation_button.visible = (
 		automation_manager.is_automation_unlocked(generator_id)
@@ -327,3 +335,6 @@ func _update_upgrade_automation_button_style(button: Button, enabled: bool) -> v
 	var hover_style := style.duplicate() as StyleBoxFlat
 	hover_style.bg_color = style.bg_color.lightened(0.12)
 	button.add_theme_stylebox_override("hover", hover_style)
+	var pressed_style := style.duplicate() as StyleBoxFlat
+	pressed_style.bg_color = style.bg_color.darkened(0.10)
+	button.add_theme_stylebox_override("pressed", pressed_style)
