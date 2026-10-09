@@ -8,6 +8,7 @@ var generator_id: String
 var current_illustration_path: String = ""
 
 signal upgrades_requested(generator_id: String)
+signal upgrade_automation_changed
 
 
 func setup(
@@ -34,6 +35,18 @@ func _process(_delta: float) -> void:
 	var automation_button = (
 		$HBoxContainer/VBoxContainer/HBoxContainer/AutomationButton
 	)
+
+	var upgrade_automation_manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	var upgrade_automation_button: Button = $HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton
+	upgrade_automation_button.visible = upgrade_automation_manager.is_automation_unlocked(generator_id)
+	if upgrade_automation_button.visible:
+		var upgrade_auto_enabled: bool = upgrade_automation_manager.is_enabled(generator_id)
+		upgrade_automation_button.text = (
+			"UPGRADE AUTO: ON"
+			if upgrade_auto_enabled
+			else "UPGRADE AUTO: OFF"
+		)
+		_update_upgrade_automation_button_style(upgrade_automation_button, upgrade_auto_enabled)
 
 	automation_button.visible = (
 		automation_manager.is_automation_unlocked(generator_id)
@@ -281,3 +294,36 @@ func _on_automation_button_pressed() -> void:
 		return
 
 	state.generator_automation_manager.toggle(generator_id)
+
+
+
+func _on_upgrade_automation_button_pressed() -> void:
+	if state == null:
+		return
+
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	if not manager.is_automation_unlocked(generator_id):
+		return
+
+	if manager.set_enabled(generator_id, not manager.is_enabled(generator_id)):
+		upgrade_automation_changed.emit()
+
+
+func _update_upgrade_automation_button_style(button: Button, enabled: bool) -> void:
+	var style := StyleBoxFlat.new()
+	style.bg_color = (
+		Color(0.18, 0.36, 0.22, 1.0)
+		if enabled
+		else Color(0.25, 0.20, 0.20, 1.0)
+	)
+	style.border_color = (
+		Color(0.55, 0.90, 0.52, 1.0)
+		if enabled
+		else Color(0.90, 0.52, 0.42, 1.0)
+	)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(4)
+	button.add_theme_stylebox_override("normal", style)
+	var hover_style := style.duplicate() as StyleBoxFlat
+	hover_style.bg_color = style.bg_color.lightened(0.12)
+	button.add_theme_stylebox_override("hover", hover_style)
