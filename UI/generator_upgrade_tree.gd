@@ -120,14 +120,18 @@ func _clear_tree() -> void:
 		child.queue_free()
 
 func _get_layout() -> GeneratorUpgradeLayout:
-
 	match generator_id:
 		"atomic_friction":
 			return AtomicFrictionUpgradeLayout.new()
-
+		"molecular_agitation":
+			return MolecularAgitationUpgradeLayout.new()
+		"thermal_furnace":
+			return ThermalFurnaceUpgradeLayout.new()
+		"lava_mite_colony":
+			return LavaMiteUpgradeLayout.new()
+		"matter_furnace":
+			return MatterFurnaceUpgradeLayout.new()
 	return GeneratorUpgradeLayout.new()
-
-
 func _create_connection_renderer() -> void:
 
 	connections = GeneratorUpgradeConnections.new()

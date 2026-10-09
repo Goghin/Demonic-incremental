@@ -27,6 +27,13 @@ var dynamic_exponent: float
 var sensitivity_dynamic_formula: String
 var sensitivity_dynamic_resource_id: String
 
+var dormancy_parameter: String = ""
+var dormancy_value: float = 0.0
+
+const DORMANCY_DELAY := "dormancy_delay"
+const DORMANCY_DURATION := "dormancy_duration"
+const DORMANCY_MAX_PENALTY := "dormancy_max_penalty"
+
 func _init(
 	effect_type: String,
 	effect_target_id: String
@@ -245,3 +252,18 @@ func set_modifier_sensitivity(
 	sensitivity_multiplier = (
 		effect_sensitivity_multiplier
 	)
+
+static func dormancy(
+	parameter: String,
+	value: float
+	) -> UpgradeEffect:
+	
+	var effect = UpgradeEffect.new(
+		UpgradeEffectTypes.MODIFY_DORMANCY,
+		""
+	)
+	
+	effect.dormancy_parameter = parameter
+	effect.dormancy_value = value
+	
+	return effect

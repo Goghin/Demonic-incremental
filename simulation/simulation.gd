@@ -548,7 +548,11 @@ func _apply_upgrade_effect(
 					effect,
 					source_upgrade_id
 				)
-
+	elif effect.type == UpgradeEffectTypes.MODIFY_DORMANCY:
+		_apply_dormancy_effect(
+			effect
+		)
+		
 func _add_modifier_to_generator(
 	generator: Generator,
 	effect: UpgradeEffect,
@@ -602,6 +606,8 @@ func _add_modifier_sensitivity_to_generator(
 
 
 func rebuild_upgrade_effects() -> void:
+	state.reset_lava_mite_dormancy_parameters()
+	
 	for generator in state.get_generators().values():
 		generator.modifiers.clear()
 		generator.modifier_sensitivities.clear()
@@ -711,6 +717,11 @@ func apply_heat_leak(
 		recorded_overflow
 	)
 	
+	if state.simulation_statistics != null:
+		state.simulation_statistics.record_overflow(
+			recorded_overflow
+		)
+		
 func apply_matter_decay(
 	delta: float
 	) -> void:
@@ -755,3 +766,35 @@ func apply_matter_decay(
 		ResourceIds.HEAT,
 		decayed_matter
 	)
+	if state.simulation_statistics != null:
+		state.simulation_statistics.record_produced(
+		ResourceIds.HEAT,
+		decayed_matter
+	)
+func _apply_dormancy_effect(
+	effect: UpgradeEffect
+	) -> void:
+	
+	if effect.dormancy_parameter == (
+		UpgradeEffect.DORMANCY_DELAY
+	):
+		state.lava_mite_dormancy_delay += (
+			effect.dormancy_value
+		)
+	
+	elif effect.dormancy_parameter == (
+		UpgradeEffect.DORMANCY_DURATION
+	):
+		state.lava_mite_dormancy_duration += (
+			effect.dormancy_value
+		)
+	
+	elif effect.dormancy_parameter == (
+		UpgradeEffect.DORMANCY_MAX_PENALTY
+	):
+		state.lava_mite_dormancy_max_penalty = clamp(
+			state.lava_mite_dormancy_max_penalty
+			+ effect.dormancy_value,
+			0.0,
+			0.99
+		)

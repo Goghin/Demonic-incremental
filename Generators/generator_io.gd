@@ -1,3 +1,4 @@
+
 class_name GeneratorIO
 extends RefCounted
 
@@ -6,6 +7,7 @@ var resource_id: String
 var amount_per_second: float
 var discrete: bool
 var unlocked: bool
+var starts_unlocked: bool
 
 
 func _init(
@@ -14,8 +16,13 @@ func _init(
 	io_discrete: bool = false,
 	io_unlocked: bool = true
 	) -> void:
-	
+
 	resource_id = io_resource_id
 	amount_per_second = io_amount_per_second
 	discrete = io_discrete
 	unlocked = io_unlocked
+	starts_unlocked = io_unlocked
+
+
+func reset() -> void:
+	unlocked = starts_unlocked

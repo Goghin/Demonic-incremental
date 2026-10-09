@@ -11,7 +11,7 @@ var simulation: Simulation
 
 func _ready() -> void:
 	_setup_button_style()
-
+	mouse_entered.connect(_on_panel_mouse_entered)
 
 func setup(
 	game_state: GameState,
@@ -201,7 +201,14 @@ func _on_buy_button_pressed() -> void:
 
 
 func _on_upgrade_button_mouse_entered() -> void:
-
+	print(
+	"BUTTON HOVER: ",
+	upgrade_id,
+	" | button_global=",
+	$UpgradeButton.global_position,
+	" | button_size=",
+	$UpgradeButton.size
+	)
 	if info_popup == null:
 		return
 
@@ -332,12 +339,7 @@ func _on_upgrade_button_mouse_exited() -> void:
 func _set_button_state(
 	state_name: String
 	) -> void:
-	print(
-		"BUTTON STATE: ",
-		upgrade_id,
-		" -> ",
-		state_name
-	)
+	
 	var button := $UpgradeButton
 
 	match state_name:
@@ -345,16 +347,34 @@ func _set_button_state(
 		"active":
 			button.disabled = true
 			button.modulate = Color(
-				0.75,
 				1.0,
-				0.75
+				1.0,
+				1.0
 			)
+
+			var active_style := _create_state_style(
+				Color(
+					0.32,
+					0.32,
+					0.36,
+					1.0
+				),
+				Color(
+					0.65,
+					0.65,
+					0.70,
+					1.0
+				)
+			)
+
+			button.add_theme_stylebox_override(
+				"normal",
+				active_style
+			)
+
 			button.add_theme_stylebox_override(
 				"disabled",
-				_create_state_style(
-					Color(0.22, 0.32, 0.24),
-					Color(0.45, 0.75, 0.48)
-				)
+				active_style
 			)
 
 		"available":
@@ -426,10 +446,25 @@ func _set_button_state(
 
 		"purchased":
 			button.disabled = true
-			
+			button.modulate = Color(
+				1.0,
+				1.0,
+				1.0
+			)
+
 			var purchased_style := _create_state_style(
-				Color(0.381, 0.62, 0.24, 1.0),
-				Color(0.616, 0.475, 0.124, 1.0)
+				Color(
+					0.381,
+					0.62,
+					0.24,
+					1.0
+				),
+				Color(
+					1.0,
+					0.82,
+					0.20,
+					1.0
+				)
 			)
 
 			button.add_theme_stylebox_override(
@@ -441,6 +476,7 @@ func _set_button_state(
 				"disabled",
 				purchased_style
 			)
+	
 
 
 func _create_state_style(
@@ -567,4 +603,14 @@ func _setup_button_style() -> void:
 	$UpgradeButton.add_theme_stylebox_override(
 		"disabled",
 		disabled_style
+	)
+
+func _on_panel_mouse_entered() -> void:
+	print(
+		"PANEL HOVER: ",
+		upgrade_id,
+		" | global_position=",
+		global_position,
+		" | size=",
+		size
 	)

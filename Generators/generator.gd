@@ -31,28 +31,42 @@ func _init(generator_definition: GeneratorDefinition) -> void:
 		if output.discrete:
 			production_progress[output.resource_id] = 0.0
 
+
 func reset() -> void:
 	level = 0
 	modifiers.clear()
 	modifier_sensitivities.clear()
-	
+
 	unlocked = initial_unlocked
 	manually_paused = false
 	operating = false
-	
+
 	cycle_active = false
 	cycle_progress = 0.0
-	
+
 	operation_mode_id = "normal"
-	
+
 	if not definition.operation_modes.is_empty():
 		operation_mode_id = (
 			definition.operation_modes[0].id
 		)
-	
+
+	# Reset all input/output unlock states across every mode.
+	for mode in definition.operation_modes:
+		for input in mode.inputs:
+			input.reset()
+
+		for output in mode.outputs:
+			output.reset()
+
+		for output in mode.completion_outputs:
+			output.reset()
+
+	# Reset production progress.
 	for resource_id in production_progress:
 		production_progress[resource_id] = 0.0
-		
+
+	
 			
 func get_operation_mode() -> GeneratorOperationMode:
 	

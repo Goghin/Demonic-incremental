@@ -37,7 +37,7 @@ const realm_view_scene: PackedScene = preload("res://RealmView/RealmView.tscn")
 var realm_view: RealmView
 
 @onready var loading_screen: Control = $LoadingScreen
-
+@onready var offline_results_panel: Control = $OfflineResultsPanel
 
 func _ready() -> void:
 	loading_screen.set_status(
@@ -93,7 +93,9 @@ func _ready() -> void:
 	time_manager = TimeManager.new(
 		simulation
 	)
-
+	time_manager.offline_simulation_progress.connect(
+		_on_offline_simulation_progress
+	)
 	loading_screen.set_status(
 		"Preparing controls..."
 	)
@@ -137,9 +139,7 @@ func _ready() -> void:
 
 		await get_tree().process_frame
 
-		var offline_seconds = (
-			time_manager.process_offline_time()
-		)
+		var offline_seconds = await time_manager.process_offline_time()
 
 		print(
 			"Offline time simulated: ",
@@ -148,9 +148,15 @@ func _ready() -> void:
 		)
 
 		if offline_seconds > 0.0:
-			save_manager.save_game(
-				state,
-				time_manager
+			save_manager.save_game(state, time_manager)
+
+			var results_text = _build_offline_results(
+				offline_seconds
+			)
+
+			$OfflineResultsPanel.show_results(
+				offline_seconds,
+				results_text
 			)
 
 	loading_screen.set_status(
@@ -865,3 +871,187 @@ func _create_generator_upgrade_tree() -> void:
 	$UpgradeScroll/UpgradeContent/GeneratorUpgradeContainer.add_child(
 		generator_upgrade_tree
 	)
+
+func _on_offline_simulation_progress(
+	current_tick: int,
+	total_ticks: int
+	) -> void:
+	loading_screen.set_simulation_tick(
+		current_tick,
+		total_ticks
+	)
+
+
+func _get_resource_display_name(
+	resource_id: String
+	) -> String:
+
+	match resource_id:
+		ResourceIds.HEAT:
+			return "Heat"
+
+		ResourceIds.MATTER:
+			return "Matter"
+
+		ResourceIds.ASH:
+			return "Ash"
+
+		ResourceIds.CRYSTALIZED_FLAME:
+			return "Crystallized Flame"
+
+		_:
+			return resource_id
+
+
+func _format_resource_amount(
+	amount: float
+	) -> String:
+
+	if amount >= 1000000000.0:
+		return "%.2fB" % (
+			amount / 1000000000.0
+		)
+
+	if amount >= 1000000.0:
+		return "%.2fM" % (
+			amount / 1000000.0
+		)
+
+	if amount >= 1000.0:
+		return "%.2fK" % (
+			amount / 1000.0
+		)
+
+	if amount >= 1.0:
+		return "%.2f" % amount
+
+	return "%.3f" % amount
+	
+func _build_offline_results(
+	offline_seconds: float
+	) -> String:
+
+	var statistics = time_manager.simulation_statistics
+
+	var lines: Array[String] = []
+
+	lines.append("OFFLINE RESULTS")
+	lines.append("")
+
+	var resource_ids = [
+		ResourceIds.HEAT,
+		ResourceIds.MATTER,
+		ResourceIds.ASH,
+		ResourceIds.CRYSTALIZED_FLAME
+	]
+
+	for resource_id in resource_ids:
+		var produced = statistics.get_total_produced(
+			resource_id
+		)
+
+		var consumed = statistics.get_total_consumed(
+			resource_id
+		)
+
+		var lost = statistics.get_total_lost(
+			resource_id
+		)
+
+		if (
+			is_zero_approx(produced)
+			and is_zero_approx(consumed)
+			and is_zero_approx(lost)
+		):
+			continue
+
+		lines.append(
+			"%s:" % _get_resource_display_name(resource_id)
+		)
+
+		lines.append(
+			"  Produced: %s" % _format_resource_amount(produced)
+		)
+
+		lines.append(
+			"  Consumed: %s" % _format_resource_amount(consumed)
+		)
+
+		lines.append(
+			"  Lost: %s" % _format_resource_amount(lost)
+		)
+
+		lines.append("")
+
+	var overflow = statistics.get_total_overflow()
+
+	if not is_zero_approx(overflow):
+		lines.append(
+			"Heat Overflow: %s" % _format_resource_amount(overflow)
+		)
+
+	lines.append("")
+	lines.append("LAVA MITE DORMANCY")
+
+	var dormancy_delay = (
+		state.get_lava_mite_dormancy_delay()
+	)
+
+	var dormancy_duration = (
+		state.get_lava_mite_dormancy_duration()
+	)
+
+	var dormancy_max_penalty = (
+		state.get_lava_mite_dormancy_max_penalty()
+	)
+
+	var dormancy_penalty = (
+		time_manager.get_dormancy_penalty(
+			offline_seconds
+		)
+	)
+
+	lines.append(
+		"  Delay: %s" % _format_duration(
+			dormancy_delay
+		)
+	)
+
+	lines.append(
+		"  Time to maximum: %s" % _format_duration(
+			dormancy_duration
+		)
+	)
+
+	lines.append(
+		"  Maximum penalty: %.1f%%" % (
+			dormancy_max_penalty * 100.0
+		)
+	)
+
+	lines.append(
+		"  Simulated penalty: %.1f%%" % (
+			dormancy_penalty * 100.0
+		)
+	)
+
+	return "\n".join(lines)
+	
+func _format_duration(
+	seconds: float
+	) -> String:
+
+	if seconds < 60.0:
+		return "%.0fs" % seconds
+
+	var total_minutes := int(seconds / 60.0)
+	var minutes := total_minutes % 60
+	var hours := int(total_minutes / 60)
+
+	if hours > 0:
+		return "%dh %02dm" % [
+			hours,
+			minutes
+		]
+
+	return "%dm" % minutes

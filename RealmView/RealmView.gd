@@ -321,6 +321,8 @@ const ATOMIC_FRICTION_PULSE_LEVEL_BONUS: float = 0.20
 
 var atomic_friction_time: float = 0.0
 
+var molecular_agitation_overlay: MolecularAgitationParticleOverlay
+
 var braziers: Dictionary = {}
 
 var crystallized_flames: Array[CrystallizedFlame] = []
@@ -481,7 +483,11 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 
 	if furnace_swirl_overlay != null:
 		furnace_swirl_overlay.visible = false
-
+		
+	if molecular_agitation_overlay != null:
+		molecular_agitation_overlay.active = false
+		molecular_agitation_overlay.visible = false
+		molecular_agitation_overlay.time = 0.0
 	# ------------------------------------------------------------
 	# Reset lava mite  and matter furnace animation
 	# ------------------------------------------------------------
@@ -630,6 +636,7 @@ func _process(_delta: float) -> void:
 	_update_lava_flow_states()
 	_update_furnace_swirl()
 	_update_atomic_friction_particles()
+	_update_molecular_agitation_overlay()
 	_update_atomic_friction_animation(_delta)
 	queue_redraw()
 
@@ -1345,6 +1352,11 @@ func _draw_generators() -> void:
 
 			continue
 			
+		if generator_id == "molecular_agitation":
+			_create_molecular_agitation_overlay(
+				generator,
+				generator_position
+			)	
 		# ---------------------------------------------------------
 		# Normal generators
 		# ---------------------------------------------------------
@@ -2767,3 +2779,60 @@ func _update_lava_mite_animation_speed(
 		animation_name,
 		animation_speed
 	)
+	
+func _create_molecular_agitation_overlay(
+	generator: Generator,
+	position: Vector2
+	) -> void:
+
+	if molecular_agitation_overlay == null:
+		molecular_agitation_overlay = MolecularAgitationParticleOverlay.new()
+		molecular_agitation_overlay.name = "MolecularAgitationParticleOverlay"
+		molecular_agitation_overlay.z_index = 11
+
+		add_child(molecular_agitation_overlay)
+
+	molecular_agitation_overlay.position = position
+	molecular_agitation_overlay.visible = generator.is_operating()
+	molecular_agitation_overlay.active = generator.is_operating()
+	molecular_agitation_overlay.generator_level = generator.level
+
+func _update_molecular_agitation_overlay() -> void:
+	if state == null:
+		return
+
+	if not state.generators.has("molecular_agitation"):
+		if molecular_agitation_overlay != null:
+			molecular_agitation_overlay.visible = false
+			molecular_agitation_overlay.active = false
+		return
+
+	var generator: Generator = state.generators.get(
+		"molecular_agitation"
+	)
+
+	if generator == null:
+		if molecular_agitation_overlay != null:
+			molecular_agitation_overlay.visible = false
+			molecular_agitation_overlay.active = false
+		return
+
+	if molecular_agitation_overlay == null:
+		return
+
+	var should_be_active: bool = (
+		generator.unlocked
+		and
+		generator.level > 0
+		and
+		generator.is_operating()
+	)
+
+	molecular_agitation_overlay.visible = should_be_active
+	molecular_agitation_overlay.active = should_be_active
+	molecular_agitation_overlay.generator_level = generator.level
+
+	if should_be_active:
+		molecular_agitation_overlay.position = _get_generator_position(
+			"molecular_agitation"
+		)

@@ -37,7 +37,7 @@ static func create() -> Generator:
 	var definition = GeneratorDefinition.new(
 		"lava_mite_colony",
 		"Lava Mite Colony",
-		1000.0,
+		5000.0,
 		1.22,
 		ResourceIds.HEAT,
 		false,

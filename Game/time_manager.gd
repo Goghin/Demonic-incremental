@@ -2,12 +2,26 @@ class_name TimeManager
 extends RefCounted
 
 
-const MAX_STEP: float = 0.1
+var simulation_statistics: ResourceStatistics
 
+var simulation_tick: int = 0
+var simulation_total_ticks: int = 0
+
+var offline_simulation_active: bool = false
+
+
+signal offline_simulation_progress(
+	current_tick: int,
+	total_ticks: int
+)
+
+
+const MAX_STEP: float = 0.1
+const PROGRESS_UPDATE_INTERVAL: int = 100
 const STABILIZATION_DURATION: float = 180.0
 
-const DORMANCY_GRACE_PERIOD: float = 3600.0
-const DORMANCY_REFERENCE_TIME: float = 86400.0
+const DORMANCY_DELAY: float = 600.0
+const DORMANCY_DURATION: float = 13800.0
 const DORMANCY_MAX_PENALTY: float = 0.90
 const DORMANCY_RECOVERY_TIME: float = 60.0
 
@@ -38,108 +52,155 @@ var stabilization_remaining: float = 0.0
 
 func _init(game_simulation: Simulation) -> void:
 	simulation = game_simulation
-	
+	simulation_statistics = ResourceStatistics.new()
 	last_real_timestamp = Time.get_unix_time_from_system()
 
 
 func update(real_delta: float) -> void:
 	if real_delta <= 0.0:
 		return
-	
+
 	session_time += real_delta
 	active_time += real_delta
 	prestige_time += real_delta
-	
+
 	_update_stabilization_countdown(
 		real_delta
 	)
-	
+
 	if dormancy_recovery_remaining > 0.0:
-		var recovery_amount = min(
-			real_delta,
-			dormancy_recovery_remaining
+		var recovery_amount = (
+			simulation.state.get_lava_mite_dormancy_penalty()
+			* real_delta
+			/ dormancy_recovery_remaining
 		)
-		
+
 		var current_penalty = (
 			simulation.state.get_lava_mite_dormancy_penalty()
 		)
-		
-		var recovery_progress = (
-			recovery_amount
-			/ DORMANCY_RECOVERY_TIME
+
+		var new_penalty = max(
+			current_penalty - recovery_amount,
+			0.0
 		)
-		
-		var new_penalty = current_penalty * (
-			1.0 - recovery_progress
-		)
-		
+
 		simulation.state.set_lava_mite_dormancy_penalty(
 			new_penalty
 		)
-		
-		dormancy_recovery_remaining -= recovery_amount
-	
+
+		dormancy_recovery_remaining -= real_delta
+
 	if dormancy_recovery_remaining <= 0.0:
 		simulation.state.set_lava_mite_dormancy_penalty(
 			0.0
 		)
-	
+
+		dormancy_recovery_remaining = 0.0
+
 	var game_delta = real_delta * time_scale
-	
+
 	advance(game_delta)
 
 
 func simulate_offline(seconds: float) -> void:
 	if seconds <= 0.0:
 		return
-	
+
+	simulation_statistics.reset()
+
+	offline_simulation_active = true
+
+	# Progress represents REAL/OFFLINE time.
+	# It is intentionally independent of time_scale.
+	simulation_tick = 0
+	simulation_total_ticks = ceili(
+		seconds / MAX_STEP
+	)
+
+	simulation.state.simulation_statistics = simulation_statistics
+
+	offline_simulation_progress.emit(
+		simulation_tick,
+		simulation_total_ticks
+	)
+
 	var remaining = seconds
-	
 	current_offline_duration = 0.0
-	
+
 	while remaining > 0.0:
 		var step = min(
 			remaining,
 			MAX_STEP
 		)
-		
+
+		# These values represent real/offline time.
 		offline_time += step
 		current_offline_duration += step
-		
 		prestige_time += step
-		
+
 		_update_stabilization_countdown(
 			step
 		)
-		
+
 		simulation.state.set_lava_mite_dormancy_penalty(
 			get_dormancy_penalty(
 				current_offline_duration
 			)
 		)
-		
-		var game_seconds = step * time_scale
-		
+
+		# Time scale affects game simulation,
+		# but NOT the offline duration/progress.
+		var game_seconds = (
+			step
+			* time_scale
+		)
+
 		advance(game_seconds)
-		
+
+		# One progress tick represents one real/offline
+		# simulation step.
+		simulation_tick += 1
+
 		remaining -= step
+
+		if simulation_tick % PROGRESS_UPDATE_INTERVAL == 0:
+			offline_simulation_progress.emit(
+				simulation_tick,
+				simulation_total_ticks
+			)
+
+			# Give the loading screen a chance to redraw.
+			await Engine.get_main_loop().process_frame
+
+	# Make sure the progress reaches exactly 100%.
+	simulation_tick = simulation_total_ticks
+
+	offline_simulation_progress.emit(
+		simulation_tick,
+		simulation_total_ticks
+	)
+
+	await Engine.get_main_loop().process_frame
+
+	offline_simulation_active = false
 
 
 func advance(game_seconds: float) -> void:
 	if game_seconds <= 0.0:
 		return
-	
+
 	var remaining = game_seconds
-	
+
 	while remaining > 0.0:
 		var step = min(
 			remaining,
 			MAX_STEP
 		)
-		
+
 		simulation.update(step)
-		
+
 		game_time += step
+
 		remaining -= step
 
 
@@ -158,10 +219,10 @@ func reset_prestige_time() -> void:
 func start_stabilization_countdown() -> bool:
 	if stabilization_countdown_active:
 		return false
-	
+
 	stabilization_countdown_active = true
 	stabilization_remaining = STABILIZATION_DURATION
-	
+
 	return true
 
 
@@ -173,24 +234,24 @@ func cancel_stabilization_countdown() -> void:
 func _update_stabilization_countdown(
 	real_seconds: float
 	) -> void:
-	
+
 	if not stabilization_countdown_active:
 		return
-	
+
 	if real_seconds <= 0.0:
 		return
-	
+
 	stabilization_remaining -= real_seconds
-	
+
 	if stabilization_remaining > 0.0:
 		return
-	
+
 	stabilization_remaining = 0.0
 	stabilization_countdown_active = false
-	
+
 	if simulation.state.realm_stabilized:
 		return
-	
+
 	simulation.state.stabilize_realm()
 
 
@@ -212,33 +273,51 @@ func get_current_timestamp() -> int:
 
 func get_offline_seconds() -> float:
 	var current_timestamp = get_current_timestamp()
-	
+
 	var elapsed = (
 		current_timestamp
 		- last_real_timestamp
 	)
-	
+
 	if elapsed < 0:
 		return 0.0
-	
+
 	return float(elapsed)
 
 
 func process_offline_time() -> float:
 	var offline_seconds = get_offline_seconds()
-	
+
 	if offline_seconds <= 0.0:
 		return 0.0
-	
-	simulate_offline(
+
+	await simulate_offline(
 		offline_seconds
 	)
-	
+
 	current_offline_duration = 0.0
-	dormancy_recovery_remaining = DORMANCY_RECOVERY_TIME
-	
+
+	var current_penalty = (
+		simulation.state.get_lava_mite_dormancy_penalty()
+	)
+
+	var max_penalty = (
+		simulation.state.get_lava_mite_dormancy_max_penalty()
+	)
+
+	if max_penalty > 0.0:
+		dormancy_recovery_remaining = (
+			current_penalty
+			/ max_penalty
+			* DORMANCY_RECOVERY_TIME
+		)
+	else:
+		dormancy_recovery_remaining = 0.0
+
 	update_timestamp()
-	
+
+	simulation.state.simulation_statistics = null
+
 	return offline_seconds
 
 
@@ -253,31 +332,35 @@ func update_timestamp() -> void:
 func get_dormancy_penalty(
 	offline_seconds: float
 	) -> float:
-	
-	if offline_seconds <= DORMANCY_GRACE_PERIOD:
+
+	var dormancy_delay = (
+		simulation.state.get_lava_mite_dormancy_delay()
+	)
+
+	var dormancy_duration = (
+		simulation.state.get_lava_mite_dormancy_duration()
+	)
+
+	var max_penalty = (
+		simulation.state.get_lava_mite_dormancy_max_penalty()
+	)
+
+	if offline_seconds <= dormancy_delay:
 		return 0.0
-	
+
 	var dormancy_time = (
 		offline_seconds
-		- DORMANCY_GRACE_PERIOD
+		- dormancy_delay
 	)
-	
-	var dormancy_duration = (
-		DORMANCY_REFERENCE_TIME
-		- DORMANCY_GRACE_PERIOD
-	)
-	
+
 	if dormancy_duration <= 0.0:
-		return DORMANCY_MAX_PENALTY
-	
+		return max_penalty
+
 	var progress = clamp(
 		dormancy_time
 		/ dormancy_duration,
 		0.0,
 		1.0
 	)
-	
-	# Ease-in curve.
-	progress = progress * progress
-	
-	return progress * DORMANCY_MAX_PENALTY
+
+	return progress * max_penalty

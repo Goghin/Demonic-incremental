@@ -11,6 +11,7 @@ var upgrade_system: UpgradeSystem
 
 var resource_statistics: ResourceStatistics
 var current_run_statistics: ResourceStatistics
+var simulation_statistics: ResourceStatistics = null
 
 var realm_layout_id: String = "default"
 var realm_layout: RealmLayout
@@ -36,6 +37,10 @@ var matter_decay_threshold: float = 10000.0
 var matter_decay_base: float = 0.0
 var matter_decay_scaling: float = 1
 var matter_decay_exponent: float = 2.0
+
+var lava_mite_dormancy_delay: float = 600.0
+var lava_mite_dormancy_duration: float = 13800.0
+var lava_mite_dormancy_max_penalty: float = 0.90
 
 func _init() -> void:
 	_initialize_resources()
@@ -202,46 +207,70 @@ func record_resource_produced(
 	resource_id: String,
 	amount: float
 	) -> void:
-	
+	if amount <= 0.0:
+		return
+
 	resource_statistics.record_produced(
 		resource_id,
 		amount
 	)
-	
+
 	current_run_statistics.record_produced(
 		resource_id,
 		amount
 	)
 
+	if simulation_statistics != null:
+		simulation_statistics.record_produced(
+			resource_id,
+			amount
+		)
+
 func record_resource_consumed(
 	resource_id: String,
 	amount: float
 	) -> void:
-	
+	if amount <= 0.0:
+		return
+
 	resource_statistics.record_consumed(
 		resource_id,
 		amount
 	)
-	
+
 	current_run_statistics.record_consumed(
 		resource_id,
 		amount
 	)
 
+	if simulation_statistics != null:
+		simulation_statistics.record_consumed(
+			resource_id,
+			amount
+		)
+
 func record_resource_lost(
 	resource_id: String,
 	amount: float
 	) -> void:
-	
+	if amount <= 0.0:
+		return
+
 	resource_statistics.record_lost(
 		resource_id,
 		amount
 	)
-	
+
 	current_run_statistics.record_lost(
 		resource_id,
 		amount
 	)
+
+	if simulation_statistics != null:
+		simulation_statistics.record_lost(
+			resource_id,
+			amount
+		)
 
 func get_lava_mite_dormancy_penalty() -> float:
 	return lava_mite_dormancy_penalty
@@ -491,3 +520,19 @@ func get_overflow_crystallization_multiplier() -> float:
 	)
 
 	return pow(1.25, crystallized_flames)
+
+func get_lava_mite_dormancy_delay() -> float:
+	return lava_mite_dormancy_delay
+
+
+func get_lava_mite_dormancy_duration() -> float:
+	return lava_mite_dormancy_duration
+
+
+func get_lava_mite_dormancy_max_penalty() -> float:
+	return lava_mite_dormancy_max_penalty
+
+func reset_lava_mite_dormancy_parameters() -> void:
+	lava_mite_dormancy_delay = 600.0
+	lava_mite_dormancy_duration = 13800.0
+	lava_mite_dormancy_max_penalty = 0.90
