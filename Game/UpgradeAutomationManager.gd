@@ -130,6 +130,9 @@ func _attempt_purchase(generator_id: String, simulation: Simulation) -> void:
 			automation_states[generator_id]["remaining_cooldown"] = BASE_COOLDOWN
 			return
 
+	# Avoid checking every frame when no eligible upgrade is affordable.
+	automation_states[generator_id]["remaining_cooldown"] = BASE_COOLDOWN
+
 
 func reset_for_new_run() -> void:
 	for generator_id in AUTOMATABLE_GENERATOR_IDS:
