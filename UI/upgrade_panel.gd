@@ -8,6 +8,9 @@ var input_handler: InputHandler
 var upgrade_id: String
 var info_popup: UpgradeInfoPopup
 var simulation: Simulation
+var exclusive_preference_checkbox: CheckBox
+
+signal exclusive_preference_changed
 
 func _ready() -> void:
 	_setup_button_style()
@@ -51,10 +54,63 @@ func _process(_delta: float) -> void:
 	_update_button(
 		upgrade
 	)
+	_update_exclusive_preference_checkbox(upgrade)
 	
 	if info_popup != null and info_popup.visible:
 		info_popup.update_info()
 
+
+
+
+func _update_exclusive_preference_checkbox(upgrade: Upgrade) -> void:
+	var is_generator_upgrade: bool = upgrade.definition.generator_id != ""
+	var is_exclusive: bool = upgrade.definition.exclusivity_group != ""
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	var should_show: bool = (
+		is_generator_upgrade
+		and is_exclusive
+		and manager.is_automation_unlocked(upgrade.definition.generator_id)
+	)
+
+	if not should_show:
+		if exclusive_preference_checkbox != null:
+			exclusive_preference_checkbox.visible = false
+		return
+
+	if exclusive_preference_checkbox == null:
+		exclusive_preference_checkbox = CheckBox.new()
+		exclusive_preference_checkbox.name = "ExclusivePreferenceCheckbox"
+		exclusive_preference_checkbox.text = ""
+		exclusive_preference_checkbox.tooltip_text = "Allow the upgrade autobuyer to buy this option. Only one option per exclusive group can be selected."
+		exclusive_preference_checkbox.custom_minimum_size = Vector2(22, 22)
+		exclusive_preference_checkbox.size = Vector2(22, 22)
+		exclusive_preference_checkbox.position = Vector2(53, -7)
+		exclusive_preference_checkbox.z_index = 5
+		exclusive_preference_checkbox.mouse_filter = Control.MOUSE_FILTER_STOP
+		add_child(exclusive_preference_checkbox)
+		exclusive_preference_checkbox.toggled.connect(
+			_on_exclusive_preference_checkbox_toggled
+		)
+
+	exclusive_preference_checkbox.visible = true
+	exclusive_preference_checkbox.set_pressed_no_signal(
+		manager.is_exclusive_preference_selected(upgrade.definition.id)
+	)
+
+
+func _on_exclusive_preference_checkbox_toggled(selected: bool) -> void:
+	if state == null:
+		return
+
+	var upgrade: Upgrade = state.get_upgrade(upgrade_id)
+	if upgrade == null:
+		return
+
+	state.upgrade_automation_manager.set_exclusive_preference(
+		upgrade_id,
+		selected
+	)
+	exclusive_preference_changed.emit()
 
 
 
