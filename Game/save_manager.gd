@@ -182,6 +182,9 @@ func state_to_dictionary(
 		"generator_automation": (
 			state.generator_automation_manager.get_save_data()
 		),
+		"upgrade_automation": (
+			state.upgrade_automation_manager.get_save_data()
+		),
 	}
 	
 	for resource in state.get_resources().values():
@@ -503,5 +506,8 @@ func dictionary_to_state(
 	)
 	state.generator_automation_manager.load_save_data(
 		data.get("generator_automation", {})
+	)
+	state.upgrade_automation_manager.load_save_data(
+		data.get("upgrade_automation", {})
 	)
 	return true
