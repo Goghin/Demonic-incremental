@@ -12,38 +12,38 @@ const ORIGIN := Vector2(24, 24)
 
 
 func _init() -> void:
-	# Core realm upgrades.
+	# Core realm upgrades are independent and available from the start.
 	add_node("eternal_furnace", 0, 0)
 	add_node("realm_attunement", 1, 0)
 	add_node("infernal_foundation", 2, 0)
 	add_node("essence_extraction", 3, 0)
 
-	# Starting levels: one branch with two follow-up choices.
+	# Starting generator levels form a small branching progression.
 	add_node("accelerated_friction", 0, 1)
-	add_node("accelerated_agitation", 1, 1)
-	add_node("established_colony", 2, 1)
-	add_node("accelerated_condensation", 3, 1)
+	add_node("accelerated_agitation", 0, 2)
+	add_node("established_colony", 0, 3)
+	add_node("accelerated_condensation", 1, 3)
 
-	# Generator automation unlocks and their cooldown upgrades.
-	add_node("unlock_generator_automation_atomic_friction", 0, 2)
-	add_node("generator_automation_cooldown_atomic_friction", 0, 3)
-	add_node("unlock_generator_automation_molecular_agitation", 1, 2)
-	add_node("generator_automation_cooldown_molecular_agitation", 1, 3)
-	add_node("unlock_generator_automation_thermal_furnace", 2, 2)
-	add_node("generator_automation_cooldown_thermal_furnace", 2, 3)
-	add_node("unlock_generator_automation_thermal_compressor", 3, 2)
-	add_node("generator_automation_cooldown_thermal_compressor", 3, 3)
-	add_node("unlock_generator_automation_lava_mite_colony", 4, 2)
-	add_node("generator_automation_cooldown_lava_mite_colony", 4, 3)
-	add_node("unlock_generator_automation_matter_furnace", 4, 4)
-	add_node("generator_automation_cooldown_matter_furnace", 3, 4)
+	# Generator automation: unlocks lead directly to their cooldown upgrades.
+	add_node("unlock_generator_automation_atomic_friction", 2, 1)
+	add_node("generator_automation_cooldown_atomic_friction", 2, 2)
+	add_node("unlock_generator_automation_molecular_agitation", 3, 1)
+	add_node("generator_automation_cooldown_molecular_agitation", 3, 2)
+	add_node("unlock_generator_automation_thermal_furnace", 4, 1)
+	add_node("generator_automation_cooldown_thermal_furnace", 4, 2)
+	add_node("unlock_generator_automation_thermal_compressor", 5, 1)
+	add_node("generator_automation_cooldown_thermal_compressor", 5, 2)
+	add_node("unlock_generator_automation_lava_mite_colony", 6, 1)
+	add_node("generator_automation_cooldown_lava_mite_colony", 6, 2)
+	add_node("unlock_generator_automation_matter_furnace", 5, 3)
+	add_node("generator_automation_cooldown_matter_furnace", 5, 4)
 
-	# Generator upgrade autobuyers are independent unlocks.
-	add_node("unlock_upgrade_automation_atomic_friction", 0, 5)
-	add_node("unlock_upgrade_automation_molecular_agitation", 1, 5)
-	add_node("unlock_upgrade_automation_thermal_furnace", 2, 5)
-	add_node("unlock_upgrade_automation_lava_mite_colony", 3, 5)
-	add_node("unlock_upgrade_automation_matter_furnace", 4, 5)
+	# Upgrade autobuyers are independent permanent unlocks.
+	add_node("unlock_upgrade_automation_atomic_friction", 2, 5)
+	add_node("unlock_upgrade_automation_molecular_agitation", 3, 5)
+	add_node("unlock_upgrade_automation_thermal_furnace", 4, 5)
+	add_node("unlock_upgrade_automation_lava_mite_colony", 5, 5)
+	add_node("unlock_upgrade_automation_matter_furnace", 6, 5)
 
 	add_connection("accelerated_friction", "accelerated_agitation")
 	add_connection("accelerated_agitation", "established_colony")
@@ -54,7 +54,6 @@ func _init() -> void:
 	add_connection("unlock_generator_automation_thermal_compressor", "generator_automation_cooldown_thermal_compressor")
 	add_connection("unlock_generator_automation_lava_mite_colony", "generator_automation_cooldown_lava_mite_colony")
 	add_connection("unlock_generator_automation_matter_furnace", "generator_automation_cooldown_matter_furnace")
-
 
 func add_node(upgrade_id: String, column: int, row: int) -> void:
 	positions[upgrade_id] = ORIGIN + Vector2(
