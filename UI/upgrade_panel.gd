@@ -82,9 +82,9 @@ func _update_exclusive_preference_checkbox(upgrade: Upgrade) -> void:
 		exclusive_preference_checkbox.name = "ExclusivePreferenceCheckbox"
 		exclusive_preference_checkbox.text = ""
 		exclusive_preference_checkbox.tooltip_text = "Allow the upgrade autobuyer to buy this option. Only one option per exclusive group can be selected."
-		exclusive_preference_checkbox.custom_minimum_size = Vector2(22, 22)
-		exclusive_preference_checkbox.size = Vector2(22, 22)
-		exclusive_preference_checkbox.position = Vector2(53, -7)
+		exclusive_preference_checkbox.custom_minimum_size = Vector2(28, 28)
+		exclusive_preference_checkbox.size = Vector2(28, 28)
+		exclusive_preference_checkbox.position = Vector2(50, -8)
 		exclusive_preference_checkbox.z_index = 5
 		exclusive_preference_checkbox.mouse_filter = Control.MOUSE_FILTER_STOP
 		add_child(exclusive_preference_checkbox)
@@ -93,9 +93,52 @@ func _update_exclusive_preference_checkbox(upgrade: Upgrade) -> void:
 		)
 
 	exclusive_preference_checkbox.visible = true
-	exclusive_preference_checkbox.set_pressed_no_signal(
-		manager.is_exclusive_preference_selected(upgrade.definition.id)
+
+	var purchased_choice: Upgrade = _get_purchased_exclusive_choice(upgrade)
+	if purchased_choice != null:
+		# A manually purchased option becomes the permanent choice for this run.
+		# Synchronize the autobuyer preference so it agrees with the actual purchase.
+		if not manager.is_exclusive_preference_selected(purchased_choice.definition.id):
+			manager.set_exclusive_preference(
+				purchased_choice.definition.id,
+				true
+			)
+			exclusive_preference_changed.emit()
+
+		exclusive_preference_checkbox.set_pressed_no_signal(
+			upgrade.definition.id == purchased_choice.definition.id
+		)
+		exclusive_preference_checkbox.disabled = (
+			upgrade.definition.id != purchased_choice.definition.id
+		)
+	else:
+		exclusive_preference_checkbox.disabled = false
+		exclusive_preference_checkbox.set_pressed_no_signal(
+			manager.is_exclusive_preference_selected(upgrade.definition.id)
+		)
+
+	# Make the unchecked indicator easier to see against the dark upgrade panel.
+	exclusive_preference_checkbox.modulate = (
+		Color(1.30, 1.30, 1.30, 1.0)
+		if not exclusive_preference_checkbox.button_pressed
+		else Color.WHITE
 	)
+
+
+func _get_purchased_exclusive_choice(upgrade: Upgrade) -> Upgrade:
+	var group_id: String = upgrade.definition.exclusivity_group
+	var generator_id: String = upgrade.definition.generator_id
+
+	for other_value in state.upgrades.values():
+		var other_upgrade: Upgrade = other_value
+		if other_upgrade.definition.generator_id != generator_id:
+			continue
+		if other_upgrade.definition.exclusivity_group != group_id:
+			continue
+		if other_upgrade.is_purchased():
+			return other_upgrade
+
+	return null
 
 
 func _on_exclusive_preference_checkbox_toggled(selected: bool) -> void:
@@ -104,6 +147,11 @@ func _on_exclusive_preference_checkbox_toggled(selected: bool) -> void:
 
 	var upgrade: Upgrade = state.get_upgrade(upgrade_id)
 	if upgrade == null:
+		return
+
+	# Ignore attempts to change the selection after any option in this group
+	# has been purchased, including clicks dispatched before the UI refreshes.
+	if _get_purchased_exclusive_choice(upgrade) != null:
 		return
 
 	state.upgrade_automation_manager.set_exclusive_preference(
