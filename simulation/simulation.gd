@@ -64,6 +64,10 @@ func update(delta: float) -> void:
 	delta,
 	self
 )
+	state.upgrade_automation_manager.update(
+		delta,
+		self
+	)
 
 func apply_environmental_effects(delta: float) -> void:
 	apply_matter_decay(delta)
