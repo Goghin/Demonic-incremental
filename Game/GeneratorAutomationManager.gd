@@ -6,7 +6,7 @@ extends RefCounted
 const AUTOMATABLE_GENERATOR_IDS: Array[String] = [
 	"atomic_friction",
 	"molecular_agitation",
-	"infernal_condensation",
+	"thermal_furnace",
 	"thermal_compressor",
 	"lava_mite_colony",
 	"matter_furnace"

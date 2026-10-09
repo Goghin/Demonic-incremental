@@ -70,6 +70,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Pause"
 
+[node name="AutomationButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 11
+text = "AUTO: OFF"
+visible = false
+
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/VBoxContainer" unique_id=1057374181]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
@@ -100,3 +106,4 @@ text = "UPGRADES"
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButton" to="." method="_on_buy_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/UpgradesButton" to="." method="_on_upgrades_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/AutomationButton" to="." method="_on_automation_button_pressed"]

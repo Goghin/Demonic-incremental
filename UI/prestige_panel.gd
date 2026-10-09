@@ -87,9 +87,7 @@ const ETERNAL_FLAME_UPGRADE_IDS: Array[String] = [
 "unlock_generator_automation_matter_furnace",
 "generator_automation_cooldown_matter_furnace"
 
-
 ]
-
 
 
 # ----------------------------------------------------------------

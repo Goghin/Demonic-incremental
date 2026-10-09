@@ -30,6 +30,22 @@ func _process(_delta: float) -> void:
 	if generator == null:
 		return
 	
+	var automation_manager = state.generator_automation_manager
+	var automation_button = (
+		$HBoxContainer/VBoxContainer/HBoxContainer/AutomationButton
+	)
+
+	automation_button.visible = (
+		automation_manager.is_automation_unlocked(generator_id)
+	)
+
+	if automation_button.visible:
+		automation_button.text = (
+			"AUTO: ON"
+			if automation_manager.is_enabled(generator_id)
+			else "AUTO: OFF"
+		)	
+	
 	update_illustration(generator)
 	update_operation_mode_ui(generator)
 	
@@ -259,3 +275,9 @@ func update_illustration(
 		illustration.texture = texture
 	else:
 		illustration.texture = null
+
+func _on_automation_button_pressed() -> void:
+	if state == null:
+		return
+
+	state.generator_automation_manager.toggle(generator_id)

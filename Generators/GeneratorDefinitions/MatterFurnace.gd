@@ -14,17 +14,17 @@ static func create() -> Generator:
 		[
 			GeneratorIO.new(
 				ResourceIds.MATTER,
-				2.5
+				3.5
 			)
 		],
 		[
 			GeneratorIO.new(
 				ResourceIds.HEAT,
-				7500.0
+				8500.0
 			),
 			GeneratorIO.new(
 				ResourceIds.ASH,
-				1.5
+				2.25
 			)
 		]
 	)
@@ -53,8 +53,8 @@ static func create() -> Generator:
 	var definition = GeneratorDefinition.new(
 		"matter_furnace",
 		"Matter Furnace",
-		75.0,
-		1.22,
+		275.0,
+		1.25,
 		ResourceIds.MATTER,
 		false,
 		"res://Generators/GeneratorDefinitions/Matter_Furnace.png",
