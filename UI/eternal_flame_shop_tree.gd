@@ -9,6 +9,7 @@ var state: GameState
 var layout: EternalFlameUpgradeLayout
 var connection_renderer: EternalFlameUpgradeConnections
 var upgrade_nodes: Dictionary = {}
+var node_style_states: Dictionary = {}
 
 
 const NODE_SIZE := EternalFlameUpgradeLayout.NODE_SIZE
@@ -73,6 +74,7 @@ func _build_tree() -> void:
 	for child in get_children():
 		child.queue_free()
 	upgrade_nodes.clear()
+	node_style_states.clear()
 
 	if state == null:
 		return
@@ -113,6 +115,18 @@ func _on_upgrade_node_pressed(upgrade_id: String) -> void:
 
 
 func _style_node(node: Button, maxed: bool, can_buy: bool, prerequisite_met: bool) -> void:
+	var style_state: String = "unaffordable"
+	if maxed:
+		style_state = "maxed"
+	elif can_buy:
+		style_state = "available"
+	elif not prerequisite_met:
+		style_state = "locked"
+
+	if node_style_states.get(node.name, "") == style_state:
+		return
+	node_style_states[node.name] = style_state
+
 	var background := Color(0.15, 0.15, 0.18, 1.0)
 	var border := Color(0.42, 0.42, 0.48, 1.0)
 
