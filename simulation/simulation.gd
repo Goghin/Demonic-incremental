@@ -516,6 +516,16 @@ func _apply_upgrade_effect(
 					
 					output.unlocked = true
 				
+	elif effect.type == UpgradeEffectTypes.UNLOCK_OPERATION_MODE:
+		var generator = state.get_generator(
+			effect.target_id
+		)
+		if generator != null:
+			for mode in generator.definition.operation_modes:
+				if mode.id == effect.operation_mode_id:
+					mode.unlocked = true
+					break
+			
 	elif effect.type == UpgradeEffectTypes.APPLY_MODIFIER:
 		if effect.target_id == "":
 			for generator in state.get_generators().values():
@@ -618,6 +628,8 @@ func rebuild_upgrade_effects() -> void:
 	for generator in state.get_generators().values():
 		generator.modifiers.clear()
 		generator.modifier_sensitivities.clear()
+		for mode in generator.definition.operation_modes:
+			mode.unlocked = mode.initially_unlocked
 	
 	for upgrade in state.upgrades.values():
 		if not upgrade.is_purchased():
