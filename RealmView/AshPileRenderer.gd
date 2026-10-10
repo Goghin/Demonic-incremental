@@ -36,7 +36,7 @@ func setup(
 
 func update(
 	piles: Array[Sprite2D],
-	layout_positions: Array[Vector2],
+	layout_positions: PackedVector2Array,
 	island_rect: Rect2,
 	ash: float
 ) -> void:
