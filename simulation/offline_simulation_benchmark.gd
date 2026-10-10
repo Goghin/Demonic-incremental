@@ -31,7 +31,11 @@ func _run_benchmarks() -> void:
 	for duration_data in BENCHMARK_DURATIONS:
 		var label: String = str(duration_data["label"])
 		var duration: float = float(duration_data["seconds"])
-		var result: Dictionary = _run_case(duration, BASELINE_STEP)
+		var result: Dictionary = _run_case(
+			duration,
+			BASELINE_STEP,
+			is_equal_approx(duration, 3600.0)
+		)
 
 		print(
 			"%s | wall time: %s | steps: %s | simulated: %s" % [
@@ -44,6 +48,7 @@ func _run_benchmarks() -> void:
 
 		if is_equal_approx(duration, 3600.0):
 			one_hour_baseline = result
+			_print_profile_report(result["profile"])
 
 	print("")
 	print("========================================")
@@ -81,12 +86,14 @@ func _run_benchmarks() -> void:
 
 func _run_case(
 	duration_seconds: float,
-	step_size: float
+	step_size: float,
+	enable_profiling: bool = false
 ) -> Dictionary:
 	var state := GameState.new()
 	_configure_test_state(state)
 
 	var simulation := Simulation.new(state)
+	simulation.profiling_enabled = enable_profiling
 	var time_manager := TimeManager.new(simulation)
 	var offline_statistics := ResourceStatistics.new()
 	state.simulation_statistics = offline_statistics
@@ -129,7 +136,8 @@ func _run_case(
 		"resources": _snapshot_resources(state),
 		"generators": _snapshot_generators(state),
 		"overflow": state.total_overflow_this_prestige,
-		"statistics": offline_statistics.to_dictionary()
+		"statistics": offline_statistics.to_dictionary(),
+		"profile": simulation.get_profile_report()
 	}
 
 	# GameState and its managers reference one another. Break those references
@@ -145,6 +153,49 @@ func _run_case(
 	state.upgrade_system = null
 
 	return result
+
+
+func _print_profile_report(profile: Dictionary) -> void:
+	var totals: Dictionary = profile.get("totals_usec", {})
+	var counts: Dictionary = profile.get("call_counts", {})
+	var sections: Array[String] = [
+		"automatic_upgrades",
+		"generator_processing",
+		"environmental_effects",
+		"generator_automation",
+		"upgrade_automation"
+	]
+	var measured_total_usec: int = 0
+
+	for section in sections:
+		measured_total_usec += int(totals.get(section, 0))
+
+	print("")
+	print("  PROFILE BREAKDOWN (1-hour baseline)")
+	print("  Timings are accumulated across all simulation steps.")
+	for section in sections:
+		var elapsed_usec: int = int(totals.get(section, 0))
+		var calls: int = int(counts.get(section, 0))
+		var percent: float = 0.0
+		var average_usec: float = 0.0
+		if measured_total_usec > 0:
+			percent = float(elapsed_usec) / float(measured_total_usec) * 100.0
+		if calls > 0:
+			average_usec = float(elapsed_usec) / float(calls)
+		print(
+			"    %s | %s ms | %.1f%% | avg %.2f us/call | calls %s" % [
+				section,
+				_format_number(float(elapsed_usec) / 1000.0),
+				percent,
+				average_usec,
+				_format_integer(calls)
+			]
+		)
+	print(
+		"    Measured phase total: %s ms" % [
+			_format_number(float(measured_total_usec) / 1000.0)
+		]
+	)
 
 
 func _configure_test_state(state: GameState) -> void:
