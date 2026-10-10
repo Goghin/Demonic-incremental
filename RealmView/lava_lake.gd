@@ -1,6 +1,102 @@
 class_name LavaLake
 extends Node2D
 
+
+class LavaBurstOverlay extends Node2D:
+	var surface_points: PackedVector2Array = PackedVector2Array()
+	var burst_timer: float = 1.2
+	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
+	var particles: Array[Dictionary] = []
+
+	func _ready() -> void:
+		randomizer.randomize()
+
+	func set_surface_points(points: PackedVector2Array) -> void:
+		surface_points = points
+
+	func _process(delta: float) -> void:
+		burst_timer -= delta
+
+		if burst_timer <= 0.0 and surface_points.size() >= 3:
+			_spawn_burst()
+			burst_timer = randomizer.randf_range(0.65, 2.0)
+
+		for i in range(particles.size() - 1, -1, -1):
+			var particle: Dictionary = particles[i]
+			particle["life"] = float(particle["life"]) - delta
+			particle["position"] = (
+				particle["position"] as Vector2
+				+ particle["velocity"] as Vector2 * delta
+			)
+			particle["velocity"] = (
+				particle["velocity"] as Vector2
+				+ Vector2(0.0, -22.0) * delta
+			)
+
+			if float(particle["life"]) <= 0.0:
+				particles.remove_at(i)
+			else:
+				particles[i] = particle
+
+		queue_redraw()
+
+	func _spawn_burst() -> void:
+		var center: Vector2 = Vector2.ZERO
+		for point in surface_points:
+			center += point
+		center /= float(surface_points.size())
+
+		# Pick a random point inside the lake's current lava surface.
+		var edge_index: int = randomizer.randi_range(
+			0,
+			surface_points.size() - 1
+		)
+		var edge_point: Vector2 = surface_points[edge_index]
+		var next_point: Vector2 = surface_points[
+			(edge_index + 1) % surface_points.size()
+		]
+		var edge_position: Vector2 = edge_point.lerp(
+			next_point,
+			randomizer.randf()
+		)
+		var burst_position: Vector2 = center.lerp(
+			edge_position,
+			sqrt(randomizer.randf())
+		)
+
+		var particle_count: int = randomizer.randi_range(3, 6)
+		for i in range(particle_count):
+			var angle: float = randomizer.randf_range(
+				-PI * 0.92,
+				-PI * 0.08
+			)
+			var speed: float = randomizer.randf_range(12.0, 34.0)
+			particles.append({
+				"position": burst_position,
+				"velocity": Vector2(cos(angle), sin(angle)) * speed,
+				"life": randomizer.randf_range(0.18, 0.42),
+				"max_life": 0.42,
+				"size": randomizer.randf_range(0.7, 1.5)
+			})
+
+	func _draw() -> void:
+		for particle in particles:
+			var life: float = float(particle["life"])
+			var alpha: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
+			var particle_position: Vector2 = particle["position"]
+			var particle_size: float = float(particle["size"])
+			draw_circle(
+				particle_position,
+				particle_size,
+				Color(1.0, 0.24, 0.025, alpha)
+			)
+			draw_circle(
+				particle_position,
+				particle_size * 0.45,
+				Color(1.0, 0.78, 0.22, alpha)
+			)
+
+
 var edge_points: PackedVector2Array = PackedVector2Array()
 var lake_rect: Rect2 = Rect2()
 var normalized_edge_points: PackedVector2Array = PackedVector2Array()
@@ -13,6 +109,7 @@ var visual_fill: float = 0.02
 const FILL_SMOOTH_SPEED: float = .1
 
 var animation_time: float = 0.0
+var lava_burst_overlay: LavaBurstOverlay
 
 func setup(
 	normalized_points: PackedVector2Array,
@@ -23,7 +120,18 @@ func setup(
 
 	_reposition(island_rect)
 	_update_fill()
+	_ensure_lava_burst_overlay()
 	_update_visuals()
+
+func _ensure_lava_burst_overlay() -> void:
+	if lava_burst_overlay != null:
+		return
+
+	lava_burst_overlay = LavaBurstOverlay.new()
+	lava_burst_overlay.name = "LavaBurstOverlay"
+	lava_burst_overlay.z_index = 4
+	add_child(lava_burst_overlay)
+
 
 func _reposition(island_rect: Rect2) -> void:
 	lake_rect = island_rect
@@ -218,6 +326,8 @@ func _update_visuals() -> void:
 	var surface: Polygon2D = $Surface
 
 	surface.polygon = surface_points
+	_ensure_lava_burst_overlay()
+	lava_burst_overlay.set_surface_points(surface_points)
 	surface.color = Color(
 		0.65,
 		0.055,
