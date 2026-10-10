@@ -7,9 +7,38 @@ signal crystallization_completed(crystals_created: float)
 # Holds the current game state.
 var state: GameState
 
+# Optional profiling counters. Disabled during normal gameplay.
+var profiling_enabled: bool = false
+var profile_totals_usec: Dictionary = {}
+var profile_call_counts: Dictionary = {}
+
 
 func _init(game_state: GameState) -> void:
 	state = game_state
+
+
+func reset_profile() -> void:
+	profile_totals_usec.clear()
+	profile_call_counts.clear()
+
+
+func get_profile_report() -> Dictionary:
+	return {
+		"totals_usec": profile_totals_usec.duplicate(),
+		"call_counts": profile_call_counts.duplicate()
+	}
+
+
+func _record_profile_time(section: String, start_usec: int) -> void:
+	var elapsed_usec = Time.get_ticks_usec() - start_usec
+	profile_totals_usec[section] = (
+		int(profile_totals_usec.get(section, 0))
+		+ elapsed_usec
+	)
+	profile_call_counts[section] = (
+		int(profile_call_counts.get(section, 0))
+		+ 1
+	)
 
 
 # Advance the simulation by the amount of time given by delta.
@@ -21,9 +50,15 @@ func update(delta: float, offline_mode: bool = false) -> void:
 	#if not state.realm_stabilized:
 		#return
 	
+	var profile_start_usec: int = 0
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	update_automatic_upgrades()
+	if profiling_enabled:
+		_record_profile_time("automatic_upgrades", profile_start_usec)
 	
-	
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	for generator in state.generators.values():
 		if not generator.unlocked:
 			continue
@@ -74,17 +109,32 @@ func update(delta: float, offline_mode: bool = false) -> void:
 		
 		if offline_mode and operating_delta < delta - 0.000001:
 			generator.operating = false
+	if profiling_enabled:
+		_record_profile_time("generator_processing", profile_start_usec)
 	
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	apply_environmental_effects(delta)
+	if profiling_enabled:
+		_record_profile_time("environmental_effects", profile_start_usec)
+	
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	state.generator_automation_manager.update(
 		delta,
 		self
 	)
+	if profiling_enabled:
+		_record_profile_time("generator_automation", profile_start_usec)
+	
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	state.upgrade_automation_manager.update(
 		delta,
 		self
 	)
-
+	if profiling_enabled:
+		_record_profile_time("upgrade_automation", profile_start_usec)
 
 func apply_environmental_effects(delta: float) -> void:
 	apply_matter_decay(delta)
