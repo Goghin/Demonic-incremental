@@ -1,67 +1,73 @@
 class_name ForgeSparkOverlay
 extends Node2D
 
+
+const BASE_PARTICLE_COUNT: int = 10
+const PARTICLES_PER_LEVEL: int = 2
+const MAX_PARTICLE_COUNT: int = 120
+const BASE_SPEED: float = 0.35
+const SPEED_PER_LEVEL: float = 0.08
+
 var time: float = 0.0
 var active: bool = false
+var generator_level: int = 1
+
 
 func _process(delta: float) -> void:
+	if not active:
+		return
+
 	time += delta
 	queue_redraw()
+
 
 func _draw() -> void:
 	if not active:
 		return
 
-	for i in range(11):
+	var level: int = max(generator_level, 1)
+	var particle_count: int = min(
+		BASE_PARTICLE_COUNT + (level - 1) * PARTICLES_PER_LEVEL,
+		MAX_PARTICLE_COUNT
+	)
+	var speed_multiplier: float = 1.0 + (level - 1) * SPEED_PER_LEVEL
+
+	for i in range(particle_count):
 		var seed: float = float(i) * 17.31
 
-		var cycle: float = fmod(
-			time * (0.35 + fmod(seed, 0.25)) +
-			seed,
+		var cycle: float = fposmod(
+			time * (BASE_SPEED + fposmod(seed, 0.25)) * speed_multiplier
+			+ seed,
 			1.0
 		)
 
-		# Evenly distributed directions around the forge.
+		# Sparks begin around the outer rim and travel inward.
 		var angle: float = (
-			float(i) * TAU / 9.0 +
-			sin(seed) * 0.25
+			float(i) * TAU / float(particle_count)
+			+ sin(seed) * 0.25
 		)
 
 		var distance: float = lerp(
-			2.0,
 			24.0,
+			1.0,
 			cycle
 		)
 
-		# Slight irregularity in the outward path.
 		var wobble: float = sin(
-			time * 5.0 +
-			seed
+			time * 5.0 * speed_multiplier + seed
 		) * 1.0
 
 		var spark_position := Vector2(
 			cos(angle),
 			sin(angle)
-		) * (distance + wobble)
+		) * max(distance + wobble, 0.0)
 
-		var alpha: float = (
-			sin(cycle * PI) *
-			0.75
-		)
-
-		var spark_size: float = (
-			0.45 +
-			fmod(seed, 0.35)
-		)
+		# Fade in at the rim and fade out as the spark reaches the core.
+		var alpha: float = sin(cycle * PI) * 0.75
+		var spark_size: float = 0.45 + fposmod(seed, 0.35)
 
 		draw_circle(
 			spark_position,
 			spark_size,
-			Color(
-				1.0,
-				0.65,
-				0.15,
-				alpha
-			)
+			Color(1.0, 0.65, 0.15, alpha)
 		)
-
