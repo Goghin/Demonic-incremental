@@ -4,7 +4,7 @@ extends Node2D
 
 class LavaBurstOverlay extends Node2D:
 	var surface_points: PackedVector2Array = PackedVector2Array()
-	var burst_timer: float = 1.2
+	var burst_timer: float = 0.25
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var particles: Array[Dictionary] = []
 
@@ -19,7 +19,7 @@ class LavaBurstOverlay extends Node2D:
 
 		if burst_timer <= 0.0 and surface_points.size() >= 3:
 			_spawn_burst()
-			burst_timer = randomizer.randf_range(0.65, 2.0)
+			burst_timer = randomizer.randf_range(0.45, 1.0)
 
 		for i in range(particles.size() - 1, -1, -1):
 			var particle: Dictionary = particles[i]
@@ -70,13 +70,13 @@ class LavaBurstOverlay extends Node2D:
 				-PI * 0.92,
 				-PI * 0.08
 			)
-			var speed: float = randomizer.randf_range(12.0, 34.0)
+			var speed: float = randomizer.randf_range(25.0, 60.0)
 			particles.append({
 				"position": burst_position,
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
-				"life": randomizer.randf_range(0.18, 0.42),
-				"max_life": 0.42,
-				"size": randomizer.randf_range(0.7, 1.5)
+				"life": randomizer.randf_range(0.5, 0.9),
+				"max_life": 0.9,
+				"size": randomizer.randf_range(2.0, 3.5)
 			})
 
 	func _draw() -> void:
