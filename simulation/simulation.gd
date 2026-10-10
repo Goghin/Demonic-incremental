@@ -17,7 +17,7 @@ func _init(game_state: GameState) -> void:
 # Continuous generators operate normally.
 # Cycle-based generators only operate while a cycle is active.
 
-func update(delta: float) -> void:
+func update(delta: float, offline_mode: bool = false) -> void:
 	#if not state.realm_stabilized:
 		#return
 	
@@ -31,43 +31,60 @@ func update(delta: float) -> void:
 		if generator.definition.cycle_based:
 			update_cycle_generator(
 				generator,
-				delta
+				delta,
+				offline_mode
 			)
 			continue
 		
 		# Normal continuous generator.
 		if not generator.operating:
-			if generator.can_start_operating(state):
+			if generator.can_start_operating(
+				state,
+				offline_mode
+			):
 				generator.operating = true
 			else:
 				continue
-
-		if not generator.can_continue_operating(
-			state,
-			delta
-		):
+		
+		var operating_delta = delta
+		if offline_mode:
+			operating_delta = _get_available_operating_delta(
+				generator,
+				delta
+			)
+			if operating_delta <= 0.0:
+				generator.operating = false
+				continue
+		elif not generator.can_continue_operating(
+				state,
+				delta
+			):
 			generator.operating = false
 			continue
-
+		
 		consume_inputs(
 			generator,
-			delta
+			operating_delta
 		)
-
+		
 		produce_outputs(
 			generator,
-			delta
+			operating_delta
 		)
+		
+		if offline_mode and operating_delta < delta - 0.000001:
+			generator.operating = false
 	
 	apply_environmental_effects(delta)
 	state.generator_automation_manager.update(
-	delta,
-	self
-)
+		delta,
+		self
+	)
 	state.upgrade_automation_manager.update(
 		delta,
 		self
 	)
+
 
 func apply_environmental_effects(delta: float) -> void:
 	apply_matter_decay(delta)
@@ -79,17 +96,57 @@ func apply_environmental_effects(delta: float) -> void:
 # continuous generators while the cycle is active.
 func update_cycle_generator(
 	generator: Generator,
-	delta: float
+	delta: float,
+	offline_mode: bool = false
 	) -> void:
 	
 	if not generator.cycle_active:
 		return
 	
 	if not generator.operating:
-		if generator.can_start_operating(state):
+		if generator.can_start_operating(
+			state,
+			offline_mode
+		):
 			generator.operating = true
 		else:
 			return
+	
+	if offline_mode:
+		var cycle_duration = generator.get_cycle_duration()
+		var remaining_cycle_time = max(
+			cycle_duration - generator.cycle_progress,
+			0.0
+		)
+		var requested_delta = min(
+			delta,
+			remaining_cycle_time
+		)
+		var operating_delta = _get_available_operating_delta(
+			generator,
+			requested_delta
+		)
+		
+		if operating_delta <= 0.0:
+			generator.operating = false
+			return
+		
+		consume_inputs(
+			generator,
+			operating_delta
+		)
+		produce_outputs(
+			generator,
+			operating_delta
+		)
+		generator.cycle_progress += operating_delta
+		
+		if generator.cycle_progress >= cycle_duration - 0.000001:
+			generator.cycle_progress = cycle_duration
+			complete_cycle(generator)
+		elif operating_delta < requested_delta - 0.000001:
+			generator.operating = false
+		return
 	
 	if not generator.can_continue_operating(
 		state,
@@ -119,10 +176,43 @@ func update_cycle_generator(
 		generator.cycle_progress = cycle_duration
 		complete_cycle(generator)
 
-# Complete an active cycle.
-#
-# Completion outputs are produced here, after the cycle has
-# successfully reached its duration.
+
+# In offline mode, return how much of this step the generator can actually
+# operate for before one of its input resources is depleted.
+func _get_available_operating_delta(
+	generator: Generator,
+	requested_delta: float
+	) -> float:
+	
+	var operating_delta = requested_delta
+	
+	for input in generator.get_active_inputs():
+		var input_rate = generator.get_input_consumption_per_second(
+			input,
+			state
+		)
+		
+		if input_rate <= 0.0:
+			continue
+		
+		var available_input = state.get_resource_amount(
+			input.resource_id
+		)
+		
+		if available_input <= 0.0:
+			return 0.0
+		
+		operating_delta = min(
+			operating_delta,
+			available_input / input_rate
+		)
+	
+	return max(
+		operating_delta,
+		0.0
+	)
+
+
 func complete_cycle(
 	generator: Generator
 	) -> void:
