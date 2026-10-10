@@ -34,6 +34,7 @@ var braziers: Dictionary = {}
 var crystallized_flames: Array[CrystallizedFlame] = []
 var crystallized_flame_values: Array[float] = []
 var crystal_renderer: CrystalRenderer = CrystalRenderer.new()
+var crystallization_stream_controller: CrystallizationStreamController = CrystallizationStreamController.new()
 var last_crystallized_flame_amount: float = -1.0
 
 var lava_flows: Array[LavaFlow] = []
@@ -1363,68 +1364,13 @@ func _play_crystal_stream(
 	target_position: Vector2,
 	crystal: CrystallizedFlame
 ) -> void:
-	var stream := CrystallizationStream.new()
-
-	stream.setup(
+	crystallization_stream_controller.play(
+		self,
 		from_position,
-		target_position
-	)
-
-	stream.z_index = 20
-
-	add_child(stream)
-
-	crystal.scale = Vector2.ZERO
-
-	var target_scale := Vector2(
-		CRYSTAL_BASE_SCALE,
+		target_position,
+		crystal,
 		CRYSTAL_BASE_SCALE
 	)
-
-	var formation_delay := (
-		stream.duration * 0.72
-	)
-
-	var tween := create_tween()
-
-	tween.tween_interval(
-		formation_delay
-	)
-
-	tween.tween_property(
-		crystal,
-		"scale",
-		target_scale * 0.18,
-		0.10
-	).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(
-		Tween.EASE_OUT
-	)
-
-	tween.tween_property(
-		crystal,
-		"scale",
-		target_scale * 1.18,
-		0.24
-	).set_trans(
-		Tween.TRANS_BACK
-	).set_ease(
-		Tween.EASE_OUT
-	)
-
-	tween.tween_property(
-		crystal,
-		"scale",
-		target_scale,
-		0.18
-	).set_trans(
-		Tween.TRANS_QUAD
-	).set_ease(
-		Tween.EASE_IN_OUT
-	)
-
-
 
 
 
