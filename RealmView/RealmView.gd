@@ -6,6 +6,7 @@ var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var lava_flow_state_controller: LavaFlowStateController = LavaFlowStateController.new()
 var lava_lake_state_controller: LavaLakeStateController = LavaLakeStateController.new()
+var lava_network_controller: LavaNetworkController = LavaNetworkController.new()
 var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
 var ash_renderer: AshContaminationRenderer
 var ash_piles: Array[Sprite2D] = []
@@ -1444,165 +1445,25 @@ func _draw_forge_active_glow() -> void:
 
 
 func _create_lava_network() -> void:
-	# If setup() is ever called more than once, don't create
-	# duplicate lava flows.
-	for flow in lava_flows:
-		if is_instance_valid(flow):
-			flow.queue_free()
-
-	for fall in lava_falls:
-		if is_instance_valid(fall):
-			fall.queue_free()
-
-	lava_flows.clear()
-	lava_falls.clear()
-
-	var island_rect: Rect2 = _get_island_rect()
-
-	for definition in realm_layout.lava_flow_definitions:
-		var normalized_points: PackedVector2Array = (
-			definition["points"]
-		)
-
-		if normalized_points.is_empty():
-			continue
-
-		var flow: LavaFlow = (
-			LAVA_FLOW_SCENE.instantiate()
-		)
-		flow.fill_speed_multiplier = randf_range(0.8, 1.25)
-		add_child(flow)
-
-		var flow_points: PackedVector2Array = (
-			_convert_lava_points(
-				normalized_points,
-				island_rect
-			)
-		)
-
-		var flow_widths: PackedFloat32Array = (
-			definition["widths"]
-		)
-
-		flow.setup(
-			flow_points,
-			flow_widths,
-			definition["speed"],
-			definition["thickness"]
-		)
-
-		flow.z_index = int(
-			definition["flow_z"]
-		)
-
-		lava_flows.append(flow)
-
-		# --------------------------------------------------------
-		# Fall
-		# --------------------------------------------------------
-
-		var fall: LavaFall = (
-			LAVA_FALL_SCENE.instantiate()
-		)
-
-		add_child(fall)
-
-		var last_normalized_point: Vector2 = (
-			normalized_points[
-				normalized_points.size() - 1
-			]
-		)
-
-		fall.position = (
-			island_rect.position +
-			island_rect.size *
-			last_normalized_point
-		)
-
-		fall.setup(
-			float(definition["fall_width"]),
-			float(definition["fall_length"]),
-			float(definition["fall_speed"])
-		)
-
-		fall.z_index = int(
-			definition["fall_z"]
-		)
-
-		lava_falls.append(fall)
+	lava_network_controller.create_network(
+		self,
+		realm_layout,
+		_get_island_rect(),
+		lava_flows,
+		lava_falls,
+		LAVA_FLOW_SCENE,
+		LAVA_FALL_SCENE
+	)
 
 
 func _update_lava_network_positions() -> void:
-	if lava_flows.is_empty():
-		return
-
-	var island_rect: Rect2 = _get_island_rect()
-
-	var flow_definitions: Array[Dictionary] = (
-		realm_layout.lava_flow_definitions
+	lava_network_controller.update_positions(
+		realm_layout,
+		_get_island_rect(),
+		lava_flows,
+		lava_falls
 	)
 
-	var flow_count: int = min(
-		lava_flows.size(),
-		flow_definitions.size()
-	)
-
-	for i in range(flow_count):
-		var flow: LavaFlow = lava_flows[i]
-
-		if not is_instance_valid(flow):
-			continue
-
-		var definition: Dictionary = (
-			flow_definitions[i]
-		)
-
-		var normalized_points: PackedVector2Array = (
-			definition["points"]
-		)
-
-		var flow_points: PackedVector2Array = (
-			_convert_lava_points(
-				normalized_points,
-				island_rect
-			)
-		)
-
-		flow.reposition_from_points(
-			flow_points
-		)
-
-		if i < lava_falls.size():
-			var fall: LavaFall = lava_falls[i]
-
-			if is_instance_valid(fall):
-				if not normalized_points.is_empty():
-					var last_normalized_point: Vector2 = (
-						normalized_points[
-							normalized_points.size() - 1
-						]
-					)
-
-					fall.position = (
-						island_rect.position +
-						island_rect.size *
-						last_normalized_point
-					)
-
-func _convert_lava_points(
-	normalized_points: PackedVector2Array,
-	island_rect: Rect2
-) -> PackedVector2Array:
-	var points := PackedVector2Array()
-
-	for normalized_point in normalized_points:
-		points.append(
-			island_rect.position +
-			island_rect.size *
-			normalized_point
-		)
-
-	return points
 
 func _update_island_sprite() -> void:
 	var island: Sprite2D = get_node_or_null("Island") as Sprite2D
