@@ -220,6 +220,10 @@ func update_operation_mode_ui(
 			option_button.add_item(
 				mode.display_name
 			)
+			option_button.set_item_disabled(
+				i,
+				not mode.unlocked
+			)
 			
 			if mode.id == generator.operation_mode_id:
 				selected_index = i
@@ -227,6 +231,10 @@ func update_operation_mode_ui(
 		option_button.select(selected_index)
 	else:
 		for i in range(modes.size()):
+			option_button.set_item_disabled(
+				i,
+				not modes[i].unlocked
+			)
 			if modes[i].id == generator.operation_mode_id:
 				selected_index = i
 				break
