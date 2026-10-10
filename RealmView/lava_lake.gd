@@ -8,6 +8,7 @@ class LavaBurstOverlay extends Node2D:
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var particles: Array[Dictionary] = []
 	var has_logged_coordinates: bool = false
+	var has_logged_draw_coordinates: bool = false
 
 	func _ready() -> void:
 		randomizer.randomize()
@@ -96,6 +97,14 @@ class LavaBurstOverlay extends Node2D:
 			})
 
 	func _draw() -> void:
+		if not has_logged_draw_coordinates and not particles.is_empty():
+			has_logged_draw_coordinates = true
+			var first_draw_position: Vector2 = particles[0]["position"]
+			print("[LavaBurst draw] local=", first_draw_position,
+				" converted_global=", to_global(first_draw_position),
+				" canvas_transform=", get_canvas_transform(),
+				" global_transform=", global_transform)
+
 		for particle in particles:
 			var life: float = float(particle["life"])
 			var alpha: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
