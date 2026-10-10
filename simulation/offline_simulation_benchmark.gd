@@ -201,6 +201,37 @@ func _print_profile_report(profile: Dictionary) -> void:
 		]
 	)
 
+	var generator_total_usec: int = int(totals.get("generator_processing", 0))
+	var generator_details: Array[String] = [
+		"generator_start_checks",
+		"generator_continue_checks",
+		"available_operating_duration",
+		"input_consumption",
+		"output_production",
+		"cycle_generator_processing"
+	]
+	print("")
+	print("  GENERATOR PROCESSING DETAILS")
+	print("  Percentages here are relative to the generator-processing phase.")
+	for section in generator_details:
+		var elapsed_usec: int = int(totals.get(section, 0))
+		var calls: int = int(counts.get(section, 0))
+		var percent: float = 0.0
+		var average_usec: float = 0.0
+		if generator_total_usec > 0:
+			percent = float(elapsed_usec) / float(generator_total_usec) * 100.0
+		if calls > 0:
+			average_usec = float(elapsed_usec) / float(calls)
+		print(
+			"    %s | %s ms | %.1f%% of generator phase | avg %.2f us/call | calls %s" % [
+				section,
+				_format_number(float(elapsed_usec) / 1000.0),
+				percent,
+				average_usec,
+				_format_integer(calls)
+			]
+		)
+
 
 func _configure_test_state(state: GameState) -> void:
 	state.set_resource_amount(ResourceIds.HEAT, 2000000.0)
