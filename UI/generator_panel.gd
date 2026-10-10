@@ -197,54 +197,54 @@ func update_operation_mode_ui(
 	generator: Generator
 	) -> void:
 	
-	var option_button = (
+	var option_button: OptionButton = (
 		$HBoxContainer/VBoxContainer/OperationModeOptionButton
 	)
 	
 	var modes = generator.definition.operation_modes
+	var unlocked_modes: Array[GeneratorOperationMode] = []
 	
-	if modes.size() <= 1:
+	for mode in modes:
+		if mode.unlocked:
+			unlocked_modes.append(mode)
+	
+	if unlocked_modes.size() <= 1:
 		option_button.visible = false
 		return
 	
 	option_button.visible = true
+	option_button.disabled = (
+		not generator.can_change_operation_mode()
+	)
 	
-	var selected_index = 0
+	var selected_index := 0
 	
-	if option_button.item_count != modes.size():
+	if option_button.item_count != unlocked_modes.size():
 		option_button.clear()
 		
-		for i in range(modes.size()):
-			var mode = modes[i]
-			
+		for i in range(unlocked_modes.size()):
 			option_button.add_item(
-				mode.display_name
+				unlocked_modes[i].display_name
 			)
-			option_button.set_item_disabled(
+			option_button.set_item_metadata(
 				i,
-				not mode.unlocked
+				unlocked_modes[i].id
 			)
-			
-			if mode.id == generator.operation_mode_id:
+			if unlocked_modes[i].id == generator.operation_mode_id:
 				selected_index = i
 		
 		option_button.select(selected_index)
 	else:
-		for i in range(modes.size()):
-			option_button.set_item_disabled(
+		for i in range(unlocked_modes.size()):
+			option_button.set_item_metadata(
 				i,
-				not modes[i].unlocked
+				unlocked_modes[i].id
 			)
-			if modes[i].id == generator.operation_mode_id:
+			if unlocked_modes[i].id == generator.operation_mode_id:
 				selected_index = i
-				break
 		
 		if option_button.selected != selected_index:
 			option_button.select(selected_index)
-	
-	option_button.disabled = (
-		not generator.can_change_operation_mode()
-	)
 
 
 func _on_operation_mode_option_button_item_selected(
@@ -259,14 +259,15 @@ func _on_operation_mode_option_button_item_selected(
 	if generator == null:
 		return
 	
-	var modes = generator.definition.operation_modes
+	var option_button: OptionButton = (
+		$HBoxContainer/VBoxContainer/OperationModeOptionButton
+	)
 	
-	if index < 0 or index >= modes.size():
+	if index < 0 or index >= option_button.item_count:
 		return
 	
-	generator.set_operation_mode(
-		modes[index].id
-	)
+	var mode_id = str(option_button.get_item_metadata(index))
+	generator.set_operation_mode(mode_id)
 
 
 func _on_buy_button_pressed() -> void:
