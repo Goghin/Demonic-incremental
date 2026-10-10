@@ -21,7 +21,8 @@ func _run_benchmarks() -> void:
 	print("========================================")
 	print("Baseline step: %.2f seconds" % BASELINE_STEP)
 	print("Test profile: seeded resources, all generators unlocked,")
-	print("cycle generators active, and automation enabled.")
+	print("cycle generator and automation behavior enabled.")
+	print("Accuracy report includes per-resource totals and generator states.")
 	print("These are controlled test results, not a copy of a player save.")
 	print("")
 
@@ -71,6 +72,7 @@ func _run_benchmarks() -> void:
 				max_deviation
 			]
 		)
+		_print_detailed_comparison(one_hour_baseline, result)
 
 	print("")
 	print("Benchmark complete. No save file was read or modified.")
@@ -91,13 +93,18 @@ func _run_case(
 
 	var elapsed_seconds: float = 0.0
 	var steps: int = 0
+	var target_steps: int = ceili(duration_seconds / step_size)
 	var start_usec: int = Time.get_ticks_usec()
 
-	while elapsed_seconds < duration_seconds:
+	# Use a fixed iteration count instead of a floating-point while condition.
+	# This prevents an extra tiny step at exact duration boundaries.
+	for step_index in range(target_steps):
 		var delta: float = min(
 			step_size,
 			duration_seconds - elapsed_seconds
 		)
+		if delta <= 0.0:
+			break
 
 		state.set_lava_mite_dormancy_penalty(
 			time_manager.get_dormancy_penalty(
@@ -106,7 +113,10 @@ func _run_case(
 		)
 
 		simulation.update(delta)
-		elapsed_seconds += delta
+		elapsed_seconds = min(
+			duration_seconds,
+			elapsed_seconds + delta
+		)
 		steps += 1
 
 	var wall_seconds: float = (
@@ -133,7 +143,7 @@ func _configure_test_state(state: GameState) -> void:
 	var test_levels: Dictionary = {
 		"atomic_friction": 20,
 		"molecular_agitation": 10,
-		"thermal_furnace": 5,
+		"infernal_condensation": 5,
 		"thermal_compressor": 2,
 		"lava_mite_colony": 3,
 		"matter_furnace": 3,
@@ -193,6 +203,7 @@ func _snapshot_generators(state: GameState) -> Dictionary:
 		)
 		result[str(generator_id)] = {
 			"level": generator.level,
+			"operating": generator.operating,
 			"cycle_progress": generator.cycle_progress,
 			"cycle_active": generator.cycle_active
 		}
@@ -285,12 +296,94 @@ func _get_max_deviation(
 	return maximum_deviation
 
 
+func _print_detailed_comparison(
+	baseline: Dictionary,
+	comparison: Dictionary
+) -> void:
+	print("  Resource final amounts (baseline -> larger step):")
+	var base_resources: Dictionary = baseline["resources"]
+	var test_resources: Dictionary = comparison["resources"]
+	for resource_id in base_resources:
+		var base_amount: float = float(base_resources[resource_id])
+		var test_amount: float = float(test_resources.get(resource_id, 0.0))
+		print(
+			"    %s: %s -> %s | delta: %s" % [
+				str(resource_id),
+				_format_number(base_amount),
+				_format_number(test_amount),
+				_format_number(test_amount - base_amount)
+			]
+		)
+
+	print("  Resource flow totals (produced / consumed / lost):")
+	var base_stats: Dictionary = baseline["statistics"]
+	var test_stats: Dictionary = comparison["statistics"]
+	for resource_id in base_stats:
+		if resource_id == "_total_overflow":
+			continue
+		var a: Dictionary = base_stats[resource_id]
+		var b: Dictionary = test_stats.get(resource_id, {})
+		print(
+			"    %s produced %s -> %s | consumed %s -> %s | lost %s -> %s" % [
+				str(resource_id),
+				_format_number(float(a.get("total_produced", 0.0))),
+				_format_number(float(b.get("total_produced", 0.0))),
+				_format_number(float(a.get("total_consumed", 0.0))),
+				_format_number(float(b.get("total_consumed", 0.0))),
+				_format_number(float(a.get("total_lost", 0.0))),
+				_format_number(float(b.get("total_lost", 0.0)))
+			]
+		)
+
+	print("  Generator states (level, operating, cycle active, cycle progress):")
+	var base_generators: Dictionary = baseline["generators"]
+	var test_generators: Dictionary = comparison["generators"]
+	for generator_id in base_generators:
+		var a: Dictionary = base_generators[generator_id]
+		var b: Dictionary = test_generators.get(generator_id, {})
+		if (
+			int(a["level"]) != int(b.get("level", 0))
+			or bool(a["operating"]) != bool(b.get("operating", false))
+			or bool(a["cycle_active"]) != bool(b.get("cycle_active", false))
+			or not is_equal_approx(
+				float(a["cycle_progress"]),
+				float(b.get("cycle_progress", 0.0))
+			)
+		):
+			print(
+				"    %s: L%s/%s, operating %s/%s, cycle %s/%s, progress %s/%s" % [
+					str(generator_id),
+					str(a["level"]),
+					str(b.get("level", 0)),
+					str(a["operating"]),
+					str(b.get("operating", false)),
+					str(a["cycle_active"]),
+					str(b.get("cycle_active", false)),
+					_format_number(float(a["cycle_progress"])),
+					_format_number(float(b.get("cycle_progress", 0.0)))
+				]
+			)
+
+	print(
+		"  Total overflow: %s -> %s" % [
+			_format_number(float(baseline["overflow"])),
+			_format_number(float(comparison["overflow"]))
+		]
+	)
+
+
 func _relative_deviation_percent(
 	baseline: float,
 	comparison: float
 ) -> float:
+	# Relative deviation is anchored to at least 1 to avoid enormous
+	# percentages when comparing tiny values close to zero.
 	var scale: float = max(abs(baseline), 1.0)
 	return abs(comparison - baseline) / scale * 100.0
+
+
+func _format_number(value: float) -> String:
+	return String.num_scientific(value, 5)
 
 
 func _format_elapsed(seconds: float) -> String:
