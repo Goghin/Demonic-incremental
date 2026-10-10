@@ -143,10 +143,10 @@ func _ensure_lava_burst_overlay() -> void:
 
 	lava_burst_overlay = LavaBurstOverlay.new()
 	lava_burst_overlay.name = "LavaBurstOverlay"
-	lava_burst_overlay.z_index = 100
+	lava_burst_overlay.z_index = 10
 	lava_burst_overlay.visible = true
 	lava_burst_overlay.set_process(true)
-	add_child(lava_burst_overlay)
+	$Surface.add_child(lava_burst_overlay)
 
 
 func _reposition(island_rect: Rect2) -> void:
