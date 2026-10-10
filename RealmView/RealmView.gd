@@ -978,15 +978,11 @@ func _draw_generators() -> void:
 
 			generator_hitboxes[generator_id] = hitbox
 
-			var sprite: Sprite2D
-
-			if generator_sprites.has(generator_id):
-				sprite = generator_sprites[generator_id]
-			else:
-				sprite = Sprite2D.new()
-				sprite.name = "Generator_" + generator_id
-				generator_layer.add_child(sprite)
-				generator_sprites[generator_id] = sprite
+			var sprite: Sprite2D = generator_visual_renderer.get_or_create_sprite(
+				generator_layer,
+				generator_sprites,
+				generator_id
+			)
 
 			sprite.z_index = 0
 			sprite.texture = texture

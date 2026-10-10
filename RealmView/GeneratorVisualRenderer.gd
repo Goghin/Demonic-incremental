@@ -32,6 +32,22 @@ func setup_layer(
 	return layer
 
 
+func get_or_create_sprite(
+	parent: Node,
+	generator_sprites: Dictionary,
+	generator_id: String
+) -> Sprite2D:
+	if generator_sprites.has(generator_id):
+		return generator_sprites[generator_id] as Sprite2D
+
+	var sprite: Sprite2D = Sprite2D.new()
+	sprite.name = "Generator_" + generator_id
+	parent.add_child(sprite)
+	generator_sprites[generator_id] = sprite
+
+	return sprite
+
+
 func get_texture(generator: Generator) -> Texture2D:
 	var path: String = generator.definition.illustration_path
 
