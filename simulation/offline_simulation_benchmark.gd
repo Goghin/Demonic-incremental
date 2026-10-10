@@ -112,7 +112,7 @@ func _run_case(
 			)
 		)
 
-		simulation.update(delta)
+		simulation.update(delta, true)
 		elapsed_seconds = min(
 			duration_seconds,
 			elapsed_seconds + delta
