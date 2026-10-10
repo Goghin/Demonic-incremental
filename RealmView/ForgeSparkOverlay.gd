@@ -57,7 +57,7 @@ func _draw() -> void:
 			time * 5.0 * speed_multiplier + seed
 		) * 1.0
 
-		var spark_position := Vector2(
+		var spark_position :Vector2 = Vector2(
 			cos(angle),
 			sin(angle)
 		) * max(distance + wobble, 0.0)
