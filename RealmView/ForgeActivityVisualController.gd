@@ -49,6 +49,7 @@ func update(
 	glow_overlay.queue_redraw()
 
 	spark_overlay.position = forge_position + Vector2(0, 5)
+	spark_overlay.generator_level = max(forge.level, 1)
 	spark_overlay.visible = true
 	spark_overlay.active = true
 	spark_overlay.queue_redraw()
