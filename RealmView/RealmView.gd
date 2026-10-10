@@ -2500,7 +2500,7 @@ func _update_furnace_swirl() -> void:
 	if furnace_swirl_overlay == null:
 		furnace_swirl_overlay = FurnaceSwirlOverlay.new()
 		furnace_swirl_overlay.name = "FurnaceSwirlOverlay"
-		furnace_swirl_overlay.z_index = 11
+		furnace_swirl_overlay.z_index = 14
 		add_child(furnace_swirl_overlay)
 
 	furnace_swirl_overlay.position = sprite.position
