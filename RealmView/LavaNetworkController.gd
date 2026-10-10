@@ -3,7 +3,7 @@ extends RefCounted
 
 
 func create_network(
-	owner: Node2D,
+	owner: Node,
 	realm_layout: RealmLayout,
 	island_rect: Rect2,
 	lava_flows: Array[LavaFlow],
