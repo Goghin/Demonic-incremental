@@ -5,7 +5,7 @@ extends Node2D
 class LavaFlowSparkOverlay extends Node2D:
 	var flow_points: PackedVector2Array = PackedVector2Array()
 	var flow_widths: PackedFloat32Array = PackedFloat32Array()
-	var burst_timer: float = 0.7
+	var burst_timer: float = 0.25
 	var activity_factor: float = 1.0
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var particles: Array[Dictionary] = []
@@ -28,7 +28,7 @@ class LavaFlowSparkOverlay extends Node2D:
 		burst_timer -= delta
 		if burst_timer <= 0.0:
 			_spawn_burst()
-			burst_timer = randomizer.randf_range(1.1, 1.8) / activity_factor
+			burst_timer = randomizer.randf_range(0.55, 1.05) / activity_factor
 
 		for i in range(particles.size() - 1, -1, -1):
 			var particle: Dictionary = particles[i]
@@ -70,15 +70,25 @@ class LavaFlowSparkOverlay extends Node2D:
 		var width: float = lerp(flow_widths[segment_index], flow_widths[segment_index + 1], ratio)
 		origin += Vector2(randomizer.randf_range(-0.25, 0.25) * width, randomizer.randf_range(-0.2, 0.2) * width)
 
-		var count: int = maxi(1, roundi(randomizer.randi_range(2, 4) * activity_factor))
+		var count: int = maxi(1, roundi(randomizer.randi_range(3, 5) * activity_factor))
 		for j in range(count):
 			var node := Node2D.new()
 			node.name = "LavaFlowSpark"
-			node.position = origin
+			var spread_distance: float = randomizer.randf_range(-14.0, 14.0)
+			var particle_distance: float = clamp(target_distance + spread_distance, 0.0, total_length)
+			var particle_segment: int = 0
+			while particle_segment < distance_segments.size() - 2 and particle_distance > distance_segments[particle_segment + 1]:
+				particle_segment += 1
+			var particle_segment_length: float = distance_segments[particle_segment + 1] - distance_segments[particle_segment]
+			var particle_ratio: float = 0.0 if particle_segment_length <= 0.0 else (particle_distance - distance_segments[particle_segment]) / particle_segment_length
+			var particle_origin: Vector2 = flow_points[particle_segment].lerp(flow_points[particle_segment + 1], particle_ratio)
+			var particle_width: float = lerp(flow_widths[particle_segment], flow_widths[particle_segment + 1], particle_ratio)
+			particle_origin += Vector2(randomizer.randf_range(-0.35, 0.35) * particle_width, randomizer.randf_range(-0.25, 0.25) * particle_width)
+			node.position = particle_origin
 			node.z_index = 2
 			add_child(node)
 
-			var size: float = randomizer.randf_range(1.6, 2.7)
+			var size: float = randomizer.randf_range(1.9, 3.1)
 			var outer := Polygon2D.new()
 			outer.polygon = _make_spark(size, randomizer.randf_range(0.7, 1.2))
 			outer.color = Color(0.72, 0.045, 0.008, 0.9)
@@ -90,7 +100,7 @@ class LavaFlowSparkOverlay extends Node2D:
 			node.add_child(core)
 
 			var angle: float = randomizer.randf_range(-PI * 0.85, -PI * 0.15)
-			var speed: float = randomizer.randf_range(12.0, 28.0)
+			var speed: float = randomizer.randf_range(14.0, 32.0)
 			var life: float = randomizer.randf_range(0.4, 0.7)
 			particles.append({
 				"node": node,
