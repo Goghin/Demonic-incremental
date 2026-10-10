@@ -9,10 +9,7 @@ var ash_renderer: AshContaminationRenderer
 var ash_piles: Array[Sprite2D] = []
 var generator_sprites: Dictionary = {}
 
-const ASH_PILE_TEXTURE: Texture2D = preload("res://RealmView/ashpile.png")
-const ASH_PILE_BASE_WIDTH_RATIO: float = 0.018
-const ASH_PILE_MAX_WIDTH_RATIO: float = 0.085
-const ASH_PILE_FULL_GROWTH_ASH: float = 10000.0
+var ash_pile_renderer: AshPileRenderer = AshPileRenderer.new()
 var molecular_agitation_sprite_controller: MolecularAgitationSpriteController = MolecularAgitationSpriteController.new()
 
 var atomic_friction_particle_controller: AtomicFrictionParticleController = AtomicFrictionParticleController.new()
@@ -1116,58 +1113,20 @@ func _get_generator_texture(
 
 
 func _setup_ash_piles() -> void:
-	for pile in ash_piles:
-		if is_instance_valid(pile):
-			pile.queue_free()
-	ash_piles.clear()
-
-	if realm_layout == null:
-		return
-
-	for i in range(realm_layout.ash_pile_layout_positions.size()):
-		var pile: Sprite2D = Sprite2D.new()
-		pile.name = "AshPile_%02d" % (i + 1)
-		pile.texture = ASH_PILE_TEXTURE
-		pile.centered = true
-		pile.z_index = 7
-		pile.visible = false
-		add_child(pile)
-		ash_piles.append(pile)
+	ash_piles = ash_pile_renderer.setup(
+		self,
+		ash_piles,
+		realm_layout
+	)
 
 
 func _update_ash_piles(ash: float) -> void:
-	if ash_piles.is_empty():
-		return
-
-	var island_rect: Rect2 = _get_island_rect()
-	var texture_width: float = max(ASH_PILE_TEXTURE.get_size().x, 1.0)
-	var growth: float = clamp(
-		ash / ASH_PILE_FULL_GROWTH_ASH,
-		0.0,
-		1.0
+	ash_pile_renderer.update(
+		ash_piles,
+		realm_layout.ash_pile_layout_positions,
+		_get_island_rect(),
+		ash
 	)
-
-	for i in range(ash_piles.size()):
-		var pile: Sprite2D = ash_piles[i]
-		if not is_instance_valid(pile):
-			continue
-
-		var normalized_position: Vector2 = realm_layout.ash_pile_layout_positions[i]
-		pile.position = island_rect.position + Vector2(
-			island_rect.size.x * normalized_position.x,
-			island_rect.size.y * normalized_position.y
-		)
-		pile.visible = ash > 0.0
-
-		var individual_growth: float = 0.72 + float(i % 3) * 0.14
-		var width_ratio: float = lerp(
-			ASH_PILE_BASE_WIDTH_RATIO,
-			ASH_PILE_MAX_WIDTH_RATIO,
-			growth * individual_growth
-		)
-		var target_width: float = island_rect.size.x * width_ratio
-		var uniform_scale: float = target_width / texture_width
-		pile.scale = Vector2.ONE * uniform_scale
 
 
 func _update_ash_visuals(
