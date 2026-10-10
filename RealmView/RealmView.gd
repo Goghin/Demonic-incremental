@@ -174,15 +174,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Reset lava mite  and matter furnace animation
 	# ------------------------------------------------------------
 
-	if generator_sprites.has("lava_mite_colony"):
-		var lava_mite_sprite: AnimatedSprite2D = (
-			generator_sprites["lava_mite_colony"]
-			as AnimatedSprite2D
-		)
-
-		if lava_mite_sprite != null:
-			lava_mite_sprite.stop()
-			lava_mite_sprite.frame = 0
+	lava_mite_visual_controller.reset(generator_sprites)
 	
 	matter_furnace_visual_controller.reset(generator_sprites)
 		

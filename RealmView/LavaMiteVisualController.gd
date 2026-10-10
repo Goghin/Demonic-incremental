@@ -2,6 +2,21 @@ class_name LavaMiteVisualController
 extends RefCounted
 
 
+func reset(generator_sprites: Dictionary) -> void:
+	if not generator_sprites.has("lava_mite_colony"):
+		return
+
+	var animated_sprite: AnimatedSprite2D = (
+		generator_sprites["lava_mite_colony"] as AnimatedSprite2D
+	)
+
+	if animated_sprite == null:
+		return
+
+	animated_sprite.stop()
+	animated_sprite.frame = 0
+
+
 func update(
 	generator_visual_renderer: GeneratorVisualRenderer,
 	generator_layer: Node2D,
