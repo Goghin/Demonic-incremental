@@ -12,8 +12,8 @@ class LavaBurstOverlay extends Node2D:
 		randomizer.randomize()
 
 	func set_surface_points(points: PackedVector2Array) -> void:
-		# The overlay is a direct child of RealmView, just like the generator
-		# VFX. These points are already expressed in RealmView-local space.
+		# Surface polygons and this overlay are both children of LavaLake,
+		# so they share the same local coordinate system.
 		surface_points = points
 		if surface_points.size() >= 3 and particles.is_empty():
 			_spawn_burst()
@@ -85,18 +85,7 @@ class LavaBurstOverlay extends Node2D:
 			})
 
 	func _draw() -> void:
-		# Temporary diagnostics: draw each particle at a fixed, unmistakable
-		# size and color so we can distinguish spawning from animation issues.
-		if surface_points.size() >= 3:
-			var debug_center: Vector2 = Vector2.ZERO
-			for point in surface_points:
-				debug_center += point
-			debug_center /= float(surface_points.size())
-			draw_circle(debug_center, 7.0, Color(1.0, 0.0, 1.0, 1.0))
-
 		for particle in particles:
-			var debug_position: Vector2 = particle["position"]
-			draw_circle(debug_position, 10.0, Color(0.0, 1.0, 0.2, 1.0))
 			var life: float = float(particle["life"])
 			var alpha: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
 			var particle_position: Vector2 = particle["position"]
@@ -145,14 +134,10 @@ func _ensure_lava_burst_overlay() -> void:
 
 	lava_burst_overlay = LavaBurstOverlay.new()
 	lava_burst_overlay.name = "LavaBurstOverlay"
-	lava_burst_overlay.z_index = 20
+	lava_burst_overlay.z_index = 4
 	lava_burst_overlay.visible = true
 	lava_burst_overlay.set_process(true)
-	var realm_view: Node = get_parent()
-	if realm_view != null:
-		realm_view.add_child(lava_burst_overlay)
-	else:
-		add_child(lava_burst_overlay)
+	add_child(lava_burst_overlay)
 
 
 func _reposition(island_rect: Rect2) -> void:
