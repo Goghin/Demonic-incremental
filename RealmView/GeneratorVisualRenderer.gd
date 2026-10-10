@@ -22,3 +22,7 @@ func get_texture(generator: Generator) -> Texture2D:
 	generator_textures[generator_id] = texture
 
 	return texture
+
+
+func clear_cache() -> void:
+	generator_textures.clear()
