@@ -76,6 +76,7 @@ var drag_offset: Vector2 = Vector2.ZERO
 var generator_hitboxes: Dictionary = {}
 
 var forge_activity_visual_controller: ForgeActivityVisualController = ForgeActivityVisualController.new()
+var brazier_visual_controller: BrazierVisualController = BrazierVisualController.new()
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
@@ -117,25 +118,12 @@ func _setup_generator_layer() -> void:
 
 
 func _setup_braziers() -> void:
-	for stat_name in BRAZIER_STATS:
-		if braziers.has(stat_name):
-			continue
-
-		var brazier_instance: Brazier = (
-			BRAZIER_SCENE.instantiate()
-		)
-
-		brazier_instance.set_stat(stat_name)
-
-		add_child(brazier_instance)
-
-		brazier_instance.z_index = 15
-
-		brazier_instance.mouse_filter = (
-			Control.MOUSE_FILTER_IGNORE
-		)
-
-		braziers[stat_name] = brazier_instance
+	brazier_visual_controller.setup(
+		self,
+		braziers,
+		BRAZIER_STATS,
+		BRAZIER_SCENE
+	)
 
 func rebuild_realm(new_layout: RealmLayout) -> void:
 	if state == null:
@@ -652,23 +640,12 @@ func _get_island_rect() -> Rect2:
 func _initialize_brazier_positions(
 	island_rect: Rect2
 ) -> void:
-	for stat_name in BRAZIER_STATS:
-		if not braziers.has(stat_name):
-			continue
-
-		var normalized_position: Vector2 = (
-			realm_layout.brazier_layout_positions[
-				stat_name
-			]
-		)
-
-		var brazier: Control = braziers[stat_name]
-
-		brazier.position = (
-			island_rect.position +
-			island_rect.size *
-			normalized_position
-		)
+	brazier_visual_controller.position_braziers(
+		braziers,
+		BRAZIER_STATS,
+		realm_layout,
+		island_rect
+	)
 
 func _draw_layout_overlay() -> void:
 	draw_rect(
