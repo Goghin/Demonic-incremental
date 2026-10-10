@@ -122,7 +122,7 @@ class LavaFlowSparkOverlay extends Node2D:
 
 			var angle: float = randomizer.randf_range(-PI * 0.85, -PI * 0.15)
 			var speed: float = randomizer.randf_range(14.0, 32.0)
-			var life: float = randomizer.randf_range(0.4, 0.7)
+			var life: float = randomizer.randf_range(0.5, 0.95)
 			particles.append({
 				"node": node,
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
