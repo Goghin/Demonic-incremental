@@ -954,29 +954,21 @@ func _draw_generators() -> void:
 		)
 
 		if texture != null:
-			var texture_size: Vector2 = texture.get_size()
-
-			var target_size: float = (
-				machine_size *
-				2.0 *
-				size_multiplier
+			var texture_scale: float = (
+				generator_visual_renderer.get_texture_scale(
+					texture,
+					machine_size,
+					size_multiplier
+				)
 			)
 
-			var texture_scale: float = min(
-				target_size / max(texture_size.x, 1.0),
-				target_size / max(texture_size.y, 1.0)
+			generator_hitboxes[generator_id] = (
+				generator_visual_renderer.get_texture_hitbox(
+					texture,
+					generator_position,
+					texture_scale
+				)
 			)
-
-			var draw_size: Vector2 = (
-				texture_size * texture_scale
-			)
-
-			var hitbox: Rect2 = Rect2(
-				generator_position - draw_size * 0.5,
-				draw_size
-			)
-
-			generator_hitboxes[generator_id] = hitbox
 
 			var sprite: Sprite2D = generator_visual_renderer.get_or_create_sprite(
 				generator_layer,

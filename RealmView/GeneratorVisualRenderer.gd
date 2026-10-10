@@ -48,6 +48,29 @@ func get_or_create_sprite(
 	return sprite
 
 
+func get_texture_scale(
+	texture: Texture2D,
+	machine_size: float,
+	size_multiplier: float
+) -> float:
+	var texture_size: Vector2 = texture.get_size()
+	var target_size: float = machine_size * 2.0 * size_multiplier
+
+	return min(
+		target_size / max(texture_size.x, 1.0),
+		target_size / max(texture_size.y, 1.0)
+	)
+
+
+func get_texture_hitbox(
+	texture: Texture2D,
+	generator_position: Vector2,
+	texture_scale: float
+) -> Rect2:
+	var draw_size: Vector2 = texture.get_size() * texture_scale
+	return Rect2(generator_position - draw_size * 0.5, draw_size)
+
+
 func get_fallback_hitbox(
 	generator_position: Vector2,
 	machine_size: float,
