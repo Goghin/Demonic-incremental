@@ -13,6 +13,7 @@ var modifier_target_id: String
 var modifier_id: String
 
 var output_resource_id: String
+var operation_mode_id: String = ""
 
 var dynamic_formula: String
 var dynamic_resource_id: String
@@ -65,6 +66,18 @@ static func unlock_output(
 	effect.output_resource_id = resource_id
 	
 	return effect
+
+static func unlock_operation_mode(
+	generator_id: String,
+	mode_id: String
+	) -> UpgradeEffect:
+	var effect = UpgradeEffect.new(
+		UpgradeEffectTypes.UNLOCK_OPERATION_MODE,
+		generator_id
+	)
+	effect.operation_mode_id = mode_id
+	return effect
+
 
 static func modifier(
 	effect_target_id: String,
