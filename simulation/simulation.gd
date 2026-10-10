@@ -608,7 +608,12 @@ func buy_upgrade(
 	_apply_upgrade_level_effects(
 		upgrade
 	)
-	
+
+	# Upgrade effects can update existing cost modifiers in place.
+	# Invalidate automation's cached costs so they refresh before use.
+	if state.generator_automation_manager != null:
+		state.generator_automation_manager.invalidate_waiting_costs()
+
 	return true
 
 
