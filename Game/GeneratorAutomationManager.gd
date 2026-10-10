@@ -259,6 +259,15 @@ func _attempt_purchase(
 			_cache_waiting_cost(generator, automation)
 
 
+func invalidate_waiting_costs() -> void:
+	# Upgrade effects can change an existing modifier's value without
+	# adding another modifier, so invalidate every waiting cost after
+	# an upgrade is purchased.
+	for generator_id in AUTOMATABLE_GENERATOR_IDS:
+		var automation: Dictionary = automation_states[generator_id]
+		automation["waiting_resource_id"] = ""
+
+
 func _waiting_cost_needs_refresh(
 	generator: Generator,
 	automation: Dictionary
