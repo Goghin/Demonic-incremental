@@ -4,6 +4,7 @@ extends Control
 
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
+var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
 var ash_renderer: AshContaminationRenderer
 var ash_piles: Array[Sprite2D] = []
 var generator_sprites: Dictionary = {}
@@ -12,7 +13,6 @@ const ASH_PILE_TEXTURE: Texture2D = preload("res://RealmView/ashpile.png")
 const ASH_PILE_BASE_WIDTH_RATIO: float = 0.018
 const ASH_PILE_MAX_WIDTH_RATIO: float = 0.085
 const ASH_PILE_FULL_GROWTH_ASH: float = 10000.0
-var furnace_inner_sprite: Sprite2D
 var molecular_extra_sprite_a: Sprite2D
 var molecular_extra_sprite_b: Sprite2D
 
@@ -173,9 +173,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Reset generator visual effects
 	# ------------------------------------------------------------
 
-	if furnace_inner_sprite != null:
-		furnace_inner_sprite.visible = false
-		furnace_inner_sprite.rotation = 0.0
+	thermal_furnace_animation_controller.reset()
 
 
 	if atomic_friction_particles != null:
@@ -1971,54 +1969,13 @@ func _update_generator_animations(delta: float) -> void:
 		return
 
 	var sprite: Sprite2D = generator_sprites["thermal_furnace"]
+	thermal_furnace_animation_controller.update(
+		self,
+		furnace,
+		sprite,
+		delta
+	)
 
-	if not sprite.visible:
-		if furnace_inner_sprite != null:
-			furnace_inner_sprite.visible = false
-		return
-
-	if furnace.is_operating():
-		var level_speed_multiplier: float = (
-			1.0 +
-			max(furnace.level - 1, 0) * 0.05
-		)
-
-		var rotation_speed: float = (
-			THERMAL_FURNACE_ROTATION_SPEED *
-			level_speed_multiplier
-		)
-
-		sprite.rotation += (
-			rotation_speed * delta
-		)
-
-		if furnace_inner_sprite == null:
-			furnace_inner_sprite = Sprite2D.new()
-			furnace_inner_sprite.name = "ThermalFurnaceSecondSwirl"
-			furnace_inner_sprite.z_index = 11
-			add_child(furnace_inner_sprite)
-
-		furnace_inner_sprite.texture = sprite.texture
-		furnace_inner_sprite.visible = true
-		furnace_inner_sprite.position = sprite.position
-		furnace_inner_sprite.scale = sprite.scale
-		furnace_inner_sprite.modulate = Color(
-			1.0,
-			1,
-			1,
-			.75
-		)
-
-		# Same-size secondary layer, rotating a little faster.
-		furnace_inner_sprite.rotation += (
-			rotation_speed * 1.2 * delta
-		)
-
-
-	else:
-		if furnace_inner_sprite != null:
-			furnace_inner_sprite.visible = false
-			
 func _update_molecular_agitation_sprites(delta: float) -> void:
 	if state == null:
 		return
