@@ -402,13 +402,18 @@ func produce_outputs(
 	delta: float
 	) -> void:
 	
-	var production_outputs = generator.get_production_per_second(
-		state
-	)
+	var operation_mode = generator.get_operation_mode()
 	
-	for output in production_outputs:
-		var production = (
-			output.amount_per_second
+	for output in generator.get_active_outputs():
+		if not output.unlocked:
+			continue
+		
+		var production: float = (
+			generator.get_production_rate(
+				output,
+				state,
+				operation_mode
+			)
 			* delta
 		)
 		
