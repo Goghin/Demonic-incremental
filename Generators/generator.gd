@@ -278,7 +278,8 @@ func get_input_consumption_per_second(
 # - have enough of every input resource for one full second
 #   of operation
 func can_start_operating(
-	state: GameState
+	state: GameState,
+	allow_partial_inputs: bool = false
 	) -> bool:
 	
 	if not unlocked:
@@ -303,7 +304,10 @@ func can_start_operating(
 			state
 		)
 		
-		if input_amount < required_input:
+		if allow_partial_inputs:
+			if required_input > 0.0 and input_amount <= 0.0:
+				return false
+		elif input_amount < required_input:
 			return false
 	
 	return true
