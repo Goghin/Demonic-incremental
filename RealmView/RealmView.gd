@@ -802,7 +802,6 @@ func _draw_generators() -> void:
 			)
 			continue
 
-				# ---------------------------------------------------------
 		# Matter Furnace
 		# ---------------------------------------------------------
 		if generator_id == "matter_furnace":
