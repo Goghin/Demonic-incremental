@@ -1397,7 +1397,7 @@ func _update_ash_visuals(
 	if ash_renderer == null:
 		ash_renderer = AshContaminationRenderer.new()
 		ash_renderer.name = "AshContaminationRenderer"
-		ash_renderer.z_index = 4
+		ash_renderer.z_index = 10
 		add_child(ash_renderer)
 
 	ash_renderer.update_visuals(center, sx, ash)
