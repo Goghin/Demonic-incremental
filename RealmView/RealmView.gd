@@ -15,7 +15,7 @@ const ASH_PILE_MAX_WIDTH_RATIO: float = 0.085
 const ASH_PILE_FULL_GROWTH_ASH: float = 10000.0
 var molecular_agitation_sprite_controller: MolecularAgitationSpriteController = MolecularAgitationSpriteController.new()
 
-var atomic_friction_particles: Node2D
+var atomic_friction_particle_controller: AtomicFrictionParticleController = AtomicFrictionParticleController.new()
 
 const MATTER_FURNACE_SIZE_MULTIPLIER: float = 1.4
 
@@ -162,10 +162,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	thermal_furnace_animation_controller.reset()
 
 
-	if atomic_friction_particles != null:
-		atomic_friction_particles.active = false
-		atomic_friction_particles.visible = false
-		atomic_friction_particles.time = 0.0
+	atomic_friction_particle_controller.reset()
 
 	forge_activity_visual_controller.reset()
 
@@ -1969,33 +1966,11 @@ func _update_atomic_friction_particles() -> void:
 		"atomic_friction"
 	]
 
-	if atomic_friction_particles == null:
-		atomic_friction_particles = (
-			AtomicFrictionParticleOverlay.new()
-		)
-
-		atomic_friction_particles.name = (
-			"AtomicFrictionParticleOverlay"
-		)
-
-		atomic_friction_particles.z_index = 11
-		add_child(atomic_friction_particles)
-
-	var particles: AtomicFrictionParticleOverlay = (
-		atomic_friction_particles
+	atomic_friction_particle_controller.update(
+		self,
+		generator,
+		sprite
 	)
-
-	particles.position = sprite.position
-	particles.visible = (
-		sprite.visible and generator.is_operating()
-	)
-
-	particles.active = (
-		sprite.visible and generator.is_operating()
-	)
-
-	particles.generator_level = generator.level
-
 
 
 func _update_atomic_friction_animation(delta: float) -> void:
