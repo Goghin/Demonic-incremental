@@ -12,13 +12,15 @@ var glow_overlay: ForgeGlowOverlay
 var spark_overlay: ForgeSparkOverlay
 
 
+func advance(delta: float) -> void:
+	glow_time += delta
+
+
 func update(
 	parent: Node,
 	forge: Generator,
-	forge_position: Vector2,
-	delta: float
+	forge_position: Vector2
 ) -> void:
-	glow_time += delta
 
 	if forge == null or not forge.unlocked or not forge.operating:
 		_hide_overlays()
