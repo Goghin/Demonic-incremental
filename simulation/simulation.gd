@@ -58,6 +58,15 @@ func update(delta: float, offline_mode: bool = false) -> void:
 	if profiling_enabled:
 		_record_profile_time("automatic_upgrades", profile_start_usec)
 	
+	# This upgrade multiplier is unchanged during generator processing, so
+	# calculate it once per simulation step instead of once per Heat output.
+	var heat_upgrade_multiplier: float = (
+		state.eternal_flame_upgrade_manager.get_effective_multiplier(
+			"eternal_furnace",
+			state.eternal_flame_state
+		)
+	)
+	
 	if profiling_enabled:
 		profile_start_usec = Time.get_ticks_usec()
 	for generator in state.generators.values():
@@ -71,7 +80,8 @@ func update(delta: float, offline_mode: bool = false) -> void:
 			update_cycle_generator(
 				generator,
 				delta,
-				offline_mode
+				offline_mode,
+				heat_upgrade_multiplier
 			)
 			if profiling_enabled:
 				_record_profile_time("cycle_generator_processing", cycle_start_usec)
@@ -134,7 +144,8 @@ func update(delta: float, offline_mode: bool = false) -> void:
 			profile_subphase_start_usec = Time.get_ticks_usec()
 		produce_outputs(
 			generator,
-			operating_delta
+			operating_delta,
+			heat_upgrade_multiplier
 		)
 		if profiling_enabled:
 			_record_profile_time("output_production", profile_subphase_start_usec)
@@ -179,7 +190,8 @@ func apply_environmental_effects(delta: float) -> void:
 func update_cycle_generator(
 	generator: Generator,
 	delta: float,
-	offline_mode: bool = false
+	offline_mode: bool = false,
+	heat_upgrade_multiplier: float = -1.0
 	) -> void:
 	
 	if not generator.cycle_active:
@@ -219,7 +231,8 @@ func update_cycle_generator(
 		)
 		produce_outputs(
 			generator,
-			operating_delta
+			operating_delta,
+			heat_upgrade_multiplier
 		)
 		generator.cycle_progress += operating_delta
 		
@@ -399,7 +412,8 @@ func consume_inputs(
 # Produce outputs for the current simulation step.
 func produce_outputs(
 	generator: Generator,
-	delta: float
+	delta: float,
+	heat_upgrade_multiplier: float = -1.0
 	) -> void:
 	
 	var operation_mode = generator.get_operation_mode()
@@ -412,7 +426,8 @@ func produce_outputs(
 			generator.get_production_rate(
 				output,
 				state,
-				operation_mode
+				operation_mode,
+				heat_upgrade_multiplier
 			)
 			* delta
 		)
