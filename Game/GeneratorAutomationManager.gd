@@ -1,4 +1,3 @@
-
 class_name GeneratorAutomationManager
 extends RefCounted
 
@@ -124,7 +123,7 @@ func update(delta: float, simulation: Simulation) -> void:
 		var profile_start_usec: int = 0
 		if simulation.profiling_enabled:
 			profile_start_usec = Time.get_ticks_usec()
-		
+
 		if not is_enabled(generator_id):
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
@@ -165,7 +164,9 @@ func update(delta: float, simulation: Simulation) -> void:
 			if simulation.profiling_enabled:
 				purchase_start_usec = Time.get_ticks_usec()
 			if simulation.can_buy_generator(generator_id):
-				_attempt_purchase(generator_id, simulation)
+				# Affordability was just checked, so don't check it again
+				# inside _attempt_purchase().
+				_attempt_purchase(generator_id, simulation, true)
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
 					"generator_automation_waiting_checks",
@@ -186,7 +187,7 @@ func update(delta: float, simulation: Simulation) -> void:
 					profile_start_usec
 				)
 			continue
-		
+
 		if simulation.profiling_enabled:
 			simulation._record_profile_time(
 				"generator_automation_loop_checks",
@@ -205,15 +206,17 @@ func update(delta: float, simulation: Simulation) -> void:
 
 func _attempt_purchase(
 	generator_id: String,
-	simulation: Simulation
+	simulation: Simulation,
+	affordability_already_checked: bool = false
 ) -> void:
 	var automation: Dictionary = automation_states[generator_id]
 
-	# Check affordability and other purchase requirements first.
-	if not simulation.can_buy_generator(generator_id):
-		automation["waiting_for_resources"] = true
-		automation["remaining_cooldown"] = 0.0
-		return
+	# Waiting generators have already passed this check in update().
+	if not affordability_already_checked:
+		if not simulation.can_buy_generator(generator_id):
+			automation["waiting_for_resources"] = true
+			automation["remaining_cooldown"] = 0.0
+			return
 
 	if simulation.buy_generator(generator_id):
 		automation["waiting_for_resources"] = false
@@ -222,7 +225,7 @@ func _attempt_purchase(
 		# A purchase can still fail if its conditions change.
 		automation["waiting_for_resources"] = true
 		automation["remaining_cooldown"] = 0.0
-		
+
 
 func reset_for_new_run() -> void:
 	for generator_id in AUTOMATABLE_GENERATOR_IDS:
