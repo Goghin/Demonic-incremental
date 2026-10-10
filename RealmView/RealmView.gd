@@ -285,6 +285,7 @@ class ForgeSparkOverlay extends Node2D:
 
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
+var ash_renderer: AshContaminationRenderer
 var generator_sprites: Dictionary = {}
 var furnace_inner_sprite: Sprite2D
 var molecular_extra_sprite_a: Sprite2D
@@ -897,7 +898,7 @@ func _draw() -> void:
 	# Ash
 	# ------------------------------------------------------------
 
-	_draw_ash(
+	_update_ash_visuals(
 		center,
 		sx,
 		ash
@@ -1388,53 +1389,18 @@ func _get_generator_texture(
 	return generator_visual_renderer.get_texture(generator)
 
 
-func _draw_ash(
+func _update_ash_visuals(
 	center: Vector2,
 	sx: float,
 	ash: float
 ) -> void:
-	if ash <= 0.0:
-		return
+	if ash_renderer == null:
+		ash_renderer = AshContaminationRenderer.new()
+		ash_renderer.name = "AshContaminationRenderer"
+		ash_renderer.z_index = 4
+		add_child(ash_renderer)
 
-	var ash_factor: float = min(
-		log(ash + 1.0) / 10.0,
-		1.0
-	)
-
-	var particle_count: int = int(
-		8.0 +
-		ash_factor * 35.0
-	)
-
-	for i in range(particle_count):
-		var angle: float = float(i) * 2.71
-
-		var distance: float = (
-			sx *
-			(
-				0.55 +
-				fmod(float(i * 13), 100.0) / 180.0
-			)
-		)
-
-		var position: Vector2 = (
-			center +
-			Vector2(
-				cos(angle) * distance,
-				sin(angle) * distance * 0.45 - 35.0
-			)
-		)
-
-		draw_circle(
-			position,
-			1.5 + ash_factor * 2.0,
-			Color(
-				0.40,
-				0.40,
-				0.42,
-				0.15 + ash_factor * 0.35
-			)
-		)
+	ash_renderer.update_visuals(center, sx, ash)
 
 
 func _update_layout_drag(
