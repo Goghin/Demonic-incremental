@@ -17,6 +17,21 @@ const MATTER_FURNACE_ANIMATION_FPS: float = 10.0
 var generator_textures: Dictionary = {}
 
 
+func setup_layer(
+	owner: Node,
+	existing_layer: Node2D
+) -> Node2D:
+	if is_instance_valid(existing_layer):
+		return existing_layer
+
+	var layer: Node2D = Node2D.new()
+	layer.name = "GeneratorLayer"
+	layer.z_index = 10
+	owner.add_child(layer)
+
+	return layer
+
+
 func get_texture(generator: Generator) -> Texture2D:
 	var path: String = generator.definition.illustration_path
 

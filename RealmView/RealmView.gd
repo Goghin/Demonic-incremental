@@ -109,13 +109,10 @@ func setup(game_state: GameState) -> void:
 	rebuild_realm(state.realm_layout)
 
 func _setup_generator_layer() -> void:
-	if is_instance_valid(generator_layer):
-		return
-
-	generator_layer = Node2D.new()
-	generator_layer.name = "GeneratorLayer"
-	generator_layer.z_index = 10
-	add_child(generator_layer)
+	generator_layer = generator_visual_renderer.setup_layer(
+		self,
+		generator_layer
+	)
 
 
 func _setup_braziers() -> void:
