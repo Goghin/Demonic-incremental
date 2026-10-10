@@ -27,3 +27,7 @@ extends Resource
 
 # Normalized positions of realm-stat braziers.
 @export var brazier_layout_positions: Dictionary = {}
+
+
+# Six normalized positions for stored-Ash piles on this layout's artwork.
+@export var ash_pile_layout_positions: PackedVector2Array = PackedVector2Array()

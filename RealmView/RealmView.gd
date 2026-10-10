@@ -290,14 +290,6 @@ var ash_piles: Array[Sprite2D] = []
 var generator_sprites: Dictionary = {}
 
 const ASH_PILE_TEXTURE: Texture2D = preload("res://RealmView/ashpile.png")
-const ASH_PILE_POSITIONS: Array[Vector2] = [
-	Vector2(0.16, 0.49),
-	Vector2(0.29, 0.44),
-	Vector2(0.42, 0.52),
-	Vector2(0.57, 0.46),
-	Vector2(0.71, 0.52),
-	Vector2(0.84, 0.47)
-]
 const ASH_PILE_BASE_WIDTH_RATIO: float = 0.018
 const ASH_PILE_MAX_WIDTH_RATIO: float = 0.085
 const ASH_PILE_FULL_GROWTH_ASH: float = 10000.0
@@ -651,6 +643,16 @@ func _input(event: InputEvent) -> void:
 							]
 						)
 
+					print("--- Ash Piles ---")
+
+					for i in range(realm_layout.ash_pile_layout_positions.size()):
+						print(
+							"Ash pile ",
+							i + 1,
+							" -> ",
+							realm_layout.ash_pile_layout_positions[i]
+						)
+
 					print("--- Braziers ---")
 
 					for stat_name in BRAZIER_STATS:
@@ -746,6 +748,22 @@ func _print_layout_point(
 
 
 func _start_layout_drag(mouse_position: Vector2) -> void:
+	# ------------------------------------------------------------
+	# Ash piles
+	# ------------------------------------------------------------
+
+	for i in range(ash_piles.size()):
+		var pile: Sprite2D = ash_piles[i]
+		var pile_rect: Rect2 = Rect2(
+			pile.position - Vector2(16.0, 16.0),
+			Vector2(32.0, 32.0)
+		)
+
+		if pile_rect.has_point(mouse_position):
+			dragging_object = "ash_pile:" + str(i)
+			drag_offset = mouse_position - pile.position
+			return
+
 	# ------------------------------------------------------------
 	# Braziers
 	# ------------------------------------------------------------
@@ -980,6 +998,34 @@ func _draw_layout_overlay() -> void:
 			Color(1.0, 0.75, 0.20, 0.75),
 			false,
 			1.0
+		)
+
+	# ------------------------------------------------------------
+	# Ash pile position markers
+	# ------------------------------------------------------------
+
+	for i in range(ash_piles.size()):
+		var pile: Sprite2D = ash_piles[i]
+		draw_circle(
+			pile.position,
+			12.0,
+			Color(0.75, 0.75, 0.75, 0.2)
+		)
+		draw_circle(
+			pile.position,
+			14.0,
+			Color(0.85, 0.75, 0.55, 0.85),
+			false,
+			2.0
+		)
+		draw_string(
+			ThemeDB.fallback_font,
+			pile.position + Vector2(4.0, -7.0),
+			"A%d" % (i + 1),
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1.0,
+			12,
+			Color(1.0, 0.9, 0.7, 1.0)
 		)
 
 	# ------------------------------------------------------------
@@ -1411,7 +1457,10 @@ func _setup_ash_piles() -> void:
 			pile.queue_free()
 	ash_piles.clear()
 
-	for i in range(ASH_PILE_POSITIONS.size()):
+	if realm_layout == null:
+		return
+
+	for i in range(realm_layout.ash_pile_layout_positions.size()):
 		var pile: Sprite2D = Sprite2D.new()
 		pile.name = "AshPile_%02d" % (i + 1)
 		pile.texture = ASH_PILE_TEXTURE
@@ -1439,7 +1488,7 @@ func _update_ash_piles(ash: float) -> void:
 		if not is_instance_valid(pile):
 			continue
 
-		var normalized_position: Vector2 = ASH_PILE_POSITIONS[i]
+		var normalized_position: Vector2 = realm_layout.ash_pile_layout_positions[i]
 		pile.position = island_rect.position + Vector2(
 			island_rect.size.x * normalized_position.x,
 			island_rect.size.y * normalized_position.y
@@ -1475,6 +1524,28 @@ func _update_layout_drag(
 	mouse_position: Vector2
 ) -> void:
 	if dragging_object == "":
+		return
+
+	# ------------------------------------------------------------
+	# Ash pile
+	# ------------------------------------------------------------
+
+	if dragging_object.begins_with("ash_pile:"):
+		var pile_index: int = int(dragging_object.substr(9))
+		if pile_index >= 0 and pile_index < realm_layout.ash_pile_layout_positions.size():
+			var new_position: Vector2 = mouse_position - drag_offset
+			var island_rect: Rect2 = _get_island_rect()
+			var normalized_position: Vector2 = (
+				(new_position - island_rect.position) /
+				island_rect.size
+			)
+			normalized_position.x = clamp(normalized_position.x, 0.0, 1.0)
+			normalized_position.y = clamp(normalized_position.y, 0.0, 1.0)
+			realm_layout.ash_pile_layout_positions[pile_index] = normalized_position
+			_update_ash_piles(
+				state.get_resource_amount(ResourceIds.ASH)
+			)
+			queue_redraw()
 		return
 
 	# ------------------------------------------------------------

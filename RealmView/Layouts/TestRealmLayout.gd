@@ -518,3 +518,12 @@ func _init() -> void:
 		"intensity": Vector2(0.688068, 0.179388),
 		"resonance": Vector2(0.359878, 0.14057)
 	}
+
+	ash_pile_layout_positions = PackedVector2Array([
+		Vector2(0.22, 0.48),
+		Vector2(0.32, 0.44),
+		Vector2(0.43, 0.51),
+		Vector2(0.57, 0.47),
+		Vector2(0.69, 0.51),
+		Vector2(0.77, 0.49)
+	])
