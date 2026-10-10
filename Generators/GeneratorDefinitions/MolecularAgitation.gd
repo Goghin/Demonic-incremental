@@ -31,7 +31,7 @@ static func create() -> Generator:
 		1.22,
 		ResourceIds.HEAT,
 		false,
-		"res://Generators/GeneratorDefinitions/Molecular_Agitation.png",
+		"res://Generators/GeneratorDefinitions/Thermal_Condensation.png",
 		[
 			normal_mode
 		]
