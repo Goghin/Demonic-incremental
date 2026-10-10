@@ -11,8 +11,10 @@ class LavaBurstOverlay extends Node2D:
 	func _ready() -> void:
 		randomizer.randomize()
 
-	func set_surface_points(points: PackedVector2Array) -> void:
-		surface_points = points
+	func set_surface_points(points: PackedVector2Array, source: Node2D) -> void:
+		surface_points.clear()
+		for point in points:
+			surface_points.append(to_local(source.to_global(point)))
 		if surface_points.size() >= 3 and particles.is_empty():
 			_spawn_burst()
 		queue_redraw()
@@ -146,7 +148,7 @@ func _ensure_lava_burst_overlay() -> void:
 	lava_burst_overlay.z_index = 10
 	lava_burst_overlay.visible = true
 	lava_burst_overlay.set_process(true)
-	$Surface.add_child(lava_burst_overlay)
+	add_child(lava_burst_overlay)
 
 
 func _reposition(island_rect: Rect2) -> void:
@@ -343,7 +345,7 @@ func _update_visuals() -> void:
 
 	surface.polygon = surface_points
 	_ensure_lava_burst_overlay()
-	lava_burst_overlay.set_surface_points(surface_points)
+	lava_burst_overlay.set_surface_points(surface_points, surface)
 	surface.color = Color(
 		0.65,
 		0.055,
