@@ -6,6 +6,21 @@ const SIZE_MULTIPLIER: float = 1.4
 const FRAME_SIZE: Vector2 = Vector2(314.0, 321.0)
 
 
+func reset(generator_sprites: Dictionary) -> void:
+	if not generator_sprites.has("matter_furnace"):
+		return
+
+	var animated_sprite: AnimatedSprite2D = (
+		generator_sprites["matter_furnace"] as AnimatedSprite2D
+	)
+
+	if animated_sprite == null:
+		return
+
+	animated_sprite.stop()
+	animated_sprite.frame = 0
+
+
 func update(
 	generator_visual_renderer: GeneratorVisualRenderer,
 	generator_layer: Node2D,

@@ -184,15 +184,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 			lava_mite_sprite.stop()
 			lava_mite_sprite.frame = 0
 	
-	if generator_sprites.has("matter_furnace"):
-		var matter_furnace_sprite: AnimatedSprite2D = (
-			generator_sprites["matter_furnace"]
-			as AnimatedSprite2D
-		)
-
-		if matter_furnace_sprite != null:
-			matter_furnace_sprite.stop()
-			matter_furnace_sprite.frame = 0
+	matter_furnace_visual_controller.reset(generator_sprites)
 		
 	# ------------------------------------------------------------
 	# Reset generator rotations
