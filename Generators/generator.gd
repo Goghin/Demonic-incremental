@@ -153,7 +153,8 @@ func get_production_per_second(
 func get_production_rate(
 	output: GeneratorIO,
 	state: GameState,
-	operation_mode: GeneratorOperationMode = null
+	operation_mode: GeneratorOperationMode = null,
+	heat_upgrade_multiplier: float = -1.0
 	) -> float:
 	
 	if operation_mode == null:
@@ -169,10 +170,13 @@ func get_production_rate(
 	
 	if output.resource_id == ResourceIds.HEAT:
 		production *= state.realm_effects.heat_production_multiplier
-		production *= state.eternal_flame_upgrade_manager.get_effective_multiplier(
-			"eternal_furnace",
-			state.eternal_flame_state
-		)
+		if heat_upgrade_multiplier >= 0.0:
+			production *= heat_upgrade_multiplier
+		else:
+			production *= state.eternal_flame_upgrade_manager.get_effective_multiplier(
+				"eternal_furnace",
+				state.eternal_flame_state
+			)
 	
 	for modifier in modifiers:
 		if modifier.applies_to(
