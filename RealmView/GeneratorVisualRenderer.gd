@@ -48,6 +48,19 @@ func get_or_create_sprite(
 	return sprite
 
 
+func get_fallback_hitbox(
+	generator_position: Vector2,
+	machine_size: float,
+	size_multiplier: float
+) -> Rect2:
+	var fallback_size: float = machine_size * size_multiplier
+
+	return Rect2(
+		generator_position - Vector2(fallback_size, fallback_size),
+		Vector2(fallback_size * 2.0, fallback_size * 2.0)
+	)
+
+
 func update_sprite(
 	sprite: Sprite2D,
 	generator: Generator,

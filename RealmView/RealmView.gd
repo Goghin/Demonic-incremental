@@ -993,23 +993,13 @@ func _draw_generators() -> void:
 			)
 
 		else:
-			var fallback_size: float = (
-				machine_size *
-				size_multiplier
-			)
-
-			var fallback_rect: Rect2 = Rect2(
-				generator_position - Vector2(
-					fallback_size,
-					fallback_size
-				),
-				Vector2(
-					fallback_size * 2.0,
-					fallback_size * 2.0
+			generator_hitboxes[generator_id] = (
+				generator_visual_renderer.get_fallback_hitbox(
+					generator_position,
+					machine_size,
+					size_multiplier
 				)
 			)
-
-			generator_hitboxes[generator_id] = fallback_rect
 
 	# Hide normal generators that are no longer active.
 	for generator_id in generator_sprites:
