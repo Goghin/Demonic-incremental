@@ -27,7 +27,13 @@ func _init(game_state: GameState) -> void:
 		automation_states[generator_id] = {
 			"enabled": false,
 			"remaining_cooldown": 0.0,
-			"waiting_for_resources": false
+			"waiting_for_resources": false,
+			"waiting_cost": 0.0,
+			"waiting_resource_id": "",
+			"waiting_level": -1,
+			"waiting_operation_mode_id": "",
+			"waiting_modifier_count": -1,
+			"waiting_realm_cost_multiplier": -1.0
 		}
 
 
@@ -152,25 +158,46 @@ func update(delta: float, simulation: Simulation) -> void:
 
 		var automation: Dictionary = automation_states[generator_id]
 
-		# If waiting for resources, resume as soon as purchasing
-		# becomes possible.
+		# While waiting, compare the resource balance against the cached
+		# cost. Recalculate the cost only if known cost inputs changed.
 		if automation["waiting_for_resources"]:
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
 					"generator_automation_loop_checks",
 					profile_start_usec
 				)
-			var purchase_start_usec: int = 0
+
+			var waiting_start_usec: int = 0
 			if simulation.profiling_enabled:
-				purchase_start_usec = Time.get_ticks_usec()
-			if simulation.can_buy_generator(generator_id):
-				# Affordability was just checked, so don't check it again
-				# inside _attempt_purchase().
-				_attempt_purchase(generator_id, simulation, true)
+				waiting_start_usec = Time.get_ticks_usec()
+
+			if _waiting_cost_needs_refresh(generator, automation):
+				_cache_waiting_cost(generator, automation)
+
+			var waiting_resource_id: String = str(
+				automation["waiting_resource_id"]
+			)
+			var waiting_cost: float = float(
+				automation["waiting_cost"]
+			)
+			var current_amount: float = state.get_resource_amount(
+				waiting_resource_id
+			)
+
+			if current_amount >= waiting_cost:
+				# Run the normal full validation before buying. The cached
+				# threshold only avoids recalculating affordability every tick.
+				if simulation.can_buy_generator(generator_id):
+					_attempt_purchase(generator_id, simulation, true)
+				else:
+					# The real cost/conditions may have changed; refresh the
+					# cache so the next tick uses the current requirement.
+					_cache_waiting_cost(generator, automation)
+
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
 					"generator_automation_waiting_checks",
-					purchase_start_usec
+					waiting_start_usec
 				)
 			continue
 
@@ -210,12 +237,15 @@ func _attempt_purchase(
 	affordability_already_checked: bool = false
 ) -> void:
 	var automation: Dictionary = automation_states[generator_id]
+	var generator = state.get_generator(generator_id)
 
 	# Waiting generators have already passed this check in update().
 	if not affordability_already_checked:
 		if not simulation.can_buy_generator(generator_id):
 			automation["waiting_for_resources"] = true
 			automation["remaining_cooldown"] = 0.0
+			if generator != null:
+				_cache_waiting_cost(generator, automation)
 			return
 
 	if simulation.buy_generator(generator_id):
@@ -225,6 +255,41 @@ func _attempt_purchase(
 		# A purchase can still fail if its conditions change.
 		automation["waiting_for_resources"] = true
 		automation["remaining_cooldown"] = 0.0
+		if generator != null:
+			_cache_waiting_cost(generator, automation)
+
+
+func _waiting_cost_needs_refresh(
+	generator: Generator,
+	automation: Dictionary
+) -> bool:
+	return (
+		str(automation["waiting_resource_id"])
+			!= generator.definition.cost_resource_id
+		or int(automation["waiting_level"]) != generator.level
+		or str(automation["waiting_operation_mode_id"])
+			!= generator.operation_mode_id
+		or int(automation["waiting_modifier_count"])
+			!= generator.modifiers.size()
+		or not is_equal_approx(
+			float(automation["waiting_realm_cost_multiplier"]),
+			state.realm_effects.generator_cost_multiplier
+		)
+	)
+
+
+func _cache_waiting_cost(
+	generator: Generator,
+	automation: Dictionary
+) -> void:
+	automation["waiting_cost"] = generator.get_cost(state)
+	automation["waiting_resource_id"] = generator.definition.cost_resource_id
+	automation["waiting_level"] = generator.level
+	automation["waiting_operation_mode_id"] = generator.operation_mode_id
+	automation["waiting_modifier_count"] = generator.modifiers.size()
+	automation["waiting_realm_cost_multiplier"] = (
+		state.realm_effects.generator_cost_multiplier
+	)
 
 
 func reset_for_new_run() -> void:
