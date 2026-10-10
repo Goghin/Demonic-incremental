@@ -287,8 +287,8 @@ var state: GameState
 var generator_textures: Dictionary = {}
 var generator_sprites: Dictionary = {}
 var furnace_inner_sprite: Sprite2D
-var furnace_extra_sprite_a: Sprite2D
-var furnace_extra_sprite_b: Sprite2D
+var condensation_extra_sprite_a: Sprite2D
+var condensation_extra_sprite_b: Sprite2D
 
 var atomic_friction_particles: Node2D
 
@@ -472,13 +472,13 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 		furnace_inner_sprite.visible = false
 		furnace_inner_sprite.rotation = 0.0
 
-	if furnace_extra_sprite_a != null:
-		furnace_extra_sprite_a.visible = false
-		furnace_extra_sprite_a.rotation = 0.0
+	if condensation_extra_sprite_a != null:
+		condensation_extra_sprite_a.visible = false
+		condensation_extra_sprite_a.rotation = 0.0
 
-	if furnace_extra_sprite_b != null:
-		furnace_extra_sprite_b.visible = false
-		furnace_extra_sprite_b.rotation = 0.0
+	if condensation_extra_sprite_b != null:
+		condensation_extra_sprite_b.visible = false
+		condensation_extra_sprite_b.rotation = 0.0
 
 	if atomic_friction_particles != null:
 		atomic_friction_particles.active = false
@@ -2373,10 +2373,10 @@ func _update_generator_animations(delta: float) -> void:
 	if not sprite.visible:
 		if furnace_inner_sprite != null:
 			furnace_inner_sprite.visible = false
-		if furnace_extra_sprite_a != null:
-			furnace_extra_sprite_a.visible = false
-		if furnace_extra_sprite_b != null:
-			furnace_extra_sprite_b.visible = false
+		if condensation_extra_sprite_a != null:
+			condensation_extra_sprite_a.visible = false
+		if condensation_extra_sprite_b != null:
+			condensation_extra_sprite_b.visible = false
 		return
 
 	if furnace.is_operating():
@@ -2416,23 +2416,23 @@ func _update_generator_animations(delta: float) -> void:
 			rotation_speed * 1.2 * delta
 		)
 
-		# Two additional semi-transparent layers create a richer
-		# molecular agitation effect without changing the base sprite.
-		if furnace_extra_sprite_a == null:
-			furnace_extra_sprite_a = Sprite2D.new()
-			furnace_extra_sprite_a.name = "MolecularAgitationSwirlA"
-			furnace_extra_sprite_a.z_index = 12
-			add_child(furnace_extra_sprite_a)
+		# Two additional semi-transparent layers enrich Infernal Condensation
+		# while leaving the base sprite unchanged.
+		if condensation_extra_sprite_a == null:
+			condensation_extra_sprite_a = Sprite2D.new()
+			condensation_extra_sprite_a.name = "InfernalCondensationSwirlA"
+			condensation_extra_sprite_a.z_index = 12
+			add_child(condensation_extra_sprite_a)
 
-		if furnace_extra_sprite_b == null:
-			furnace_extra_sprite_b = Sprite2D.new()
-			furnace_extra_sprite_b.name = "MolecularAgitationSwirlB"
-			furnace_extra_sprite_b.z_index = 13
-			add_child(furnace_extra_sprite_b)
+		if condensation_extra_sprite_b == null:
+			condensation_extra_sprite_b = Sprite2D.new()
+			condensation_extra_sprite_b.name = "InfernalCondensationSwirlB"
+			condensation_extra_sprite_b.z_index = 13
+			add_child(condensation_extra_sprite_b)
 
 		for extra_sprite in [
-			furnace_extra_sprite_a,
-			furnace_extra_sprite_b
+			condensation_extra_sprite_a,
+			condensation_extra_sprite_b
 		]:
 			extra_sprite.texture = sprite.texture
 			extra_sprite.visible = true
@@ -2442,19 +2442,19 @@ func _update_generator_animations(delta: float) -> void:
 
 		# Slightly different speeds and directions prevent the layers
 		# from lining up and looking like a single flat sprite.
-		furnace_extra_sprite_a.rotation += (
+		condensation_extra_sprite_a.rotation += (
 			rotation_speed * 0.82 * delta
 		)
-		furnace_extra_sprite_b.rotation -= (
+		condensation_extra_sprite_b.rotation -= (
 			rotation_speed * 1.07 * delta
 		)
 	else:
 		if furnace_inner_sprite != null:
 			furnace_inner_sprite.visible = false
-		if furnace_extra_sprite_a != null:
-			furnace_extra_sprite_a.visible = false
-		if furnace_extra_sprite_b != null:
-			furnace_extra_sprite_b.visible = false
+		if condensation_extra_sprite_a != null:
+			condensation_extra_sprite_a.visible = false
+		if condensation_extra_sprite_b != null:
+			condensation_extra_sprite_b.visible = false
 			
 func _update_furnace_swirl() -> void:
 	if state == null:
