@@ -19,8 +19,6 @@ var atomic_friction_particles: Node2D
 
 const MATTER_FURNACE_SIZE_MULTIPLIER: float = 1.4
 
-var forge_glow_overlay: Node2D
-var forge_spark_overlay: Node2D
 
 var furnace_swirl_overlay: Node2D
 const THERMAL_FURNACE_ROTATION_SPEED: float = 1
@@ -74,12 +72,7 @@ var drag_offset: Vector2 = Vector2.ZERO
 
 var generator_hitboxes: Dictionary = {}
 
-var forge_glow_time: float = 0.0
-
-const FORGE_ACTIVE_GLOW_RADIUS: float = 15.0
-const FORGE_ACTIVE_GLOW_ALPHA: float = 0.28
-const FORGE_ACTIVE_CORE_ALPHA: float = 0.75
-const FORGE_ACTIVE_PULSE_SPEED: float = 5.0
+var forge_activity_visual_controller: ForgeActivityVisualController = ForgeActivityVisualController.new()
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
@@ -174,11 +167,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 		atomic_friction_particles.visible = false
 		atomic_friction_particles.time = 0.0
 
-	if forge_glow_overlay != null:
-		forge_glow_overlay.visible = false
-
-	if forge_spark_overlay != null:
-		forge_spark_overlay.visible = false
+	forge_activity_visual_controller.reset()
 
 	if furnace_swirl_overlay != null:
 		furnace_swirl_overlay.visible = false
@@ -304,7 +293,7 @@ func _process(_delta: float) -> void:
 		last_crystallized_flame_amount = current_flames
 		update_flame_visuals()
 
-	forge_glow_time += _delta
+	forge_activity_visual_controller.advance(_delta)
 	_update_generator_animations(_delta)
 	_update_molecular_agitation_sprites(_delta)
 	_update_lava_lakes()
@@ -1488,80 +1477,11 @@ func _draw_forge_active_glow() -> void:
 	if state == null:
 		return
 
-	if not state.generators.has("infernal_forge"):
-		return
-
-	var forge: Generator = state.generators["infernal_forge"]
-
-	if not forge.unlocked:
-		if forge_glow_overlay != null:
-			forge_glow_overlay.visible = false
-
-		if forge_spark_overlay != null:
-			forge_spark_overlay.visible = false
-
-		return
-
-	if forge_glow_overlay == null:
-		forge_glow_overlay = ForgeGlowOverlay.new()
-		forge_glow_overlay.name = "ForgeGlowOverlay"
-		forge_glow_overlay.z_index = 20
-		add_child(forge_glow_overlay)
-
-	if not forge.operating:
-		forge_glow_overlay.visible = false
-
-		if forge_spark_overlay != null:
-			forge_spark_overlay.visible = false
-
-		return
-
-	forge_glow_overlay.visible = true
-
-	var forge_position: Vector2 = _get_generator_position(
-		"infernal_forge"
+	forge_activity_visual_controller.update(
+		self,
+		state.generators.get("infernal_forge"),
+		_get_generator_position("infernal_forge")
 	)
-
-	var pulse: float = (
-		0.5 +
-		0.5 * sin(
-			forge_glow_time *
-			FORGE_ACTIVE_PULSE_SPEED
-		)
-	)
-
-	var glow_radius: float = (
-		FORGE_ACTIVE_GLOW_RADIUS +
-		pulse * 5.0
-	)
-
-	var glow_alpha: float = (
-		FORGE_ACTIVE_GLOW_ALPHA +
-		pulse * 0.08
-	)
-
-	forge_glow_overlay.position = (
-		forge_position +
-		Vector2(0, 5)
-	)
-	forge_glow_overlay.glow_radius = glow_radius
-	forge_glow_overlay.glow_alpha = glow_alpha
-	forge_glow_overlay.pulse = pulse
-	forge_glow_overlay.core_alpha = FORGE_ACTIVE_CORE_ALPHA
-
-	forge_glow_overlay.queue_redraw()
-	if forge_spark_overlay == null:
-		forge_spark_overlay = ForgeSparkOverlay.new()
-		forge_spark_overlay.name = "ForgeSparkOverlay"
-		forge_spark_overlay.z_index = 21
-		add_child(forge_spark_overlay)
-
-	forge_spark_overlay.position = forge_position + Vector2(0, 5)
-	forge_spark_overlay.visible = true
-
-	var sparks: ForgeSparkOverlay = forge_spark_overlay
-	sparks.active = true
-	sparks.queue_redraw()
 
 
 # ------------------------------------------------------------
