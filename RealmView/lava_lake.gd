@@ -7,19 +7,16 @@ class LavaBurstOverlay extends Node2D:
 	var burst_timer: float = 0.25
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var particles: Array[Dictionary] = []
-	var has_logged_coordinates: bool = false
-	var has_logged_draw_coordinates: bool = false
 
 	func _ready() -> void:
 		randomizer.randomize()
 
 	func set_surface_points(points: PackedVector2Array) -> void:
-		# Surface polygons and this overlay are both children of LavaLake,
-		# so they share the same local coordinate system.
+		# The points are in LavaLake-local coordinates. This overlay is a
+		# child of LavaLake, so particle child nodes use those same coordinates.
 		surface_points = points
 		if surface_points.size() >= 3 and particles.is_empty():
 			_spawn_burst()
-		queue_redraw()
 
 	func _process(delta: float) -> void:
 		burst_timer -= delta
@@ -30,22 +27,20 @@ class LavaBurstOverlay extends Node2D:
 
 		for i in range(particles.size() - 1, -1, -1):
 			var particle: Dictionary = particles[i]
-			particle["life"] = float(particle["life"]) - delta
-			particle["position"] = (
-				particle["position"] as Vector2
-				+ particle["velocity"] as Vector2 * delta
-			)
-			particle["velocity"] = (
-				particle["velocity"] as Vector2
-				+ Vector2(0.0, -22.0) * delta
-			)
+			var particle_node: Node2D = particle["node"]
+			var life: float = float(particle["life"]) - delta
+			var velocity: Vector2 = particle["velocity"]
+			velocity += Vector2(0.0, -22.0) * delta
+			particle_node.position += velocity * delta
 
-			if float(particle["life"]) <= 0.0:
+			if life <= 0.0:
+				particle_node.queue_free()
 				particles.remove_at(i)
 			else:
+				particle["life"] = life
+				particle["velocity"] = velocity
+				particle_node.modulate.a = clamp(life / float(particle["max_life"]), 0.0, 1.0)
 				particles[i] = particle
-
-		queue_redraw()
 
 	func _spawn_burst() -> void:
 		var center: Vector2 = Vector2.ZERO
@@ -53,73 +48,48 @@ class LavaBurstOverlay extends Node2D:
 			center += point
 		center /= float(surface_points.size())
 
-		# Pick a random point inside the lake's current lava surface.
-		var edge_index: int = randomizer.randi_range(
-			0,
-			surface_points.size() - 1
-		)
+		var edge_index: int = randomizer.randi_range(0, surface_points.size() - 1)
 		var edge_point: Vector2 = surface_points[edge_index]
-		var next_point: Vector2 = surface_points[
-			(edge_index + 1) % surface_points.size()
-		]
-		var edge_position: Vector2 = edge_point.lerp(
-			next_point,
-			randomizer.randf()
-		)
-		var burst_position: Vector2 = center.lerp(
-			edge_position,
-			sqrt(randomizer.randf())
-		)
-
-		if not has_logged_coordinates:
-			has_logged_coordinates = true
-			print("[LavaBurst debug] points=", surface_points.size(),
-				" first=", surface_points[0],
-				" center=", center,
-				" burst_local=", burst_position,
-				" overlay_local=", position,
-				" overlay_global=", global_position,
-				" parent_global=", get_parent().global_position if get_parent() != null else Vector2.ZERO)
+		var next_point: Vector2 = surface_points[(edge_index + 1) % surface_points.size()]
+		var edge_position: Vector2 = edge_point.lerp(next_point, randomizer.randf())
+		var burst_position: Vector2 = center.lerp(edge_position, sqrt(randomizer.randf()))
 
 		var particle_count: int = randomizer.randi_range(8, 14)
 		for i in range(particle_count):
-			var angle: float = randomizer.randf_range(
-				-PI * 0.92,
-				-PI * 0.08
-			)
+			var particle_node := Node2D.new()
+			particle_node.name = "LavaBurstParticle"
+			particle_node.position = burst_position
+			particle_node.z_index = 1
+			add_child(particle_node)
+
+			var particle_size: float = randomizer.randf_range(5.0, 8.0)
+			var outer := Polygon2D.new()
+			outer.name = "OuterGlow"
+			outer.polygon = _make_circle(particle_size, 10)
+			outer.color = Color(1.0, 0.24, 0.025, 1.0)
+			particle_node.add_child(outer)
+
+			var core := Polygon2D.new()
+			core.name = "HotCore"
+			core.polygon = _make_circle(particle_size * 0.55, 10)
+			core.color = Color(1.0, 0.9, 0.35, 1.0)
+			particle_node.add_child(core)
+
+			var angle: float = randomizer.randf_range(-PI * 0.92, -PI * 0.08)
 			var speed: float = randomizer.randf_range(35.0, 75.0)
 			particles.append({
-				"position": burst_position,
+				"node": particle_node,
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
 				"life": randomizer.randf_range(0.7, 1.2),
-				"max_life": 1.2,
-				"size": randomizer.randf_range(5.0, 8.0)
+				"max_life": 1.2
 			})
 
-	func _draw() -> void:
-		if not has_logged_draw_coordinates and not particles.is_empty():
-			has_logged_draw_coordinates = true
-			var first_draw_position: Vector2 = particles[0]["position"]
-			print("[LavaBurst draw] local=", first_draw_position,
-				" converted_global=", to_global(first_draw_position),
-				" canvas_transform=", get_canvas_transform(),
-				" global_transform=", global_transform)
-
-		for particle in particles:
-			var life: float = float(particle["life"])
-			var alpha: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
-			var particle_position: Vector2 = particle["position"]
-			var particle_size: float = float(particle["size"])
-			draw_circle(
-				particle_position,
-				particle_size,
-				Color(1.0, 0.24, 0.025, alpha)
-			)
-			draw_circle(
-				particle_position,
-				particle_size * 0.55,
-				Color(1.0, 0.9, 0.35, alpha)
-			)
+	func _make_circle(radius: float, segments: int) -> PackedVector2Array:
+		var points := PackedVector2Array()
+		for i in range(segments):
+			var angle: float = TAU * float(i) / float(segments)
+			points.append(Vector2(cos(angle), sin(angle)) * radius)
+		return points
 
 
 var edge_points: PackedVector2Array = PackedVector2Array()
