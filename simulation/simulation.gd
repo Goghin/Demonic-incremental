@@ -51,6 +51,7 @@ func update(delta: float, offline_mode: bool = false) -> void:
 		#return
 	
 	var profile_start_usec: int = 0
+	var profile_subphase_start_usec: int = 0
 	if profiling_enabled:
 		profile_start_usec = Time.get_ticks_usec()
 	update_automatic_upgrades()
@@ -121,22 +122,22 @@ func update(delta: float, offline_mode: bool = false) -> void:
 				continue
 		
 		if profiling_enabled:
-			profile_start_usec = Time.get_ticks_usec()
+			profile_subphase_start_usec = Time.get_ticks_usec()
 		consume_inputs(
 			generator,
 			operating_delta
 		)
 		if profiling_enabled:
-			_record_profile_time("input_consumption", profile_start_usec)
+			_record_profile_time("input_consumption", profile_subphase_start_usec)
 		
 		if profiling_enabled:
-			profile_start_usec = Time.get_ticks_usec()
+			profile_subphase_start_usec = Time.get_ticks_usec()
 		produce_outputs(
 			generator,
 			operating_delta
 		)
 		if profiling_enabled:
-			_record_profile_time("output_production", profile_start_usec)
+			_record_profile_time("output_production", profile_subphase_start_usec)
 		
 		if offline_mode and operating_delta < delta - 0.000001:
 			generator.operating = false
