@@ -25,13 +25,7 @@ var forge_spark_overlay: Node2D
 var furnace_swirl_overlay: Node2D
 const THERMAL_FURNACE_ROTATION_SPEED: float = 1
 
-const ATOMIC_FRICTION_BASE_ROTATION_SPEED: float = -0.45
-const ATOMIC_FRICTION_BASE_PULSE_SPEED: float = 1.2
-
-const ATOMIC_FRICTION_ROTATION_LEVEL_BONUS: float = 0.12
-const ATOMIC_FRICTION_PULSE_LEVEL_BONUS: float = 0.20
-
-var atomic_friction_time: float = 0.0
+var atomic_friction_animation_controller: AtomicFrictionAnimationController = AtomicFrictionAnimationController.new()
 
 var molecular_agitation_overlay: MolecularAgitationParticleOverlay
 
@@ -2101,36 +2095,11 @@ func _update_atomic_friction_animation(delta: float) -> void:
 		"atomic_friction"
 	]
 
-	if not sprite.visible or not generator.is_operating():
-		return
-
-	var level: int = generator.level
-
-	atomic_friction_time += delta
-
-	var rotation_speed: float = (
-		ATOMIC_FRICTION_BASE_ROTATION_SPEED *
-		(1.0 + ATOMIC_FRICTION_ROTATION_LEVEL_BONUS * sqrt(float(level)))
+	atomic_friction_animation_controller.update(
+		generator,
+		sprite,
+		delta
 	)
-
-	var pulse_speed: float = (
-		ATOMIC_FRICTION_BASE_PULSE_SPEED *
-		(1.0 + ATOMIC_FRICTION_PULSE_LEVEL_BONUS * sqrt(float(level)))
-	)
-
-	sprite.rotation += rotation_speed * delta
-
-	var pulse: float = (
-		sin(atomic_friction_time * pulse_speed) + 1.0
-	) / 2.0
-
-	var pulse_scale: float = lerp(0.58, .7, pulse)
-
-	var base_scale: Vector2 = sprite.get_meta(
-		"atomic_friction_base_scale"
-	)
-
-	sprite.scale = base_scale * pulse_scale
 
 func _get_lava_mite_sprite() -> AnimatedSprite2D:
 	return generator_visual_renderer.get_lava_mite_sprite(
