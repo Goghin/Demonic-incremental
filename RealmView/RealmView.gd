@@ -284,7 +284,7 @@ class ForgeSparkOverlay extends Node2D:
 			)
 
 var state: GameState
-var generator_textures: Dictionary = {}
+var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var generator_sprites: Dictionary = {}
 var furnace_inner_sprite: Sprite2D
 var molecular_extra_sprite_a: Sprite2D
@@ -1385,25 +1385,7 @@ func _get_generator_position(
 func _get_generator_texture(
 	generator: Generator
 ) -> Texture2D:
-	var path: String = (
-		generator.definition.illustration_path
-	)
-
-	if path.is_empty():
-		return null
-
-	var generator_id: String = (
-		generator.definition.id
-	)
-
-	if generator_textures.has(generator_id):
-		return generator_textures[generator_id]
-
-	var texture: Texture2D = load(path) as Texture2D
-
-	generator_textures[generator_id] = texture
-
-	return texture
+	return generator_visual_renderer.get_texture(generator)
 
 
 func _draw_ash(
