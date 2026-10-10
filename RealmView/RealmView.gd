@@ -1352,7 +1352,7 @@ func _draw_generators() -> void:
 
 			continue
 			
-		if generator_id == "molecular_agitation":
+		if generator_id == "thermal_furnace":
 			_create_molecular_agitation_overlay(
 				generator,
 				generator_position
@@ -2410,17 +2410,17 @@ func _update_furnace_swirl() -> void:
 	if state == null:
 		return
 
-	if not generator_sprites.has("thermal_furnace"):
+	if not generator_sprites.has("molecular_agitation"):
 		return
 
 	var furnace: Generator = state.generators.get(
-		"thermal_furnace"
+		"molecular_agitation"
 	)
 
 	if furnace == null:
 		return
 
-	var sprite: Sprite2D = generator_sprites["thermal_furnace"]
+	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
 
 	if not sprite.visible:
 		if furnace_swirl_overlay != null:
@@ -2801,14 +2801,14 @@ func _update_molecular_agitation_overlay() -> void:
 	if state == null:
 		return
 
-	if not state.generators.has("molecular_agitation"):
+	if not state.generators.has("thermal_furnace"):
 		if molecular_agitation_overlay != null:
 			molecular_agitation_overlay.visible = false
 			molecular_agitation_overlay.active = false
 		return
 
 	var generator: Generator = state.generators.get(
-		"molecular_agitation"
+		"thermal_furnace"
 	)
 
 	if generator == null:
@@ -2834,5 +2834,5 @@ func _update_molecular_agitation_overlay() -> void:
 
 	if should_be_active:
 		molecular_agitation_overlay.position = _get_generator_position(
-			"molecular_agitation"
+			"thermal_furnace"
 		)
