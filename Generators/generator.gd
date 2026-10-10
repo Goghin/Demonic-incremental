@@ -51,8 +51,9 @@ func reset() -> void:
 			definition.operation_modes[0].id
 		)
 
-	# Reset all input/output unlock states across every mode.
+	# Reset operation-mode unlocks and all input/output unlock states.
 	for mode in definition.operation_modes:
+		mode.unlocked = mode.initially_unlocked
 		for input in mode.inputs:
 			input.reset()
 
@@ -89,6 +90,8 @@ func set_operation_mode(
 	for mode in definition.operation_modes:
 		if mode.id != mode_id:
 			continue
+		if not mode.unlocked:
+			return false
 		
 		operation_mode_id = mode.id
 		_ensure_discrete_production_progress(mode)
