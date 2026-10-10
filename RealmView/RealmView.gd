@@ -77,6 +77,7 @@ var generator_hitboxes: Dictionary = {}
 
 var forge_activity_visual_controller: ForgeActivityVisualController = ForgeActivityVisualController.new()
 var brazier_visual_controller: BrazierVisualController = BrazierVisualController.new()
+var island_visual_controller: IslandVisualController = IslandVisualController.new()
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
@@ -1390,33 +1391,11 @@ func _update_lava_network_positions() -> void:
 
 
 func _update_island_sprite() -> void:
-	var island: Sprite2D = get_node_or_null("Island") as Sprite2D
-
-	if island == null:
-		return
-
-	if realm_layout == null:
-		return
-
-	var island_rect: Rect2 = _get_island_rect()
-
-	var island_texture: Texture2D = (
-		realm_layout.island_texture
+	island_visual_controller.update(
+		self,
+		realm_layout,
+		_get_island_rect()
 	)
-
-	if island_texture == null:
-		return
-
-	island.texture = island_texture
-	island.position = (
-		island_rect.position +
-		island_rect.size * 0.5
-	)
-	island.scale = (
-		island_rect.size /
-		island_texture.get_size()
-	)
-	island.z_index = 5
 
 func _create_lava_lakes() -> void:
 	lava_lake_visual_controller.create_lakes(
