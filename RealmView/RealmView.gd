@@ -1102,28 +1102,11 @@ func _draw_generators() -> void:
 func _get_generator_position(
 	generator_id: String
 ) -> Vector2:
-	if not realm_layout.generator_layout_positions.has(
-		generator_id
-	):
-		return size * Vector2(
-			0.5,
-			0.5
-		)
-
-	var island_rect: Rect2 = (
+	return generator_visual_renderer.get_generator_position(
+		generator_id,
+		realm_layout.generator_layout_positions,
+		size,
 		_get_island_rect()
-	)
-
-	var normalized_position: Vector2 = (
-		realm_layout.generator_layout_positions[
-			generator_id
-		]
-	)
-
-	return (
-		island_rect.position +
-		island_rect.size *
-		normalized_position
 	)
 
 func _get_generator_texture(
