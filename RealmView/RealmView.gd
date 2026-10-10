@@ -4,6 +4,7 @@ extends Control
 
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
+var lava_mite_visual_controller: LavaMiteVisualController = LavaMiteVisualController.new()
 var lava_flow_state_controller: LavaFlowStateController = LavaFlowStateController.new()
 var lava_lake_state_controller: LavaLakeStateController = LavaLakeStateController.new()
 var lava_lake_visual_controller: LavaLakeVisualController = LavaLakeVisualController.new()
@@ -789,88 +790,19 @@ func _draw_generators() -> void:
 		# Lava Mite Colony
 		# ---------------------------------------------------------
 		if generator_id == "lava_mite_colony":
-			var animated_sprite: AnimatedSprite2D = (
-				_get_lava_mite_sprite()
+			lava_mite_visual_controller.update(
+				generator_visual_renderer,
+				generator_layer,
+				generator_sprites,
+				generator,
+				generator_position,
+				machine_size,
+				size_multiplier,
+				generator_hitboxes
 			)
-
-			var frame_size: Vector2 = Vector2(
-				256.0,
-				256.0
-			)
-
-			# Level 1 = 80%
-			# Level 21 = 100%
-			# Above level 21 = diminishing growth
-			var colony_size_multiplier: float = (
-				_get_lava_mite_size_multiplier(
-					generator.level
-				)
-			)
-
-			var target_size: float = (
-				machine_size *
-				2.0 *
-				size_multiplier *
-				colony_size_multiplier
-			)
-
-			var texture_scale: float = min(
-				target_size / max(frame_size.x, 1.0),
-				target_size / max(frame_size.y, 1.0)
-			)
-
-			var draw_size: Vector2 = (
-				frame_size * texture_scale
-			)
-
-			var hitbox: Rect2 = Rect2(
-				generator_position - draw_size * 0.5,
-				draw_size
-			)
-
-			generator_hitboxes[generator_id] = hitbox
-
-			animated_sprite.position = generator_position
-			animated_sprite.scale = Vector2(
-				texture_scale,
-				texture_scale
-			)
-			animated_sprite.z_index = 0
-			animated_sprite.visible = true
-
-			# Update animation speed based on level.
-			_update_lava_mite_animation_speed(
-				animated_sprite,
-				generator.level
-			)
-
-			if generator.is_operating():
-				animated_sprite.modulate = Color(
-					1.0,
-					1.0,
-					1.0,
-					0.75
-				)
-
-				if animated_sprite.animation != &"default":
-					animated_sprite.animation = &"default"
-
-				if not animated_sprite.is_playing():
-					animated_sprite.play()
-			else:
-				animated_sprite.modulate = Color(
-					0.70,
-					0.70,
-					0.70,
-					1.0
-				)
-
-				if animated_sprite.is_playing():
-					animated_sprite.pause()
-
 			continue
-			
-		# ---------------------------------------------------------
+
+				# ---------------------------------------------------------
 		# Matter Furnace
 		# ---------------------------------------------------------
 		if generator_id == "matter_furnace":
