@@ -121,15 +121,34 @@ func get_cooldown(
 
 func update(delta: float, simulation: Simulation) -> void:
 	for generator_id in AUTOMATABLE_GENERATOR_IDS:
+		var profile_start_usec: int = 0
+		if simulation.profiling_enabled:
+			profile_start_usec = Time.get_ticks_usec()
+		
 		if not is_enabled(generator_id):
+			if simulation.profiling_enabled:
+				simulation._record_profile_time(
+					"generator_automation_loop_checks",
+					profile_start_usec
+				)
 			continue
 
 		if not is_automation_unlocked(generator_id):
+			if simulation.profiling_enabled:
+				simulation._record_profile_time(
+					"generator_automation_loop_checks",
+					profile_start_usec
+				)
 			continue
 
 		var generator = state.get_generator(generator_id)
 
 		if generator == null or not generator.unlocked:
+			if simulation.profiling_enabled:
+				simulation._record_profile_time(
+					"generator_automation_loop_checks",
+					profile_start_usec
+				)
 			continue
 
 		var automation: Dictionary = automation_states[generator_id]
@@ -137,8 +156,21 @@ func update(delta: float, simulation: Simulation) -> void:
 		# If waiting for resources, resume as soon as purchasing
 		# becomes possible.
 		if automation["waiting_for_resources"]:
+			if simulation.profiling_enabled:
+				simulation._record_profile_time(
+					"generator_automation_loop_checks",
+					profile_start_usec
+				)
+			var purchase_start_usec: int = 0
+			if simulation.profiling_enabled:
+				purchase_start_usec = Time.get_ticks_usec()
 			if simulation.can_buy_generator(generator_id):
 				_attempt_purchase(generator_id, simulation)
+			if simulation.profiling_enabled:
+				simulation._record_profile_time(
+					"generator_automation_waiting_checks",
+					purchase_start_usec
+				)
 			continue
 
 		# Otherwise, wait for the cooldown to expire.
@@ -148,9 +180,27 @@ func update(delta: float, simulation: Simulation) -> void:
 		)
 
 		if automation["remaining_cooldown"] > 0.0:
+			if simulation.profiling_enabled:
+				simulation._record_profile_time(
+					"generator_automation_loop_checks",
+					profile_start_usec
+				)
 			continue
-
+		
+		if simulation.profiling_enabled:
+			simulation._record_profile_time(
+				"generator_automation_loop_checks",
+				profile_start_usec
+			)
+		var purchase_start_usec: int = 0
+		if simulation.profiling_enabled:
+			purchase_start_usec = Time.get_ticks_usec()
 		_attempt_purchase(generator_id, simulation)
+		if simulation.profiling_enabled:
+			simulation._record_profile_time(
+				"generator_automation_purchase_attempts",
+				purchase_start_usec
+			)
 
 
 func _attempt_purchase(
