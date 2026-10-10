@@ -13,6 +13,9 @@ class LavaBurstOverlay extends Node2D:
 
 	func set_surface_points(points: PackedVector2Array) -> void:
 		surface_points = points
+		if surface_points.size() >= 3 and particles.is_empty():
+			_spawn_burst()
+		queue_redraw()
 
 	func _process(delta: float) -> void:
 		burst_timer -= delta
@@ -64,19 +67,19 @@ class LavaBurstOverlay extends Node2D:
 			sqrt(randomizer.randf())
 		)
 
-		var particle_count: int = randomizer.randi_range(3, 6)
+		var particle_count: int = randomizer.randi_range(8, 14)
 		for i in range(particle_count):
 			var angle: float = randomizer.randf_range(
 				-PI * 0.92,
 				-PI * 0.08
 			)
-			var speed: float = randomizer.randf_range(25.0, 60.0)
+			var speed: float = randomizer.randf_range(35.0, 75.0)
 			particles.append({
 				"position": burst_position,
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
-				"life": randomizer.randf_range(0.5, 0.9),
-				"max_life": 0.9,
-				"size": randomizer.randf_range(2.0, 3.5)
+				"life": randomizer.randf_range(0.7, 1.2),
+				"max_life": 1.2,
+				"size": randomizer.randf_range(5.0, 8.0)
 			})
 
 	func _draw() -> void:
@@ -101,8 +104,8 @@ class LavaBurstOverlay extends Node2D:
 			)
 			draw_circle(
 				particle_position,
-				particle_size * 0.45,
-				Color(1.0, 0.78, 0.22, alpha)
+				particle_size * 0.55,
+				Color(1.0, 0.9, 0.35, alpha)
 			)
 
 
