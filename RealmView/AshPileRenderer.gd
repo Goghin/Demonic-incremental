@@ -9,7 +9,7 @@ const ASH_PILE_FULL_GROWTH_ASH: float = 10000.0
 
 
 func setup(
-	view: Node2D,
+	view: Control,
 	old_piles: Array[Sprite2D],
 	layout: RealmLayout
 ) -> Array[Sprite2D]:
