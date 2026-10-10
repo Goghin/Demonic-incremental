@@ -182,22 +182,9 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Reset generator rotations
 	# ------------------------------------------------------------
 
-	for generator_id in generator_sprites:
-		if (
-			generator_id == "lava_mite_colony"
-			or
-			generator_id == "matter_furnace"
-		):
-			continue
-
-		var sprite: Sprite2D = (
-			generator_sprites[generator_id]
-		)
-
-		if sprite == null:
-			continue
-
-		sprite.rotation = 0.0
+	generator_visual_renderer.reset_generator_rotations(
+		generator_sprites
+	)
 
 	generator_visual_renderer.clear_cache()
 

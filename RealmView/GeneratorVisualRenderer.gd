@@ -133,6 +133,23 @@ func clear_cache() -> void:
 	generator_textures.clear()
 
 
+func reset_generator_rotations(generator_sprites: Dictionary) -> void:
+	for generator_id in generator_sprites:
+		if (
+			generator_id == "lava_mite_colony"
+			or
+			generator_id == "matter_furnace"
+		):
+			continue
+
+		var sprite: Sprite2D = generator_sprites[generator_id]
+
+		if sprite == null:
+			continue
+
+		sprite.rotation = 0.0
+
+
 func get_lava_mite_sprite(parent: Node, generator_sprites: Dictionary) -> AnimatedSprite2D:
 	return _get_animated_generator_sprite(
 		parent,
