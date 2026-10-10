@@ -2373,6 +2373,10 @@ func _update_generator_animations(delta: float) -> void:
 	if not sprite.visible:
 		if furnace_inner_sprite != null:
 			furnace_inner_sprite.visible = false
+		if furnace_extra_sprite_a != null:
+			furnace_extra_sprite_a.visible = false
+		if furnace_extra_sprite_b != null:
+			furnace_extra_sprite_b.visible = false
 		return
 
 	if furnace.is_operating():
