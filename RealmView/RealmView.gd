@@ -6,6 +6,7 @@ var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var lava_flow_state_controller: LavaFlowStateController = LavaFlowStateController.new()
 var lava_lake_state_controller: LavaLakeStateController = LavaLakeStateController.new()
+var lava_lake_visual_controller: LavaLakeVisualController = LavaLakeVisualController.new()
 var lava_network_controller: LavaNetworkController = LavaNetworkController.new()
 var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
 var ash_renderer: AshContaminationRenderer
@@ -1495,53 +1496,15 @@ func _update_island_sprite() -> void:
 	island.z_index = 5
 
 func _create_lava_lakes() -> void:
-	for lake in lava_lakes:
-		if is_instance_valid(lake):
-			lake.queue_free()
-
-	lava_lakes.clear()
-
-	var island_rect: Rect2 = _get_island_rect()
-
-	# MAIN LAKE
-	var main_lake: LavaLake = LAVA_LAKE_SCENE.instantiate()
-	add_child(main_lake)
-	main_lake.z_index = 6
-
-	main_lake.setup(
-		realm_layout.main_lake_edge_points,
-		island_rect
-	)
-	
-	
-	var overflow: float = (
-		state.get_heat_leak_per_second() *
-		state.get_overflow_crystallization_multiplier()
+	lava_lake_visual_controller.create_lakes(
+		self,
+		state,
+		realm_layout,
+		_get_island_rect(),
+		LAVA_LAKE_SCENE,
+		lava_lakes
 	)
 
-	var threshold: float = state.realm_effects.heat_leak_threshold
-
-	main_lake.set_heat(
-		overflow,
-		threshold
-	)
-	
-
-	lava_lakes.append(main_lake)
-
-	# SMALLER LAKES
-	for definition in realm_layout.small_lake_definitions:
-		var lake: LavaLake = LAVA_LAKE_SCENE.instantiate()
-		add_child(lake)
-		lake.z_index = 6
-
-		lake.setup(
-			definition["points"],
-			island_rect
-		)
-
-		lake.set_fill(0.01)
-		lava_lakes.append(lake)
 
 func _update_lava_lakes() -> void:
 	lava_lake_state_controller.update(
@@ -1550,14 +1513,12 @@ func _update_lava_lakes() -> void:
 		lava_lakes
 	)
 
+
 func _update_lava_lake_positions() -> void:
-	var island_rect: Rect2 = _get_island_rect()
-
-	for lake in lava_lakes:
-		if not is_instance_valid(lake):
-			continue
-
-		lake.reposition(island_rect)
+	lava_lake_visual_controller.update_positions(
+		_get_island_rect(),
+		lava_lakes
+	)
 
 
 
