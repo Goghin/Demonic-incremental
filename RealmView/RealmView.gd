@@ -299,21 +299,6 @@ var molecular_extra_sprite_b: Sprite2D
 
 var atomic_friction_particles: Node2D
 
-const LAVA_MITE_ANIMATION_PATH: String = (
-	"res://Generators/GeneratorDefinitions/Lava_Mite_Colony_Animated.png"
-)
-
-const LAVA_MITE_ANIMATION_HFRAMES: int = 4
-const LAVA_MITE_ANIMATION_VFRAMES: int = 4
-const LAVA_MITE_ANIMATION_FPS: float = 4.0
-
-const MATTER_FURNACE_ANIMATION_PATH: String = (
-	"res://Generators/GeneratorDefinitions/matter furnace_animated.png"
-)
-
-const MATTER_FURNACE_ANIMATION_HFRAMES: int = 4
-const MATTER_FURNACE_ANIMATION_VFRAMES: int = 4
-const MATTER_FURNACE_ANIMATION_FPS: float = 10.0
 const MATTER_FURNACE_SIZE_MULTIPLIER: float = 1.4
 
 var forge_glow_overlay: Node2D
@@ -2517,243 +2502,32 @@ func _update_atomic_friction_animation(delta: float) -> void:
 	sprite.scale = base_scale * pulse_scale
 
 func _get_lava_mite_sprite() -> AnimatedSprite2D:
-	if generator_sprites.has("lava_mite_colony"):
-		return generator_sprites[
-			"lava_mite_colony"
-		] as AnimatedSprite2D
-
-	var sprite: AnimatedSprite2D = AnimatedSprite2D.new()
-
-	sprite.name = "Generator_lava_mite_colony"
-
-	var sheet: Texture2D = load(
-		LAVA_MITE_ANIMATION_PATH
-	) as Texture2D
-
-	if sheet == null:
-		push_warning(
-			"Could not load Lava Mite animation: " +
-			LAVA_MITE_ANIMATION_PATH
-		)
-		return sprite
-
-	var sprite_frames: SpriteFrames = SpriteFrames.new()
-
-	var animation_name: StringName = &"default"
-
-	if not sprite_frames.has_animation(animation_name):
-		sprite_frames.add_animation(animation_name)
-
-	sprite_frames.set_animation_speed(
-		animation_name,
-		LAVA_MITE_ANIMATION_FPS
+	return generator_visual_renderer.get_lava_mite_sprite(
+		self,
+		generator_sprites
 	)
 
-	sprite_frames.set_animation_loop(
-		animation_name,
-		true
-	)
-
-	var frame_width: int = (
-		sheet.get_width() /
-		LAVA_MITE_ANIMATION_HFRAMES
-	)
-
-	var frame_height: int = (
-		sheet.get_height() /
-		LAVA_MITE_ANIMATION_VFRAMES
-	)
-
-	for row in range(LAVA_MITE_ANIMATION_VFRAMES):
-		for column in range(LAVA_MITE_ANIMATION_HFRAMES):
-			var atlas_texture: AtlasTexture = AtlasTexture.new()
-
-			atlas_texture.atlas = sheet
-			atlas_texture.region = Rect2(
-				column * frame_width,
-				row * frame_height,
-				frame_width,
-				frame_height
-			)
-
-			sprite_frames.add_frame(
-				animation_name,
-				atlas_texture
-			)
-
-	sprite.sprite_frames = sprite_frames
-	sprite.animation = animation_name
-	sprite.autoplay = animation_name
-	sprite.frame = 0
-	sprite.z_index = 10
-
-	add_child(sprite)
-
-	generator_sprites["lava_mite_colony"] = sprite
-
-	return sprite
 
 func _get_matter_furnace_sprite() -> AnimatedSprite2D:
-	if generator_sprites.has("matter_furnace"):
-		return generator_sprites[
-			"matter_furnace"
-	] as AnimatedSprite2D
-
-	var sprite: AnimatedSprite2D = AnimatedSprite2D.new()
-
-	sprite.name = "Generator_matter_furnace"
-
-	var sheet: Texture2D = load(
-		MATTER_FURNACE_ANIMATION_PATH
-	) as Texture2D
-
-	if sheet == null:
-		push_warning(
-			"Could not load Matter Furnace animation: " +
-			MATTER_FURNACE_ANIMATION_PATH
-		)
-		return sprite
-
-	var sprite_frames: SpriteFrames = SpriteFrames.new()
-
-	var animation_name: StringName = &"default"
-
-	if not sprite_frames.has_animation(animation_name):
-		sprite_frames.add_animation(animation_name)
-
-	sprite_frames.set_animation_speed(
-		animation_name,
-		MATTER_FURNACE_ANIMATION_FPS
+	return generator_visual_renderer.get_matter_furnace_sprite(
+		self,
+		generator_sprites
 	)
 
-	sprite_frames.set_animation_loop(
-		animation_name,
-		true
-	)
 
-	var frame_width: int = (
-		sheet.get_width() /
-		MATTER_FURNACE_ANIMATION_HFRAMES
-	)
-
-	var frame_height: int = (
-		sheet.get_height() /
-		MATTER_FURNACE_ANIMATION_VFRAMES
-	)
-
-	for row in range(MATTER_FURNACE_ANIMATION_VFRAMES):
-		for column in range(MATTER_FURNACE_ANIMATION_HFRAMES):
-			var atlas_texture: AtlasTexture = (
-				AtlasTexture.new()
-			)
-
-			atlas_texture.atlas = sheet
-
-			atlas_texture.region = Rect2(
-				column * frame_width,
-				row * frame_height,
-				frame_width,
-				frame_height
-			)
-
-			sprite_frames.add_frame(
-				animation_name,
-				atlas_texture
-			)
-
-	sprite.sprite_frames = sprite_frames
-	sprite.animation = animation_name
-	sprite.autoplay = animation_name
-	sprite.frame = 0
-	sprite.z_index = 10
-
-	add_child(sprite)
-
-	generator_sprites["matter_furnace"] = sprite
-
-	return sprite
-	
 func _get_lava_mite_size_multiplier(level: int) -> float:
-	if level <= 1:
-		return 0.70
+	return generator_visual_renderer.get_lava_mite_size_multiplier(level)
 
-	if level <= 21:
-		var progress: float = (
-			float(level - 1) / 20.0
-		)
 
-		return lerp(
-			0.70,
-			1.00,
-			progress
-		)
-
-	# Diminishing growth after level 21.
-	#
-	# Level 21 -> 1.00
-	# Then approaches 1.25 asymptotically.
-	var levels_after_21: float = (
-		float(level - 21)
-	)
-
-	return 1.0 + (
-		0.45 *
-		(
-			1.0 -
-			exp(-levels_after_21 / 30.0)
-		)
-	)
-	
 func _update_lava_mite_animation_speed(
 	animated_sprite: AnimatedSprite2D,
 	level: int
 ) -> void:
-	if animated_sprite.sprite_frames == null:
-		return
-
-	var animation_name: StringName = &"default"
-
-	if not animated_sprite.sprite_frames.has_animation(
-		animation_name
-	):
-		return
-
-	var animation_speed: float
-
-	if level <= 1:
-		animation_speed = 2.5
-	elif level <= 50:
-		var progress: float = (
-			float(level - 1) / 49.0
-		)
-
-		animation_speed = lerp(
-			2.5,
-			6.5,
-			progress
-		)
-	else:
-		# Diminishing speed increase after level 50.
-		#
-		# Level 50 -> 6.5 FPS
-		# Then approaches 8.5 FPS.
-		var levels_after_50: float = (
-			float(level - 50)
-		)
-
-		animation_speed = 6.5 + (
-			2.0 *
-			(
-				1.0 -
-				exp(-levels_after_50 / 50.0)
-			)
-		)
-
-	animated_sprite.sprite_frames.set_animation_speed(
-		animation_name,
-		animation_speed
+	generator_visual_renderer.update_lava_mite_animation_speed(
+		animated_sprite,
+		level
 	)
-	
+
 func _create_molecular_agitation_overlay(
 	generator: Generator,
 	position: Vector2
