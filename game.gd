@@ -381,6 +381,10 @@ func add_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
 
+	# Generator-specific upgrades belong only in their generator tree.
+	if upgrade.definition.generator_id != "":
+		return
+
 	if upgrade_panels.has(
 		upgrade.definition.id
 	):
@@ -600,6 +604,10 @@ func _create_effects_container() -> void:
 func add_automatic_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
+
+	# Generator-specific automatic upgrades belong only in their generator tree.
+	if upgrade.definition.generator_id != "":
+		return
 
 	if upgrade_panels.has(
 		upgrade.definition.id
