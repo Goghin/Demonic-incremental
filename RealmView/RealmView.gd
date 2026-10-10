@@ -287,8 +287,8 @@ var state: GameState
 var generator_textures: Dictionary = {}
 var generator_sprites: Dictionary = {}
 var furnace_inner_sprite: Sprite2D
-var condensation_extra_sprite_a: Sprite2D
-var condensation_extra_sprite_b: Sprite2D
+var molecular_extra_sprite_a: Sprite2D
+var molecular_extra_sprite_b: Sprite2D
 
 var atomic_friction_particles: Node2D
 
@@ -472,13 +472,6 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 		furnace_inner_sprite.visible = false
 		furnace_inner_sprite.rotation = 0.0
 
-	if condensation_extra_sprite_a != null:
-		condensation_extra_sprite_a.visible = false
-		condensation_extra_sprite_a.rotation = 0.0
-
-	if condensation_extra_sprite_b != null:
-		condensation_extra_sprite_b.visible = false
-		condensation_extra_sprite_b.rotation = 0.0
 
 	if atomic_friction_particles != null:
 		atomic_friction_particles.active = false
@@ -642,6 +635,7 @@ func _process(_delta: float) -> void:
 
 	forge_glow_time += _delta
 	_update_generator_animations(_delta)
+	_update_molecular_agitation_sprites(_delta)
 	_update_lava_lakes()
 	_update_lava_flow_states()
 	_update_furnace_swirl()
@@ -2373,10 +2367,6 @@ func _update_generator_animations(delta: float) -> void:
 	if not sprite.visible:
 		if furnace_inner_sprite != null:
 			furnace_inner_sprite.visible = false
-		if condensation_extra_sprite_a != null:
-			condensation_extra_sprite_a.visible = false
-		if condensation_extra_sprite_b != null:
-			condensation_extra_sprite_b.visible = false
 		return
 
 	if furnace.is_operating():
@@ -2416,46 +2406,76 @@ func _update_generator_animations(delta: float) -> void:
 			rotation_speed * 1.2 * delta
 		)
 
-		# Two additional semi-transparent layers enrich Infernal Condensation
-		# while leaving the base sprite unchanged.
-		if condensation_extra_sprite_a == null:
-			condensation_extra_sprite_a = Sprite2D.new()
-			condensation_extra_sprite_a.name = "InfernalCondensationSwirlA"
-			condensation_extra_sprite_a.z_index = 12
-			add_child(condensation_extra_sprite_a)
 
-		if condensation_extra_sprite_b == null:
-			condensation_extra_sprite_b = Sprite2D.new()
-			condensation_extra_sprite_b.name = "InfernalCondensationSwirlB"
-			condensation_extra_sprite_b.z_index = 13
-			add_child(condensation_extra_sprite_b)
-
-		for extra_sprite in [
-			condensation_extra_sprite_a,
-			condensation_extra_sprite_b
-		]:
-			extra_sprite.texture = sprite.texture
-			extra_sprite.visible = true
-			extra_sprite.position = sprite.position
-			extra_sprite.scale = sprite.scale
-			extra_sprite.modulate = Color(1.0, 1.0, 1.0, 0.8)
-
-		# Slightly different speeds and directions prevent the layers
-		# from lining up and looking like a single flat sprite.
-		condensation_extra_sprite_a.rotation += (
-			rotation_speed * 0.82 * delta
-		)
-		condensation_extra_sprite_b.rotation -= (
-			rotation_speed * 1.07 * delta
-		)
 	else:
 		if furnace_inner_sprite != null:
 			furnace_inner_sprite.visible = false
-		if condensation_extra_sprite_a != null:
-			condensation_extra_sprite_a.visible = false
-		if condensation_extra_sprite_b != null:
-			condensation_extra_sprite_b.visible = false
 			
+func _update_molecular_agitation_sprites(delta: float) -> void:
+	if state == null:
+		return
+
+	if not generator_sprites.has("molecular_agitation"):
+		_set_molecular_extra_sprites_visible(false)
+		return
+
+	var generator: Generator = state.generators.get(
+		"molecular_agitation"
+	)
+	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
+
+	if generator == null or not sprite.visible or not generator.is_operating():
+		_set_molecular_extra_sprites_visible(false)
+		return
+
+	if molecular_extra_sprite_a == null:
+		molecular_extra_sprite_a = Sprite2D.new()
+		molecular_extra_sprite_a.name = "MolecularAgitationSwirlA"
+		molecular_extra_sprite_a.z_index = 12
+		add_child(molecular_extra_sprite_a)
+
+	if molecular_extra_sprite_b == null:
+		molecular_extra_sprite_b = Sprite2D.new()
+		molecular_extra_sprite_b.name = "MolecularAgitationSwirlB"
+		molecular_extra_sprite_b.z_index = 13
+		add_child(molecular_extra_sprite_b)
+
+	var level_speed_multiplier: float = (
+		1.0 + max(generator.level - 1, 0) * 0.05
+	)
+
+	for extra_sprite in [
+		molecular_extra_sprite_a,
+		molecular_extra_sprite_b
+	]:
+		extra_sprite.texture = sprite.texture
+		extra_sprite.visible = true
+		extra_sprite.position = sprite.position
+		extra_sprite.scale = sprite.scale
+		extra_sprite.modulate = Color(1.0, 1.0, 1.0, 0.8)
+
+	# Positive rotation is clockwise in Godot's 2D coordinate system.
+	molecular_extra_sprite_a.rotation += (
+		THERMAL_FURNACE_ROTATION_SPEED
+		* level_speed_multiplier
+		* 0.82
+		* delta
+	)
+	molecular_extra_sprite_b.rotation += (
+		THERMAL_FURNACE_ROTATION_SPEED
+		* level_speed_multiplier
+		* 1.07
+		* delta
+	)
+
+
+func _set_molecular_extra_sprites_visible(should_be_visible: bool) -> void:
+	if molecular_extra_sprite_a != null:
+		molecular_extra_sprite_a.visible = should_be_visible
+	if molecular_extra_sprite_b != null:
+		molecular_extra_sprite_b.visible = should_be_visible
+
+
 func _update_furnace_swirl() -> void:
 	if state == null:
 		return
