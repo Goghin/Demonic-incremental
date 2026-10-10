@@ -87,7 +87,8 @@ func _get_animated_generator_sprite(
 
 	var sprite_frames: SpriteFrames = SpriteFrames.new()
 	var animation_name: StringName = &"default"
-	sprite_frames.add_animation(animation_name)
+	if not sprite_frames.has_animation(animation_name):
+		sprite_frames.add_animation(animation_name)
 	sprite_frames.set_animation_speed(animation_name, animation_fps)
 	sprite_frames.set_animation_loop(animation_name, true)
 
