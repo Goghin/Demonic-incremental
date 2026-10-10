@@ -530,7 +530,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 
 		sprite.rotation = 0.0
 
-	generator_textures.clear()
+	generator_visual_renderer.clear_cache()
 
 	# ------------------------------------------------------------
 	# Build the new realm
