@@ -2,6 +2,112 @@ class_name LavaFlow
 extends Node2D
 
 
+class LavaFlowSparkOverlay extends Node2D:
+	var flow_points: PackedVector2Array = PackedVector2Array()
+	var flow_widths: PackedFloat32Array = PackedFloat32Array()
+	var burst_timer: float = 0.7
+	var activity_factor: float = 1.0
+	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
+	var particles: Array[Dictionary] = []
+
+	func _ready() -> void:
+		randomizer.randomize()
+
+	func set_flow_shape(new_points: PackedVector2Array, new_widths: PackedFloat32Array) -> void:
+		flow_points = new_points
+		flow_widths = new_widths
+		var total_length: float = 0.0
+		for i in range(1, flow_points.size()):
+			total_length += flow_points[i].distance_to(flow_points[i - 1])
+		activity_factor = clamp(total_length / 180.0, 0.15, 1.0)
+
+	func _process(delta: float) -> void:
+		if flow_points.size() < 2 or flow_widths.size() != flow_points.size():
+			return
+
+		burst_timer -= delta
+		if burst_timer <= 0.0:
+			_spawn_burst()
+			burst_timer = randomizer.randf_range(1.1, 1.8) / activity_factor
+
+		for i in range(particles.size() - 1, -1, -1):
+			var particle: Dictionary = particles[i]
+			var node: Node2D = particle["node"]
+			var life: float = float(particle["life"]) - delta
+			var velocity: Vector2 = particle["velocity"]
+			velocity += Vector2(0.0, -8.0) * delta
+			velocity = velocity.move_toward(Vector2.ZERO, 5.0 * delta)
+			node.position += velocity * delta
+			node.rotation = velocity.angle() + PI * 0.5
+
+			if life <= 0.0:
+				node.queue_free()
+				particles.remove_at(i)
+			else:
+				particle["life"] = life
+				particle["velocity"] = velocity
+				var ratio: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
+				node.modulate.a = ratio
+				node.scale = Vector2(lerp(0.45, 1.0, ratio), lerp(0.85, 1.15, ratio))
+				particles[i] = particle
+
+	func _spawn_burst() -> void:
+		var distance_segments := PackedFloat32Array([0.0])
+		var total_length: float = 0.0
+		for i in range(1, flow_points.size()):
+			total_length += flow_points[i].distance_to(flow_points[i - 1])
+			distance_segments.append(total_length)
+		if total_length <= 0.0:
+			return
+
+		var target_distance: float = randomizer.randf() * total_length
+		var segment_index: int = 0
+		while segment_index < distance_segments.size() - 2 and target_distance > distance_segments[segment_index + 1]:
+			segment_index += 1
+		var segment_length: float = distance_segments[segment_index + 1] - distance_segments[segment_index]
+		var ratio: float = 0.0 if segment_length <= 0.0 else (target_distance - distance_segments[segment_index]) / segment_length
+		var origin: Vector2 = flow_points[segment_index].lerp(flow_points[segment_index + 1], ratio)
+		var width: float = lerp(flow_widths[segment_index], flow_widths[segment_index + 1], ratio)
+		origin += Vector2(randomizer.randf_range(-0.25, 0.25) * width, randomizer.randf_range(-0.2, 0.2) * width)
+
+		var count: int = maxi(1, roundi(randomizer.randi_range(2, 4) * activity_factor))
+		for j in range(count):
+			var node := Node2D.new()
+			node.name = "LavaFlowSpark"
+			node.position = origin
+			node.z_index = 2
+			add_child(node)
+
+			var size: float = randomizer.randf_range(1.6, 2.7)
+			var outer := Polygon2D.new()
+			outer.polygon = _make_spark(size, randomizer.randf_range(0.7, 1.2))
+			outer.color = Color(0.72, 0.045, 0.008, 0.9)
+			node.add_child(outer)
+
+			var core := Polygon2D.new()
+			core.polygon = _make_spark(size * 0.42, 0.45)
+			core.color = Color(1.0, 0.24, 0.035, 0.92)
+			node.add_child(core)
+
+			var angle: float = randomizer.randf_range(-PI * 0.85, -PI * 0.15)
+			var speed: float = randomizer.randf_range(12.0, 28.0)
+			var life: float = randomizer.randf_range(0.4, 0.7)
+			particles.append({
+				"node": node,
+				"velocity": Vector2(cos(angle), sin(angle)) * speed,
+				"life": life,
+				"max_life": life
+			})
+
+	func _make_spark(length: float, width: float) -> PackedVector2Array:
+		return PackedVector2Array([
+			Vector2(0.0, -length),
+			Vector2(width, 0.0),
+			Vector2(0.0, length * 0.45),
+			Vector2(-width, 0.0)
+		])
+
+
 @onready var surface: Node2D = $Surface
 @onready var rim: Line2D = $Rim
 @onready var channel: Polygon2D = $Channel
@@ -42,6 +148,7 @@ var target_active: bool = false
 var surface_segments: Array[Polygon2D] = []
 var surface_corners: Array[Polygon2D] = []
 var surface_material: ShaderMaterial
+var spark_overlay: LavaFlowSparkOverlay
 
 
 func setup(
@@ -81,7 +188,16 @@ func setup(
 	cooling_length = 0.0
 
 	_clear_flow_polygons()
+	_ensure_spark_overlay()
 
+
+func _ensure_spark_overlay() -> void:
+	if is_instance_valid(spark_overlay):
+		return
+	spark_overlay = LavaFlowSparkOverlay.new()
+	spark_overlay.name = "LavaFlowSparkOverlay"
+	spark_overlay.z_index = 3
+	add_child(spark_overlay)
 
 
 func set_active(active: bool) -> void:
@@ -212,6 +328,8 @@ func _update_surface() -> void:
 
 	if end_distance <= start_distance:
 		_clear_flow_polygons()
+		if is_instance_valid(spark_overlay):
+			spark_overlay.set_flow_shape(PackedVector2Array(), PackedFloat32Array())
 		return
 
 	# --------------------------------------------------
@@ -259,7 +377,12 @@ func _update_surface() -> void:
 
 	if active_points.size() < 2:
 		_clear_flow_polygons()
+		if is_instance_valid(spark_overlay):
+			spark_overlay.set_flow_shape(PackedVector2Array(), PackedFloat32Array())
 		return
+
+	_ensure_spark_overlay()
+	spark_overlay.set_flow_shape(active_points, active_widths)
 
 	# --------------------------------------------------
 	# Surface segments
