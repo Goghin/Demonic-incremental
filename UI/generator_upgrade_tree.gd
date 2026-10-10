@@ -3,6 +3,16 @@ class_name GeneratorUpgradeTree
 extends Control
 
 
+signal automation_settings_changed
+
+var _last_styled_enabled: bool = false
+var _has_styled_enabled: bool = false
+
+
+func _ready() -> void:
+	_setup_automation_button_style()
+
+
 var state: GameState
 var simulation: Simulation
 var input_handler: InputHandler
@@ -40,6 +50,10 @@ func setup(
 
 	_rebuild()
 
+func _process(_delta: float) -> void:
+	_update_automation_button()
+
+
 func _rebuild() -> void:
 
 	_clear_tree()
@@ -63,6 +77,7 @@ func _rebuild() -> void:
 
 	_create_connection_renderer()
 	_create_upgrade_nodes()
+	_update_automation_button()
 
 
 func _create_upgrade_nodes() -> void:
@@ -95,6 +110,10 @@ func _create_upgrade_nodes() -> void:
 
 		panel.position = position
 
+		panel.exclusive_preference_changed.connect(
+			_on_upgrade_panel_exclusive_preference_changed
+		)
+
 		panel.setup(
 			state,
 			simulation,
@@ -110,8 +129,86 @@ func _create_upgrade_nodes() -> void:
 
 	# Give the tree enough height for every node.
 	$TreeArea.custom_minimum_size.y = max_y + 20.0
-	custom_minimum_size.y = max_y + 20.0
-	size.y = max_y + 20.0
+	custom_minimum_size.y = max_y + 82.0
+	size.y = max_y + 82.0
+
+
+func _update_automation_button() -> void:
+	if state == null:
+		return
+
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	var unlocked: bool = manager.is_automation_unlocked(generator_id)
+	$AutomationToggleButton.visible = unlocked
+
+	if not unlocked:
+		return
+
+	var enabled: bool = manager.is_enabled(generator_id)
+	$AutomationToggleButton.text = (
+		"UPGRADE AUTO: ON"
+		if enabled
+		else "UPGRADE AUTO: OFF"
+	)
+
+	if not _has_styled_enabled or enabled != _last_styled_enabled:
+		var background: Color = (
+			Color(0.18, 0.36, 0.22, 1.0)
+			if enabled
+			else Color(0.25, 0.20, 0.20, 1.0)
+		)
+		var border: Color = (
+			Color(0.55, 0.90, 0.52, 1.0)
+			if enabled
+			else Color(0.90, 0.52, 0.42, 1.0)
+		)
+		$AutomationToggleButton.add_theme_stylebox_override(
+			"normal",
+			_create_toggle_style(background, border)
+		)
+		$AutomationToggleButton.add_theme_stylebox_override(
+			"hover",
+			_create_toggle_style(background.lightened(0.12), border.lightened(0.12))
+		)
+		$AutomationToggleButton.add_theme_stylebox_override(
+			"pressed",
+			_create_toggle_style(background.darkened(0.10), border)
+		)
+		_last_styled_enabled = enabled
+		_has_styled_enabled = true
+
+
+func _setup_automation_button_style() -> void:
+	$AutomationToggleButton.custom_minimum_size = Vector2(170, 28)
+	$AutomationToggleButton.add_theme_font_size_override("font_size", 12)
+	$AutomationToggleButton.focus_mode = Control.FOCUS_NONE
+
+
+func _create_toggle_style(background: Color, border: Color) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(4)
+	style.content_margin_left = 8.0
+	style.content_margin_right = 8.0
+	style.content_margin_top = 4.0
+	style.content_margin_bottom = 4.0
+	return style
+
+
+func _on_automation_toggle_button_pressed() -> void:
+	if state == null:
+		return
+
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	if manager.set_enabled(generator_id, not manager.is_enabled(generator_id)):
+		_update_automation_button()
+		automation_settings_changed.emit()
+
+
+func _on_upgrade_panel_exclusive_preference_changed() -> void:
+	automation_settings_changed.emit()
 
 
 func _clear_tree() -> void:
@@ -155,3 +252,4 @@ func _create_connection_renderer() -> void:
 		layout,
 		UPGRADE_SIZE
 	)
+

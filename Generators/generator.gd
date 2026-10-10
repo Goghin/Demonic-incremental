@@ -51,8 +51,9 @@ func reset() -> void:
 			definition.operation_modes[0].id
 		)
 
-	# Reset all input/output unlock states across every mode.
+	# Reset operation-mode unlocks and all input/output unlock states.
 	for mode in definition.operation_modes:
+		mode.unlocked = mode.initially_unlocked
 		for input in mode.inputs:
 			input.reset()
 
@@ -89,6 +90,8 @@ func set_operation_mode(
 	for mode in definition.operation_modes:
 		if mode.id != mode_id:
 			continue
+		if not mode.unlocked:
+			return false
 		
 		operation_mode_id = mode.id
 		_ensure_discrete_production_progress(mode)
@@ -128,41 +131,11 @@ func get_production_per_second(
 		if not output.unlocked:
 			continue
 		
-		var production = (
-			output.amount_per_second
-			* level
+		var production: float = get_production_rate(
+			output,
+			state,
+			operation_mode
 		)
-		
-		if operation_mode != null:
-			production *= operation_mode.production_multiplier
-		
-		if output.resource_id == ResourceIds.MATTER:
-			production *= (
-				state.realm_effects.matter_production_multiplier
-			)
-
-		if output.resource_id == ResourceIds.HEAT:
-			production *= (
-				state.realm_effects.heat_production_multiplier
-			)
-			
-			production *= (
-				state.eternal_flame_upgrade_manager.get_effective_multiplier(
-					"eternal_furnace",
-					state.eternal_flame_state
-				)
-			)
-		
-		for modifier in modifiers:
-			if modifier.applies_to(
-				ModifierTypes.PRODUCTION,
-				output.resource_id
-			):
-				production = modifier.apply(
-					production,
-					state,
-					self
-				)
 		
 		production_outputs.append(
 			GeneratorRate.new(
@@ -173,6 +146,46 @@ func get_production_per_second(
 		)
 	
 	return production_outputs
+
+
+# Calculates one output's production rate without allocating a GeneratorRate.
+# The simulation uses this directly to avoid creating temporary objects each step.
+func get_production_rate(
+	output: GeneratorIO,
+	state: GameState,
+	operation_mode: GeneratorOperationMode = null
+	) -> float:
+	
+	if operation_mode == null:
+		operation_mode = get_operation_mode()
+	
+	var production: float = output.amount_per_second * level
+	
+	if operation_mode != null:
+		production *= operation_mode.production_multiplier
+	
+	if output.resource_id == ResourceIds.MATTER:
+		production *= state.realm_effects.matter_production_multiplier
+	
+	if output.resource_id == ResourceIds.HEAT:
+		production *= state.realm_effects.heat_production_multiplier
+		production *= state.eternal_flame_upgrade_manager.get_effective_multiplier(
+			"eternal_furnace",
+			state.eternal_flame_state
+		)
+	
+	for modifier in modifiers:
+		if modifier.applies_to(
+			ModifierTypes.PRODUCTION,
+			output.resource_id
+		):
+			production = modifier.apply(
+				production,
+				state,
+				self
+			)
+	
+	return production
 
 func get_cost(state: GameState) -> float:
 	var scaling = definition.cost_multiplier
@@ -275,7 +288,8 @@ func get_input_consumption_per_second(
 # - have enough of every input resource for one full second
 #   of operation
 func can_start_operating(
-	state: GameState
+	state: GameState,
+	allow_partial_inputs: bool = false
 	) -> bool:
 	
 	if not unlocked:
@@ -300,7 +314,10 @@ func can_start_operating(
 			state
 		)
 		
-		if input_amount < required_input:
+		if allow_partial_inputs:
+			if required_input > 0.0 and input_amount <= 0.0:
+				return false
+		elif input_amount < required_input:
 			return false
 	
 	return true

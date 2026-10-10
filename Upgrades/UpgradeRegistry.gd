@@ -9,6 +9,7 @@ static func create_upgrades() -> Dictionary:
 	# Atomic Friction
 	
 	_register(upgrades, _create_atomic_friction_optimization())
+	_register(upgrades, _create_intensified_friction_essence())
 	_register(upgrades, _create_atomic_reorganization())
 	_register(upgrades, _create_atomic_friction_refinement())
 	_register(upgrades, _create_molecular_agitation_upgrade())
@@ -51,6 +52,7 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_lava_mite_refinement())
 	_register(upgrades, _create_lava_mite_adaptation())
 	_register(upgrades, _create_lava_mite_essence())
+	_register(upgrades, _create_lava_mite_essence_adaptation())
 	_register(upgrades, _create_essence_influence())
 	_register(upgrades, _create_lava_mite_metabolism())
 	_register(upgrades, _create_lava_mite_colony_growth())
@@ -93,6 +95,37 @@ static func _register(
 # -------------------------------------------------------------------
 # Atomic Friction upgrades
 # -------------------------------------------------------------------
+
+static func _create_intensified_friction_essence() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"intensified_friction_essence",
+		"Essence-Induced Friction",
+		"Unlocks Intensified Friction, producing a small amount of Essence instead of Heat.",
+		ResourceIds.ESSENCE,
+		100.0,
+		[
+			UpgradeEffect.unlock_operation_mode(
+				"atomic_friction",
+				"intensified_friction"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"atomic_friction",
+				1
+			)
+		],
+		false,
+		"",
+		"atomic_friction",
+		1,
+		1.0,
+		"atomic_friction",
+		EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
+	)
+	return Upgrade.new(definition)
+
 
 static func _create_atomic_friction_optimization() -> Upgrade:
 	var definition = UpgradeDefinition.new(
@@ -1411,6 +1444,48 @@ static func _create_lava_mite_essence() -> Upgrade:
 	)
 
 	return Upgrade.new(definition)
+
+static func _create_lava_mite_essence_adaptation() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"lava_mite_essence_adaptation",
+		"Ash-Driven Essence Production",
+		"Lava Mites extract Essence more efficiently as Ash accumulates, increasing Essence output above 100 Ash.",
+		ResourceIds.ESSENCE,
+		25.0,
+		[
+			UpgradeEffect.dynamic_resource_modifier(
+				"lava_mite_colony",
+				ModifierTypes.PRODUCTION,
+				0.25,
+				ResourceIds.ASH,
+				Modifier.DYNAMIC_RESOURCE_POWER_THRESHOLD,
+				"lava_mite_essence_ash_scaling",
+				ResourceIds.ESSENCE,
+				100.0,
+				0.5
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"lava_mite_essence"
+			),
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"lava_mite_colony",
+				1
+			)
+		],
+		false,
+		"",
+		"ash_management",
+		1,
+		1.0,
+		"lava_mite_colony",
+		EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
+	)
+	return Upgrade.new(definition)
+
 
 static func _create_lava_mite_metabolism() -> Upgrade:
 	var definition = UpgradeDefinition.new(

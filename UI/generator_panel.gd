@@ -6,8 +6,13 @@ var state: GameState
 var input_handler: InputHandler
 var generator_id: String
 var current_illustration_path: String = ""
+var _last_automation_style_enabled: bool = false
+var _has_automation_style: bool = false
+var _last_upgrade_automation_style_enabled: bool = false
+var _has_upgrade_automation_style: bool = false
 
 signal upgrades_requested(generator_id: String)
+signal upgrade_automation_changed
 
 
 func setup(
@@ -31,21 +36,44 @@ func _process(_delta: float) -> void:
 		return
 	
 	var automation_manager = state.generator_automation_manager
-	var automation_button = (
-		$HBoxContainer/VBoxContainer/HBoxContainer/AutomationButton
-	)
+	var automation_button: Button = $HBoxContainer/VBoxContainer/BuyButtons/AutomationButton
+
+	var upgrade_automation_manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	var upgrade_automation_button: Button = $HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton
+	upgrade_automation_button.visible = upgrade_automation_manager.is_automation_unlocked(generator_id)
+	if upgrade_automation_button.visible:
+		var upgrade_auto_enabled: bool = upgrade_automation_manager.is_enabled(generator_id)
+		upgrade_automation_button.text = (
+			"UPGRADE AUTO: ON"
+			if upgrade_auto_enabled
+			else "UPGRADE AUTO: OFF"
+		)
+		if (
+			not _has_upgrade_automation_style
+			or upgrade_auto_enabled != _last_upgrade_automation_style_enabled
+		):
+			_update_upgrade_automation_button_style(upgrade_automation_button, upgrade_auto_enabled)
+			_last_upgrade_automation_style_enabled = upgrade_auto_enabled
+			_has_upgrade_automation_style = true
 
 	automation_button.visible = (
 		automation_manager.is_automation_unlocked(generator_id)
 	)
 
 	if automation_button.visible:
+		var auto_enabled: bool = automation_manager.is_enabled(generator_id)
 		automation_button.text = (
 			"AUTO: ON"
-			if automation_manager.is_enabled(generator_id)
+			if auto_enabled
 			else "AUTO: OFF"
-		)	
-	
+		)
+		if (
+			not _has_automation_style
+			or auto_enabled != _last_automation_style_enabled
+		):
+			_update_automation_button_style(automation_button, auto_enabled)
+			_last_automation_style_enabled = auto_enabled
+			_has_automation_style = true
 	update_illustration(generator)
 	update_operation_mode_ui(generator)
 	
@@ -57,7 +85,7 @@ func _process(_delta: float) -> void:
 		$HBoxContainer/VBoxContainer/InputLabel.text = ""
 		$HBoxContainer/VBoxContainer/ProductionLabel.text = ""
 		$HBoxContainer/VBoxContainer/CostLabel.text = ""
-		$HBoxContainer/VBoxContainer/BuyButton.disabled = true
+		$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = true
 		return
 	
 	$HBoxContainer/VBoxContainer/GeneratorLabel.text = (
@@ -158,7 +186,7 @@ func _process(_delta: float) -> void:
 		cost_name
 	]
 	
-	$HBoxContainer/VBoxContainer/BuyButton.disabled = (
+	$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = (
 		not input_handler.can_buy_generator(
 			generator_id
 		)
@@ -169,46 +197,54 @@ func update_operation_mode_ui(
 	generator: Generator
 	) -> void:
 	
-	var option_button = (
+	var option_button: OptionButton = (
 		$HBoxContainer/VBoxContainer/OperationModeOptionButton
 	)
 	
 	var modes = generator.definition.operation_modes
+	var unlocked_modes: Array[GeneratorOperationMode] = []
 	
-	if modes.size() <= 1:
+	for mode in modes:
+		if mode.unlocked:
+			unlocked_modes.append(mode)
+	
+	if unlocked_modes.size() <= 1:
 		option_button.visible = false
 		return
 	
 	option_button.visible = true
+	option_button.disabled = (
+		not generator.can_change_operation_mode()
+	)
 	
-	var selected_index = 0
+	var selected_index := 0
 	
-	if option_button.item_count != modes.size():
+	if option_button.item_count != unlocked_modes.size():
 		option_button.clear()
 		
-		for i in range(modes.size()):
-			var mode = modes[i]
-			
+		for i in range(unlocked_modes.size()):
 			option_button.add_item(
-				mode.display_name
+				unlocked_modes[i].display_name
 			)
-			
-			if mode.id == generator.operation_mode_id:
+			option_button.set_item_metadata(
+				i,
+				unlocked_modes[i].id
+			)
+			if unlocked_modes[i].id == generator.operation_mode_id:
 				selected_index = i
 		
 		option_button.select(selected_index)
 	else:
-		for i in range(modes.size()):
-			if modes[i].id == generator.operation_mode_id:
+		for i in range(unlocked_modes.size()):
+			option_button.set_item_metadata(
+				i,
+				unlocked_modes[i].id
+			)
+			if unlocked_modes[i].id == generator.operation_mode_id:
 				selected_index = i
-				break
 		
 		if option_button.selected != selected_index:
 			option_button.select(selected_index)
-	
-	option_button.disabled = (
-		not generator.can_change_operation_mode()
-	)
 
 
 func _on_operation_mode_option_button_item_selected(
@@ -223,14 +259,15 @@ func _on_operation_mode_option_button_item_selected(
 	if generator == null:
 		return
 	
-	var modes = generator.definition.operation_modes
+	var option_button: OptionButton = (
+		$HBoxContainer/VBoxContainer/OperationModeOptionButton
+	)
 	
-	if index < 0 or index >= modes.size():
+	if index < 0 or index >= option_button.item_count:
 		return
 	
-	generator.set_operation_mode(
-		modes[index].id
-	)
+	var mode_id = str(option_button.get_item_metadata(index))
+	generator.set_operation_mode(mode_id)
 
 
 func _on_buy_button_pressed() -> void:
@@ -281,3 +318,47 @@ func _on_automation_button_pressed() -> void:
 		return
 
 	state.generator_automation_manager.toggle(generator_id)
+
+
+
+func _on_upgrade_automation_button_pressed() -> void:
+	if state == null:
+		return
+
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	if not manager.is_automation_unlocked(generator_id):
+		return
+
+	if manager.set_enabled(generator_id, not manager.is_enabled(generator_id)):
+		upgrade_automation_changed.emit()
+
+
+func _update_automation_button_style(button: Button, enabled: bool) -> void:
+	_update_toggle_button_style(button, enabled)
+
+
+func _update_upgrade_automation_button_style(button: Button, enabled: bool) -> void:
+	_update_toggle_button_style(button, enabled)
+
+
+func _update_toggle_button_style(button: Button, enabled: bool) -> void:
+	var style := StyleBoxFlat.new()
+	style.bg_color = (
+		Color(0.18, 0.36, 0.22, 1.0)
+		if enabled
+		else Color(0.25, 0.20, 0.20, 1.0)
+	)
+	style.border_color = (
+		Color(0.55, 0.90, 0.52, 1.0)
+		if enabled
+		else Color(0.90, 0.52, 0.42, 1.0)
+	)
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(4)
+	button.add_theme_stylebox_override("normal", style)
+	var hover_style := style.duplicate() as StyleBoxFlat
+	hover_style.bg_color = style.bg_color.lightened(0.12)
+	button.add_theme_stylebox_override("hover", hover_style)
+	var pressed_style := style.duplicate() as StyleBoxFlat
+	pressed_style.bg_color = style.bg_color.darkened(0.10)
+	button.add_theme_stylebox_override("pressed", pressed_style)

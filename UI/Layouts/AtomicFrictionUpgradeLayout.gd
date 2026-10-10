@@ -12,6 +12,13 @@ func _init() -> void:
 		0
 	)
 
+	# Optional Essence-producing operating mode
+	add_node(
+		"intensified_friction_essence",
+		3,
+		0
+	)
+
 	# Level 25 choice
 	add_node(
 		"atomic_reorganization",

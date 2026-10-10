@@ -70,12 +70,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 11
 text = "Pause"
 
-[node name="AutomationButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 11
-text = "AUTO: OFF"
-visible = false
-
 [node name="ProgressBar" type="ProgressBar" parent="HBoxContainer/VBoxContainer" unique_id=1057374181]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
@@ -92,18 +86,41 @@ theme_override_font_sizes/font_size = 11
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
-[node name="BuyButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=1842664264]
+[node name="BuyButtons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="BuyButton" type="Button" parent="HBoxContainer/VBoxContainer/BuyButtons" unique_id=1842664264]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
 text = "BUY"
 
-[node name="UpgradesButton" type="Button" parent="HBoxContainer/VBoxContainer" unique_id=446277035]
+[node name="AutomationButton" type="Button" parent="HBoxContainer/VBoxContainer/BuyButtons"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "AUTO: OFF"
+visible = false
+
+[node name="BottomButtons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="UpgradesButton" type="Button" parent="HBoxContainer/VBoxContainer/BottomButtons" unique_id=446277035]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
 text = "UPGRADES"
+
+[node name="UpgradeAutomationButton" type="Button" parent="HBoxContainer/VBoxContainer/BottomButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "UPGRADE AUTO: OFF"
+visible = false
 
 [connection signal="item_selected" from="HBoxContainer/VBoxContainer/OperationModeOptionButton" to="." method="_on_operation_mode_option_button_item_selected"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/PauseButton" to="." method="_on_pause_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButton" to="." method="_on_buy_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/UpgradesButton" to="." method="_on_upgrades_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/AutomationButton" to="." method="_on_automation_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButtons/BuyButton" to="." method="_on_buy_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BottomButtons/UpgradesButton" to="." method="_on_upgrades_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButtons/AutomationButton" to="." method="_on_automation_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton" to="." method="_on_upgrade_automation_button_pressed"]

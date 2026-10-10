@@ -23,7 +23,7 @@ static func create() -> Generator:
 	var intensified_friction_mode = GeneratorOperationMode.new(
 		"intensified_friction",
 		"Intensified Friction",
-		"Forces the atoms into more violent collisions, greatly increasing Heat production at increased Heat consumption.",
+		"Forces atoms into more violent collisions, producing a small trickle of Essence instead of Heat.",
 		1.0,
 		1.0,
 		1.0,
@@ -31,14 +31,17 @@ static func create() -> Generator:
 		[],
 		[
 			GeneratorIO.new(
-				ResourceIds.HEAT,
-				60.0
+				ResourceIds.ESSENCE,
+				0.0001
 			)
 		]
 	)
 	
 
 	
+	intensified_friction_mode.initially_unlocked = false
+	intensified_friction_mode.unlocked = false
+
 	var definition = GeneratorDefinition.new(
 		"atomic_friction",
 		"Atomic Friction",

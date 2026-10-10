@@ -7,9 +7,38 @@ signal crystallization_completed(crystals_created: float)
 # Holds the current game state.
 var state: GameState
 
+# Optional profiling counters. Disabled during normal gameplay.
+var profiling_enabled: bool = false
+var profile_totals_usec: Dictionary = {}
+var profile_call_counts: Dictionary = {}
+
 
 func _init(game_state: GameState) -> void:
 	state = game_state
+
+
+func reset_profile() -> void:
+	profile_totals_usec.clear()
+	profile_call_counts.clear()
+
+
+func get_profile_report() -> Dictionary:
+	return {
+		"totals_usec": profile_totals_usec.duplicate(),
+		"call_counts": profile_call_counts.duplicate()
+	}
+
+
+func _record_profile_time(section: String, start_usec: int) -> void:
+	var elapsed_usec = Time.get_ticks_usec() - start_usec
+	profile_totals_usec[section] = (
+		int(profile_totals_usec.get(section, 0))
+		+ elapsed_usec
+	)
+	profile_call_counts[section] = (
+		int(profile_call_counts.get(section, 0))
+		+ 1
+	)
 
 
 # Advance the simulation by the amount of time given by delta.
@@ -17,53 +46,127 @@ func _init(game_state: GameState) -> void:
 # Continuous generators operate normally.
 # Cycle-based generators only operate while a cycle is active.
 
-func update(delta: float) -> void:
+func update(delta: float, offline_mode: bool = false) -> void:
 	#if not state.realm_stabilized:
 		#return
 	
+	var profile_start_usec: int = 0
+	var profile_subphase_start_usec: int = 0
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	update_automatic_upgrades()
+	if profiling_enabled:
+		_record_profile_time("automatic_upgrades", profile_start_usec)
 	
-	
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	for generator in state.generators.values():
 		if not generator.unlocked:
 			continue
 		
 		if generator.definition.cycle_based:
+			var cycle_start_usec: int = 0
+			if profiling_enabled:
+				cycle_start_usec = Time.get_ticks_usec()
 			update_cycle_generator(
 				generator,
-				delta
+				delta,
+				offline_mode
 			)
+			if profiling_enabled:
+				_record_profile_time("cycle_generator_processing", cycle_start_usec)
 			continue
 		
 		# Normal continuous generator.
 		if not generator.operating:
-			if generator.can_start_operating(state):
+			var start_check_usec: int = 0
+			if profiling_enabled:
+				start_check_usec = Time.get_ticks_usec()
+			var can_start: bool = generator.can_start_operating(
+				state,
+				offline_mode
+			)
+			if profiling_enabled:
+				_record_profile_time("generator_start_checks", start_check_usec)
+			if can_start:
 				generator.operating = true
 			else:
 				continue
-
-		if not generator.can_continue_operating(
-			state,
-			delta
-		):
-			generator.operating = false
-			continue
-
+		
+		var operating_delta = delta
+		if offline_mode:
+			var duration_check_usec: int = 0
+			if profiling_enabled:
+				duration_check_usec = Time.get_ticks_usec()
+			operating_delta = _get_available_operating_delta(
+				generator,
+				delta
+			)
+			if profiling_enabled:
+				_record_profile_time("available_operating_duration", duration_check_usec)
+			if operating_delta <= 0.0:
+				generator.operating = false
+				continue
+		else:
+			var continue_check_usec: int = 0
+			if profiling_enabled:
+				continue_check_usec = Time.get_ticks_usec()
+			var can_continue: bool = generator.can_continue_operating(
+				state,
+				delta
+			)
+			if profiling_enabled:
+				_record_profile_time("generator_continue_checks", continue_check_usec)
+			if not can_continue:
+				generator.operating = false
+				continue
+		
+		if profiling_enabled:
+			profile_subphase_start_usec = Time.get_ticks_usec()
 		consume_inputs(
 			generator,
-			delta
+			operating_delta
 		)
-
+		if profiling_enabled:
+			_record_profile_time("input_consumption", profile_subphase_start_usec)
+		
+		if profiling_enabled:
+			profile_subphase_start_usec = Time.get_ticks_usec()
 		produce_outputs(
 			generator,
-			delta
+			operating_delta
 		)
+		if profiling_enabled:
+			_record_profile_time("output_production", profile_subphase_start_usec)
+		
+		if offline_mode and operating_delta < delta - 0.000001:
+			generator.operating = false
+	if profiling_enabled:
+		_record_profile_time("generator_processing", profile_start_usec)
 	
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	apply_environmental_effects(delta)
+	if profiling_enabled:
+		_record_profile_time("environmental_effects", profile_start_usec)
+	
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
 	state.generator_automation_manager.update(
-	delta,
-	self
-)
+		delta,
+		self
+	)
+	if profiling_enabled:
+		_record_profile_time("generator_automation", profile_start_usec)
+	
+	if profiling_enabled:
+		profile_start_usec = Time.get_ticks_usec()
+	state.upgrade_automation_manager.update(
+		delta,
+		self
+	)
+	if profiling_enabled:
+		_record_profile_time("upgrade_automation", profile_start_usec)
 
 func apply_environmental_effects(delta: float) -> void:
 	apply_matter_decay(delta)
@@ -75,17 +178,57 @@ func apply_environmental_effects(delta: float) -> void:
 # continuous generators while the cycle is active.
 func update_cycle_generator(
 	generator: Generator,
-	delta: float
+	delta: float,
+	offline_mode: bool = false
 	) -> void:
 	
 	if not generator.cycle_active:
 		return
 	
 	if not generator.operating:
-		if generator.can_start_operating(state):
+		if generator.can_start_operating(
+			state,
+			offline_mode
+		):
 			generator.operating = true
 		else:
 			return
+	
+	if offline_mode:
+		var cycle_duration = generator.get_cycle_duration()
+		var remaining_cycle_time = max(
+			cycle_duration - generator.cycle_progress,
+			0.0
+		)
+		var requested_delta = min(
+			delta,
+			remaining_cycle_time
+		)
+		var operating_delta = _get_available_operating_delta(
+			generator,
+			requested_delta
+		)
+		
+		if operating_delta <= 0.0:
+			generator.operating = false
+			return
+		
+		consume_inputs(
+			generator,
+			operating_delta
+		)
+		produce_outputs(
+			generator,
+			operating_delta
+		)
+		generator.cycle_progress += operating_delta
+		
+		if generator.cycle_progress >= cycle_duration - 0.000001:
+			generator.cycle_progress = cycle_duration
+			complete_cycle(generator)
+		elif operating_delta < requested_delta - 0.000001:
+			generator.operating = false
+		return
 	
 	if not generator.can_continue_operating(
 		state,
@@ -115,10 +258,43 @@ func update_cycle_generator(
 		generator.cycle_progress = cycle_duration
 		complete_cycle(generator)
 
-# Complete an active cycle.
-#
-# Completion outputs are produced here, after the cycle has
-# successfully reached its duration.
+
+# In offline mode, return how much of this step the generator can actually
+# operate for before one of its input resources is depleted.
+func _get_available_operating_delta(
+	generator: Generator,
+	requested_delta: float
+	) -> float:
+	
+	var operating_delta = requested_delta
+	
+	for input in generator.get_active_inputs():
+		var input_rate = generator.get_input_consumption_per_second(
+			input,
+			state
+		)
+		
+		if input_rate <= 0.0:
+			continue
+		
+		var available_input = state.get_resource_amount(
+			input.resource_id
+		)
+		
+		if available_input <= 0.0:
+			return 0.0
+		
+		operating_delta = min(
+			operating_delta,
+			available_input / input_rate
+		)
+	
+	return max(
+		operating_delta,
+		0.0
+	)
+
+
 func complete_cycle(
 	generator: Generator
 	) -> void:
@@ -226,13 +402,18 @@ func produce_outputs(
 	delta: float
 	) -> void:
 	
-	var production_outputs = generator.get_production_per_second(
-		state
-	)
+	var operation_mode = generator.get_operation_mode()
 	
-	for output in production_outputs:
-		var production = (
-			output.amount_per_second
+	for output in generator.get_active_outputs():
+		if not output.unlocked:
+			continue
+		
+		var production: float = (
+			generator.get_production_rate(
+				output,
+				state,
+				operation_mode
+			)
 			* delta
 		)
 		
@@ -512,6 +693,16 @@ func _apply_upgrade_effect(
 					
 					output.unlocked = true
 				
+	elif effect.type == UpgradeEffectTypes.UNLOCK_OPERATION_MODE:
+		var generator = state.get_generator(
+			effect.target_id
+		)
+		if generator != null:
+			for mode in generator.definition.operation_modes:
+				if mode.id == effect.operation_mode_id:
+					mode.unlocked = true
+					break
+			
 	elif effect.type == UpgradeEffectTypes.APPLY_MODIFIER:
 		if effect.target_id == "":
 			for generator in state.get_generators().values():
@@ -614,6 +805,8 @@ func rebuild_upgrade_effects() -> void:
 	for generator in state.get_generators().values():
 		generator.modifiers.clear()
 		generator.modifier_sensitivities.clear()
+		for mode in generator.definition.operation_modes:
+			mode.unlocked = mode.initially_unlocked
 	
 	for upgrade in state.upgrades.values():
 		if not upgrade.is_purchased():

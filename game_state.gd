@@ -21,6 +21,7 @@ var realm_configuration: RealmConfiguration
 var realm_effects: RealmEffects
 var eternal_flame_upgrade_manager: EternalFlameUpgradeManager
 var generator_automation_manager: GeneratorAutomationManager
+var upgrade_automation_manager: UpgradeAutomationManager
 
 var realm_stabilized: bool = true
 
@@ -60,6 +61,7 @@ func _init() -> void:
 	eternal_flame_upgrade_manager = EternalFlameUpgradeManager.new()
 	
 	generator_automation_manager = GeneratorAutomationManager.new(self)
+	upgrade_automation_manager = UpgradeAutomationManager.new(self)
 	
 	realm_configuration = RealmConfiguration.new()
 	realm_effects = RealmEffects.new()
@@ -424,6 +426,7 @@ func reset_current_run() -> void:
 	lava_mite_dormancy_penalty = 0.0
 	
 	generator_automation_manager.reset_for_new_run()
+	upgrade_automation_manager.reset_for_new_run()
 	
 	current_run_statistics.reset()
 	_apply_permanent_starting_generator_levels()

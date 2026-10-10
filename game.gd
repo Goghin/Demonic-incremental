@@ -307,6 +307,9 @@ func _create_generator_panel(
 	generator_panel.upgrades_requested.connect(
 		_on_generator_upgrades_requested
 	)
+	generator_panel.upgrade_automation_changed.connect(
+		_on_upgrade_automation_settings_changed
+	)
 	# Preserve the original generator order.
 	var target_index := 0
 
@@ -377,6 +380,10 @@ func _create_initial_upgrade_ui() -> void:
 func add_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
+
+	# Generator-specific upgrades belong only in their generator tree.
+	if upgrade.definition.generator_id != "":
+		return
 
 	if upgrade_panels.has(
 		upgrade.definition.id
@@ -597,6 +604,10 @@ func _create_effects_container() -> void:
 func add_automatic_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
+
+	# Generator-specific automatic upgrades belong only in their generator tree.
+	if upgrade.definition.generator_id != "":
+		return
 
 	if upgrade_panels.has(
 		upgrade.definition.id
@@ -871,6 +882,20 @@ func _create_generator_upgrade_tree() -> void:
 	$UpgradeScroll/UpgradeContent/GeneratorUpgradeContainer.add_child(
 		generator_upgrade_tree
 	)
+	generator_upgrade_tree.automation_settings_changed.connect(
+		_on_upgrade_automation_settings_changed
+	)
+
+
+func _on_upgrade_automation_settings_changed() -> void:
+	if save_manager == null or time_manager == null:
+		return
+
+	save_manager.save_game(
+		state,
+		time_manager
+	)
+
 
 func _on_offline_simulation_progress(
 	current_tick: int,
