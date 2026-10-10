@@ -286,7 +286,21 @@ class ForgeSparkOverlay extends Node2D:
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var ash_renderer: AshContaminationRenderer
+var ash_piles: Array[Sprite2D] = []
 var generator_sprites: Dictionary = {}
+
+const ASH_PILE_TEXTURE: Texture2D = preload("res://RealmView/ashpile.png")
+const ASH_PILE_POSITIONS: Array[Vector2] = [
+	Vector2(0.16, 0.49),
+	Vector2(0.29, 0.44),
+	Vector2(0.42, 0.52),
+	Vector2(0.57, 0.46),
+	Vector2(0.71, 0.52),
+	Vector2(0.84, 0.47)
+]
+const ASH_PILE_BASE_WIDTH_RATIO: float = 0.018
+const ASH_PILE_MAX_WIDTH_RATIO: float = 0.085
+const ASH_PILE_FULL_GROWTH_ASH: float = 10000.0
 var furnace_inner_sprite: Sprite2D
 var molecular_extra_sprite_a: Sprite2D
 var molecular_extra_sprite_b: Sprite2D
@@ -538,6 +552,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# ------------------------------------------------------------
 
 	_update_island_sprite()
+	_setup_ash_piles()
 
 	_create_lava_network()
 
@@ -804,6 +819,7 @@ func _draw() -> void:
 	var ash: float = state.get_resource_amount(
 		ResourceIds.ASH
 	)
+	_update_ash_piles(ash)
 
 	# ------------------------------------------------------------
 	# Neutral realm dimensions
@@ -1387,6 +1403,58 @@ func _get_generator_texture(
 	generator: Generator
 ) -> Texture2D:
 	return generator_visual_renderer.get_texture(generator)
+
+
+func _setup_ash_piles() -> void:
+	for pile in ash_piles:
+		if is_instance_valid(pile):
+			pile.queue_free()
+	ash_piles.clear()
+
+	for i in range(ASH_PILE_POSITIONS.size()):
+		var pile: Sprite2D = Sprite2D.new()
+		pile.name = "AshPile_%02d" % (i + 1)
+		pile.texture = ASH_PILE_TEXTURE
+		pile.centered = true
+		pile.z_index = 7
+		pile.visible = false
+		add_child(pile)
+		ash_piles.append(pile)
+
+
+func _update_ash_piles(ash: float) -> void:
+	if ash_piles.is_empty():
+		return
+
+	var island_rect: Rect2 = _get_island_rect()
+	var texture_width: float = max(ASH_PILE_TEXTURE.get_size().x, 1.0)
+	var growth: float = clamp(
+		ash / ASH_PILE_FULL_GROWTH_ASH,
+		0.0,
+		1.0
+	)
+
+	for i in range(ash_piles.size()):
+		var pile: Sprite2D = ash_piles[i]
+		if not is_instance_valid(pile):
+			continue
+
+		var normalized_position: Vector2 = ASH_PILE_POSITIONS[i]
+		pile.position = island_rect.position + Vector2(
+			island_rect.size.x * normalized_position.x,
+			island_rect.size.y * normalized_position.y
+		)
+		pile.visible = ash > 0.0
+
+		var individual_growth: float = 0.72 + float(i % 3) * 0.14
+		var width_ratio: float = lerp(
+			ASH_PILE_BASE_WIDTH_RATIO,
+			ASH_PILE_MAX_WIDTH_RATIO,
+			growth * individual_growth
+		)
+		var target_width: float = island_rect.size.x * width_ratio
+		var uniform_scale: float = target_width / texture_width
+		pile.scale = Vector2.ONE * uniform_scale
 
 
 func _update_ash_visuals(
