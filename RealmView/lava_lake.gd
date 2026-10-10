@@ -4,8 +4,9 @@ extends Node2D
 
 class LavaBurstOverlay extends Node2D:
 	var surface_points: PackedVector2Array = PackedVector2Array()
-	var burst_timer: float = 0.4
+	var burst_timer: float = 0.8
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
+	var lake_area_factor: float = 1.0
 	var particles: Array[Dictionary] = []
 
 	func _ready() -> void:
@@ -15,6 +16,7 @@ class LavaBurstOverlay extends Node2D:
 		# The points are in LavaLake-local coordinates. This overlay is a
 		# child of LavaLake, so particle child nodes use those same coordinates.
 		surface_points = points
+		lake_area_factor = _calculate_area_factor(surface_points)
 		if surface_points.size() >= 3 and particles.is_empty():
 			_spawn_burst()
 
@@ -23,15 +25,15 @@ class LavaBurstOverlay extends Node2D:
 
 		if burst_timer <= 0.0 and surface_points.size() >= 3:
 			_spawn_burst()
-			burst_timer = randomizer.randf_range(0.65, 1.2)
+			burst_timer = randomizer.randf_range(0.9, 1.5) / lake_area_factor
 
 		for i in range(particles.size() - 1, -1, -1):
 			var particle: Dictionary = particles[i]
 			var particle_node: Node2D = particle["node"]
 			var life: float = float(particle["life"]) - delta
 			var velocity: Vector2 = particle["velocity"]
-			velocity += Vector2(0.0, 55.0) * delta
-			velocity.x = move_toward(velocity.x, 0.0, 3.0 * delta)
+			velocity += Vector2(0.0, 22.0) * delta
+			velocity.x = move_toward(velocity.x, 0.0, 1.2 * delta)
 			particle_node.rotation = velocity.angle() + PI * 0.5
 			particle_node.position += velocity * delta
 
@@ -58,7 +60,8 @@ class LavaBurstOverlay extends Node2D:
 		var edge_position: Vector2 = edge_point.lerp(next_point, randomizer.randf())
 		var burst_position: Vector2 = center.lerp(edge_position, sqrt(randomizer.randf()))
 
-		var particle_count: int = randomizer.randi_range(5, 9)
+		var base_particle_count: int = randomizer.randi_range(3, 6)
+		var particle_count: int = maxi(1, roundi(float(base_particle_count) * lake_area_factor))
 		for i in range(particle_count):
 			var particle_node := Node2D.new()
 			particle_node.name = "LavaBurstParticle"
@@ -70,24 +73,39 @@ class LavaBurstOverlay extends Node2D:
 			var outer := Polygon2D.new()
 			outer.name = "OuterGlow"
 			outer.polygon = _make_spark(particle_size * randomizer.randf_range(0.7, 1.0), randomizer.randf_range(1.2, 2.0))
-			outer.color = Color(1.0, 0.19, 0.015, 0.95)
+			outer.color = Color(0.72, 0.045, 0.008, 0.92)
 			particle_node.add_child(outer)
 
 			var core := Polygon2D.new()
 			core.name = "HotCore"
 			core.polygon = _make_spark(particle_size * 0.42, 0.65)
-			core.color = Color(1.0, 0.88, 0.42, 1.0)
+			core.color = Color(1.0, 0.24, 0.035, 0.95)
 			particle_node.add_child(core)
 
-			var angle: float = randomizer.randf_range(-PI * 0.92, -PI * 0.08)
-			var speed: float = randomizer.randf_range(75.0, 145.0)
-			var particle_life: float = randomizer.randf_range(0.22, 0.48)
+			var angle: float = randomizer.randf_range(-PI * 0.88, -PI * 0.12)
+			var speed: float = randomizer.randf_range(22.0, 48.0)
+			var particle_life: float = randomizer.randf_range(0.45, 0.8)
 			particles.append({
 				"node": particle_node,
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
 				"life": particle_life,
 				"max_life": particle_life
 			})
+
+	func _calculate_area_factor(points: PackedVector2Array) -> float:
+		if points.size() < 3:
+			return 0.1
+
+		var twice_area: float = 0.0
+		for i in range(points.size()):
+			var a: Vector2 = points[i]
+			var b: Vector2 = points[(i + 1) % points.size()]
+			twice_area += a.x * b.y - b.x * a.y
+
+		var area: float = absf(twice_area) * 0.5
+		# Normalize against a typical large lake. Small lakes produce fewer
+		# and less frequent bursts; large lakes approach the full effect rate.
+		return clamp(area / 5000.0, 0.12, 1.0)
 
 	func _make_spark(length: float, width: float) -> PackedVector2Array:
 		return PackedVector2Array([
