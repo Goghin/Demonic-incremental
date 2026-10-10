@@ -31,11 +31,7 @@ func _run_benchmarks() -> void:
 	for duration_data in BENCHMARK_DURATIONS:
 		var label: String = str(duration_data["label"])
 		var duration: float = float(duration_data["seconds"])
-		var result: Dictionary = _run_case(
-			duration,
-			BASELINE_STEP,
-			is_equal_approx(duration, 3600.0)
-		)
+		var result: Dictionary = _run_case(duration, BASELINE_STEP)
 
 		print(
 			"%s | wall time: %s | steps: %s | simulated: %s" % [
@@ -48,7 +44,15 @@ func _run_benchmarks() -> void:
 
 		if is_equal_approx(duration, 3600.0):
 			one_hour_baseline = result
-			_print_profile_report(result["profile"])
+
+	# Run profiling separately so its measurement overhead does not distort
+	# the baseline wall time or the step-size speedup comparison.
+	var profiled_case: Dictionary = _run_case(
+		3600.0,
+		BASELINE_STEP,
+		true
+	)
+	_print_profile_report(profiled_case["profile"])
 
 	print("")
 	print("========================================")
