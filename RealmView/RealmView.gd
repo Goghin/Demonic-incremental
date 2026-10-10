@@ -20,7 +20,7 @@ var atomic_friction_particle_controller: AtomicFrictionParticleController = Atom
 const MATTER_FURNACE_SIZE_MULTIPLIER: float = 1.4
 
 
-var furnace_swirl_overlay: Node2D
+var furnace_swirl_controller: FurnaceSwirlController = FurnaceSwirlController.new()
 const THERMAL_FURNACE_ROTATION_SPEED: float = 1
 
 var atomic_friction_animation_controller: AtomicFrictionAnimationController = AtomicFrictionAnimationController.new()
@@ -166,9 +166,8 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 
 	forge_activity_visual_controller.reset()
 
-	if furnace_swirl_overlay != null:
-		furnace_swirl_overlay.visible = false
-		
+	furnace_swirl_controller.reset()
+	
 	molecular_agitation_particle_controller.reset()
 	# ------------------------------------------------------------
 	# Reset lava mite  and matter furnace animation
@@ -1924,27 +1923,10 @@ func _update_furnace_swirl() -> void:
 
 	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
 
-	if not sprite.visible:
-		if furnace_swirl_overlay != null:
-			furnace_swirl_overlay.visible = false
-		return
-
-	if furnace_swirl_overlay == null:
-		furnace_swirl_overlay = FurnaceSwirlOverlay.new()
-		furnace_swirl_overlay.name = "FurnaceSwirlOverlay"
-		furnace_swirl_overlay.z_index = 14
-		add_child(furnace_swirl_overlay)
-
-	furnace_swirl_overlay.position = sprite.position
-	furnace_swirl_overlay.visible = furnace.is_operating()
-
-	var swirl: FurnaceSwirlOverlay = furnace_swirl_overlay
-
-	swirl.active = furnace.is_operating()
-
-	swirl.speed_multiplier = (
-		1.0 +
-		max(furnace.level - 1, 0) * 0.03
+	furnace_swirl_controller.update(
+		self,
+		furnace,
+		sprite
 	)
 
 
