@@ -83,8 +83,8 @@ class LavaBurstOverlay extends Node2D:
 			})
 
 	func _draw() -> void:
-		# Temporary diagnostic marker: confirms that this overlay is drawing
-		# and that it receives the lava surface polygon.
+		# Temporary diagnostics: draw each particle at a fixed, unmistakable
+		# size and color so we can distinguish spawning from animation issues.
 		if surface_points.size() >= 3:
 			var debug_center: Vector2 = Vector2.ZERO
 			for point in surface_points:
@@ -93,6 +93,8 @@ class LavaBurstOverlay extends Node2D:
 			draw_circle(debug_center, 7.0, Color(1.0, 0.0, 1.0, 1.0))
 
 		for particle in particles:
+			var debug_position: Vector2 = particle["position"]
+			draw_circle(debug_position, 10.0, Color(0.0, 1.0, 0.2, 1.0))
 			var life: float = float(particle["life"])
 			var alpha: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
 			var particle_position: Vector2 = particle["position"]
