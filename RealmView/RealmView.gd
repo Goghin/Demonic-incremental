@@ -329,6 +329,7 @@ var braziers: Dictionary = {}
 
 var crystallized_flames: Array[CrystallizedFlame] = []
 var crystallized_flame_values: Array[float] = []
+var crystal_renderer: CrystalRenderer = CrystalRenderer.new()
 var last_crystallized_flame_amount: float = -1.0
 
 var lava_flows: Array[LavaFlow] = []
@@ -336,9 +337,6 @@ var lava_falls: Array[LavaFall] = []
 var lava_lakes: Array[LavaLake] = []
 
 const CRYSTAL_BASE_SCALE: float = 0.08
-const CRYSTAL_CENTER: Vector2 = Vector2(0.68, 0.33)
-
-const MAX_VISIBLE_CRYSTALS: int = 25
 
 const REALM_VISUAL_SCALE: float = 1.0
 const REALM_VISUAL_OFFSET: Vector2 = Vector2(0.0, 0.0)
@@ -381,10 +379,6 @@ const FORGE_ACTIVE_PULSE_SPEED: float = 5.0
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
-)
-
-const CRYSTALLIZED_FLAME_SCENE = preload(
-	"res://RealmView/CrystallizedFlame.tscn"
 )
 
 const BRAZIER_STATS: Array[String] = [
@@ -576,25 +570,6 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 
 	queue_redraw()
 	
-func _create_crystal() -> void:
-	var crystal: CrystallizedFlame = (
-		CRYSTALLIZED_FLAME_SCENE.instantiate()
-	)
-
-	crystal.scale = Vector2(
-		CRYSTAL_BASE_SCALE,
-		CRYSTAL_BASE_SCALE
-	)
-
-	crystal.position = size * CRYSTAL_CENTER
-
-	add_child(crystal)
-
-	crystal.z_index = 25
-
-	crystallized_flames.append(crystal)
-
-
 func update_flame_visuals() -> void:
 	if state == null:
 		return
@@ -603,19 +578,12 @@ func update_flame_visuals() -> void:
 		ResourceIds.CRYSTALIZED_FLAME
 	)
 
-	var target_count: int = min(
-		int(floor(total_flames)),
-		MAX_VISIBLE_CRYSTALS
+	crystal_renderer.update(
+		self,
+		crystallized_flames,
+		crystallized_flame_values,
+		total_flames
 	)
-
-	while crystallized_flames.size() < target_count:
-		_create_crystal()
-
-	while crystallized_flames.size() > target_count:
-		_remove_crystal()
-
-	_update_crystal_values(total_flames)
-	_position_crystals()
 
 
 func _process(_delta: float) -> void:
@@ -643,122 +611,6 @@ func _process(_delta: float) -> void:
 	_update_molecular_agitation_overlay()
 	_update_atomic_friction_animation(_delta)
 	queue_redraw()
-
-
-func _position_crystals() -> void:
-	var count: int = crystallized_flames.size()
-
-	if count == 0:
-		return
-
-	var center: Vector2 = size * CRYSTAL_CENTER
-
-	var positions: Array[Vector2] = [
-		Vector2(0, -35),
-
-		Vector2(-30, -20),
-		Vector2(30, -20),
-
-		Vector2(-60, -5),
-		Vector2(60, -5),
-
-		Vector2(-90, 12),
-		Vector2(90, 12),
-
-		Vector2(-35, 15),
-		Vector2(35, 15),
-
-		Vector2(-120, 32),
-		Vector2(120, 32),
-
-		Vector2(-75, 38),
-		Vector2(75, 38),
-
-		Vector2(-25, 45),
-		Vector2(25, 45),
-
-		Vector2(-145, 58),
-		Vector2(145, 58),
-
-		Vector2(-100, 65),
-		Vector2(100, 65),
-
-		Vector2(-50, 72),
-		Vector2(50, 72),
-
-		Vector2(0, 70),
-
-		Vector2(-170, 85),
-		Vector2(170, 85),
-
-		Vector2(-70, 90),
-		Vector2(70, 90),
-
-		Vector2(0, 105),
-
-		Vector2(-120, 115),
-		Vector2(120, 115),
-
-		Vector2(0, 135)
-	]
-
-	var position_count: int = min(
-		count,
-		positions.size()
-	)
-
-	for i in range(position_count):
-		var crystal: CrystallizedFlame = (
-			crystallized_flames[i]
-		)
-
-		var crystal_position: Vector2 = (
-			center + positions[i]
-		)
-
-		var flame_value: float = 1.0
-
-		if i < crystallized_flame_values.size():
-			flame_value = crystallized_flame_values[i]
-
-		var value_scale: float = 1.0 + (
-			log(flame_value) * 0.12
-		)
-
-		value_scale = clamp(
-			value_scale,
-			1.0,
-			2.5
-		)
-
-		crystal.scale = Vector2(
-			CRYSTAL_BASE_SCALE,
-			CRYSTAL_BASE_SCALE
-		) * value_scale
-
-		var rotation_amount: float = 0.0
-
-		if crystal_position.x < center.x:
-			rotation_amount = -0.20
-		elif crystal_position.x > center.x:
-			rotation_amount = 0.20
-
-		crystal.set_base_transform(
-			crystal_position,
-			rotation_amount
-		)
-
-
-func _remove_crystal() -> void:
-	if crystallized_flames.is_empty():
-		return
-
-	var crystal: CrystallizedFlame = (
-		crystallized_flames.pop_back()
-	)
-
-	crystal.queue_free()
-
 
 
 func _input(event: InputEvent) -> void:
@@ -1697,41 +1549,6 @@ func _update_layout_drag(
 		] = normalized_position
 
 		queue_redraw()
-
-func _update_crystal_values(
-	total_flames: float
-) -> void:
-	crystallized_flame_values.clear()
-
-	var count: int = crystallized_flames.size()
-
-	if count == 0:
-		return
-
-	var remaining: float = max(
-		total_flames - float(count),
-		0.0
-	)
-
-	var total_weight: float = 0.0
-
-	for i in range(count):
-		total_weight += float(i + 1)
-
-	for i in range(count):
-		var value: float = 1.0
-
-		if remaining > 0.0:
-			var weight: float = float(i + 1)
-
-			value += (
-				remaining *
-				weight /
-				total_weight
-			)
-
-		crystallized_flame_values.append(value)
-
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
