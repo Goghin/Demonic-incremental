@@ -5,6 +5,7 @@ extends Control
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var lava_mite_visual_controller: LavaMiteVisualController = LavaMiteVisualController.new()
+var matter_furnace_visual_controller: MatterFurnaceVisualController = MatterFurnaceVisualController.new()
 var lava_flow_state_controller: LavaFlowStateController = LavaFlowStateController.new()
 var lava_lake_state_controller: LavaLakeStateController = LavaLakeStateController.new()
 var lava_lake_visual_controller: LavaLakeVisualController = LavaLakeVisualController.new()
