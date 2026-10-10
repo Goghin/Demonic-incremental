@@ -123,7 +123,7 @@ func _run_case(
 		float(Time.get_ticks_usec() - start_usec) / 1000000.0
 	)
 
-	return {
+	var result: Dictionary = {
 		"elapsed_seconds": wall_seconds,
 		"steps": steps,
 		"resources": _snapshot_resources(state),
@@ -131,6 +131,20 @@ func _run_case(
 		"overflow": state.total_overflow_this_prestige,
 		"statistics": offline_statistics.to_dictionary()
 	}
+
+	# GameState and its managers reference one another. Break those references
+	# for this throwaway benchmark instance so the headless process can clean up.
+	state.simulation_statistics = null
+	state.generator_automation_manager.state = null
+	state.upgrade_automation_manager.state = null
+	state.upgrade_system.state = null
+	simulation.state = null
+	time_manager.simulation = null
+	state.generator_automation_manager = null
+	state.upgrade_automation_manager = null
+	state.upgrade_system = null
+
+	return result
 
 
 func _configure_test_state(state: GameState) -> void:
@@ -143,7 +157,7 @@ func _configure_test_state(state: GameState) -> void:
 	var test_levels: Dictionary = {
 		"atomic_friction": 20,
 		"molecular_agitation": 10,
-		"infernal_condensation": 5,
+		"thermal_furnace": 5,
 		"thermal_compressor": 2,
 		"lava_mite_colony": 3,
 		"matter_furnace": 3,
