@@ -15,6 +15,9 @@ var inputs: Array[GeneratorIO]
 var outputs: Array[GeneratorIO]
 var completion_outputs: Array[GeneratorIO]
 
+var initially_unlocked: bool = true
+var unlocked: bool = true
+
 
 func _init(
 	mode_id: String,
