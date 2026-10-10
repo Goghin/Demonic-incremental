@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 	elapsed_time += delta
 
 	var ash_factor: float = _get_ash_factor()
-	var target_count: int = int(20.0 + ash_factor * 160.0)
+	var target_count: int = _get_target_particle_count()
 
 	while airborne_particles.size() < target_count:
 		airborne_particles.append(_create_particle())
@@ -64,9 +64,9 @@ func _create_particle() -> Dictionary:
 		"angular_speed": randomizer.randf_range(-0.42, 0.42),
 		"phase": randomizer.randf_range(0.0, TAU),
 		"phase_speed": randomizer.randf_range(0.25, 0.75),
-		"size": randomizer.randf_range(0.45, 1.25),
+		"size": randomizer.randf_range(0.55, 1.65),
 		"alpha": randomizer.randf_range(0.18, 0.48),
-		"vertical_offset": randomizer.randf_range(-55.0, 25.0)
+		"vertical_offset": randomizer.randf_range(-75.0, 15.0)
 	}
 
 
@@ -79,7 +79,7 @@ func _draw() -> void:
 
 	for particle in airborne_particles:
 		var angle: float = float(particle["angle"])
-		var radius: float = float(particle["radius"]) * realm_width
+		var radius: float = float(particle["radius"]) * realm_width * 1.25
 		var phase: float = float(particle["phase"])
 		var vertical_offset: float = float(particle["vertical_offset"])
 
@@ -105,3 +105,15 @@ func _draw() -> void:
 			max(particle_size * 0.45, 0.35)
 		)
 		draw_circle(particle_position, particle_size, ash_color)
+
+
+func _get_target_particle_count() -> int:
+	if ash_amount <= 0.0:
+		return 0
+
+	return int(floor(
+		280.0 * pow(
+			ash_amount / (ash_amount + 3000.0),
+			0.65
+		)
+	))
