@@ -60,20 +60,34 @@ class LavaFlowSparkOverlay extends Node2D:
 		if total_length <= 0.0:
 			return
 
-		var target_distance: float = randomizer.randf() * total_length
+		# Pick a burst location only where the interpolated flow width is visible.
+		var target_distance: float = 0.0
 		var segment_index: int = 0
-		while segment_index < distance_segments.size() - 2 and target_distance > distance_segments[segment_index + 1]:
-			segment_index += 1
-		var segment_length: float = distance_segments[segment_index + 1] - distance_segments[segment_index]
-		var ratio: float = 0.0 if segment_length <= 0.0 else (target_distance - distance_segments[segment_index]) / segment_length
-		var origin: Vector2 = flow_points[segment_index].lerp(flow_points[segment_index + 1], ratio)
-		var width: float = lerp(flow_widths[segment_index], flow_widths[segment_index + 1], ratio)
+		var ratio: float = 0.0
+		var origin: Vector2 = Vector2.ZERO
+		var width: float = 0.0
+		var found_valid_location: bool = false
+
+		for attempt in range(20):
+			target_distance = randomizer.randf() * total_length
+			segment_index = 0
+			while segment_index < distance_segments.size() - 2 and target_distance > distance_segments[segment_index + 1]:
+				segment_index += 1
+			var segment_length: float = distance_segments[segment_index + 1] - distance_segments[segment_index]
+			ratio = 0.0 if segment_length <= 0.0 else (target_distance - distance_segments[segment_index]) / segment_length
+			width = lerp(flow_widths[segment_index], flow_widths[segment_index + 1], ratio)
+			if width > 0.1:
+				origin = flow_points[segment_index].lerp(flow_points[segment_index + 1], ratio)
+				found_valid_location = true
+				break
+
+		if not found_valid_location:
+			return
+
 		origin += Vector2(randomizer.randf_range(-0.25, 0.25) * width, randomizer.randf_range(-0.2, 0.2) * width)
 
 		var count: int = maxi(1, roundi(randomizer.randi_range(3, 5) * activity_factor))
 		for j in range(count):
-			var node := Node2D.new()
-			node.name = "LavaFlowSpark"
 			var spread_distance: float = randomizer.randf_range(-14.0, 14.0)
 			var particle_distance: float = clamp(target_distance + spread_distance, 0.0, total_length)
 			var particle_segment: int = 0
@@ -81,9 +95,16 @@ class LavaFlowSparkOverlay extends Node2D:
 				particle_segment += 1
 			var particle_segment_length: float = distance_segments[particle_segment + 1] - distance_segments[particle_segment]
 			var particle_ratio: float = 0.0 if particle_segment_length <= 0.0 else (particle_distance - distance_segments[particle_segment]) / particle_segment_length
-			var particle_origin: Vector2 = flow_points[particle_segment].lerp(flow_points[particle_segment + 1], particle_ratio)
 			var particle_width: float = lerp(flow_widths[particle_segment], flow_widths[particle_segment + 1], particle_ratio)
+
+			# The spread can cross into a hidden/zero-width section, so reject it.
+			if particle_width <= 0.1:
+				continue
+
+			var particle_origin: Vector2 = flow_points[particle_segment].lerp(flow_points[particle_segment + 1], particle_ratio)
 			particle_origin += Vector2(randomizer.randf_range(-0.35, 0.35) * particle_width, randomizer.randf_range(-0.25, 0.25) * particle_width)
+			var node := Node2D.new()
+			node.name = "LavaFlowSpark"
 			node.position = particle_origin
 			node.z_index = 2
 			add_child(node)
@@ -108,7 +129,6 @@ class LavaFlowSparkOverlay extends Node2D:
 				"life": life,
 				"max_life": life
 			})
-
 	func _make_spark(length: float, width: float) -> PackedVector2Array:
 		return PackedVector2Array([
 			Vector2(0.0, -length),
