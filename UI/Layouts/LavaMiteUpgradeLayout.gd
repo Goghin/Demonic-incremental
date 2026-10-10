@@ -16,6 +16,7 @@ func _init() -> void:
 
 	# Essence specialization
 	add_node("lava_mite_essence", 3, 2)
+	add_node("lava_mite_essence_adaptation", 3, 3)
 
 	# Choice 2
 	add_node("lava_mite_colony_growth", 0, 3)
@@ -55,6 +56,12 @@ func _init() -> void:
 	add_connection(
 		"lava_mite_metabolism",
 		"lava_mite_essence"
+	)
+
+	# Improve Essence extraction after unlocking the Essence output
+	add_connection(
+		"lava_mite_essence",
+		"lava_mite_essence_adaptation"
 	)
 
 	# Choice 2
