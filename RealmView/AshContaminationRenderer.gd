@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 	elapsed_time += delta
 
 	var ash_factor: float = _get_ash_factor()
-	var target_count: int = int(8.0 + ash_factor * 35.0)
+	var target_count: int = int(20.0 + ash_factor * 160.0)
 
 	while airborne_particles.size() < target_count:
 		airborne_particles.append(_create_particle())
@@ -54,7 +54,7 @@ func update_visuals(
 
 
 func _get_ash_factor() -> float:
-	return min(log(ash_amount + 1.0) / 10.0, 1.0)
+	return min(log(ash_amount + 1.0) / log(101.0), 1.0)
 
 
 func _create_particle() -> Dictionary:
@@ -64,7 +64,7 @@ func _create_particle() -> Dictionary:
 		"angular_speed": randomizer.randf_range(-0.42, 0.42),
 		"phase": randomizer.randf_range(0.0, TAU),
 		"phase_speed": randomizer.randf_range(0.25, 0.75),
-		"size": randomizer.randf_range(0.8, 2.0),
+		"size": randomizer.randf_range(0.45, 1.25),
 		"alpha": randomizer.randf_range(0.18, 0.48),
 		"vertical_offset": randomizer.randf_range(-55.0, 25.0)
 	}
@@ -75,7 +75,7 @@ func _draw() -> void:
 		return
 
 	var ash_factor: float = _get_ash_factor()
-	var particle_scale: float = 0.75 + ash_factor * 0.65
+	var particle_scale: float = 0.8 + ash_factor * 0.25
 
 	for particle in airborne_particles:
 		var angle: float = float(particle["angle"])
@@ -99,9 +99,9 @@ func _draw() -> void:
 		var ash_color: Color = Color(0.43, 0.43, 0.45, particle_alpha)
 
 		draw_line(
-			particle_position - tangent * particle_size * 1.4,
+			particle_position - tangent * particle_size * 1.2,
 			particle_position + tangent * particle_size * 1.4,
 			Color(ash_color.r, ash_color.g, ash_color.b, particle_alpha * 0.45),
-			max(particle_size * 0.65, 0.5)
+			max(particle_size * 0.45, 0.35)
 		)
 		draw_circle(particle_position, particle_size, ash_color)
