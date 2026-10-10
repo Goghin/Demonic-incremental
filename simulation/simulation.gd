@@ -64,48 +64,79 @@ func update(delta: float, offline_mode: bool = false) -> void:
 			continue
 		
 		if generator.definition.cycle_based:
+			var cycle_start_usec: int = 0
+			if profiling_enabled:
+				cycle_start_usec = Time.get_ticks_usec()
 			update_cycle_generator(
 				generator,
 				delta,
 				offline_mode
 			)
+			if profiling_enabled:
+				_record_profile_time("cycle_generator_processing", cycle_start_usec)
 			continue
 		
 		# Normal continuous generator.
 		if not generator.operating:
-			if generator.can_start_operating(
+			var start_check_usec: int = 0
+			if profiling_enabled:
+				start_check_usec = Time.get_ticks_usec()
+			var can_start: bool = generator.can_start_operating(
 				state,
 				offline_mode
-			):
+			)
+			if profiling_enabled:
+				_record_profile_time("generator_start_checks", start_check_usec)
+			if can_start:
 				generator.operating = true
 			else:
 				continue
 		
 		var operating_delta = delta
 		if offline_mode:
+			var duration_check_usec: int = 0
+			if profiling_enabled:
+				duration_check_usec = Time.get_ticks_usec()
 			operating_delta = _get_available_operating_delta(
 				generator,
 				delta
 			)
+			if profiling_enabled:
+				_record_profile_time("available_operating_duration", duration_check_usec)
 			if operating_delta <= 0.0:
 				generator.operating = false
 				continue
-		elif not generator.can_continue_operating(
+		else:
+			var continue_check_usec: int = 0
+			if profiling_enabled:
+				continue_check_usec = Time.get_ticks_usec()
+			var can_continue: bool = generator.can_continue_operating(
 				state,
 				delta
-			):
-			generator.operating = false
-			continue
+			)
+			if profiling_enabled:
+				_record_profile_time("generator_continue_checks", continue_check_usec)
+			if not can_continue:
+				generator.operating = false
+				continue
 		
+		if profiling_enabled:
+			profile_start_usec = Time.get_ticks_usec()
 		consume_inputs(
 			generator,
 			operating_delta
 		)
+		if profiling_enabled:
+			_record_profile_time("input_consumption", profile_start_usec)
 		
+		if profiling_enabled:
+			profile_start_usec = Time.get_ticks_usec()
 		produce_outputs(
 			generator,
 			operating_delta
 		)
+		if profiling_enabled:
+			_record_profile_time("output_production", profile_start_usec)
 		
 		if offline_mode and operating_delta < delta - 0.000001:
 			generator.operating = false
