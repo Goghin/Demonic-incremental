@@ -4,7 +4,7 @@ extends Node2D
 
 class LavaBurstOverlay extends Node2D:
 	var surface_points: PackedVector2Array = PackedVector2Array()
-	var burst_timer: float = 0.25
+	var burst_timer: float = 0.4
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var particles: Array[Dictionary] = []
 
@@ -23,14 +23,15 @@ class LavaBurstOverlay extends Node2D:
 
 		if burst_timer <= 0.0 and surface_points.size() >= 3:
 			_spawn_burst()
-			burst_timer = randomizer.randf_range(0.45, 1.0)
+			burst_timer = randomizer.randf_range(0.65, 1.2)
 
 		for i in range(particles.size() - 1, -1, -1):
 			var particle: Dictionary = particles[i]
 			var particle_node: Node2D = particle["node"]
 			var life: float = float(particle["life"]) - delta
 			var velocity: Vector2 = particle["velocity"]
-			velocity += Vector2(0.0, -22.0) * delta
+			velocity += Vector2(0.0, -12.0) * delta
+			velocity.x = move_toward(velocity.x, 0.0, 8.0 * delta)
 			particle_node.position += velocity * delta
 
 			if life <= 0.0:
@@ -39,7 +40,9 @@ class LavaBurstOverlay extends Node2D:
 			else:
 				particle["life"] = life
 				particle["velocity"] = velocity
-				particle_node.modulate.a = clamp(life / float(particle["max_life"]), 0.0, 1.0)
+				var life_ratio: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
+				particle_node.modulate.a = life_ratio
+				particle_node.scale = Vector2.ONE * lerp(0.55, 1.0, life_ratio)
 				particles[i] = particle
 
 	func _spawn_burst() -> void:
@@ -54,7 +57,7 @@ class LavaBurstOverlay extends Node2D:
 		var edge_position: Vector2 = edge_point.lerp(next_point, randomizer.randf())
 		var burst_position: Vector2 = center.lerp(edge_position, sqrt(randomizer.randf()))
 
-		var particle_count: int = randomizer.randi_range(8, 14)
+		var particle_count: int = randomizer.randi_range(5, 9)
 		for i in range(particle_count):
 			var particle_node := Node2D.new()
 			particle_node.name = "LavaBurstParticle"
@@ -62,26 +65,27 @@ class LavaBurstOverlay extends Node2D:
 			particle_node.z_index = 1
 			add_child(particle_node)
 
-			var particle_size: float = randomizer.randf_range(5.0, 8.0)
+			var particle_size: float = randomizer.randf_range(2.5, 4.5)
 			var outer := Polygon2D.new()
 			outer.name = "OuterGlow"
 			outer.polygon = _make_circle(particle_size, 10)
-			outer.color = Color(1.0, 0.24, 0.025, 1.0)
+			outer.color = Color(1.0, 0.19, 0.015, 0.95)
 			particle_node.add_child(outer)
 
 			var core := Polygon2D.new()
 			core.name = "HotCore"
 			core.polygon = _make_circle(particle_size * 0.55, 10)
-			core.color = Color(1.0, 0.9, 0.35, 1.0)
+			core.color = Color(1.0, 0.88, 0.42, 1.0)
 			particle_node.add_child(core)
 
-			var angle: float = randomizer.randf_range(-PI * 0.92, -PI * 0.08)
-			var speed: float = randomizer.randf_range(35.0, 75.0)
+			var angle: float = randomizer.randf_range(-PI * 0.88, -PI * 0.12)
+			var speed: float = randomizer.randf_range(28.0, 58.0)
+			var particle_life: float = randomizer.randf_range(0.55, 0.9)
 			particles.append({
 				"node": particle_node,
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
-				"life": randomizer.randf_range(0.7, 1.2),
-				"max_life": 1.2
+				"life": particle_life,
+				"max_life": particle_life
 			})
 
 	func _make_circle(radius: float, segments: int) -> PackedVector2Array:
