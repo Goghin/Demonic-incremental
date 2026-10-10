@@ -397,7 +397,7 @@ func _relative_deviation_percent(
 
 
 func _format_number(value: float) -> String:
-	return String.num_scientific(value, 5)
+	return "%.5e" % value
 
 
 func _format_elapsed(seconds: float) -> String:
