@@ -20,7 +20,6 @@ var molecular_agitation_sprite_controller: MolecularAgitationSpriteController = 
 
 var atomic_friction_particle_controller: AtomicFrictionParticleController = AtomicFrictionParticleController.new()
 
-const MATTER_FURNACE_SIZE_MULTIPLIER: float = 1.4
 
 
 var furnace_swirl_controller: FurnaceSwirlController = FurnaceSwirlController.new()
@@ -805,70 +804,15 @@ func _draw_generators() -> void:
 		# Matter Furnace
 		# ---------------------------------------------------------
 		if generator_id == "matter_furnace":
-			var animated_sprite: AnimatedSprite2D = (
-				_get_matter_furnace_sprite()
+			matter_furnace_visual_controller.update(
+				generator_visual_renderer,
+				generator_layer,
+				generator_sprites,
+				generator,
+				generator_position,
+				machine_size,
+				generator_hitboxes
 			)
-
-			var frame_size: Vector2 = Vector2(
-				314.0,
-				321.0
-			)
-
-			var target_size: float = (
-				machine_size *
-				2.0 *
-				MATTER_FURNACE_SIZE_MULTIPLIER
-			)
-
-			var texture_scale: float = min(
-				target_size / max(frame_size.x, 1.0),
-				target_size / max(frame_size.y, 1.0)
-			)
-
-			var draw_size: Vector2 = (
-				frame_size * texture_scale
-			)
-
-			var hitbox: Rect2 = Rect2(
-				generator_position - draw_size * 0.5,
-				draw_size
-			)
-
-			generator_hitboxes[generator_id] = hitbox
-
-			animated_sprite.position = generator_position
-			animated_sprite.scale = Vector2(
-				texture_scale,
-				texture_scale
-			)
-
-			animated_sprite.z_index = 0
-			animated_sprite.visible = true
-
-			if generator.is_operating():
-				animated_sprite.modulate = Color(
-					1.0,
-					1.0,
-					1.0,
-					0.75
-				)
-
-				if animated_sprite.animation != &"default":
-					animated_sprite.animation = &"default"
-
-				if not animated_sprite.is_playing():
-					animated_sprite.play()
-			else:
-				animated_sprite.modulate = Color(
-					0.70,
-					0.70,
-					0.70,
-					1.0
-				)
-
-				if animated_sprite.is_playing():
-					animated_sprite.pause()
-
 			continue
 			
 		if generator_id == "thermal_furnace":
