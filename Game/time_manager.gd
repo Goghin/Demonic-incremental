@@ -207,7 +207,10 @@ func advance(game_seconds: float) -> void:
 # so offline-specific optimizations can be introduced without changing
 # the regular simulation loop.
 func _advance_offline_step(game_seconds: float) -> void:
-	simulation.update(game_seconds)
+	simulation.update(
+		game_seconds,
+		offline_simulation_active
+	)
 	game_time += game_seconds
 
 # ----------------------------------------------------------------
