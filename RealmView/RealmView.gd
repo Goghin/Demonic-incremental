@@ -13,8 +13,7 @@ const ASH_PILE_TEXTURE: Texture2D = preload("res://RealmView/ashpile.png")
 const ASH_PILE_BASE_WIDTH_RATIO: float = 0.018
 const ASH_PILE_MAX_WIDTH_RATIO: float = 0.085
 const ASH_PILE_FULL_GROWTH_ASH: float = 10000.0
-var molecular_extra_sprite_a: Sprite2D
-var molecular_extra_sprite_b: Sprite2D
+var molecular_agitation_sprite_controller: MolecularAgitationSpriteController = MolecularAgitationSpriteController.new()
 
 var atomic_friction_particles: Node2D
 
@@ -1981,7 +1980,7 @@ func _update_molecular_agitation_sprites(delta: float) -> void:
 		return
 
 	if not generator_sprites.has("molecular_agitation"):
-		_set_molecular_extra_sprites_visible(false)
+		molecular_agitation_sprite_controller.hide()
 		return
 
 	var generator: Generator = state.generators.get(
@@ -1989,56 +1988,12 @@ func _update_molecular_agitation_sprites(delta: float) -> void:
 	)
 	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
 
-	if generator == null or not sprite.visible or not generator.is_operating():
-		_set_molecular_extra_sprites_visible(false)
-		return
-
-	if molecular_extra_sprite_a == null:
-		molecular_extra_sprite_a = Sprite2D.new()
-		molecular_extra_sprite_a.name = "MolecularAgitationSwirlA"
-		molecular_extra_sprite_a.z_index = 12
-		add_child(molecular_extra_sprite_a)
-
-	if molecular_extra_sprite_b == null:
-		molecular_extra_sprite_b = Sprite2D.new()
-		molecular_extra_sprite_b.name = "MolecularAgitationSwirlB"
-		molecular_extra_sprite_b.z_index = 13
-		add_child(molecular_extra_sprite_b)
-
-	var level_speed_multiplier: float = (
-		1.0 + max(generator.level - 1, 0) * 0.05
+	molecular_agitation_sprite_controller.update(
+		self,
+		generator,
+		sprite,
+		delta
 	)
-
-	for extra_sprite in [
-		molecular_extra_sprite_a,
-		molecular_extra_sprite_b
-	]:
-		extra_sprite.texture = sprite.texture
-		extra_sprite.visible = true
-		extra_sprite.position = sprite.position
-		extra_sprite.scale = sprite.scale
-		extra_sprite.modulate = Color(1.0, 1.0, 1.0, 0.8)
-
-	# Positive rotation is clockwise in Godot's 2D coordinate system.
-	molecular_extra_sprite_a.rotation += (
-		THERMAL_FURNACE_ROTATION_SPEED
-		* level_speed_multiplier
-		* 0.82
-		* delta
-	)
-	molecular_extra_sprite_b.rotation += (
-		THERMAL_FURNACE_ROTATION_SPEED
-		* level_speed_multiplier
-		* 1.07
-		* delta
-	)
-
-
-func _set_molecular_extra_sprites_visible(should_be_visible: bool) -> void:
-	if molecular_extra_sprite_a != null:
-		molecular_extra_sprite_a.visible = should_be_visible
-	if molecular_extra_sprite_b != null:
-		molecular_extra_sprite_b.visible = should_be_visible
 
 
 func _update_furnace_swirl() -> void:
