@@ -17,6 +17,13 @@ signal offline_simulation_progress(
 
 
 const MAX_STEP: float = 0.1
+
+# Offline simulation has its own step limit so it can be optimized
+# independently of normal gameplay. Keep this at MAX_STEP until
+# larger-step simulation has been validated against the normal loop.
+const OFFLINE_MAX_GAME_STEP: float = MAX_STEP
+const OFFLINE_MAX_REAL_STEP: float = 0.1
+
 const PROGRESS_UPDATE_INTERVAL: int = 100
 const STABILIZATION_DURATION: float = 180.0
 
@@ -107,18 +114,23 @@ func simulate_offline(seconds: float) -> void:
 		return
 
 	simulation_statistics.reset()
-
 	offline_simulation_active = true
 
-	# Progress represents REAL/OFFLINE time.
-	# It is intentionally independent of time_scale.
+	# Progress represents REAL/OFFLINE time, not game time.
+	# Calculate the expected number of steps using the offline step limits.
+	var real_step_limit = OFFLINE_MAX_REAL_STEP
+	if time_scale > 0.0:
+		real_step_limit = min(
+			real_step_limit,
+			OFFLINE_MAX_GAME_STEP / time_scale
+		)
+
 	simulation_tick = 0
 	simulation_total_ticks = ceili(
-		seconds / MAX_STEP
+		seconds / real_step_limit
 	)
 
 	simulation.state.simulation_statistics = simulation_statistics
-
 	offline_simulation_progress.emit(
 		simulation_tick,
 		simulation_total_ticks
@@ -128,9 +140,11 @@ func simulate_offline(seconds: float) -> void:
 	current_offline_duration = 0.0
 
 	while remaining > 0.0:
+		# Bound both real time and game time. This keeps the offline
+		# stepper independent from advance(), which is used in normal play.
 		var step = min(
 			remaining,
-			MAX_STEP
+			real_step_limit
 		)
 
 		# These values represent real/offline time.
@@ -138,30 +152,18 @@ func simulate_offline(seconds: float) -> void:
 		current_offline_duration += step
 		prestige_time += step
 
-		_update_stabilization_countdown(
-			step
-		)
+		_update_stabilization_countdown(step)
 
 		simulation.state.set_lava_mite_dormancy_penalty(
-			get_dormancy_penalty(
-				current_offline_duration
-			)
+			get_dormancy_penalty(current_offline_duration)
 		)
 
-		# Time scale affects game simulation,
-		# but NOT the offline duration/progress.
-		var game_seconds = (
-			step
-			* time_scale
-		)
+		var game_seconds = step * time_scale
+		if game_seconds > 0.0:
+			_advance_offline_step(game_seconds)
 
-		advance(game_seconds)
-
-		# One progress tick represents one real/offline
-		# simulation step.
 		simulation_tick += 1
-
-		remaining -= step
+		remaining = max(0.0, remaining - step)
 
 		if simulation_tick % PROGRESS_UPDATE_INTERVAL == 0:
 			offline_simulation_progress.emit(
@@ -172,16 +174,15 @@ func simulate_offline(seconds: float) -> void:
 			# Give the loading screen a chance to redraw.
 			await Engine.get_main_loop().process_frame
 
-	# Make sure the progress reaches exactly 100%.
+	# Make sure progress reaches exactly 100%, including for very short
+	# durations that don't hit a progress-update boundary.
 	simulation_tick = simulation_total_ticks
-
 	offline_simulation_progress.emit(
 		simulation_tick,
 		simulation_total_ticks
 	)
 
 	await Engine.get_main_loop().process_frame
-
 	offline_simulation_active = false
 
 
@@ -198,11 +199,16 @@ func advance(game_seconds: float) -> void:
 		)
 
 		simulation.update(step)
-
 		game_time += step
+		remaining = max(0.0, remaining - step)
 
-		remaining -= step
 
+# Process one offline simulation step. Kept separate from normal gameplay
+# so offline-specific optimizations can be introduced without changing
+# the regular simulation loop.
+func _advance_offline_step(game_seconds: float) -> void:
+	simulation.update(game_seconds)
+	game_time += game_seconds
 
 # ----------------------------------------------------------------
 # Prestige Time
