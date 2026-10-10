@@ -8,6 +8,7 @@ var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = Th
 var ash_renderer: AshContaminationRenderer
 var ash_piles: Array[Sprite2D] = []
 var generator_sprites: Dictionary = {}
+var generator_layer: Node2D
 
 var ash_pile_renderer: AshPileRenderer = AshPileRenderer.new()
 var molecular_agitation_sprite_controller: MolecularAgitationSpriteController = MolecularAgitationSpriteController.new()
@@ -86,6 +87,7 @@ const BRAZIER_STATS: Array[String] = [
 
 func setup(game_state: GameState) -> void:
 	state = game_state
+	_setup_generator_layer()
 
 	scale = Vector2(
 		REALM_VISUAL_SCALE,
@@ -98,6 +100,16 @@ func setup(game_state: GameState) -> void:
 	_setup_braziers()
 
 	rebuild_realm(state.realm_layout)
+
+func _setup_generator_layer() -> void:
+	if is_instance_valid(generator_layer):
+		return
+
+	generator_layer = Node2D.new()
+	generator_layer.name = "GeneratorLayer"
+	generator_layer.z_index = 10
+	add_child(generator_layer)
+
 
 func _setup_braziers() -> void:
 	for stat_name in BRAZIER_STATS:
@@ -843,7 +855,7 @@ func _draw_generators() -> void:
 				texture_scale,
 				texture_scale
 			)
-			animated_sprite.z_index = 10
+			animated_sprite.z_index = 0
 			animated_sprite.visible = true
 
 			# Update animation speed based on level.
@@ -919,7 +931,7 @@ func _draw_generators() -> void:
 				texture_scale
 			)
 
-			animated_sprite.z_index = 10
+			animated_sprite.z_index = 0
 			animated_sprite.visible = true
 
 			if generator.is_operating():
@@ -993,10 +1005,10 @@ func _draw_generators() -> void:
 			else:
 				sprite = Sprite2D.new()
 				sprite.name = "Generator_" + generator_id
-				add_child(sprite)
+				generator_layer.add_child(sprite)
 				generator_sprites[generator_id] = sprite
 
-			sprite.z_index = 10
+			sprite.z_index = 0
 			sprite.texture = texture
 			sprite.position = generator_position
 
@@ -1923,14 +1935,14 @@ func _update_atomic_friction_animation(delta: float) -> void:
 
 func _get_lava_mite_sprite() -> AnimatedSprite2D:
 	return generator_visual_renderer.get_lava_mite_sprite(
-		self,
+		generator_layer,
 		generator_sprites
 	)
 
 
 func _get_matter_furnace_sprite() -> AnimatedSprite2D:
 	return generator_visual_renderer.get_matter_furnace_sprite(
-		self,
+		generator_layer,
 		generator_sprites
 	)
 

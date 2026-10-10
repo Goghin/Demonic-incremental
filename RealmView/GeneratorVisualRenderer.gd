@@ -111,7 +111,7 @@ func _get_animated_generator_sprite(
 	sprite.animation = animation_name
 	sprite.autoplay = animation_name
 	sprite.frame = 0
-	sprite.z_index = 10
+	sprite.z_index = 0
 	parent.add_child(sprite)
 	generator_sprites[generator_id] = sprite
 
