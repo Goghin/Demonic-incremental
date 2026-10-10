@@ -5,6 +5,7 @@ extends Control
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var lava_flow_state_controller: LavaFlowStateController = LavaFlowStateController.new()
+var lava_lake_state_controller: LavaLakeStateController = LavaLakeStateController.new()
 var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
 var ash_renderer: AshContaminationRenderer
 var ash_piles: Array[Sprite2D] = []
@@ -1682,56 +1683,11 @@ func _create_lava_lakes() -> void:
 		lava_lakes.append(lake)
 
 func _update_lava_lakes() -> void:
-	if lava_lakes.is_empty():
-		return
-
-	var overflow_rate: float = (
-		state.get_heat_leak_per_second() *
-		state.get_overflow_crystallization_multiplier()
+	lava_lake_state_controller.update(
+		state,
+		realm_layout,
+		lava_lakes
 	)
-
-	var main_lake: LavaLake = lava_lakes[0]
-
-	main_lake.set_heat(
-		overflow_rate,
-		state.realm_effects.heat_leak_threshold
-	)
-
-	var main_fill: float = main_lake.fill
-
-	for i in range(realm_layout.small_lake_definitions.size()):
-		var lake_index: int = i + 1
-
-		if lake_index >= lava_lakes.size():
-			break
-
-		var lake: LavaLake = lava_lakes[lake_index]
-		var definition: Dictionary = realm_layout.small_lake_definitions[i]
-
-		var start_fill: float = definition["start_fill"]
-		var full_fill: float = definition["full_fill"]
-
-		var small_fill: float = 0.01
-
-		if main_fill > start_fill:
-			var fill_range: float = max(
-				full_fill - start_fill,
-				0.001
-			)
-
-			var progress: float = clamp(
-				(main_fill - start_fill) / fill_range,
-				0.0,
-				1.0
-			)
-
-			small_fill = lerp(
-				0.01,
-				1.0,
-				progress
-			)
-
-		lake.set_fill(small_fill)
 
 func _update_lava_lake_positions() -> void:
 	var island_rect: Rect2 = _get_island_rect()
