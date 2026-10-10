@@ -7,6 +7,7 @@ class LavaBurstOverlay extends Node2D:
 	var burst_timer: float = 0.25
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var particles: Array[Dictionary] = []
+	var has_logged_coordinates: bool = false
 
 	func _ready() -> void:
 		randomizer.randomize()
@@ -68,6 +69,16 @@ class LavaBurstOverlay extends Node2D:
 			edge_position,
 			sqrt(randomizer.randf())
 		)
+
+		if not has_logged_coordinates:
+			has_logged_coordinates = true
+			print("[LavaBurst debug] points=", surface_points.size(),
+				" first=", surface_points[0],
+				" center=", center,
+				" burst_local=", burst_position,
+				" overlay_local=", position,
+				" overlay_global=", global_position,
+				" parent_global=", get_parent().global_position if get_parent() != null else Vector2.ZERO)
 
 		var particle_count: int = randomizer.randi_range(8, 14)
 		for i in range(particle_count):
