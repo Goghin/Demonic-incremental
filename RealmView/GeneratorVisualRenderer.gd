@@ -48,6 +48,34 @@ func get_or_create_sprite(
 	return sprite
 
 
+func update_sprite(
+	sprite: Sprite2D,
+	generator: Generator,
+	texture: Texture2D,
+	generator_position: Vector2,
+	texture_scale: float
+) -> void:
+	sprite.z_index = 0
+	sprite.texture = texture
+	sprite.position = generator_position
+
+	if generator.definition.id == "atomic_friction":
+		if not sprite.has_meta("atomic_friction_base_scale"):
+			sprite.set_meta(
+				"atomic_friction_base_scale",
+				Vector2(texture_scale, texture_scale)
+			)
+	else:
+		sprite.scale = Vector2(texture_scale, texture_scale)
+
+	sprite.visible = true
+
+	if generator.is_operating():
+		sprite.modulate = Color(1.0, 1.0, 1.0, 0.75)
+	else:
+		sprite.modulate = Color(0.70, 0.70, 0.70, 1.0)
+
+
 func get_texture(generator: Generator) -> Texture2D:
 	var path: String = generator.definition.illustration_path
 

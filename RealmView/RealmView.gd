@@ -984,43 +984,13 @@ func _draw_generators() -> void:
 				generator_id
 			)
 
-			sprite.z_index = 0
-			sprite.texture = texture
-			sprite.position = generator_position
-
-			if generator_id == "atomic_friction":
-				if not sprite.has_meta(
-					"atomic_friction_base_scale"
-				):
-					sprite.set_meta(
-						"atomic_friction_base_scale",
-						Vector2(
-							texture_scale,
-							texture_scale
-						)
-					)
-			else:
-				sprite.scale = Vector2(
-					texture_scale,
-					texture_scale
-				)
-
-			sprite.visible = true
-
-			if generator.is_operating():
-				sprite.modulate = Color(
-					1.0,
-					1.0,
-					1.0,
-					0.75
-				)
-			else:
-				sprite.modulate = Color(
-					0.70,
-					0.70,
-					0.70,
-					1.0
-				)
+			generator_visual_renderer.update_sprite(
+				sprite,
+				generator,
+				texture,
+				generator_position,
+				texture_scale
+			)
 
 		else:
 			var fallback_size: float = (
