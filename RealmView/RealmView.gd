@@ -45,6 +45,7 @@ const REALM_VISUAL_OFFSET: Vector2 = Vector2(0.0, 0.0)
 const ISLAND_BASE_SIZE: Vector2 = Vector2(418.0, 156.0)
 const ISLAND_SCALE: float = 2.0
 const ISLAND_CENTER_RATIO: Vector2 = Vector2(0.68, 0.66)
+const ASH_VISUAL_RADIUS: float = 190.0
 
 var realm_layout: Resource
 
@@ -386,8 +387,6 @@ func _draw() -> void:
 	# Neutral realm dimensions
 	# ------------------------------------------------------------
 
-	var sx: float = 190.0
-
 	realm_background_renderer.draw_background(self, center)
 
 	var island_rect: Rect2 = _get_island_rect()
@@ -421,7 +420,7 @@ func _draw() -> void:
 
 	_update_ash_visuals(
 		center,
-		sx,
+		ASH_VISUAL_RADIUS,
 		ash
 	)
 
