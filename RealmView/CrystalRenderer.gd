@@ -53,6 +53,14 @@ func update(
 	_position_crystals(owner, crystals, crystal_values)
 
 
+func reposition(
+	owner: Control,
+	crystals: Array[CrystallizedFlame],
+	crystal_values: Array[float]
+) -> void:
+	_position_crystals(owner, crystals, crystal_values)
+
+
 func _update_crystal_count(
 	owner: Control,
 	crystals: Array[CrystallizedFlame],
@@ -168,6 +176,9 @@ func _position_crystals(
 
 	for i in range(position_count):
 		var crystal: CrystallizedFlame = crystals[i]
+		if not is_instance_valid(crystal) or crystal.destruction_active:
+			continue
+
 		var crystal_position: Vector2 = center + CRYSTAL_POSITIONS[i]
 
 		var flame_value: float = 1.0

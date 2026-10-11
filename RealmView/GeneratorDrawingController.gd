@@ -61,12 +61,15 @@ func _draw_generator(
 	machine_size: float
 ) -> void:
 	var generator_id: String = generator.definition.id
-	active_ids[generator_id] = true
 
 	if not owner.realm_layout.generator_layout_positions.has(
 		generator_id
 	):
 		return
+
+	# Only generators with a valid layout position count as drawable. This
+	# ensures stale sprites are hidden by update_generator_visibility().
+	active_ids[generator_id] = true
 
 	var normalized_position: Vector2 = (
 		owner.realm_layout.generator_layout_positions[

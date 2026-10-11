@@ -35,6 +35,12 @@ func update_if_needed(
 	update(owner, state)
 
 
+func reposition(owner: Control) -> void:
+	# Reposition existing crystals without changing their count or values.
+	# Crystals already in the prestige destruction animation are left alone.
+	renderer.reposition(owner, crystals, crystal_values)
+
+
 func update(
 	owner: Control,
 	state: GameState

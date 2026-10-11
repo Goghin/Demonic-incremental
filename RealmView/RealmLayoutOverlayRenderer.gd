@@ -14,8 +14,13 @@ func setup(view: Control) -> void:
 	name = "RealmLayoutOverlayRenderer"
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	z_index = 100
+	if get_parent() != view:
+		if is_instance_valid(get_parent()):
+			reparent(view)
+		else:
+			view.add_child(self)
+
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	view.add_child(self)
 
 
 func update_overlay(
