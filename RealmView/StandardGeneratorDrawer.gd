@@ -3,22 +3,24 @@ extends RefCounted
 
 
 func draw(
-	owner: Control,
+	visual_renderer: GeneratorVisualRenderer,
+	generator_layer: Node2D,
+	generator_sprites: Dictionary,
+	generator_hitboxes: Dictionary,
 	generator: Generator,
 	generator_id: String,
 	generator_position: Vector2,
 	machine_size: float,
 	size_multiplier: float
 ) -> void:
-	var visual_renderer: GeneratorVisualRenderer = (
-		owner.generator_visual_renderer
-	)
 	var texture: Texture2D = visual_renderer.get_texture(generator)
 
 	if texture != null:
 		_draw_textured_generator(
-			owner,
 			visual_renderer,
+			generator_layer,
+			generator_sprites,
+			generator_hitboxes,
 			generator,
 			generator_id,
 			generator_position,
@@ -27,7 +29,7 @@ func draw(
 			size_multiplier
 		)
 	else:
-		owner.generator_hitboxes[generator_id] = (
+		generator_hitboxes[generator_id] = (
 			visual_renderer.get_fallback_hitbox(
 				generator_position,
 				machine_size,
@@ -37,8 +39,10 @@ func draw(
 
 
 func _draw_textured_generator(
-	owner: Control,
 	visual_renderer: GeneratorVisualRenderer,
+	generator_layer: Node2D,
+	generator_sprites: Dictionary,
+	generator_hitboxes: Dictionary,
 	generator: Generator,
 	generator_id: String,
 	generator_position: Vector2,
@@ -52,7 +56,7 @@ func _draw_textured_generator(
 		size_multiplier
 	)
 
-	owner.generator_hitboxes[generator_id] = (
+	generator_hitboxes[generator_id] = (
 		visual_renderer.get_texture_hitbox(
 			texture,
 			generator_position,
@@ -61,8 +65,8 @@ func _draw_textured_generator(
 	)
 
 	var sprite: Sprite2D = visual_renderer.get_or_create_sprite(
-		owner.generator_layer,
-		owner.generator_sprites,
+		generator_layer,
+		generator_sprites,
 		generator_id
 	)
 

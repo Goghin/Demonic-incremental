@@ -110,7 +110,10 @@ func _draw_generator(
 		)
 
 	standard_generator_drawer.draw(
-		owner,
+		owner.generator_visual_renderer,
+		owner.generator_layer,
+		owner.generator_sprites,
+		owner.generator_hitboxes,
 		generator,
 		generator_id,
 		generator_position,
