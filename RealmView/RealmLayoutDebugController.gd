@@ -33,12 +33,18 @@ func print_layout_details(
 	print("--- Braziers ---")
 
 	for stat_name in brazier_stats:
-		if braziers.has(stat_name):
+		if braziers.has(stat_name) and layout.brazier_layout_positions.has(stat_name):
 			print(
 				"Brazier ",
 				stat_name,
 				" -> ",
 				layout.brazier_layout_positions[stat_name]
+			)
+		elif braziers.has(stat_name):
+			print(
+				"Brazier ",
+				stat_name,
+				" -> <missing layout position>"
 			)
 
 	if not lava_lakes.is_empty():
@@ -52,6 +58,10 @@ func print_layout_point(
 	mouse_position: Vector2,
 	island_rect: Rect2
 ) -> void:
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		print("Cannot print layout point: island bounds are not ready.")
+		return
+
 	var normalized_position: Vector2 = (
 		(mouse_position - island_rect.position) /
 		island_rect.size
