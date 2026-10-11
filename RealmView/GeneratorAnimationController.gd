@@ -2,17 +2,27 @@ class_name GeneratorAnimationController
 extends RefCounted
 
 
+var thermal_furnace: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
+var molecular_agitation: MolecularAgitationSpriteController = MolecularAgitationSpriteController.new()
+var furnace_swirl: FurnaceSwirlController = FurnaceSwirlController.new()
+var atomic_friction_particles: AtomicFrictionParticleController = AtomicFrictionParticleController.new()
+var atomic_friction_animation: AtomicFrictionAnimationController = AtomicFrictionAnimationController.new()
+
+
+func reset() -> void:
+	thermal_furnace.reset()
+	molecular_agitation.hide()
+	furnace_swirl.reset()
+	atomic_friction_particles.reset()
+	atomic_friction_animation.reset()
+
+
 func update_phase(
 	phase: StringName,
 	owner: Control,
 	state: GameState,
 	generator_sprites: Dictionary,
-	delta: float,
-	thermal_furnace_animation_controller: ThermalFurnaceAnimationController,
-	molecular_agitation_sprite_controller: MolecularAgitationSpriteController,
-	furnace_swirl_controller: FurnaceSwirlController,
-	atomic_friction_particle_controller: AtomicFrictionParticleController,
-	atomic_friction_animation_controller: AtomicFrictionAnimationController
+	delta: float
 ) -> void:
 	match phase:
 		&"early":
@@ -21,34 +31,34 @@ func update_phase(
 				state,
 				generator_sprites,
 				delta,
-				thermal_furnace_animation_controller
+				thermal_furnace
 			)
 			_update_molecular_agitation(
 				owner,
 				state,
 				generator_sprites,
 				delta,
-				molecular_agitation_sprite_controller
+				molecular_agitation
 			)
 		&"middle":
 			_update_furnace_swirl(
 				owner,
 				state,
 				generator_sprites,
-				furnace_swirl_controller
+				furnace_swirl
 			)
 			_update_atomic_friction_particles(
 				owner,
 				state,
 				generator_sprites,
-				atomic_friction_particle_controller
+				atomic_friction_particles
 			)
 		&"late":
 			_update_atomic_friction_animation(
 				state,
 				generator_sprites,
 				delta,
-				atomic_friction_animation_controller
+				atomic_friction_animation
 			)
 
 
