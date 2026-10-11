@@ -2,6 +2,9 @@ class_name GeneratorDrawingController
 extends RefCounted
 
 
+var geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
+
+
 func draw_generators(
 	owner: Control,
 	state: GameState,
@@ -41,7 +44,10 @@ func draw_generators(
 			continue
 
 		var normalized_position: Vector2 = realm_layout.generator_layout_positions[generator_id]
-		var generator_position: Vector2 = island_rect.position + island_rect.size * normalized_position
+		var generator_position: Vector2 = geometry_controller.get_position_from_normalized(
+			normalized_position,
+			island_rect
+		)
 		var size_multiplier: float = 1.0
 
 		if generator_id == "infernal_forge":
