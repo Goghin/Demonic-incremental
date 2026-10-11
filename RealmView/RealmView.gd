@@ -5,6 +5,7 @@ extends Control
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var generator_drawing_controller: GeneratorDrawingController = GeneratorDrawingController.new()
+var generator_animation_controller: GeneratorAnimationController = GeneratorAnimationController.new()
 var lava_mite_visual_controller: LavaMiteVisualController = LavaMiteVisualController.new()
 var matter_furnace_visual_controller: MatterFurnaceVisualController = MatterFurnaceVisualController.new()
 var lava_flow_state_controller: LavaFlowStateController = LavaFlowStateController.new()
@@ -259,17 +260,23 @@ func _process(_delta: float) -> void:
 		update_flame_visuals()
 
 	forge_activity_visual_controller.advance(_delta)
-	_update_generator_animations(_delta)
-	_update_molecular_agitation_sprites(_delta)
+	generator_animation_controller.update(
+		self,
+		state,
+		generator_sprites,
+		_delta,
+		thermal_furnace_animation_controller,
+		molecular_agitation_sprite_controller,
+		furnace_swirl_controller,
+		atomic_friction_particle_controller,
+		atomic_friction_animation_controller
+	)
 	_update_lava_lakes()
 	_update_lava_flow_states()
-	_update_furnace_swirl()
-	_update_atomic_friction_particles()
 	molecular_agitation_particle_controller.update(
 		state.generators.get("thermal_furnace"),
 		_get_generator_position("thermal_furnace")
 	)
-	_update_atomic_friction_animation(_delta)
 	queue_redraw()
 
 
@@ -1065,117 +1072,7 @@ func _update_lava_flow_states() -> void:
 	)
 		
 		
-func _update_generator_animations(delta: float) -> void:
-	if state == null:
-		return
-
-	if not generator_sprites.has("thermal_furnace"):
-		return
-
-	var furnace: Generator = state.generators.get(
-		"thermal_furnace"
-	)
-
-	if furnace == null:
-		return
-
-	var sprite: Sprite2D = generator_sprites["thermal_furnace"]
-	thermal_furnace_animation_controller.update(
-		self,
-		furnace,
-		sprite,
-		delta
-	)
-
-func _update_molecular_agitation_sprites(delta: float) -> void:
-	if state == null:
-		return
-
-	if not generator_sprites.has("molecular_agitation"):
-		molecular_agitation_sprite_controller.hide()
-		return
-
-	var generator: Generator = state.generators.get(
-		"molecular_agitation"
-	)
-	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
-
-	molecular_agitation_sprite_controller.update(
-		self,
-		generator,
-		sprite,
-		delta
-	)
 
 
-func _update_furnace_swirl() -> void:
-	if state == null:
-		return
-
-	if not generator_sprites.has("molecular_agitation"):
-		return
-
-	var furnace: Generator = state.generators.get(
-		"molecular_agitation"
-	)
-
-	if furnace == null:
-		return
-
-	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
-
-	furnace_swirl_controller.update(
-		self,
-		furnace,
-		sprite
-	)
 
 
-func _update_atomic_friction_particles() -> void:
-	if state == null:
-		return
-
-	if not generator_sprites.has("atomic_friction"):
-		return
-
-	var generator: Generator = state.generators.get(
-		"atomic_friction"
-	)
-
-	if generator == null:
-		return
-
-	var sprite: Sprite2D = generator_sprites[
-		"atomic_friction"
-	]
-
-	atomic_friction_particle_controller.update(
-		self,
-		generator,
-		sprite
-	)
-
-
-func _update_atomic_friction_animation(delta: float) -> void:
-	if state == null:
-		return
-
-	if not generator_sprites.has("atomic_friction"):
-		return
-
-	var generator: Generator = state.generators.get(
-		"atomic_friction"
-	)
-
-	if generator == null:
-		return
-
-	var sprite: Sprite2D = generator_sprites[
-		"atomic_friction"
-	]
-
-	atomic_friction_animation_controller.update(
-		generator,
-		sprite,
-		delta
-	)
