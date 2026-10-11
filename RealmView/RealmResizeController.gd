@@ -2,7 +2,7 @@ class_name RealmResizeController
 extends RefCounted
 
 
-func handle_notification(owner: Control, what: int) -> void:
+func handle_notification(owner: RealmView, what: int) -> void:
 	if what != Control.NOTIFICATION_RESIZED:
 		return
 	if owner.realm_layout == null:

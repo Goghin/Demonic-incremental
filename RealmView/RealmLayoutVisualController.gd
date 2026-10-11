@@ -2,7 +2,7 @@ class_name RealmLayoutVisualController
 extends RefCounted
 
 
-func update_positions(owner: Control, island_rect: Rect2) -> void:
+func update_positions(owner: RealmView, island_rect: Rect2) -> void:
 	if owner.realm_layout == null:
 		return
 

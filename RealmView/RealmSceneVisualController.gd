@@ -2,7 +2,7 @@ class_name RealmSceneVisualController
 extends RefCounted
 
 
-func update(owner: Control, island_rect: Rect2) -> void:
+func update(owner: RealmView, island_rect: Rect2) -> void:
 	var state: GameState = owner.state
 	var realm_layout: Resource = owner.realm_layout
 	if state == null or realm_layout == null:
@@ -20,7 +20,7 @@ func update(owner: Control, island_rect: Rect2) -> void:
 	_update_layout_overlay(owner)
 
 
-func _update_ash_visuals(owner: Control, island_rect: Rect2) -> void:
+func _update_ash_visuals(owner: RealmView, island_rect: Rect2) -> void:
 	var ash: float = owner.state.get_resource_amount(ResourceIds.ASH)
 	owner.ash_visual_controller.update_realm_visuals(
 		owner,
@@ -32,7 +32,7 @@ func _update_ash_visuals(owner: Control, island_rect: Rect2) -> void:
 	)
 
 
-func _update_braziers(owner: Control, island_rect: Rect2) -> void:
+func _update_braziers(owner: RealmView, island_rect: Rect2) -> void:
 	owner.brazier_visual_controller.update_stat_values(
 		owner.braziers,
 		owner.BRAZIER_STATS,
@@ -46,7 +46,7 @@ func _update_braziers(owner: Control, island_rect: Rect2) -> void:
 	)
 
 
-func _update_forge_visuals(owner: Control, island_rect: Rect2) -> void:
+func _update_forge_visuals(owner: RealmView, island_rect: Rect2) -> void:
 	var forge_position: Vector2 = owner._get_generator_position_in_rect(
 		"infernal_forge",
 		island_rect
@@ -58,7 +58,7 @@ func _update_forge_visuals(owner: Control, island_rect: Rect2) -> void:
 	)
 
 
-func _update_layout_overlay(owner: Control) -> void:
+func _update_layout_overlay(owner: RealmView) -> void:
 	var overlay: RealmLayoutOverlayRenderer = owner.realm_layout_overlay_renderer
 	var layout_mode: bool = owner.realm_layout_editor_controller.layout_mode
 

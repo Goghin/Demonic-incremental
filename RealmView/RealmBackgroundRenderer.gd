@@ -14,10 +14,9 @@ const PARTICLE_MIN_SIZE: float = 0.4
 const PARTICLE_SIZE_SPREAD: float = 1.6
 
 
-func draw_background(
-	owner: Control,
-	center: Vector2
-) -> void:
+func draw_background(owner: RealmView) -> void:
+	var center: Vector2 = owner.size * owner.ISLAND_CENTER_RATIO
+
 	# ------------------------------------------------------------
 	# Background
 	# ------------------------------------------------------------

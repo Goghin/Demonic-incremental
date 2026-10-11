@@ -2,7 +2,7 @@ class_name RealmRebuildStateController
 extends RefCounted
 
 
-func refresh(owner: Control) -> void:
+func refresh(owner: RealmView) -> void:
 	# Recreate crystal visuals after generator and realm geometry are ready.
 	owner.crystallized_flame_visual_controller.reset_and_update(
 		owner,
