@@ -14,7 +14,6 @@ func reset() -> void:
 	molecular_agitation.hide()
 	furnace_swirl.reset()
 	atomic_friction_particles.reset()
-	atomic_friction_animation.reset()
 
 
 func update_phase(
