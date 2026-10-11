@@ -93,7 +93,20 @@ func update_flame_visuals() -> void:
 
 
 func _process(_delta: float) -> void:
-	realm_update_controller.update(self, _delta)
+	realm_update_controller.update(
+		self,
+		state,
+		generator_animation_controller,
+		generator_layer,
+		generator_sprites,
+		realm_scene_visual_controller,
+		molecular_agitation_particle_controller,
+		crystallized_flame_visual_controller,
+		forge_activity_visual_controller,
+		Callable(self, "_get_generator_position"),
+		Callable(self, "queue_redraw"),
+		_delta
+	)
 
 func _input(event: InputEvent) -> void:
 	realm_layout_editor_controller.handle_owner_input(event, self)

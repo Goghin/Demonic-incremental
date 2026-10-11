@@ -2,50 +2,75 @@ class_name RealmUpdateController
 extends RefCounted
 
 
-func update(owner: Control, delta: float) -> void:
-	if owner.state == null:
+func update(
+	visual_parent: Control,
+	state: GameState,
+	animation_controller: GeneratorAnimationController,
+	generator_layer: Node2D,
+	generator_sprites: Dictionary,
+	scene_visual_controller: RealmSceneVisualController,
+	molecular_agitation_controller: MolecularAgitationParticleController,
+	crystallized_flame_controller: CrystallizedFlameVisualController,
+	forge_activity_controller: ForgeActivityVisualController,
+	get_generator_position: Callable,
+	queue_redraw: Callable,
+	delta: float
+) -> void:
+	if state == null:
 		return
 
-	_update_persistent_visuals(owner, delta)
+	_update_persistent_visuals(
+		visual_parent,
+		state,
+		crystallized_flame_controller,
+		forge_activity_controller,
+		delta
+	)
 
 	# Keep generator animation phases interleaved with realm updates.
 	# Their order is intentional: early machine motion, realm visuals,
 	# middle overlays, the independent agitation particles, then late motion.
 	_update_early_animations(
-		owner.generator_animation_controller,
-		owner.generator_layer,
-		owner.state,
-		owner.generator_sprites,
+		animation_controller,
+		generator_layer,
+		state,
+		generator_sprites,
 		delta
 	)
-	owner.realm_scene_visual_controller.update(owner)
+	scene_visual_controller.update_from_view(visual_parent)
 	_update_middle_animations(
-		owner.generator_animation_controller,
-		owner.generator_layer,
-		owner.state,
-		owner.generator_sprites
+		animation_controller,
+		generator_layer,
+		state,
+		generator_sprites
 	)
 	_update_molecular_agitation(
-		owner.molecular_agitation_particle_controller,
-		owner.state,
-		owner._get_generator_position("thermal_furnace")
+		molecular_agitation_controller,
+		state,
+		get_generator_position.call("thermal_furnace")
 	)
 	_update_late_animations(
-		owner.generator_animation_controller,
-		owner.state,
-		owner.generator_sprites,
+		animation_controller,
+		state,
+		generator_sprites,
 		delta
 	)
 
-	owner.queue_redraw()
+	queue_redraw.call()
 
 
-func _update_persistent_visuals(owner: Control, delta: float) -> void:
-	owner.crystallized_flame_visual_controller.update_if_needed(
-		owner,
-		owner.state
+func _update_persistent_visuals(
+	visual_parent: Control,
+	state: GameState,
+	crystallized_flame_controller: CrystallizedFlameVisualController,
+	forge_activity_controller: ForgeActivityVisualController,
+	delta: float
+) -> void:
+	crystallized_flame_controller.update_if_needed(
+		visual_parent,
+		state
 	)
-	owner.forge_activity_visual_controller.advance(delta)
+	forge_activity_controller.advance(delta)
 
 
 func _update_early_animations(
@@ -97,4 +122,4 @@ func _update_late_animations(
 		state,
 		generator_sprites,
 		delta
-	)
+)
