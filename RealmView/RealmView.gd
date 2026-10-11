@@ -108,6 +108,7 @@ func setup(game_state: GameState) -> void:
 	position = REALM_VISUAL_OFFSET
 
 	_setup_braziers()
+	_setup_realm_layout_overlay()
 
 	rebuild_realm(state.realm_layout)
 
@@ -116,6 +117,16 @@ func _setup_generator_layer() -> void:
 		self,
 		generator_layer
 	)
+
+
+func _setup_realm_layout_overlay() -> void:
+	realm_layout_overlay_renderer.name = "RealmLayoutOverlayRenderer"
+	realm_layout_overlay_renderer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	realm_layout_overlay_renderer.z_index = 100
+	realm_layout_overlay_renderer.set_anchors_and_offsets_preset(
+		Control.PRESET_FULL_RECT
+	)
+	add_child(realm_layout_overlay_renderer)
 
 
 func _setup_braziers() -> void:
@@ -651,8 +662,8 @@ func _initialize_brazier_positions(
 	)
 
 func _draw_layout_overlay() -> void:
-	realm_layout_overlay_renderer.draw_overlay(
-		self,
+	realm_layout_overlay_renderer.update_overlay(
+		realm_layout_mode,
 		generator_hitboxes,
 		ash_piles,
 		braziers,

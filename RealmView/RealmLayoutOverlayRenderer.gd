@@ -1,5 +1,40 @@
 class_name RealmLayoutOverlayRenderer
-extends RefCounted
+extends Control
+
+
+var generator_hitboxes: Dictionary = {}
+var ash_piles: Array[Sprite2D] = []
+var braziers: Dictionary = {}
+var brazier_stats: Array[String] = []
+var overlay_enabled: bool = false
+
+
+func update_overlay(
+	is_enabled: bool,
+	new_generator_hitboxes: Dictionary,
+	new_ash_piles: Array[Sprite2D],
+	new_braziers: Dictionary,
+	new_brazier_stats: Array[String]
+) -> void:
+	overlay_enabled = is_enabled
+	generator_hitboxes = new_generator_hitboxes
+	ash_piles = new_ash_piles
+	braziers = new_braziers
+	brazier_stats = new_brazier_stats
+	queue_redraw()
+
+
+func _draw() -> void:
+	if not overlay_enabled:
+		return
+
+	draw_overlay(
+		self,
+		generator_hitboxes,
+		ash_piles,
+		braziers,
+		brazier_stats
+	)
 
 
 func draw_overlay(
