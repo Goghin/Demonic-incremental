@@ -12,13 +12,16 @@ var lake_visual_controller: LavaLakeVisualController = LavaLakeVisualController.
 var network_controller: LavaNetworkController = LavaNetworkController.new()
 
 
-func create_network(
+func build_realm_visuals(
 	owner: Node,
+	state: GameState,
 	realm_layout: RealmLayout,
 	island_rect: Rect2,
 	flow_scene: PackedScene,
-	fall_scene: PackedScene
+	fall_scene: PackedScene,
+	lake_scene: PackedScene
 ) -> void:
+	# Create the network before lakes, then position both from the same layout.
 	network_controller.create_network(
 		owner,
 		realm_layout,
@@ -28,15 +31,6 @@ func create_network(
 		flow_scene,
 		fall_scene
 	)
-
-
-func create_lakes(
-	owner: Node,
-	state: GameState,
-	realm_layout: RealmLayout,
-	island_rect: Rect2,
-	lake_scene: PackedScene
-) -> void:
 	lake_visual_controller.create_lakes(
 		owner,
 		state,
@@ -45,6 +39,7 @@ func create_lakes(
 		lake_scene,
 		lakes
 	)
+	update_positions(realm_layout, island_rect)
 
 
 func update_positions(

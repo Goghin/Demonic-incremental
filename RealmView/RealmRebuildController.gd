@@ -57,23 +57,14 @@ func _build_island_and_ash(owner, island_rect: Rect2) -> void:
 
 
 func _build_lava_network(owner, island_rect: Rect2) -> void:
-	owner.lava_realm_visual_controller.create_network(
-		owner,
-		owner.realm_layout,
-		island_rect,
-		owner.LAVA_FLOW_SCENE,
-		owner.LAVA_FALL_SCENE
-	)
-	owner.lava_realm_visual_controller.create_lakes(
+	owner.lava_realm_visual_controller.build_realm_visuals(
 		owner,
 		owner.state,
 		owner.realm_layout,
 		island_rect,
+		owner.LAVA_FLOW_SCENE,
+		owner.LAVA_FALL_SCENE,
 		owner.LAVA_LAKE_SCENE
-	)
-	owner.lava_realm_visual_controller.update_positions(
-		owner.realm_layout,
-		island_rect
 	)
 
 
