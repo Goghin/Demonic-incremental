@@ -7,33 +7,42 @@ static func format(value: float) -> String:
 	if is_nan(value) or is_inf(value):
 		return "0"
 
-	var absolute_value = abs(value)
+	var absolute_value: float = abs(value)
 
 	if absolute_value < 1000.0:
 		return _format_small(value)
 
-	if absolute_value < 1000000.0:
-		return _format_scaled(
-			value,
-			1000.0,
-			"K"
-		)
+	var suffixes: Array[String] = [
+		"K",
+		"M",
+		"B",
+		"T",
+		"Qa",
+		"Qi",
+		"Sx",
+		"Sp",
+		"Oc",
+		"No",
+		"Dc"
+	]
 
-	if absolute_value < 1000000000.0:
-		return _format_scaled(
-			value,
-			1000000.0,
-			"M"
-		)
+	var scaled_value: float = value
+	var suffix_index: int = -1
+
+	while abs(scaled_value) >= 1000.0:
+		scaled_value /= 1000.0
+		suffix_index += 1
+
+		if suffix_index >= suffixes.size():
+			return "%.3e" % value
 
 	return _format_scaled(
-		value,
-		1000000000.0,
-		"B"
+		scaled_value,
+		1.0,
+		suffixes[suffix_index]
 	)
 
 
- 
 static func _format_small(value: float) -> String:
 	var absolute_value = abs(value)
 
