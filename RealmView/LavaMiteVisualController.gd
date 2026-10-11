@@ -81,7 +81,7 @@ func update(
 		if animated_sprite.is_playing():
 			animated_sprite.pause()
 
-func get_lava_mite_size_multiplier(level: int) -> float:
+func get_size_multiplier(level: int) -> float:
 	if level <= 1:
 		return 0.70
 	if level <= 21:
@@ -91,7 +91,7 @@ func get_lava_mite_size_multiplier(level: int) -> float:
 	return 1.0 + 0.45 * (1.0 - exp(-levels_after_21 / 30.0))
 
 
-func update_lava_mite_animation_speed(
+func update_animation_speed(
 	animated_sprite: AnimatedSprite2D,
 	level: int
 ) -> void:
