@@ -7,10 +7,7 @@ var generator_drawing_controller: GeneratorDrawingController = GeneratorDrawingC
 var generator_animation_controller: GeneratorAnimationController = GeneratorAnimationController.new()
 var lava_mite_visual_controller: LavaMiteVisualController = LavaMiteVisualController.new()
 var matter_furnace_visual_controller: MatterFurnaceVisualController = MatterFurnaceVisualController.new()
-var lava_flow_state_controller: LavaFlowStateController = LavaFlowStateController.new()
-var lava_lake_state_controller: LavaLakeStateController = LavaLakeStateController.new()
-var lava_lake_visual_controller: LavaLakeVisualController = LavaLakeVisualController.new()
-var lava_network_controller: LavaNetworkController = LavaNetworkController.new()
+var lava_realm_visual_controller: LavaRealmVisualController = LavaRealmVisualController.new()
 var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
 var ash_renderer: AshContaminationRenderer
 var ash_piles: Array[Sprite2D] = []
@@ -36,9 +33,6 @@ var crystal_renderer: CrystalRenderer = CrystalRenderer.new()
 var crystallization_stream_controller: CrystallizationStreamController = CrystallizationStreamController.new()
 var last_crystallized_flame_amount: float = -1.0
 
-var lava_flows: Array[LavaFlow] = []
-var lava_falls: Array[LavaFall] = []
-var lava_lakes: Array[LavaLake] = []
 
 const REALM_VISUAL_SCALE: float = 1.0
 const REALM_VISUAL_OFFSET: Vector2 = Vector2(0.0, 0.0)
@@ -125,16 +119,6 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	realm_layout = new_layout
 
 	# ------------------------------------------------------------
-	# Remove old lava network
-	# ------------------------------------------------------------
-
-	for lake in lava_lakes:
-		if is_instance_valid(lake):
-			lake.queue_free()
-
-	lava_lakes.clear()
-
-	# ------------------------------------------------------------
 	# Reset generator visual effects
 	# ------------------------------------------------------------
 
@@ -176,13 +160,24 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	)
 	_setup_ash_piles()
 
-	_create_lava_network()
-
-	_create_lava_lakes()
-
-	_update_lava_network_positions()
-
-	_update_lava_lake_positions()
+	lava_realm_visual_controller.create_network(
+		self,
+		realm_layout,
+		_get_island_rect(),
+		LAVA_FLOW_SCENE,
+		LAVA_FALL_SCENE
+	)
+	lava_realm_visual_controller.create_lakes(
+		self,
+		state,
+		realm_layout,
+		_get_island_rect(),
+		LAVA_LAKE_SCENE
+	)
+	lava_realm_visual_controller.update_positions(
+		realm_layout,
+		_get_island_rect()
+	)
 
 	_draw_generators()
 
@@ -207,7 +202,10 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Initial lava state
 	# ------------------------------------------------------------
 
-	_update_lava_flow_states()
+	lava_realm_visual_controller.update_flow_states(
+		state,
+		realm_layout
+	)
 
 	queue_redraw()
 
@@ -260,8 +258,14 @@ func _process(_delta: float) -> void:
 		atomic_friction_particle_controller,
 		atomic_friction_animation_controller
 	)
-	_update_lava_lakes()
-	_update_lava_flow_states()
+	lava_realm_visual_controller.update_lakes(
+		state,
+		realm_layout
+	)
+	lava_realm_visual_controller.update_flow_states(
+		state,
+		realm_layout
+	)
 	generator_animation_controller.update_phase(
 		&"middle",
 		self,
@@ -304,7 +308,7 @@ func _input(event: InputEvent) -> void:
 						realm_layout,
 						braziers,
 						BRAZIER_STATS,
-						lava_lakes
+						lava_realm_visual_controller.lakes
 					)
 
 				queue_redraw()
@@ -498,13 +502,15 @@ func _update_ash_visuals(
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
-		_update_lava_network_positions()
+		lava_realm_visual_controller.update_positions(
+			realm_layout,
+			_get_island_rect()
+		)
 		island_visual_controller.update(
 			self,
 			realm_layout,
 			_get_island_rect()
 		)
-		_update_lava_lake_positions()
 
 func begin_prestige_destruction() -> void:
 	if crystallized_flames.is_empty():
@@ -554,54 +560,4 @@ func play_crystallization_event(
 # LAVA NETWORK
 # ------------------------------------------------------------
 
-func _create_lava_network() -> void:
-	lava_network_controller.create_network(
-		self,
-		realm_layout,
-		_get_island_rect(),
-		lava_flows,
-		lava_falls,
-		LAVA_FLOW_SCENE,
-		LAVA_FALL_SCENE
-	)
-
-func _update_lava_network_positions() -> void:
-	lava_network_controller.update_positions(
-		realm_layout,
-		_get_island_rect(),
-		lava_flows,
-		lava_falls
-	)
-
-func _create_lava_lakes() -> void:
-	lava_lake_visual_controller.create_lakes(
-		self,
-		state,
-		realm_layout,
-		_get_island_rect(),
-		LAVA_LAKE_SCENE,
-		lava_lakes
-	)
-
-func _update_lava_lakes() -> void:
-	lava_lake_state_controller.update(
-		state,
-		realm_layout,
-		lava_lakes
-	)
-
-func _update_lava_lake_positions() -> void:
-	lava_lake_visual_controller.update_positions(
-		_get_island_rect(),
-		lava_lakes
-	)
-
-func _update_lava_flow_states() -> void:
-	lava_flow_state_controller.update(
-		state,
-		realm_layout,
-		lava_lakes,
-		lava_flows,
-		lava_falls
-	)
 
