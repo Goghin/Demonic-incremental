@@ -2,6 +2,11 @@ class_name LavaMiteVisualController
 extends RefCounted
 
 
+const ANIMATION_PATH: String = "res://Generators/GeneratorDefinitions/Lava_Mite_Colony_Animated.png"
+const ANIMATION_HFRAMES: int = 4
+const ANIMATION_VFRAMES: int = 4
+const ANIMATION_FPS: float = 4.0
+
 const FRAME_SIZE: Vector2 = Vector2(256.0, 256.0)
 
 
@@ -31,9 +36,15 @@ func update(
 	generator_hitboxes: Dictionary
 ) -> void:
 	var animated_sprite: AnimatedSprite2D = (
-		generator_visual_renderer.get_lava_mite_sprite(
+		generator_visual_renderer.create_animated_generator_sprite(
 			generator_layer,
-			generator_sprites
+			generator_sprites,
+			"lava_mite_colony",
+			"Generator_lava_mite_colony",
+			ANIMATION_PATH,
+			ANIMATION_HFRAMES,
+			ANIMATION_VFRAMES,
+			ANIMATION_FPS
 		)
 	)
 
