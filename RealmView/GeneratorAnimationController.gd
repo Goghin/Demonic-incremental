@@ -18,19 +18,19 @@ func reset() -> void:
 
 
 func update_early(
-	owner: Control,
+	generator_layer: Node2D,
 	state: GameState,
 	generator_sprites: Dictionary,
 	delta: float
 ) -> void:
 	_update_thermal_furnace(
-		owner,
+		generator_layer,
 		state,
 		generator_sprites,
 		delta
 	)
 	_update_molecular_agitation(
-		owner,
+		generator_layer,
 		state,
 		generator_sprites,
 		delta
@@ -38,17 +38,17 @@ func update_early(
 
 
 func update_middle(
-	owner: Control,
+	generator_layer: Node2D,
 	state: GameState,
 	generator_sprites: Dictionary
 ) -> void:
 	_update_furnace_swirl(
-		owner,
+		generator_layer,
 		state,
 		generator_sprites
 	)
 	_update_atomic_friction_particles(
-		owner,
+		generator_layer,
 		state,
 		generator_sprites
 	)
@@ -67,7 +67,7 @@ func update_late(
 
 
 func _update_thermal_furnace(
-	owner: Control,
+	generator_layer: Node2D,
 	state: GameState,
 	generator_sprites: Dictionary,
 	delta: float
@@ -80,11 +80,11 @@ func _update_thermal_furnace(
 		return
 
 	var sprite: Sprite2D = generator_sprites["thermal_furnace"]
-	thermal_furnace.update(owner, furnace, sprite, delta)
+	thermal_furnace.update(generator_layer, furnace, sprite, delta)
 
 
 func _update_molecular_agitation(
-	owner: Control,
+	generator_layer: Node2D,
 	state: GameState,
 	generator_sprites: Dictionary,
 	delta: float
@@ -98,11 +98,11 @@ func _update_molecular_agitation(
 
 	var generator: Generator = state.generators.get("molecular_agitation")
 	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
-	molecular_agitation.update(owner, generator, sprite, delta)
+	molecular_agitation.update(generator_layer, generator, sprite, delta)
 
 
 func _update_furnace_swirl(
-	owner: Control,
+	generator_layer: Node2D,
 	state: GameState,
 	generator_sprites: Dictionary
 ) -> void:
@@ -114,11 +114,11 @@ func _update_furnace_swirl(
 		return
 
 	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
-	furnace_swirl.update(owner, furnace, sprite)
+	furnace_swirl.update(generator_layer, furnace, sprite)
 
 
 func _update_atomic_friction_particles(
-	owner: Control,
+	generator_layer: Node2D,
 	state: GameState,
 	generator_sprites: Dictionary
 ) -> void:
@@ -130,7 +130,7 @@ func _update_atomic_friction_particles(
 		return
 
 	var sprite: Sprite2D = generator_sprites["atomic_friction"]
-	atomic_friction_particles.update(owner, generator, sprite)
+	atomic_friction_particles.update(generator_layer, generator, sprite)
 
 
 func _update_atomic_friction_animation(

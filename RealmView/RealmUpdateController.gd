@@ -34,7 +34,7 @@ func _update_persistent_visuals(owner: Control, delta: float) -> void:
 
 func _update_early_animations(owner: Control, delta: float) -> void:
 	owner.generator_animation_controller.update_early(
-		owner,
+		owner.generator_layer,
 		owner.state,
 		owner.generator_sprites,
 		delta
@@ -43,7 +43,7 @@ func _update_early_animations(owner: Control, delta: float) -> void:
 
 func _update_middle_animations(owner: Control) -> void:
 	owner.generator_animation_controller.update_middle(
-		owner,
+		owner.generator_layer,
 		owner.state,
 		owner.generator_sprites
 	)
