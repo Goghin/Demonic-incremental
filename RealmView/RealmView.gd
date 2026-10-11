@@ -111,7 +111,10 @@ func _draw_generators() -> void:
 func _get_generator_position(
 	generator_id: String
 ) -> Vector2:
-	return generator_visual_renderer.get_generator_position(
+	if realm_layout == null:
+		return size * 0.5
+
+	return realm_layout_geometry_controller.get_generator_position(
 		generator_id,
 		realm_layout.generator_layout_positions,
 		size,

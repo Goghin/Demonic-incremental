@@ -73,15 +73,11 @@ func _draw_generator(
 	# ensures stale sprites are hidden by update_generator_visibility().
 	active_ids[generator_id] = true
 
-	var normalized_position: Vector2 = (
-		owner.realm_layout.generator_layout_positions[
-			generator_id
-		]
-	)
-
 	var generator_position: Vector2 = (
-		geometry_controller.get_position_from_normalized(
-			normalized_position,
+		geometry_controller.get_generator_position(
+			generator_id,
+			owner.realm_layout.generator_layout_positions,
+			owner.size,
 			island_rect
 		)
 	)

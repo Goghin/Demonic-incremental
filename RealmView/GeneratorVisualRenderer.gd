@@ -124,18 +124,3 @@ func create_animated_generator_sprite(
 		vframes,
 		animation_fps
 	)
-
-
-func get_generator_position(
-	generator_id: String,
-	layout_positions: Dictionary,
-	view_size: Vector2,
-	island_rect: Rect2
-) -> Vector2:
-	var geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
-	return geometry_controller.get_generator_position(
-		generator_id,
-		layout_positions,
-		view_size,
-		island_rect
-	)
