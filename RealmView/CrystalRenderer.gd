@@ -10,6 +10,8 @@ const CRYSTAL_BASE_SCALE: float = 0.08
 const CRYSTAL_CENTER: Vector2 = Vector2(0.68, 0.33)
 const MAX_VISIBLE_CRYSTALS: int = 25
 const CRYSTAL_Z_INDEX: int = 25
+const CRYSTAL_VALUE_SCALE_FACTOR: float = 0.12
+const MAX_CRYSTAL_VALUE_SCALE: float = 2.5
 const CRYSTAL_POSITIONS: Array[Vector2] = [
 	Vector2(0, -35),
 	Vector2(-30, -20),
@@ -141,8 +143,14 @@ func _position_crystals(
 		if i < crystal_values.size():
 			flame_value = crystal_values[i]
 
-		var value_scale: float = 1.0 + log(flame_value) * 0.12
-		value_scale = clamp(value_scale, 1.0, 2.5)
+		var value_scale: float = (
+			1.0 + log(flame_value) * CRYSTAL_VALUE_SCALE_FACTOR
+		)
+		value_scale = clamp(
+			value_scale,
+			1.0,
+			MAX_CRYSTAL_VALUE_SCALE
+		)
 
 		crystal.scale = Vector2(
 			CRYSTAL_BASE_SCALE,
