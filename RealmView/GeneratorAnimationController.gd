@@ -31,34 +31,29 @@ func update_phase(
 				state,
 				generator_sprites,
 				delta,
-				thermal_furnace
 			)
 			_update_molecular_agitation(
 				owner,
 				state,
 				generator_sprites,
 				delta,
-				molecular_agitation
 			)
 		&"middle":
 			_update_furnace_swirl(
 				owner,
 				state,
 				generator_sprites,
-				furnace_swirl
 			)
 			_update_atomic_friction_particles(
 				owner,
 				state,
 				generator_sprites,
-				atomic_friction_particles
 			)
 		&"late":
 			_update_atomic_friction_animation(
 				state,
 				generator_sprites,
 				delta,
-				atomic_friction_animation
 			)
 
 
@@ -66,8 +61,7 @@ func _update_thermal_furnace(
 	owner: Control,
 	state: GameState,
 	generator_sprites: Dictionary,
-	delta: float,
-	controller: ThermalFurnaceAnimationController
+	delta: float
 ) -> void:
 	if state == null or not generator_sprites.has("thermal_furnace"):
 		return
@@ -77,33 +71,31 @@ func _update_thermal_furnace(
 		return
 
 	var sprite: Sprite2D = generator_sprites["thermal_furnace"]
-	controller.update(owner, furnace, sprite, delta)
+	thermal_furnace.update(owner, furnace, sprite, delta)
 
 
 func _update_molecular_agitation(
 	owner: Control,
 	state: GameState,
 	generator_sprites: Dictionary,
-	delta: float,
-	controller: MolecularAgitationSpriteController
+	delta: float
 ) -> void:
 	if state == null:
 		return
 
 	if not generator_sprites.has("molecular_agitation"):
-		controller.hide()
+		molecular_agitation.hide()
 		return
 
 	var generator: Generator = state.generators.get("molecular_agitation")
 	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
-	controller.update(owner, generator, sprite, delta)
+	molecular_agitation.update(owner, generator, sprite, delta)
 
 
 func _update_furnace_swirl(
 	owner: Control,
 	state: GameState,
-	generator_sprites: Dictionary,
-	controller: FurnaceSwirlController
+	generator_sprites: Dictionary
 ) -> void:
 	if state == null or not generator_sprites.has("molecular_agitation"):
 		return
@@ -113,14 +105,13 @@ func _update_furnace_swirl(
 		return
 
 	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
-	controller.update(owner, furnace, sprite)
+	furnace_swirl.update(owner, furnace, sprite)
 
 
 func _update_atomic_friction_particles(
 	owner: Control,
 	state: GameState,
-	generator_sprites: Dictionary,
-	controller: AtomicFrictionParticleController
+	generator_sprites: Dictionary
 ) -> void:
 	if state == null or not generator_sprites.has("atomic_friction"):
 		return
@@ -130,14 +121,13 @@ func _update_atomic_friction_particles(
 		return
 
 	var sprite: Sprite2D = generator_sprites["atomic_friction"]
-	controller.update(owner, generator, sprite)
+	atomic_friction_particles.update(owner, generator, sprite)
 
 
 func _update_atomic_friction_animation(
 	state: GameState,
 	generator_sprites: Dictionary,
-	delta: float,
-	controller: AtomicFrictionAnimationController
+	delta: float
 ) -> void:
 	if state == null or not generator_sprites.has("atomic_friction"):
 		return
@@ -147,4 +137,4 @@ func _update_atomic_friction_animation(
 		return
 
 	var sprite: Sprite2D = generator_sprites["atomic_friction"]
-	controller.update(generator, sprite, delta)
+	atomic_friction_animation.update(generator, sprite, delta)
