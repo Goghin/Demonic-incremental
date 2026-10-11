@@ -51,12 +51,8 @@ const ISLAND_BASE_SIZE: Vector2 = Vector2(418.0, 156.0)
 const ISLAND_SCALE: float = 2.0
 
 
-const LAVA_EDGE_VARIATION: float = 0.55
-
 var realm_layout: Resource
-var island: Sprite2D
 
-var default_realm_layout = preload("res://RealmView/Layouts/TestRealmLayout.gd").new()
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
@@ -407,20 +403,7 @@ func _draw() -> void:
 	# Neutral realm dimensions
 	# ------------------------------------------------------------
 
-	var realm_scale: float = 1.0
-	var density_factor: float = 1.0
-
-	var sx: float = (
-		190.0 *
-		realm_scale *
-		density_factor
-	)
-
-	var sy: float = (
-		78.0 *
-		realm_scale *
-		density_factor
-	)
+	var sx: float = 190.0
 
 	realm_background_renderer.draw_background(self, center)
 
