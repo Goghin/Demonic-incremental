@@ -96,31 +96,7 @@ func _process(_delta: float) -> void:
 	realm_update_controller.update(self, _delta)
 
 func _update_scene_visuals(island_rect: Rect2) -> void:
-	if state == null or realm_layout == null:
-		return
-
-	# Keep generator nodes and hitboxes current before dependent realm visuals.
-	_draw_generators(island_rect)
-
-	realm_scene_visual_controller.update(
-		self,
-		state,
-		realm_layout,
-		island_rect,
-		_get_generator_position_in_rect("infernal_forge", island_rect),
-		size,
-		ISLAND_CENTER_RATIO,
-		ASH_VISUAL_RADIUS,
-		lava_realm_visual_controller,
-		ash_visual_controller,
-		brazier_visual_controller,
-		braziers,
-		BRAZIER_STATS,
-		forge_activity_visual_controller,
-		realm_layout_overlay_renderer,
-		realm_layout_editor_controller.layout_mode,
-		generator_hitboxes
-	)
+	realm_scene_visual_controller.update(self, island_rect)
 
 
 func _input(event: InputEvent) -> void:

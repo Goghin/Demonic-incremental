@@ -2,130 +2,74 @@ class_name RealmSceneVisualController
 extends RefCounted
 
 
-func update(
-	visual_parent: Control,
-	state: GameState,
-	realm_layout: Resource,
-	island_rect: Rect2,
-	forge_position: Vector2,
-	view_size: Vector2,
-	island_center_ratio: Vector2,
-	ash_visual_radius: float,
-	lava_controller: LavaRealmVisualController,
-	ash_controller: AshVisualController,
-	brazier_controller: BrazierVisualController,
-	braziers: Dictionary,
-	brazier_stats: Array[String],
-	forge_controller: ForgeActivityVisualController,
-	layout_overlay: RealmLayoutOverlayRenderer,
-	layout_mode: bool,
-	generator_hitboxes: Dictionary
-) -> void:
+func update(owner: Control, island_rect: Rect2) -> void:
+	var state: GameState = owner.state
+	var realm_layout: Resource = owner.realm_layout
 	if state == null or realm_layout == null:
 		return
 
+	# Generator nodes and hitboxes must be current before dependent visuals.
+	owner._draw_generators(island_rect)
+
 	# Lake fill must update before flow activation is evaluated.
-	lava_controller.update_dynamic_states(state, realm_layout)
+	owner.lava_realm_visual_controller.update_dynamic_states(state, realm_layout)
 
-	_update_ash_visuals(
-		visual_parent,
-		ash_controller,
-		state,
-		realm_layout,
-		island_rect,
-		view_size * island_center_ratio,
-		ash_visual_radius
-	)
-	_update_braziers(
-		brazier_controller,
-		braziers,
-		brazier_stats,
-		state.realm_configuration,
-		realm_layout,
-		island_rect
-	)
-	_update_forge_visuals(
-		visual_parent,
-		forge_controller,
-		state.generators.get("infernal_forge"),
-		forge_position
-	)
-	_update_layout_overlay(
-		layout_overlay,
-		layout_mode,
-		generator_hitboxes,
-		ash_controller.piles,
-		braziers,
-		brazier_stats
-	)
+	_update_ash_visuals(owner, island_rect)
+	_update_braziers(owner, island_rect)
+	_update_forge_visuals(owner, island_rect)
+	_update_layout_overlay(owner)
 
 
-func _update_ash_visuals(
-	visual_parent: Control,
-	ash_controller: AshVisualController,
-	state: GameState,
-	realm_layout: Resource,
-	island_rect: Rect2,
-	center: Vector2,
-	visual_radius: float
-) -> void:
-	var ash: float = state.get_resource_amount(ResourceIds.ASH)
-	ash_controller.update_realm_visuals(
-		visual_parent,
-		realm_layout,
+func _update_ash_visuals(owner: Control, island_rect: Rect2) -> void:
+	var ash: float = owner.state.get_resource_amount(ResourceIds.ASH)
+	owner.ash_visual_controller.update_realm_visuals(
+		owner,
+		owner.realm_layout,
 		island_rect,
 		ash,
-		center,
-		visual_radius
+		owner.size * owner.ISLAND_CENTER_RATIO,
+		owner.ASH_VISUAL_RADIUS
 	)
 
 
-func _update_braziers(
-	brazier_controller: BrazierVisualController,
-	braziers: Dictionary,
-	brazier_stats: Array[String],
-	realm_configuration: RealmConfiguration,
-	realm_layout: Resource,
-	island_rect: Rect2
-) -> void:
-	brazier_controller.update_stat_values(
-		braziers,
-		brazier_stats,
-		realm_configuration
+func _update_braziers(owner: Control, island_rect: Rect2) -> void:
+	owner.brazier_visual_controller.update_stat_values(
+		owner.braziers,
+		owner.BRAZIER_STATS,
+		owner.state.realm_configuration
 	)
-	brazier_controller.position_braziers(
-		braziers,
-		brazier_stats,
-		realm_layout,
+	owner.brazier_visual_controller.position_braziers(
+		owner.braziers,
+		owner.BRAZIER_STATS,
+		owner.realm_layout,
 		island_rect
 	)
 
 
-func _update_forge_visuals(
-	visual_parent: Control,
-	forge_controller: ForgeActivityVisualController,
-	forge: Generator,
-	forge_position: Vector2
-) -> void:
-	forge_controller.update(visual_parent, forge, forge_position)
+func _update_forge_visuals(owner: Control, island_rect: Rect2) -> void:
+	var forge_position: Vector2 = owner._get_generator_position_in_rect(
+		"infernal_forge",
+		island_rect
+	)
+	owner.forge_activity_visual_controller.update(
+		owner,
+		owner.state.generators.get("infernal_forge"),
+		forge_position
+	)
 
 
-func _update_layout_overlay(
-	overlay: RealmLayoutOverlayRenderer,
-	layout_mode: bool,
-	generator_hitboxes: Dictionary,
-	ash_piles: Array,
-	braziers: Dictionary,
-	brazier_stats: Array[String]
-) -> void:
+func _update_layout_overlay(owner: Control) -> void:
+	var overlay: RealmLayoutOverlayRenderer = owner.realm_layout_overlay_renderer
+	var layout_mode: bool = owner.realm_layout_editor_controller.layout_mode
+
 	# Refresh while editing, and once when leaving edit mode to clear the overlay.
 	if not layout_mode and not overlay.overlay_enabled:
 		return
 
 	overlay.update_overlay(
 		layout_mode,
-		generator_hitboxes,
-		ash_piles,
-		braziers,
-		brazier_stats
+		owner.generator_hitboxes,
+		owner.ash_visual_controller.piles,
+		owner.braziers,
+		owner.BRAZIER_STATS
 	)

@@ -40,17 +40,7 @@ func _build_realm_geometry(owner: Control) -> void:
 	# placement and keeping all layout-bound visuals aligned.
 	owner.realm_layout_visual_controller.update_positions(
 		owner,
-		owner.state,
-		owner.realm_layout,
-		island_rect,
-		owner.lava_realm_visual_controller,
-		owner.island_visual_controller,
-		Callable(owner, "_draw_generators").bind(island_rect),
-		owner.ash_visual_controller,
-		owner.brazier_visual_controller,
-		owner.braziers,
-		owner.BRAZIER_STATS,
-		owner.crystallized_flame_visual_controller
+		island_rect
 	)
 
 
