@@ -3,21 +3,14 @@ extends RefCounted
 
 
 var texture_cache: GeneratorTextureCache = GeneratorTextureCache.new()
+var sprite_manager: GeneratorSpriteManager = GeneratorSpriteManager.new()
 
 
 func setup_layer(
 	owner: Node,
 	existing_layer: Node2D
 ) -> Node2D:
-	if is_instance_valid(existing_layer):
-		return existing_layer
-
-	var layer: Node2D = Node2D.new()
-	layer.name = "GeneratorLayer"
-	layer.z_index = 10
-	owner.add_child(layer)
-
-	return layer
+	return sprite_manager.setup_layer(owner, existing_layer)
 
 
 func get_or_create_sprite(
@@ -25,15 +18,11 @@ func get_or_create_sprite(
 	generator_sprites: Dictionary,
 	generator_id: String
 ) -> Sprite2D:
-	if generator_sprites.has(generator_id):
-		return generator_sprites[generator_id] as Sprite2D
-
-	var sprite: Sprite2D = Sprite2D.new()
-	sprite.name = "Generator_" + generator_id
-	parent.add_child(sprite)
-	generator_sprites[generator_id] = sprite
-
-	return sprite
+	return sprite_manager.get_or_create_sprite(
+		parent,
+		generator_sprites,
+		generator_id
+	)
 
 
 func get_texture_scale(
@@ -112,20 +101,7 @@ func clear_cache() -> void:
 
 
 func reset_generator_rotations(generator_sprites: Dictionary) -> void:
-	for generator_id in generator_sprites:
-		if (
-			generator_id == "lava_mite_colony"
-			or
-			generator_id == "matter_furnace"
-		):
-			continue
-
-		var sprite: Sprite2D = generator_sprites[generator_id]
-
-		if sprite == null:
-			continue
-
-		sprite.rotation = 0.0
+	sprite_manager.reset_generator_rotations(generator_sprites)
 
 
 func create_animated_generator_sprite(
@@ -138,48 +114,17 @@ func create_animated_generator_sprite(
 	vframes: int,
 	animation_fps: float
 ) -> AnimatedSprite2D:
-	if generator_sprites.has(generator_id):
-		return generator_sprites[generator_id] as AnimatedSprite2D
+	return sprite_manager.create_animated_generator_sprite(
+		parent,
+		generator_sprites,
+		generator_id,
+		sprite_name,
+		animation_path,
+		hframes,
+		vframes,
+		animation_fps
+	)
 
-	var sprite: AnimatedSprite2D = AnimatedSprite2D.new()
-	sprite.name = sprite_name
-
-	var sheet: Texture2D = load(animation_path) as Texture2D
-	if sheet == null:
-		push_warning("Could not load generator animation: " + animation_path)
-		return sprite
-
-	var sprite_frames: SpriteFrames = SpriteFrames.new()
-	var animation_name: StringName = &"default"
-	if not sprite_frames.has_animation(animation_name):
-		sprite_frames.add_animation(animation_name)
-	sprite_frames.set_animation_speed(animation_name, animation_fps)
-	sprite_frames.set_animation_loop(animation_name, true)
-
-	var frame_width: int = sheet.get_width() / hframes
-	var frame_height: int = sheet.get_height() / vframes
-
-	for row in range(vframes):
-		for column in range(hframes):
-			var atlas_texture: AtlasTexture = AtlasTexture.new()
-			atlas_texture.atlas = sheet
-			atlas_texture.region = Rect2(
-				column * frame_width,
-				row * frame_height,
-				frame_width,
-				frame_height
-			)
-			sprite_frames.add_frame(animation_name, atlas_texture)
-
-	sprite.sprite_frames = sprite_frames
-	sprite.animation = animation_name
-	sprite.autoplay = animation_name
-	sprite.frame = 0
-	sprite.z_index = 0
-	parent.add_child(sprite)
-	generator_sprites[generator_id] = sprite
-
-	return sprite
 
 func get_generator_position(
 	generator_id: String,
