@@ -35,6 +35,7 @@ var realm_layout: Resource
 var realm_rebuild_controller: RealmRebuildController = RealmRebuildController.new()
 var realm_draw_controller: RealmDrawController = RealmDrawController.new()
 var realm_update_controller: RealmUpdateController = RealmUpdateController.new()
+var realm_setup_controller: RealmSetupController = RealmSetupController.new()
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
@@ -72,29 +73,7 @@ const BRAZIER_STATS: Array[String] = [
 ]
 
 func setup(game_state: GameState) -> void:
-	state = game_state
-	generator_layer = generator_visual_renderer.setup_layer(
-		self,
-		generator_layer
-	)
-
-	scale = Vector2(
-		REALM_VISUAL_SCALE,
-		REALM_VISUAL_SCALE
-	)
-
-	pivot_offset = size * 0.5
-	position = REALM_VISUAL_OFFSET
-
-	brazier_visual_controller.setup(
-		self,
-		braziers,
-		BRAZIER_STATS,
-		BRAZIER_SCENE
-	)
-	realm_layout_overlay_renderer.setup(self)
-
-	rebuild_realm(state.realm_layout)
+	realm_setup_controller.setup(self, game_state)
 
 func rebuild_realm(new_layout: RealmLayout) -> void:
 	realm_rebuild_controller.rebuild(self, new_layout)
