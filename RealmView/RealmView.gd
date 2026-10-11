@@ -1,7 +1,6 @@
 class_name RealmView
 extends Control
 
-
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var generator_drawing_controller: GeneratorDrawingController = GeneratorDrawingController.new()
@@ -22,8 +21,6 @@ var ash_pile_renderer: AshPileRenderer = AshPileRenderer.new()
 var molecular_agitation_sprite_controller: MolecularAgitationSpriteController = MolecularAgitationSpriteController.new()
 
 var atomic_friction_particle_controller: AtomicFrictionParticleController = AtomicFrictionParticleController.new()
-
-
 
 var furnace_swirl_controller: FurnaceSwirlController = FurnaceSwirlController.new()
 
@@ -49,9 +46,7 @@ const ISLAND_BASE_SIZE: Vector2 = Vector2(418.0, 156.0)
 const ISLAND_SCALE: float = 2.0
 const ISLAND_CENTER_RATIO: Vector2 = Vector2(0.68, 0.66)
 
-
 var realm_layout: Resource
-
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
@@ -64,7 +59,6 @@ const LAVA_FLOW_SCENE = preload(
 const LAVA_FALL_SCENE = preload(
 	"res://RealmView/lavafall.tscn"
 )
-
 
 var realm_layout_mode: bool = false
 var dragging_object: String = ""
@@ -92,7 +86,6 @@ const BRAZIER_STATS: Array[String] = [
 	"resonance"
 ]
 
-
 func setup(game_state: GameState) -> void:
 	state = game_state
 	generator_layer = generator_visual_renderer.setup_layer(
@@ -117,8 +110,6 @@ func setup(game_state: GameState) -> void:
 	realm_layout_overlay_renderer.setup(self)
 
 	rebuild_realm(state.realm_layout)
-
-
 
 func rebuild_realm(new_layout: RealmLayout) -> void:
 	if state == null:
@@ -148,22 +139,21 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 
 	thermal_furnace_animation_controller.reset()
 
-
 	atomic_friction_particle_controller.reset()
 
 	forge_activity_visual_controller.reset()
 
 	furnace_swirl_controller.reset()
-	
+
 	molecular_agitation_particle_controller.reset()
 	# ------------------------------------------------------------
 	# Reset lava mite  and matter furnace animation
 	# ------------------------------------------------------------
 
 	lava_mite_visual_controller.reset(generator_sprites)
-	
+
 	matter_furnace_visual_controller.reset(generator_sprites)
-		
+
 	# ------------------------------------------------------------
 	# Reset generator rotations
 	# ------------------------------------------------------------
@@ -219,7 +209,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	_update_lava_flow_states()
 
 	queue_redraw()
-	
+
 func update_flame_visuals() -> void:
 	if state == null:
 		return
@@ -234,7 +224,6 @@ func update_flame_visuals() -> void:
 		crystallized_flame_values,
 		total_flames
 	)
-
 
 func _process(_delta: float) -> void:
 	if state == null:
@@ -296,7 +285,6 @@ func _process(_delta: float) -> void:
 	)
 	queue_redraw()
 
-
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey:
 		if event.pressed and not event.echo:
@@ -357,7 +345,6 @@ func _input(event: InputEvent) -> void:
 			Callable(self, "queue_redraw")
 		)
 
-
 func _start_layout_drag(mouse_position: Vector2) -> void:
 	var drag_result: Dictionary = realm_layout_editor_controller.find_drag_target(
 		mouse_position,
@@ -371,7 +358,6 @@ func _start_layout_drag(mouse_position: Vector2) -> void:
 
 	dragging_object = drag_result["object"]
 	drag_offset = drag_result["offset"]
-
 
 func _draw() -> void:
 	if state == null:
@@ -445,7 +431,6 @@ func _draw() -> void:
 		BRAZIER_STATS
 	)
 
-
 func _get_island_rect() -> Rect2:
 	var center: Vector2 = size * ISLAND_CENTER_RATIO
 	var island_size: Vector2 = ISLAND_BASE_SIZE * ISLAND_SCALE
@@ -454,7 +439,6 @@ func _get_island_rect() -> Rect2:
 		center - island_size * 0.5,
 		island_size
 	)
-
 
 func _draw_generators() -> void:
 	generator_drawing_controller.draw_generators(
@@ -481,15 +465,12 @@ func _get_generator_position(
 		_get_island_rect()
 	)
 
-
-
 func _setup_ash_piles() -> void:
 	ash_piles = ash_pile_renderer.setup(
 		self,
 		ash_piles,
 		realm_layout
 	)
-
 
 func _update_ash_piles(ash: float) -> void:
 	ash_pile_renderer.update(
@@ -498,7 +479,6 @@ func _update_ash_piles(ash: float) -> void:
 		_get_island_rect(),
 		ash
 	)
-
 
 func _update_ash_visuals(
 	center: Vector2,
@@ -511,8 +491,6 @@ func _update_ash_visuals(
 
 	ash_renderer.update_visuals(center, sx, ash)
 
-
-
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
 		_update_lava_network_positions()
@@ -522,7 +500,6 @@ func _notification(what: int) -> void:
 			_get_island_rect()
 		)
 		_update_lava_lake_positions()
-
 
 func begin_prestige_destruction() -> void:
 	if crystallized_flames.is_empty():
@@ -551,7 +528,6 @@ func begin_prestige_destruction() -> void:
 	)
 
 	first_crystal.begin_destruction(0.0)
-
 
 func play_crystallization_event(
 	crystals_created: float
@@ -600,13 +576,9 @@ func play_crystallization_event(
 			CrystalRenderer.CRYSTAL_BASE_SCALE
 		)
 
-
-
 # ------------------------------------------------------------
 # LAVA NETWORK
 # ------------------------------------------------------------
-
-
 
 func _create_lava_network() -> void:
 	lava_network_controller.create_network(
@@ -619,7 +591,6 @@ func _create_lava_network() -> void:
 		LAVA_FALL_SCENE
 	)
 
-
 func _update_lava_network_positions() -> void:
 	lava_network_controller.update_positions(
 		realm_layout,
@@ -627,8 +598,6 @@ func _update_lava_network_positions() -> void:
 		lava_flows,
 		lava_falls
 	)
-
-
 
 func _create_lava_lakes() -> void:
 	lava_lake_visual_controller.create_lakes(
@@ -640,7 +609,6 @@ func _create_lava_lakes() -> void:
 		lava_lakes
 	)
 
-
 func _update_lava_lakes() -> void:
 	lava_lake_state_controller.update(
 		state,
@@ -648,14 +616,11 @@ func _update_lava_lakes() -> void:
 		lava_lakes
 	)
 
-
 func _update_lava_lake_positions() -> void:
 	lava_lake_visual_controller.update_positions(
 		_get_island_rect(),
 		lava_lakes
 	)
-
-
 
 func _update_lava_flow_states() -> void:
 	lava_flow_state_controller.update(
@@ -665,9 +630,4 @@ func _update_lava_flow_states() -> void:
 		lava_flows,
 		lava_falls
 	)
-		
-		
-
-
-
 
