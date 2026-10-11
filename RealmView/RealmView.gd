@@ -32,6 +32,7 @@ const ISLAND_CENTER_RATIO: Vector2 = Vector2(0.68, 0.66)
 const ASH_VISUAL_RADIUS: float = 190.0
 
 var realm_layout: Resource
+var realm_rebuild_controller: RealmRebuildController = RealmRebuildController.new()
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
@@ -94,105 +95,7 @@ func setup(game_state: GameState) -> void:
 	rebuild_realm(state.realm_layout)
 
 func rebuild_realm(new_layout: RealmLayout) -> void:
-	if state == null:
-		return
-
-	if new_layout == null:
-		push_warning(
-			"RealmView: Cannot rebuild realm without a RealmLayout."
-		)
-		return
-
-	realm_layout = new_layout
-
-	# ------------------------------------------------------------
-	# Reset generator visual effects
-	# ------------------------------------------------------------
-
-	generator_animation_controller.reset()
-
-	forge_activity_visual_controller.reset()
-
-	molecular_agitation_particle_controller.reset()
-	# ------------------------------------------------------------
-	# Reset lava mite  and matter furnace animation
-	# ------------------------------------------------------------
-
-	lava_mite_visual_controller.reset(generator_sprites)
-
-	matter_furnace_visual_controller.reset(generator_sprites)
-
-	# ------------------------------------------------------------
-	# Reset generator rotations
-	# ------------------------------------------------------------
-
-	generator_visual_renderer.reset_generator_rotations(
-		generator_sprites
-	)
-
-	generator_visual_renderer.clear_cache()
-
-	# ------------------------------------------------------------
-	# Build the new realm
-	# ------------------------------------------------------------
-
-	island_visual_controller.update(
-		self,
-		realm_layout,
-		_get_island_rect()
-	)
-	ash_visual_controller.setup(self, realm_layout)
-
-	lava_realm_visual_controller.create_network(
-		self,
-		realm_layout,
-		_get_island_rect(),
-		LAVA_FLOW_SCENE,
-		LAVA_FALL_SCENE
-	)
-	lava_realm_visual_controller.create_lakes(
-		self,
-		state,
-		realm_layout,
-		_get_island_rect(),
-		LAVA_LAKE_SCENE
-	)
-	lava_realm_visual_controller.update_positions(
-		realm_layout,
-		_get_island_rect()
-	)
-
-	_draw_generators()
-
-	# Force brazier positions to update immediately.
-	var island_rect: Rect2 = _get_island_rect()
-
-	brazier_visual_controller.position_braziers(
-		braziers,
-		BRAZIER_STATS,
-		realm_layout,
-		island_rect
-	)
-
-	# ------------------------------------------------------------
-	# Crystallized flame visuals
-	# ------------------------------------------------------------
-
-	crystallized_flame_visual_controller.reset_and_update(
-		self,
-		state
-	)
-
-	# ------------------------------------------------------------
-	# Initial lava state
-	# ------------------------------------------------------------
-
-	lava_realm_visual_controller.update_flow_states(
-		state,
-		realm_layout
-	)
-
-	queue_redraw()
+	realm_rebuild_controller.rebuild(self, new_layout)
 
 func update_flame_visuals() -> void:
 	crystallized_flame_visual_controller.update(
