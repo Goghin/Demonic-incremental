@@ -8,12 +8,6 @@ func draw(owner: Control) -> void:
 
 	var center: Vector2 = owner.size * owner.ISLAND_CENTER_RATIO
 
-	owner.brazier_visual_controller.update_stat_values(
-		owner.braziers,
-		owner.BRAZIER_STATS,
-		owner.state.realm_configuration
-	)
-
 	var ash: float = owner.state.get_resource_amount(
 		ResourceIds.ASH
 	)
@@ -22,13 +16,7 @@ func draw(owner: Control) -> void:
 	owner.realm_background_renderer.draw_background(owner, center)
 
 	var island_rect: Rect2 = owner._get_island_rect()
-
-	owner.brazier_visual_controller.position_braziers(
-		owner.braziers,
-		owner.BRAZIER_STATS,
-		owner.realm_layout,
-		island_rect
-	)
+	_update_braziers(owner, island_rect)
 
 	owner._draw_generators()
 
@@ -51,4 +39,18 @@ func draw(owner: Control) -> void:
 		owner.ash_visual_controller.piles,
 		owner.braziers,
 		owner.BRAZIER_STATS
+	)
+
+
+func _update_braziers(owner: Control, island_rect: Rect2) -> void:
+	owner.brazier_visual_controller.update_stat_values(
+		owner.braziers,
+		owner.BRAZIER_STATS,
+		owner.state.realm_configuration
+	)
+	owner.brazier_visual_controller.position_braziers(
+		owner.braziers,
+		owner.BRAZIER_STATS,
+		owner.realm_layout,
+		island_rect
 	)
