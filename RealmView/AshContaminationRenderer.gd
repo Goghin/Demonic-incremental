@@ -11,6 +11,12 @@ var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 var airborne_particles: Array[Dictionary] = []
 
 
+func attach_to(view: Node) -> void:
+	name = "AshContaminationRenderer"
+	z_index = 10
+	view.add_child(self)
+
+
 func _ready() -> void:
 	randomizer.randomize()
 
