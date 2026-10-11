@@ -27,6 +27,9 @@ func draw_overlay(
 
 	for i in range(ash_piles.size()):
 		var pile: Sprite2D = ash_piles[i]
+		if not is_instance_valid(pile):
+			continue
+
 		owner.draw_circle(
 			pile.position,
 			12.0,
@@ -54,6 +57,9 @@ func draw_overlay(
 			continue
 
 		var brazier: Control = braziers[stat_name]
+		if not is_instance_valid(brazier):
+			continue
+
 		var brazier_position: Vector2 = brazier.position
 
 		owner.draw_circle(
