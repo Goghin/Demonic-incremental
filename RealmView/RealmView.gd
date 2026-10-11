@@ -93,25 +93,7 @@ func update_flame_visuals() -> void:
 
 
 func _process(_delta: float) -> void:
-	var island_rect: Rect2 = _get_island_rect()
-	var thermal_furnace_position: Vector2 = _get_generator_position_in_rect(
-		"thermal_furnace",
-		island_rect
-	)
-
-	realm_update_controller.update(
-		self,
-		state,
-		generator_animation_controller,
-		generator_layer,
-		generator_sprites,
-		Callable(self, "_update_scene_visuals").bind(island_rect),
-		molecular_agitation_particle_controller,
-		crystallized_flame_visual_controller,
-		forge_activity_visual_controller,
-		thermal_furnace_position,
-		_delta
-	)
+	realm_update_controller.update(self, _delta)
 
 func _update_scene_visuals(island_rect: Rect2) -> void:
 	if state == null or realm_layout == null:

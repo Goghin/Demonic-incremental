@@ -2,21 +2,27 @@ class_name RealmUpdateController
 extends RefCounted
 
 
-func update(
-	visual_parent: Control,
-	state: GameState,
-	animation_controller: GeneratorAnimationController,
-	generator_layer: Node2D,
-	generator_sprites: Dictionary,
-	update_scene_visuals: Callable,
-	molecular_agitation_controller: MolecularAgitationParticleController,
-	crystallized_flame_controller: CrystallizedFlameVisualController,
-	forge_activity_controller: ForgeActivityVisualController,
-	thermal_furnace_position: Vector2,
-	delta: float
-) -> void:
+func update(owner: RealmView, delta: float) -> void:
+	var visual_parent: Control = owner
+	var state: GameState = owner.state
 	if state == null:
 		return
+
+	var animation_controller: GeneratorAnimationController = owner.generator_animation_controller
+	var generator_layer: Node2D = owner.generator_layer
+	var generator_sprites: Dictionary = owner.generator_sprites
+	var molecular_agitation_controller: MolecularAgitationParticleController = owner.molecular_agitation_particle_controller
+	var crystallized_flame_controller: CrystallizedFlameVisualController = owner.crystallized_flame_visual_controller
+	var forge_activity_controller: ForgeActivityVisualController = owner.forge_activity_visual_controller
+	var island_rect: Rect2 = owner._get_island_rect()
+	var thermal_furnace_position: Vector2 = owner._get_generator_position_in_rect(
+		"thermal_furnace",
+		island_rect
+	)
+	var update_scene_visuals: Callable = Callable(
+		owner,
+		"_update_scene_visuals"
+	).bind(island_rect)
 
 	_update_persistent_visuals(
 		visual_parent,
