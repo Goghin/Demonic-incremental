@@ -101,12 +101,10 @@ func update_drag(
 		var pile_index: int = int(dragging_object.substr(9))
 		if pile_index >= 0 and pile_index < realm_layout.ash_pile_layout_positions.size():
 			var new_position: Vector2 = mouse_position - drag_offset
-			var normalized_position: Vector2 = (
-				(new_position - island_rect.position) /
-				island_rect.size
+			var normalized_position: Vector2 = _normalize_position(
+				new_position,
+				island_rect
 			)
-			normalized_position.x = clamp(normalized_position.x, 0.0, 1.0)
-			normalized_position.y = clamp(normalized_position.y, 0.0, 1.0)
 			realm_layout.ash_pile_layout_positions[pile_index] = normalized_position
 			update_ash_piles.call(ash_amount)
 			request_redraw.call()
@@ -120,12 +118,10 @@ func update_drag(
 		var stat_name: String = dragging_object.substr(8)
 		if braziers.has(stat_name):
 			var new_position: Vector2 = mouse_position - drag_offset
-			var normalized_position: Vector2 = (
-				(new_position - island_rect.position) /
-				island_rect.size
+			var normalized_position: Vector2 = _normalize_position(
+				new_position,
+				island_rect
 			)
-			normalized_position.x = clamp(normalized_position.x, 0.0, 1.0)
-			normalized_position.y = clamp(normalized_position.y, 0.0, 1.0)
 			realm_layout.brazier_layout_positions[stat_name] = normalized_position
 			braziers[stat_name].position = (
 				island_rect.position +
@@ -140,11 +136,22 @@ func update_drag(
 
 	if realm_layout.generator_layout_positions.has(dragging_object):
 		var new_position: Vector2 = mouse_position - drag_offset
-		var normalized_position: Vector2 = (
-			(new_position - island_rect.position) /
-			island_rect.size
-		)
-		normalized_position.x = clamp(normalized_position.x, 0.0, 1.0)
-		normalized_position.y = clamp(normalized_position.y, 0.0, 1.0)
+		var normalized_position: Vector2 = _normalize_position(
+				new_position,
+				island_rect
+			)
 		realm_layout.generator_layout_positions[dragging_object] = normalized_position
 		request_redraw.call()
+
+
+func _normalize_position(
+	position: Vector2,
+	island_rect: Rect2
+) -> Vector2:
+	var normalized_position: Vector2 = (
+		(position - island_rect.position) /
+		island_rect.size
+	)
+	normalized_position.x = clamp(normalized_position.x, 0.0, 1.0)
+	normalized_position.y = clamp(normalized_position.y, 0.0, 1.0)
+	return normalized_position
