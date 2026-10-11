@@ -9,6 +9,7 @@ const CRYSTALLIZED_FLAME_SCENE = preload(
 const CRYSTAL_BASE_SCALE: float = 0.08
 const CRYSTAL_CENTER: Vector2 = Vector2(0.68, 0.33)
 const MAX_VISIBLE_CRYSTALS: int = 25
+const CRYSTAL_Z_INDEX: int = 25
 const CRYSTAL_POSITIONS: Array[Vector2] = [
 	Vector2(0, -35),
 	Vector2(-30, -20),
@@ -72,7 +73,7 @@ func _create_crystal(
 		CRYSTAL_BASE_SCALE
 	)
 	crystal.position = owner.size * CRYSTAL_CENTER
-	crystal.z_index = 25
+	crystal.z_index = CRYSTAL_Z_INDEX
 
 	owner.add_child(crystal)
 	crystals.append(crystal)
