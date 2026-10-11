@@ -30,30 +30,30 @@ func update_phase(
 				owner,
 				state,
 				generator_sprites,
-				delta,
+				delta
 			)
 			_update_molecular_agitation(
 				owner,
 				state,
 				generator_sprites,
-				delta,
+				delta
 			)
 		&"middle":
 			_update_furnace_swirl(
 				owner,
 				state,
-				generator_sprites,
+				generator_sprites
 			)
 			_update_atomic_friction_particles(
 				owner,
 				state,
-				generator_sprites,
+				generator_sprites
 			)
 		&"late":
 			_update_atomic_friction_animation(
 				state,
 				generator_sprites,
-				delta,
+				delta
 			)
 
 
