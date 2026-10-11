@@ -105,7 +105,7 @@ func _process(_delta: float) -> void:
 		generator_animation_controller,
 		generator_layer,
 		generator_sprites,
-		Callable(self, "_update_scene_visuals"),
+		Callable(self, "_update_scene_visuals").bind(island_rect),
 		molecular_agitation_particle_controller,
 		crystallized_flame_visual_controller,
 		forge_activity_visual_controller,
@@ -113,11 +113,9 @@ func _process(_delta: float) -> void:
 		_delta
 	)
 
-func _update_scene_visuals() -> void:
+func _update_scene_visuals(island_rect: Rect2) -> void:
 	if state == null or realm_layout == null:
 		return
-
-	var island_rect: Rect2 = _get_island_rect()
 
 	# Keep generator nodes and hitboxes current before dependent realm visuals.
 	_draw_generators(island_rect)
