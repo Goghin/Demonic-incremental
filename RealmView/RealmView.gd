@@ -3,6 +3,7 @@ extends Control
 
 var state: GameState
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
+var generator_visibility_controller: GeneratorVisibilityController = GeneratorVisibilityController.new()
 var generator_drawing_controller: GeneratorDrawingController = GeneratorDrawingController.new()
 var generator_animation_controller: GeneratorAnimationController = GeneratorAnimationController.new()
 var lava_mite_visual_controller: LavaMiteVisualController = LavaMiteVisualController.new()

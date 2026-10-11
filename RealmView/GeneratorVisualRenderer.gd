@@ -97,7 +97,10 @@ func update_sprite(
 	sprite.visible = true
 
 	if generator.is_operating():
-		sprite.modulate = Color(1.0, 1.0, 1.0, 0.75)
+		var operating_alpha: float = 0.75
+		if generator.definition.id == "infernal_forge":
+			operating_alpha = 1.0
+		sprite.modulate = Color(1.0, 1.0, 1.0, operating_alpha)
 	else:
 		sprite.modulate = Color(0.70, 0.70, 0.70, 1.0)
 
@@ -206,48 +209,3 @@ func get_generator_position(
 		view_size,
 		island_rect
 	)
-
-
-func update_generator_visibility(
-	active_ids: Dictionary,
-	generator_sprites: Dictionary
-) -> void:
-	for generator_id in generator_sprites:
-		if (
-			generator_id == "lava_mite_colony"
-			or
-			generator_id == "matter_furnace"
-		):
-			continue
-	
-		if not active_ids.has(generator_id):
-			var sprite: Sprite2D = generator_sprites[
-				generator_id
-			]
-			sprite.visible = false
-	
-	# Hide the lava mite colony when it is no longer active.
-	if generator_sprites.has("lava_mite_colony"):
-		var lava_mite_sprite: AnimatedSprite2D = (
-			generator_sprites[
-				"lava_mite_colony"
-			] as AnimatedSprite2D
-		)
-	
-		if lava_mite_sprite != null:
-			lava_mite_sprite.visible = (
-				active_ids.has("lava_mite_colony")
-			)
-	
-	# Hide the matter furnace when it is no longer active.
-	if generator_sprites.has("matter_furnace"):
-		var matter_furnace_sprite: AnimatedSprite2D = (
-			generator_sprites[
-				"matter_furnace"
-			] as AnimatedSprite2D
-		)
-	
-		if matter_furnace_sprite != null:
-			matter_furnace_sprite.visible = (
-				active_ids.has("matter_furnace")
-			)

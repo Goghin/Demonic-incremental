@@ -31,7 +31,7 @@ func draw_generators(owner: Control) -> void:
 			machine_size
 		)
 
-	owner.generator_visual_renderer.update_generator_visibility(
+	owner.generator_visibility_controller.update_visibility(
 		active_ids,
 		owner.generator_sprites
 	)
