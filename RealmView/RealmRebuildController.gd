@@ -35,7 +35,13 @@ func _build_realm_geometry(owner) -> void:
 
 	_build_island_and_ash(owner, island_rect)
 	_build_lava_network(owner, island_rect)
-	_place_generators_and_braziers(owner, island_rect)
+
+	# Use the same layout-positioning path as window resizing so both lifecycle
+	# paths keep generators, hitboxes, ash piles, lava, and braziers aligned.
+	owner.realm_layout_visual_controller.update_positions(
+		owner,
+		island_rect
+	)
 
 
 func _build_island_and_ash(owner, island_rect: Rect2) -> void:
@@ -58,16 +64,6 @@ func _build_lava_network(owner, island_rect: Rect2) -> void:
 		owner.LAVA_LAKE_SCENE
 	)
 
-
-func _place_generators_and_braziers(
-	owner,
-	island_rect: Rect2
-) -> void:
-	owner._draw_generators()
-	owner.realm_layout_visual_controller.position_braziers(
-		owner,
-		island_rect
-	)
 
 
 func _refresh_state_dependent_visuals(owner) -> void:
