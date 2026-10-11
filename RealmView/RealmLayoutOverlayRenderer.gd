@@ -7,6 +7,7 @@ var ash_piles: Array[Sprite2D] = []
 var braziers: Dictionary = {}
 var brazier_stats: Array[String] = []
 var overlay_enabled: bool = false
+var selected_object: String = ""
 var draw_controller: RealmLayoutOverlayDrawController = RealmLayoutOverlayDrawController.new()
 
 
@@ -28,9 +29,11 @@ func update_overlay(
 	new_generator_hitboxes: Dictionary,
 	new_ash_piles: Array[Sprite2D],
 	new_braziers: Dictionary,
-	new_brazier_stats: Array[String]
+	new_brazier_stats: Array[String],
+	new_selected_object: String
 ) -> void:
 	overlay_enabled = is_enabled
+	selected_object = new_selected_object
 	generator_hitboxes = new_generator_hitboxes
 	ash_piles = new_ash_piles
 	braziers = new_braziers
@@ -47,5 +50,6 @@ func _draw() -> void:
 		generator_hitboxes,
 		ash_piles,
 		braziers,
-		brazier_stats
+		brazier_stats,
+		selected_object
 	)
