@@ -85,3 +85,12 @@ func update_flow_states(
 		flows,
 		falls
 	)
+
+
+func update_dynamic_states(
+	state: GameState,
+	realm_layout: RealmLayout
+) -> void:
+	# Flow activation depends on the main lake's updated fill value.
+	update_lakes(state, realm_layout)
+	update_flow_states(state, realm_layout)

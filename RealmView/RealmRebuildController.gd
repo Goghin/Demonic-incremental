@@ -102,8 +102,8 @@ func _refresh_state_dependent_visuals(owner) -> void:
 		owner.state
 	)
 
-	# Initialize lava visuals from the current game state.
-	owner.lava_realm_visual_controller.update_flow_states(
+	# Initialize lake fill before evaluating dependent flow states.
+	owner.lava_realm_visual_controller.update_dynamic_states(
 		owner.state,
 		owner.realm_layout
 	)

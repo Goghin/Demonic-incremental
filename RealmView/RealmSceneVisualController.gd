@@ -6,13 +6,8 @@ func update(owner: Control) -> void:
 	if owner.state == null or owner.realm_layout == null:
 		return
 
-	# Keep lava state updates before the other scene visuals, matching the
-	# previous RealmUpdateController order.
-	owner.lava_realm_visual_controller.update_lakes(
-		owner.state,
-		owner.realm_layout
-	)
-	owner.lava_realm_visual_controller.update_flow_states(
+	# Lake fill must update before flow activation is evaluated.
+	owner.lava_realm_visual_controller.update_dynamic_states(
 		owner.state,
 		owner.realm_layout
 	)
