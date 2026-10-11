@@ -3,7 +3,7 @@ extends RefCounted
 
 
 func print_layout_details(
-	layout: RealmLayout,
+	layout,
 	braziers: Dictionary,
 	brazier_stats: Array[String],
 	lava_lakes: Array[LavaLake]
