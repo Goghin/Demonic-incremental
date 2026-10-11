@@ -931,26 +931,7 @@ func _get_resource_display_name(
 func _format_resource_amount(
 	amount: float
 	) -> String:
-
-	if amount >= 1000000000.0:
-		return "%.2fB" % (
-			amount / 1000000000.0
-		)
-
-	if amount >= 1000000.0:
-		return "%.2fM" % (
-			amount / 1000000.0
-		)
-
-	if amount >= 1000.0:
-		return "%.2fK" % (
-			amount / 1000.0
-		)
-
-	if amount >= 1.0:
-		return "%.2f" % amount
-
-	return "%.3f" % amount
+	return NumberFormatter.format(amount)
 	
 func _build_offline_results(
 	offline_seconds: float
