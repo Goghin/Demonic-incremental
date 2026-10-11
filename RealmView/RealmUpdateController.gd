@@ -12,7 +12,6 @@ func update(owner: Control, delta: float) -> void:
 	# Their order is intentional: early machine motion, realm visuals,
 	# middle overlays, the independent agitation particles, then late motion.
 	_update_early_animations(owner, delta)
-	_update_realm_environment(owner)
 	owner.realm_scene_visual_controller.update(owner)
 	_update_middle_animations(owner)
 	_update_molecular_agitation(owner)
@@ -35,20 +34,6 @@ func _update_early_animations(owner: Control, delta: float) -> void:
 		owner.state,
 		owner.generator_sprites,
 		delta
-	)
-
-
-func _update_realm_environment(owner: Control) -> void:
-	if owner.realm_layout == null:
-		return
-
-	owner.lava_realm_visual_controller.update_lakes(
-		owner.state,
-		owner.realm_layout
-	)
-	owner.lava_realm_visual_controller.update_flow_states(
-		owner.state,
-		owner.realm_layout
 	)
 
 
