@@ -28,6 +28,10 @@ func handle_mouse_input(
 	request_redraw: Callable,
 	debug_controller: RealmLayoutDebugController
 ) -> void:
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		cancel_drag()
+		return
+
 	if event is InputEventMouseButton:
 		if event.button_index != MOUSE_BUTTON_LEFT:
 			return
@@ -78,6 +82,9 @@ func find_drag_target(
 ) -> Dictionary:
 	for i in range(ash_piles.size()):
 		var pile: Sprite2D = ash_piles[i]
+		if not is_instance_valid(pile):
+			continue
+
 		var pile_rect: Rect2 = Rect2(
 			pile.position - Vector2(16.0, 16.0),
 			Vector2(32.0, 32.0)
@@ -94,6 +101,9 @@ func find_drag_target(
 			continue
 
 		var brazier: Control = braziers[stat_name]
+		if not is_instance_valid(brazier):
+			continue
+
 		var brazier_rect: Rect2 = Rect2(
 			brazier.position - Vector2(32, 32),
 			Vector2(64, 64)
@@ -132,6 +142,10 @@ func update_drag(
 	update_ash_piles: Callable,
 	request_redraw: Callable
 ) -> void:
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		cancel_drag()
+		return
+
 	if dragging_object.begins_with("ash_pile:"):
 		var pile_index: int = int(dragging_object.substr(9))
 		if pile_index >= 0 and pile_index < realm_layout.ash_pile_layout_positions.size():
