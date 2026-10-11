@@ -103,8 +103,7 @@ func _process(_delta: float) -> void:
 		molecular_agitation_particle_controller,
 		crystallized_flame_visual_controller,
 		forge_activity_visual_controller,
-		Callable(self, "_get_generator_position"),
-		Callable(self, "queue_redraw"),
+		_get_generator_position("thermal_furnace"),
 		_delta
 	)
 
@@ -112,13 +111,16 @@ func _update_scene_visuals() -> void:
 	if state == null or realm_layout == null:
 		return
 
+	# Keep generator nodes and hitboxes current before dependent realm visuals.
+	_draw_generators()
+
+	var island_rect: Rect2 = _get_island_rect()
 	realm_scene_visual_controller.update(
 		self,
 		state,
 		realm_layout,
-		Callable(self, "_draw_generators"),
-		Callable(self, "_get_island_rect"),
-		Callable(self, "_get_generator_position"),
+		island_rect,
+		_get_generator_position("infernal_forge"),
 		size,
 		ISLAND_CENTER_RATIO,
 		ASH_VISUAL_RADIUS,

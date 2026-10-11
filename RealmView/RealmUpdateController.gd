@@ -12,8 +12,7 @@ func update(
 	molecular_agitation_controller: MolecularAgitationParticleController,
 	crystallized_flame_controller: CrystallizedFlameVisualController,
 	forge_activity_controller: ForgeActivityVisualController,
-	get_generator_position: Callable,
-	queue_redraw: Callable,
+	thermal_furnace_position: Vector2,
 	delta: float
 ) -> void:
 	if state == null:
@@ -47,7 +46,7 @@ func update(
 	_update_molecular_agitation(
 		molecular_agitation_controller,
 		state,
-		get_generator_position.call("thermal_furnace")
+		thermal_furnace_position
 	)
 	_update_late_animations(
 		animation_controller,
@@ -56,7 +55,7 @@ func update(
 		delta
 	)
 
-	queue_redraw.call()
+	visual_parent.queue_redraw()
 
 
 func _update_persistent_visuals(

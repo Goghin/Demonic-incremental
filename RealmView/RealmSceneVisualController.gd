@@ -6,9 +6,8 @@ func update(
 	visual_parent: Control,
 	state: GameState,
 	realm_layout: Resource,
-	draw_generators: Callable,
-	get_island_rect: Callable,
-	get_generator_position: Callable,
+	island_rect: Rect2,
+	forge_position: Vector2,
 	view_size: Vector2,
 	island_center_ratio: Vector2,
 	ash_visual_radius: float,
@@ -25,14 +24,9 @@ func update(
 	if state == null or realm_layout == null:
 		return
 
-	# Generator nodes and hitboxes are updated during the process phase,
-	# not as a side effect of Control._draw().
-	draw_generators.call()
-
 	# Lake fill must update before flow activation is evaluated.
 	lava_controller.update_dynamic_states(state, realm_layout)
 
-	var island_rect: Rect2 = get_island_rect.call()
 	_update_ash_visuals(
 		visual_parent,
 		ash_controller,
@@ -54,7 +48,7 @@ func update(
 		visual_parent,
 		forge_controller,
 		state.generators.get("infernal_forge"),
-		get_generator_position.call("infernal_forge")
+		forge_position
 	)
 	_update_layout_overlay(
 		layout_overlay,
