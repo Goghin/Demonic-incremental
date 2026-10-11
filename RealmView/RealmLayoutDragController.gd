@@ -14,20 +14,9 @@ func cancel_drag() -> void:
 	drag_offset = Vector2.ZERO
 
 
-func handle_mouse_input(
-	event: InputEvent,
-	owner: Control,
-	realm_layout: RealmLayout,
-	ash_piles: Array[Sprite2D],
-	braziers: Dictionary,
-	brazier_stats: Array[String],
-	generator_hitboxes: Dictionary,
-	island_rect: Rect2,
-	ash_amount: float,
-	update_ash_piles: Callable,
-	request_redraw: Callable,
-	debug_controller: RealmLayoutDebugController
-) -> void:
+func handle_mouse_input(event: InputEvent, owner: RealmView) -> void:
+	var island_rect: Rect2 = owner._get_island_rect()
+
 	if event is InputEventMouseButton or event is InputEventMouseMotion:
 		if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
 			cancel_drag()
@@ -41,7 +30,7 @@ func handle_mouse_input(
 			var mouse_position: Vector2 = owner.get_local_mouse_position()
 
 			if event.shift_pressed:
-				debug_controller.print_layout_point(
+				owner.realm_layout_debug_controller.print_layout_point(
 					mouse_position,
 					island_rect
 				)
@@ -49,10 +38,7 @@ func handle_mouse_input(
 
 			var drag_result: Dictionary = find_drag_target(
 				mouse_position,
-				ash_piles,
-				braziers,
-				brazier_stats,
-				generator_hitboxes
+				owner
 			)
 			dragging_object = drag_result["object"]
 			drag_offset = drag_result["offset"]
@@ -65,24 +51,17 @@ func handle_mouse_input(
 
 		update_drag(
 			owner.get_local_mouse_position(),
-			realm_layout,
-			braziers,
-			island_rect,
-			ash_amount,
-			update_ash_piles,
-			request_redraw
+			owner,
+			island_rect
 		)
 
 
 func find_drag_target(
 	mouse_position: Vector2,
-	ash_piles: Array[Sprite2D],
-	braziers: Dictionary,
-	brazier_stats: Array[String],
-	generator_hitboxes: Dictionary
+	owner: RealmView
 ) -> Dictionary:
-	for i in range(ash_piles.size()):
-		var pile: Sprite2D = ash_piles[i]
+	for i in range(owner.ash_visual_controller.piles.size()):
+		var pile: Sprite2D = owner.ash_visual_controller.piles[i]
 		if not is_instance_valid(pile):
 			continue
 
@@ -97,11 +76,11 @@ func find_drag_target(
 				"offset": mouse_position - pile.position
 			}
 
-	for stat_name in brazier_stats:
-		if not braziers.has(stat_name):
+	for stat_name in owner.BRAZIER_STATS:
+		if not owner.braziers.has(stat_name):
 			continue
 
-		var brazier: Control = braziers[stat_name]
+		var brazier: Control = owner.braziers[stat_name]
 		if not is_instance_valid(brazier):
 			continue
 
@@ -116,8 +95,8 @@ func find_drag_target(
 				"offset": mouse_position - brazier.position
 			}
 
-	for generator_id in generator_hitboxes:
-		var hitbox: Rect2 = generator_hitboxes[generator_id]
+	for generator_id in owner.generator_hitboxes:
+		var hitbox: Rect2 = owner.generator_hitboxes[generator_id]
 		if hitbox.has_point(mouse_position):
 			var generator_position: Vector2 = (
 				hitbox.position +
@@ -136,17 +115,14 @@ func find_drag_target(
 
 func update_drag(
 	mouse_position: Vector2,
-	realm_layout: RealmLayout,
-	braziers: Dictionary,
-	island_rect: Rect2,
-	ash_amount: float,
-	update_ash_piles: Callable,
-	request_redraw: Callable
+	owner: RealmView,
+	island_rect: Rect2
 ) -> void:
 	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
 		cancel_drag()
 		return
 
+	var realm_layout: RealmLayout = owner.realm_layout
 	if realm_layout == null:
 		cancel_drag()
 		return
@@ -163,13 +139,15 @@ func update_drag(
 			island_rect
 		)
 		realm_layout.ash_pile_layout_positions[pile_index] = normalized_position
-		update_ash_piles.call(ash_amount)
-		request_redraw.call()
+		owner._update_ash_piles(
+			owner.state.get_resource_amount(ResourceIds.ASH)
+		)
+		owner.queue_redraw()
 		return
 
 	if dragging_object.begins_with("brazier:"):
 		var stat_name: String = dragging_object.substr(8)
-		if not braziers.has(stat_name) or not is_instance_valid(braziers[stat_name]):
+		if not owner.braziers.has(stat_name) or not is_instance_valid(owner.braziers[stat_name]):
 			cancel_drag()
 			return
 		if not realm_layout.brazier_layout_positions.has(stat_name):
@@ -182,11 +160,11 @@ func update_drag(
 			island_rect
 		)
 		realm_layout.brazier_layout_positions[stat_name] = normalized_position
-		braziers[stat_name].position = geometry_controller.get_position_from_normalized(
+		owner.braziers[stat_name].position = geometry_controller.get_position_from_normalized(
 			normalized_position,
 			island_rect
 		)
-		request_redraw.call()
+		owner.queue_redraw()
 		return
 
 	if not realm_layout.generator_layout_positions.has(dragging_object):
@@ -199,5 +177,4 @@ func update_drag(
 		island_rect
 	)
 	realm_layout.generator_layout_positions[dragging_object] = normalized_position
-	request_redraw.call()
-
+	owner.queue_redraw()

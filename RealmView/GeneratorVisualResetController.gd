@@ -2,26 +2,19 @@ class_name GeneratorVisualResetController
 extends RefCounted
 
 
-func reset(
-	animation_controller: GeneratorAnimationController,
-	forge_controller: ForgeActivityVisualController,
-	molecular_particle_controller: MolecularAgitationParticleController,
-	lava_mite_controller: LavaMiteVisualController,
-	matter_furnace_controller: MatterFurnaceVisualController,
-	visual_renderer: GeneratorVisualRenderer,
-	generator_sprites: Dictionary,
-	generator_hitboxes: Dictionary
-) -> void:
+func reset(owner: RealmView) -> void:
 	# Reset shared generator effects and animation state.
-	animation_controller.reset()
-	forge_controller.reset()
-	molecular_particle_controller.reset()
+	owner.generator_animation_controller.reset()
+	owner.forge_activity_visual_controller.reset()
+	owner.molecular_agitation_particle_controller.reset()
 
 	# Reset generator-specific animations.
-	lava_mite_controller.reset(generator_sprites)
-	matter_furnace_controller.reset(generator_sprites)
+	owner.lava_mite_visual_controller.reset(owner.generator_sprites)
+	owner.matter_furnace_visual_controller.reset(owner.generator_sprites)
 
 	# Clear rotation and drawing caches before rebuilding the layout.
-	visual_renderer.reset_generator_rotations(generator_sprites)
-	visual_renderer.clear_cache()
-	generator_hitboxes.clear()
+	owner.generator_visual_renderer.reset_generator_rotations(
+		owner.generator_sprites
+	)
+	owner.generator_visual_renderer.clear_cache()
+	owner.generator_hitboxes.clear()
