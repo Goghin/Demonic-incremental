@@ -172,10 +172,8 @@ func _normalize_position(
 	position: Vector2,
 	island_rect: Rect2
 ) -> Vector2:
-	var normalized_position: Vector2 = (
-		(position - island_rect.position) /
-		island_rect.size
+	var geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
+	return geometry_controller.get_normalized_position(
+		position,
+		island_rect
 	)
-	normalized_position.x = clamp(normalized_position.x, 0.0, 1.0)
-	normalized_position.y = clamp(normalized_position.y, 0.0, 1.0)
-	return normalized_position
