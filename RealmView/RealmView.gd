@@ -18,6 +18,11 @@ var braziers: Dictionary = {}
 
 var crystallized_flame_visual_controller: CrystallizedFlameVisualController = CrystallizedFlameVisualController.new()
 
+# Compatibility accessor for effects that still read crystals from RealmView.
+var crystallized_flames: Array[CrystallizedFlame]:
+	get:
+		return crystallized_flame_visual_controller.crystals
+
 
 const REALM_VISUAL_SCALE: float = 1.0
 const REALM_VISUAL_OFFSET: Vector2 = Vector2(0.0, 0.0)
