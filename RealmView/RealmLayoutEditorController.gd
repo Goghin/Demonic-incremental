@@ -6,6 +6,27 @@ var layout_mode: bool = false
 var drag_controller: RealmLayoutDragController = RealmLayoutDragController.new()
 
 
+func handle_owner_input(event: InputEvent, owner: Control) -> void:
+	if owner.state == null or owner.realm_layout == null:
+		return
+
+	handle_input(
+		event,
+		owner,
+		owner.realm_layout,
+		owner.ash_visual_controller.piles,
+		owner.braziers,
+		owner.BRAZIER_STATS,
+		owner.generator_hitboxes,
+		owner._get_island_rect(),
+		owner.state.get_resource_amount(ResourceIds.ASH),
+		Callable(owner, "_update_ash_piles"),
+		Callable(owner, "queue_redraw"),
+		owner.realm_layout_debug_controller,
+		owner.lava_realm_visual_controller.lakes
+	)
+
+
 func handle_input(
 	event: InputEvent,
 	owner: Control,
