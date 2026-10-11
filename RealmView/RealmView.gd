@@ -37,6 +37,7 @@ var realm_draw_controller: RealmDrawController = RealmDrawController.new()
 var realm_update_controller: RealmUpdateController = RealmUpdateController.new()
 var realm_setup_controller: RealmSetupController = RealmSetupController.new()
 var realm_layout_geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
+var realm_resize_controller: RealmResizeController = RealmResizeController.new()
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
@@ -153,16 +154,7 @@ func _update_ash_piles(ash: float) -> void:
 	)
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_RESIZED:
-		lava_realm_visual_controller.update_positions(
-			realm_layout,
-			_get_island_rect()
-		)
-		island_visual_controller.update(
-			self,
-			realm_layout,
-			_get_island_rect()
-		)
+	realm_resize_controller.handle_notification(self, what)
 
 func begin_prestige_destruction() -> void:
 	crystallized_flame_visual_controller.begin_prestige_destruction()
