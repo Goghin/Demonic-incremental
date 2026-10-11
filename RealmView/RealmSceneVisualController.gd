@@ -19,25 +19,26 @@ func update(owner: Control) -> void:
 
 	var island_rect: Rect2 = owner._get_island_rect()
 
-	_update_ash_visuals(owner, island_rect)
-	_update_braziers(owner, island_rect)
-	_update_forge_visuals(owner)
-	_update_ash_contamination(owner)
-
-
 func _update_ash_visuals(
 	owner: Control,
 	island_rect: Rect2
 ) -> void:
-	var ash: float = owner.state.get_resource_amount(
-		ResourceIds.ASH
-	)
+	var ash: float = owner.state.get_resource_amount(ResourceIds.ASH)
+	var center: Vector2 = owner.size * owner.ISLAND_CENTER_RATIO
 
-	owner.ash_visual_controller.update_piles(
+	owner.ash_visual_controller.update_realm_visuals(
+		owner,
 		owner.realm_layout,
 		island_rect,
-		ash
+		ash,
+		center,
+		owner.ASH_VISUAL_RADIUS
 	)
+
+
+	_update_ash_visuals(owner, island_rect)
+	_update_braziers(owner, island_rect)
+	_update_forge_visuals(owner)
 
 
 func _update_braziers(

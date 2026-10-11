@@ -46,3 +46,19 @@ func update_contamination(
 		contamination_renderer.attach_to(owner)
 
 	contamination_renderer.update_visuals(center, width, ash)
+
+func update_realm_visuals(
+	owner: Node,
+	realm_layout: RealmLayout,
+	island_rect: Rect2,
+	ash: float,
+	contamination_center: Vector2,
+	contamination_width: float
+) -> void:
+	update_piles(realm_layout, island_rect, ash)
+	update_contamination(
+		owner,
+		contamination_center,
+		contamination_width,
+		ash
+	)
