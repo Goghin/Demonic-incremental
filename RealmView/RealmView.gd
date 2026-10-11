@@ -611,116 +611,17 @@ func _update_layout_drag(
 	if dragging_object == "":
 		return
 
-	# ------------------------------------------------------------
-	# Ash pile
-	# ------------------------------------------------------------
-
-	if dragging_object.begins_with("ash_pile:"):
-		var pile_index: int = int(dragging_object.substr(9))
-		if pile_index >= 0 and pile_index < realm_layout.ash_pile_layout_positions.size():
-			var new_position: Vector2 = mouse_position - drag_offset
-			var island_rect: Rect2 = _get_island_rect()
-			var normalized_position: Vector2 = (
-				(new_position - island_rect.position) /
-				island_rect.size
-			)
-			normalized_position.x = clamp(normalized_position.x, 0.0, 1.0)
-			normalized_position.y = clamp(normalized_position.y, 0.0, 1.0)
-			realm_layout.ash_pile_layout_positions[pile_index] = normalized_position
-			_update_ash_piles(
-				state.get_resource_amount(ResourceIds.ASH)
-			)
-			queue_redraw()
-		return
-
-	# ------------------------------------------------------------
-	# Brazier
-	# ------------------------------------------------------------
-
-	if dragging_object.begins_with("brazier:"):
-		var stat_name: String = (
-			dragging_object.substr(8)
-		)
-
-		if braziers.has(stat_name):
-			var new_position: Vector2 = (
-				mouse_position -
-				drag_offset
-			)
-
-			var island_rect: Rect2 = (
-				_get_island_rect()
-			)
-
-			var normalized_position: Vector2 = (
-				(new_position - island_rect.position) /
-				island_rect.size
-			)
-
-			normalized_position.x = clamp(
-				normalized_position.x,
-				0.0,
-				1.0
-			)
-
-			normalized_position.y = clamp(
-				normalized_position.y,
-				0.0,
-				1.0
-			)
-
-			realm_layout.brazier_layout_positions[
-				stat_name
-			] = normalized_position
-
-			braziers[stat_name].position = (
-				island_rect.position +
-				island_rect.size *
-				normalized_position
-			)
-
-			queue_redraw()
-
-			return
-
-	# ------------------------------------------------------------
-	# Generator
-	# ------------------------------------------------------------
-
-	if realm_layout.generator_layout_positions.has(
-		dragging_object
-	):
-		var new_position: Vector2 = (
-			mouse_position -
-			drag_offset
-		)
-
-		var island_rect: Rect2 = (
-			_get_island_rect()
-		)
-
-		var normalized_position: Vector2 = (
-			(new_position - island_rect.position) /
-			island_rect.size
-		)
-
-		normalized_position.x = clamp(
-			normalized_position.x,
-			0.0,
-			1.0
-		)
-
-		normalized_position.y = clamp(
-			normalized_position.y,
-			0.0,
-			1.0
-		)
-
-		realm_layout.generator_layout_positions[
-			dragging_object
-		] = normalized_position
-
-		queue_redraw()
+	realm_layout_editor_controller.update_drag(
+		mouse_position,
+		dragging_object,
+		drag_offset,
+		realm_layout,
+		braziers,
+		_get_island_rect(),
+		state.get_resource_amount(ResourceIds.ASH),
+		Callable(self, "_update_ash_piles"),
+		Callable(self, "queue_redraw")
+)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
