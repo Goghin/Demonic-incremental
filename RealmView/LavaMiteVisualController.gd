@@ -68,29 +68,13 @@ func update(
 		draw_size
 	)
 
-	animated_sprite.position = generator_position
-	animated_sprite.scale = Vector2(
-		texture_scale,
-		texture_scale
-	)
-	animated_sprite.z_index = 0
-	animated_sprite.visible = true
-
 	update_animation_speed(animated_sprite, generator.level)
-
-	if generator.is_operating():
-		animated_sprite.modulate = Color(1.0, 1.0, 1.0, 0.75)
-
-		if animated_sprite.animation != &"default":
-			animated_sprite.animation = &"default"
-
-		if not animated_sprite.is_playing():
-			animated_sprite.play()
-	else:
-		animated_sprite.modulate = Color(0.70, 0.70, 0.70, 1.0)
-
-		if animated_sprite.is_playing():
-			animated_sprite.pause()
+	generator_visual_renderer.update_animated_sprite(
+		animated_sprite,
+		generator_position,
+		texture_scale,
+		generator.is_operating()
+	)
 
 func get_size_multiplier(level: int) -> float:
 	if level <= 1:

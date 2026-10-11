@@ -94,6 +94,17 @@ func create_animated_generator_sprite(
 	var frame_width: int = sheet.get_width() / hframes
 	var frame_height: int = sheet.get_height() / vframes
 
+	if frame_width <= 0 or frame_height <= 0:
+		push_warning(
+			"Generator animation sheet is too small for " +
+			generator_id +
+			": " +
+			str(sheet.get_width()) +
+			"x" +
+			str(sheet.get_height())
+		)
+		return sprite
+
 	for row in range(vframes):
 		for column in range(hframes):
 			var atlas_texture: AtlasTexture = AtlasTexture.new()

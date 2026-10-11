@@ -124,3 +124,39 @@ func create_animated_generator_sprite(
 		vframes,
 		animation_fps
 	)
+
+
+
+func update_animated_sprite(
+	sprite: AnimatedSprite2D,
+	generator_position: Vector2,
+	texture_scale: float,
+	is_operating: bool,
+	operating_alpha: float = 0.75
+) -> bool:
+	sprite.position = generator_position
+	sprite.scale = Vector2(texture_scale, texture_scale)
+	sprite.z_index = 0
+
+	if sprite.sprite_frames == null:
+		sprite.visible = false
+		return false
+
+	var animation_name: StringName = &"default"
+	if not sprite.sprite_frames.has_animation(animation_name):
+		sprite.visible = false
+		return false
+
+	sprite.animation = animation_name
+	sprite.visible = true
+
+	if is_operating:
+		sprite.modulate = Color(1.0, 1.0, 1.0, operating_alpha)
+		if not sprite.is_playing():
+			sprite.play()
+	else:
+		sprite.modulate = Color(0.70, 0.70, 0.70, 1.0)
+		if sprite.is_playing():
+			sprite.pause()
+
+	return true
