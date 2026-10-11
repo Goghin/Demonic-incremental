@@ -229,42 +229,6 @@ func _get_animated_generator_sprite(
 
 	return sprite
 
-
-func get_lava_mite_size_multiplier(level: int) -> float:
-	if level <= 1:
-		return 0.70
-	if level <= 21:
-		return lerp(0.70, 1.00, float(level - 1) / 20.0)
-
-	var levels_after_21: float = float(level - 21)
-	return 1.0 + 0.45 * (1.0 - exp(-levels_after_21 / 30.0))
-
-
-func update_lava_mite_animation_speed(
-	animated_sprite: AnimatedSprite2D,
-	level: int
-) -> void:
-	if animated_sprite.sprite_frames == null:
-		return
-
-	var animation_name: StringName = &"default"
-	if not animated_sprite.sprite_frames.has_animation(animation_name):
-		return
-
-	var animation_speed: float
-	if level <= 1:
-		animation_speed = 2.5
-	elif level <= 50:
-		animation_speed = lerp(2.5, 6.5, float(level - 1) / 49.0)
-	else:
-		var levels_after_50: float = float(level - 50)
-		animation_speed = 6.5 + 2.0 * (1.0 - exp(-levels_after_50 / 50.0))
-
-	animated_sprite.sprite_frames.set_animation_speed(
-		animation_name,
-		animation_speed
-	)
-
 func get_generator_position(
 	generator_id: String,
 	layout_positions: Dictionary,
