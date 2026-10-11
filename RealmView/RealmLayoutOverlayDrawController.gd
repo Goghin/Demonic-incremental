@@ -79,9 +79,9 @@ func draw_overlay(
 		owner.draw_circle(
 			brazier_position,
 			32.0 if not is_brazier_selected else 38.0,
-			Color(1.0, 0.95, 0.55, 1.0) if is_generator_selected else Color(1.0, 0.75, 0.20, 0.75),
+			Color(1.0, 0.95, 0.55, 1.0) if is_brazier_selected else Color(1.0, 0.75, 0.20, 0.75),
 			false,
-			3.0 if is_pile_selected else 2.0
+			3.0 if is_brazier_selected else 2.0
 		)
 		owner.draw_line(
 			brazier_position + Vector2(-42, 0),
