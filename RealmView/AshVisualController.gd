@@ -4,6 +4,7 @@ extends RefCounted
 
 var piles: Array[Sprite2D] = []
 var pile_renderer: AshPileRenderer = AshPileRenderer.new()
+var contamination_renderer: AshContaminationRenderer
 
 
 func setup(
@@ -31,3 +32,17 @@ func update_piles(
 		island_rect,
 		ash
 	)
+
+
+
+func update_contamination(
+	owner: Node,
+	center: Vector2,
+	width: float,
+	ash: float
+) -> void:
+	if contamination_renderer == null:
+		contamination_renderer = AshContaminationRenderer.new()
+		contamination_renderer.attach_to(owner)
+
+	contamination_renderer.update_visuals(center, width, ash)
