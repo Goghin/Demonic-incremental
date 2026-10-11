@@ -8,7 +8,7 @@ func update(
 	animation_controller: GeneratorAnimationController,
 	generator_layer: Node2D,
 	generator_sprites: Dictionary,
-	scene_visual_controller: RealmSceneVisualController,
+	update_scene_visuals: Callable,
 	molecular_agitation_controller: MolecularAgitationParticleController,
 	crystallized_flame_controller: CrystallizedFlameVisualController,
 	forge_activity_controller: ForgeActivityVisualController,
@@ -37,7 +37,7 @@ func update(
 		generator_sprites,
 		delta
 	)
-	scene_visual_controller.update_from_view(visual_parent)
+	update_scene_visuals.call()
 	_update_middle_animations(
 		animation_controller,
 		generator_layer,

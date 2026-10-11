@@ -2,35 +2,6 @@ class_name RealmSceneVisualController
 extends RefCounted
 
 
-# The view is only used as the visual parent for nodes and to invoke its
-# existing generator-drawing entry point. All scene state is passed explicitly.
-func update_from_view(visual_parent: Control) -> void:
-	var view := visual_parent as RealmView
-	if view == null or view.state == null or view.realm_layout == null:
-		return
-
-	update(
-		visual_parent,
-		view.state,
-		view.realm_layout,
-		Callable(view, "_draw_generators"),
-		Callable(view, "_get_island_rect"),
-		Callable(view, "_get_generator_position"),
-		view.size,
-		view.ISLAND_CENTER_RATIO,
-		view.ASH_VISUAL_RADIUS,
-		view.lava_realm_visual_controller,
-		view.ash_visual_controller,
-		view.brazier_visual_controller,
-		view.braziers,
-		view.BRAZIER_STATS,
-		view.forge_activity_visual_controller,
-		view.realm_layout_overlay_renderer,
-		view.realm_layout_editor_controller.layout_mode,
-		view.generator_hitboxes
-	)
-
-
 func update(
 	visual_parent: Control,
 	state: GameState,

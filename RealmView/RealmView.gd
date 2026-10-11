@@ -99,7 +99,7 @@ func _process(_delta: float) -> void:
 		generator_animation_controller,
 		generator_layer,
 		generator_sprites,
-		realm_scene_visual_controller,
+		Callable(self, "_update_scene_visuals"),
 		molecular_agitation_particle_controller,
 		crystallized_flame_visual_controller,
 		forge_activity_visual_controller,
@@ -107,6 +107,32 @@ func _process(_delta: float) -> void:
 		Callable(self, "queue_redraw"),
 		_delta
 	)
+
+func _update_scene_visuals() -> void:
+	if state == null or realm_layout == null:
+		return
+
+	realm_scene_visual_controller.update(
+		self,
+		state,
+		realm_layout,
+		Callable(self, "_draw_generators"),
+		Callable(self, "_get_island_rect"),
+		Callable(self, "_get_generator_position"),
+		size,
+		ISLAND_CENTER_RATIO,
+		ASH_VISUAL_RADIUS,
+		lava_realm_visual_controller,
+		ash_visual_controller,
+		brazier_visual_controller,
+		braziers,
+		BRAZIER_STATS,
+		forge_activity_visual_controller,
+		realm_layout_overlay_renderer,
+		realm_layout_editor_controller.layout_mode,
+		generator_hitboxes
+	)
+
 
 func _input(event: InputEvent) -> void:
 	realm_layout_editor_controller.handle_owner_input(event, self)
