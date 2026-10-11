@@ -33,24 +33,23 @@ func rebuild(owner, new_layout: RealmLayout) -> void:
 func _build_realm_geometry(owner) -> void:
 	var island_rect: Rect2 = owner._get_island_rect()
 
-	_build_island_and_ash(owner, island_rect)
+	_setup_ash_visuals(owner)
 	_build_lava_network(owner, island_rect)
 
 	# Use the same layout-positioning path as window resizing so both lifecycle
 	# paths keep generators, hitboxes, ash piles, lava, and braziers aligned.
+	# This path also updates the island, so geometry is only placed once.
 	owner.realm_layout_visual_controller.update_positions(
 		owner,
 		island_rect
 	)
 
 
-func _build_island_and_ash(owner, island_rect: Rect2) -> void:
-	owner.island_visual_controller.update(
+func _setup_ash_visuals(owner) -> void:
+	owner.ash_visual_controller.setup(
 		owner,
-		owner.realm_layout,
-		island_rect
+		owner.realm_layout
 	)
-	owner.ash_visual_controller.setup(owner, owner.realm_layout)
 
 
 func _build_lava_network(owner, island_rect: Rect2) -> void:
@@ -63,7 +62,6 @@ func _build_lava_network(owner, island_rect: Rect2) -> void:
 		owner.LAVA_FALL_SCENE,
 		owner.LAVA_LAKE_SCENE
 	)
-
 
 
 func _refresh_state_dependent_visuals(owner) -> void:
