@@ -151,7 +151,7 @@ func reset_generator_rotations(generator_sprites: Dictionary) -> void:
 
 
 func get_lava_mite_sprite(parent: Node, generator_sprites: Dictionary) -> AnimatedSprite2D:
-	return _get_animated_generator_sprite(
+	return create_animated_generator_sprite(
 		parent,
 		generator_sprites,
 		"lava_mite_colony",
@@ -164,7 +164,7 @@ func get_lava_mite_sprite(parent: Node, generator_sprites: Dictionary) -> Animat
 
 
 func get_matter_furnace_sprite(parent: Node, generator_sprites: Dictionary) -> AnimatedSprite2D:
-	return _get_animated_generator_sprite(
+	return create_animated_generator_sprite(
 		parent,
 		generator_sprites,
 		"matter_furnace",
@@ -176,7 +176,7 @@ func get_matter_furnace_sprite(parent: Node, generator_sprites: Dictionary) -> A
 	)
 
 
-func _get_animated_generator_sprite(
+func create_animated_generator_sprite(
 	parent: Node,
 	generator_sprites: Dictionary,
 	generator_id: String,
