@@ -198,7 +198,11 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Build the new realm
 	# ------------------------------------------------------------
 
-	_update_island_sprite()
+	island_visual_controller.update(
+		self,
+		realm_layout,
+		_get_island_rect()
+	)
 	_setup_ash_piles()
 
 	_create_lava_network()
@@ -550,7 +554,11 @@ func _update_ash_visuals(
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
 		_update_lava_network_positions()
-		_update_island_sprite()
+		island_visual_controller.update(
+			self,
+			realm_layout,
+			_get_island_rect()
+		)
 		_update_lava_lake_positions()
 
 
@@ -682,12 +690,6 @@ func _update_lava_network_positions() -> void:
 	)
 
 
-func _update_island_sprite() -> void:
-	island_visual_controller.update(
-		self,
-		realm_layout,
-		_get_island_rect()
-	)
 
 func _create_lava_lakes() -> void:
 	lava_lake_visual_controller.create_lakes(
