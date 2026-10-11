@@ -30,13 +30,13 @@ func _reset_visual_state(owner) -> void:
 	# Reset generator-specific animations.
 	owner.lava_mite_visual_controller.reset(owner.generator_sprites)
 	owner.matter_furnace_visual_controller.reset(owner.generator_sprites)
-
+	
 	# Clear rotation and drawing caches before rebuilding the layout.
 	owner.generator_visual_renderer.reset_generator_rotations(
 		owner.generator_sprites
 	)
 	owner.generator_visual_renderer.clear_cache()
-
+	owner.generator_hitboxes.clear()
 
 
 func _build_realm_geometry(owner) -> void:
