@@ -8,7 +8,9 @@ func draw_overlay(
 	ash_piles: Array[Sprite2D],
 	braziers: Dictionary,
 	brazier_stats: Array[String],
-	selected_object: String
+	selected_object: String,
+	realm_layout: RealmLayout,
+	island_rect: Rect2
 ) -> void:
 	owner.draw_rect(
 		Rect2(Vector2.ZERO, owner.size),
@@ -18,6 +20,7 @@ func draw_overlay(
 	)
 
 	_draw_editor_help(owner, selected_object)
+	_draw_lake_edge_handles(owner, realm_layout, island_rect, selected_object)
 
 	for generator_id in generator_hitboxes:
 		var hitbox: Rect2 = generator_hitboxes[generator_id]
@@ -104,7 +107,7 @@ func _draw_editor_help(owner: Control, selected_object: String) -> void:
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9), false, 1.0)
 	var lines: Array[String] = [
 		"REALM LAYOUT EDITOR",
-		"Drag a machine, brazier or ash pile",
+		"Drag machines, braziers, ash piles or lava-edge handles",
 		"Shift + click: print normalized point",
 		"F2: close editor"
 	]
@@ -128,3 +131,52 @@ func _draw_editor_help(owner: Control, selected_object: String) -> void:
 			12,
 			Color(1.0, 0.95, 0.55, 1.0)
 		)
+
+
+
+func _draw_lake_edge_handles(
+	owner: Control,
+	realm_layout: RealmLayout,
+	island_rect: Rect2,
+	selected_object: String
+) -> void:
+	if realm_layout == null or island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return
+
+	var lake_count: int = 1 + realm_layout.small_lake_definitions.size()
+	for lake_index in range(lake_count):
+		var points: PackedVector2Array
+		if lake_index == 0:
+			points = realm_layout.main_lake_edge_points
+		else:
+			var definition: Dictionary = realm_layout.small_lake_definitions[lake_index - 1]
+			if not definition.has("points"):
+				continue
+			points = definition["points"]
+
+		if points.size() < 2:
+			continue
+
+		var screen_points := PackedVector2Array()
+		for normalized_point in points:
+			screen_points.append(island_rect.position + island_rect.size * normalized_point)
+
+		for point_index in range(screen_points.size()):
+			var current: Vector2 = screen_points[point_index]
+			var next: Vector2 = screen_points[(point_index + 1) % screen_points.size()]
+			owner.draw_line(current, next, Color(1.0, 0.28, 0.035, 0.65), 1.5)
+
+			var handle_id: String = "lake_edge:%d:%d" % [lake_index, point_index]
+			var is_selected: bool = selected_object == handle_id
+			owner.draw_circle(
+				current,
+				7.0 if is_selected else 5.0,
+				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(1.0, 0.48, 0.08, 0.95)
+			)
+			owner.draw_circle(
+				current,
+				7.0 if is_selected else 5.0,
+				Color(0.16, 0.045, 0.015, 1.0),
+				false,
+				1.2
+			)

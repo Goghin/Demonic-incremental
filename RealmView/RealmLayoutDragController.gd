@@ -60,6 +60,23 @@ func find_drag_target(
 	mouse_position: Vector2,
 	owner: RealmView
 ) -> Dictionary:
+	var realm_layout: RealmLayout = owner.realm_layout
+	var island_rect: Rect2 = owner._get_island_rect()
+	var lakes: Array[LavaLake] = owner.lava_realm_visual_controller.lakes
+
+	for lake_index in range(lakes.size()):
+		var points: PackedVector2Array = _get_lake_points(realm_layout, lake_index)
+		for point_index in range(points.size()):
+			var point_position: Vector2 = geometry_controller.get_position_from_normalized(
+				points[point_index],
+				island_rect
+			)
+			if point_position.distance_to(mouse_position) <= 11.0:
+				return {
+					"object": "lake_edge:%d:%d" % [lake_index, point_index],
+					"offset": mouse_position - point_position
+				}
+
 	for i in range(owner.ash_visual_controller.piles.size()):
 		var pile: Sprite2D = owner.ash_visual_controller.piles[i]
 		if not is_instance_valid(pile):
@@ -127,6 +144,35 @@ func update_drag(
 		cancel_drag()
 		return
 
+	if dragging_object.begins_with("lake_edge:"):
+		var parts: PackedStringArray = dragging_object.split(":")
+		if parts.size() != 3:
+			cancel_drag()
+			return
+
+		var lake_index: int = int(parts[1])
+		var point_index: int = int(parts[2])
+		var points: PackedVector2Array = _get_lake_points(realm_layout, lake_index)
+		if point_index < 0 or point_index >= points.size():
+			cancel_drag()
+			return
+
+		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
+			mouse_position - drag_offset,
+			island_rect
+		)
+		points[point_index] = normalized_position
+		_set_lake_points(realm_layout, lake_index, points)
+
+		var lakes: Array[LavaLake] = owner.lava_realm_visual_controller.lakes
+		if lake_index >= 0 and lake_index < lakes.size():
+			var lake: LavaLake = lakes[lake_index]
+			if is_instance_valid(lake):
+				lake.setup(points, island_rect)
+
+		owner.queue_redraw()
+		return
+
 	if dragging_object.begins_with("ash_pile:"):
 		var pile_index: int = int(dragging_object.substr(9))
 		if pile_index < 0 or pile_index >= realm_layout.ash_pile_layout_positions.size():
@@ -178,3 +224,34 @@ func update_drag(
 	)
 	realm_layout.generator_layout_positions[dragging_object] = normalized_position
 	owner.queue_redraw()
+
+
+
+func _get_lake_points(layout: RealmLayout, lake_index: int) -> PackedVector2Array:
+	if layout == null:
+		return PackedVector2Array()
+	if lake_index == 0:
+		return layout.main_lake_edge_points
+	var definition_index: int = lake_index - 1
+	if definition_index < 0 or definition_index >= layout.small_lake_definitions.size():
+		return PackedVector2Array()
+	var definition: Dictionary = layout.small_lake_definitions[definition_index]
+	if not definition.has("points"):
+		return PackedVector2Array()
+	return definition["points"]
+
+
+func _set_lake_points(
+	layout: RealmLayout,
+	lake_index: int,
+	points: PackedVector2Array
+) -> void:
+	if lake_index == 0:
+		layout.main_lake_edge_points = points
+		return
+	var definition_index: int = lake_index - 1
+	if definition_index < 0 or definition_index >= layout.small_lake_definitions.size():
+		return
+	var definition: Dictionary = layout.small_lake_definitions[definition_index]
+	definition["points"] = points
+	layout.small_lake_definitions[definition_index] = definition

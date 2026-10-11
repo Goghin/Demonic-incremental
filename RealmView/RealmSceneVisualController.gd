@@ -72,5 +72,7 @@ func _update_layout_overlay(owner: RealmView) -> void:
 		owner.ash_visual_controller.piles,
 		owner.braziers,
 		owner.BRAZIER_STATS,
-		owner.realm_layout_editor_controller.drag_controller.dragging_object
+		owner.realm_layout_editor_controller.drag_controller.dragging_object,
+		owner.realm_layout,
+		island_rect
 	)
