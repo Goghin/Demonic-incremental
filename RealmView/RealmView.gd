@@ -80,6 +80,7 @@ var generator_hitboxes: Dictionary = {}
 var forge_activity_visual_controller: ForgeActivityVisualController = ForgeActivityVisualController.new()
 var brazier_visual_controller: BrazierVisualController = BrazierVisualController.new()
 var island_visual_controller: IslandVisualController = IslandVisualController.new()
+var realm_layout_overlay_renderer: RealmLayoutOverlayRenderer = RealmLayoutOverlayRenderer.new()
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
@@ -650,97 +651,13 @@ func _initialize_brazier_positions(
 	)
 
 func _draw_layout_overlay() -> void:
-	draw_rect(
-		Rect2(Vector2.ZERO, size),
-		Color(1.0, 0.75, 0.20, 0.65),
-		false,
-		2.0
+	realm_layout_overlay_renderer.draw_overlay(
+		self,
+		generator_hitboxes,
+		ash_piles,
+		braziers,
+		BRAZIER_STATS
 	)
-
-	# ------------------------------------------------------------
-	# Generator selection boxes
-	# ------------------------------------------------------------
-
-	for generator_id in generator_hitboxes:
-		var hitbox: Rect2 = generator_hitboxes[
-			generator_id
-		]
-
-		draw_rect(
-			hitbox.grow(3.0),
-			Color(1.0, 0.75, 0.20, 0.75),
-			false,
-			1.0
-		)
-
-	# ------------------------------------------------------------
-	# Ash pile position markers
-	# ------------------------------------------------------------
-
-	for i in range(ash_piles.size()):
-		var pile: Sprite2D = ash_piles[i]
-		draw_circle(
-			pile.position,
-			12.0,
-			Color(0.75, 0.75, 0.75, 0.2)
-		)
-		draw_circle(
-			pile.position,
-			14.0,
-			Color(0.85, 0.75, 0.55, 0.85),
-			false,
-			2.0
-		)
-		draw_string(
-			ThemeDB.fallback_font,
-			pile.position + Vector2(4.0, -7.0),
-			"A%d" % (i + 1),
-			HORIZONTAL_ALIGNMENT_LEFT,
-			-1.0,
-			12,
-			Color(1.0, 0.9, 0.7, 1.0)
-		)
-
-	# ------------------------------------------------------------
-	# Brazier selection markers
-	# ------------------------------------------------------------
-
-	for stat_name in BRAZIER_STATS:
-		if not braziers.has(stat_name):
-			continue
-
-		var brazier: Control = braziers[stat_name]
-		var brazier_position: Vector2 = brazier.position
-
-		draw_circle(
-			brazier_position,
-			30.0,
-			Color(1.0, 0.75, 0.20, 0.15)
-		)
-
-		draw_circle(
-			brazier_position,
-			32.0,
-			Color(1.0, 0.75, 0.20, 0.75),
-			false,
-			2.0
-		)
-
-		draw_line(
-			brazier_position + Vector2(-42, 0),
-			brazier_position + Vector2(42, 0),
-			Color(1.0, 0.75, 0.20, 0.50),
-			1.0
-		)
-
-		draw_line(
-			brazier_position + Vector2(0, -42),
-			brazier_position + Vector2(0, 42),
-			Color(1.0, 0.75, 0.20, 0.50),
-			1.0
-		)
-
-
 
 
 func _draw_generators() -> void:
