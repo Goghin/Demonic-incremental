@@ -225,20 +225,26 @@ func update_flame_visuals() -> void:
 		total_flames
 	)
 
-func _process(_delta: float) -> void:
-	if state == null:
-		return
-
+func _update_crystallized_flame_visuals_if_needed() -> void:
 	var current_flames: float = state.get_resource_amount(
 		ResourceIds.CRYSTALIZED_FLAME
 	)
 
-	if not is_equal_approx(
+	if is_equal_approx(
 		current_flames,
 		last_crystallized_flame_amount
 	):
-		last_crystallized_flame_amount = current_flames
-		update_flame_visuals()
+		return
+
+	last_crystallized_flame_amount = current_flames
+	update_flame_visuals()
+
+
+func _process(_delta: float) -> void:
+	if state == null:
+		return
+
+	_update_crystallized_flame_visuals_if_needed()
 
 	forge_activity_visual_controller.advance(_delta)
 	generator_animation_controller.update_phase(
