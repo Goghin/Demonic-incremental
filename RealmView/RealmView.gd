@@ -10,11 +10,10 @@ var matter_furnace_visual_controller: MatterFurnaceVisualController = MatterFurn
 var lava_realm_visual_controller: LavaRealmVisualController = LavaRealmVisualController.new()
 var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
 var ash_renderer: AshContaminationRenderer
-var ash_piles: Array[Sprite2D] = []
+var ash_visual_controller: AshVisualController = AshVisualController.new()
 var generator_sprites: Dictionary = {}
 var generator_layer: Node2D
 
-var ash_pile_renderer: AshPileRenderer = AshPileRenderer.new()
 var molecular_agitation_sprite_controller: MolecularAgitationSpriteController = MolecularAgitationSpriteController.new()
 
 var atomic_friction_particle_controller: AtomicFrictionParticleController = AtomicFrictionParticleController.new()
@@ -158,7 +157,7 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 		realm_layout,
 		_get_island_rect()
 	)
-	_setup_ash_piles()
+	ash_visual_controller.setup(self, realm_layout)
 
 	lava_realm_visual_controller.create_network(
 		self,
@@ -359,7 +358,7 @@ func _input(event: InputEvent) -> void:
 func _start_layout_drag(mouse_position: Vector2) -> void:
 	var drag_result: Dictionary = realm_layout_editor_controller.find_drag_target(
 		mouse_position,
-		ash_piles,
+		ash_visual_controller.piles,
 		braziers,
 		BRAZIER_STATS,
 		generator_hitboxes,
@@ -385,7 +384,11 @@ func _draw() -> void:
 	var ash: float = state.get_resource_amount(
 		ResourceIds.ASH
 	)
-	_update_ash_piles(ash)
+	ash_visual_controller.update_piles(
+		realm_layout,
+		_get_island_rect(),
+		ash
+	)
 
 	# ------------------------------------------------------------
 	# Neutral realm dimensions
@@ -435,7 +438,7 @@ func _draw() -> void:
 	realm_layout_overlay_renderer.update_overlay(
 		realm_layout_mode,
 		generator_hitboxes,
-		ash_piles,
+		ash_visual_controller.piles,
 		braziers,
 		BRAZIER_STATS
 	)
@@ -474,17 +477,9 @@ func _get_generator_position(
 		_get_island_rect()
 	)
 
-func _setup_ash_piles() -> void:
-	ash_piles = ash_pile_renderer.setup(
-		self,
-		ash_piles,
-		realm_layout
-	)
-
 func _update_ash_piles(ash: float) -> void:
-	ash_pile_renderer.update(
-		ash_piles,
-		realm_layout.ash_pile_layout_positions,
+	ash_visual_controller.update_piles(
+		realm_layout,
 		_get_island_rect(),
 		ash
 	)
