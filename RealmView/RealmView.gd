@@ -115,18 +115,10 @@ func setup(game_state: GameState) -> void:
 		BRAZIER_STATS,
 		BRAZIER_SCENE
 	)
-	_setup_realm_layout_overlay()
+	realm_layout_overlay_renderer.setup(self)
 
 	rebuild_realm(state.realm_layout)
 
-func _setup_realm_layout_overlay() -> void:
-	realm_layout_overlay_renderer.name = "RealmLayoutOverlayRenderer"
-	realm_layout_overlay_renderer.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	realm_layout_overlay_renderer.z_index = 100
-	realm_layout_overlay_renderer.set_anchors_and_offsets_preset(
-		Control.PRESET_FULL_RECT
-	)
-	add_child(realm_layout_overlay_renderer)
 
 
 func rebuild_realm(new_layout: RealmLayout) -> void:

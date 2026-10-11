@@ -9,6 +9,14 @@ var brazier_stats: Array[String] = []
 var overlay_enabled: bool = false
 
 
+func setup(view: Control) -> void:
+	name = "RealmLayoutOverlayRenderer"
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	z_index = 100
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	view.add_child(self)
+
+
 func update_overlay(
 	is_enabled: bool,
 	new_generator_hitboxes: Dictionary,
