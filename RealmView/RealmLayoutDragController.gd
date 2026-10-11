@@ -147,41 +147,57 @@ func update_drag(
 		cancel_drag()
 		return
 
-	if dragging_object.begins_with("ash_pile:"):
-		var pile_index: int = int(dragging_object.substr(9))
-		if pile_index >= 0 and pile_index < realm_layout.ash_pile_layout_positions.size():
-			var new_position: Vector2 = mouse_position - drag_offset
-			var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-				new_position,
-				island_rect
-			)
-			realm_layout.ash_pile_layout_positions[pile_index] = normalized_position
-			update_ash_piles.call(ash_amount)
-			request_redraw.call()
+	if realm_layout == null:
+		cancel_drag()
 		return
 
-	if dragging_object.begins_with("brazier:"):
-		var stat_name: String = dragging_object.substr(8)
-		if braziers.has(stat_name):
-			var new_position: Vector2 = mouse_position - drag_offset
-			var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-				new_position,
-				island_rect
-			)
-			realm_layout.brazier_layout_positions[stat_name] = normalized_position
-			braziers[stat_name].position = geometry_controller.get_position_from_normalized(
-				normalized_position,
-				island_rect
-			)
-			request_redraw.call()
+	if dragging_object.begins_with("ash_pile:"):
+		var pile_index: int = int(dragging_object.substr(9))
+		if pile_index < 0 or pile_index >= realm_layout.ash_pile_layout_positions.size():
+			cancel_drag()
 			return
 
-	if realm_layout.generator_layout_positions.has(dragging_object):
 		var new_position: Vector2 = mouse_position - drag_offset
 		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
 			new_position,
 			island_rect
 		)
-		realm_layout.generator_layout_positions[dragging_object] = normalized_position
+		realm_layout.ash_pile_layout_positions[pile_index] = normalized_position
+		update_ash_piles.call(ash_amount)
 		request_redraw.call()
+		return
+
+	if dragging_object.begins_with("brazier:"):
+		var stat_name: String = dragging_object.substr(8)
+		if not braziers.has(stat_name) or not is_instance_valid(braziers[stat_name]):
+			cancel_drag()
+			return
+		if not realm_layout.brazier_layout_positions.has(stat_name):
+			cancel_drag()
+			return
+
+		var new_position: Vector2 = mouse_position - drag_offset
+		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
+			new_position,
+			island_rect
+		)
+		realm_layout.brazier_layout_positions[stat_name] = normalized_position
+		braziers[stat_name].position = geometry_controller.get_position_from_normalized(
+			normalized_position,
+			island_rect
+		)
+		request_redraw.call()
+		return
+
+	if not realm_layout.generator_layout_positions.has(dragging_object):
+		cancel_drag()
+		return
+
+	var new_position: Vector2 = mouse_position - drag_offset
+	var normalized_position: Vector2 = geometry_controller.get_normalized_position(
+		new_position,
+		island_rect
+	)
+	realm_layout.generator_layout_positions[dragging_object] = normalized_position
+	request_redraw.call()
 
