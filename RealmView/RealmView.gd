@@ -105,19 +105,7 @@ func _get_island_rect() -> Rect2:
 	)
 
 func _draw_generators() -> void:
-	generator_drawing_controller.draw_generators(
-		self,
-		state,
-		realm_layout,
-		_get_island_rect(),
-		generator_visual_renderer,
-		generator_layer,
-		generator_sprites,
-		generator_hitboxes,
-		lava_mite_visual_controller,
-		matter_furnace_visual_controller,
-		molecular_agitation_particle_controller
-	)
+	generator_drawing_controller.draw_generators(self)
 
 func _get_generator_position(
 	generator_id: String
@@ -157,5 +145,3 @@ func play_crystallization_event(
 # ------------------------------------------------------------
 # LAVA NETWORK
 # ------------------------------------------------------------
-
-
