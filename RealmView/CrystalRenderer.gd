@@ -114,8 +114,21 @@ func _update_crystal_values(
 
 	var remaining: float = _get_remaining_flame_value(total_flames, count)
 	var total_weight: float = _get_total_crystal_weight(count)
+	_append_distributed_crystal_values(
+		crystal_values,
+		count,
+		remaining,
+		total_weight
+	)
 
-	for i in range(count):
+
+func _append_distributed_crystal_values(
+	crystal_values: Array[float],
+	crystal_count: int,
+	remaining: float,
+	total_weight: float
+) -> void:
+	for i in range(crystal_count):
 		var value: float = 1.0
 		if remaining > 0.0:
 			var weight: float = float(i + 1)
