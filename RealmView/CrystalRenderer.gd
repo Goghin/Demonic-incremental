@@ -9,6 +9,38 @@ const CRYSTALLIZED_FLAME_SCENE = preload(
 const CRYSTAL_BASE_SCALE: float = 0.08
 const CRYSTAL_CENTER: Vector2 = Vector2(0.68, 0.33)
 const MAX_VISIBLE_CRYSTALS: int = 25
+const CRYSTAL_POSITIONS: Array[Vector2] = [
+	Vector2(0, -35),
+	Vector2(-30, -20),
+	Vector2(30, -20),
+	Vector2(-60, -5),
+	Vector2(60, -5),
+	Vector2(-90, 12),
+	Vector2(90, 12),
+	Vector2(-35, 15),
+	Vector2(35, 15),
+	Vector2(-120, 32),
+	Vector2(120, 32),
+	Vector2(-75, 38),
+	Vector2(75, 38),
+	Vector2(-25, 45),
+	Vector2(25, 45),
+	Vector2(-145, 58),
+	Vector2(145, 58),
+	Vector2(-100, 65),
+	Vector2(100, 65),
+	Vector2(-50, 72),
+	Vector2(50, 72),
+	Vector2(0, 70),
+	Vector2(-170, 85),
+	Vector2(170, 85),
+	Vector2(-70, 90),
+	Vector2(70, 90),
+	Vector2(0, 105),
+	Vector2(-120, 115),
+	Vector2(120, 115),
+	Vector2(0, 135)
+]
 
 
 func update(
@@ -99,47 +131,15 @@ func _position_crystals(
 		return
 
 	var center: Vector2 = owner.size * CRYSTAL_CENTER
-	var positions: Array[Vector2] = [
-		Vector2(0, -35),
-		Vector2(-30, -20),
-		Vector2(30, -20),
-		Vector2(-60, -5),
-		Vector2(60, -5),
-		Vector2(-90, 12),
-		Vector2(90, 12),
-		Vector2(-35, 15),
-		Vector2(35, 15),
-		Vector2(-120, 32),
-		Vector2(120, 32),
-		Vector2(-75, 38),
-		Vector2(75, 38),
-		Vector2(-25, 45),
-		Vector2(25, 45),
-		Vector2(-145, 58),
-		Vector2(145, 58),
-		Vector2(-100, 65),
-		Vector2(100, 65),
-		Vector2(-50, 72),
-		Vector2(50, 72),
-		Vector2(0, 70),
-		Vector2(-170, 85),
-		Vector2(170, 85),
-		Vector2(-70, 90),
-		Vector2(70, 90),
-		Vector2(0, 105),
-		Vector2(-120, 115),
-		Vector2(120, 115),
-		Vector2(0, 135)
-	]
 
 	var position_count: int = min(
 		crystals.size(),
-		positions.size()
+		CRYSTAL_POSITIONS.size()
 	)
 
 	for i in range(position_count):
 		var crystal: CrystallizedFlame = crystals[i]
-		var crystal_position: Vector2 = center + positions[i]
+		var crystal_position: Vector2 = center + CRYSTAL_POSITIONS[i]
 
 		var flame_value: float = 1.0
 		if i < crystal_values.size():
