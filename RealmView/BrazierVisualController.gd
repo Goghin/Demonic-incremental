@@ -29,6 +29,21 @@ func setup(
 		braziers[stat_name] = brazier_instance
 
 
+func update_stat_values(
+	braziers: Dictionary,
+	brazier_stats: Array[String],
+	realm_configuration: RealmConfiguration
+) -> void:
+	for stat_name in brazier_stats:
+		if not braziers.has(stat_name):
+			continue
+
+		var brazier: Brazier = braziers[stat_name]
+		brazier.set_stat_value(
+			realm_configuration.get_stat_value(stat_name)
+		)
+
+
 func position_braziers(
 	braziers: Dictionary,
 	brazier_stats: Array[String],

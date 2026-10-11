@@ -392,19 +392,11 @@ func _draw() -> void:
 
 	var center: Vector2 = size * Vector2(0.68, 0.66)
 
-	var realm: RealmConfiguration = (
+	brazier_visual_controller.update_stat_values(
+		braziers,
+		BRAZIER_STATS,
 		state.realm_configuration
 	)
-
-	for stat_name in BRAZIER_STATS:
-		if not braziers.has(stat_name):
-			continue
-
-		var brazier: Brazier = braziers[stat_name]
-
-		brazier.set_stat_value(
-			realm.get_stat_value(stat_name)
-		)
 
 	var ash: float = state.get_resource_amount(
 		ResourceIds.ASH
