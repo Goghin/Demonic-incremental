@@ -112,14 +112,8 @@ func _update_crystal_values(
 	if count == 0:
 		return
 
-	var remaining: float = max(
-		total_flames - float(count),
-		0.0
-	)
-
-	var total_weight: float = 0.0
-	for i in range(count):
-		total_weight += float(i + 1)
+	var remaining: float = _get_remaining_flame_value(total_flames, count)
+	var total_weight: float = _get_total_crystal_weight(count)
 
 	for i in range(count):
 		var value: float = 1.0
@@ -128,6 +122,20 @@ func _update_crystal_values(
 			value += remaining * weight / total_weight
 
 		crystal_values.append(value)
+
+
+func _get_remaining_flame_value(
+	total_flames: float,
+	crystal_count: int
+) -> float:
+	return max(total_flames - float(crystal_count), 0.0)
+
+
+func _get_total_crystal_weight(crystal_count: int) -> float:
+	var total_weight: float = 0.0
+	for i in range(crystal_count):
+		total_weight += float(i + 1)
+	return total_weight
 
 
 func _position_crystals(
