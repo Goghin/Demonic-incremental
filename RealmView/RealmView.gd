@@ -113,7 +113,12 @@ func setup(game_state: GameState) -> void:
 	pivot_offset = size * 0.5
 	position = REALM_VISUAL_OFFSET
 
-	_setup_braziers()
+	brazier_visual_controller.setup(
+		self,
+		braziers,
+		BRAZIER_STATS,
+		BRAZIER_SCENE
+	)
 	_setup_realm_layout_overlay()
 
 	rebuild_realm(state.realm_layout)
@@ -127,14 +132,6 @@ func _setup_realm_layout_overlay() -> void:
 	)
 	add_child(realm_layout_overlay_renderer)
 
-
-func _setup_braziers() -> void:
-	brazier_visual_controller.setup(
-		self,
-		braziers,
-		BRAZIER_STATS,
-		BRAZIER_SCENE
-	)
 
 func rebuild_realm(new_layout: RealmLayout) -> void:
 	if state == null:
