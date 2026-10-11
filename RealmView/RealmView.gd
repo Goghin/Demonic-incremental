@@ -444,7 +444,11 @@ func _draw() -> void:
 
 	_draw_generators()
 
-	_draw_forge_active_glow()
+	forge_activity_visual_controller.update(
+		self,
+		state.generators.get("infernal_forge"),
+		_get_generator_position("infernal_forge")
+	)
 
 	# ------------------------------------------------------------
 	# Ash
@@ -650,17 +654,6 @@ func _play_crystal_stream(
 		CRYSTAL_BASE_SCALE
 	)
 
-
-
-func _draw_forge_active_glow() -> void:
-	if state == null:
-		return
-
-	forge_activity_visual_controller.update(
-		self,
-		state.generators.get("infernal_forge"),
-		_get_generator_position("infernal_forge")
-	)
 
 
 # ------------------------------------------------------------
