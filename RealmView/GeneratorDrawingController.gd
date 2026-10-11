@@ -10,32 +10,51 @@ var standard_generator_drawer: StandardGeneratorDrawer = (
 )
 
 
-func draw_generators(owner: Control) -> void:
-	if owner.state == null or owner.realm_layout == null:
+func draw_generators(
+	parent: Node,
+	state: GameState,
+	realm_layout: Resource,
+	view_size: Vector2,
+	island_rect: Rect2,
+	generator_hitboxes: Dictionary,
+	generator_visibility_controller: GeneratorVisibilityController,
+	generator_sprites: Dictionary,
+	generator_visual_renderer: GeneratorVisualRenderer,
+	generator_layer: Node2D,
+	lava_mite_visual_controller: LavaMiteVisualController,
+	matter_furnace_visual_controller: MatterFurnaceVisualController,
+	molecular_agitation_particle_controller: MolecularAgitationParticleController
+) -> void:
+	if state == null or realm_layout == null:
 		return
 
-	var active_generators: Array = _collect_active_generators(
-		owner.state
-	)
-
-	owner.generator_hitboxes.clear()
+	var active_generators: Array = _collect_active_generators(state)
+	generator_hitboxes.clear()
 
 	var active_ids: Dictionary = {}
 	var machine_size: float = 20.0
-	var island_rect: Rect2 = owner._get_island_rect()
 
 	for generator in active_generators:
 		_draw_generator(
-			owner,
-			generator,
+			parent,
+			realm_layout,
+			view_size,
 			island_rect,
+			generator_hitboxes,
+			generator_visual_renderer,
+			generator_layer,
+			generator_sprites,
+			lava_mite_visual_controller,
+			matter_furnace_visual_controller,
+			molecular_agitation_particle_controller,
+			generator,
 			active_ids,
 			machine_size
 		)
 
-	owner.generator_visibility_controller.update_visibility(
+	generator_visibility_controller.update_visibility(
 		active_ids,
-		owner.generator_sprites
+		generator_sprites
 	)
 
 
@@ -56,44 +75,48 @@ func _collect_active_generators(state: GameState) -> Array:
 
 
 func _draw_generator(
-	owner: Control,
-	generator: Generator,
+	parent: Node,
+	realm_layout: Resource,
+	view_size: Vector2,
 	island_rect: Rect2,
+	generator_hitboxes: Dictionary,
+	visual_renderer: GeneratorVisualRenderer,
+	generator_layer: Node2D,
+	generator_sprites: Dictionary,
+	lava_mite_controller: LavaMiteVisualController,
+	matter_furnace_controller: MatterFurnaceVisualController,
+	molecular_agitation_particle_controller: MolecularAgitationParticleController,
+	generator: Generator,
 	active_ids: Dictionary,
 	machine_size: float
 ) -> void:
 	var generator_id: String = generator.definition.id
 
-	if not owner.realm_layout.generator_layout_positions.has(
-		generator_id
-	):
+	if not realm_layout.generator_layout_positions.has(generator_id):
 		return
 
 	# Only generators with a valid layout position count as drawable. This
-	# ensures stale sprites are hidden by update_generator_visibility().
+	# ensures stale sprites are hidden by update_visibility().
 	active_ids[generator_id] = true
 
-	var generator_position: Vector2 = (
-		geometry_controller.get_generator_position(
-			generator_id,
-			owner.realm_layout.generator_layout_positions,
-			owner.size,
-			island_rect
-		)
+	var generator_position: Vector2 = geometry_controller.get_generator_position(
+		generator_id,
+		realm_layout.generator_layout_positions,
+		view_size,
+		island_rect
 	)
 
 	var size_multiplier: float = 1.0
-
 	if generator_id == "infernal_forge":
 		size_multiplier = 1.8
 
 	if _draw_special_generator(
-		owner.lava_mite_visual_controller,
-		owner.matter_furnace_visual_controller,
-		owner.generator_visual_renderer,
-		owner.generator_layer,
-		owner.generator_sprites,
-		owner.generator_hitboxes,
+		lava_mite_controller,
+		matter_furnace_controller,
+		visual_renderer,
+		generator_layer,
+		generator_sprites,
+		generator_hitboxes,
 		generator,
 		generator_id,
 		generator_position,
@@ -103,17 +126,17 @@ func _draw_generator(
 		return
 
 	if generator_id == "thermal_furnace":
-		owner.molecular_agitation_particle_controller.ensure_overlay(
-			owner,
+		molecular_agitation_particle_controller.ensure_overlay(
+			parent,
 			generator,
 			generator_position
 		)
 
 	standard_generator_drawer.draw(
-		owner.generator_visual_renderer,
-		owner.generator_layer,
-		owner.generator_sprites,
-		owner.generator_hitboxes,
+		visual_renderer,
+		generator_layer,
+		generator_sprites,
+		generator_hitboxes,
 		generator,
 		generator_id,
 		generator_position,
