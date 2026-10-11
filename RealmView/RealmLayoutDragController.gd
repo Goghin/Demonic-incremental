@@ -2,6 +2,9 @@ class_name RealmLayoutDragController
 extends RefCounted
 
 
+var geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
+
+
 var dragging_object: String = ""
 var drag_offset: Vector2 = Vector2.ZERO
 
@@ -133,7 +136,7 @@ func update_drag(
 		var pile_index: int = int(dragging_object.substr(9))
 		if pile_index >= 0 and pile_index < realm_layout.ash_pile_layout_positions.size():
 			var new_position: Vector2 = mouse_position - drag_offset
-			var normalized_position: Vector2 = _normalize_position(
+			var normalized_position: Vector2 = geometry_controller.get_normalized_position(
 				new_position,
 				island_rect
 			)
@@ -151,29 +154,19 @@ func update_drag(
 				island_rect
 			)
 			realm_layout.brazier_layout_positions[stat_name] = normalized_position
-			braziers[stat_name].position = (
-				island_rect.position +
-				island_rect.size * normalized_position
+			braziers[stat_name].position = geometry_controller.get_position_from_normalized(
+				normalized_position,
+				island_rect
 			)
 			request_redraw.call()
 			return
 
 	if realm_layout.generator_layout_positions.has(dragging_object):
 		var new_position: Vector2 = mouse_position - drag_offset
-		var normalized_position: Vector2 = _normalize_position(
+		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
 			new_position,
 			island_rect
 		)
 		realm_layout.generator_layout_positions[dragging_object] = normalized_position
 		request_redraw.call()
 
-
-func _normalize_position(
-	position: Vector2,
-	island_rect: Rect2
-) -> Vector2:
-	var geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
-	return geometry_controller.get_normalized_position(
-		position,
-		island_rect
-	)
