@@ -44,9 +44,6 @@ const LAVA_FALL_SCENE = preload(
 	"res://RealmView/lavafall.tscn"
 )
 
-var realm_layout_mode: bool = false
-var dragging_object: String = ""
-var drag_offset: Vector2 = Vector2.ZERO
 
 var generator_hitboxes: Dictionary = {}
 
@@ -267,78 +264,24 @@ func _process(_delta: float) -> void:
 	queue_redraw()
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey:
-		if event.pressed and not event.echo:
-			if event.keycode == KEY_F2:
-				realm_layout_mode = not realm_layout_mode
-				dragging_object = ""
-
-				if realm_layout_mode:
-					realm_layout_debug_controller.print_layout_details(
-						realm_layout,
-						braziers,
-						BRAZIER_STATS,
-						lava_realm_visual_controller.lakes
-					)
-
-				queue_redraw()
-
-			return
-
-	if not realm_layout_mode:
+	if state == null or realm_layout == null:
 		return
 
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-
-				var mouse_position: Vector2 = (
-					get_local_mouse_position()
-				)
-
-				if event.shift_pressed:
-					realm_layout_debug_controller.print_layout_point(
-						mouse_position,
-						_get_island_rect()
-					)
-					return
-
-				_start_layout_drag(
-					mouse_position
-				)
-
-			else:
-				dragging_object = ""
-
-	elif event is InputEventMouseMotion:
-		if dragging_object == "":
-			return
-
-		realm_layout_editor_controller.update_drag(
-			get_local_mouse_position(),
-			dragging_object,
-			drag_offset,
-			realm_layout,
-			braziers,
-			_get_island_rect(),
-			state.get_resource_amount(ResourceIds.ASH),
-			Callable(self, "_update_ash_piles"),
-			Callable(self, "queue_redraw")
-		)
-
-func _start_layout_drag(mouse_position: Vector2) -> void:
-	var drag_result: Dictionary = realm_layout_editor_controller.find_drag_target(
-		mouse_position,
+	realm_layout_editor_controller.handle_input(
+		event,
+		self,
+		realm_layout,
 		ash_visual_controller.piles,
 		braziers,
 		BRAZIER_STATS,
 		generator_hitboxes,
-		dragging_object,
-		drag_offset
+		_get_island_rect(),
+		state.get_resource_amount(ResourceIds.ASH),
+		Callable(self, "_update_ash_piles"),
+		Callable(self, "queue_redraw"),
+		realm_layout_debug_controller,
+		lava_realm_visual_controller.lakes
 	)
-
-	dragging_object = drag_result["object"]
-	drag_offset = drag_result["offset"]
 
 func _draw() -> void:
 	if state == null:
@@ -408,7 +351,7 @@ func _draw() -> void:
 	# ------------------------------------------------------------
 
 	realm_layout_overlay_renderer.update_overlay(
-		realm_layout_mode,
+		realm_layout_editor_controller.layout_mode,
 		generator_hitboxes,
 		ash_visual_controller.piles,
 		braziers,
