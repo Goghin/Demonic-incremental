@@ -14,7 +14,16 @@ func rebuild(owner, new_layout: RealmLayout) -> void:
 
 	owner.realm_layout = new_layout
 
-	owner.generator_visual_reset_controller.reset(owner)
+	owner.generator_visual_reset_controller.reset(
+		owner.generator_animation_controller,
+		owner.forge_activity_visual_controller,
+		owner.molecular_agitation_particle_controller,
+		owner.lava_mite_visual_controller,
+		owner.matter_furnace_visual_controller,
+		owner.generator_visual_renderer,
+		owner.generator_sprites,
+		owner.generator_hitboxes
+	)
 	_build_realm_geometry(owner)
 	_refresh_state_dependent_visuals(owner)
 
