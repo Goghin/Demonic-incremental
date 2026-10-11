@@ -20,6 +20,9 @@ func get_position_from_normalized(
 	normalized_position: Vector2,
 	island_rect: Rect2
 ) -> Vector2:
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return island_rect.position
+
 	return island_rect.position + island_rect.size * normalized_position
 
 
@@ -27,7 +30,7 @@ func get_normalized_position(
 	position: Vector2,
 	island_rect: Rect2
 ) -> Vector2:
-	if island_rect.size.x == 0.0 or island_rect.size.y == 0.0:
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
 		return Vector2.ZERO
 
 	var normalized_position: Vector2 = (
