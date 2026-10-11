@@ -47,3 +47,38 @@ func print_layout_details(
 
 	print("====================")
 	print("Shift + Left Click = print normalized position")
+
+func print_layout_point(
+	mouse_position: Vector2,
+	island_rect: Rect2
+) -> void:
+	var normalized_position: Vector2 = (
+		(mouse_position - island_rect.position) /
+		island_rect.size
+	)
+
+	print(
+		"CLICKED POINT"
+	)
+
+	print(
+		"Normalized -> Vector2(",
+		"%.6f" % normalized_position.x,
+		", ",
+		"%.6f" % normalized_position.y,
+		")"
+	)
+
+	print(
+		"Island local -> Vector2(",
+		"%.2f" % (mouse_position.x - island_rect.position.x),
+		", ",
+		"%.2f" % (mouse_position.y - island_rect.position.y)
+	)
+
+	print(
+		"Screen/local -> ",
+		mouse_position
+	)
+
+

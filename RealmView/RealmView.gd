@@ -349,8 +349,9 @@ func _input(event: InputEvent) -> void:
 				)
 
 				if event.shift_pressed:
-					_print_layout_point(
-						mouse_position
+					realm_layout_debug_controller.print_layout_point(
+						mouse_position,
+						_get_island_rect()
 					)
 					return
 
@@ -368,41 +369,6 @@ func _input(event: InputEvent) -> void:
 		_update_layout_drag(
 			get_local_mouse_position()
 		)
-
-
-func _print_layout_point(
-	mouse_position: Vector2
-) -> void:
-	var island_rect: Rect2 = _get_island_rect()
-
-	var normalized_position: Vector2 = (
-		(mouse_position - island_rect.position) /
-		island_rect.size
-	)
-
-	print(
-		"CLICKED POINT"
-	)
-
-	print(
-		"Normalized -> Vector2(",
-		"%.6f" % normalized_position.x,
-		", ",
-		"%.6f" % normalized_position.y,
-		")"
-	)
-
-	print(
-		"Island local -> Vector2(",
-		"%.2f" % (mouse_position.x - island_rect.position.x),
-		", ",
-		"%.2f" % (mouse_position.y - island_rect.position.y)
-	)
-
-	print(
-		"Screen/local -> ",
-		mouse_position
-	)
 
 
 func _start_layout_drag(mouse_position: Vector2) -> void:
