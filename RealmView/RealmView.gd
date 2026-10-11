@@ -218,7 +218,10 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Force brazier positions to update immediately.
 	var island_rect: Rect2 = _get_island_rect()
 
-	_initialize_brazier_positions(
+	brazier_visual_controller.position_braziers(
+		braziers,
+		BRAZIER_STATS,
+		realm_layout,
 		island_rect
 	)
 
@@ -434,7 +437,10 @@ func _draw() -> void:
 	# Floating island
 	# ------------------------------------------------------------
 
-	_initialize_brazier_positions(
+	brazier_visual_controller.position_braziers(
+		braziers,
+		BRAZIER_STATS,
+		realm_layout,
 		island_rect
 	)
 
@@ -476,15 +482,6 @@ func _get_island_rect() -> Rect2:
 		island_size
 	)
 
-func _initialize_brazier_positions(
-	island_rect: Rect2
-) -> void:
-	brazier_visual_controller.position_braziers(
-		braziers,
-		BRAZIER_STATS,
-		realm_layout,
-		island_rect
-	)
 
 func _draw_layout_overlay() -> void:
 	realm_layout_overlay_renderer.update_overlay(
