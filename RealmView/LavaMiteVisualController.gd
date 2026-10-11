@@ -2,6 +2,9 @@ class_name LavaMiteVisualController
 extends RefCounted
 
 
+const FRAME_SIZE: Vector2 = Vector2(256.0, 256.0)
+
+
 func reset(generator_sprites: Dictionary) -> void:
 	if not generator_sprites.has("lava_mite_colony"):
 		return
@@ -34,18 +37,7 @@ func update(
 		)
 	)
 
-	var frame_size: Vector2 = Vector2(
-		256.0,
-		256.0
-	)
-
-	# Level 1 = 70%; level 21 = 100%.
-	# Above level 21, size growth diminishes.
-	var colony_size_multiplier: float = (
-		generator_visual_renderer.get_lava_mite_size_multiplier(
-			generator.level
-		)
-	)
+	var colony_size_multiplier: float = get_size_multiplier(generator.level)
 
 	var target_size: float = (
 		machine_size *
@@ -55,11 +47,11 @@ func update(
 	)
 
 	var texture_scale: float = min(
-		target_size / max(frame_size.x, 1.0),
-		target_size / max(frame_size.y, 1.0)
+		target_size / max(FRAME_SIZE.x, 1.0),
+		target_size / max(FRAME_SIZE.y, 1.0)
 	)
 
-	var draw_size: Vector2 = frame_size * texture_scale
+	var draw_size: Vector2 = FRAME_SIZE * texture_scale
 	generator_hitboxes[generator.definition.id] = Rect2(
 		generator_position - draw_size * 0.5,
 		draw_size
@@ -73,10 +65,7 @@ func update(
 	animated_sprite.z_index = 0
 	animated_sprite.visible = true
 
-	generator_visual_renderer.update_lava_mite_animation_speed(
-		animated_sprite,
-		generator.level
-	)
+	update_animation_speed(animated_sprite, generator.level)
 
 	if generator.is_operating():
 		animated_sprite.modulate = Color(1.0, 1.0, 1.0, 0.75)
@@ -91,3 +80,39 @@ func update(
 
 		if animated_sprite.is_playing():
 			animated_sprite.pause()
+
+func get_lava_mite_size_multiplier(level: int) -> float:
+	if level <= 1:
+		return 0.70
+	if level <= 21:
+		return lerp(0.70, 1.00, float(level - 1) / 20.0)
+
+	var levels_after_21: float = float(level - 21)
+	return 1.0 + 0.45 * (1.0 - exp(-levels_after_21 / 30.0))
+
+
+func update_lava_mite_animation_speed(
+	animated_sprite: AnimatedSprite2D,
+	level: int
+) -> void:
+	if animated_sprite.sprite_frames == null:
+		return
+
+	var animation_name: StringName = &"default"
+	if not animated_sprite.sprite_frames.has_animation(animation_name):
+		return
+
+	var animation_speed: float
+	if level <= 1:
+		animation_speed = 2.5
+	elif level <= 50:
+		animation_speed = lerp(2.5, 6.5, float(level - 1) / 49.0)
+	else:
+		var levels_after_50: float = float(level - 50)
+		animation_speed = 6.5 + 2.0 * (1.0 - exp(-levels_after_50 / 50.0))
+
+	animated_sprite.sprite_frames.set_animation_speed(
+		animation_name,
+		animation_speed
+	)
+
