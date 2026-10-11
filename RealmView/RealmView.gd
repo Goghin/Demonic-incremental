@@ -41,6 +41,7 @@ var realm_scene_visual_controller: RealmSceneVisualController = RealmSceneVisual
 var realm_setup_controller: RealmSetupController = RealmSetupController.new()
 var realm_layout_geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
 var realm_resize_controller: RealmResizeController = RealmResizeController.new()
+var realm_layout_visual_controller: RealmLayoutVisualController = RealmLayoutVisualController.new()
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
