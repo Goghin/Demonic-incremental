@@ -11,6 +11,10 @@ const PULSE_LEVEL_BONUS: float = 0.20
 var time: float = 0.0
 
 
+func reset() -> void:
+	time = 0.0
+
+
 func update(
 	generator: Generator,
 	sprite: Sprite2D,
