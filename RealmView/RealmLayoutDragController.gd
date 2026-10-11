@@ -28,9 +28,10 @@ func handle_mouse_input(
 	request_redraw: Callable,
 	debug_controller: RealmLayoutDebugController
 ) -> void:
-	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
-		cancel_drag()
-		return
+	if event is InputEventMouseButton or event is InputEventMouseMotion:
+		if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+			cancel_drag()
+			return
 
 	if event is InputEventMouseButton:
 		if event.button_index != MOUSE_BUTTON_LEFT:
