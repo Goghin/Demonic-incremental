@@ -65,10 +65,23 @@ func create_animated_generator_sprite(
 
 	var sprite: AnimatedSprite2D = AnimatedSprite2D.new()
 	sprite.name = sprite_name
+	parent.add_child(sprite)
+	generator_sprites[generator_id] = sprite
 
 	var sheet: Texture2D = load(animation_path) as Texture2D
 	if sheet == null:
 		push_warning("Could not load generator animation: " + animation_path)
+		return sprite
+
+	if hframes <= 0 or vframes <= 0:
+		push_warning(
+			"Invalid generator animation frame grid for " +
+			generator_id +
+			": " +
+			str(hframes) +
+			"x" +
+			str(vframes)
+		)
 		return sprite
 
 	var sprite_frames: SpriteFrames = SpriteFrames.new()
@@ -98,7 +111,5 @@ func create_animated_generator_sprite(
 	sprite.autoplay = animation_name
 	sprite.frame = 0
 	sprite.z_index = 0
-	parent.add_child(sprite)
-	generator_sprites[generator_id] = sprite
 
 	return sprite
