@@ -2,6 +2,90 @@ class_name RealmLayoutEditorController
 extends RefCounted
 
 
+var layout_mode: bool = false
+var dragging_object: String = ""
+var drag_offset: Vector2 = Vector2.ZERO
+
+
+func handle_input(
+	event: InputEvent,
+	owner: Control,
+	realm_layout: RealmLayout,
+	ash_piles: Array[Sprite2D],
+	braziers: Dictionary,
+	brazier_stats: Array[String],
+	generator_hitboxes: Dictionary,
+	island_rect: Rect2,
+	ash_amount: float,
+	update_ash_piles: Callable,
+	request_redraw: Callable,
+	debug_controller: RealmLayoutDebugController,
+	lava_lakes: Array[LavaLake]
+) -> void:
+	if event is InputEventKey:
+		if event.pressed and not event.echo and event.keycode == KEY_F2:
+			layout_mode = not layout_mode
+			dragging_object = ""
+
+			if layout_mode:
+				debug_controller.print_layout_details(
+					realm_layout,
+					braziers,
+					brazier_stats,
+					lava_lakes
+				)
+
+			request_redraw.call()
+			return
+
+	if not layout_mode:
+		return
+
+	if event is InputEventMouseButton:
+		if event.button_index != MOUSE_BUTTON_LEFT:
+			return
+
+		if event.pressed:
+			var mouse_position: Vector2 = owner.get_local_mouse_position()
+
+			if event.shift_pressed:
+				debug_controller.print_layout_point(
+					mouse_position,
+					island_rect
+				)
+				return
+
+			var drag_result: Dictionary = find_drag_target(
+				mouse_position,
+				ash_piles,
+				braziers,
+				brazier_stats,
+				generator_hitboxes,
+				dragging_object,
+				drag_offset
+			)
+			dragging_object = drag_result["object"]
+			drag_offset = drag_result["offset"]
+		else:
+			dragging_object = ""
+
+	elif event is InputEventMouseMotion:
+		if dragging_object == "":
+			return
+
+		update_drag(
+			owner.get_local_mouse_position(),
+			dragging_object,
+			drag_offset,
+			realm_layout,
+			braziers,
+			island_rect,
+			ash_amount,
+			update_ash_piles,
+			request_redraw
+		)
+
+
 func find_drag_target(
 	mouse_position: Vector2,
 	ash_piles: Array[Sprite2D],
