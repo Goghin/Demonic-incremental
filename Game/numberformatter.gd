@@ -34,7 +34,9 @@ static func format(value: float) -> String:
 		suffix_index += 1
 
 		if suffix_index >= suffixes.size():
-			return String.num_scientific(value, 2)
+			var exponent: int = int(floor(log(abs(value)) / log(10.0)))
+			var mantissa: float = value / pow(10.0, exponent)
+			return "%.2fe%d" % [mantissa, exponent]
 
 	return _format_scaled(
 		scaled_value,
