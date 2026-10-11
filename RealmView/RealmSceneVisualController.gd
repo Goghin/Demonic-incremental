@@ -17,7 +17,7 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 	_update_ash_visuals(owner, island_rect)
 	_update_braziers(owner, island_rect)
 	_update_forge_visuals(owner, island_rect)
-	_update_layout_overlay(owner)
+	_update_layout_overlay(owner, island_rect)
 
 
 func _update_ash_visuals(owner: RealmView, island_rect: Rect2) -> void:
@@ -58,7 +58,7 @@ func _update_forge_visuals(owner: RealmView, island_rect: Rect2) -> void:
 	)
 
 
-func _update_layout_overlay(owner: RealmView) -> void:
+func _update_layout_overlay(owner: RealmView, island_rect: Rect2) -> void:
 	var overlay: RealmLayoutOverlayRenderer = owner.realm_layout_overlay_renderer
 	var layout_mode: bool = owner.realm_layout_editor_controller.layout_mode
 
