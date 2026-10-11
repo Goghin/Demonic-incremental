@@ -11,6 +11,9 @@ func create_network(
 	flow_scene: PackedScene,
 	fall_scene: PackedScene
 ) -> void:
+	if realm_layout == null:
+		return
+
 	for flow in lava_flows:
 		if is_instance_valid(flow):
 			flow.queue_free()
@@ -81,6 +84,9 @@ func update_positions(
 	lava_flows: Array[LavaFlow],
 	lava_falls: Array[LavaFall]
 ) -> void:
+	if realm_layout == null:
+		return
+
 	if lava_flows.is_empty():
 		return
 
