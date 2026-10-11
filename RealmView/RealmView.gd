@@ -796,7 +796,7 @@ func _draw_generators() -> void:
 		# ---------------------------------------------------------
 		# Normal generators
 		# ---------------------------------------------------------
-		var texture: Texture2D = _get_generator_texture(
+		var texture: Texture2D = generator_visual_renderer.get_texture(
 			generator
 		)
 
@@ -857,10 +857,6 @@ func _get_generator_position(
 		_get_island_rect()
 	)
 
-func _get_generator_texture(
-	generator: Generator
-) -> Texture2D:
-	return generator_visual_renderer.get_texture(generator)
 
 
 func _setup_ash_piles() -> void:
