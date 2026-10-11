@@ -14,7 +14,11 @@ func update(owner: Control, delta: float) -> void:
 	_update_early_animations(owner, delta)
 	owner.realm_scene_visual_controller.update(owner)
 	_update_middle_animations(owner)
-	_update_molecular_agitation(owner)
+	_update_molecular_agitation(
+		owner.molecular_agitation_particle_controller,
+		owner.state,
+		owner._get_generator_position("thermal_furnace")
+	)
 	_update_late_animations(owner, delta)
 
 	owner.queue_redraw()
@@ -45,12 +49,15 @@ func _update_middle_animations(owner: Control) -> void:
 	)
 
 
-func _update_molecular_agitation(owner: Control) -> void:
-	owner.molecular_agitation_particle_controller.update(
-		owner.state.generators.get("thermal_furnace"),
-		owner._get_generator_position("thermal_furnace")
+func _update_molecular_agitation(
+	particle_controller: MolecularAgitationParticleController,
+	state: GameState,
+	generator_position: Vector2
+) -> void:
+	particle_controller.update(
+		state.generators.get("thermal_furnace"),
+		generator_position
 	)
-
 
 func _update_late_animations(owner: Control, delta: float) -> void:
 	owner.generator_animation_controller.update_late(
