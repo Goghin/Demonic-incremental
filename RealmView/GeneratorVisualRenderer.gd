@@ -271,14 +271,12 @@ func get_generator_position(
 	view_size: Vector2,
 	island_rect: Rect2
 ) -> Vector2:
-	if not layout_positions.has(generator_id):
-		return view_size * Vector2(0.5, 0.5)
-
-	var normalized_position: Vector2 = layout_positions[generator_id]
-
-	return (
-		island_rect.position +
-		island_rect.size * normalized_position
+	var geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
+	return geometry_controller.get_generator_position(
+		generator_id,
+		layout_positions,
+		view_size,
+		island_rect
 	)
 
 
