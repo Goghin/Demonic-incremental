@@ -1,4 +1,3 @@
-
 class_name RealmUpdateController
 extends RefCounted
 
@@ -8,10 +7,14 @@ func update(owner: Control, delta: float) -> void:
 		return
 
 	_update_persistent_visuals(owner, delta)
+
+	# Keep generator animation phases interleaved with realm updates.
+	# Their order is intentional: early machine motion, realm visuals,
+	# middle overlays, the independent agitation particles, then late motion.
 	_update_early_animations(owner, delta)
 	_update_realm_environment(owner)
 	_update_realm_scene_visuals(owner)
-	_update_middle_animations(owner, delta)
+	_update_middle_animations(owner)
 	_update_molecular_agitation(owner)
 	_update_late_animations(owner, delta)
 
@@ -27,7 +30,12 @@ func _update_persistent_visuals(owner: Control, delta: float) -> void:
 
 
 func _update_early_animations(owner: Control, delta: float) -> void:
-	_update_generator_animation_phase(owner, &"early", delta)
+	owner.generator_animation_controller.update_early(
+		owner,
+		owner.state,
+		owner.generator_sprites,
+		delta
+	)
 
 
 func _update_realm_environment(owner: Control) -> void:
@@ -112,8 +120,12 @@ func _update_ash_contamination(owner: Control) -> void:
 	)
 
 
-func _update_middle_animations(owner: Control, delta: float) -> void:
-	_update_generator_animation_phase(owner, &"middle", delta)
+func _update_middle_animations(owner: Control) -> void:
+	owner.generator_animation_controller.update_middle(
+		owner,
+		owner.state,
+		owner.generator_sprites
+	)
 
 
 func _update_molecular_agitation(owner: Control) -> void:
@@ -124,17 +136,7 @@ func _update_molecular_agitation(owner: Control) -> void:
 
 
 func _update_late_animations(owner: Control, delta: float) -> void:
-	_update_generator_animation_phase(owner, &"late", delta)
-
-
-func _update_generator_animation_phase(
-	owner: Control,
-	phase: StringName,
-	delta: float
-) -> void:
-	owner.generator_animation_controller.update_phase(
-		phase,
-		owner,
+	owner.generator_animation_controller.update_late(
 		owner.state,
 		owner.generator_sprites,
 		delta

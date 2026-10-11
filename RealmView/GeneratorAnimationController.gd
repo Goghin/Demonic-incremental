@@ -17,44 +17,53 @@ func reset() -> void:
 	atomic_friction_animation.reset()
 
 
-func update_phase(
-	phase: StringName,
+func update_early(
 	owner: Control,
 	state: GameState,
 	generator_sprites: Dictionary,
 	delta: float
 ) -> void:
-	match phase:
-		&"early":
-			_update_thermal_furnace(
-				owner,
-				state,
-				generator_sprites,
-				delta
-			)
-			_update_molecular_agitation(
-				owner,
-				state,
-				generator_sprites,
-				delta
-			)
-		&"middle":
-			_update_furnace_swirl(
-				owner,
-				state,
-				generator_sprites
-			)
-			_update_atomic_friction_particles(
-				owner,
-				state,
-				generator_sprites
-			)
-		&"late":
-			_update_atomic_friction_animation(
-				state,
-				generator_sprites,
-				delta
-			)
+	_update_thermal_furnace(
+		owner,
+		state,
+		generator_sprites,
+		delta
+	)
+	_update_molecular_agitation(
+		owner,
+		state,
+		generator_sprites,
+		delta
+	)
+
+
+func update_middle(
+	owner: Control,
+	state: GameState,
+	generator_sprites: Dictionary
+) -> void:
+	_update_furnace_swirl(
+		owner,
+		state,
+		generator_sprites
+	)
+	_update_atomic_friction_particles(
+		owner,
+		state,
+		generator_sprites
+	)
+
+
+func update_late(
+	state: GameState,
+	generator_sprites: Dictionary,
+	delta: float
+) -> void:
+	_update_atomic_friction_animation(
+		state,
+		generator_sprites,
+		delta
+	)
 
 
 func _update_thermal_furnace(
