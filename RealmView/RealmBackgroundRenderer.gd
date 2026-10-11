@@ -2,6 +2,10 @@ class_name RealmBackgroundRenderer
 extends RefCounted
 
 
+const DISTANT_PARTICLE_COUNT: int = 65
+const PARTICLE_ANGLE_STEP: float = 2.399
+
+
 func draw_background(
 	owner: Control,
 	center: Vector2
@@ -29,10 +33,8 @@ func draw_background(
 	# Distant realm particles
 	# ------------------------------------------------------------
 
-	var particle_count: int = 65
-
-	for i in range(particle_count):
-		var angle: float = float(i) * 2.399
+	for i in range(DISTANT_PARTICLE_COUNT):
+		var angle: float = float(i) * PARTICLE_ANGLE_STEP
 
 		var distance: float = 120.0 + fmod(
 			float(i * 73),
