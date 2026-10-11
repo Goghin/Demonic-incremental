@@ -1,10 +1,12 @@
-
 class_name GeneratorDrawingController
 extends RefCounted
 
 
 var geometry_controller: RealmLayoutGeometryController = (
 	RealmLayoutGeometryController.new()
+)
+var standard_generator_drawer: StandardGeneratorDrawer = (
+	StandardGeneratorDrawer.new()
 )
 
 
@@ -106,7 +108,7 @@ func _draw_generator(
 			generator_position
 		)
 
-	_draw_standard_generator(
+	standard_generator_drawer.draw(
 		owner,
 		generator,
 		generator_id,
@@ -150,57 +152,3 @@ func _draw_special_generator(
 		return true
 
 	return false
-
-
-func _draw_standard_generator(
-	owner: Control,
-	generator: Generator,
-	generator_id: String,
-	generator_position: Vector2,
-	machine_size: float,
-	size_multiplier: float
-) -> void:
-	var texture: Texture2D = (
-		owner.generator_visual_renderer.get_texture(generator)
-	)
-
-	if texture != null:
-		var texture_scale: float = (
-			owner.generator_visual_renderer.get_texture_scale(
-				texture,
-				machine_size,
-				size_multiplier
-			)
-		)
-
-		owner.generator_hitboxes[generator_id] = (
-			owner.generator_visual_renderer.get_texture_hitbox(
-				texture,
-				generator_position,
-				texture_scale
-			)
-		)
-
-		var sprite: Sprite2D = (
-			owner.generator_visual_renderer.get_or_create_sprite(
-				owner.generator_layer,
-				owner.generator_sprites,
-				generator_id
-			)
-		)
-
-		owner.generator_visual_renderer.update_sprite(
-			sprite,
-			generator,
-			texture,
-			generator_position,
-			texture_scale
-		)
-	else:
-		owner.generator_hitboxes[generator_id] = (
-			owner.generator_visual_renderer.get_fallback_hitbox(
-				generator_position,
-				machine_size,
-				size_multiplier
-			)
-		)
