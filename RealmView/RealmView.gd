@@ -91,24 +91,7 @@ func _process(_delta: float) -> void:
 	realm_update_controller.update(self, _delta)
 
 func _input(event: InputEvent) -> void:
-	if state == null or realm_layout == null:
-		return
-
-	realm_layout_editor_controller.handle_input(
-		event,
-		self,
-		realm_layout,
-		ash_visual_controller.piles,
-		braziers,
-		BRAZIER_STATS,
-		generator_hitboxes,
-		_get_island_rect(),
-		state.get_resource_amount(ResourceIds.ASH),
-		Callable(self, "_update_ash_piles"),
-		Callable(self, "queue_redraw"),
-		realm_layout_debug_controller,
-		lava_realm_visual_controller.lakes
-	)
+	realm_layout_editor_controller.handle_owner_input(event, self)
 
 func _draw() -> void:
 	realm_draw_controller.draw(self)
