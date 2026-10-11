@@ -9,7 +9,7 @@ func update(
 	lava_flows: Array[LavaFlow],
 	lava_falls: Array[LavaFall]
 ) -> void:
-	if state == null:
+	if state == null or realm_layout == null:
 		return
 
 	if lava_lakes.is_empty():
