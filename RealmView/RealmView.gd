@@ -24,7 +24,6 @@ var atomic_friction_particle_controller: AtomicFrictionParticleController = Atom
 
 
 var furnace_swirl_controller: FurnaceSwirlController = FurnaceSwirlController.new()
-const THERMAL_FURNACE_ROTATION_SPEED: float = 1
 
 var atomic_friction_animation_controller: AtomicFrictionAnimationController = AtomicFrictionAnimationController.new()
 
