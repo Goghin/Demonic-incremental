@@ -470,7 +470,13 @@ func _draw() -> void:
 	# Layout mode
 	# ------------------------------------------------------------
 
-	_draw_layout_overlay()
+	realm_layout_overlay_renderer.update_overlay(
+		realm_layout_mode,
+		generator_hitboxes,
+		ash_piles,
+		braziers,
+		BRAZIER_STATS
+	)
 
 
 func _get_island_rect() -> Rect2:
@@ -480,16 +486,6 @@ func _get_island_rect() -> Rect2:
 	return Rect2(
 		center - island_size * 0.5,
 		island_size
-	)
-
-
-func _draw_layout_overlay() -> void:
-	realm_layout_overlay_renderer.update_overlay(
-		realm_layout_mode,
-		generator_hitboxes,
-		ash_piles,
-		braziers,
-		BRAZIER_STATS
 	)
 
 
