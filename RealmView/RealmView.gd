@@ -16,11 +16,7 @@ var molecular_agitation_particle_controller: MolecularAgitationParticleControlle
 
 var braziers: Dictionary = {}
 
-var crystallized_flames: Array[CrystallizedFlame] = []
-var crystallized_flame_values: Array[float] = []
-var crystal_renderer: CrystalRenderer = CrystalRenderer.new()
-var crystallization_stream_controller: CrystallizationStreamController = CrystallizationStreamController.new()
-var last_crystallized_flame_amount: float = -1.0
+var crystallized_flame_visual_controller: CrystallizedFlameVisualController = CrystallizedFlameVisualController.new()
 
 
 const REALM_VISUAL_SCALE: float = 1.0
@@ -177,8 +173,10 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Crystallized flame visuals
 	# ------------------------------------------------------------
 
-	last_crystallized_flame_amount = -1.0
-	update_flame_visuals()
+	crystallized_flame_visual_controller.reset_and_update(
+		self,
+		state
+	)
 
 	# ------------------------------------------------------------
 	# Initial lava state
@@ -192,40 +190,20 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	queue_redraw()
 
 func update_flame_visuals() -> void:
-	if state == null:
-		return
-
-	var total_flames: float = state.get_resource_amount(
-		ResourceIds.CRYSTALIZED_FLAME
-	)
-
-	crystal_renderer.update(
+	crystallized_flame_visual_controller.update(
 		self,
-		crystallized_flames,
-		crystallized_flame_values,
-		total_flames
+		state
 	)
-
-func _update_crystallized_flame_visuals_if_needed() -> void:
-	var current_flames: float = state.get_resource_amount(
-		ResourceIds.CRYSTALIZED_FLAME
-	)
-
-	if is_equal_approx(
-		current_flames,
-		last_crystallized_flame_amount
-	):
-		return
-
-	last_crystallized_flame_amount = current_flames
-	update_flame_visuals()
 
 
 func _process(_delta: float) -> void:
 	if state == null:
 		return
 
-	_update_crystallized_flame_visuals_if_needed()
+	crystallized_flame_visual_controller.update_if_needed(
+		self,
+		state
+	)
 
 	forge_activity_visual_controller.advance(_delta)
 	generator_animation_controller.update_phase(
@@ -412,48 +390,19 @@ func _notification(what: int) -> void:
 		)
 
 func begin_prestige_destruction() -> void:
-	if crystallized_flames.is_empty():
-		return
+	crystallized_flame_visual_controller.begin_prestige_destruction()
 
-	print(
-		"BEGIN PRESTIGE DESTRUCTION: ",
-		crystallized_flames.size(),
-		" crystals"
-	)
-
-	var first_index: int = randi_range(
-		0,
-		crystallized_flames.size() - 1
-	)
-
-	var first_crystal: CrystallizedFlame = (
-		crystallized_flames[first_index]
-	)
-
-	print(
-		"Starting chain reaction with crystal ",
-		first_index,
-		" at ",
-		first_crystal.position
-	)
-
-	first_crystal.begin_destruction(0.0)
 
 func play_crystallization_event(
 	crystals_created: float
 ) -> void:
-	if state == null:
-		return
-
-	crystallization_stream_controller.play_crystallization_event(
+	crystallized_flame_visual_controller.play_crystallization_event(
 		self,
+		state,
 		crystals_created,
-		_get_generator_position("infernal_forge"),
-		crystallized_flames,
-		crystallized_flame_values,
-		state.get_resource_amount(ResourceIds.CRYSTALIZED_FLAME),
-		crystal_renderer
+		_get_generator_position("infernal_forge")
 	)
+
 
 # ------------------------------------------------------------
 # LAVA NETWORK
