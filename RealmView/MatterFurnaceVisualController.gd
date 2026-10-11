@@ -2,6 +2,11 @@ class_name MatterFurnaceVisualController
 extends RefCounted
 
 
+const ANIMATION_PATH: String = "res://Generators/GeneratorDefinitions/matter furnace_animated.png"
+const ANIMATION_HFRAMES: int = 4
+const ANIMATION_VFRAMES: int = 4
+const ANIMATION_FPS: float = 10.0
+
 const SIZE_MULTIPLIER: float = 1.4
 const FRAME_SIZE: Vector2 = Vector2(314.0, 321.0)
 
@@ -31,9 +36,15 @@ func update(
 	generator_hitboxes: Dictionary
 ) -> void:
 	var animated_sprite: AnimatedSprite2D = (
-		generator_visual_renderer.get_matter_furnace_sprite(
+		generator_visual_renderer.create_animated_generator_sprite(
 			generator_layer,
-			generator_sprites
+			generator_sprites,
+			"matter_furnace",
+			"Generator_matter_furnace",
+			ANIMATION_PATH,
+			ANIMATION_HFRAMES,
+			ANIMATION_VFRAMES,
+			ANIMATION_FPS
 		)
 	)
 
