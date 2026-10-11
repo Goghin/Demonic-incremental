@@ -572,8 +572,6 @@ func play_crystallization_event(
 			crystal.base_position
 		)
 
-		crystal.scale = Vector2.ZERO
-
 		crystallization_stream_controller.play(
 			self,
 			forge_position,
