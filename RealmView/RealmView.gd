@@ -93,6 +93,12 @@ func update_flame_visuals() -> void:
 
 
 func _process(_delta: float) -> void:
+	var island_rect: Rect2 = _get_island_rect()
+	var thermal_furnace_position: Vector2 = _get_generator_position_in_rect(
+		"thermal_furnace",
+		island_rect
+	)
+
 	realm_update_controller.update(
 		self,
 		state,
@@ -103,7 +109,7 @@ func _process(_delta: float) -> void:
 		molecular_agitation_particle_controller,
 		crystallized_flame_visual_controller,
 		forge_activity_visual_controller,
-		_get_generator_position("thermal_furnace"),
+		thermal_furnace_position,
 		_delta
 	)
 
@@ -111,16 +117,17 @@ func _update_scene_visuals() -> void:
 	if state == null or realm_layout == null:
 		return
 
-	# Keep generator nodes and hitboxes current before dependent realm visuals.
-	_draw_generators()
-
 	var island_rect: Rect2 = _get_island_rect()
+
+	# Keep generator nodes and hitboxes current before dependent realm visuals.
+	_draw_generators(island_rect)
+
 	realm_scene_visual_controller.update(
 		self,
 		state,
 		realm_layout,
 		island_rect,
-		_get_generator_position("infernal_forge"),
+		_get_generator_position_in_rect("infernal_forge", island_rect),
 		size,
 		ISLAND_CENTER_RATIO,
 		ASH_VISUAL_RADIUS,
@@ -150,13 +157,13 @@ func _get_island_rect() -> Rect2:
 		ISLAND_SCALE
 	)
 
-func _draw_generators() -> void:
+func _draw_generators(island_rect: Rect2) -> void:
 	generator_drawing_controller.draw_generators(
 		self,
 		state,
 		realm_layout,
 		size,
-		_get_island_rect(),
+		island_rect,
 		generator_hitboxes,
 		generator_visibility_controller,
 		generator_sprites,
@@ -170,6 +177,15 @@ func _draw_generators() -> void:
 func _get_generator_position(
 	generator_id: String
 ) -> Vector2:
+	return _get_generator_position_in_rect(
+		generator_id,
+		_get_island_rect()
+	)
+
+func _get_generator_position_in_rect(
+	generator_id: String,
+	island_rect: Rect2
+) -> Vector2:
 	if realm_layout == null:
 		return size * 0.5
 
@@ -177,7 +193,7 @@ func _get_generator_position(
 		generator_id,
 		realm_layout.generator_layout_positions,
 		size,
-		_get_island_rect()
+		island_rect
 	)
 
 func _update_ash_piles(ash: float) -> void:
