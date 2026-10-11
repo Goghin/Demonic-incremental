@@ -3,7 +3,7 @@ extends RefCounted
 
 
 func handle_notification(owner: Control, what: int) -> void:
-	if what != NOTIFICATION_RESIZED:
+	if what != Control.NOTIFICATION_RESIZED:
 		return
 
 	owner.lava_realm_visual_controller.update_positions(
