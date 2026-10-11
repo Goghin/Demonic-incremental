@@ -2,7 +2,8 @@ class_name GeneratorAnimationController
 extends RefCounted
 
 
-func update(
+func update_phase(
+	phase: StringName,
 	owner: Control,
 	state: GameState,
 	generator_sprites: Dictionary,
@@ -13,38 +14,42 @@ func update(
 	atomic_friction_particle_controller: AtomicFrictionParticleController,
 	atomic_friction_animation_controller: AtomicFrictionAnimationController
 ) -> void:
-	_update_thermal_furnace(
-		owner,
-		state,
-		generator_sprites,
-		delta,
-		thermal_furnace_animation_controller
-	)
-	_update_molecular_agitation(
-		owner,
-		state,
-		generator_sprites,
-		delta,
-		molecular_agitation_sprite_controller
-	)
-	_update_furnace_swirl(
-		owner,
-		state,
-		generator_sprites,
-		furnace_swirl_controller
-	)
-	_update_atomic_friction_particles(
-		owner,
-		state,
-		generator_sprites,
-		atomic_friction_particle_controller
-	)
-	_update_atomic_friction_animation(
-		state,
-		generator_sprites,
-		delta,
-		atomic_friction_animation_controller
-	)
+	match phase:
+		&"early":
+			_update_thermal_furnace(
+				owner,
+				state,
+				generator_sprites,
+				delta,
+				thermal_furnace_animation_controller
+			)
+			_update_molecular_agitation(
+				owner,
+				state,
+				generator_sprites,
+				delta,
+				molecular_agitation_sprite_controller
+			)
+		&"middle":
+			_update_furnace_swirl(
+				owner,
+				state,
+				generator_sprites,
+				furnace_swirl_controller
+			)
+			_update_atomic_friction_particles(
+				owner,
+				state,
+				generator_sprites,
+				atomic_friction_particle_controller
+			)
+		&"late":
+			_update_atomic_friction_animation(
+				state,
+				generator_sprites,
+				delta,
+				atomic_friction_animation_controller
+			)
 
 
 func _update_thermal_furnace(

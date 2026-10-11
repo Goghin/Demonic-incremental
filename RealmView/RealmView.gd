@@ -260,7 +260,8 @@ func _process(_delta: float) -> void:
 		update_flame_visuals()
 
 	forge_activity_visual_controller.advance(_delta)
-	generator_animation_controller.update(
+	generator_animation_controller.update_phase(
+		&"early",
 		self,
 		state,
 		generator_sprites,
@@ -273,9 +274,33 @@ func _process(_delta: float) -> void:
 	)
 	_update_lava_lakes()
 	_update_lava_flow_states()
+	generator_animation_controller.update_phase(
+		&"middle",
+		self,
+		state,
+		generator_sprites,
+		_delta,
+		thermal_furnace_animation_controller,
+		molecular_agitation_sprite_controller,
+		furnace_swirl_controller,
+		atomic_friction_particle_controller,
+		atomic_friction_animation_controller
+	)
 	molecular_agitation_particle_controller.update(
 		state.generators.get("thermal_furnace"),
 		_get_generator_position("thermal_furnace")
+	)
+	generator_animation_controller.update_phase(
+		&"late",
+		self,
+		state,
+		generator_sprites,
+		_delta,
+		thermal_furnace_animation_controller,
+		molecular_agitation_sprite_controller,
+		furnace_swirl_controller,
+		atomic_friction_particle_controller,
+		atomic_friction_animation_controller
 	)
 	queue_redraw()
 
