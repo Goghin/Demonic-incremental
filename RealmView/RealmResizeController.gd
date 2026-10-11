@@ -6,12 +6,21 @@ func handle_notification(owner: Control, what: int) -> void:
 	if what != Control.NOTIFICATION_RESIZED:
 		return
 
+	var island_rect: Rect2 = owner._get_island_rect()
+	_update_lava_positions(owner, island_rect)
+	_update_island_visual(owner, island_rect)
+
+
+func _update_lava_positions(owner: Control, island_rect: Rect2) -> void:
 	owner.lava_realm_visual_controller.update_positions(
 		owner.realm_layout,
-		owner._get_island_rect()
+		island_rect
 	)
+
+
+func _update_island_visual(owner: Control, island_rect: Rect2) -> void:
 	owner.island_visual_controller.update(
 		owner,
 		owner.realm_layout,
-		owner._get_island_rect()
+		island_rect
 	)
