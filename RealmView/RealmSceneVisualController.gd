@@ -66,7 +66,7 @@ func _update_braziers(
 	brazier_controller: BrazierVisualController,
 	braziers: Dictionary,
 	brazier_stats: Array[String],
-	realm_configuration: Resource,
+	realm_configuration: RealmConfiguration,
 	realm_layout: Resource,
 	island_rect: Rect2
 ) -> void:
