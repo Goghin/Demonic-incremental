@@ -621,7 +621,7 @@ func _update_layout_drag(
 		state.get_resource_amount(ResourceIds.ASH),
 		Callable(self, "_update_ash_piles"),
 		Callable(self, "queue_redraw")
-)
+	)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
