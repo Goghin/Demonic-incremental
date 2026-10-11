@@ -81,6 +81,7 @@ var forge_activity_visual_controller: ForgeActivityVisualController = ForgeActiv
 var brazier_visual_controller: BrazierVisualController = BrazierVisualController.new()
 var island_visual_controller: IslandVisualController = IslandVisualController.new()
 var realm_layout_overlay_renderer: RealmLayoutOverlayRenderer = RealmLayoutOverlayRenderer.new()
+var realm_layout_debug_controller: RealmLayoutDebugController = RealmLayoutDebugController.new()
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
@@ -325,50 +326,11 @@ func _input(event: InputEvent) -> void:
 				dragging_object = ""
 
 				if realm_layout_mode:
-					print("=== REALM LAYOUT ===")
-
-					print("--- Generators ---")
-
-					for generator_id in realm_layout.generator_layout_positions:
-						print(
-							"Generator ",
-							generator_id,
-							" -> ",
-							realm_layout.generator_layout_positions[
-								generator_id
-							]
-						)
-
-					print("--- Ash Piles ---")
-
-					for i in range(realm_layout.ash_pile_layout_positions.size()):
-						print(
-							"Ash pile ",
-							i + 1,
-							" -> ",
-							realm_layout.ash_pile_layout_positions[i]
-						)
-
-					print("--- Braziers ---")
-
-					for stat_name in BRAZIER_STATS:
-						if braziers.has(stat_name):
-							print(
-								"Brazier ",
-								stat_name,
-								" -> ",
-								realm_layout.brazier_layout_positions[
-									stat_name
-								]
-							)
-
-					if not lava_lakes.is_empty():
-						var main_lake: LavaLake = lava_lakes[0]
-						print("MAIN LAKE FILL: ", main_lake.fill)
-				
-					print("====================")
-					print(
-						"Shift + Left Click = print normalized position"
+					realm_layout_debug_controller.print_layout_details(
+						realm_layout,
+						braziers,
+						BRAZIER_STATS,
+						lava_lakes
 					)
 
 				queue_redraw()
