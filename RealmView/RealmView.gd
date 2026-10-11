@@ -638,8 +638,7 @@ func _draw() -> void:
 	# Layout mode
 	# ------------------------------------------------------------
 
-	if realm_layout_mode:
-		_draw_layout_overlay()
+	_draw_layout_overlay()
 
 
 func _get_island_rect() -> Rect2:
