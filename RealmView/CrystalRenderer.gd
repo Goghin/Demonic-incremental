@@ -48,15 +48,21 @@ func update(
 	total_flames: float
 ) -> void:
 	var target_count: int = _get_target_count(total_flames)
+	_update_crystal_count(owner, crystals, target_count)
+	_update_crystal_values(crystals, crystal_values, total_flames)
+	_position_crystals(owner, crystals, crystal_values)
 
+
+func _update_crystal_count(
+	owner: Control,
+	crystals: Array[CrystallizedFlame],
+	target_count: int
+) -> void:
 	while crystals.size() < target_count:
 		_create_crystal(owner, crystals)
 
 	while crystals.size() > target_count:
 		_remove_crystal(crystals)
-
-	_update_crystal_values(crystals, crystal_values, total_flames)
-	_position_crystals(owner, crystals, crystal_values)
 
 
 func _get_target_count(total_flames: float) -> int:
