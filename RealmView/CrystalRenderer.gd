@@ -34,12 +34,7 @@ const CRYSTAL_POSITIONS: Array[Vector2] = [
 	Vector2(0, 70),
 	Vector2(-170, 85),
 	Vector2(170, 85),
-	Vector2(-70, 90),
-	Vector2(70, 90),
-	Vector2(0, 105),
-	Vector2(-120, 115),
-	Vector2(120, 115),
-	Vector2(0, 135)
+	Vector2(-70, 90)
 ]
 
 
