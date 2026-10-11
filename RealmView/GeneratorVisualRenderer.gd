@@ -73,11 +73,13 @@ func update_sprite(
 	sprite.position = generator_position
 
 	if generator.definition.id == "atomic_friction":
-		if not sprite.has_meta("atomic_friction_base_scale"):
-			sprite.set_meta(
-				"atomic_friction_base_scale",
-				Vector2(texture_scale, texture_scale)
-			)
+		var base_scale: Vector2 = Vector2(texture_scale, texture_scale)
+		sprite.set_meta("atomic_friction_base_scale", base_scale)
+		# The animation controller skips paused generators. Give the sprite its
+		# normal pulsing size here so a loaded, paused generator cannot remain at
+		# Sprite2D's default 1x scale. The animation controller overrides this
+		# scale while Atomic Friction is operating.
+		sprite.scale = base_scale * 0.64
 	else:
 		sprite.scale = Vector2(texture_scale, texture_scale)
 
