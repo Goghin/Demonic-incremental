@@ -367,8 +367,16 @@ func _input(event: InputEvent) -> void:
 		if dragging_object == "":
 			return
 
-		_update_layout_drag(
-			get_local_mouse_position()
+		realm_layout_editor_controller.update_drag(
+			get_local_mouse_position(),
+			dragging_object,
+			drag_offset,
+			realm_layout,
+			braziers,
+			_get_island_rect(),
+			state.get_resource_amount(ResourceIds.ASH),
+			Callable(self, "_update_ash_piles"),
+			Callable(self, "queue_redraw")
 		)
 
 
@@ -605,23 +613,6 @@ func _update_ash_visuals(
 	ash_renderer.update_visuals(center, sx, ash)
 
 
-func _update_layout_drag(
-	mouse_position: Vector2
-) -> void:
-	if dragging_object == "":
-		return
-
-	realm_layout_editor_controller.update_drag(
-		mouse_position,
-		dragging_object,
-		drag_offset,
-		realm_layout,
-		braziers,
-		_get_island_rect(),
-		state.get_resource_amount(ResourceIds.ASH),
-		Callable(self, "_update_ash_piles"),
-		Callable(self, "queue_redraw")
-	)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
