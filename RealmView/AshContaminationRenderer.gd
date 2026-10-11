@@ -102,7 +102,7 @@ func _draw() -> void:
 
 		var particle_size: float = float(particle["size"]) * particle_scale
 		var particle_alpha: float = float(particle["alpha"]) * (0.65 + ash_factor * 0.55)
-		var ash_color: Color = Color(0.43, 0.43, 0.45, particle_alpha)
+		var ash_color: Color = Color(0.52, 0.52, 0.54, particle_alpha)
 
 		draw_line(
 			particle_position - tangent * particle_size * 1.2,

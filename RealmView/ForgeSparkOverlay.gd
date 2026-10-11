@@ -7,6 +7,8 @@ const PARTICLES_PER_LEVEL: int = 2
 const MAX_PARTICLE_COUNT: int = 120
 const BASE_SPEED: float = 0.35
 const SPEED_PER_LEVEL: float = 0.08
+const BASE_STREAK_LENGTH: float = 2.8
+const STREAK_LENGTH_PER_LEVEL: float = 0.025
 
 var time: float = 0.0
 var active: bool = false
@@ -31,6 +33,7 @@ func _draw() -> void:
 		MAX_PARTICLE_COUNT
 	)
 	var speed_multiplier: float = 1.0 + (level - 1) * SPEED_PER_LEVEL
+	var streak_length: float = BASE_STREAK_LENGTH + (level - 1) * STREAK_LENGTH_PER_LEVEL
 
 	for i in range(particle_count):
 		var seed: float = float(i) * 17.31
@@ -57,17 +60,25 @@ func _draw() -> void:
 			time * 5.0 * speed_multiplier + seed
 		) * 1.0
 
-		var spark_position :Vector2 = Vector2(
-			cos(angle),
-			sin(angle)
-		) * max(distance + wobble, 0.0)
+		var radial_direction: Vector2 = Vector2(cos(angle), sin(angle))
+		var spark_position: Vector2 = radial_direction * max(distance + wobble, 0.0)
+		var inward_length: float = min(streak_length, max(distance, 0.0))
+		var inner_endpoint: Vector2 = spark_position - radial_direction * inward_length
 
-		# Fade in at the rim and fade out as the spark reaches the core.
-		var alpha: float = sin(cycle * PI) * 0.75
-		var spark_size: float = 0.45 + fposmod(seed, 0.35)
+		# Brighter, elongated streaks point toward the forge's center.
+		var alpha: float = sin(cycle * PI) * 0.92
+		var spark_size: float = 0.55 + fposmod(seed, 0.4)
+		var spark_color: Color = Color(1.0, 0.78, 0.28, alpha)
 
+		draw_line(
+			spark_position,
+			inner_endpoint,
+			Color(1.0, 0.86, 0.48, alpha * 0.95),
+			max(spark_size * 0.8, 0.55),
+			true
+		)
 		draw_circle(
 			spark_position,
 			spark_size,
-			Color(1.0, 0.65, 0.15, alpha)
+			spark_color
 		)
