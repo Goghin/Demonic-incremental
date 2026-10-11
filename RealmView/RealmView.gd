@@ -36,6 +36,7 @@ var realm_rebuild_controller: RealmRebuildController = RealmRebuildController.ne
 var realm_draw_controller: RealmDrawController = RealmDrawController.new()
 var realm_update_controller: RealmUpdateController = RealmUpdateController.new()
 var realm_setup_controller: RealmSetupController = RealmSetupController.new()
+var realm_layout_geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
@@ -112,12 +113,11 @@ func _draw() -> void:
 	realm_draw_controller.draw(self)
 
 func _get_island_rect() -> Rect2:
-	var center: Vector2 = size * ISLAND_CENTER_RATIO
-	var island_size: Vector2 = ISLAND_BASE_SIZE * ISLAND_SCALE
-
-	return Rect2(
-		center - island_size * 0.5,
-		island_size
+	return realm_layout_geometry_controller.get_island_rect(
+		size,
+		ISLAND_CENTER_RATIO,
+		ISLAND_BASE_SIZE,
+		ISLAND_SCALE
 	)
 
 func _draw_generators() -> void:
