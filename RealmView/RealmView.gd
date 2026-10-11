@@ -9,7 +9,6 @@ var lava_mite_visual_controller: LavaMiteVisualController = LavaMiteVisualContro
 var matter_furnace_visual_controller: MatterFurnaceVisualController = MatterFurnaceVisualController.new()
 var lava_realm_visual_controller: LavaRealmVisualController = LavaRealmVisualController.new()
 var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
-var ash_renderer: AshContaminationRenderer
 var ash_visual_controller: AshVisualController = AshVisualController.new()
 var generator_sprites: Dictionary = {}
 var generator_layer: Node2D
@@ -425,7 +424,8 @@ func _draw() -> void:
 	# Ash
 	# ------------------------------------------------------------
 
-	_update_ash_visuals(
+	ash_visual_controller.update_contamination(
+		self,
 		center,
 		ASH_VISUAL_RADIUS,
 		ash
@@ -483,17 +483,6 @@ func _update_ash_piles(ash: float) -> void:
 		_get_island_rect(),
 		ash
 	)
-
-func _update_ash_visuals(
-	center: Vector2,
-	sx: float,
-	ash: float
-) -> void:
-	if ash_renderer == null:
-		ash_renderer = AshContaminationRenderer.new()
-		ash_renderer.attach_to(self)
-
-	ash_renderer.update_visuals(center, sx, ash)
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
