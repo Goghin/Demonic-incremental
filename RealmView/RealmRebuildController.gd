@@ -38,9 +38,16 @@ func _reset_visual_state(owner) -> void:
 	owner.generator_visual_renderer.clear_cache()
 
 
+
 func _build_realm_geometry(owner) -> void:
 	var island_rect: Rect2 = owner._get_island_rect()
 
+	_build_island_and_ash(owner, island_rect)
+	_build_lava_network(owner, island_rect)
+	_place_generators_and_braziers(owner, island_rect)
+
+
+func _build_island_and_ash(owner, island_rect: Rect2) -> void:
 	owner.island_visual_controller.update(
 		owner,
 		owner.realm_layout,
@@ -48,6 +55,8 @@ func _build_realm_geometry(owner) -> void:
 	)
 	owner.ash_visual_controller.setup(owner, owner.realm_layout)
 
+
+func _build_lava_network(owner, island_rect: Rect2) -> void:
 	owner.lava_realm_visual_controller.create_network(
 		owner,
 		owner.realm_layout,
@@ -67,6 +76,11 @@ func _build_realm_geometry(owner) -> void:
 		island_rect
 	)
 
+
+func _place_generators_and_braziers(
+	owner,
+	island_rect: Rect2
+) -> void:
 	owner._draw_generators()
 	_position_braziers(owner, island_rect)
 
