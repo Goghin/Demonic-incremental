@@ -2,16 +2,6 @@ class_name GeneratorVisualRenderer
 extends RefCounted
 
 
-const LAVA_MITE_ANIMATION_PATH: String = "res://Generators/GeneratorDefinitions/Lava_Mite_Colony_Animated.png"
-const LAVA_MITE_ANIMATION_HFRAMES: int = 4
-const LAVA_MITE_ANIMATION_VFRAMES: int = 4
-const LAVA_MITE_ANIMATION_FPS: float = 4.0
-
-const MATTER_FURNACE_ANIMATION_PATH: String = "res://Generators/GeneratorDefinitions/matter furnace_animated.png"
-const MATTER_FURNACE_ANIMATION_HFRAMES: int = 4
-const MATTER_FURNACE_ANIMATION_VFRAMES: int = 4
-const MATTER_FURNACE_ANIMATION_FPS: float = 10.0
-
 # Cache generator illustrations so RealmView does not load the same texture
 # repeatedly while redrawing the realm.
 var generator_textures: Dictionary = {}
