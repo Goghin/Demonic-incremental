@@ -149,7 +149,7 @@ func update_drag(
 		var stat_name: String = dragging_object.substr(8)
 		if braziers.has(stat_name):
 			var new_position: Vector2 = mouse_position - drag_offset
-			var normalized_position: Vector2 = _normalize_position(
+			var normalized_position: Vector2 = geometry_controller.get_normalized_position(
 				new_position,
 				island_rect
 			)
