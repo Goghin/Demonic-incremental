@@ -83,6 +83,7 @@ var island_visual_controller: IslandVisualController = IslandVisualController.ne
 var realm_layout_overlay_renderer: RealmLayoutOverlayRenderer = RealmLayoutOverlayRenderer.new()
 var realm_layout_debug_controller: RealmLayoutDebugController = RealmLayoutDebugController.new()
 var realm_layout_editor_controller: RealmLayoutEditorController = RealmLayoutEditorController.new()
+var realm_background_renderer: RealmBackgroundRenderer = RealmBackgroundRenderer.new()
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
@@ -429,57 +430,7 @@ func _draw() -> void:
 		density_factor
 	)
 
-	# ------------------------------------------------------------
-	# Background
-	# ------------------------------------------------------------
-
-	draw_rect(
-		Rect2(Vector2.ZERO, size),
-		Color(0.04, 0.029, 0.074, 1.0)
-	)
-
-	# ------------------------------------------------------------
-	# Ambient haze
-	# ------------------------------------------------------------
-
-	draw_circle(
-		center + Vector2(0, -25),
-		250.0,
-		Color(0.16, 0.07, 0.22, 0.12)
-	)
-
-	# ------------------------------------------------------------
-	# Distant realm particles
-	# ------------------------------------------------------------
-
-	var particle_count: int = 65
-
-	for i in range(particle_count):
-		var angle: float = float(i) * 2.399
-
-		var distance: float = 120.0 + fmod(
-			float(i * 73),
-			360.0
-		)
-
-		var particle_position: Vector2 = (
-			center +
-			Vector2(
-				cos(angle) * distance,
-				sin(angle) * distance * 0.65
-			)
-		)
-
-		var particle_size: float = 0.4 + fmod(
-			float(i),
-			1.6
-		)
-
-		draw_circle(
-			particle_position,
-			particle_size,
-			Color(0.55, 0.36, 0.65, 0.30)
-		)
+	realm_background_renderer.draw_background(self, center)
 
 	var island_rect: Rect2 = _get_island_rect()
 
