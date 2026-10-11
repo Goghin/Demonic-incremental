@@ -13,50 +13,85 @@ func update(owner: Control) -> void:
 	)
 
 	var island_rect: Rect2 = owner._get_island_rect()
+	var state: GameState = owner.state
+	var realm_layout: Resource = owner.realm_layout
 
-	_update_ash_visuals(owner, island_rect)
-	_update_braziers(owner, island_rect)
-	_update_forge_visuals(owner)
+	_update_ash_visuals(
+		owner,
+		owner.ash_visual_controller,
+		state,
+		realm_layout,
+		island_rect,
+		owner.size * owner.ISLAND_CENTER_RATIO,
+		owner.ASH_VISUAL_RADIUS
+	)
+	_update_braziers(
+		owner.brazier_visual_controller,
+		owner.braziers,
+		owner.BRAZIER_STATS,
+		state.realm_configuration,
+		realm_layout,
+		island_rect
+	)
+	_update_forge_visuals(
+		owner,
+		owner.forge_activity_visual_controller,
+		state.generators.get("infernal_forge"),
+		owner._get_generator_position("infernal_forge")
+	)
 
 
 func _update_ash_visuals(
-	owner: Control,
-	island_rect: Rect2
+	visual_parent: Control,
+	ash_controller: AshVisualController,
+	state: GameState,
+	realm_layout: Resource,
+	island_rect: Rect2,
+	center: Vector2,
+	visual_radius: float
 ) -> void:
-	var ash: float = owner.state.get_resource_amount(ResourceIds.ASH)
-	var center: Vector2 = owner.size * owner.ISLAND_CENTER_RATIO
+	var ash: float = state.get_resource_amount(ResourceIds.ASH)
 
-	owner.ash_visual_controller.update_realm_visuals(
-		owner,
-		owner.realm_layout,
+	ash_controller.update_realm_visuals(
+		visual_parent,
+		realm_layout,
 		island_rect,
 		ash,
 		center,
-		owner.ASH_VISUAL_RADIUS
+		visual_radius
 	)
 
 
 func _update_braziers(
-	owner: Control,
+	brazier_controller: BrazierVisualController,
+	braziers: Dictionary,
+	brazier_stats: Array[String],
+	realm_configuration: Resource,
+	realm_layout: Resource,
 	island_rect: Rect2
 ) -> void:
-	owner.brazier_visual_controller.update_stat_values(
-		owner.braziers,
-		owner.BRAZIER_STATS,
-		owner.state.realm_configuration
+	brazier_controller.update_stat_values(
+		braziers,
+		brazier_stats,
+		realm_configuration
 	)
 
-	owner.brazier_visual_controller.position_braziers(
-		owner.braziers,
-		owner.BRAZIER_STATS,
-		owner.realm_layout,
+	brazier_controller.position_braziers(
+		braziers,
+		brazier_stats,
+		realm_layout,
 		island_rect
 	)
 
 
-func _update_forge_visuals(owner: Control) -> void:
-	owner.forge_activity_visual_controller.update(
-		owner,
-		owner.state.generators.get("infernal_forge"),
-		owner._get_generator_position("infernal_forge")
+func _update_forge_visuals(
+	visual_parent: Control,
+	forge_controller: ForgeActivityVisualController,
+	forge: Generator,
+	forge_position: Vector2
+) -> void:
+	forge_controller.update(
+		visual_parent,
+		forge,
+		forge_position
 	)
