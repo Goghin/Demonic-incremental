@@ -43,8 +43,6 @@ var lava_flows: Array[LavaFlow] = []
 var lava_falls: Array[LavaFall] = []
 var lava_lakes: Array[LavaLake] = []
 
-const CRYSTAL_BASE_SCALE: float = 0.08
-
 const REALM_VISUAL_SCALE: float = 1.0
 const REALM_VISUAL_OFFSET: Vector2 = Vector2(0.0, 0.0)
 const ISLAND_BASE_SIZE: Vector2 = Vector2(418.0, 156.0)
@@ -599,7 +597,7 @@ func play_crystallization_event(
 			forge_position,
 			target_position,
 			crystal,
-			CRYSTAL_BASE_SCALE
+			CrystalRenderer.CRYSTAL_BASE_SCALE
 		)
 
 
