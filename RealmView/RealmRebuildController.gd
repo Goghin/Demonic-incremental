@@ -69,14 +69,4 @@ func _position_braziers(owner, island_rect: Rect2) -> void:
 
 
 func _refresh_state_dependent_visuals(owner) -> void:
-	# Rebuild crystallized flame visuals after the realm is ready.
-	owner.crystallized_flame_visual_controller.reset_and_update(
-		owner,
-		owner.state
-	)
-
-	# Initialize lake fill before evaluating dependent flow states.
-	owner.lava_realm_visual_controller.update_dynamic_states(
-		owner.state,
-		owner.realm_layout
-	)
+	owner.realm_rebuild_state_controller.refresh(owner)
