@@ -155,20 +155,10 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Remove old lava network
 	# ------------------------------------------------------------
 
-	for flow in lava_flows:
-		if is_instance_valid(flow):
-			flow.queue_free()
-
-	for fall in lava_falls:
-		if is_instance_valid(fall):
-			fall.queue_free()
-
 	for lake in lava_lakes:
 		if is_instance_valid(lake):
 			lake.queue_free()
 
-	lava_flows.clear()
-	lava_falls.clear()
 	lava_lakes.clear()
 
 	# ------------------------------------------------------------
