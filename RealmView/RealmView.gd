@@ -8,18 +8,9 @@ var generator_animation_controller: GeneratorAnimationController = GeneratorAnim
 var lava_mite_visual_controller: LavaMiteVisualController = LavaMiteVisualController.new()
 var matter_furnace_visual_controller: MatterFurnaceVisualController = MatterFurnaceVisualController.new()
 var lava_realm_visual_controller: LavaRealmVisualController = LavaRealmVisualController.new()
-var thermal_furnace_animation_controller: ThermalFurnaceAnimationController = ThermalFurnaceAnimationController.new()
 var ash_visual_controller: AshVisualController = AshVisualController.new()
 var generator_sprites: Dictionary = {}
 var generator_layer: Node2D
-
-var molecular_agitation_sprite_controller: MolecularAgitationSpriteController = MolecularAgitationSpriteController.new()
-
-var atomic_friction_particle_controller: AtomicFrictionParticleController = AtomicFrictionParticleController.new()
-
-var furnace_swirl_controller: FurnaceSwirlController = FurnaceSwirlController.new()
-
-var atomic_friction_animation_controller: AtomicFrictionAnimationController = AtomicFrictionAnimationController.new()
 
 var molecular_agitation_particle_controller: MolecularAgitationParticleController = MolecularAgitationParticleController.new()
 
@@ -120,13 +111,9 @@ func rebuild_realm(new_layout: RealmLayout) -> void:
 	# Reset generator visual effects
 	# ------------------------------------------------------------
 
-	thermal_furnace_animation_controller.reset()
-
-	atomic_friction_particle_controller.reset()
+	generator_animation_controller.reset()
 
 	forge_activity_visual_controller.reset()
-
-	furnace_swirl_controller.reset()
 
 	molecular_agitation_particle_controller.reset()
 	# ------------------------------------------------------------
@@ -249,12 +236,7 @@ func _process(_delta: float) -> void:
 		self,
 		state,
 		generator_sprites,
-		_delta,
-		thermal_furnace_animation_controller,
-		molecular_agitation_sprite_controller,
-		furnace_swirl_controller,
-		atomic_friction_particle_controller,
-		atomic_friction_animation_controller
+		_delta
 	)
 	lava_realm_visual_controller.update_lakes(
 		state,
@@ -269,12 +251,7 @@ func _process(_delta: float) -> void:
 		self,
 		state,
 		generator_sprites,
-		_delta,
-		thermal_furnace_animation_controller,
-		molecular_agitation_sprite_controller,
-		furnace_swirl_controller,
-		atomic_friction_particle_controller,
-		atomic_friction_animation_controller
+		_delta
 	)
 	molecular_agitation_particle_controller.update(
 		state.generators.get("thermal_furnace"),
@@ -285,12 +262,7 @@ func _process(_delta: float) -> void:
 		self,
 		state,
 		generator_sprites,
-		_delta,
-		thermal_furnace_animation_controller,
-		molecular_agitation_sprite_controller,
-		furnace_swirl_controller,
-		atomic_friction_particle_controller,
-		atomic_friction_animation_controller
+		_delta
 	)
 	queue_redraw()
 
