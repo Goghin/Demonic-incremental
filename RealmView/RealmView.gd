@@ -33,6 +33,7 @@ const ASH_VISUAL_RADIUS: float = 190.0
 
 var realm_layout: Resource
 var realm_rebuild_controller: RealmRebuildController = RealmRebuildController.new()
+var realm_draw_controller: RealmDrawController = RealmDrawController.new()
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
@@ -170,79 +171,7 @@ func _input(event: InputEvent) -> void:
 	)
 
 func _draw() -> void:
-	if state == null:
-		return
-
-	var center: Vector2 = size * ISLAND_CENTER_RATIO
-
-	brazier_visual_controller.update_stat_values(
-		braziers,
-		BRAZIER_STATS,
-		state.realm_configuration
-	)
-
-	var ash: float = state.get_resource_amount(
-		ResourceIds.ASH
-	)
-	ash_visual_controller.update_piles(
-		realm_layout,
-		_get_island_rect(),
-		ash
-	)
-
-	# ------------------------------------------------------------
-	# Neutral realm dimensions
-	# ------------------------------------------------------------
-
-	realm_background_renderer.draw_background(self, center)
-
-	var island_rect: Rect2 = _get_island_rect()
-
-	# ------------------------------------------------------------
-	# Floating island
-	# ------------------------------------------------------------
-
-	brazier_visual_controller.position_braziers(
-		braziers,
-		BRAZIER_STATS,
-		realm_layout,
-		island_rect
-	)
-
-	# ------------------------------------------------------------
-	# Generators
-	# ------------------------------------------------------------
-
-	_draw_generators()
-
-	forge_activity_visual_controller.update(
-		self,
-		state.generators.get("infernal_forge"),
-		_get_generator_position("infernal_forge")
-	)
-
-	# ------------------------------------------------------------
-	# Ash
-	# ------------------------------------------------------------
-
-	ash_visual_controller.update_contamination(
-		self,
-		center,
-		ASH_VISUAL_RADIUS,
-		ash
-	)
-
-	# ------------------------------------------------------------
-	# Layout mode
-	# ------------------------------------------------------------
-
-	realm_layout_overlay_renderer.update_overlay(
-		realm_layout_editor_controller.layout_mode,
-		generator_hitboxes,
-		ash_visual_controller.piles,
-		braziers,
-		BRAZIER_STATS
-	)
+	realm_draw_controller.draw(self)
 
 func _get_island_rect() -> Rect2:
 	var center: Vector2 = size * ISLAND_CENTER_RATIO
