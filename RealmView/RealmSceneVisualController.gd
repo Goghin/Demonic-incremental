@@ -6,6 +6,10 @@ func update(owner: Control) -> void:
 	if owner.state == null or owner.realm_layout == null:
 		return
 
+	# Generator nodes and hitboxes are updated during the process phase,
+	# not as a side effect of Control._draw().
+	owner._draw_generators()
+
 	# Lake fill must update before flow activation is evaluated.
 	owner.lava_realm_visual_controller.update_dynamic_states(
 		owner.state,
@@ -39,6 +43,7 @@ func update(owner: Control) -> void:
 		state.generators.get("infernal_forge"),
 		owner._get_generator_position("infernal_forge")
 	)
+	_update_layout_overlay(owner)
 
 
 func _update_ash_visuals(
@@ -94,4 +99,21 @@ func _update_forge_visuals(
 		visual_parent,
 		forge,
 		forge_position
+	)
+
+
+func _update_layout_overlay(owner: Control) -> void:
+	var overlay: RealmLayoutOverlayRenderer = owner.realm_layout_overlay_renderer
+	var layout_mode: bool = owner.realm_layout_editor_controller.layout_mode
+
+	# Refresh while editing, and once when leaving edit mode to clear the overlay.
+	if not layout_mode and not overlay.overlay_enabled:
+		return
+
+	overlay.update_overlay(
+		layout_mode,
+		owner.generator_hitboxes,
+		owner.ash_visual_controller.piles,
+		owner.braziers,
+		owner.BRAZIER_STATS
 	)

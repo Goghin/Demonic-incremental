@@ -12,22 +12,3 @@ func draw(owner: Control) -> void:
 		owner,
 		center
 	)
-	owner._draw_generators()
-	_update_layout_overlay(owner)
-
-
-func _update_layout_overlay(owner: Control) -> void:
-	var overlay: RealmLayoutOverlayRenderer = owner.realm_layout_overlay_renderer
-	var layout_mode: bool = owner.realm_layout_editor_controller.layout_mode
-
-	# Refresh while editing, and once when leaving edit mode to clear the overlay.
-	if not layout_mode and not overlay.overlay_enabled:
-		return
-
-	overlay.update_overlay(
-		layout_mode,
-		owner.generator_hitboxes,
-		owner.ash_visual_controller.piles,
-		owner.braziers,
-		owner.BRAZIER_STATS
-	)
