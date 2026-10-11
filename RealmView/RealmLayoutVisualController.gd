@@ -3,48 +3,41 @@ extends RefCounted
 
 
 func update_positions(
-	owner: Control,
-	island_rect: Rect2
+	visual_parent: Control,
+	state: GameState,
+	realm_layout: RealmLayout,
+	island_rect: Rect2,
+	lava_controller: LavaRealmVisualController,
+	island_controller: IslandVisualController,
+	draw_generators: Callable,
+	ash_controller: AshVisualController,
+	brazier_controller: BrazierVisualController,
+	braziers: Dictionary,
+	brazier_stats: Array[String],
+	crystal_controller: CrystallizedFlameVisualController
 ) -> void:
-	if owner.realm_layout == null:
+	if realm_layout == null:
 		return
 
-	# Keep layout-bound visuals aligned when the Control changes size.
-	owner.lava_realm_visual_controller.update_positions(
-		owner.realm_layout,
-		island_rect
-	)
-	owner.island_visual_controller.update(
-		owner,
-		owner.realm_layout,
-		island_rect
-	)
+	# Keep layout-bound visuals aligned across rebuilds and window resizes.
+	lava_controller.update_positions(realm_layout, island_rect)
+	island_controller.update(visual_parent, realm_layout, island_rect)
 
-	# Generator sprites and hitboxes use absolute Control coordinates, so they
-	# must be recalculated whenever the layout's island rectangle changes.
-	owner._draw_generators()
+	# Generator sprites and hitboxes use absolute Control coordinates.
+	draw_generators.call()
 
-	# Ash piles are layout-bound too; refresh their position and scale alongside
-	# the island instead of waiting for the next resource update.
-	if owner.state != null:
-		owner._update_ash_piles(
-			owner.state.get_resource_amount(ResourceIds.ASH)
+	# Ash piles must follow the island even if the resource amount is unchanged.
+	if state != null:
+		ash_controller.update_piles(
+			realm_layout,
+			island_rect,
+			state.get_resource_amount(ResourceIds.ASH)
 		)
 
-	position_braziers(owner, island_rect)
-	owner.crystallized_flame_visual_controller.reposition(owner)
-
-
-func position_braziers(
-	owner: Control,
-	island_rect: Rect2
-) -> void:
-	if owner.realm_layout == null:
-		return
-
-	owner.brazier_visual_controller.position_braziers(
-		owner.braziers,
-		owner.BRAZIER_STATS,
-		owner.realm_layout,
+	brazier_controller.position_braziers(
+		braziers,
+		brazier_stats,
+		realm_layout,
 		island_rect
 	)
+	crystal_controller.reposition(visual_parent)
