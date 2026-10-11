@@ -100,7 +100,10 @@ const BRAZIER_STATS: Array[String] = [
 
 func setup(game_state: GameState) -> void:
 	state = game_state
-	_setup_generator_layer()
+	generator_layer = generator_visual_renderer.setup_layer(
+		self,
+		generator_layer
+	)
 
 	scale = Vector2(
 		REALM_VISUAL_SCALE,
@@ -114,13 +117,6 @@ func setup(game_state: GameState) -> void:
 	_setup_realm_layout_overlay()
 
 	rebuild_realm(state.realm_layout)
-
-func _setup_generator_layer() -> void:
-	generator_layer = generator_visual_renderer.setup_layer(
-		self,
-		generator_layer
-	)
-
 
 func _setup_realm_layout_overlay() -> void:
 	realm_layout_overlay_renderer.name = "RealmLayoutOverlayRenderer"
