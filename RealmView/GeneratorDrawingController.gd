@@ -11,11 +11,17 @@ var standard_generator_drawer: StandardGeneratorDrawer = (
 
 
 func draw_generators(owner: RealmView, island_rect: Rect2) -> void:
+	owner.generator_hitboxes.clear()
+
 	if owner.state == null or owner.realm_layout == null:
+		# A missing state/layout must not leave old machines clickable or visible.
+		owner.generator_visibility_controller.update_visibility(
+			{},
+			owner.generator_sprites
+		)
 		return
 
 	var active_generators: Array = _collect_active_generators(owner.state)
-	owner.generator_hitboxes.clear()
 
 	var active_ids: Dictionary = {}
 	var machine_size: float = 20.0
