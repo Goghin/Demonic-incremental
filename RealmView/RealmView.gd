@@ -36,6 +36,7 @@ var realm_layout: Resource
 var realm_rebuild_controller: RealmRebuildController = RealmRebuildController.new()
 var realm_draw_controller: RealmDrawController = RealmDrawController.new()
 var realm_update_controller: RealmUpdateController = RealmUpdateController.new()
+var realm_scene_visual_controller: RealmSceneVisualController = RealmSceneVisualController.new()
 var realm_setup_controller: RealmSetupController = RealmSetupController.new()
 var realm_layout_geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
 var realm_resize_controller: RealmResizeController = RealmResizeController.new()
