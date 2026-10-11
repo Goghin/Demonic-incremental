@@ -631,25 +631,13 @@ func play_crystallization_event(
 
 		crystal.scale = Vector2.ZERO
 
-		_play_crystal_stream(
+		crystallization_stream_controller.play(
+			self,
 			forge_position,
 			target_position,
-			crystal
+			crystal,
+			CRYSTAL_BASE_SCALE
 		)
-
-
-func _play_crystal_stream(
-	from_position: Vector2,
-	target_position: Vector2,
-	crystal: CrystallizedFlame
-) -> void:
-	crystallization_stream_controller.play(
-		self,
-		from_position,
-		target_position,
-		crystal,
-		CRYSTAL_BASE_SCALE
-	)
 
 
 
