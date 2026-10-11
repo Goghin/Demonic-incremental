@@ -21,13 +21,13 @@ func draw_overlay(
 
 	for generator_id in generator_hitboxes:
 		var hitbox: Rect2 = generator_hitboxes[generator_id]
-		var is_selected: bool = selected_object == generator_id
-		var outline_color: Color = Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(1.0, 0.75, 0.20, 0.75)
+		var is_generator_selected: bool = selected_object == generator_id
+		var outline_color: Color = Color(1.0, 0.95, 0.55, 1.0) if is_generator_selected else Color(1.0, 0.75, 0.20, 0.75)
 		owner.draw_rect(
-			hitbox.grow(5.0 if is_selected else 3.0),
+			hitbox.grow(5.0 if is_generator_selected else 3.0),
 			outline_color,
 			false,
-			2.0 if is_selected else 1.0
+			2.0 if is_generator_selected else 1.0
 		)
 
 	for i in range(ash_piles.size()):
@@ -41,13 +41,13 @@ func draw_overlay(
 			Color(0.75, 0.75, 0.75, 0.2)
 		)
 		var pile_id: String = "ash_pile:" + str(i)
-		var is_selected: bool = selected_object == pile_id
+		var is_pile_selected: bool = selected_object == pile_id
 		owner.draw_circle(
 			pile.position,
-			14.0 if not is_selected else 18.0,
-			Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(0.85, 0.75, 0.55, 0.85),
+			14.0 if not is_pile_selected else 18.0,
+			Color(1.0, 0.95, 0.55, 1.0) if is_pile_selected else Color(0.85, 0.75, 0.55, 0.85),
 			false,
-			3.0 if is_selected else 2.0
+			3.0 if is_pile_selected else 2.0
 		)
 		owner.draw_string(
 			ThemeDB.fallback_font,
@@ -75,13 +75,13 @@ func draw_overlay(
 			Color(1.0, 0.75, 0.20, 0.15)
 		)
 		var brazier_id: String = "brazier:" + stat_name
-		var is_selected: bool = selected_object == brazier_id
+		var is_brazier_selected: bool = selected_object == brazier_id
 		owner.draw_circle(
 			brazier_position,
-			32.0 if not is_selected else 38.0,
-			Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(1.0, 0.75, 0.20, 0.75),
+			32.0 if not is_brazier_selected else 38.0,
+			Color(1.0, 0.95, 0.55, 1.0) if is_generator_selected else Color(1.0, 0.75, 0.20, 0.75),
 			false,
-			3.0 if is_selected else 2.0
+			3.0 if is_pile_selected else 2.0
 		)
 		owner.draw_line(
 			brazier_position + Vector2(-42, 0),
