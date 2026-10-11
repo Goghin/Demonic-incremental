@@ -1300,31 +1300,3 @@ func _update_atomic_friction_animation(delta: float) -> void:
 		sprite,
 		delta
 	)
-
-func _get_lava_mite_sprite() -> AnimatedSprite2D:
-	return generator_visual_renderer.get_lava_mite_sprite(
-		generator_layer,
-		generator_sprites
-	)
-
-
-func _get_matter_furnace_sprite() -> AnimatedSprite2D:
-	return generator_visual_renderer.get_matter_furnace_sprite(
-		generator_layer,
-		generator_sprites
-	)
-
-
-func _get_lava_mite_size_multiplier(level: int) -> float:
-	return generator_visual_renderer.get_lava_mite_size_multiplier(level)
-
-
-func _update_lava_mite_animation_speed(
-	animated_sprite: AnimatedSprite2D,
-	level: int
-) -> void:
-	generator_visual_renderer.update_lava_mite_animation_speed(
-		animated_sprite,
-		level
-	)
-
