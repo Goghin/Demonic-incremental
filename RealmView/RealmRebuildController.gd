@@ -45,7 +45,7 @@ func _build_realm_geometry(owner: Control) -> void:
 		island_rect,
 		owner.lava_realm_visual_controller,
 		owner.island_visual_controller,
-		Callable(owner, "_draw_generators"),
+		Callable(owner, "_draw_generators").bind(island_rect),
 		owner.ash_visual_controller,
 		owner.brazier_visual_controller,
 		owner.braziers,
