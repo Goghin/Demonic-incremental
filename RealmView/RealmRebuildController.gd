@@ -14,7 +14,15 @@ func rebuild(owner, new_layout: RealmLayout) -> void:
 
 	owner.realm_layout = new_layout
 
-	# Reset generator visual effects.
+	_reset_visual_state(owner)
+	_build_realm_geometry(owner)
+	_refresh_state_dependent_visuals(owner)
+
+	owner.queue_redraw()
+
+
+func _reset_visual_state(owner) -> void:
+	# Reset shared generator effects and animation state.
 	owner.generator_animation_controller.reset()
 	owner.forge_activity_visual_controller.reset()
 	owner.molecular_agitation_particle_controller.reset()
@@ -23,24 +31,27 @@ func rebuild(owner, new_layout: RealmLayout) -> void:
 	owner.lava_mite_visual_controller.reset(owner.generator_sprites)
 	owner.matter_furnace_visual_controller.reset(owner.generator_sprites)
 
-	# Reset generator rotations and cached drawing data.
+	# Clear rotation and drawing caches before rebuilding the layout.
 	owner.generator_visual_renderer.reset_generator_rotations(
 		owner.generator_sprites
 	)
 	owner.generator_visual_renderer.clear_cache()
 
-	# Build the realm's static visual elements.
+
+func _build_realm_geometry(owner) -> void:
+	var island_rect: Rect2 = owner._get_island_rect()
+
 	owner.island_visual_controller.update(
 		owner,
 		owner.realm_layout,
-		owner._get_island_rect()
+		island_rect
 	)
 	owner.ash_visual_controller.setup(owner, owner.realm_layout)
 
 	owner.lava_realm_visual_controller.create_network(
 		owner,
 		owner.realm_layout,
-		owner._get_island_rect(),
+		island_rect,
 		owner.LAVA_FLOW_SCENE,
 		owner.LAVA_FALL_SCENE
 	)
@@ -48,34 +59,37 @@ func rebuild(owner, new_layout: RealmLayout) -> void:
 		owner,
 		owner.state,
 		owner.realm_layout,
-		owner._get_island_rect(),
+		island_rect,
 		owner.LAVA_LAKE_SCENE
 	)
 	owner.lava_realm_visual_controller.update_positions(
 		owner.realm_layout,
-		owner._get_island_rect()
+		island_rect
 	)
 
 	owner._draw_generators()
+	_position_braziers(owner, island_rect)
 
-	# Force brazier positions to update immediately.
+
+func _position_braziers(owner, island_rect: Rect2) -> void:
+	# Force brazier positions to update immediately after a layout rebuild.
 	owner.brazier_visual_controller.position_braziers(
 		owner.braziers,
 		owner.BRAZIER_STATS,
 		owner.realm_layout,
-		owner._get_island_rect()
+		island_rect
 	)
 
+
+func _refresh_state_dependent_visuals(owner) -> void:
 	# Rebuild crystallized flame visuals after the realm is ready.
 	owner.crystallized_flame_visual_controller.reset_and_update(
 		owner,
 		owner.state
 	)
 
-	# Initialize the lava visuals from the current game state.
+	# Initialize lava visuals from the current game state.
 	owner.lava_realm_visual_controller.update_flow_states(
 		owner.state,
 		owner.realm_layout
 	)
-
-	owner.queue_redraw()
