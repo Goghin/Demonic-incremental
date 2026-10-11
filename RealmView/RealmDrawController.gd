@@ -17,11 +17,7 @@ func draw(owner: Control) -> void:
 	var ash: float = owner.state.get_resource_amount(
 		ResourceIds.ASH
 	)
-	owner.ash_visual_controller.update_piles(
-		owner.realm_layout,
-		owner._get_island_rect(),
-		ash
-	)
+	owner._update_ash_piles(ash)
 
 	owner.realm_background_renderer.draw_background(owner, center)
 
