@@ -19,10 +19,20 @@ func update_positions(
 		owner.realm_layout,
 		island_rect
 	)
+	position_braziers(owner, island_rect)
+	owner.crystallized_flame_visual_controller.reposition(owner)
+
+
+func position_braziers(
+	owner: Control,
+	island_rect: Rect2
+) -> void:
+	if owner.realm_layout == null:
+		return
+
 	owner.brazier_visual_controller.position_braziers(
 		owner.braziers,
 		owner.BRAZIER_STATS,
 		owner.realm_layout,
 		island_rect
 	)
-	owner.crystallized_flame_visual_controller.reposition(owner)

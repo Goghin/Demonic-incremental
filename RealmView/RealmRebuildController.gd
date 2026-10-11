@@ -55,15 +55,8 @@ func _place_generators_and_braziers(
 	island_rect: Rect2
 ) -> void:
 	owner._draw_generators()
-	_position_braziers(owner, island_rect)
-
-
-func _position_braziers(owner, island_rect: Rect2) -> void:
-	# Force brazier positions to update immediately after a layout rebuild.
-	owner.brazier_visual_controller.position_braziers(
-		owner.braziers,
-		owner.BRAZIER_STATS,
-		owner.realm_layout,
+	owner.realm_layout_visual_controller.position_braziers(
+		owner,
 		island_rect
 	)
 
