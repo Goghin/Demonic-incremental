@@ -82,6 +82,7 @@ var brazier_visual_controller: BrazierVisualController = BrazierVisualController
 var island_visual_controller: IslandVisualController = IslandVisualController.new()
 var realm_layout_overlay_renderer: RealmLayoutOverlayRenderer = RealmLayoutOverlayRenderer.new()
 var realm_layout_debug_controller: RealmLayoutDebugController = RealmLayoutDebugController.new()
+var realm_layout_editor_controller: RealmLayoutEditorController = RealmLayoutEditorController.new()
 
 const BRAZIER_SCENE = preload(
 	"res://RealmView/Brazier.tscn"
@@ -372,70 +373,18 @@ func _input(event: InputEvent) -> void:
 
 
 func _start_layout_drag(mouse_position: Vector2) -> void:
-	# ------------------------------------------------------------
-	# Ash piles
-	# ------------------------------------------------------------
+	var drag_result: Dictionary = realm_layout_editor_controller.find_drag_target(
+		mouse_position,
+		ash_piles,
+		braziers,
+		BRAZIER_STATS,
+		generator_hitboxes,
+		dragging_object,
+		drag_offset
+	)
 
-	for i in range(ash_piles.size()):
-		var pile: Sprite2D = ash_piles[i]
-		var pile_rect: Rect2 = Rect2(
-			pile.position - Vector2(16.0, 16.0),
-			Vector2(32.0, 32.0)
-		)
-
-		if pile_rect.has_point(mouse_position):
-			dragging_object = "ash_pile:" + str(i)
-			drag_offset = mouse_position - pile.position
-			return
-
-	# ------------------------------------------------------------
-	# Braziers
-	# ------------------------------------------------------------
-
-	for stat_name in BRAZIER_STATS:
-		if not braziers.has(stat_name):
-			continue
-
-		var brazier: Control = braziers[stat_name]
-
-		var brazier_rect: Rect2 = Rect2(
-			brazier.position - Vector2(32, 32),
-			Vector2(64, 64)
-		)
-
-		if brazier_rect.has_point(mouse_position):
-			dragging_object = "brazier:" + stat_name
-
-			drag_offset = (
-				mouse_position -
-				brazier.position
-			)
-
-			return
-
-	# ------------------------------------------------------------
-	# Generators
-	# ------------------------------------------------------------
-
-	for generator_id in generator_hitboxes:
-		var hitbox: Rect2 = generator_hitboxes[
-			generator_id
-		]
-
-		if hitbox.has_point(mouse_position):
-			dragging_object = generator_id
-
-			var generator_position: Vector2 = (
-				hitbox.position +
-				hitbox.size * 0.5
-			)
-
-			drag_offset = (
-				mouse_position -
-				generator_position
-			)
-
-			return
+	dragging_object = drag_result["object"]
+	drag_offset = drag_result["offset"]
 
 
 func _draw() -> void:
