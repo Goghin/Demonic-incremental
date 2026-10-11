@@ -88,7 +88,12 @@ func _draw_generator(
 		size_multiplier = 1.8
 
 	if _draw_special_generator(
-		owner,
+		owner.lava_mite_visual_controller,
+		owner.matter_furnace_visual_controller,
+		owner.generator_visual_renderer,
+		owner.generator_layer,
+		owner.generator_sprites,
+		owner.generator_hitboxes,
 		generator,
 		generator_id,
 		generator_position,
@@ -115,7 +120,12 @@ func _draw_generator(
 
 
 func _draw_special_generator(
-	owner: Control,
+	lava_mite_controller: LavaMiteVisualController,
+	matter_furnace_controller: MatterFurnaceVisualController,
+	visual_renderer: GeneratorVisualRenderer,
+	generator_layer: Node2D,
+	generator_sprites: Dictionary,
+	generator_hitboxes: Dictionary,
 	generator: Generator,
 	generator_id: String,
 	generator_position: Vector2,
@@ -123,27 +133,27 @@ func _draw_special_generator(
 	size_multiplier: float
 ) -> bool:
 	if generator_id == "lava_mite_colony":
-		owner.lava_mite_visual_controller.update(
-			owner.generator_visual_renderer,
-			owner.generator_layer,
-			owner.generator_sprites,
+		lava_mite_controller.update(
+			visual_renderer,
+			generator_layer,
+			generator_sprites,
 			generator,
 			generator_position,
 			machine_size,
 			size_multiplier,
-			owner.generator_hitboxes
+			generator_hitboxes
 		)
 		return true
 
 	if generator_id == "matter_furnace":
-		owner.matter_furnace_visual_controller.update(
-			owner.generator_visual_renderer,
-			owner.generator_layer,
-			owner.generator_sprites,
+		matter_furnace_controller.update(
+			visual_renderer,
+			generator_layer,
+			generator_sprites,
 			generator,
 			generator_position,
 			machine_size,
-			owner.generator_hitboxes
+			generator_hitboxes
 		)
 		return true
 
