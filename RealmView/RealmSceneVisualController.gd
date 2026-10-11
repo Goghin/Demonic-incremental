@@ -14,18 +14,6 @@ func update(owner: Control) -> void:
 	_update_ash_contamination(owner)
 
 
-func _update_realm_scene_visuals(owner: Control) -> void:
-	if owner.realm_layout == null:
-		return
-
-	var island_rect: Rect2 = owner._get_island_rect()
-
-	_update_ash_visuals(owner, island_rect)
-	_update_braziers(owner, island_rect)
-	_update_forge_visuals(owner)
-	_update_ash_contamination(owner)
-
-
 func _update_ash_visuals(
 	owner: Control,
 	island_rect: Rect2

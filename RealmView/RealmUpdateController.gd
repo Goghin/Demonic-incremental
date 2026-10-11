@@ -13,7 +13,7 @@ func update(owner: Control, delta: float) -> void:
 	# middle overlays, the independent agitation particles, then late motion.
 	_update_early_animations(owner, delta)
 	_update_realm_environment(owner)
-	_update_realm_scene_visuals(owner)
+	owner.realm_scene_visual_controller.update(owner)
 	_update_middle_animations(owner)
 	_update_molecular_agitation(owner)
 	_update_late_animations(owner, delta)
@@ -51,8 +51,6 @@ func _update_realm_environment(owner: Control) -> void:
 		owner.realm_layout
 	)
 
-
-	owner.realm_scene_visual_controller.update(owner)
 
 func _update_middle_animations(owner: Control) -> void:
 	owner.generator_animation_controller.update_middle(
