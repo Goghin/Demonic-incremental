@@ -50,8 +50,17 @@ func position_braziers(
 	realm_layout: RealmLayout,
 	island_rect: Rect2
 ) -> void:
+	if realm_layout == null:
+		return
+
 	for stat_name in brazier_stats:
 		if not braziers.has(stat_name):
+			continue
+		if not realm_layout.brazier_layout_positions.has(stat_name):
+			continue
+
+		var brazier: Control = braziers[stat_name]
+		if not is_instance_valid(brazier):
 			continue
 
 		var normalized_position: Vector2 = (
@@ -59,8 +68,6 @@ func position_braziers(
 				stat_name
 			]
 		)
-
-		var brazier: Control = braziers[stat_name]
 
 		brazier.position = (
 			island_rect.position +
