@@ -34,6 +34,7 @@ const ASH_VISUAL_RADIUS: float = 190.0
 var realm_layout: Resource
 var realm_rebuild_controller: RealmRebuildController = RealmRebuildController.new()
 var realm_draw_controller: RealmDrawController = RealmDrawController.new()
+var realm_update_controller: RealmUpdateController = RealmUpdateController.new()
 
 const LAVA_LAKE_SCENE = preload(
 	"res://RealmView/LavaLake.tscn"
@@ -106,49 +107,7 @@ func update_flame_visuals() -> void:
 
 
 func _process(_delta: float) -> void:
-	if state == null:
-		return
-
-	crystallized_flame_visual_controller.update_if_needed(
-		self,
-		state
-	)
-
-	forge_activity_visual_controller.advance(_delta)
-	generator_animation_controller.update_phase(
-		&"early",
-		self,
-		state,
-		generator_sprites,
-		_delta
-	)
-	lava_realm_visual_controller.update_lakes(
-		state,
-		realm_layout
-	)
-	lava_realm_visual_controller.update_flow_states(
-		state,
-		realm_layout
-	)
-	generator_animation_controller.update_phase(
-		&"middle",
-		self,
-		state,
-		generator_sprites,
-		_delta
-	)
-	molecular_agitation_particle_controller.update(
-		state.generators.get("thermal_furnace"),
-		_get_generator_position("thermal_furnace")
-	)
-	generator_animation_controller.update_phase(
-		&"late",
-		self,
-		state,
-		generator_sprites,
-		_delta
-	)
-	queue_redraw()
+	realm_update_controller.update(self, _delta)
 
 func _input(event: InputEvent) -> void:
 	if state == null or realm_layout == null:
