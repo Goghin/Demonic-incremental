@@ -49,6 +49,7 @@ const REALM_VISUAL_SCALE: float = 1.0
 const REALM_VISUAL_OFFSET: Vector2 = Vector2(0.0, 0.0)
 const ISLAND_BASE_SIZE: Vector2 = Vector2(418.0, 156.0)
 const ISLAND_SCALE: float = 2.0
+const ISLAND_CENTER_RATIO: Vector2 = Vector2(0.68, 0.66)
 
 
 var realm_layout: Resource
@@ -378,7 +379,7 @@ func _draw() -> void:
 	if state == null:
 		return
 
-	var center: Vector2 = size * Vector2(0.68, 0.66)
+	var center: Vector2 = size * ISLAND_CENTER_RATIO
 
 	brazier_visual_controller.update_stat_values(
 		braziers,
@@ -448,7 +449,7 @@ func _draw() -> void:
 
 
 func _get_island_rect() -> Rect2:
-	var center: Vector2 = size * Vector2(0.68, 0.66)
+	var center: Vector2 = size * ISLAND_CENTER_RATIO
 	var island_size: Vector2 = ISLAND_BASE_SIZE * ISLAND_SCALE
 
 	return Rect2(
