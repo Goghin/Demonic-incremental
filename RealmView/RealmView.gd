@@ -114,21 +114,7 @@ func _get_island_rect() -> Rect2:
 	)
 
 func _draw_generators(island_rect: Rect2) -> void:
-	generator_drawing_controller.draw_generators(
-		self,
-		state,
-		realm_layout,
-		size,
-		island_rect,
-		generator_hitboxes,
-		generator_visibility_controller,
-		generator_sprites,
-		generator_visual_renderer,
-		generator_layer,
-		lava_mite_visual_controller,
-		matter_furnace_visual_controller,
-		molecular_agitation_particle_controller
-	)
+	generator_drawing_controller.draw_generators(self, island_rect)
 
 func _get_generator_position(
 	generator_id: String
