@@ -34,7 +34,7 @@ static func format(value: float) -> String:
 		suffix_index += 1
 
 		if suffix_index >= suffixes.size():
-			return "%.3e" % value
+			return String.num_scientific(value)
 
 	return _format_scaled(
 		scaled_value,
