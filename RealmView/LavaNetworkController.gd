@@ -31,6 +31,10 @@ func create_network(
 		)
 
 		if normalized_points.is_empty():
+			# Keep array indices aligned with layout definitions because flow
+			# dependencies refer to flows by their definition index.
+			lava_flows.append(null)
+			lava_falls.append(null)
 			continue
 
 		var flow: LavaFlow = flow_scene.instantiate()
