@@ -540,44 +540,15 @@ func play_crystallization_event(
 	if state == null:
 		return
 
-	if crystals_created <= 0.0:
-		return
-
-	var forge_position: Vector2 = (
-		_get_generator_position(
-			"infernal_forge"
-		)
+	crystallization_stream_controller.play_crystallization_event(
+		self,
+		crystals_created,
+		_get_generator_position("infernal_forge"),
+		crystallized_flames,
+		crystallized_flame_values,
+		state.get_resource_amount(ResourceIds.CRYSTALIZED_FLAME),
+		crystal_renderer
 	)
-
-	var old_count: int = (
-		crystallized_flames.size()
-	)
-
-	update_flame_visuals()
-
-	var new_count: int = (
-		crystallized_flames.size()
-	)
-
-	if new_count <= old_count:
-		return
-
-	for i in range(old_count, new_count):
-		var crystal: CrystallizedFlame = (
-			crystallized_flames[i]
-		)
-
-		var target_position: Vector2 = (
-			crystal.base_position
-		)
-
-		crystallization_stream_controller.play(
-			self,
-			forge_position,
-			target_position,
-			crystal,
-			CrystalRenderer.CRYSTAL_BASE_SCALE
-		)
 
 # ------------------------------------------------------------
 # LAVA NETWORK
