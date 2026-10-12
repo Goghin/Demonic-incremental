@@ -441,6 +441,8 @@ func _deselect_generator() -> void:
 func _clear_generator_focus() -> void:
 	selected_generator_id = ""
 	selected_upgrade_generator_id = ""
+	if generator_upgrade_tree != null:
+		generator_upgrade_tree.hide()
 
 	if realm_view != null:
 		realm_view.set_selected_generator("")
@@ -571,12 +573,16 @@ func _update_upgrade_view() -> void:
 	if selected_upgrade_generator_id == "":
 		general_container.visible = true
 		generator_container.visible = false
+		if generator_upgrade_tree != null:
+			generator_upgrade_tree.hide()
 		return
 
 	general_container.visible = false
-	generator_container.visible = true
+	generator_container.visible = false
+	$UpgradeScroll.hide()
 
 	if generator_upgrade_tree != null:
+		generator_upgrade_tree.show()
 		generator_upgrade_tree.setup(
 			state,
 			simulation,
@@ -978,6 +984,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		$OptionsPanel.visible
 		or $StatsPanel.visible
 		or $UpgradeScroll.visible
+		or (generator_upgrade_tree != null and generator_upgrade_tree.visible)
 		or $PrestigePanel.visible
 		or $OfflineResultsPanel.visible
 	):
@@ -1374,6 +1381,8 @@ func _on_upgrades_button_pressed() -> void:
 func _on_prestige_requested() -> void:
 	$StatsPanel.hide()
 	$UpgradeScroll.hide()
+	if generator_upgrade_tree != null:
+		generator_upgrade_tree.hide()
 	$GeneratorScroll.hide()
 	$PrestigePanel.hide()
 
@@ -1459,11 +1468,12 @@ func _on_generator_upgrades_requested(
 
 	# Clicking UPGRADES in list mode enters focused mode for that generator.
 	if (
-		$UpgradeScroll.visible
+		generator_upgrade_tree != null
+		and generator_upgrade_tree.visible
 		and selected_upgrade_generator_id == generator_id
 		and not generator_list_mode
 	):
-		$UpgradeScroll.hide()
+		generator_upgrade_tree.hide()
 		selected_upgrade_generator_id = ""
 		return
 
@@ -1472,7 +1482,7 @@ func _on_generator_upgrades_requested(
 	_set_selected_generator(generator_id)
 
 	$GeneratorScroll.show()
-	$UpgradeScroll.show()
+	$UpgradeScroll.hide()
 	selected_upgrade_generator_id = generator_id
 
 	_update_upgrade_view()
@@ -1489,9 +1499,10 @@ func _position_generator_upgrade_tree() -> void:
 		selected_panel.custom_minimum_size.y
 	)
 
-	$UpgradeScroll.offset_left = 12.0
-	$UpgradeScroll.offset_top = $GeneratorScroll.offset_top + panel_height + 8.0
-	$UpgradeScroll.offset_right = 462.0
+	generator_upgrade_tree.offset_left = 12.0
+	generator_upgrade_tree.offset_top = $GeneratorScroll.offset_top + panel_height + 8.0
+	generator_upgrade_tree.offset_right = 462.0
+	generator_upgrade_tree.offset_bottom = 590.0
 
 func _create_generator_upgrade_tree() -> void:
 
@@ -1502,9 +1513,8 @@ func _create_generator_upgrade_tree() -> void:
 		generator_upgrade_tree_scene.instantiate()
 	)
 
-	$UpgradeScroll/UpgradeContent/GeneratorUpgradeContainer.add_child(
-		generator_upgrade_tree
-	)
+	add_child(generator_upgrade_tree)
+	generator_upgrade_tree.hide()
 	generator_upgrade_tree.automation_settings_changed.connect(
 		_on_upgrade_automation_settings_changed
 	)

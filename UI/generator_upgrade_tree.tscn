@@ -3,37 +3,43 @@
 [ext_resource type="Script" uid="uid://drayy4pqy3onu" path="res://UI/generator_upgrade_tree.gd" id="1_3apyc"]
 
 [node name="GeneratorUpgradeTree" type="Control" unique_id=435035658]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
+offset_right = 450.0
+offset_bottom = 360.0
 script = ExtResource("1_3apyc")
 
-[node name="TitleLabel" type="Label" parent="." unique_id=512287832]
+[node name="Header" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+offset_right = 450.0
+offset_bottom = 25.0
+theme_override_constants/separation = 6
+
+[node name="TitleLabel" type="Label" parent="Header" unique_id=512287832]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
 text = "TITLE"
 
-[node name="AutomationToggleButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 0.0
-offset_top = 27.0
-offset_right = 170.0
-offset_bottom = 56.0
+[node name="AutomationToggleButton" type="Button" parent="Header"]
+custom_minimum_size = Vector2(160, 24)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 11
 text = "UPGRADE AUTO: OFF"
 visible = false
 
-[node name="TreeArea" type="Control" parent="." unique_id=1316874414]
+[node name="TreeScroll" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 62.0
-offset_bottom = 30.0
+offset_top = 29.0
 grow_horizontal = 2
 grow_vertical = 2
+horizontal_scroll_mode = 0
 
-[connection signal="pressed" from="AutomationToggleButton" to="." method="_on_automation_toggle_button_pressed"]
+[node name="TreeArea" type="Control" parent="TreeScroll" unique_id=1316874414]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="Header/AutomationToggleButton" to="." method="_on_automation_toggle_button_pressed"]

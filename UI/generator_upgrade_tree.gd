@@ -69,7 +69,7 @@ func _rebuild() -> void:
 	if generator == null:
 		return
 
-	$TitleLabel.text = (
+	$Header/TitleLabel.text = (
 		generator.definition.display_name
 		+ " Upgrades"
 	)
@@ -105,7 +105,7 @@ func _create_upgrade_nodes() -> void:
 		panel.custom_minimum_size = UPGRADE_SIZE
 		panel.size = UPGRADE_SIZE
 
-		$TreeArea.add_child(panel)
+		$TreeScroll/TreeArea.add_child(panel)
 
 		var position: Vector2 = layout.positions[upgrade_id]
 
@@ -131,10 +131,8 @@ func _create_upgrade_nodes() -> void:
 			position.y + UPGRADE_SIZE.y
 		)
 
-	# Give the tree enough height for every node.
-	$TreeArea.custom_minimum_size.y = max_y + 20.0
-	custom_minimum_size.y = max_y + 82.0
-	size.y = max_y + 82.0
+	# The inner scroll area owns the tree height; the header stays fixed.
+	$TreeScroll/TreeArea.custom_minimum_size.y = max_y + 20.0
 
 
 func _update_automation_button() -> void:
@@ -143,13 +141,13 @@ func _update_automation_button() -> void:
 
 	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
 	var unlocked: bool = manager.is_automation_unlocked(generator_id)
-	$AutomationToggleButton.visible = unlocked
+	$Header/AutomationToggleButton.visible = unlocked
 
 	if not unlocked:
 		return
 
 	var enabled: bool = manager.is_enabled(generator_id)
-	$AutomationToggleButton.text = (
+	$Header/AutomationToggleButton.text = (
 		"UPGRADE AUTO: ON"
 		if enabled
 		else "UPGRADE AUTO: OFF"
@@ -166,15 +164,15 @@ func _update_automation_button() -> void:
 			if enabled
 			else Color(0.90, 0.52, 0.42, 1.0)
 		)
-		$AutomationToggleButton.add_theme_stylebox_override(
+		$Header/AutomationToggleButton.add_theme_stylebox_override(
 			"normal",
 			_create_toggle_style(background, border)
 		)
-		$AutomationToggleButton.add_theme_stylebox_override(
+		$Header/AutomationToggleButton.add_theme_stylebox_override(
 			"hover",
 			_create_toggle_style(background.lightened(0.12), border.lightened(0.12))
 		)
-		$AutomationToggleButton.add_theme_stylebox_override(
+		$Header/AutomationToggleButton.add_theme_stylebox_override(
 			"pressed",
 			_create_toggle_style(background.darkened(0.10), border)
 		)
@@ -183,9 +181,9 @@ func _update_automation_button() -> void:
 
 
 func _setup_automation_button_style() -> void:
-	$AutomationToggleButton.custom_minimum_size = Vector2(170, 28)
-	$AutomationToggleButton.add_theme_font_size_override("font_size", 12)
-	$AutomationToggleButton.focus_mode = Control.FOCUS_NONE
+	$Header/AutomationToggleButton.custom_minimum_size = Vector2(160, 24)
+	$Header/AutomationToggleButton.add_theme_font_size_override("font_size", 11)
+	$Header/AutomationToggleButton.focus_mode = Control.FOCUS_NONE
 
 
 func _create_toggle_style(background: Color, border: Color) -> StyleBoxFlat:
@@ -221,7 +219,7 @@ func _on_upgrade_purchase_succeeded() -> void:
 
 func _clear_tree() -> void:
 
-	for child in $TreeArea.get_children():
+	for child in $TreeScroll/TreeArea.get_children():
 		child.queue_free()
 
 func _get_layout() -> GeneratorUpgradeLayout:
@@ -247,11 +245,11 @@ func _create_connection_renderer() -> void:
 
 	connections.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	$TreeArea.add_child(
+	$TreeScroll/TreeArea.add_child(
 		connections
 	)
 
-	$TreeArea.move_child(
+	$TreeScroll/TreeArea.move_child(
 		connections,
 		0
 	)
