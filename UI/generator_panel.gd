@@ -79,7 +79,7 @@ func _process(_delta: float) -> void:
 	update_operation_mode_ui(generator)
 	
 	if not generator.unlocked:
-		$HBoxContainer/VBoxContainer/LevelLabel.text = "Locked"
+		$HBoxContainer/VBoxContainer/Header/LevelLabel.text = "Locked"
 		$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.text = ""
 		$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.disabled = true
 		$HBoxContainer/VBoxContainer/ProgressBar.visible = false
@@ -89,11 +89,11 @@ func _process(_delta: float) -> void:
 		$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = true
 		return
 	
-	$HBoxContainer/VBoxContainer/GeneratorLabel.text = (
+	$HBoxContainer/VBoxContainer/Header/GeneratorLabel.text = (
 		generator.definition.display_name
 	)
 	
-	$HBoxContainer/VBoxContainer/LevelLabel.text = (
+	$HBoxContainer/VBoxContainer/Header/LevelLabel.text = (
 		"Level: %d"
 		% generator.level
 	)
