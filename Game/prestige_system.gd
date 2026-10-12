@@ -88,6 +88,8 @@ func smash(
 	state.realm_layout = RealmLayoutRegistry.create_layout(
 		state.realm_layout_id
 	)
+	# Palette changes only when a new realm is created by Smash.
+	state._generate_lava_palette()
 
 	state.eternal_flame_state.total_crystallized_flame += (
 		state.get_resource_amount(
