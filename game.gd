@@ -4,6 +4,8 @@ extends Control
 
 var is_loading: bool = true
 var visual_effects_enabled: bool = true
+var ui_sounds_enabled: bool = true
+var ui_click_player: AudioStreamPlayer
 
 var state: GameState
 var simulation: Simulation
@@ -43,6 +45,8 @@ var realm_view: RealmView
 func _ready() -> void:
 	_load_visual_settings()
 	$OptionsPanel/OptionsContent/VisualEffectsCheckBox.set_pressed_no_signal(visual_effects_enabled)
+	$OptionsPanel/OptionsContent/UISoundsCheckBox.set_pressed_no_signal(ui_sounds_enabled)
+	_setup_ui_audio()
 	loading_screen.set_status(
 		"Awakening the realm..."
 	)
@@ -753,6 +757,65 @@ func _on_visual_effects_toggled(enabled: bool) -> void:
 		realm_view.set_visual_effects_enabled(enabled)
 
 
+func _on_ui_sounds_toggled(enabled: bool) -> void:
+	ui_sounds_enabled = enabled
+	_save_ui_sound_settings()
+
+
+func _input(event: InputEvent) -> void:
+	if not ui_sounds_enabled or not event is InputEventMouseButton:
+		return
+
+	var mouse_event := event as InputEventMouseButton
+	if mouse_event.button_index != MOUSE_BUTTON_LEFT or not mouse_event.pressed:
+		return
+
+	var hovered: Control = get_viewport().gui_get_hovered_control()
+	while hovered != null:
+		if hovered is BaseButton:
+			_play_ui_click()
+			return
+		hovered = hovered.get_parent() as Control
+
+
+func _setup_ui_audio() -> void:
+	ui_click_player = AudioStreamPlayer.new()
+	ui_click_player.name = "UIClickPlayer"
+	ui_click_player.bus = "Master"
+	ui_click_player.stream = _create_ui_click_stream()
+	add_child(ui_click_player)
+
+
+func _create_ui_click_stream() -> AudioStreamWAV:
+	var sample_rate: int = 22050
+	var sample_count: int = 1102
+	var samples := PackedByteArray()
+	samples.resize(sample_count * 2)
+
+	for i in range(sample_count):
+		var progress: float = float(i) / float(sample_count)
+		var frequency: float = lerp(1450.0, 620.0, progress)
+		var envelope: float = pow(1.0 - progress, 3.0)
+		var sample: int = int(sin(TAU * frequency * float(i) / float(sample_rate)) * envelope * 5200.0)
+		if sample < 0:
+			sample += 65536
+		samples[i * 2] = sample & 0xFF
+		samples[i * 2 + 1] = (sample >> 8) & 0xFF
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.stereo = false
+	stream.data = samples
+	return stream
+
+
+func _play_ui_click() -> void:
+	if ui_click_player == null or not ui_sounds_enabled:
+		return
+	ui_click_player.play()
+
+
 func _load_visual_settings() -> void:
 	var config := ConfigFile.new()
 	var error: Error = config.load("user://settings.cfg")
@@ -762,10 +825,16 @@ func _load_visual_settings() -> void:
 			"animated_visual_effects",
 			true
 		)
+		ui_sounds_enabled = config.get_value(
+			"audio",
+			"ui_sounds_enabled",
+			true
+		)
 
 
 func _save_visual_settings() -> void:
 	var config := ConfigFile.new()
+	config.load("user://settings.cfg")
 	config.set_value(
 		"graphics",
 		"animated_visual_effects",
@@ -774,6 +843,19 @@ func _save_visual_settings() -> void:
 	var error: Error = config.save("user://settings.cfg")
 	if error != OK:
 		push_warning("Could not save visual settings: %s" % error)
+
+
+func _save_ui_sound_settings() -> void:
+	var config := ConfigFile.new()
+	config.load("user://settings.cfg")
+	config.set_value(
+		"audio",
+		"ui_sounds_enabled",
+		ui_sounds_enabled
+	)
+	var error: Error = config.save("user://settings.cfg")
+	if error != OK:
+		push_warning("Could not save audio settings: %s" % error)
 
 
 func _on_rub_button_pressed() -> void:
