@@ -1444,27 +1444,43 @@ func _on_generator_upgrades_requested(
 	) -> void:
 
 	$OptionsPanel.hide()
-	$StatsPanel.visible = false
-	$PrestigePanel.visible = false
+	$StatsPanel.hide()
+	$PrestigePanel.hide()
 
-	# If the requested generator tree is already open,
-	# close the upgrade panel.
+	# Clicking UPGRADES in list mode enters focused mode for that generator.
 	if (
 		$UpgradeScroll.visible
 		and selected_upgrade_generator_id == generator_id
+		and not generator_list_mode
 	):
-		$UpgradeScroll.visible = false
+		$UpgradeScroll.hide()
 		selected_upgrade_generator_id = ""
-
 		return
 
-	# In focused mode, keep the selected generator panel beside its tree.
-	# In list mode, hide the whole list to avoid showing every generator.
-	$GeneratorScroll.visible = not generator_list_mode
+	generator_list_mode = false
+	$GeneratorsButton.text = "GENERATORS"
+	_set_selected_generator(generator_id)
+
+	$GeneratorScroll.show()
 	$UpgradeScroll.show()
 	selected_upgrade_generator_id = generator_id
 
 	_update_upgrade_view()
+	_position_generator_upgrade_tree()
+
+
+func _position_generator_upgrade_tree() -> void:
+	var selected_panel := _get_generator_panel(selected_generator_id)
+	if selected_panel == null:
+		return
+
+	var panel_height: float = maxf(
+		selected_panel.size.y,
+		selected_panel.custom_minimum_size.y
+	)
+
+	$UpgradeScroll.offset_left = 12.0
+	$UpgradeScroll.offset_top = $GeneratorScroll.offset_top + panel_height + 8.0
 
 func _create_generator_upgrade_tree() -> void:
 
