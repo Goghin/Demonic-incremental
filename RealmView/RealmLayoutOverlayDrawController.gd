@@ -118,7 +118,8 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 		"Ctrl + click a flow segment: insert point",
 		"Delete / Backspace: remove selected flow point",
 		"Selected flow endpoint: edit waterfall",
-		"[ / ]: waterfall width     , / .: waterfall length",
+		"Hold Left/Right: waterfall width",
+		"Hold Up/Down: waterfall length",
 		"Shift + click: print normalized point",
 		"F2: close editor"
 	]
