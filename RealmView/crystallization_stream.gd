@@ -15,6 +15,7 @@ var particles: Array = []
 
 var curve_strength: float = 18.0
 var pulse_phase: float = 0.0
+var burst_mode: bool = false
 
 
 func setup(
@@ -22,6 +23,7 @@ func setup(
 	to: Vector2
 	) -> void:
 
+	burst_mode = false
 	start_position = from
 	target_position = to
 
@@ -46,6 +48,28 @@ func setup(
 			"side": randf_range(-1.0, 1.0),
 			"size": randf_range(1.5, 4.0),
 			"speed": randf_range(0.8, 1.25),
+			"phase": randf_range(0.0, TAU),
+			"angle": randf_range(0.0, TAU),
+			"burst_speed": randf_range(55.0, 145.0)
+		})
+
+	queue_redraw()
+
+
+func setup_burst(at_position: Vector2) -> void:
+	burst_mode = true
+	start_position = at_position
+	target_position = at_position
+	elapsed = 0.0
+	duration = 0.7
+	active = true
+	particles.clear()
+
+	for i in range(42):
+		particles.append({
+			"angle": randf_range(0.0, TAU),
+			"burst_speed": randf_range(65.0, 175.0),
+			"size": randf_range(1.2, 3.8),
 			"phase": randf_range(0.0, TAU)
 		})
 
@@ -108,6 +132,10 @@ func _get_stream_position(progress: float) -> Vector2:
 func _draw() -> void:
 
 	if not active:
+		return
+
+	if burst_mode:
+		_draw_burst()
 		return
 
 	var progress := elapsed / duration
@@ -345,3 +373,36 @@ func _draw() -> void:
 				0.45 * flash
 			)
 		)
+
+
+
+func _draw_burst() -> void:
+	var progress: float = clampf(elapsed / duration, 0.0, 1.0)
+	var fade: float = 1.0 - progress
+	var pulse: float = 1.0 + sin(progress * PI) * 0.45
+
+	for particle in particles:
+		var angle: float = float(particle["angle"])
+		var direction := Vector2(cos(angle), sin(angle))
+		var distance: float = float(particle["burst_speed"]) * elapsed
+		var wobble: float = sin(elapsed * 24.0 + float(particle["phase"])) * 3.0
+		var position: Vector2 = start_position + direction * distance
+		position += direction.rotated(PI * 0.5) * wobble
+		var size: float = float(particle["size"]) * fade
+
+		if size <= 0.0:
+			continue
+
+		draw_line(
+			position - direction * size * 2.4,
+			position,
+			Color(1.0, 0.28, 0.02, 0.65 * fade),
+			maxf(size * 1.2, 0.7),
+			true
+		)
+		draw_circle(position, size * 1.7, Color(1.0, 0.25, 0.01, 0.18 * fade))
+		draw_circle(position, size, Color(1.0, 0.68, 0.12, 0.9 * fade))
+		draw_circle(position, size * 0.42, Color(1.0, 0.96, 0.72, fade))
+
+	draw_circle(start_position, 12.0 * pulse * fade, Color(1.0, 0.28, 0.02, 0.2 * fade))
+	draw_circle(start_position, 5.0 * pulse * fade, Color(1.0, 0.72, 0.18, 0.8 * fade))
