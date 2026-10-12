@@ -153,6 +153,31 @@ func set_selected_generator(generator_id: String) -> void:
 func _draw() -> void:
 	realm_draw_controller.draw(self)
 
+	if selected_generator_id == "" or realm_layout == null:
+		return
+
+	var selected_position: Vector2 = _get_generator_position(selected_generator_id)
+	draw_arc(
+		selected_position,
+		30.0,
+		0.0,
+		TAU,
+		40,
+		Color(1.0, 0.48, 0.16, 0.95),
+		3.0,
+		true
+	)
+	draw_arc(
+		selected_position,
+		35.0,
+		0.0,
+		TAU,
+		40,
+		Color(1.0, 0.48, 0.16, 0.35),
+		1.0,
+		true
+	)
+
 func _get_island_rect() -> Rect2:
 	return realm_layout_geometry_controller.get_island_rect(
 		size,

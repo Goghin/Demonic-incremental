@@ -169,6 +169,14 @@ offset_right = 489.0
 offset_bottom = 644.0
 text = "PRESTIGE"
 
+[node name="GeneratorsButton" type="Button" parent="." unique_id=123456790]
+layout_mode = 0
+offset_left = 492.0
+offset_top = 601.0
+offset_right = 612.0
+offset_bottom = 644.0
+text = "GENERATORS"
+
 [node name="UpgradeInfoPopup" parent="." unique_id=1574030057 instance=ExtResource("4_fc0e3")]
 visible = false
 z_index = 55
@@ -196,3 +204,4 @@ layout_mode = 1
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="StatsButton" to="." method="_on_stats_button_pressed"]
 [connection signal="pressed" from="PrestigeButton" to="." method="_on_prestige_button_pressed"]
+[connection signal="pressed" from="GeneratorsButton" to="." method="_on_generators_button_pressed"]

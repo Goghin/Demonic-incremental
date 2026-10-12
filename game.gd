@@ -42,6 +42,7 @@ var upgrade_panels: Dictionary = {}
 
 var selected_upgrade_generator_id: String = ""
 var selected_generator_id: String = ""
+var generator_list_mode: bool = false
 
 var effects_flow: HFlowContainer
 var prestige_animation: PrestigeAnimation
@@ -376,6 +377,7 @@ func _create_generator_panel(
 	generator_panel.set_selected(
 		generator_id == selected_generator_id
 	)
+	generator_panel.visible = generator_list_mode or generator_id == selected_generator_id
 
 
 
@@ -415,6 +417,10 @@ func _set_selected_generator(generator_id: String) -> void:
 	for child in generator_container.get_children():
 		if child is GeneratorPanel:
 			child.set_selected(child.generator_id == selected_generator_id)
+			child.visible = generator_list_mode or child.generator_id == selected_generator_id
+
+	if not generator_list_mode:
+		$GeneratorScroll.scroll_vertical = 0
 
 
 # ============================================================
@@ -755,10 +761,11 @@ func _on_generator_unlocked(
 
 	_play_ui_unlock()
 
-	# Add the newly unlocked generator.
+	# Add the newly unlocked generator without changing the current selection.
 	_create_generator_panel(
 		generator_id
 	)
+	_refresh_generator_panel_visibility()
 
 	# Add all upgrades that become visible because
 	# this generator is now unlocked.
@@ -825,6 +832,36 @@ func _process(
 # BUTTONS
 # ============================================================
 
+func _refresh_generator_panel_visibility() -> void:
+	var generator_container: Node = $GeneratorScroll/GeneratorContainer
+	var selected_panel: GeneratorPanel
+
+	for child in generator_container.get_children():
+		if not child is GeneratorPanel:
+			continue
+
+		child.visible = generator_list_mode or child.generator_id == selected_generator_id
+		child.set_selected(child.generator_id == selected_generator_id)
+
+		if child.generator_id == selected_generator_id:
+			selected_panel = child
+
+	if generator_list_mode and selected_panel != null:
+		$GeneratorScroll.ensure_control_visible(selected_panel)
+
+
+func _on_generators_button_pressed() -> void:
+	generator_list_mode = not generator_list_mode
+	$GeneratorScroll.visible = true
+	$OptionsPanel.hide()
+	$StatsPanel.hide()
+	$UpgradeScroll.hide()
+	$PrestigePanel.hide()
+	_refresh_generator_panel_visibility()
+
+	$GeneratorsButton.text = "REALM" if generator_list_mode else "GENERATORS"
+
+
 func _on_options_button_pressed() -> void:
 	var should_open: bool = not $OptionsPanel.visible
 
@@ -834,6 +871,7 @@ func _on_options_button_pressed() -> void:
 		$StatsPanel.hide()
 		$UpgradeScroll.hide()
 		$PrestigePanel.hide()
+		$GeneratorScroll.hide()
 
 
 func _on_options_close_button_pressed() -> void:
@@ -1206,6 +1244,7 @@ func _on_stats_button_pressed() -> void:
 		$OptionsPanel.hide()
 		$UpgradeScroll.visible = false
 		$PrestigePanel.visible = false
+		$GeneratorScroll.visible = false
 
 
 
@@ -1216,6 +1255,7 @@ func _on_upgrades_button_pressed() -> void:
 		$OptionsPanel.hide()
 		$StatsPanel.visible = false
 		$PrestigePanel.visible = false
+		$GeneratorScroll.visible = false
 
 		selected_upgrade_generator_id = ""
 
@@ -1259,6 +1299,7 @@ func _on_prestige_button_pressed() -> void:
 		$OptionsPanel.hide()
 		$StatsPanel.visible = false
 		$UpgradeScroll.visible = false
+		$GeneratorScroll.visible = false
 
 
 func _on_run_reset() -> void:
@@ -1288,7 +1329,9 @@ func _rebuild_generator_ui() -> void:
 	
 	await get_tree().process_frame
 	
-	_create_initial_generator_panels()	
+	_create_initial_generator_panels()
+	_initialize_generator_selection()
+	_refresh_generator_panel_visibility()
 	
 func _rebuild_upgrade_ui() -> void:
 	var upgrade_container = (
