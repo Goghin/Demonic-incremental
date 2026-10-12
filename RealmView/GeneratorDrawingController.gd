@@ -2,9 +2,6 @@ class_name GeneratorDrawingController
 extends RefCounted
 
 
-var geometry_controller: RealmLayoutGeometryController = (
-	RealmLayoutGeometryController.new()
-)
 var standard_generator_drawer: StandardGeneratorDrawer = (
 	StandardGeneratorDrawer.new()
 )
@@ -73,7 +70,7 @@ func _draw_generator(
 	# ensures stale sprites are hidden by update_visibility().
 	active_ids[generator_id] = true
 
-	var generator_position: Vector2 = geometry_controller.get_generator_position(
+	var generator_position: Vector2 = owner.realm_layout_geometry_controller.get_generator_position(
 		generator_id,
 		owner.realm_layout.generator_layout_positions,
 		owner.size,

@@ -121,10 +121,6 @@ func _process(_delta: float) -> void:
 	realm_layout_editor_controller.update(self, _delta)
 	realm_update_controller.update(self, _delta)
 
-func _update_scene_visuals(island_rect: Rect2) -> void:
-	realm_scene_visual_controller.update(self, island_rect)
-
-
 func _input(event: InputEvent) -> void:
 	realm_layout_editor_controller.handle_owner_input(event, self)
 

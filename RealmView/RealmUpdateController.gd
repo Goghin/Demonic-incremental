@@ -19,11 +19,6 @@ func update(owner: RealmView, delta: float) -> void:
 		"thermal_furnace",
 		island_rect
 	)
-	var update_scene_visuals: Callable = Callable(
-		owner,
-		"_update_scene_visuals"
-	).bind(island_rect)
-
 	_update_persistent_visuals(
 		visual_parent,
 		state,
@@ -34,7 +29,7 @@ func update(owner: RealmView, delta: float) -> void:
 
 	# Keep static realm visuals current even when animated effects are disabled.
 	if not owner.visual_effects_enabled:
-		update_scene_visuals.call()
+		owner.realm_scene_visual_controller.update(owner, island_rect)
 		visual_parent.queue_redraw()
 		return
 
@@ -48,7 +43,7 @@ func update(owner: RealmView, delta: float) -> void:
 		generator_sprites,
 		delta
 	)
-	update_scene_visuals.call()
+	owner.realm_scene_visual_controller.update(owner, island_rect)
 	_update_middle_animations(
 		animation_controller,
 		generator_layer,
