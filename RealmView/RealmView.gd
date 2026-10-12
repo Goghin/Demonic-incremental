@@ -130,8 +130,11 @@ func _input(event: InputEvent) -> void:
 	if mouse_event.button_index != MOUSE_BUTTON_LEFT or not mouse_event.pressed:
 		return
 
-	# UI controls take priority over machine hitboxes behind them.
-	if get_viewport().gui_get_hovered_control() != null:
+	# The full-screen Game Control is the hovered control when the
+	# RealmView itself ignores mouse input. Do not mistake that parent
+	# container for an actual UI overlay, or machine clicks never reach us.
+	var hovered_control: Control = get_viewport().gui_get_hovered_control()
+	if hovered_control != null and hovered_control != get_parent():
 		return
 
 	var local_position: Vector2 = get_local_mouse_position()
