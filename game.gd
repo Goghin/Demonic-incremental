@@ -399,6 +399,11 @@ func _initialize_generator_selection() -> void:
 
 
 func _on_generator_selection_requested(generator_id: String) -> void:
+	# Clicking the active machine again returns to the unobstructed realm.
+	if generator_id == selected_generator_id:
+		_deselect_generator()
+		return
+
 	_set_selected_generator(generator_id)
 
 
@@ -413,18 +418,20 @@ func _set_selected_generator(generator_id: String) -> void:
 	if realm_view != null:
 		realm_view.set_selected_generator(selected_generator_id)
 
-	var generator_container: Node = $GeneratorScroll/GeneratorContainer
-	for child in generator_container.get_children():
-		if child is GeneratorPanel:
-			child.set_selected(child.generator_id == selected_generator_id)
-			child.visible = generator_list_mode or child.generator_id == selected_generator_id
+	_refresh_generator_panel_visibility()
 
-	if generator_list_mode:
-		var selected_panel := _get_generator_panel(selected_generator_id)
-		if selected_panel != null:
-			$GeneratorScroll.ensure_control_visible(selected_panel)
-	else:
-		$GeneratorScroll.scroll_vertical = 0
+
+func _deselect_generator() -> void:
+	selected_generator_id = ""
+	generator_list_mode = false
+	selected_upgrade_generator_id = ""
+
+	if realm_view != null:
+		realm_view.set_selected_generator("")
+
+	$UpgradeScroll.hide()
+	$GeneratorsButton.text = "GENERATORS"
+	_refresh_generator_panel_visibility()
 
 
 # ============================================================
@@ -850,13 +857,17 @@ func _refresh_generator_panel_visibility() -> void:
 		if child.generator_id == selected_generator_id:
 			selected_panel = child
 
+	# In focused mode, no selection means no generator panel at all.
+	$GeneratorScroll.visible = generator_list_mode or selected_generator_id != ""
+
 	if generator_list_mode and selected_panel != null:
 		$GeneratorScroll.ensure_control_visible(selected_panel)
+	elif not generator_list_mode:
+		$GeneratorScroll.scroll_vertical = 0
 
 
 func _on_generators_button_pressed() -> void:
 	generator_list_mode = not generator_list_mode
-	$GeneratorScroll.visible = true
 	$OptionsPanel.hide()
 	$StatsPanel.hide()
 	$UpgradeScroll.hide()
@@ -954,9 +965,6 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if not key_event.pressed or key_event.echo:
 		return
 
-	if key_event.keycode != KEY_UP and key_event.keycode != KEY_DOWN:
-		return
-
 	if realm_view != null and realm_view.realm_layout_editor_controller.layout_mode:
 		return
 
@@ -970,12 +978,18 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		return
 
 	var focus_owner := get_viewport().gui_get_focus_owner()
-	if (
-		focus_owner is LineEdit
-		or focus_owner is TextEdit
-		or focus_owner is SpinBox
-		or focus_owner is OptionButton
-	):
+
+	if key_event.keycode == KEY_ESCAPE:
+		if selected_generator_id != "" or generator_list_mode:
+			_deselect_generator()
+			get_viewport().set_input_as_handled()
+		return
+
+	# Let focused UI controls own arrow keys instead of also cycling generators.
+	if focus_owner != null:
+		return
+
+	if key_event.keycode != KEY_UP and key_event.keycode != KEY_DOWN:
 		return
 
 	var unlocked_ids: Array[String] = []
@@ -988,7 +1002,11 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 	var current_index := unlocked_ids.find(selected_generator_id)
 	if current_index < 0:
-		current_index = 0
+		current_index = (
+			unlocked_ids.size() - 1
+			if key_event.keycode == KEY_UP
+			else 0
+		)
 	elif key_event.keycode == KEY_UP:
 		current_index = (current_index - 1 + unlocked_ids.size()) % unlocked_ids.size()
 	else:
