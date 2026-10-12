@@ -17,6 +17,24 @@ const PARTICLE_SIZE_SPREAD: float = 1.6
 func draw_background(owner: RealmView) -> void:
 	var center: Vector2 = owner.size * owner.ISLAND_CENTER_RATIO
 
+	# RealmView is zoomed during rebirth. Counter-transform the background
+	# so it remains full-screen while the realm artwork itself scales.
+	var inverse_scale: Vector2 = Vector2.ONE
+	if not is_zero_approx(owner.scale.x) and not is_zero_approx(owner.scale.y):
+		inverse_scale = Vector2(
+			1.0 / owner.scale.x,
+			1.0 / owner.scale.y
+		)
+
+	var background_position: Vector2 = owner.pivot_offset - (
+		owner.pivot_offset * inverse_scale
+	)
+	owner.draw_set_transform(
+		background_position,
+		0.0,
+		inverse_scale
+	)
+
 	# ------------------------------------------------------------
 	# Background
 	# ------------------------------------------------------------
@@ -66,3 +84,6 @@ func draw_background(owner: RealmView) -> void:
 			particle_size,
 			Color(0.55, 0.36, 0.65, 0.30)
 		)
+
+	# Restore the normal RealmView transform for subsequent drawing.
+	owner.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
