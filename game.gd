@@ -726,6 +726,21 @@ func _process(
 # BUTTONS
 # ============================================================
 
+func _on_options_button_pressed() -> void:
+	var should_open: bool = not $OptionsPanel.visible
+
+	$OptionsPanel.visible = should_open
+
+	if should_open:
+		$StatsPanel.hide()
+		$UpgradeScroll.hide()
+		$PrestigePanel.hide()
+
+
+func _on_options_close_button_pressed() -> void:
+	$OptionsPanel.hide()
+
+
 func _on_rub_button_pressed() -> void:
 
 	save_manager.save_game(
