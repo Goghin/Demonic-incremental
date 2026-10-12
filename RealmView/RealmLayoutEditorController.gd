@@ -89,7 +89,7 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 func _release_waterfall_key(keycode: int) -> void:
 	match keycode:
 		KEY_LEFT, KEY_RIGHT:
-		held_fall_width_direction = 0.0
+			held_fall_width_direction = 0.0
 		KEY_UP, KEY_DOWN:
 			held_fall_length_direction = 0.0
 
