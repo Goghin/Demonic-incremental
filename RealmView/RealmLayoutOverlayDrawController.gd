@@ -309,6 +309,12 @@ func _draw_lake_edge_handles(
 	if realm_layout == null or island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
 		return
 
+	var selected_lake_index: int = -1
+	if selected_object.begins_with("lake_edge:"):
+		var selected_parts: PackedStringArray = selected_object.split(":")
+		if selected_parts.size() == 3:
+			selected_lake_index = int(selected_parts[1])
+
 	var lake_count: int = 1 + realm_layout.small_lake_definitions.size()
 	for lake_index in range(lake_count):
 		var points: PackedVector2Array
@@ -323,6 +329,14 @@ func _draw_lake_edge_handles(
 		if points.size() < 2:
 			continue
 
+		var is_selected_lake: bool = lake_index == selected_lake_index
+		var inactive_alpha: float = 0.08 if selected_object != "" and not is_selected_lake else 1.0
+		var outline_color: Color = (
+			Color(1.0, 0.82, 0.32, 1.0)
+			if is_selected_lake
+			else Color(1.0, 0.28, 0.035, 0.65 * inactive_alpha)
+		)
+		var outline_width: float = 3.0 if is_selected_lake else 1.5
 		var screen_points := PackedVector2Array()
 		for normalized_point in points:
 			screen_points.append(island_rect.position + island_rect.size * normalized_point)
@@ -333,21 +347,22 @@ func _draw_lake_edge_handles(
 			owner.draw_line(
 				current,
 				next,
-				Color(1.0, 0.28, 0.035, 0.06 if selected_object != "" else 0.65),
-				1.5
+				outline_color,
+				outline_width
 			)
 
 			var handle_id: String = "lake_edge:%d:%d" % [lake_index, point_index]
 			var is_selected: bool = selected_object == handle_id
+			var handle_alpha: float = 1.0 if is_selected or is_selected_lake or selected_object == "" else 0.08
 			owner.draw_circle(
 				current,
 				7.0 if is_selected else 5.0,
-				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(1.0, 0.48, 0.08, 0.08 if selected_object != "" else 0.95)
+				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(1.0, 0.48, 0.08, 0.95 * handle_alpha)
 			)
 			owner.draw_circle(
 				current,
 				7.0 if is_selected else 5.0,
-				Color(0.16, 0.045, 0.015, 1.0 if is_selected or selected_object == "" else 0.08),
+				Color(0.16, 0.045, 0.015, handle_alpha),
 				false,
 				1.2
 			)
