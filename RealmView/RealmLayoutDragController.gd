@@ -226,9 +226,11 @@ func update_drag(
 			cancel_drag()
 			return
 
-		points[point_index] = geometry_controller.get_normalized_position(
-			mouse_position - drag_offset,
-			island_rect
+		points[point_index] = _clamp_normalized_position(
+			geometry_controller.get_normalized_position(
+				mouse_position - drag_offset,
+				island_rect
+			)
 		)
 		_set_flow_points(realm_layout, flow_index, points)
 		owner.lava_realm_visual_controller.update_positions(realm_layout, island_rect)
@@ -248,9 +250,11 @@ func update_drag(
 			cancel_drag()
 			return
 
-		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-			mouse_position - drag_offset,
-			island_rect
+		var normalized_position: Vector2 = _clamp_normalized_position(
+			geometry_controller.get_normalized_position(
+				mouse_position - drag_offset,
+				island_rect
+			)
 		)
 		points[point_index] = normalized_position
 		_set_lake_points(realm_layout, lake_index, points)
@@ -271,9 +275,11 @@ func update_drag(
 			return
 
 		var new_position: Vector2 = mouse_position - drag_offset
-		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-			new_position,
-			island_rect
+		var normalized_position: Vector2 = _clamp_normalized_position(
+			geometry_controller.get_normalized_position(
+				new_position,
+				island_rect
+			)
 		)
 		realm_layout.ash_pile_layout_positions[pile_index] = normalized_position
 		owner._update_ash_piles(
@@ -292,9 +298,11 @@ func update_drag(
 			return
 
 		var new_position: Vector2 = mouse_position - drag_offset
-		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-			new_position,
-			island_rect
+		var normalized_position: Vector2 = _clamp_normalized_position(
+			geometry_controller.get_normalized_position(
+				new_position,
+				island_rect
+			)
 		)
 		realm_layout.brazier_layout_positions[stat_name] = normalized_position
 		owner.braziers[stat_name].position = geometry_controller.get_position_from_normalized(
