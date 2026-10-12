@@ -51,11 +51,14 @@ func _update_forge_visuals(owner: RealmView, island_rect: Rect2) -> void:
 		"infernal_forge",
 		island_rect
 	)
-	owner.forge_activity_visual_controller.update(
-		owner,
-		owner.state.generators.get("infernal_forge"),
-		forge_position
-	)
+	if owner.visual_effects_enabled:
+		owner.forge_activity_visual_controller.update(
+			owner,
+			owner.state.generators.get("infernal_forge"),
+			forge_position
+		)
+	else:
+		owner.forge_activity_visual_controller.hide()
 
 
 func _update_layout_overlay(owner: RealmView, island_rect: Rect2) -> void:
