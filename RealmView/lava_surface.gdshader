@@ -6,6 +6,11 @@ uniform float texture_size = 32.0;
 uniform vec2 texture_speed = vec2(0.015, 0.008);
 uniform float texture_strength = 0.55;
 
+uniform vec3 dark_lava = vec3(0.35, 0.012, 0.002);
+uniform vec3 red_lava = vec3(0.65, 0.028, 0.003);
+uniform vec3 orange_lava = vec3(0.95, 0.075, 0.006);
+uniform vec3 bright_lava = vec3(1.0, 0.24, 0.02);
+
 void fragment() {
 	vec2 base_uv = VERTEX / texture_size;
 
@@ -113,16 +118,7 @@ void fragment() {
 	// 5. Lava colors
 	// ------------------------------------------------------------
 
-	vec3 dark_lava = vec3(0.35, 0.012, 0.002);
-	vec3 red_lava = vec3(0.65, 0.028, 0.003);
-	vec3 orange_lava = vec3(0.95, 0.075, 0.006);
-	vec3 bright_lava = vec3(1.0, 0.24, 0.02);
-
-	vec3 crust_color = vec3(
-		0.10,
-		0.006,
-		0.002
-	);
+	vec3 crust_color = dark_lava * 0.30;
 
 
 	// ------------------------------------------------------------
@@ -158,10 +154,10 @@ void fragment() {
 		crust_mask
 	);
 		// Hot lava showing through cracks in the crust.
-	vec3 crack_color = vec3(
-		1.0,
-		0.16,
-		0.008
+	vec3 crack_color = mix(
+		orange_lava,
+		bright_lava,
+		0.65
 	);
 
 	lava_color = mix(
