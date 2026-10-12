@@ -9,6 +9,8 @@ uniform vec3 red_lava = vec3(0.60, 0.025, 0.003);
 uniform vec3 orange_lava = vec3(0.90, 0.070, 0.005);
 uniform vec3 bright_lava = vec3(1.0, 0.20, 0.015);
 uniform vec3 glow_lava = vec3(1.0, 0.08, 0.01);
+uniform vec3 dark_blob_lava = vec3(0.07, 0.001, 0.0002);
+uniform vec3 bright_blob_lava = vec3(1.20, 0.16, 0.008);
 
 void fragment() {
 	vec2 pos = VERTEX;
@@ -115,11 +117,7 @@ void fragment() {
 		blobs
 	);
 
-	vec3 dark_blob = vec3(
-		0.07,
-		0.001,
-		0.0002
-	);
+	vec3 dark_blob = dark_blob_lava;
 
 	color = mix(
 		dark_blob,
@@ -137,11 +135,7 @@ void fragment() {
 		blobs
 	);
 
-	vec3 bright_blob = vec3(
-		1.20,
-		0.16,
-		0.008
-	);
+	vec3 bright_blob = bright_blob_lava;
 
 	color = mix(
 		color,
