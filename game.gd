@@ -1440,7 +1440,9 @@ func _on_generator_upgrades_requested(
 		return
 
 	# Otherwise open/switch to this generator's tree.
-	$UpgradeScroll.visible = true
+	# Match the general Upgrades navigation: show one main view at a time.
+	$GeneratorScroll.hide()
+	$UpgradeScroll.show()
 	selected_upgrade_generator_id = generator_id
 
 	_update_upgrade_view()
