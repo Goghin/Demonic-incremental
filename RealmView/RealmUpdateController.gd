@@ -32,6 +32,12 @@ func update(owner: RealmView, delta: float) -> void:
 		delta
 	)
 
+	# Keep static realm visuals current even when animated effects are disabled.
+	if not owner.visual_effects_enabled:
+		update_scene_visuals.call()
+		visual_parent.queue_redraw()
+		return
+
 	# Keep generator animation phases interleaved with realm updates.
 	# Their order is intentional: early machine motion, realm visuals,
 	# middle overlays, the independent agitation particles, then late motion.
