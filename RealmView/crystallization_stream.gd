@@ -16,14 +16,17 @@ var particles: Array = []
 var curve_strength: float = 18.0
 var pulse_phase: float = 0.0
 var burst_mode: bool = false
+var straight_mode: bool = false
 
 
 func setup(
 	from: Vector2,
-	to: Vector2
+	to: Vector2,
+	straight: bool = false
 	) -> void:
 
 	burst_mode = false
+	straight_mode = straight
 	start_position = from
 	target_position = to
 
@@ -36,7 +39,7 @@ func setup(
 	var length := direction.length()
 
 	if length > 0.0:
-		curve_strength = clamp(
+		curve_strength = 0.0 if straight_mode else clamp(
 			length * 0.08,
 			12.0,
 			35.0
@@ -68,9 +71,11 @@ func setup_burst(at_position: Vector2) -> void:
 	for i in range(42):
 		particles.append({
 			"angle": randf_range(0.0, TAU),
-			"burst_speed": randf_range(65.0, 175.0),
-			"size": randf_range(1.2, 3.8),
-			"phase": randf_range(0.0, TAU)
+			"burst_speed": randf_range(110.0, 230.0),
+			"streak_length": randf_range(5.0, 11.0),
+			"size": randf_range(0.55, 1.0),
+			"phase": randf_range(0.0, TAU),
+			"alpha": randf_range(0.65, 1.0)
 		})
 
 	queue_redraw()
@@ -164,42 +169,27 @@ func _draw() -> void:
 
 	if stream_points.size() >= 2:
 
-		# Dark outer energy body.
+		# Keep crystal-bound streams slimmer than the original energy beam.
+		var outer_width: float = 4.5 if straight_mode else 9.0
+		var core_width: float = 2.5 if straight_mode else 5.0
+		var center_width: float = 1.2 if straight_mode else 2.0
+
 		draw_polyline(
 			stream_points,
-			Color(
-				0.45,
-				0.08,
-				0.01,
-				0.45
-			),
-			9.0,
+			Color(0.45, 0.08, 0.01, 0.45),
+			outer_width,
 			true
 		)
-
-		# Hot orange core.
 		draw_polyline(
 			stream_points,
-			Color(
-				1.0,
-				0.28,
-				0.02,
-				0.85
-			),
-			5.0,
+			Color(1.0, 0.28, 0.02, 0.85),
+			core_width,
 			true
 		)
-
-		# White-hot center.
 		draw_polyline(
 			stream_points,
-			Color(
-				1.0,
-				0.82,
-				0.35,
-				0.95
-			),
-			2.0,
+			Color(1.0, 0.82, 0.35, 0.95),
+			center_width,
 			true
 		)
 
@@ -242,10 +232,11 @@ func _draw() -> void:
 				pulse_phase
 			)
 
+			var particle_wobble: float = 1.5 if straight_mode else 5.0
 			particle_position += perpendicular * (
 				wave *
 				float(particle["side"]) *
-				5.0
+				particle_wobble
 			)
 
 		var fade: float = 1.0
@@ -385,24 +376,26 @@ func _draw_burst() -> void:
 		var angle: float = float(particle["angle"])
 		var direction := Vector2(cos(angle), sin(angle))
 		var distance: float = float(particle["burst_speed"]) * elapsed
-		var wobble: float = sin(elapsed * 24.0 + float(particle["phase"])) * 3.0
+		var wobble: float = sin(elapsed * 24.0 + float(particle["phase"])) * 1.2
 		var position: Vector2 = start_position + direction * distance
 		position += direction.rotated(PI * 0.5) * wobble
 		var size: float = float(particle["size"]) * fade
+		var particle_alpha: float = float(particle["alpha"]) * fade
+		var streak_length: float = float(particle["streak_length"])
 
 		if size <= 0.0:
 			continue
 
 		draw_line(
-			position - direction * size * 2.4,
+			position - direction * streak_length,
 			position,
-			Color(1.0, 0.28, 0.02, 0.65 * fade),
-			maxf(size * 1.2, 0.7),
+			Color(1.0, 0.86, 0.48, particle_alpha * 0.95),
+			maxf(size * 0.8, 0.45),
 			true
 		)
-		draw_circle(position, size * 1.7, Color(1.0, 0.25, 0.01, 0.18 * fade))
-		draw_circle(position, size, Color(1.0, 0.68, 0.12, 0.9 * fade))
-		draw_circle(position, size * 0.42, Color(1.0, 0.96, 0.72, fade))
+		draw_circle(position, size * 1.45, Color(1.0, 0.25, 0.01, 0.18 * particle_alpha))
+		draw_circle(position, size, Color(1.0, 0.68, 0.12, 0.9 * particle_alpha))
+		draw_circle(position, size * 0.42, Color(1.0, 0.96, 0.72, particle_alpha))
 
 	draw_circle(start_position, 12.0 * pulse * fade, Color(1.0, 0.28, 0.02, 0.2 * fade))
 	draw_circle(start_position, 5.0 * pulse * fade, Color(1.0, 0.72, 0.18, 0.8 * fade))
