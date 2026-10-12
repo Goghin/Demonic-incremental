@@ -372,6 +372,31 @@ func _draw_burst() -> void:
 	var fade: float = 1.0 - progress
 	var pulse: float = 1.0 + sin(progress * PI) * 0.45
 
+	# A fast, expanding shockwave gives the burst a clear sense of impact.
+	var shockwave_progress: float = ease(progress, 0.55)
+	var shockwave_radius: float = lerpf(8.0, 118.0, shockwave_progress)
+	var shockwave_alpha: float = (1.0 - progress) * 0.75
+	draw_arc(
+		start_position,
+		shockwave_radius,
+		0.0,
+		TAU,
+		64,
+		Color(1.0, 0.42, 0.08, shockwave_alpha * 0.3),
+		7.0 * fade + 1.0,
+		true
+	)
+	draw_arc(
+		start_position,
+		shockwave_radius,
+		0.0,
+		TAU,
+		64,
+		Color(1.0, 0.82, 0.42, shockwave_alpha),
+		2.0,
+		true
+	)
+
 	for particle in particles:
 		var angle: float = float(particle["angle"])
 		var direction := Vector2(cos(angle), sin(angle))
