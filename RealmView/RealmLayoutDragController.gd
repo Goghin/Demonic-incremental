@@ -37,6 +37,19 @@ func handle_mouse_input(event: InputEvent, owner: RealmView) -> void:
 				)
 				return
 
+			if event.ctrl_pressed:
+				var inserted_object: String = _insert_flow_point_at_position(
+					mouse_position,
+					owner,
+					island_rect
+				)
+				if inserted_object != "":
+					selected_object = inserted_object
+					dragging_object = ""
+					drag_offset = Vector2.ZERO
+					owner.queue_redraw()
+					return
+
 			var drag_result: Dictionary = find_drag_target(
 				mouse_position,
 				owner
@@ -304,6 +317,129 @@ func adjust_selected_flow_width(layout: RealmLayout, amount: float) -> bool:
 	widths[point_index] = maxf(0.0, widths[point_index] + amount)
 	definition["widths"] = widths
 	layout.lava_flow_definitions[flow_index] = definition
+	return true
+
+
+func _insert_flow_point_at_position(
+	mouse_position: Vector2,
+	owner: RealmView,
+	island_rect: Rect2
+) -> String:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null:
+		return ""
+
+	# Ctrl-clicking an existing handle should still allow normal selection.
+	for flow_index in range(layout.lava_flow_definitions.size()):
+		var points: PackedVector2Array = _get_flow_points(layout, flow_index)
+		for point in points:
+			var screen_point: Vector2 = geometry_controller.get_position_from_normalized(
+				point,
+				island_rect
+			)
+			if screen_point.distance_to(mouse_position) <= 12.0:
+				return ""
+
+	var best_flow_index: int = -1
+	var best_segment_index: int = -1
+	var best_position: Vector2 = Vector2.ZERO
+	var best_distance: float = 10.0
+	var best_ratio: float = 0.5
+
+	for flow_index in range(layout.lava_flow_definitions.size()):
+		var points: PackedVector2Array = _get_flow_points(layout, flow_index)
+		if points.size() < 2:
+			continue
+
+		var screen_points := PackedVector2Array()
+		for point in points:
+			screen_points.append(geometry_controller.get_position_from_normalized(
+				point,
+				island_rect
+			))
+
+		for segment_index in range(screen_points.size() - 1):
+			var start: Vector2 = screen_points[segment_index]
+			var finish: Vector2 = screen_points[segment_index + 1]
+			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(
+				mouse_position,
+				start,
+				finish
+			)
+			var distance: float = closest.distance_to(mouse_position)
+			if distance >= best_distance:
+				continue
+
+			var segment: Vector2 = finish - start
+			var segment_length_squared: float = segment.length_squared()
+			if segment_length_squared <= 0.0001:
+				continue
+
+			best_distance = distance
+			best_flow_index = flow_index
+			best_segment_index = segment_index
+			best_position = closest
+			best_ratio = clampf((closest - start).dot(segment) / segment_length_squared, 0.0, 1.0)
+
+	if best_flow_index < 0:
+		return ""
+
+	var definition: Dictionary = layout.lava_flow_definitions[best_flow_index]
+	var points: PackedVector2Array = _get_flow_points(layout, best_flow_index)
+	var normalized_position: Vector2 = geometry_controller.get_normalized_position(
+		best_position,
+		island_rect
+	)
+	points.insert(best_segment_index + 1, normalized_position)
+	definition["points"] = points
+
+	if definition.has("widths"):
+		var widths: PackedFloat32Array = definition["widths"]
+		if widths.size() == points.size() - 1:
+			var inserted_width: float = lerpf(
+				widths[best_segment_index],
+				widths[best_segment_index + 1],
+				best_ratio
+			)
+			widths.insert(best_segment_index + 1, inserted_width)
+			definition["widths"] = widths
+
+	layout.lava_flow_definitions[best_flow_index] = definition
+	owner.lava_realm_visual_controller.update_positions(layout, island_rect)
+	return "lava_flow:%d:%d" % [best_flow_index, best_segment_index + 1]
+
+
+func remove_selected_flow_point(layout: RealmLayout) -> bool:
+	if layout == null or not selected_object.begins_with("lava_flow:"):
+		return false
+
+	var parts: PackedStringArray = selected_object.split(":")
+	if parts.size() != 3:
+		return false
+
+	var flow_index: int = int(parts[1])
+	var point_index: int = int(parts[2])
+	if flow_index < 0 or flow_index >= layout.lava_flow_definitions.size():
+		return false
+
+	var definition: Dictionary = layout.lava_flow_definitions[flow_index]
+	var points: PackedVector2Array = _get_flow_points(layout, flow_index)
+	# A flow needs at least two points to define a segment.
+	if points.size() <= 2 or point_index < 0 or point_index >= points.size():
+		return false
+
+	points.remove_at(point_index)
+	definition["points"] = points
+
+	if definition.has("widths"):
+		var widths: PackedFloat32Array = definition["widths"]
+		if point_index < widths.size():
+			widths.remove_at(point_index)
+		definition["widths"] = widths
+
+	layout.lava_flow_definitions[flow_index] = definition
+	var new_point_index: int = mini(point_index, points.size() - 1)
+	selected_object = "lava_flow:%d:%d" % [flow_index, new_point_index]
 	return true
 
 

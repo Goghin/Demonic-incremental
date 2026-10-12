@@ -108,20 +108,22 @@ func draw_overlay(
 func _draw_editor_help(owner: Control, selected_object: String, realm_layout: RealmLayout) -> void:
 	var has_selection: bool = selected_object != ""
 	var panel_alpha: float = 0.28 if has_selection else 1.0
-	var panel_rect: Rect2 = Rect2(14.0, 14.0, 300.0, 160.0)
+	var panel_rect: Rect2 = Rect2(14.0, 14.0, 340.0, 194.0)
 	owner.draw_rect(panel_rect, Color(0.04, 0.03, 0.02, 0.88 * panel_alpha), true)
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9 * panel_alpha), false, 1.0)
 	var lines: Array[String] = [
 		"REALM LAYOUT EDITOR",
 		"Drag machines, braziers, ash piles, flow or lake handles",
 		"Select flow point, then +/- to change width",
+		"Ctrl + click a flow segment: insert point",
+		"Delete / Backspace: remove selected flow point",
 		"Shift + click: print normalized point",
 		"F2: close editor"
 	]
 	for i in range(lines.size()):
 		owner.draw_string(
 			ThemeDB.fallback_font,
-			Vector2(24.0, 34.0 + i * 17.0),
+			Vector2(24.0, 34.0 + i * 14.0),
 			lines[i],
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
@@ -131,7 +133,7 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 	if selected_object != "":
 		owner.draw_string(
 			ThemeDB.fallback_font,
-			Vector2(24.0, 137.0),
+			Vector2(24.0, 160.0),
 			"Moving: " + selected_object,
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
@@ -150,7 +152,7 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 						if point_index >= 0 and point_index < widths.size():
 							owner.draw_string(
 								ThemeDB.fallback_font,
-								Vector2(24.0, 158.0),
+								Vector2(24.0, 180.0),
 								"Width at point %d: %.1f" % [point_index + 1, widths[point_index]],
 								HORIZONTAL_ALIGNMENT_LEFT,
 								-1.0,

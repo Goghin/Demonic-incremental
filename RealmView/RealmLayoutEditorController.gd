@@ -30,6 +30,15 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 		if not layout_mode:
 			return
 
+		if event.keycode in [KEY_DELETE, KEY_BACKSPACE]:
+			if drag_controller.remove_selected_flow_point(owner.realm_layout):
+				owner.lava_realm_visual_controller.update_positions(
+					owner.realm_layout,
+					owner._get_island_rect()
+				)
+				owner.queue_redraw()
+			return
+
 		var width_change: float = 0.0
 		if event.keycode in [KEY_PLUS, KEY_EQUAL, KEY_KP_ADD]:
 			width_change = 0.5
