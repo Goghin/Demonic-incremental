@@ -37,8 +37,15 @@ func update(
 			realm_layout.lava_flow_definitions[i]
 		)
 
-		var start_fill: float = definition["start_fill"]
-		var stop_fill: float = definition["stop_fill"]
+		var configured_start_fill: float = definition["start_fill"]
+		var configured_stop_fill: float = definition["stop_fill"]
+
+		# Hysteresis requires a higher activation threshold and a lower
+		# deactivation threshold. Normalize the pair so a layout with the
+		# values accidentally reversed cannot make a flow oscillate.
+		var start_fill: float = maxf(configured_start_fill, configured_stop_fill)
+		var stop_fill: float = minf(configured_start_fill, configured_stop_fill)
+
 		var requires_flow: int = definition.get("requires_flow", -1)
 
 		var dependency_ready: bool = true
