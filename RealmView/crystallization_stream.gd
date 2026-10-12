@@ -71,7 +71,7 @@ func setup_burst(at_position: Vector2) -> void:
 	for i in range(42):
 		particles.append({
 			"angle": randf_range(0.0, TAU),
-			"burst_speed": randf_range(110.0, 230.0),
+			"burst_speed": randf_range(88.0, 184.0),
 			"streak_length": randf_range(5.0, 11.0),
 			"size": randf_range(0.55, 1.0),
 			"phase": randf_range(0.0, TAU),
