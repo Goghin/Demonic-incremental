@@ -790,6 +790,16 @@ func _on_options_close_button_pressed() -> void:
 	$OptionsPanel.hide()
 
 
+func _on_quit_game_button_pressed() -> void:
+	if save_manager != null and state != null and time_manager != null:
+		save_manager.save_game(
+			state,
+			time_manager
+		)
+
+	get_tree().quit()
+
+
 func _on_visual_effects_toggled(enabled: bool) -> void:
 	visual_effects_enabled = enabled
 	_save_visual_settings()
