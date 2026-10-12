@@ -1153,6 +1153,7 @@ func _on_stats_button_pressed() -> void:
 	$StatsPanel.visible = not $StatsPanel.visible
 
 	if $StatsPanel.visible:
+		$OptionsPanel.hide()
 		$UpgradeScroll.visible = false
 		$PrestigePanel.visible = false
 
@@ -1162,6 +1163,7 @@ func _on_upgrades_button_pressed() -> void:
 
 	if not $UpgradeScroll.visible:
 		$UpgradeScroll.visible = true
+		$OptionsPanel.hide()
 		$StatsPanel.visible = false
 		$PrestigePanel.visible = false
 
@@ -1205,6 +1207,7 @@ func _on_prestige_button_pressed() -> void:
 	$PrestigePanel.visible = not $PrestigePanel.visible
 
 	if $PrestigePanel.visible:
+		$OptionsPanel.hide()
 		$StatsPanel.visible = false
 		$UpgradeScroll.visible = false
 
@@ -1260,6 +1263,7 @@ func _on_generator_upgrades_requested(
 	generator_id: String
 	) -> void:
 
+	$OptionsPanel.hide()
 	$StatsPanel.visible = false
 	$PrestigePanel.visible = false
 
