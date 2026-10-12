@@ -3,13 +3,12 @@ class_name StatsPanel
 extends Control
 
 
-const RESOURCE_NAME_WIDTH := 110
-const RESOURCE_AMOUNT_WIDTH := 100
-const RESOURCE_PRODUCTION_WIDTH := 115
-const RESOURCE_CONSUMPTION_WIDTH := 115
-const RESOURCE_NET_WIDTH := 115
-const RESOURCE_STATISTICS_NAME_WIDTH := 110
-const RESOURCE_STATISTICS_VALUE_WIDTH := 100
+const RESOURCE_NAME_WIDTH := 100
+const RESOURCE_AMOUNT_WIDTH := 85
+const RESOURCE_PRODUCTION_WIDTH := 100
+const RESOURCE_CONSUMPTION_WIDTH := 105
+const RESOURCE_NET_WIDTH := 80
+const RESOURCE_STATISTICS_NAME_WIDTH := 100
 
 var state: GameState
 var stats: GameStats
@@ -189,6 +188,7 @@ func _setup_resource_statistics() -> void:
 		)
 		
 		var this_realm_values = Label.new()
+		this_realm_values.autowrap_mode = TextServer.AUTOWRAP_OFF
 		this_realm_values.add_theme_font_size_override(
 			"font_size",
 			11
@@ -202,6 +202,7 @@ func _setup_resource_statistics() -> void:
 		)
 		
 		var all_realms_values = Label.new()
+		all_realms_values.autowrap_mode = TextServer.AUTOWRAP_OFF
 		all_realms_values.add_theme_font_size_override(
 			"font_size",
 			11
@@ -279,7 +280,7 @@ func update_resource_statistics() -> void:
 		)
 
 		var this_realm_text = (
-			"Produced: %s    Consumed: %s    Lost: %s    Highest: %s"
+			"Produced: %s    Consumed: %s\nLost: %s    Highest: %s"
 			% [
 				NumberFormatter.format(
 					current_run_statistics.get_total_produced(
@@ -305,7 +306,7 @@ func update_resource_statistics() -> void:
 		)
 
 		var all_realms_text = (
-			"Produced: %s    Consumed: %s    Lost: %s    Highest: %s"
+			"Produced: %s    Consumed: %s\nLost: %s    Highest: %s"
 			% [
 				NumberFormatter.format(
 					lifetime_statistics.get_total_produced(
@@ -330,21 +331,6 @@ func update_resource_statistics() -> void:
 			]
 		)
 
-		# Overflow is specifically associated with Heat.
-		if resource_id == ResourceIds.HEAT:
-			this_realm_text += (
-				"    Overflow: %s"
-				% NumberFormatter.format(
-					current_run_statistics.get_total_overflow()
-				)
-			)
-
-			all_realms_text += (
-				"    Overflow: %s"
-				% NumberFormatter.format(
-					lifetime_statistics.get_total_overflow()
-				)
-			)
 
 		row["this_realm"].text = this_realm_text
 		row["all_realms"].text = all_realms_text
@@ -523,6 +509,20 @@ func update_pressure_stats() -> void:
 	$ScrollContainer/VBoxContainer/PressureContainer/OverflowMultiplierLabel.text = (
 		"Overflow Multiplier: ×%s"
 		% NumberFormatter.format(overflow_multiplier)
+	)
+
+	$ScrollContainer/VBoxContainer/PressureContainer/OverflowThisRealmLabel.text = (
+		"Overflow This Realm: %s"
+		% NumberFormatter.format(
+			state.current_run_statistics.get_total_overflow()
+		)
+	)
+
+	$ScrollContainer/VBoxContainer/PressureContainer/OverflowAllRealmsLabel.text = (
+		"Overflow All Realms: %s"
+		% NumberFormatter.format(
+			state.resource_statistics.get_total_overflow()
+		)
 	)
 
 	$ScrollContainer/VBoxContainer/PressureContainer/MatterDecayThresholdLabel.text = (
