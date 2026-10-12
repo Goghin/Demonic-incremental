@@ -10,6 +10,26 @@ var ui_click_player: AudioStreamPlayer
 var ui_purchase_player: AudioStreamPlayer
 var ui_unlock_player: AudioStreamPlayer
 
+var ambient_enabled: bool = true
+var ambient_players: Array[AudioStreamPlayer] = []
+var ambient_active_player_index: int = 0
+var ambient_track_order: Array[int] = []
+var ambient_track_order_index: int = 0
+var ambient_current_track_index: int = -1
+var ambient_next_track_index: int = -1
+var ambient_crossfade_active: bool = false
+var ambient_crossfade_elapsed: float = 0.0
+
+const AMBIENT_CROSSFADE_DURATION: float = 8.0
+const AMBIENT_TRACKS = [
+	preload("res://Assets/ogg/01 Ashes From The Previous World.ogg"),
+	preload("res://Assets/ogg/02 Now Is All I've Got.ogg"),
+	preload("res://Assets/ogg/03 Memento Mori.ogg"),
+	preload("res://Assets/ogg/04 Dust Over The Dead Horizon.ogg"),
+	preload("res://Assets/ogg/05 Chamber Of Rust.ogg"),
+	preload("res://Assets/ogg/06 Rituals Of The Void.ogg")
+]
+
 var state: GameState
 var simulation: Simulation
 var time_manager: TimeManager
@@ -49,10 +69,12 @@ func _ready() -> void:
 	_load_visual_settings()
 	$OptionsPanel/OptionsContent/VisualEffectsCheckBox.set_pressed_no_signal(visual_effects_enabled)
 	$OptionsPanel/OptionsContent/UISoundsCheckBox.set_pressed_no_signal(ui_sounds_enabled)
+	$OptionsPanel/OptionsContent/AmbientAudioCheckBox.set_pressed_no_signal(ambient_enabled)
 	$OptionsPanel/OptionsContent/MasterVolumeSlider.set_value_no_signal(master_volume_percent)
 	_update_master_volume_label()
 	_apply_master_volume()
 	_setup_ui_audio()
+	_setup_ambient_audio()
 	loading_screen.set_status(
 		"Awakening the realm..."
 	)
@@ -253,6 +275,7 @@ func _ready() -> void:
 
 	is_loading = false
 	loading_screen.visible = false
+	_start_ambient_audio()
 
 
 func _create_realm_view() -> void:
@@ -745,6 +768,7 @@ func _process(
 	time_manager.update(
 		delta
 	)
+	_update_ambient_audio(delta)
 
 
 # ============================================================
@@ -777,6 +801,17 @@ func _on_visual_effects_toggled(enabled: bool) -> void:
 func _on_ui_sounds_toggled(enabled: bool) -> void:
 	ui_sounds_enabled = enabled
 	_save_ui_sound_settings()
+
+
+func _on_ambient_audio_toggled(enabled: bool) -> void:
+	ambient_enabled = enabled
+
+	if ambient_enabled:
+		_start_ambient_audio()
+	else:
+		_stop_ambient_audio()
+
+	_save_audio_settings()
 
 
 func _on_master_volume_changed(value: float) -> void:
@@ -820,6 +855,120 @@ func _input(event: InputEvent) -> void:
 			_play_ui_click()
 			return
 		hovered = hovered.get_parent() as Control
+
+
+func _setup_ambient_audio() -> void:
+	ambient_players.clear()
+
+	for i in range(2):
+		var player := AudioStreamPlayer.new()
+		player.name = "AmbientPlayer%d" % i
+		player.bus = "Master"
+		player.volume_db = 0.0
+		add_child(player)
+		ambient_players.append(player)
+
+
+func _start_ambient_audio() -> void:
+	if not ambient_enabled or ambient_players.size() != 2:
+		return
+
+	_stop_ambient_audio()
+	ambient_track_order.clear()
+	for i in range(AMBIENT_TRACKS.size()):
+		ambient_track_order.append(i)
+	ambient_track_order.shuffle()
+	ambient_track_order_index = 0
+	ambient_current_track_index = -1
+	ambient_next_track_index = -1
+	ambient_active_player_index = 0
+
+	ambient_current_track_index = _get_next_ambient_track_index()
+	var player := ambient_players[ambient_active_player_index]
+	player.stream = AMBIENT_TRACKS[ambient_current_track_index]
+	player.volume_db = 0.0
+	player.play()
+
+
+func _stop_ambient_audio() -> void:
+	for player in ambient_players:
+		player.stop()
+		player.stream = null
+		player.volume_db = 0.0
+
+	ambient_crossfade_active = false
+	ambient_crossfade_elapsed = 0.0
+	ambient_next_track_index = -1
+
+
+func _get_next_ambient_track_index() -> int:
+	if ambient_track_order_index >= ambient_track_order.size():
+		ambient_track_order.shuffle()
+
+		# Avoid repeating the previous track when reshuffling the playlist.
+		if (
+			ambient_track_order.size() > 1
+			and ambient_track_order[0] == ambient_current_track_index
+		):
+			var swap_index: int = ambient_track_order[0]
+			ambient_track_order[0] = ambient_track_order[1]
+			ambient_track_order[1] = swap_index
+
+		ambient_track_order_index = 0
+
+	var track_index: int = ambient_track_order[ambient_track_order_index]
+	ambient_track_order_index += 1
+	return track_index
+
+
+func _update_ambient_audio(delta: float) -> void:
+	if not ambient_enabled or ambient_players.size() != 2:
+		return
+
+	if ambient_crossfade_active:
+		ambient_crossfade_elapsed += delta
+		var progress: float = clampf(
+			ambient_crossfade_elapsed / AMBIENT_CROSSFADE_DURATION,
+			0.0,
+			1.0
+		)
+
+		var outgoing_player := ambient_players[ambient_active_player_index]
+		var incoming_player_index: int = 1 - ambient_active_player_index
+		var incoming_player := ambient_players[incoming_player_index]
+
+		outgoing_player.volume_db = linear_to_db(maxf(1.0 - progress, 0.001))
+		incoming_player.volume_db = linear_to_db(maxf(progress, 0.001))
+
+		if progress >= 1.0:
+			outgoing_player.stop()
+			outgoing_player.stream = null
+			outgoing_player.volume_db = 0.0
+			incoming_player.volume_db = 0.0
+			ambient_active_player_index = incoming_player_index
+			ambient_current_track_index = ambient_next_track_index
+			ambient_next_track_index = -1
+			ambient_crossfade_active = false
+			ambient_crossfade_elapsed = 0.0
+		return
+
+	var active_player := ambient_players[ambient_active_player_index]
+	if active_player.stream == null:
+		return
+
+	var track_length: float = active_player.stream.get_length()
+	if track_length <= 0.0:
+		return
+
+	var remaining_time: float = track_length - active_player.get_playback_position()
+	if remaining_time <= AMBIENT_CROSSFADE_DURATION:
+		ambient_next_track_index = _get_next_ambient_track_index()
+		var incoming_player := ambient_players[1 - ambient_active_player_index]
+		incoming_player.stream = AMBIENT_TRACKS[ambient_next_track_index]
+		incoming_player.volume_db = -60.0
+		incoming_player.play()
+		ambient_crossfade_active = true
+		ambient_crossfade_elapsed = 0.0
 
 
 func _setup_ui_audio() -> void:
@@ -934,6 +1083,7 @@ func _load_visual_settings() -> void:
 			0.0,
 			100.0
 		)
+		ambient_enabled = bool(config.get_value("audio", "ambient_enabled", true))
 
 
 func _save_visual_settings() -> void:
@@ -965,6 +1115,11 @@ func _save_audio_settings() -> void:
 		"audio",
 		"master_volume_percent",
 		master_volume_percent
+	)
+	config.set_value(
+		"audio",
+		"ambient_enabled",
+		ambient_enabled
 	)
 	var error: Error = config.save("user://settings.cfg")
 	if error != OK:
