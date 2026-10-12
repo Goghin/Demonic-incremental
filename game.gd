@@ -7,6 +7,8 @@ var visual_effects_enabled: bool = true
 var ui_sounds_enabled: bool = true
 var master_volume_percent: float = 70.0
 var ui_click_player: AudioStreamPlayer
+var ui_purchase_player: AudioStreamPlayer
+var ui_unlock_player: AudioStreamPlayer
 
 var state: GameState
 var simulation: Simulation
@@ -322,6 +324,9 @@ func _create_generator_panel(
 	generator_panel.upgrade_automation_changed.connect(
 		_on_upgrade_automation_settings_changed
 	)
+	generator_panel.generator_purchased.connect(
+		_play_ui_purchase
+	)
 	# Preserve the original generator order.
 	var target_index := 0
 
@@ -444,6 +449,9 @@ func add_upgrade_panel(
 		input_handler,
 		upgrade.definition.id,
 		$UpgradeInfoPopup
+	)
+	panel.purchase_succeeded.connect(
+		_play_ui_purchase
 	)
 
 	upgrade_panels[
@@ -654,6 +662,9 @@ func add_automatic_upgrade_panel(
 		upgrade.definition.id,
 		$UpgradeInfoPopup
 	)
+	panel.purchase_succeeded.connect(
+		_play_ui_purchase
+	)
 
 	upgrade_panels[
 		upgrade.definition.id
@@ -668,6 +679,8 @@ func add_automatic_upgrade_panel(
 func _on_generator_unlocked(
 	generator_id: String
 	) -> void:
+
+	_play_ui_unlock()
 
 	# Add the newly unlocked generator.
 	_create_generator_panel(
@@ -802,6 +815,8 @@ func _input(event: InputEvent) -> void:
 	var hovered: Control = get_viewport().gui_get_hovered_control()
 	while hovered != null:
 		if hovered is BaseButton:
+			if hovered.name == "UpgradeButton" or hovered.name == "BuyButton":
+				return
 			_play_ui_click()
 			return
 		hovered = hovered.get_parent() as Control
@@ -813,6 +828,49 @@ func _setup_ui_audio() -> void:
 	ui_click_player.bus = "Master"
 	ui_click_player.stream = _create_ui_click_stream()
 	add_child(ui_click_player)
+
+	ui_purchase_player = AudioStreamPlayer.new()
+	ui_purchase_player.name = "UIPurchasePlayer"
+	ui_purchase_player.bus = "Master"
+	ui_purchase_player.stream = _create_ui_tone_stream(760.0, 1180.0, 0.10, 0.22)
+	add_child(ui_purchase_player)
+
+	ui_unlock_player = AudioStreamPlayer.new()
+	ui_unlock_player.name = "UIUnlockPlayer"
+	ui_unlock_player.bus = "Master"
+	ui_unlock_player.stream = _create_ui_tone_stream(480.0, 1320.0, 0.28, 0.25)
+	add_child(ui_unlock_player)
+
+
+func _create_ui_tone_stream(
+	start_frequency: float,
+	end_frequency: float,
+	duration: float,
+	amplitude: float
+	) -> AudioStreamWAV:
+	var sample_rate: int = 22050
+	var sample_count: int = int(sample_rate * duration)
+	var samples := PackedByteArray()
+	samples.resize(sample_count * 2)
+
+	for i in range(sample_count):
+		var progress: float = float(i) / float(sample_count)
+		var frequency: float = lerp(start_frequency, end_frequency, progress)
+		var envelope: float = pow(1.0 - progress, 2.0)
+		var fundamental: float = sin(TAU * frequency * float(i) / float(sample_rate))
+		var harmonic: float = sin(TAU * frequency * 2.0 * float(i) / float(sample_rate)) * 0.22
+		var sample: int = int((fundamental + harmonic) * envelope * amplitude * 16000.0)
+		if sample < 0:
+			sample += 65536
+		samples[i * 2] = sample & 0xFF
+		samples[i * 2 + 1] = (sample >> 8) & 0xFF
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = sample_rate
+	stream.stereo = false
+	stream.data = samples
+	return stream
 
 
 func _create_ui_click_stream() -> AudioStreamWAV:
@@ -843,6 +901,18 @@ func _play_ui_click() -> void:
 	if ui_click_player == null or not ui_sounds_enabled:
 		return
 	ui_click_player.play()
+
+
+func _play_ui_purchase() -> void:
+	if ui_purchase_player == null or not ui_sounds_enabled:
+		return
+	ui_purchase_player.play()
+
+
+func _play_ui_unlock() -> void:
+	if ui_unlock_player == null or not ui_sounds_enabled:
+		return
+	ui_unlock_player.play()
 
 
 func _load_visual_settings() -> void:
@@ -1059,6 +1129,9 @@ func _create_generator_upgrade_tree() -> void:
 	)
 	generator_upgrade_tree.automation_settings_changed.connect(
 		_on_upgrade_automation_settings_changed
+	)
+	generator_upgrade_tree.purchase_succeeded.connect(
+		_play_ui_purchase
 	)
 
 
