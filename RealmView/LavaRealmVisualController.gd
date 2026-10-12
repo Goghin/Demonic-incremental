@@ -39,7 +39,20 @@ func build_realm_visuals(
 		lake_scene,
 		lakes
 	)
+	_apply_lava_palette(state.lava_palette)
 	update_positions(realm_layout, island_rect)
+
+
+func _apply_lava_palette(palette: Dictionary) -> void:
+	for flow in flows:
+		if is_instance_valid(flow):
+			flow.set_lava_palette(palette)
+	for fall in falls:
+		if is_instance_valid(fall):
+			fall.set_lava_palette(palette)
+	for lake in lakes:
+		if is_instance_valid(lake):
+			lake.set_lava_palette(palette)
 
 
 func update_positions(
