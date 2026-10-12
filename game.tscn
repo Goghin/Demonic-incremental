@@ -81,7 +81,7 @@ layout_mode = 0
 offset_left = 505.0
 offset_top = 120.0
 offset_right = 805.0
-offset_bottom = 380.0
+offset_bottom = 430.0
 
 [node name="OptionsContent" type="VBoxContainer" parent="OptionsPanel" unique_id=1682017614]
 layout_mode = 2
@@ -101,6 +101,18 @@ text = "ANIMATED VISUAL EFFECTS"
 layout_mode = 2
 button_pressed = true
 text = "UI CLICK SOUNDS"
+
+[node name="MasterVolumeLabel" type="Label" parent="OptionsPanel/OptionsContent" unique_id=1682017620]
+layout_mode = 2
+text = "MASTER VOLUME: 70%"
+
+[node name="MasterVolumeSlider" type="HSlider" parent="OptionsPanel/OptionsContent" unique_id=1682017621]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 70.0
 
 [node name="SaveButton" type="Button" parent="OptionsPanel/OptionsContent" unique_id=1682017616]
 layout_mode = 2
@@ -167,6 +179,7 @@ layout_mode = 1
 [connection signal="pressed" from="OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="toggled" from="OptionsPanel/OptionsContent/VisualEffectsCheckBox" to="." method="_on_visual_effects_toggled"]
 [connection signal="toggled" from="OptionsPanel/OptionsContent/UISoundsCheckBox" to="." method="_on_ui_sounds_toggled"]
+[connection signal="value_changed" from="OptionsPanel/OptionsContent/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
 [connection signal="pressed" from="OptionsPanel/OptionsContent/SaveButton" to="." method="_on_rub_button_pressed"]
 [connection signal="pressed" from="OptionsPanel/OptionsContent/OptionsCloseButton" to="." method="_on_options_close_button_pressed"]
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
