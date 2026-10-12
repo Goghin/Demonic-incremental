@@ -19,7 +19,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [node name="GeneratorPanel" type="PanelContainer" unique_id=270267716]
-custom_minimum_size = Vector2(450, 170)
+custom_minimum_size = Vector2(450, 150)
 size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_dpddx")
@@ -29,7 +29,7 @@ script = ExtResource("1_8xu6q")
 layout_mode = 2
 
 [node name="IllustrationPanel" type="PanelContainer" parent="HBoxContainer" unique_id=2135002673]
-custom_minimum_size = Vector2(225, 0)
+custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
@@ -46,16 +46,21 @@ custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="GeneratorLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1944715467]
+[node name="Header" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="GeneratorLabel" type="Label" parent="HBoxContainer/VBoxContainer/Header" unique_id=1944715467]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 11
+text_overrun_behavior = 3
+
+[node name="LevelLabel" type="Label" parent="HBoxContainer/VBoxContainer/Header" unique_id=1266644673]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
 [node name="OperationModeOptionButton" type="OptionButton" parent="HBoxContainer/VBoxContainer" unique_id=1325397693]
 layout_mode = 2
-
-[node name="LevelLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1266644673]
-layout_mode = 2
-theme_override_font_sizes/font_size = 11
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1972567599]
 layout_mode = 2
