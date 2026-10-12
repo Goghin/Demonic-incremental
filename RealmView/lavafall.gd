@@ -42,6 +42,24 @@ func _apply_palette_to_material(material: ShaderMaterial) -> void:
 			var color: Color = lava_palette[key]
 			material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
 
+	if lava_palette.has("dark"):
+		var dark_color: Color = lava_palette["dark"]
+		material.set_shader_parameter(
+			"dark_blob_lava",
+			Vector3(dark_color.r * 0.25, dark_color.g * 0.25, dark_color.b * 0.25)
+		)
+
+	if lava_palette.has("bright"):
+		var bright_color: Color = lava_palette["bright"]
+		material.set_shader_parameter(
+			"bright_blob_lava",
+			Vector3(
+				minf(bright_color.r * 1.15, 1.2),
+				minf(bright_color.g * 1.15, 1.0),
+				minf(bright_color.b * 1.15, 1.0)
+			)
+		)
+
 
 func setup(
 	fall_width: float = 4.0,
