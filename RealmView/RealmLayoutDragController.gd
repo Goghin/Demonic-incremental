@@ -37,7 +37,11 @@ func handle_mouse_input(event: InputEvent, owner: RealmView) -> void:
 				)
 				return
 
-			if event.ctrl_pressed:
+			if event.ctrl_pressed and not _is_near_existing_geometry_handle(
+				mouse_position,
+				owner.realm_layout,
+				island_rect
+			):
 				var inserted_object: String = _insert_flow_point_at_position(
 					mouse_position,
 					owner,
@@ -48,14 +52,13 @@ func handle_mouse_input(event: InputEvent, owner: RealmView) -> void:
 						mouse_position,
 						owner,
 						island_rect
-				)
+					)
 				if inserted_object != "":
 					selected_object = inserted_object
 					dragging_object = ""
 					drag_offset = Vector2.ZERO
 					owner.queue_redraw()
 					return
-
 			var drag_result: Dictionary = find_drag_target(
 				mouse_position,
 				owner
@@ -75,6 +78,38 @@ func handle_mouse_input(event: InputEvent, owner: RealmView) -> void:
 			owner,
 			island_rect
 		)
+
+
+func _is_near_existing_geometry_handle(
+	mouse_position: Vector2,
+	layout: RealmLayout,
+	island_rect: Rect2
+) -> bool:
+	if layout == null:
+		return false
+
+	# Existing handles take priority over insertion, even if another
+	# nearby flow or lake segment would otherwise qualify.
+	for flow_index in range(layout.lava_flow_definitions.size()):
+		for point in _get_flow_points(layout, flow_index):
+			var screen_point: Vector2 = geometry_controller.get_position_from_normalized(
+				point,
+				island_rect
+			)
+			if screen_point.distance_to(mouse_position) <= 12.0:
+				return true
+
+	var lake_count: int = 1 + layout.small_lake_definitions.size()
+	for lake_index in range(lake_count):
+		for point in _get_lake_points(layout, lake_index):
+			var screen_point: Vector2 = geometry_controller.get_position_from_normalized(
+				point,
+				island_rect
+			)
+			if screen_point.distance_to(mouse_position) <= 12.0:
+				return true
+
+	return false
 
 
 func find_drag_target(
