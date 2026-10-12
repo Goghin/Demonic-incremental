@@ -424,27 +424,52 @@ func _insert_flow_point_at_position(
 
 	var definition: Dictionary = layout.lava_flow_definitions[best_flow_index]
 	var points: PackedVector2Array = _get_flow_points(layout, best_flow_index)
+	var widths: PackedFloat32Array = _get_aligned_flow_widths(
+		definition,
+		points.size()
+	)
 	var normalized_position: Vector2 = geometry_controller.get_normalized_position(
 		best_position,
 		island_rect
 	)
+	var inserted_width: float = lerpf(
+		widths[best_segment_index],
+		widths[best_segment_index + 1],
+		best_ratio
+	)
+
 	points.insert(best_segment_index + 1, normalized_position)
+	widths.insert(best_segment_index + 1, inserted_width)
 	definition["points"] = points
-
-	if definition.has("widths"):
-		var widths: PackedFloat32Array = definition["widths"]
-		if widths.size() == points.size() - 1:
-			var inserted_width: float = lerpf(
-				widths[best_segment_index],
-				widths[best_segment_index + 1],
-				best_ratio
-			)
-			widths.insert(best_segment_index + 1, inserted_width)
-			definition["widths"] = widths
-
+	definition["widths"] = widths
 	layout.lava_flow_definitions[best_flow_index] = definition
 	owner.lava_realm_visual_controller.update_positions(layout, island_rect)
 	return "lava_flow:%d:%d" % [best_flow_index, best_segment_index + 1]
+
+
+func _get_aligned_flow_widths(
+	definition: Dictionary,
+	point_count: int
+) -> PackedFloat32Array:
+	var widths := PackedFloat32Array()
+	if point_count <= 0:
+		return widths
+
+	var stored_widths: PackedFloat32Array = definition.get(
+		"widths",
+		PackedFloat32Array()
+	)
+	for i in range(point_count):
+		if i < stored_widths.size():
+			widths.append(maxf(0.0, stored_widths[i]))
+		elif not widths.is_empty():
+			# Extend malformed width data using the last known width.
+			widths.append(widths[widths.size() - 1])
+		else:
+			# A missing width array gets a conservative, readable default.
+			widths.append(3.0)
+
+	return widths
 
 
 func remove_selected_flow_point(layout: RealmLayout) -> bool:
@@ -466,15 +491,15 @@ func remove_selected_flow_point(layout: RealmLayout) -> bool:
 	if points.size() <= 2 or point_index < 0 or point_index >= points.size():
 		return false
 
+	var widths: PackedFloat32Array = _get_aligned_flow_widths(
+		definition,
+		points.size()
+	)
+
 	points.remove_at(point_index)
+	widths.remove_at(point_index)
 	definition["points"] = points
-
-	if definition.has("widths"):
-		var widths: PackedFloat32Array = definition["widths"]
-		if point_index < widths.size():
-			widths.remove_at(point_index)
-		definition["widths"] = widths
-
+	definition["widths"] = widths
 	layout.lava_flow_definitions[flow_index] = definition
 	var new_point_index: int = mini(point_index, points.size() - 1)
 	selected_object = "lava_flow:%d:%d" % [flow_index, new_point_index]
