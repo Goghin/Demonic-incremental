@@ -19,7 +19,7 @@ func draw_overlay(
 		2.0
 	)
 
-	_draw_editor_help(owner, selected_object)
+	_draw_editor_help(owner, selected_object, realm_layout)
 	_draw_flow_handles(owner, realm_layout, island_rect, selected_object)
 	_draw_lake_edge_handles(owner, realm_layout, island_rect, selected_object)
 
@@ -102,20 +102,21 @@ func draw_overlay(
 
 
 
-func _draw_editor_help(owner: Control, selected_object: String) -> void:
-	var panel_rect: Rect2 = Rect2(14.0, 14.0, 270.0, 104.0)
+func _draw_editor_help(owner: Control, selected_object: String, realm_layout: RealmLayout) -> void:
+	var panel_rect: Rect2 = Rect2(14.0, 14.0, 300.0, 160.0)
 	owner.draw_rect(panel_rect, Color(0.04, 0.03, 0.02, 0.88), true)
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9), false, 1.0)
 	var lines: Array[String] = [
 		"REALM LAYOUT EDITOR",
 		"Drag machines, braziers, ash piles, flow or lake handles",
+		"Select flow point, then +/- to change width",
 		"Shift + click: print normalized point",
 		"F2: close editor"
 	]
 	for i in range(lines.size()):
 		owner.draw_string(
 			ThemeDB.fallback_font,
-			Vector2(24.0, 34.0 + i * 20.0),
+			Vector2(24.0, 34.0 + i * 17.0),
 			lines[i],
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
@@ -132,6 +133,25 @@ func _draw_editor_help(owner: Control, selected_object: String) -> void:
 			12,
 			Color(1.0, 0.95, 0.55, 1.0)
 		)
+		if selected_object.begins_with("lava_flow:"):
+			var parts: PackedStringArray = selected_object.split(":")
+			if parts.size() == 3:
+				var flow_index: int = int(parts[1])
+				var point_index: int = int(parts[2])
+				if flow_index >= 0 and flow_index < realm_layout.lava_flow_definitions.size():
+					var definition: Dictionary = realm_layout.lava_flow_definitions[flow_index]
+					if definition.has("widths"):
+						var widths: PackedFloat32Array = definition["widths"]
+						if point_index >= 0 and point_index < widths.size():
+							owner.draw_string(
+								ThemeDB.fallback_font,
+								Vector2(24.0, 158.0),
+								"Width at point %d: %.1f" % [point_index + 1, widths[point_index]],
+								HORIZONTAL_ALIGNMENT_LEFT,
+								-1.0,
+								12,
+								Color(0.78, 0.68, 1.0, 1.0)
+							)
 
 
 

@@ -6,6 +6,7 @@ var geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryCont
 
 
 var dragging_object: String = ""
+var selected_object: String = ""
 var drag_offset: Vector2 = Vector2.ZERO
 
 
@@ -41,6 +42,7 @@ func handle_mouse_input(event: InputEvent, owner: RealmView) -> void:
 				owner
 			)
 			dragging_object = drag_result["object"]
+			selected_object = dragging_object
 			drag_offset = drag_result["offset"]
 		else:
 			cancel_drag()
@@ -281,6 +283,28 @@ func _set_flow_points(
 	var definition: Dictionary = layout.lava_flow_definitions[flow_index]
 	definition["points"] = points
 	layout.lava_flow_definitions[flow_index] = definition
+
+
+func adjust_selected_flow_width(layout: RealmLayout, amount: float) -> bool:
+	if layout == null or not selected_object.begins_with("lava_flow:"):
+		return false
+	var parts: PackedStringArray = selected_object.split(":")
+	if parts.size() != 3:
+		return false
+	var flow_index: int = int(parts[1])
+	var point_index: int = int(parts[2])
+	if flow_index < 0 or flow_index >= layout.lava_flow_definitions.size():
+		return false
+	var definition: Dictionary = layout.lava_flow_definitions[flow_index]
+	if not definition.has("widths"):
+		return false
+	var widths: PackedFloat32Array = definition["widths"]
+	if point_index < 0 or point_index >= widths.size():
+		return false
+	widths[point_index] = maxf(0.0, widths[point_index] + amount)
+	definition["widths"] = widths
+	layout.lava_flow_definitions[flow_index] = definition
+	return true
 
 
 func _get_lake_points(layout: RealmLayout, lake_index: int) -> PackedVector2Array:

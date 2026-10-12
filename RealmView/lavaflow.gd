@@ -246,11 +246,15 @@ func set_active(active: bool) -> void:
 			flow_state = FlowState.STOPPING
 
 func reposition_from_points(
-	flow_points: PackedVector2Array
+	flow_points: PackedVector2Array,
+	flow_widths: PackedFloat32Array = PackedFloat32Array()
 ) -> void:
 
 	if flow_points.size() < 2:
 		return
+
+	if flow_widths.size() == flow_points.size():
+		widths = flow_widths.duplicate()
 
 	position = flow_points[0]
 

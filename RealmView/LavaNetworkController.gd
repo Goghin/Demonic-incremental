@@ -119,7 +119,8 @@ func update_positions(
 			island_rect
 		)
 
-		flow.reposition_from_points(flow_points)
+		var flow_widths: PackedFloat32Array = definition["widths"]
+		flow.reposition_from_points(flow_points, flow_widths)
 
 		if i < lava_falls.size():
 			var fall: LavaFall = lava_falls[i]
