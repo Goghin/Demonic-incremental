@@ -876,10 +876,15 @@ func _on_options_button_pressed() -> void:
 		$UpgradeScroll.hide()
 		$PrestigePanel.hide()
 		$GeneratorScroll.hide()
+	else:
+		$GeneratorScroll.show()
+		_refresh_generator_panel_visibility()
 
 
 func _on_options_close_button_pressed() -> void:
 	$OptionsPanel.hide()
+	$GeneratorScroll.show()
+	_refresh_generator_panel_visibility()
 
 
 func _on_quit_game_button_pressed() -> void:
@@ -942,7 +947,7 @@ func _apply_master_volume() -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if not event is InputEventKey:
+	if state == null or not event is InputEventKey:
 		return
 
 	var key_event := event as InputEventKey
