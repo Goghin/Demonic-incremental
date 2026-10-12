@@ -6,8 +6,8 @@ signal exclusive_preference_changed
 signal purchase_succeeded
 
 
-const EXCLUSIVE_CHECKBOX_SIZE := Vector2(18, 18)
-const EXCLUSIVE_CHECKBOX_POSITION := Vector2(50, -8)
+const EXCLUSIVE_CHECKBOX_SIZE := Vector2(16, 16)
+const EXCLUSIVE_CHECKBOX_POSITION := Vector2(39, -7)
 const EXCLUSIVE_CHECKBOX_TOOLTIP := "Allow the upgrade autobuyer to buy this option. Only one option per exclusive group can be selected."
 
 

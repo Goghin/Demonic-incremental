@@ -6,9 +6,9 @@ var positions: Dictionary = {}
 var connections: Array[Dictionary] = []
 
 
-const COLUMN_SPACING := 90.0
-const ROW_SPACING := 100.0
-const ORIGIN := Vector2(20, 20)
+const COLUMN_SPACING := 70.0
+const ROW_SPACING := 78.0
+const ORIGIN := Vector2(12, 12)
 
 
 func add_position(

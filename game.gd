@@ -531,15 +531,8 @@ func add_upgrade_panel(
 		upgrade_panel_scene.instantiate()
 	)
 
-	panel.custom_minimum_size = Vector2(
-		70,
-		70
-	)
-
-	panel.size = Vector2(
-		70,
-		70
-	)
+	panel.custom_minimum_size = Vector2(54, 54)
+	panel.size = Vector2(54, 54)
 
 	upgrade_flow.add_child(
 		panel
@@ -637,12 +630,12 @@ func create_upgrade_group(
 
 	upgrade_flow.add_theme_constant_override(
 		"h_separation",
-		2
+		3
 	)
 
 	upgrade_flow.add_theme_constant_override(
 		"v_separation",
-		2
+		3
 	)
 
 	group_container.add_child(
@@ -709,12 +702,12 @@ func _create_effects_container() -> void:
 
 	effects_flow.add_theme_constant_override(
 		"h_separation",
-		4
+		3
 	)
 
 	effects_flow.add_theme_constant_override(
 		"v_separation",
-		4
+		3
 	)
 
 	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(

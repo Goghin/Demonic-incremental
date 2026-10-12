@@ -48,9 +48,11 @@ offset_bottom = 590.0
 
 [node name="UpgradeContent" type="VBoxContainer" parent="UpgradeScroll" unique_id=631500945]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="GeneralUpgradeContainer" type="VBoxContainer" parent="UpgradeScroll/UpgradeContent" unique_id=667329354]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="GeneratorUpgradeContainer" type="VBoxContainer" parent="UpgradeScroll/UpgradeContent" unique_id=100468108]
 visible = false
