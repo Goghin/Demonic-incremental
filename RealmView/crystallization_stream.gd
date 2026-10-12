@@ -64,7 +64,7 @@ func setup_burst(at_position: Vector2) -> void:
 	start_position = at_position
 	target_position = at_position
 	elapsed = 0.0
-	duration = 0.7
+	duration = 0.9
 	active = true
 	particles.clear()
 
@@ -73,7 +73,7 @@ func setup_burst(at_position: Vector2) -> void:
 			"angle": randf_range(0.0, TAU),
 			"burst_speed": randf_range(88.0, 184.0),
 			"streak_length": randf_range(5.0, 11.0),
-			"size": randf_range(0.55, 1.0),
+			"size": randf_range(0.8, 1.35),
 			"phase": randf_range(0.0, TAU),
 			"alpha": randf_range(0.65, 1.0)
 		})
