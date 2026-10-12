@@ -41,9 +41,9 @@ theme_override_constants/separation = 8
 visible = false
 z_index = 50
 layout_mode = 0
-offset_left = 505.0
-offset_top = 81.0
-offset_right = 1148.0
+offset_left = 12.0
+offset_top = 230.0
+offset_right = 655.0
 offset_bottom = 590.0
 
 [node name="UpgradeContent" type="VBoxContainer" parent="UpgradeScroll" unique_id=631500945]
@@ -60,9 +60,9 @@ layout_mode = 2
 visible = false
 z_index = 50
 layout_mode = 1
-offset_left = 505.0
+offset_left = 12.0
 offset_top = 66.0
-offset_right = -13.520996
+offset_right = 655.0
 offset_bottom = -54.25287
 scale = Vector2(1.0213442, 0.9947947)
 
@@ -78,9 +78,9 @@ text = "OPTIONS"
 visible = false
 z_index = 60
 layout_mode = 0
-offset_left = 505.0
+offset_left = 12.0
 offset_top = 120.0
-offset_right = 805.0
+offset_right = 312.0
 offset_bottom = 510.0
 
 [node name="OptionsContent" type="VBoxContainer" parent="OptionsPanel" unique_id=1682017614]
@@ -154,9 +154,9 @@ layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 573.0
+offset_left = 12.0
 offset_top = 17.0
-offset_right = 1130.0
+offset_right = 569.0
 offset_bottom = 587.0
 grow_horizontal = 1
 grow_vertical = 1

@@ -1361,6 +1361,7 @@ func _on_upgrades_button_pressed() -> void:
 	# Switch back to the general upgrade panel.
 
 	selected_upgrade_generator_id = ""
+	$UpgradeScroll.offset_top = 81.0
 
 	_update_upgrade_view()
 
