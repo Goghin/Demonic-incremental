@@ -43,7 +43,11 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 		if event.keycode in [KEY_DELETE, KEY_BACKSPACE]:
 			var removed_point: bool = drag_controller.remove_selected_flow_point(owner.realm_layout)
 			if not removed_point:
-				removed_point = drag_controller.remove_selected_lake_point(owner.realm_layout)
+				removed_point = drag_controller.remove_selected_lake_point(
+					owner.realm_layout,
+					owner,
+					owner._get_island_rect()
+				)
 			if removed_point:
 				owner.lava_realm_visual_controller.update_positions(
 					owner.realm_layout,

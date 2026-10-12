@@ -565,7 +565,11 @@ func _insert_lake_point_at_position(
 	return "lake_edge:%d:%d" % [best_lake_index, insert_index]
 
 
-func remove_selected_lake_point(layout: RealmLayout) -> bool:
+func remove_selected_lake_point(
+	layout: RealmLayout,
+	owner: RealmView,
+	island_rect: Rect2
+) -> bool:
 	if layout == null or not selected_object.begins_with("lake_edge:"):
 		return false
 
@@ -582,6 +586,7 @@ func remove_selected_lake_point(layout: RealmLayout) -> bool:
 
 	points.remove_at(point_index)
 	_set_lake_points(layout, lake_index, points)
+	_refresh_lake_geometry(owner, lake_index, points, island_rect)
 	var new_point_index: int = mini(point_index, points.size() - 1)
 	selected_object = "lake_edge:%d:%d" % [lake_index, new_point_index]
 	return true
