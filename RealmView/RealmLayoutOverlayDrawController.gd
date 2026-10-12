@@ -188,6 +188,12 @@ func _draw_flow_handles(
 	if realm_layout == null or island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
 		return
 
+	var selected_flow_index: int = -1
+	if selected_object.begins_with("lava_flow:"):
+		var selected_parts: PackedStringArray = selected_object.split(":")
+		if selected_parts.size() == 3:
+			selected_flow_index = int(selected_parts[1])
+
 	for flow_index in range(realm_layout.lava_flow_definitions.size()):
 		var definition: Dictionary = realm_layout.lava_flow_definitions[flow_index]
 		if not definition.has("points"):
@@ -196,6 +202,7 @@ func _draw_flow_handles(
 		if points.is_empty():
 			continue
 
+		var is_selected_flow: bool = selected_flow_index == flow_index
 		var screen_points := PackedVector2Array()
 		for normalized_point in points:
 			screen_points.append(island_rect.position + island_rect.size * normalized_point)
@@ -203,11 +210,19 @@ func _draw_flow_handles(
 		for point_index in range(screen_points.size()):
 			var current: Vector2 = screen_points[point_index]
 			if point_index > 0:
+				var line_color: Color
+				var line_width: float
+				if is_selected_flow:
+					line_color = Color(0.82, 0.68, 1.0, 1.0)
+					line_width = 3.0
+				else:
+					line_color = Color(0.55, 0.45, 1.0, 0.08 if selected_object != "" else 0.8)
+					line_width = 2.0
 				owner.draw_line(
 					screen_points[point_index - 1],
 					current,
-					Color(0.55, 0.45, 1.0, 0.08 if selected_object != "" else 0.8),
-					2.0
+					line_color,
+					line_width
 				)
 
 			var handle_id: String = "lava_flow:%d:%d" % [flow_index, point_index]
@@ -229,7 +244,12 @@ func _draw_flow_handles(
 			elif is_selected:
 				_draw_flow_handle_circle(owner, current, true)
 			else:
-				_draw_flow_handle_circle(owner, current, false, selected_object == "")
+				_draw_flow_handle_circle(
+					owner,
+					current,
+					false,
+					selected_object == "" or is_selected_flow
+				)
 
 func _draw_flow_handle_circle(
 	owner: Control,
