@@ -43,6 +43,12 @@ func handle_mouse_input(event: InputEvent, owner: RealmView) -> void:
 					owner,
 					island_rect
 				)
+				if inserted_object == "":
+					inserted_object = _insert_lake_point_at_position(
+						mouse_position,
+						owner,
+						island_rect
+				)
 				if inserted_object != "":
 					selected_object = inserted_object
 					dragging_object = ""
@@ -473,6 +479,126 @@ func remove_selected_flow_point(layout: RealmLayout) -> bool:
 	var new_point_index: int = mini(point_index, points.size() - 1)
 	selected_object = "lava_flow:%d:%d" % [flow_index, new_point_index]
 	return true
+
+
+func _insert_lake_point_at_position(
+	mouse_position: Vector2,
+	owner: RealmView,
+	island_rect: Rect2
+) -> String:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null:
+		return ""
+
+	# Do not insert a new point when Ctrl-clicking an existing flow or lake handle.
+	for flow_index in range(layout.lava_flow_definitions.size()):
+		for point in _get_flow_points(layout, flow_index):
+			var flow_screen_point: Vector2 = geometry_controller.get_position_from_normalized(
+				point,
+				island_rect
+			)
+			if flow_screen_point.distance_to(mouse_position) <= 12.0:
+				return ""
+
+	var lake_count: int = 1 + layout.small_lake_definitions.size()
+	for lake_index in range(lake_count):
+		var points: PackedVector2Array = _get_lake_points(layout, lake_index)
+		if points.size() < 3:
+			continue
+		var screen_points := PackedVector2Array()
+		for point in points:
+			screen_points.append(geometry_controller.get_position_from_normalized(
+				point,
+				island_rect
+			))
+		for point in screen_points:
+			if point.distance_to(mouse_position) <= 12.0:
+				return ""
+
+	var best_lake_index: int = -1
+	var best_segment_index: int = -1
+	var best_position: Vector2 = Vector2.ZERO
+	var best_distance: float = 10.0
+
+	for lake_index in range(lake_count):
+		var points: PackedVector2Array = _get_lake_points(layout, lake_index)
+		if points.size() < 3:
+			continue
+		var screen_points := PackedVector2Array()
+		for point in points:
+			screen_points.append(geometry_controller.get_position_from_normalized(
+				point,
+				island_rect
+			))
+		# Lake outlines are closed, so include the final-to-first segment.
+		for segment_index in range(screen_points.size()):
+			var next_index: int = (segment_index + 1) % screen_points.size()
+			var start: Vector2 = screen_points[segment_index]
+			var finish: Vector2 = screen_points[next_index]
+			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(
+				mouse_position,
+				start,
+				finish
+			)
+			var distance: float = closest.distance_to(mouse_position)
+			if distance >= best_distance:
+				continue
+			best_distance = distance
+			best_lake_index = lake_index
+			best_segment_index = segment_index
+			best_position = closest
+
+	if best_lake_index < 0:
+		return ""
+
+	var points: PackedVector2Array = _get_lake_points(layout, best_lake_index)
+	var normalized_position: Vector2 = geometry_controller.get_normalized_position(
+		best_position,
+		island_rect
+	)
+	var insert_index: int = best_segment_index + 1
+	if best_segment_index == points.size() - 1:
+		insert_index = points.size()
+	points.insert(insert_index, normalized_position)
+	_set_lake_points(layout, best_lake_index, points)
+	_refresh_lake_geometry(owner, best_lake_index, points, island_rect)
+	return "lake_edge:%d:%d" % [best_lake_index, insert_index]
+
+
+func remove_selected_lake_point(layout: RealmLayout) -> bool:
+	if layout == null or not selected_object.begins_with("lake_edge:"):
+		return false
+
+	var parts: PackedStringArray = selected_object.split(":")
+	if parts.size() != 3:
+		return false
+
+	var lake_index: int = int(parts[1])
+	var point_index: int = int(parts[2])
+	var points: PackedVector2Array = _get_lake_points(layout, lake_index)
+	# Keep at least three points so the lake outline remains a valid polygon.
+	if points.size() <= 3 or point_index < 0 or point_index >= points.size():
+		return false
+
+	points.remove_at(point_index)
+	_set_lake_points(layout, lake_index, points)
+	var new_point_index: int = mini(point_index, points.size() - 1)
+	selected_object = "lake_edge:%d:%d" % [lake_index, new_point_index]
+	return true
+
+
+func _refresh_lake_geometry(
+	owner: RealmView,
+	lake_index: int,
+	points: PackedVector2Array,
+	island_rect: Rect2
+) -> void:
+	var lakes: Array[LavaLake] = owner.lava_realm_visual_controller.lakes
+	if lake_index < 0 or lake_index >= lakes.size():
+		return
+	var lake: LavaLake = lakes[lake_index]
+	if is_instance_valid(lake):
+		lake.setup(points, island_rect)
 
 
 func _get_lake_points(layout: RealmLayout, lake_index: int) -> PackedVector2Array:

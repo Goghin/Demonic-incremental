@@ -115,8 +115,8 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 		"REALM LAYOUT EDITOR",
 		"Drag machines, braziers, ash piles, flow or lake handles",
 		"Select flow point, then +/- to change width",
-		"Ctrl + click a flow segment: insert point",
-		"Delete / Backspace: remove selected flow point",
+		"Ctrl + click flow/lake edge: insert point",
+		"Delete / Backspace: remove selected flow/lake point",
 		"Selected flow endpoint: edit waterfall",
 		"Hold Left/Right: waterfall width",
 		"Hold Up/Down: waterfall length",
@@ -158,9 +158,9 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 								Vector2(24.0, 186.0),
 								"Width at point %d: %.1f" % [point_index + 1, widths[point_index]],
 								HORIZONTAL_ALIGNMENT_LEFT,
-								-1.0,
-								12,
-								Color(0.78, 0.68, 1.0, 1.0)
+							-1.0,
+							12,
+							Color(0.78, 0.68, 1.0, 1.0)
 							)
 
 						var points: PackedVector2Array = definition.get("points", PackedVector2Array())
@@ -172,9 +172,9 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 								Vector2(24.0, 207.0),
 								"Fall width: %.1f   length: %.1f" % [fall_width, fall_length],
 								HORIZONTAL_ALIGNMENT_LEFT,
-								-1.0,
-								12,
-								Color(1.0, 0.58, 0.28, 1.0)
+							-1.0,
+							12,
+							Color(1.0, 0.58, 0.28, 1.0)
 							)
 
 
