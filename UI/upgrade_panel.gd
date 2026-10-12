@@ -3,6 +3,7 @@ extends Control
 
 
 signal exclusive_preference_changed
+signal purchase_succeeded
 
 
 const EXCLUSIVE_CHECKBOX_SIZE := Vector2(18, 18)
@@ -387,7 +388,8 @@ func _on_buy_button_pressed() -> void:
 	if input_handler == null:
 		return
 
-	input_handler.buy_upgrade(upgrade_id)
+	if input_handler.buy_upgrade(upgrade_id):
+		purchase_succeeded.emit()
 
 
 # -------------------------------------------------------------------
