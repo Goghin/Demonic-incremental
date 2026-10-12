@@ -9,9 +9,23 @@ class LavaFlowSparkOverlay extends Node2D:
 	var activity_factor: float = 1.0
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var particles: Array[Dictionary] = []
+	var outer_spark_color: Color = Color(0.72, 0.045, 0.008, 0.9)
+	var core_spark_color: Color = Color(1.0, 0.24, 0.035, 0.92)
 
 	func _ready() -> void:
 		randomizer.randomize()
+
+	func set_lava_spark_colors(outer_color: Color, core_color: Color) -> void:
+		outer_spark_color = outer_color
+		core_spark_color = core_color
+		for particle in particles:
+			var node: Node2D = particle["node"]
+			var outer := node.get_node_or_null("OuterGlow") as Polygon2D
+			var core := node.get_node_or_null("HotCore") as Polygon2D
+			if outer != null:
+				outer.color = outer_spark_color
+			if core != null:
+				core.color = core_spark_color
 
 	func set_flow_shape(new_points: PackedVector2Array, new_widths: PackedFloat32Array) -> void:
 		flow_points = new_points
@@ -110,12 +124,14 @@ class LavaFlowSparkOverlay extends Node2D:
 			var size: float = randomizer.randf_range(1.9, 3.1)
 			var outer := Polygon2D.new()
 			outer.polygon = _make_spark(size, randomizer.randf_range(0.7, 1.2))
-			outer.color = Color(0.72, 0.045, 0.008, 0.9)
+			outer.name = "OuterGlow"
+			outer.color = outer_spark_color
 			node.add_child(outer)
 
 			var core := Polygon2D.new()
 			core.polygon = _make_spark(size * 0.42, 0.45)
-			core.color = Color(1.0, 0.24, 0.035, 0.92)
+			core.name = "HotCore"
+			core.color = core_spark_color
 			node.add_child(core)
 
 			var angle: float = randomizer.randf_range(-PI * 0.85, -PI * 0.15)
@@ -177,6 +193,7 @@ var surface_segments: Array[Polygon2D] = []
 var surface_corners: Array[Polygon2D] = []
 var surface_material: ShaderMaterial
 var spark_overlay: LavaFlowSparkOverlay
+var lava_palette: Dictionary = {}
 
 
 func setup(
@@ -226,6 +243,8 @@ func _ensure_spark_overlay() -> void:
 	spark_overlay.name = "LavaFlowSparkOverlay"
 	spark_overlay.z_index = 3
 	add_child(spark_overlay)
+	if not lava_palette.is_empty():
+		spark_overlay.set_lava_spark_colors(lava_palette.get("red", Color(0.72, 0.045, 0.008, 0.9)), lava_palette.get("bright", Color(1.0, 0.24, 0.035, 0.92)))
 
 
 func set_active(active: bool) -> void:
@@ -264,6 +283,21 @@ func reposition_from_points(
 	_update_surface()
 
 
+func set_lava_palette(palette: Dictionary) -> void:
+	lava_palette = palette.duplicate(true)
+	if surface_material != null:
+		_apply_palette_to_material(surface_material)
+	if is_instance_valid(spark_overlay):
+		spark_overlay.set_lava_spark_colors(lava_palette.get("red", Color(0.72, 0.045, 0.008, 0.9)), lava_palette.get("bright", Color(1.0, 0.24, 0.035, 0.92)))
+	if not lava_palette.is_empty():
+		rim.default_color = lava_palette.get("orange", Color(1.0, 0.10, 0.008, 0.80))
+
+func _apply_palette_to_material(material: ShaderMaterial) -> void:
+	for key in ["dark", "red", "orange", "bright", "glow"]:
+		if lava_palette.has(key):
+			var color: Color = lava_palette[key]
+			material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
+
 func _setup_material() -> void:
 	surface_material = ShaderMaterial.new()
 	surface_material.shader = FLOW_SHADER
@@ -277,7 +311,8 @@ func _setup_material() -> void:
 		"flow_speed",
 		speed
 	)
-
+	if not lava_palette.is_empty():
+		_apply_palette_to_material(surface_material)
 
 
 func _process(delta: float) -> void:
