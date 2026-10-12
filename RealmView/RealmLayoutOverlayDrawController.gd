@@ -196,19 +196,24 @@ func _draw_flow_handles(
 			if is_selected and definition.has("widths"):
 				var widths: PackedFloat32Array = definition["widths"]
 				if widths.size() == screen_points.size():
+					# The width cross-section replaces the usual selection circle.
 					_draw_selected_flow_width_preview(owner, screen_points, widths, point_index)
-			owner.draw_circle(
-				current,
-				7.0 if is_selected else 5.0,
-				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(0.62, 0.48, 1.0, 0.08 if selected_object != "" else 1.0)
-			)
-			owner.draw_circle(
-				current,
-				7.0 if is_selected else 5.0,
-				Color(0.08, 0.035, 0.16, 1.0 if is_selected or selected_object == "" else 0.08),
-				false,
-				1.2
-			)
+				else:
+					_draw_flow_handle_circle(owner, current, true)
+			elif is_selected:
+				_draw_flow_handle_circle(owner, current, true)
+			else:
+				_draw_flow_handle_circle(owner, current, false, selected_object == "")
+
+func _draw_flow_handle_circle(
+	owner: Control,
+	position: Vector2,
+	is_selected: bool,
+	fully_visible: bool = true
+) -> void:
+	var alpha: float = 1.0 if is_selected or fully_visible else 0.08
+	owner.draw_circle(position, 5.0, Color(0.62, 0.48, 1.0, alpha))
+	owner.draw_circle(position, 5.0, Color(0.08, 0.035, 0.16, alpha), false, 1.2)
 
 func _draw_selected_flow_width_preview(
 	owner: Control,
@@ -247,6 +252,7 @@ func _draw_selected_flow_width_preview(
 	owner.draw_line(start, finish, Color(0.72, 0.52, 1.0, 0.98), 3.0, true)
 	owner.draw_circle(start, 3.0, Color(1.0, 0.91, 0.58, 1.0))
 	owner.draw_circle(finish, 3.0, Color(1.0, 0.91, 0.58, 1.0))
+	owner.draw_circle(center, 2.0, Color(0.08, 0.035, 0.16, 1.0))
 
 func _draw_lake_edge_handles(
 	owner: Control,
