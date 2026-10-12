@@ -193,6 +193,10 @@ func _draw_flow_handles(
 
 			var handle_id: String = "lava_flow:%d:%d" % [flow_index, point_index]
 			var is_selected: bool = selected_object == handle_id
+			if is_selected and definition.has("widths"):
+				var widths: PackedFloat32Array = definition["widths"]
+				if widths.size() == screen_points.size():
+					_draw_selected_flow_width_preview(owner, screen_points, widths, point_index)
 			owner.draw_circle(
 				current,
 				7.0 if is_selected else 5.0,
@@ -205,6 +209,44 @@ func _draw_flow_handles(
 				false,
 				1.2
 			)
+
+func _draw_selected_flow_width_preview(
+	owner: Control,
+	screen_points: PackedVector2Array,
+	widths: PackedFloat32Array,
+	point_index: int
+) -> void:
+	if point_index < 0 or point_index >= screen_points.size() or point_index >= widths.size():
+		return
+	if screen_points.size() < 2:
+		return
+
+	var tangent: Vector2
+	if point_index == 0:
+		tangent = screen_points[1] - screen_points[0]
+	elif point_index == screen_points.size() - 1:
+		tangent = screen_points[point_index] - screen_points[point_index - 1]
+	else:
+		var incoming: Vector2 = (screen_points[point_index] - screen_points[point_index - 1]).normalized()
+		var outgoing: Vector2 = (screen_points[point_index + 1] - screen_points[point_index]).normalized()
+		tangent = incoming + outgoing
+		if tangent.length_squared() <= 0.0001:
+			tangent = outgoing
+
+	if tangent.length_squared() <= 0.0001:
+		return
+
+	var normal: Vector2 = Vector2(-tangent.normalized().y, tangent.normalized().x)
+	var center: Vector2 = screen_points[point_index]
+	var half_width: float = maxf(2.0, widths[point_index] * 0.5)
+	var start: Vector2 = center - normal * half_width
+	var finish: Vector2 = center + normal * half_width
+
+	# Dark backing keeps the width preview readable over lava and island art.
+	owner.draw_line(start, finish, Color(0.025, 0.01, 0.06, 0.95), 7.0, true)
+	owner.draw_line(start, finish, Color(0.72, 0.52, 1.0, 0.98), 3.0, true)
+	owner.draw_circle(start, 3.0, Color(1.0, 0.91, 0.58, 1.0))
+	owner.draw_circle(finish, 3.0, Color(1.0, 0.91, 0.58, 1.0))
 
 func _draw_lake_edge_handles(
 	owner: Control,
