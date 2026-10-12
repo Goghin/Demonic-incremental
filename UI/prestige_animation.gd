@@ -11,6 +11,12 @@ var is_playing: bool = false
 
 var realm_view: RealmView
 var realm_original_position: Vector2 = Vector2.ZERO
+var realm_original_scale: Vector2 = Vector2.ONE
+var realm_original_pivot_offset: Vector2 = Vector2.ZERO
+
+const REBIRTH_ZOOM_START_SCALE: float = 0.015
+const REBIRTH_ZOOM_DURATION: float = 6.0
+const REBIRTH_FADE_DURATION: float = 2.0
 
 
 @onready var flash: ColorRect = $Flash
@@ -54,6 +60,8 @@ func play() -> void:
 
 	if realm_view != null:
 		realm_original_position = realm_view.position
+		realm_original_scale = realm_view.scale
+		realm_original_pivot_offset = realm_view.pivot_offset
 
 		# Each crystallized flame handles its own
 		# destruction and explosion at its own position.
@@ -127,15 +135,35 @@ func play() -> void:
 	# --------------------------------
 
 	var rebirth_tween := create_tween()
+	rebirth_tween.set_parallel(true)
+
+	# Reveal the realm while it grows from a distant speck
+	# to its normal size over six seconds.
+	if realm_view != null:
+		realm_view.pivot_offset = realm_view.size * 0.5
+		realm_view.scale = Vector2.ONE * REBIRTH_ZOOM_START_SCALE
+
+		var zoom_tween := rebirth_tween.tween_property(
+			realm_view,
+			"scale",
+			realm_original_scale,
+			REBIRTH_ZOOM_DURATION
+		)
+		zoom_tween.set_trans(Tween.TRANS_CUBIC)
+		zoom_tween.set_ease(Tween.EASE_OUT)
 
 	rebirth_tween.tween_property(
 		void_overlay,
 		"color:a",
 		0.0,
-		1.50
+		REBIRTH_FADE_DURATION
 	)
 
 	await rebirth_tween.finished
+
+	if realm_view != null:
+		realm_view.scale = realm_original_scale
+		realm_view.pivot_offset = realm_original_pivot_offset
 
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
