@@ -60,6 +60,10 @@ func reset() -> void:
 	_hide_overlays()
 
 
+func hide() -> void:
+	_hide_overlays()
+
+
 func _hide_overlays() -> void:
 	if glow_overlay != null:
 		glow_overlay.visible = false
