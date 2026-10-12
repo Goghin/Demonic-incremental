@@ -404,6 +404,14 @@ func _on_generator_selection_requested(generator_id: String) -> void:
 		_deselect_generator()
 		return
 
+	# A generator-specific tree belongs to its current selection.
+	# Close it before switching focus to a different generator.
+	if selected_upgrade_generator_id != "":
+		selected_upgrade_generator_id = ""
+		$UpgradeScroll.hide()
+		$UpgradeScroll.offset_top = 81.0
+		_update_upgrade_view()
+
 	_set_selected_generator(generator_id)
 
 
