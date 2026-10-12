@@ -415,39 +415,46 @@ func get_matter_decay_per_second() -> float:
 # -------------------------------------------------------------------
 
 func _generate_lava_palette() -> void:
-	# Each realm gets a coherent but clearly different warm hue:
-	# deep crimson, ember orange, or golden-orange.
+	# Favor crimson and ember-orange realms. Golden-yellow palettes remain
+	# possible, but are less common than the redder variations.
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
-	var hue: float = rng.randf_range(0.002, 0.105)
-	var hue_shift: float = rng.randf_range(-0.012, 0.012)
-	var saturation: float = rng.randf_range(0.88, 1.0)
+
+	var hue_roll: float = rng.randf()
+	var hue: float = lerpf(
+		0.002,
+		0.105,
+		pow(hue_roll, 1.6)
+	)
+	var dark_hue_shift: float = rng.randf_range(-0.016, 0.006)
+	var red_hue_shift: float = rng.randf_range(-0.008, 0.012)
+	var saturation: float = rng.randf_range(0.86, 1.0)
 	var yellow_bias: float = rng.randf_range(0.0, 1.0)
 
 	lava_palette = {
 		"dark": Color.from_hsv(
-			fposmod(hue + hue_shift, 1.0),
-			saturation,
-			rng.randf_range(0.20, 0.30)
+			fposmod(hue + dark_hue_shift, 1.0),
+			rng.randf_range(0.88, 1.0),
+			rng.randf_range(0.16, 0.29)
 		),
 		"red": Color.from_hsv(
-			fposmod(hue + hue_shift * 0.5, 1.0),
+			fposmod(hue + red_hue_shift, 1.0),
 			saturation,
-			rng.randf_range(0.48, 0.62)
+			rng.randf_range(0.44, 0.64)
 		),
 		"orange": Color.from_hsv(
-			fposmod(hue + 0.012, 1.0),
-			rng.randf_range(0.86, 1.0),
-			rng.randf_range(0.78, 0.92)
+			fposmod(hue + 0.010, 1.0),
+			rng.randf_range(0.88, 1.0),
+			rng.randf_range(0.76, 0.90)
 		),
 		"bright": Color.from_hsv(
-			fposmod(hue + 0.025 + yellow_bias * 0.012, 1.0),
-			rng.randf_range(0.60, 0.90),
+			fposmod(hue + 0.022 + yellow_bias * 0.008, 1.0),
+			rng.randf_range(0.68, 0.92),
 			1.0
 		),
 		"glow": Color.from_hsv(
-			fposmod(hue + 0.018 + yellow_bias * 0.015, 1.0),
-			rng.randf_range(0.70, 0.95),
+			fposmod(hue + 0.016 + yellow_bias * 0.010, 1.0),
+			rng.randf_range(0.76, 0.96),
 			1.0
 		)
 	}
