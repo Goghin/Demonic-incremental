@@ -260,4 +260,3 @@ func _create_connection_renderer() -> void:
 		layout,
 		UPGRADE_SIZE
 	)
-
