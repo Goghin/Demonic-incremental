@@ -11,6 +11,13 @@ const FALL_WIDTH_CHANGE_PER_SECOND: float = 6.0
 const FALL_LENGTH_CHANGE_PER_SECOND: float = 30.0
 
 
+func handle_application_focus_lost() -> void:
+	# Key-up and mouse-up events may not arrive if the application loses focus.
+	held_fall_width_direction = 0.0
+	held_fall_length_direction = 0.0
+	drag_controller.cancel_drag()
+
+
 func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 	if owner.state == null or owner.realm_layout == null:
 		return
