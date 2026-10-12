@@ -73,7 +73,8 @@ func play(
 
 	stream.setup(
 		from_position,
-		target_position
+		target_position,
+		true
 	)
 
 	stream.z_index = 20
@@ -146,7 +147,7 @@ func play_growth_stream(
 	crystal: CrystallizedFlame
 ) -> void:
 	var stream := CrystallizationStream.new()
-	stream.setup(from_position, target_position)
+	stream.setup(from_position, target_position, true)
 	stream.z_index = 20
 	owner.add_child(stream)
 
