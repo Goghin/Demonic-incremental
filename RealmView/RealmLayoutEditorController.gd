@@ -48,6 +48,28 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 		if not layout_mode:
 			return
 
+		# Shift + arrows nudge the selected item without interfering with
+		# the unmodified arrow keys used to adjust waterfall dimensions.
+		if event.shift_pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]:
+			var nudge: Vector2 = Vector2.ZERO
+			match event.keycode:
+				KEY_LEFT:
+					nudge.x = -2.0
+				KEY_RIGHT:
+					nudge.x = 2.0
+				KEY_UP:
+					nudge.y = -2.0
+				KEY_DOWN:
+					nudge.y = 2.0
+			drag_controller.nudge_selected(
+				owner.realm_layout,
+				owner,
+				nudge,
+				owner._get_island_rect()
+			)
+			owner.queue_redraw()
+			return
+
 		if event.keycode in [KEY_DELETE, KEY_BACKSPACE]:
 			var removed_point: bool = drag_controller.remove_selected_flow_point(owner.realm_layout)
 			if not removed_point:

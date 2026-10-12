@@ -304,6 +304,90 @@ func _set_flow_points(
 	layout.lava_flow_definitions[flow_index] = definition
 
 
+func nudge_selected(
+	layout: RealmLayout,
+	owner: RealmView,
+	pixel_delta: Vector2,
+	island_rect: Rect2
+) -> bool:
+	if layout == null or island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return false
+	if selected_object == "":
+		return false
+
+	var normalized_delta: Vector2 = Vector2(
+		pixel_delta.x / island_rect.size.x,
+		pixel_delta.y / island_rect.size.y
+	)
+
+	if selected_object.begins_with("lava_flow:"):
+		var parts: PackedStringArray = selected_object.split(":")
+		if parts.size() != 3:
+			return false
+		var flow_index: int = int(parts[1])
+		var point_index: int = int(parts[2])
+		var points: PackedVector2Array = _get_flow_points(layout, flow_index)
+		if point_index < 0 or point_index >= points.size():
+			return false
+		points[point_index] = _clamp_normalized_position(points[point_index] + normalized_delta)
+		_set_flow_points(layout, flow_index, points)
+		owner.lava_realm_visual_controller.update_positions(layout, island_rect)
+		return true
+
+	if selected_object.begins_with("lake_edge:"):
+		var parts: PackedStringArray = selected_object.split(":")
+		if parts.size() != 3:
+			return false
+		var lake_index: int = int(parts[1])
+		var point_index: int = int(parts[2])
+		var points: PackedVector2Array = _get_lake_points(layout, lake_index)
+		if point_index < 0 or point_index >= points.size():
+			return false
+		points[point_index] = _clamp_normalized_position(points[point_index] + normalized_delta)
+		_set_lake_points(layout, lake_index, points)
+		_refresh_lake_geometry(owner, lake_index, points, island_rect)
+		return true
+
+	if selected_object.begins_with("ash_pile:"):
+		var pile_index: int = int(selected_object.substr(9))
+		if pile_index < 0 or pile_index >= layout.ash_pile_layout_positions.size():
+			return false
+		layout.ash_pile_layout_positions[pile_index] = _clamp_normalized_position(
+			layout.ash_pile_layout_positions[pile_index] + normalized_delta
+		)
+		owner._update_ash_piles(owner.state.get_resource_amount(ResourceIds.ASH))
+		return true
+
+	if selected_object.begins_with("brazier:"):
+		var stat_name: String = selected_object.substr(8)
+		if not layout.brazier_layout_positions.has(stat_name):
+			return false
+		var normalized_position: Vector2 = _clamp_normalized_position(
+			layout.brazier_layout_positions[stat_name] + normalized_delta
+		)
+		layout.brazier_layout_positions[stat_name] = normalized_position
+		if owner.braziers.has(stat_name) and is_instance_valid(owner.braziers[stat_name]):
+			owner.braziers[stat_name].position = owner.realm_layout_geometry_controller.get_position_from_normalized(
+				normalized_position,
+				island_rect
+			)
+		return true
+
+	if not layout.generator_layout_positions.has(selected_object):
+		return false
+	layout.generator_layout_positions[selected_object] = _clamp_normalized_position(
+		layout.generator_layout_positions[selected_object] + normalized_delta
+	)
+	return true
+
+
+func _clamp_normalized_position(position: Vector2) -> Vector2:
+	return Vector2(
+		clampf(position.x, 0.0, 1.0),
+		clampf(position.y, 0.0, 1.0)
+	)
+
+
 func adjust_selected_flow_width(layout: RealmLayout, amount: float) -> bool:
 	if layout == null or not selected_object.begins_with("lava_flow:"):
 		return false

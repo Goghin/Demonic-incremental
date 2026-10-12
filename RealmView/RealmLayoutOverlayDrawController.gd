@@ -125,7 +125,7 @@ func _draw_editor_help(
 		"Selected flow endpoint: edit waterfall",
 		"Hold Left/Right: waterfall width",
 		"Hold Up/Down: waterfall length",
-		"Shift + click: print normalized point",
+		"Shift + arrows: nudge 2 px; Shift + click: print",
 		"F2: close editor"
 	]
 	for i in range(lines.size()):
