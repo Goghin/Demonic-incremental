@@ -12,9 +12,12 @@ func draw_overlay(
 	realm_layout: RealmLayout,
 	island_rect: Rect2
 ) -> void:
+	var has_selection: bool = selected_object != ""
+	var inactive_alpha: float = 0.07 if has_selection else 1.0
+
 	owner.draw_rect(
 		Rect2(Vector2.ZERO, owner.size),
-		Color(1.0, 0.75, 0.20, 0.65),
+		Color(1.0, 0.75, 0.20, 0.08 if has_selection else 0.65),
 		false,
 		2.0
 	)
@@ -26,7 +29,7 @@ func draw_overlay(
 	for generator_id in generator_hitboxes:
 		var hitbox: Rect2 = generator_hitboxes[generator_id]
 		var is_generator_selected: bool = selected_object == generator_id
-		var outline_color: Color = Color(1.0, 0.95, 0.55, 1.0) if is_generator_selected else Color(1.0, 0.75, 0.20, 0.75)
+		var outline_color: Color = Color(1.0, 0.95, 0.55, 1.0) if is_generator_selected else Color(1.0, 0.75, 0.20, 0.75 * inactive_alpha)
 		owner.draw_rect(
 			hitbox.grow(5.0 if is_generator_selected else 3.0),
 			outline_color,
@@ -39,17 +42,17 @@ func draw_overlay(
 		if not is_instance_valid(pile):
 			continue
 
-		owner.draw_circle(
-			pile.position,
-			12.0,
-			Color(0.75, 0.75, 0.75, 0.2)
-		)
 		var pile_id: String = "ash_pile:" + str(i)
 		var is_pile_selected: bool = selected_object == pile_id
 		owner.draw_circle(
 			pile.position,
+			12.0,
+			Color(0.75, 0.75, 0.75, 0.2 * inactive_alpha)
+		)
+		owner.draw_circle(
+			pile.position,
 			14.0 if not is_pile_selected else 18.0,
-			Color(1.0, 0.95, 0.55, 1.0) if is_pile_selected else Color(0.85, 0.75, 0.55, 0.85),
+			Color(1.0, 0.95, 0.55, 1.0) if is_pile_selected else Color(0.85, 0.75, 0.55, 0.85 * inactive_alpha),
 			false,
 			3.0 if is_pile_selected else 2.0
 		)
@@ -60,7 +63,7 @@ func draw_overlay(
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
 			12,
-			Color(1.0, 0.9, 0.7, 1.0)
+			Color(1.0, 0.9, 0.7, 1.0 if is_pile_selected else inactive_alpha)
 		)
 
 	for stat_name in brazier_stats:
@@ -76,36 +79,38 @@ func draw_overlay(
 		owner.draw_circle(
 			brazier_position,
 			30.0,
-			Color(1.0, 0.75, 0.20, 0.15)
+			Color(1.0, 0.75, 0.20, 0.15 * inactive_alpha)
 		)
 		var brazier_id: String = "brazier:" + stat_name
 		var is_brazier_selected: bool = selected_object == brazier_id
 		owner.draw_circle(
 			brazier_position,
 			32.0 if not is_brazier_selected else 38.0,
-			Color(1.0, 0.95, 0.55, 1.0) if is_brazier_selected else Color(1.0, 0.75, 0.20, 0.75),
+			Color(1.0, 0.95, 0.55, 1.0) if is_brazier_selected else Color(1.0, 0.75, 0.20, 0.75 * inactive_alpha),
 			false,
 			3.0 if is_brazier_selected else 2.0
 		)
 		owner.draw_line(
 			brazier_position + Vector2(-42, 0),
 			brazier_position + Vector2(42, 0),
-			Color(1.0, 0.75, 0.20, 0.50),
+			Color(1.0, 0.75, 0.20, 0.50 * inactive_alpha),
 			1.0
 		)
 		owner.draw_line(
 			brazier_position + Vector2(0, -42),
 			brazier_position + Vector2(0, 42),
-			Color(1.0, 0.75, 0.20, 0.50),
+			Color(1.0, 0.75, 0.20, 0.50 * inactive_alpha),
 			1.0
 		)
 
 
 
 func _draw_editor_help(owner: Control, selected_object: String, realm_layout: RealmLayout) -> void:
+	var has_selection: bool = selected_object != ""
+	var panel_alpha: float = 0.28 if has_selection else 1.0
 	var panel_rect: Rect2 = Rect2(14.0, 14.0, 300.0, 160.0)
-	owner.draw_rect(panel_rect, Color(0.04, 0.03, 0.02, 0.88), true)
-	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9), false, 1.0)
+	owner.draw_rect(panel_rect, Color(0.04, 0.03, 0.02, 0.88 * panel_alpha), true)
+	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9 * panel_alpha), false, 1.0)
 	var lines: Array[String] = [
 		"REALM LAYOUT EDITOR",
 		"Drag machines, braziers, ash piles, flow or lake handles",
@@ -121,7 +126,7 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
 			13 if i == 0 else 11,
-			Color(1.0, 0.88, 0.58, 1.0) if i == 0 else Color(0.92, 0.9, 0.84, 1.0)
+			Color(1.0, 0.88, 0.58, 1.0) if i == 0 else Color(0.92, 0.9, 0.84, 0.28 if has_selection else 1.0)
 		)
 	if selected_object != "":
 		owner.draw_string(
@@ -182,7 +187,7 @@ func _draw_flow_handles(
 				owner.draw_line(
 					screen_points[point_index - 1],
 					current,
-					Color(0.55, 0.45, 1.0, 0.8),
+					Color(0.55, 0.45, 1.0, 0.08 if selected_object != "" else 0.8),
 					2.0
 				)
 
@@ -191,12 +196,12 @@ func _draw_flow_handles(
 			owner.draw_circle(
 				current,
 				7.0 if is_selected else 5.0,
-				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(0.62, 0.48, 1.0, 1.0)
+				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(0.62, 0.48, 1.0, 0.08 if selected_object != "" else 1.0)
 			)
 			owner.draw_circle(
 				current,
 				7.0 if is_selected else 5.0,
-				Color(0.08, 0.035, 0.16, 1.0),
+				Color(0.08, 0.035, 0.16, 1.0 if is_selected or selected_object == "" else 0.08),
 				false,
 				1.2
 			)
@@ -231,19 +236,24 @@ func _draw_lake_edge_handles(
 		for point_index in range(screen_points.size()):
 			var current: Vector2 = screen_points[point_index]
 			var next: Vector2 = screen_points[(point_index + 1) % screen_points.size()]
-			owner.draw_line(current, next, Color(1.0, 0.28, 0.035, 0.65), 1.5)
+			owner.draw_line(
+				current,
+				next,
+				Color(1.0, 0.28, 0.035, 0.06 if selected_object != "" else 0.65),
+				1.5
+			)
 
 			var handle_id: String = "lake_edge:%d:%d" % [lake_index, point_index]
 			var is_selected: bool = selected_object == handle_id
 			owner.draw_circle(
 				current,
 				7.0 if is_selected else 5.0,
-				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(1.0, 0.48, 0.08, 0.95)
+				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(1.0, 0.48, 0.08, 0.08 if selected_object != "" else 0.95)
 			)
 			owner.draw_circle(
 				current,
 				7.0 if is_selected else 5.0,
-				Color(0.16, 0.045, 0.015, 1.0),
+				Color(0.16, 0.045, 0.015, 1.0 if is_selected or selected_object == "" else 0.08),
 				false,
 				1.2
 			)
