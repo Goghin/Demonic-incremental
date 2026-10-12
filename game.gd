@@ -5,6 +5,7 @@ extends Control
 var is_loading: bool = true
 var visual_effects_enabled: bool = true
 var ui_sounds_enabled: bool = true
+var master_volume_percent: float = 70.0
 var ui_click_player: AudioStreamPlayer
 
 var state: GameState
@@ -46,6 +47,9 @@ func _ready() -> void:
 	_load_visual_settings()
 	$OptionsPanel/OptionsContent/VisualEffectsCheckBox.set_pressed_no_signal(visual_effects_enabled)
 	$OptionsPanel/OptionsContent/UISoundsCheckBox.set_pressed_no_signal(ui_sounds_enabled)
+	$OptionsPanel/OptionsContent/MasterVolumeSlider.set_value_no_signal(master_volume_percent)
+	_update_master_volume_label()
+	_apply_master_volume()
 	_setup_ui_audio()
 	loading_screen.set_status(
 		"Awakening the realm..."
@@ -762,6 +766,31 @@ func _on_ui_sounds_toggled(enabled: bool) -> void:
 	_save_ui_sound_settings()
 
 
+func _on_master_volume_changed(value: float) -> void:
+	master_volume_percent = value
+	_update_master_volume_label()
+	_apply_master_volume()
+	_save_audio_settings()
+
+
+func _update_master_volume_label() -> void:
+	$OptionsPanel/OptionsContent/MasterVolumeLabel.text = "MASTER VOLUME: %d%%" % int(round(master_volume_percent))
+
+
+func _apply_master_volume() -> void:
+	var master_bus_index: int = AudioServer.get_bus_index("Master")
+	if master_bus_index < 0:
+		return
+
+	if master_volume_percent <= 0.0:
+		AudioServer.set_bus_volume_db(master_bus_index, -80.0)
+	else:
+		AudioServer.set_bus_volume_db(
+			master_bus_index,
+			linear_to_db(master_volume_percent / 100.0)
+		)
+
+
 func _input(event: InputEvent) -> void:
 	if not ui_sounds_enabled or not event is InputEventMouseButton:
 		return
@@ -830,6 +859,11 @@ func _load_visual_settings() -> void:
 			"ui_sounds_enabled",
 			true
 		)
+		master_volume_percent = clampf(
+			float(config.get_value("audio", "master_volume_percent", 70.0)),
+			0.0,
+			100.0
+		)
 
 
 func _save_visual_settings() -> void:
@@ -846,12 +880,21 @@ func _save_visual_settings() -> void:
 
 
 func _save_ui_sound_settings() -> void:
+	_save_audio_settings()
+
+
+func _save_audio_settings() -> void:
 	var config := ConfigFile.new()
 	config.load("user://settings.cfg")
 	config.set_value(
 		"audio",
 		"ui_sounds_enabled",
 		ui_sounds_enabled
+	)
+	config.set_value(
+		"audio",
+		"master_volume_percent",
+		master_volume_percent
 	)
 	var error: Error = config.save("user://settings.cfg")
 	if error != OK:
