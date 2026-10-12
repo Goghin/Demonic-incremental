@@ -22,13 +22,11 @@ class LavaFlowSparkOverlay extends Node2D:
 		activity_factor = clamp(total_length / 180.0, 0.15, 1.0)
 
 	func _process(delta: float) -> void:
-		if flow_points.size() < 2 or flow_widths.size() != flow_points.size():
-			return
-
-		burst_timer -= delta
-		if burst_timer <= 0.0:
-			_spawn_burst()
-			burst_timer = randomizer.randf_range(0.55, 1.05) / activity_factor
+		if flow_points.size() >= 2 and flow_widths.size() == flow_points.size():
+			burst_timer -= delta
+			if burst_timer <= 0.0:
+				_spawn_burst()
+				burst_timer = randomizer.randf_range(0.55, 1.05) / activity_factor
 
 		for i in range(particles.size() - 1, -1, -1):
 			var particle: Dictionary = particles[i]
@@ -348,6 +346,8 @@ func _update_surface() -> void:
 	match flow_state:
 		FlowState.INACTIVE:
 			_clear_flow_polygons()
+			if is_instance_valid(spark_overlay):
+				spark_overlay.set_flow_shape(PackedVector2Array(), PackedFloat32Array())
 			return
 
 		FlowState.STARTING:
