@@ -12,8 +12,42 @@ var _last_upgrade_automation_style_enabled: bool = false
 var _has_upgrade_automation_style: bool = false
 
 signal upgrades_requested(generator_id: String)
+signal selection_requested(generator_id: String)
 signal upgrade_automation_changed
 signal generator_purchased
+
+
+var _normal_panel_style: StyleBox
+
+
+func _ready() -> void:
+	_normal_panel_style = get_theme_stylebox("panel")
+
+
+func set_selected(is_selected: bool) -> void:
+	if _normal_panel_style == null:
+		_normal_panel_style = get_theme_stylebox("panel")
+
+	if not is_selected:
+		if _normal_panel_style != null:
+			add_theme_stylebox_override("panel", _normal_panel_style)
+		return
+
+	var selected_style := StyleBoxFlat.new()
+	if _normal_panel_style is StyleBoxFlat:
+		selected_style = _normal_panel_style.duplicate() as StyleBoxFlat
+	else:
+		selected_style.bg_color = Color(0.12, 0.10, 0.09, 1.0)
+	selected_style.set_border_width_all(3)
+	selected_style.border_color = Color(1.0, 0.48, 0.16, 1.0)
+	add_theme_stylebox_override("panel", selected_style)
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		var mouse_event := event as InputEventMouseButton
+		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed:
+			selection_requested.emit(generator_id)
 
 
 func setup(

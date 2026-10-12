@@ -1,6 +1,9 @@
 class_name RealmView
 extends Control
 
+
+signal generator_selected(generator_id: String)
+
 var state: GameState
 var visual_effects_enabled: bool = true
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
@@ -59,6 +62,7 @@ const LAVA_FALL_SCENE = preload(
 
 
 var generator_hitboxes: Dictionary = {}
+var selected_generator_id: String = ""
 
 var forge_activity_visual_controller: ForgeActivityVisualController = ForgeActivityVisualController.new()
 var brazier_visual_controller: BrazierVisualController = BrazierVisualController.new()
@@ -115,6 +119,36 @@ func _update_scene_visuals(island_rect: Rect2) -> void:
 
 func _input(event: InputEvent) -> void:
 	realm_layout_editor_controller.handle_owner_input(event, self)
+
+	if realm_layout_editor_controller.layout_mode:
+		return
+
+	if not event is InputEventMouseButton:
+		return
+
+	var mouse_event := event as InputEventMouseButton
+	if mouse_event.button_index != MOUSE_BUTTON_LEFT or not mouse_event.pressed:
+		return
+
+	# UI controls take priority over machine hitboxes behind them.
+	if get_viewport().gui_get_hovered_control() != null:
+		return
+
+	var local_position: Vector2 = get_local_mouse_position()
+	for generator_id in generator_hitboxes:
+		var hitbox: Rect2 = generator_hitboxes[generator_id]
+		if hitbox.has_point(local_position):
+			generator_selected.emit(str(generator_id))
+			get_viewport().set_input_as_handled()
+			return
+
+
+func set_selected_generator(generator_id: String) -> void:
+	if selected_generator_id == generator_id:
+		return
+
+	selected_generator_id = generator_id
+	queue_redraw()
 
 func _draw() -> void:
 	realm_draw_controller.draw(self)

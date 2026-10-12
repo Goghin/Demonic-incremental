@@ -41,6 +41,7 @@ var upgrade_flows: Dictionary = {}
 var upgrade_panels: Dictionary = {}
 
 var selected_upgrade_generator_id: String = ""
+var selected_generator_id: String = ""
 
 var effects_flow: HFlowContainer
 var prestige_animation: PrestigeAnimation
@@ -244,6 +245,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	_create_initial_generator_panels()
+	_initialize_generator_selection()
 
 	loading_screen.set_status(
 		"Rebuilding upgrades..."
@@ -289,6 +291,9 @@ func _create_realm_view() -> void:
 
 	add_child(realm_view)
 	realm_view.setup(state)
+	realm_view.generator_selected.connect(
+		_on_generator_selection_requested
+	)
 
 # ============================================================
 # GENERATORS
@@ -344,6 +349,9 @@ func _create_generator_panel(
 	generator_panel.upgrades_requested.connect(
 		_on_generator_upgrades_requested
 	)
+	generator_panel.selection_requested.connect(
+		_on_generator_selection_requested
+	)
 	generator_panel.upgrade_automation_changed.connect(
 		_on_upgrade_automation_settings_changed
 	)
@@ -365,6 +373,48 @@ func _create_generator_panel(
 		target_index
 	)
 
+	generator_panel.set_selected(
+		generator_id == selected_generator_id
+	)
+
+
+
+# ============================================================
+# GENERATOR SELECTION
+# ============================================================
+
+func _initialize_generator_selection() -> void:
+	if selected_generator_id != "":
+		_set_selected_generator(selected_generator_id)
+		return
+
+	for generator in state.generators.values():
+		if generator.unlocked:
+			_set_selected_generator(generator.definition.id)
+			return
+
+	_set_selected_generator("")
+
+
+func _on_generator_selection_requested(generator_id: String) -> void:
+	_set_selected_generator(generator_id)
+
+
+func _set_selected_generator(generator_id: String) -> void:
+	if generator_id != "":
+		var generator = state.get_generator(generator_id)
+		if generator == null or not generator.unlocked:
+			return
+
+	selected_generator_id = generator_id
+
+	if realm_view != null:
+		realm_view.set_selected_generator(selected_generator_id)
+
+	var generator_container: Node = $GeneratorScroll/GeneratorContainer
+	for child in generator_container.get_children():
+		if child is GeneratorPanel:
+			child.set_selected(child.generator_id == selected_generator_id)
 
 
 # ============================================================
