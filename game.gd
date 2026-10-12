@@ -1439,9 +1439,9 @@ func _on_generator_upgrades_requested(
 
 		return
 
-	# Otherwise open/switch to this generator's tree.
-	# Match the general Upgrades navigation: show one main view at a time.
-	$GeneratorScroll.hide()
+	# In focused mode, keep the selected generator panel beside its tree.
+	# In list mode, hide the whole list to avoid showing every generator.
+	$GeneratorScroll.visible = not generator_list_mode
 	$UpgradeScroll.show()
 	selected_upgrade_generator_id = generator_id
 
