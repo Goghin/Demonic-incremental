@@ -66,12 +66,39 @@ offset_right = -13.520996
 offset_bottom = -54.25287
 scale = Vector2(1.0213442, 0.9947947)
 
-[node name="RubButton" type="Button" parent="." unique_id=1682017612]
+[node name="OptionsButton" type="Button" parent="." unique_id=1682017612]
 layout_mode = 0
 offset_top = 601.0
 offset_right = 120.0
 offset_bottom = 644.0
-text = "SAVE"
+text = "OPTIONS"
+
+
+[node name="OptionsPanel" type="PanelContainer" parent="." unique_id=1682017613]
+visible = false
+z_index = 60
+layout_mode = 0
+offset_left = 505.0
+offset_top = 120.0
+offset_right = 805.0
+offset_bottom = 300.0
+
+[node name="OptionsContent" type="VBoxContainer" parent="OptionsPanel" unique_id=1682017614]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="OptionsTitle" type="Label" parent="OptionsPanel/OptionsContent" unique_id=1682017615]
+layout_mode = 2
+text = "OPTIONS"
+horizontal_alignment = 1
+
+[node name="SaveButton" type="Button" parent="OptionsPanel/OptionsContent" unique_id=1682017616]
+layout_mode = 2
+text = "SAVE GAME"
+
+[node name="OptionsCloseButton" type="Button" parent="OptionsPanel/OptionsContent" unique_id=1682017617]
+layout_mode = 2
+text = "CLOSE"
 
 [node name="UpgradesButton" type="Button" parent="." unique_id=876049299]
 layout_mode = 0
@@ -127,7 +154,9 @@ layout_mode = 1
 [node name="OfflineResultsPanel" parent="." unique_id=1090494191 instance=ExtResource("8_j5wjh")]
 layout_mode = 1
 
-[connection signal="pressed" from="RubButton" to="." method="_on_rub_button_pressed"]
+[connection signal="pressed" from="OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="OptionsPanel/OptionsContent/SaveButton" to="." method="_on_rub_button_pressed"]
+[connection signal="pressed" from="OptionsPanel/OptionsContent/OptionsCloseButton" to="." method="_on_options_close_button_pressed"]
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="StatsButton" to="." method="_on_stats_button_pressed"]
 [connection signal="pressed" from="PrestigeButton" to="." method="_on_prestige_button_pressed"]
