@@ -86,6 +86,10 @@ func setup(
 	time_manager = game_time_manager
 	prestige_system = PrestigeSystem.new()
 
+	# Debug why Smash is unavailable when the pointer enters its button.
+	if not smash_button.mouse_entered.is_connected(_debug_smash_button_hover):
+		smash_button.mouse_entered.connect(_debug_smash_button_hover)
+
 	_create_main_ui()
 	_create_distribution_ui()
 	_create_shop_ui()
@@ -1093,6 +1097,25 @@ func _get_realm_effect_text(
 # ----------------------------------------------------------------
 # Smash
 # ----------------------------------------------------------------
+
+func _debug_smash_button_hover() -> void:
+	if state == null:
+		print("[Smash Debug] Disabled: GameState is null.")
+		return
+
+	var reasons: Array[String] = []
+	var eternal_flame_gain: float = prestige_system.calculate_eternal_flame_gain(state)
+
+	if not state.realm_stabilized:
+		reasons.append("realm is not stabilized")
+	if eternal_flame_gain <= 0.0:
+		reasons.append("Eternal Flame gain is %.6f (must be greater than 0)" % eternal_flame_gain)
+
+	if reasons.is_empty():
+		print("[Smash Debug] Button should be enabled. Gain: %.6f Eternal Flame." % eternal_flame_gain)
+	else:
+		print("[Smash Debug] Smash disabled: %s." % ", ".join(reasons))
+
 
 func _on_smash_button_pressed() -> void:
 	if state == null:
