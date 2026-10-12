@@ -27,6 +27,21 @@ var fall_state: FallState = FallState.EMPTY
 
 const ANIMATION_SPEED: float = 0.6
 
+var lava_palette: Dictionary = {}
+
+func set_lava_palette(palette: Dictionary) -> void:
+	lava_palette = palette.duplicate(true)
+	if surface.material is ShaderMaterial:
+		_apply_palette_to_material(surface.material as ShaderMaterial)
+	if not lava_palette.is_empty():
+		rim.color = lava_palette.get("orange", Color(1.0, 0.08, 0.005, 0.75))
+
+func _apply_palette_to_material(material: ShaderMaterial) -> void:
+	for key in ["dark", "red", "orange", "bright", "glow"]:
+		if lava_palette.has(key):
+			var color: Color = lava_palette[key]
+			material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
+
 
 func setup(
 	fall_width: float = 4.0,
@@ -61,6 +76,8 @@ func _setup_material() -> void:
 	)
 
 	surface.material = material
+	if not lava_palette.is_empty():
+		_apply_palette_to_material(material)
 
 
 func set_filled(filled: bool) -> void:
@@ -306,12 +323,7 @@ func _set_surface_polygon(
 		)
 
 	rim.polygon = rim_polygon
-	rim.color = Color(
-		1.0,
-		0.08,
-		0.005,
-		0.75
-	)
+	rim.color = lava_palette.get("orange", Color(1.0, 0.08, 0.005, 0.75))
 func _build_full_surface() -> void:
 	var points := PackedVector2Array([
 		Vector2(0.0, 0.0),
