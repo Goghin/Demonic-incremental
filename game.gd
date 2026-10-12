@@ -3,6 +3,7 @@ extends Control
 
 
 var is_loading: bool = true
+var visual_effects_enabled: bool = true
 
 var state: GameState
 var simulation: Simulation
@@ -40,6 +41,8 @@ var realm_view: RealmView
 @onready var offline_results_panel: Control = $OfflineResultsPanel
 
 func _ready() -> void:
+	_load_visual_settings()
+	$OptionsPanel/OptionsContent/VisualEffectsCheckBox.set_pressed_no_signal(visual_effects_enabled)
 	loading_screen.set_status(
 		"Awakening the realm..."
 	)
@@ -53,6 +56,7 @@ func _ready() -> void:
 	prestige_animation = $PrestigeAnimation
 	
 	_create_realm_view()
+	realm_view.set_visual_effects_enabled(visual_effects_enabled)
 	
 	
 		
@@ -739,6 +743,37 @@ func _on_options_button_pressed() -> void:
 
 func _on_options_close_button_pressed() -> void:
 	$OptionsPanel.hide()
+
+
+func _on_visual_effects_toggled(enabled: bool) -> void:
+	visual_effects_enabled = enabled
+	_save_visual_settings()
+
+	if realm_view != null:
+		realm_view.set_visual_effects_enabled(enabled)
+
+
+func _load_visual_settings() -> void:
+	var config := ConfigFile.new()
+	var error: Error = config.load("user://settings.cfg")
+	if error == OK:
+		visual_effects_enabled = config.get_value(
+			"graphics",
+			"animated_visual_effects",
+			true
+		)
+
+
+func _save_visual_settings() -> void:
+	var config := ConfigFile.new()
+	config.set_value(
+		"graphics",
+		"animated_visual_effects",
+		visual_effects_enabled
+	)
+	var error: Error = config.save("user://settings.cfg")
+	if error != OK:
+		push_warning("Could not save visual settings: %s" % error)
 
 
 func _on_rub_button_pressed() -> void:
