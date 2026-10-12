@@ -101,7 +101,7 @@ func setup(game_state: GameState) -> void:
 	if generator_selection_overlay == null:
 		generator_selection_overlay = GeneratorSelectionOverlay.new()
 		generator_selection_overlay.name = "GeneratorSelectionOverlay"
-		generator_selection_overlay.z_index = 20
+		generator_selection_overlay.z_index = 11
 		add_child(generator_selection_overlay)
 		generator_selection_overlay.realm_view = self
 
