@@ -163,8 +163,17 @@ func _setup_resource_statistics() -> void:
 	for child in container.get_children():
 		child.queue_free()
 	
+	var is_first_resource := true
+
 	for resource in state.get_resources().values():
 		var resource_id = resource.definition.id
+
+		# Separate each resource's history from the previous one.
+		if not is_first_resource:
+			var resource_separator = HSeparator.new()
+			container.add_child(resource_separator)
+
+		is_first_resource = false
 		
 		# Resource name
 		var name_label = _create_column_label(
@@ -214,6 +223,11 @@ func _setup_resource_statistics() -> void:
 		stats_container.add_child(
 			this_realm_values
 		)
+
+		# Visually distinguish this realm's history from lifetime totals.
+		var realm_separator = HSeparator.new()
+		stats_container.add_child(realm_separator)
+
 		stats_container.add_child(
 			all_realms_label
 		)
