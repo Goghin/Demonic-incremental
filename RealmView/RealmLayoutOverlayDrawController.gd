@@ -20,6 +20,7 @@ func draw_overlay(
 	)
 
 	_draw_editor_help(owner, selected_object)
+	_draw_flow_handles(owner, realm_layout, island_rect, selected_object)
 	_draw_lake_edge_handles(owner, realm_layout, island_rect, selected_object)
 
 	for generator_id in generator_hitboxes:
@@ -107,7 +108,7 @@ func _draw_editor_help(owner: Control, selected_object: String) -> void:
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9), false, 1.0)
 	var lines: Array[String] = [
 		"REALM LAYOUT EDITOR",
-		"Drag machines, braziers, ash piles or lava-edge handles",
+		"Drag machines, braziers, ash piles, flow or lake handles",
 		"Shift + click: print normalized point",
 		"F2: close editor"
 	]
@@ -134,7 +135,52 @@ func _draw_editor_help(owner: Control, selected_object: String) -> void:
 
 
 
-func _draw_lake_edge_handles(
+func _draw_flow_handles(
+	owner: Control,
+	realm_layout: RealmLayout,
+	island_rect: Rect2,
+	selected_object: String
+) -> void:
+	if realm_layout == null or island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return
+
+	for flow_index in range(realm_layout.lava_flow_definitions.size()):
+		var definition: Dictionary = realm_layout.lava_flow_definitions[flow_index]
+		if not definition.has("points"):
+			continue
+		var points: PackedVector2Array = definition["points"]
+		if points.is_empty():
+			continue
+
+		var screen_points := PackedVector2Array()
+		for normalized_point in points:
+			screen_points.append(island_rect.position + island_rect.size * normalized_point)
+
+		for point_index in range(screen_points.size()):
+			var current: Vector2 = screen_points[point_index]
+			if point_index > 0:
+				owner.draw_line(
+					screen_points[point_index - 1],
+					current,
+					Color(0.55, 0.45, 1.0, 0.8),
+					2.0
+				)
+
+			var handle_id: String = "lava_flow:%d:%d" % [flow_index, point_index]
+			var is_selected: bool = selected_object == handle_id
+			owner.draw_circle(
+				current,
+				7.0 if is_selected else 5.0,
+				Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(0.62, 0.48, 1.0, 1.0)
+			)
+			owner.draw_circle(
+				current,
+				7.0 if is_selected else 5.0,
+				Color(0.08, 0.035, 0.16, 1.0),
+				false,
+				1.2
+			)
+
 	owner: Control,
 	realm_layout: RealmLayout,
 	island_rect: Rect2,

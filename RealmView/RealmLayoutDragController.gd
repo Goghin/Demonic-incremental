@@ -64,6 +64,19 @@ func find_drag_target(
 	var island_rect: Rect2 = owner._get_island_rect()
 	var lakes: Array[LavaLake] = owner.lava_realm_visual_controller.lakes
 
+	for flow_index in range(realm_layout.lava_flow_definitions.size()):
+		var flow_points: PackedVector2Array = _get_flow_points(realm_layout, flow_index)
+		for point_index in range(flow_points.size()):
+			var point_position: Vector2 = geometry_controller.get_position_from_normalized(
+				flow_points[point_index],
+				island_rect
+			)
+			if point_position.distance_to(mouse_position) <= 11.0:
+				return {
+					"object": "lava_flow:%d:%d" % [flow_index, point_index],
+					"offset": mouse_position - point_position
+				}
+
 	for lake_index in range(lakes.size()):
 		var points: PackedVector2Array = _get_lake_points(realm_layout, lake_index)
 		for point_index in range(points.size()):
@@ -142,6 +155,28 @@ func update_drag(
 	var realm_layout: RealmLayout = owner.realm_layout
 	if realm_layout == null:
 		cancel_drag()
+		return
+
+	if dragging_object.begins_with("lava_flow:"):
+		var parts: PackedStringArray = dragging_object.split(":")
+		if parts.size() != 3:
+			cancel_drag()
+			return
+
+		var flow_index: int = int(parts[1])
+		var point_index: int = int(parts[2])
+		var points: PackedVector2Array = _get_flow_points(realm_layout, flow_index)
+		if point_index < 0 or point_index >= points.size():
+			cancel_drag()
+			return
+
+		points[point_index] = geometry_controller.get_normalized_position(
+			mouse_position - drag_offset,
+			island_rect
+		)
+		_set_flow_points(realm_layout, flow_index, points)
+		owner.lava_realm_visual_controller.update_positions(realm_layout, island_rect)
+		owner.queue_redraw()
 		return
 
 	if dragging_object.begins_with("lake_edge:"):
@@ -225,6 +260,27 @@ func update_drag(
 	realm_layout.generator_layout_positions[dragging_object] = normalized_position
 	owner.queue_redraw()
 
+
+
+func _get_flow_points(layout: RealmLayout, flow_index: int) -> PackedVector2Array:
+	if layout == null or flow_index < 0 or flow_index >= layout.lava_flow_definitions.size():
+		return PackedVector2Array()
+	var definition: Dictionary = layout.lava_flow_definitions[flow_index]
+	if not definition.has("points"):
+		return PackedVector2Array()
+	return definition["points"]
+
+
+func _set_flow_points(
+	layout: RealmLayout,
+	flow_index: int,
+	points: PackedVector2Array
+) -> void:
+	if layout == null or flow_index < 0 or flow_index >= layout.lava_flow_definitions.size():
+		return
+	var definition: Dictionary = layout.lava_flow_definitions[flow_index]
+	definition["points"] = points
+	layout.lava_flow_definitions[flow_index] = definition
 
 
 func _get_lake_points(layout: RealmLayout, lake_index: int) -> PackedVector2Array:
