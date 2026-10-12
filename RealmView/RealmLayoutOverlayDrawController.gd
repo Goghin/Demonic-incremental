@@ -181,6 +181,7 @@ func _draw_flow_handles(
 				1.2
 			)
 
+func _draw_lake_edge_handles(
 	owner: Control,
 	realm_layout: RealmLayout,
 	island_rect: Rect2,
