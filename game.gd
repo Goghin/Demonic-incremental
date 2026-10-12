@@ -419,7 +419,11 @@ func _set_selected_generator(generator_id: String) -> void:
 			child.set_selected(child.generator_id == selected_generator_id)
 			child.visible = generator_list_mode or child.generator_id == selected_generator_id
 
-	if not generator_list_mode:
+	if generator_list_mode:
+		var selected_panel := _get_generator_panel(selected_generator_id)
+		if selected_panel != null:
+			$GeneratorScroll.ensure_control_visible(selected_panel)
+	else:
 		$GeneratorScroll.scroll_vertical = 0
 
 
@@ -935,6 +939,66 @@ func _apply_master_volume() -> void:
 			master_bus_index,
 			linear_to_db(master_volume_percent / 100.0)
 		)
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if not event is InputEventKey:
+		return
+
+	var key_event := event as InputEventKey
+	if not key_event.pressed or key_event.echo:
+		return
+
+	if key_event.keycode != KEY_UP and key_event.keycode != KEY_DOWN:
+		return
+
+	if realm_view != null and realm_view.realm_layout_editor_controller.layout_mode:
+		return
+
+	if (
+		$OptionsPanel.visible
+		or $StatsPanel.visible
+		or $UpgradeScroll.visible
+		or $PrestigePanel.visible
+		or $OfflineResultsPanel.visible
+	):
+		return
+
+	var focus_owner := get_viewport().gui_get_focus_owner()
+	if (
+		focus_owner is LineEdit
+		or focus_owner is TextEdit
+		or focus_owner is SpinBox
+		or focus_owner is OptionButton
+	):
+		return
+
+	var unlocked_ids: Array[String] = []
+	for generator in state.generators.values():
+		if generator.unlocked:
+			unlocked_ids.append(generator.definition.id)
+
+	if unlocked_ids.size() <= 1:
+		return
+
+	var current_index := unlocked_ids.find(selected_generator_id)
+	if current_index < 0:
+		current_index = 0
+	elif key_event.keycode == KEY_UP:
+		current_index = (current_index - 1 + unlocked_ids.size()) % unlocked_ids.size()
+	else:
+		current_index = (current_index + 1) % unlocked_ids.size()
+
+	_set_selected_generator(unlocked_ids[current_index])
+	get_viewport().set_input_as_handled()
+
+
+func _get_generator_panel(generator_id: String) -> GeneratorPanel:
+	var generator_container: Node = $GeneratorScroll/GeneratorContainer
+	for child in generator_container.get_children():
+		if child is GeneratorPanel and child.generator_id == generator_id:
+			return child
+	return null
 
 
 func _input(event: InputEvent) -> void:
