@@ -12,6 +12,13 @@ func rebuild(owner: RealmView, new_layout: RealmLayout) -> void:
 		)
 		return
 
+	# A rebuild can replace or reorder editable geometry. Clear editor state
+	# before the old selection/drag indices are applied to the new layout.
+	owner.realm_layout_editor_controller.drag_controller.cancel_drag()
+	owner.realm_layout_editor_controller.drag_controller.selected_object = ""
+	owner.realm_layout_editor_controller.held_fall_width_direction = 0.0
+	owner.realm_layout_editor_controller.held_fall_length_direction = 0.0
+
 	owner.realm_layout = new_layout
 
 	owner.generator_visual_reset_controller.reset(owner)
