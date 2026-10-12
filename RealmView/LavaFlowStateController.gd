@@ -2,6 +2,9 @@ class_name LavaFlowStateController
 extends RefCounted
 
 
+var _validated_layout_instance_id: int = 0
+
+
 func update(
 	state: GameState,
 	realm_layout: RealmLayout,
@@ -11,6 +14,8 @@ func update(
 ) -> void:
 	if state == null or realm_layout == null:
 		return
+
+	_validate_layout_thresholds(realm_layout)
 
 	if lava_lakes.is_empty():
 		return
@@ -40,9 +45,8 @@ func update(
 		var configured_start_fill: float = definition["start_fill"]
 		var configured_stop_fill: float = definition["stop_fill"]
 
-		# Hysteresis requires a higher activation threshold and a lower
-		# deactivation threshold. Normalize the pair so a layout with the
-		# values accidentally reversed cannot make a flow oscillate.
+		# Keep runtime behavior robust if a layout is authored incorrectly.
+		# _validate_layout_thresholds() reports reversed pairs once per layout.
 		var start_fill: float = maxf(configured_start_fill, configured_stop_fill)
 		var stop_fill: float = minf(configured_start_fill, configured_stop_fill)
 
@@ -88,3 +92,32 @@ func update(
 					endpoint_filled = flow.cooling_length < 1.0
 
 				fall.set_filled(endpoint_filled)
+
+
+func _validate_layout_thresholds(realm_layout: RealmLayout) -> void:
+	var layout_instance_id: int = realm_layout.get_instance_id()
+
+	if layout_instance_id == _validated_layout_instance_id:
+		return
+
+	_validated_layout_instance_id = layout_instance_id
+
+	for i in range(realm_layout.lava_flow_definitions.size()):
+		var definition: Dictionary = realm_layout.lava_flow_definitions[i]
+
+		if not definition.has("start_fill") or not definition.has("stop_fill"):
+			push_warning(
+				"Realm layout '%s' lava flow %d is missing start_fill or stop_fill." %
+				[realm_layout.resource_path, i]
+			)
+			continue
+
+		var start_fill: float = definition["start_fill"]
+		var stop_fill: float = definition["stop_fill"]
+
+		if start_fill <= stop_fill:
+			push_warning(
+				"Realm layout '%s' lava flow %d has invalid thresholds: " +
+				"start_fill (%s) should be greater than stop_fill (%s)." %
+				[realm_layout.resource_path, i, start_fill, stop_fill]
+			)
