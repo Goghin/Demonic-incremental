@@ -50,8 +50,15 @@ func _draw() -> void:
 			+ sin(seed) * 0.25
 		)
 
+		# Give each spark a stable outer radius between 2x and 3x
+		# the previous spawn distance, then pull it toward the center.
+		var radius_variation: float = fposmod(
+			absf(sin(seed * 12.9898) * 43758.5453),
+			1.0
+		)
+		var outer_distance: float = lerp(48.0, 72.0, radius_variation)
 		var distance: float = lerp(
-			24.0,
+			outer_distance,
 			1.0,
 			cycle
 		)
@@ -63,16 +70,16 @@ func _draw() -> void:
 		var radial_direction: Vector2 = Vector2(cos(angle), sin(angle))
 		var spark_position: Vector2 = radial_direction * max(distance + wobble, 0.0)
 		var inward_length: float = min(streak_length, max(distance, 0.0))
-		var inner_endpoint: Vector2 = spark_position - radial_direction * inward_length
+		var trail_endpoint: Vector2 = spark_position + radial_direction * inward_length
 
-		# Brighter, elongated streaks point toward the forge's center.
+		# The spark travels inward, so its streak trails outward behind it.
 		var alpha: float = sin(cycle * PI) * 0.92
 		var spark_size: float = 0.55 + fposmod(seed, 0.4)
 		var spark_color: Color = Color(1.0, 0.78, 0.28, alpha)
 
 		draw_line(
 			spark_position,
-			inner_endpoint,
+			trail_endpoint,
 			Color(1.0, 0.86, 0.48, alpha * 0.95),
 			max(spark_size * 0.8, 0.55),
 			true
