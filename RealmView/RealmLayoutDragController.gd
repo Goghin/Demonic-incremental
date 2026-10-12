@@ -317,9 +317,11 @@ func update_drag(
 		return
 
 	var new_position: Vector2 = mouse_position - drag_offset
-	var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-		new_position,
-		island_rect
+	var normalized_position: Vector2 = _clamp_normalized_position(
+		geometry_controller.get_normalized_position(
+			new_position,
+			island_rect
+		)
 	)
 	realm_layout.generator_layout_positions[dragging_object] = normalized_position
 	owner.queue_redraw()
