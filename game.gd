@@ -422,14 +422,18 @@ func _set_selected_generator(generator_id: String) -> void:
 
 
 func _deselect_generator() -> void:
-	selected_generator_id = ""
 	generator_list_mode = false
+	_clear_generator_focus()
+	$UpgradeScroll.hide()
+
+
+func _clear_generator_focus() -> void:
+	selected_generator_id = ""
 	selected_upgrade_generator_id = ""
 
 	if realm_view != null:
 		realm_view.set_selected_generator("")
 
-	$UpgradeScroll.hide()
 	$GeneratorsButton.text = "GENERATORS"
 	_refresh_generator_panel_visibility()
 
@@ -868,6 +872,8 @@ func _refresh_generator_panel_visibility() -> void:
 
 func _on_generators_button_pressed() -> void:
 	generator_list_mode = not generator_list_mode
+	_clear_generator_focus()
+
 	$OptionsPanel.hide()
 	$StatsPanel.hide()
 	$UpgradeScroll.hide()
@@ -879,8 +885,11 @@ func _on_generators_button_pressed() -> void:
 
 func _on_options_button_pressed() -> void:
 	var should_open: bool = not $OptionsPanel.visible
+	generator_list_mode = false
+	_clear_generator_focus()
 
 	$OptionsPanel.visible = should_open
+	$GeneratorsButton.text = "GENERATORS"
 
 	if should_open:
 		$StatsPanel.hide()
@@ -1324,45 +1333,43 @@ func _on_rub_button_pressed() -> void:
 
 
 func _on_stats_button_pressed() -> void:
+	var should_open: bool = not $StatsPanel.visible
+	generator_list_mode = false
+	_clear_generator_focus()
+	$GeneratorsButton.text = "GENERATORS"
 
-	$StatsPanel.visible = not $StatsPanel.visible
+	$StatsPanel.visible = should_open
 
-	if $StatsPanel.visible:
+	if should_open:
 		$OptionsPanel.hide()
-		$UpgradeScroll.visible = false
-		$PrestigePanel.visible = false
-		$GeneratorScroll.visible = false
+		$UpgradeScroll.hide()
+		$PrestigePanel.hide()
+		$GeneratorScroll.hide()
 
 
 
 func _on_upgrades_button_pressed() -> void:
+	var general_upgrades_are_open: bool = (
+		$UpgradeScroll.visible
+		and selected_upgrade_generator_id == ""
+	)
+	generator_list_mode = false
+	_clear_generator_focus()
+	$GeneratorsButton.text = "GENERATORS"
 
-	if not $UpgradeScroll.visible:
-		$UpgradeScroll.visible = true
-		$OptionsPanel.hide()
-		$StatsPanel.visible = false
-		$PrestigePanel.visible = false
-		$GeneratorScroll.visible = false
-
-		selected_upgrade_generator_id = ""
-
-		_update_upgrade_view()
-
-		return
-
-	# Upgrade panel is already open.
-
-	if selected_upgrade_generator_id == "":
-		$UpgradeScroll.visible = false
-
-		return
-
-	# A generator upgrade tree is open.
-	# Switch back to the general upgrade panel.
-
+	$OptionsPanel.hide()
+	$StatsPanel.hide()
+	$PrestigePanel.hide()
+	$GeneratorScroll.hide()
 	selected_upgrade_generator_id = ""
-	$UpgradeScroll.offset_top = 81.0
 
+	if general_upgrades_are_open:
+		$UpgradeScroll.hide()
+		_update_upgrade_view()
+		return
+
+	$UpgradeScroll.show()
+	$UpgradeScroll.offset_top = 81.0
 	_update_upgrade_view()
 
 func _on_prestige_requested() -> void:
@@ -1380,14 +1387,18 @@ func _on_prestige_destruction_complete() -> void:
 	$GeneratorScroll.show()
 	
 func _on_prestige_button_pressed() -> void:
+	var should_open: bool = not $PrestigePanel.visible
+	generator_list_mode = false
+	_clear_generator_focus()
+	$GeneratorsButton.text = "GENERATORS"
 
-	$PrestigePanel.visible = not $PrestigePanel.visible
+	$PrestigePanel.visible = should_open
 
-	if $PrestigePanel.visible:
+	if should_open:
 		$OptionsPanel.hide()
-		$StatsPanel.visible = false
-		$UpgradeScroll.visible = false
-		$GeneratorScroll.visible = false
+		$StatsPanel.hide()
+		$UpgradeScroll.hide()
+		$GeneratorScroll.hide()
 
 
 func _on_run_reset() -> void:
