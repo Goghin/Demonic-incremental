@@ -415,42 +415,42 @@ func get_matter_decay_per_second() -> float:
 # -------------------------------------------------------------------
 
 func _generate_lava_palette() -> void:
-	# Keep variation deliberately subtle: realms remain recognizably molten,
-	# while the balance shifts between crimson, orange and golden yellow.
+	# Each realm gets a coherent but clearly different warm hue:
+	# deep crimson, ember orange, or golden-orange.
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
-	var red_shift: float = rng.randf_range(-0.035, 0.035)
-	var green_shift: float = rng.randf_range(-0.018, 0.035)
-	var yellow_bias: float = rng.randf_range(0.0, 0.12)
+	var hue: float = rng.randf_range(0.002, 0.105)
+	var hue_shift: float = rng.randf_range(-0.012, 0.012)
+	var saturation: float = rng.randf_range(0.88, 1.0)
+	var yellow_bias: float = rng.randf_range(0.0, 1.0)
 
 	lava_palette = {
-		"dark": Color(
-			clampf(0.28 + red_shift, 0.22, 0.34),
-			0.010,
-			0.002
+		"dark": Color.from_hsv(
+			fposmod(hue + hue_shift, 1.0),
+			saturation,
+			rng.randf_range(0.20, 0.30)
 		),
-		"red": Color(
-			clampf(0.60 + red_shift, 0.54, 0.66),
-			clampf(0.025 + green_shift * 0.4, 0.018, 0.04),
-			0.003
+		"red": Color.from_hsv(
+			fposmod(hue + hue_shift * 0.5, 1.0),
+			saturation,
+			rng.randf_range(0.48, 0.62)
 		),
-		"orange": Color(
-			0.90,
-			clampf(0.070 + green_shift, 0.052, 0.105),
-			0.005
+		"orange": Color.from_hsv(
+			fposmod(hue + 0.012, 1.0),
+			rng.randf_range(0.86, 1.0),
+			rng.randf_range(0.78, 0.92)
 		),
-		"bright": Color(
-			1.0,
-			clampf(0.20 + yellow_bias, 0.18, 0.32),
-			clampf(0.015 + yellow_bias * 0.08, 0.012, 0.03)
+		"bright": Color.from_hsv(
+			fposmod(hue + 0.025 + yellow_bias * 0.012, 1.0),
+			rng.randf_range(0.60, 0.90),
+			1.0
 		),
-		"glow": Color(
-			1.0,
-			clampf(0.08 + yellow_bias * 0.35, 0.07, 0.13),
-			0.01
+		"glow": Color.from_hsv(
+			fposmod(hue + 0.018 + yellow_bias * 0.015, 1.0),
+			rng.randf_range(0.70, 0.95),
+			1.0
 		)
 	}
-
 
 func set_lava_palette_from_save_data(data: Dictionary) -> void:
 	var fallback_palette: Dictionary = lava_palette.duplicate(true)
