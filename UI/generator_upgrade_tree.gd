@@ -4,6 +4,7 @@ extends Control
 
 
 signal automation_settings_changed
+signal purchase_succeeded
 
 var _last_styled_enabled: bool = false
 var _has_styled_enabled: bool = false
@@ -113,6 +114,9 @@ func _create_upgrade_nodes() -> void:
 		panel.exclusive_preference_changed.connect(
 			_on_upgrade_panel_exclusive_preference_changed
 		)
+		panel.purchase_succeeded.connect(
+			_on_upgrade_purchase_succeeded
+		)
 
 		panel.setup(
 			state,
@@ -209,6 +213,10 @@ func _on_automation_toggle_button_pressed() -> void:
 
 func _on_upgrade_panel_exclusive_preference_changed() -> void:
 	automation_settings_changed.emit()
+
+
+func _on_upgrade_purchase_succeeded() -> void:
+	purchase_succeeded.emit()
 
 
 func _clear_tree() -> void:
