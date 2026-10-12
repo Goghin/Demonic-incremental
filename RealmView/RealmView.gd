@@ -93,6 +93,7 @@ func update_flame_visuals() -> void:
 
 
 func _process(_delta: float) -> void:
+	realm_layout_editor_controller.update(self, _delta)
 	realm_update_controller.update(self, _delta)
 
 func _update_scene_visuals(island_rect: Rect2) -> void:

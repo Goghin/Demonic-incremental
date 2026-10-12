@@ -4,6 +4,11 @@ extends RefCounted
 
 var layout_mode: bool = false
 var drag_controller: RealmLayoutDragController = RealmLayoutDragController.new()
+var held_fall_width_direction: float = 0.0
+var held_fall_length_direction: float = 0.0
+
+const FALL_WIDTH_CHANGE_PER_SECOND: float = 6.0
+const FALL_LENGTH_CHANGE_PER_SECOND: float = 30.0
 
 
 func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
@@ -11,10 +16,15 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 		return
 
 	if event is InputEventKey:
-		if not event.pressed or event.echo:
+		if not event.pressed:
+			_release_waterfall_key(event.keycode)
+			return
+		if event.echo:
 			return
 
 		if event.keycode == KEY_F2:
+			held_fall_width_direction = 0.0
+			held_fall_length_direction = 0.0
 			layout_mode = not layout_mode
 			drag_controller.cancel_drag()
 			if layout_mode:
@@ -53,31 +63,54 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			owner.queue_redraw()
 			return
 
-		var fall_width_change: float = 0.0
-		var fall_length_change: float = 0.0
 		match event.keycode:
-			KEY_BRACKETLEFT:
-				fall_width_change = -1.0
-			KEY_BRACKETRIGHT:
-				fall_width_change = 1.0
-			KEY_COMMA:
-				fall_length_change = -5.0
-			KEY_PERIOD:
-				fall_length_change = 5.0
+			KEY_LEFT:
+				held_fall_width_direction = -1.0
+				return
+			KEY_RIGHT:
+				held_fall_width_direction = 1.0
+				return
+			KEY_UP:
+				held_fall_length_direction = 1.0
+				return
+			KEY_DOWN:
+				held_fall_length_direction = -1.0
+				return
 
-		if drag_controller.adjust_selected_waterfall(
-			owner.realm_layout,
-			fall_width_change,
-			fall_length_change
-		):
-			owner.lava_realm_visual_controller.update_positions(
-				owner.realm_layout,
-				owner._get_island_rect()
-			)
-			owner.queue_redraw()
 		return
 
 	if not layout_mode:
 		return
 
 	drag_controller.handle_mouse_input(event, owner)
+
+
+
+func _release_waterfall_key(keycode: int) -> void:
+	match keycode:
+		KEY_LEFT, KEY_RIGHT:
+		held_fall_width_direction = 0.0
+		KEY_UP, KEY_DOWN:
+			held_fall_length_direction = 0.0
+
+
+func update(owner: RealmView, delta: float) -> void:
+	if not layout_mode or owner.state == null or owner.realm_layout == null:
+		held_fall_width_direction = 0.0
+		held_fall_length_direction = 0.0
+		return
+
+	if held_fall_width_direction == 0.0 and held_fall_length_direction == 0.0:
+		return
+
+	var changed: bool = drag_controller.adjust_selected_waterfall(
+		owner.realm_layout,
+		held_fall_width_direction * FALL_WIDTH_CHANGE_PER_SECOND * delta,
+		held_fall_length_direction * FALL_LENGTH_CHANGE_PER_SECOND * delta
+	)
+	if changed:
+		owner.lava_realm_visual_controller.update_positions(
+			owner.realm_layout,
+			owner._get_island_rect()
+		)
+		owner.queue_redraw()
