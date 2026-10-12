@@ -177,10 +177,10 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 								Color(1.0, 0.58, 0.28, 1.0)
 							)
 		elif selected_object.begins_with("lake_edge:"):
-			var parts: PackedStringArray = selected_object.split(":")
-			if parts.size() == 3:
-				var lake_index: int = int(parts[1])
-				var point_index: int = int(parts[2])
+			var lake_parts: PackedStringArray = selected_object.split(":")
+			if lake_parts.size() == 3:
+				var lake_index: int = int(lake_parts[1])
+				var point_index: int = int(lake_parts[2])
 				var lake_points: PackedVector2Array = PackedVector2Array()
 				var lake_name: String = "Main lake"
 				if lake_index == 0:
@@ -189,28 +189,25 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 					var definition: Dictionary = realm_layout.small_lake_definitions[lake_index - 1]
 					lake_name = "Small lake %d" % lake_index
 					lake_points = definition.get("points", PackedVector2Array())
-				else:
-					return
-
-			if point_index >= 0 and point_index < lake_points.size():
-				owner.draw_string(
-					ThemeDB.fallback_font,
-					Vector2(24.0, 186.0),
-					"%s - point %d of %d" % [lake_name, point_index + 1, lake_points.size()],
-					HORIZONTAL_ALIGNMENT_LEFT,
-					-1.0,
-					12,
-					Color(1.0, 0.82, 0.32, 1.0)
-				)
-				owner.draw_string(
-					ThemeDB.fallback_font,
-					Vector2(24.0, 207.0),
-					"Delete keeps at least 3 outline points",
-					HORIZONTAL_ALIGNMENT_LEFT,
-					-1.0,
-					12,
-					Color(0.92, 0.9, 0.84, 1.0)
-				)
+				if point_index >= 0 and point_index < lake_points.size():
+					owner.draw_string(
+						ThemeDB.fallback_font,
+						Vector2(24.0, 186.0),
+						"%s - point %d of %d" % [lake_name, point_index + 1, lake_points.size()],
+						HORIZONTAL_ALIGNMENT_LEFT,
+						-1.0,
+						12,
+						Color(1.0, 0.82, 0.32, 1.0)
+					)
+					owner.draw_string(
+						ThemeDB.fallback_font,
+						Vector2(24.0, 207.0),
+						"Delete keeps at least 3 outline points",
+						HORIZONTAL_ALIGNMENT_LEFT,
+						-1.0,
+						12,
+						Color(0.92, 0.9, 0.84, 1.0)
+					)
 
 
 
