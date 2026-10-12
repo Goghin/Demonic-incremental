@@ -22,6 +22,14 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 		if event.echo:
 			return
 
+		if event.keycode == KEY_ESCAPE and layout_mode:
+			held_fall_width_direction = 0.0
+			held_fall_length_direction = 0.0
+			drag_controller.cancel_drag()
+			drag_controller.selected_object = ""
+			owner.queue_redraw()
+			return
+
 		if event.keycode == KEY_F2:
 			held_fall_width_direction = 0.0
 			held_fall_length_direction = 0.0
