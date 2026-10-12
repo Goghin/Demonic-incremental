@@ -2,6 +2,7 @@ class_name RealmView
 extends Control
 
 var state: GameState
+var visual_effects_enabled: bool = true
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var generator_visibility_controller: GeneratorVisibilityController = GeneratorVisibilityController.new()
 var generator_visual_reset_controller: GeneratorVisualResetController = GeneratorVisualResetController.new()
@@ -78,6 +79,18 @@ const BRAZIER_STATS: Array[String] = [
 	"intensity",
 	"resonance"
 ]
+
+func set_visual_effects_enabled(enabled: bool) -> void:
+	if visual_effects_enabled == enabled:
+		return
+
+	visual_effects_enabled = enabled
+
+	if not enabled:
+		generator_animation_controller.reset()
+		molecular_agitation_particle_controller.reset()
+		forge_activity_visual_controller.reset()
+
 
 func setup(game_state: GameState) -> void:
 	realm_setup_controller.setup(self, game_state)
@@ -158,6 +171,10 @@ func begin_prestige_destruction() -> void:
 func play_crystallization_event(
 	crystals_created: float
 ) -> void:
+	if not visual_effects_enabled:
+		update_flame_visuals()
+		return
+
 	crystallized_flame_visual_controller.play_crystallization_event(
 		self,
 		state,
