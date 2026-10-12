@@ -106,10 +106,6 @@ func _validate_layout_thresholds(realm_layout: RealmLayout) -> void:
 		var definition: Dictionary = realm_layout.lava_flow_definitions[i]
 
 		if not definition.has("start_fill") or not definition.has("stop_fill"):
-			push_warning(
-				"Realm layout '%s' lava flow %d is missing start_fill or stop_fill." %
-				[realm_layout.resource_path, i]
-			)
 			continue
 
 		var start_fill: float = definition["start_fill"]
@@ -117,7 +113,9 @@ func _validate_layout_thresholds(realm_layout: RealmLayout) -> void:
 
 		if start_fill <= stop_fill:
 			push_warning(
-				"Realm layout '%s' lava flow %d has invalid thresholds: " +
-				"start_fill (%s) should be greater than stop_fill (%s)." %
+				(
+					"Realm layout '%s' lava flow %d has invalid thresholds: " +
+					"start_fill (%s) should be greater than stop_fill (%s)."
+				) %
 				[realm_layout.resource_path, i, start_fill, stop_fill]
 			)
