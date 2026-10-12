@@ -16,6 +16,9 @@ var simulation_statistics: ResourceStatistics = null
 var realm_layout_id: String = "default"
 var realm_layout: RealmLayout
 
+# Stable visual identity for the current realm. Colors are persisted by SaveManager.
+var lava_palette: Dictionary = {}
+
 var eternal_flame_state: EternalFlameState
 var realm_configuration: RealmConfiguration
 var realm_effects: RealmEffects
@@ -70,6 +73,7 @@ func _init() -> void:
 	realm_layout = RealmLayoutRegistry.create_layout(
 		realm_layout_id
 	)
+	_generate_lava_palette()
 	
 	realm_effects.rebuild(
 		realm_configuration,
@@ -409,6 +413,62 @@ func get_matter_decay_per_second() -> float:
 # -------------------------------------------------------------------
 # Current run reset
 # -------------------------------------------------------------------
+
+func _generate_lava_palette() -> void:
+	# Keep variation deliberately subtle: realms remain recognizably molten,
+	# while the balance shifts between crimson, orange and golden yellow.
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var red_shift: float = rng.randf_range(-0.035, 0.035)
+	var green_shift: float = rng.randf_range(-0.018, 0.035)
+	var yellow_bias: float = rng.randf_range(0.0, 0.12)
+
+	lava_palette = {
+		"dark": Color(
+			clampf(0.28 + red_shift, 0.22, 0.34),
+			0.010,
+			0.002
+		),
+		"red": Color(
+			clampf(0.60 + red_shift, 0.54, 0.66),
+			clampf(0.025 + green_shift * 0.4, 0.018, 0.04),
+			0.003
+		),
+		"orange": Color(
+			0.90,
+			clampf(0.070 + green_shift, 0.052, 0.105),
+			0.005
+		),
+		"bright": Color(
+			1.0,
+			clampf(0.20 + yellow_bias, 0.18, 0.32),
+			clampf(0.015 + yellow_bias * 0.08, 0.012, 0.03)
+		),
+		"glow": Color(
+			1.0,
+			clampf(0.08 + yellow_bias * 0.35, 0.07, 0.13),
+			0.01
+		)
+	}
+
+
+func set_lava_palette_from_save_data(data: Dictionary) -> void:
+	var fallback_palette: Dictionary = lava_palette.duplicate(true)
+	var restored_palette: Dictionary = {}
+	for color_name in ["dark", "red", "orange", "bright", "glow"]:
+		if not data.has(color_name):
+			lava_palette = fallback_palette
+			return
+		restored_palette[color_name] = Color(str(data[color_name]))
+	lava_palette = restored_palette
+
+
+func get_lava_palette_save_data() -> Dictionary:
+	var result: Dictionary = {}
+	for color_name in lava_palette:
+		result[color_name] = lava_palette[color_name].to_html(false)
+	return result
+
 
 func reset_current_run() -> void:
 	for resource_id in resources:
