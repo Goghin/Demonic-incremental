@@ -176,6 +176,7 @@ func state_to_dictionary(
 			"locked": state.realm_configuration.locked
 		},
 		"realm_layout_id": state.realm_layout_id,
+		"lava_palette": state.get_lava_palette_save_data(),
 		"realm_stabilized": state.realm_stabilized,
 		"total_overflow_this_prestige": state.total_overflow_this_prestige,
 		"overflow_bonus_from_last_realm": state.overflow_bonus_from_last_realm,
@@ -395,6 +396,10 @@ func dictionary_to_state(
 	state.realm_layout = RealmLayoutRegistry.create_layout(
 		state.realm_layout_id
 	)
+	# Older saves have no palette; retain the one generated for this load.
+	var lava_palette_data = data.get("lava_palette", {})
+	if lava_palette_data is Dictionary and not lava_palette_data.is_empty():
+		state.set_lava_palette_from_save_data(lava_palette_data)
 	# --------------------------------------------------------
 	# GENERATORS
 	# --------------------------------------------------------
