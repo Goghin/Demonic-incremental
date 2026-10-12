@@ -738,15 +738,8 @@ func add_automatic_upgrade_panel(
 		upgrade_panel_scene.instantiate()
 	)
 
-	panel.custom_minimum_size = Vector2(
-		70,
-		70
-	)
-
-	panel.size = Vector2(
-		70,
-		70
-	)
+	panel.custom_minimum_size = Vector2(54, 54)
+	panel.size = Vector2(54, 54)
 
 	effects_flow.add_child(panel)
 
