@@ -399,18 +399,21 @@ func _initialize_generator_selection() -> void:
 
 
 func _on_generator_selection_requested(generator_id: String) -> void:
+	# Focusing a machine takes priority over every navigation panel.
+	$StatsPanel.hide()
+	$UpgradeScroll.hide()
+	$PrestigePanel.hide()
+	$OptionsPanel.hide()
+
+	selected_upgrade_generator_id = ""
+	$UpgradeScroll.offset_top = 81.0
+	$UpgradeScroll.offset_right = 655.0
+	_update_upgrade_view()
+
 	# Clicking the active machine again returns to the unobstructed realm.
 	if generator_id == selected_generator_id:
 		_deselect_generator()
 		return
-
-	# A generator-specific tree belongs to its current selection.
-	# Close it before switching focus to a different generator.
-	if selected_upgrade_generator_id != "":
-		selected_upgrade_generator_id = ""
-		$UpgradeScroll.hide()
-		$UpgradeScroll.offset_top = 81.0
-		_update_upgrade_view()
 
 	_set_selected_generator(generator_id)
 
@@ -1363,7 +1366,9 @@ func _on_upgrades_button_pressed() -> void:
 		return
 
 	$UpgradeScroll.show()
+	$UpgradeScroll.offset_left = 12.0
 	$UpgradeScroll.offset_top = 81.0
+	$UpgradeScroll.offset_right = 655.0
 	_update_upgrade_view()
 
 func _on_prestige_requested() -> void:
@@ -1486,6 +1491,7 @@ func _position_generator_upgrade_tree() -> void:
 
 	$UpgradeScroll.offset_left = 12.0
 	$UpgradeScroll.offset_top = $GeneratorScroll.offset_top + panel_height + 8.0
+	$UpgradeScroll.offset_right = 462.0
 
 func _create_generator_upgrade_tree() -> void:
 

@@ -29,7 +29,7 @@ var upgrade_panel_scene = preload(
 )
 
 
-const UPGRADE_SIZE := Vector2(54, 54)
+const UPGRADE_SIZE := Vector2(44, 44)
 const HORIZONTAL_SPACING := 10.0
 const VERTICAL_SPACING := 10.0
 const COLUMNS := 4

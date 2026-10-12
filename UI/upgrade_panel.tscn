@@ -4,28 +4,28 @@
 [ext_resource type="Script" uid="uid://c6pp0iw1ytb3" path="res://UI/upgrade_panel.gd" id="1_hgfeo"]
 
 [node name="UpgradePanel" type="Control" unique_id=596803114]
-custom_minimum_size = Vector2(54, 54)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 0
-offset_right = 54.0
-offset_bottom = 54.0
+offset_right = 44.0
+offset_bottom = 44.0
 script = ExtResource("1_hgfeo")
 
 [node name="UpgradeButton" type="Button" parent="." unique_id=246372702]
-custom_minimum_size = Vector2(54, 54)
+custom_minimum_size = Vector2(44, 44)
 layout_mode = 0
-offset_right = 54.0
-offset_bottom = 54.0
+offset_right = 44.0
+offset_bottom = 44.0
 size_flags_horizontal = 0
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/font_size = 9
 text = ""
 mouse_default_cursor_shape = 2
 
 [node name="Icon" type="TextureRect" parent="UpgradeButton" unique_id=1767378006]
 layout_mode = 0
-offset_left = 13.0
-offset_top = 4.0
-offset_right = 41.0
-offset_bottom = 32.0
+offset_left = 11.0
+offset_top = 3.0
+offset_right = 33.0
+offset_bottom = 25.0
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
@@ -33,11 +33,11 @@ stretch_mode = 5
 [node name="LevelLabel" type="Label" parent="UpgradeButton"]
 layout_mode = 0
 offset_left = 1.0
-offset_top = 34.0
-offset_right = 53.0
-offset_bottom = 51.0
+offset_top = 26.0
+offset_right = 43.0
+offset_bottom = 42.0
 mouse_filter = 2
-theme_override_font_sizes/font_size = 9
+theme_override_font_sizes/font_size = 8
 text = ""
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -6,8 +6,8 @@ var positions: Dictionary = {}
 var connections: Array[Dictionary] = []
 
 
-const COLUMN_SPACING := 70.0
-const ROW_SPACING := 78.0
+const COLUMN_SPACING := 62.0
+const ROW_SPACING := 70.0
 const ORIGIN := Vector2(12, 12)
 
 

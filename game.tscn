@@ -61,12 +61,16 @@ layout_mode = 2
 [node name="StatsPanel" parent="." unique_id=682952637 instance=ExtResource("3_feb5d")]
 visible = false
 z_index = 50
-layout_mode = 1
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 offset_left = 12.0
-offset_top = 66.0
-offset_right = 655.0
-offset_bottom = -54.25287
-scale = Vector2(1.0213442, 0.9947947)
+offset_top = 17.0
+offset_right = 569.0
+offset_bottom = 587.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="OptionsButton" type="Button" parent="." unique_id=1682017612]
 layout_mode = 0
