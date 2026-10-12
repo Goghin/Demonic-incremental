@@ -17,6 +17,7 @@ var lava_realm_visual_controller: LavaRealmVisualController = LavaRealmVisualCon
 var ash_visual_controller: AshVisualController = AshVisualController.new()
 var generator_sprites: Dictionary = {}
 var generator_layer: Node2D
+var generator_selection_overlay: GeneratorSelectionOverlay
 
 var molecular_agitation_particle_controller: MolecularAgitationParticleController = MolecularAgitationParticleController.new()
 
@@ -97,6 +98,13 @@ func set_visual_effects_enabled(enabled: bool) -> void:
 
 
 func setup(game_state: GameState) -> void:
+	if generator_selection_overlay == null:
+		generator_selection_overlay = GeneratorSelectionOverlay.new()
+		generator_selection_overlay.name = "GeneratorSelectionOverlay"
+		generator_selection_overlay.z_index = 20
+		add_child(generator_selection_overlay)
+		generator_selection_overlay.realm_view = self
+
 	realm_setup_controller.setup(self, game_state)
 
 func rebuild_realm(new_layout: RealmLayout) -> void:
@@ -151,35 +159,11 @@ func set_selected_generator(generator_id: String) -> void:
 		return
 
 	selected_generator_id = generator_id
-	queue_redraw()
+	if generator_selection_overlay != null:
+		generator_selection_overlay.set_selected_generator(generator_id)
 
 func _draw() -> void:
 	realm_draw_controller.draw(self)
-
-	if selected_generator_id == "" or realm_layout == null:
-		return
-
-	var selected_position: Vector2 = _get_generator_position(selected_generator_id)
-	draw_arc(
-		selected_position,
-		30.0,
-		0.0,
-		TAU,
-		40,
-		Color(1.0, 0.48, 0.16, 0.95),
-		3.0,
-		true
-	)
-	draw_arc(
-		selected_position,
-		35.0,
-		0.0,
-		TAU,
-		40,
-		Color(1.0, 0.48, 0.16, 0.35),
-		1.0,
-		true
-	)
 
 func _get_island_rect() -> Rect2:
 	return realm_layout_geometry_controller.get_island_rect(
