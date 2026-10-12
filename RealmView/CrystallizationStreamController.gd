@@ -22,18 +22,43 @@ func play_crystallization_event(
 		total_flames
 	)
 
+	# A completion always releases a short radial burst from the forge,
+	# even when the visible crystal count is already at its cap.
+	play_burst(owner, forge_position)
+
 	var new_count: int = crystals.size()
-	if new_count <= old_count:
+	if new_count > old_count:
+		for i in range(old_count, new_count):
+			var crystal: CrystallizedFlame = crystals[i]
+			play(
+				owner,
+				forge_position,
+				crystal.base_position,
+				crystal,
+				CrystalRenderer.CRYSTAL_BASE_SCALE
+			)
 		return
 
-	for i in range(old_count, new_count):
-		var crystal: CrystallizedFlame = crystals[i]
-		play(
+	# When no new crystal can be added, stream the energy into a few
+	# existing crystals and pulse them to suggest that they are growing.
+	var candidates: Array[CrystallizedFlame] = []
+	for crystal in crystals:
+		if is_instance_valid(crystal) and not crystal.destruction_active:
+			candidates.append(crystal)
+
+	var target_count: int = min(
+		candidates.size(),
+		clampi(roundi(crystals_created), 1, 3)
+	)
+
+	for i in range(target_count):
+		var candidate_index: int = randi_range(0, candidates.size() - 1)
+		var crystal: CrystallizedFlame = candidates.pop_at(candidate_index)
+		play_growth_stream(
 			owner,
 			forge_position,
 			crystal.base_position,
-			crystal,
-			CrystalRenderer.CRYSTAL_BASE_SCALE
+			crystal
 		)
 
 
@@ -104,3 +129,39 @@ func play(
 	).set_ease(
 		Tween.EASE_IN_OUT
 	)
+
+
+
+func play_burst(owner: Node, position: Vector2) -> void:
+	var burst := CrystallizationStream.new()
+	burst.setup_burst(position)
+	burst.z_index = 22
+	owner.add_child(burst)
+
+
+func play_growth_stream(
+	owner: Node,
+	from_position: Vector2,
+	target_position: Vector2,
+	crystal: CrystallizedFlame
+) -> void:
+	var stream := CrystallizationStream.new()
+	stream.setup(from_position, target_position)
+	stream.z_index = 20
+	owner.add_child(stream)
+
+	var target_scale: Vector2 = crystal.scale
+	var tween := owner.create_tween()
+	tween.tween_interval(stream.duration * 0.72)
+	tween.tween_property(
+		crystal,
+		"scale",
+		target_scale * 1.32,
+		0.14
+	).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(
+		crystal,
+		"scale",
+		target_scale,
+		0.22
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
