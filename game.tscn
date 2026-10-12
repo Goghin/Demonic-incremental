@@ -81,7 +81,7 @@ layout_mode = 0
 offset_left = 505.0
 offset_top = 120.0
 offset_right = 805.0
-offset_bottom = 300.0
+offset_bottom = 340.0
 
 [node name="OptionsContent" type="VBoxContainer" parent="OptionsPanel" unique_id=1682017614]
 layout_mode = 2
@@ -91,6 +91,11 @@ theme_override_constants/separation = 12
 layout_mode = 2
 text = "OPTIONS"
 horizontal_alignment = 1
+
+[node name="VisualEffectsCheckBox" type="CheckBox" parent="OptionsPanel/OptionsContent" unique_id=1682017618]
+layout_mode = 2
+button_pressed = true
+text = "ANIMATED VISUAL EFFECTS"
 
 [node name="SaveButton" type="Button" parent="OptionsPanel/OptionsContent" unique_id=1682017616]
 layout_mode = 2
@@ -155,6 +160,7 @@ layout_mode = 1
 layout_mode = 1
 
 [connection signal="pressed" from="OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="toggled" from="OptionsPanel/OptionsContent/VisualEffectsCheckBox" to="." method="_on_visual_effects_toggled"]
 [connection signal="pressed" from="OptionsPanel/OptionsContent/SaveButton" to="." method="_on_rub_button_pressed"]
 [connection signal="pressed" from="OptionsPanel/OptionsContent/OptionsCloseButton" to="." method="_on_options_close_button_pressed"]
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
