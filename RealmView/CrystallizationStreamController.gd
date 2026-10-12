@@ -134,10 +134,17 @@ func play(
 
 
 func play_burst(owner: Node, position: Vector2) -> void:
-	var burst := CrystallizationStream.new()
-	burst.setup_burst(position)
-	burst.z_index = 22
-	owner.add_child(burst)
+	var delay := owner.create_tween()
+	delay.tween_interval(0.6)
+	delay.tween_callback(func() -> void:
+		if not is_instance_valid(owner):
+			return
+
+		var burst := CrystallizationStream.new()
+		burst.setup_burst(position)
+		burst.z_index = 22
+		owner.add_child(burst)
+	)
 
 
 func play_growth_stream(
