@@ -64,7 +64,7 @@ func setup_burst(at_position: Vector2) -> void:
 	start_position = at_position
 	target_position = at_position
 	elapsed = 0.0
-	duration = 0.9
+	duration = 1.8
 	active = true
 	particles.clear()
 
