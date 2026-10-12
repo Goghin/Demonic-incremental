@@ -148,6 +148,8 @@ func _update_ash_piles(ash: float) -> void:
 
 func _notification(what: int) -> void:
 	realm_resize_controller.handle_notification(self, what)
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		realm_layout_editor_controller.handle_application_focus_lost()
 
 func begin_prestige_destruction() -> void:
 	crystallized_flame_visual_controller.begin_prestige_destruction()
