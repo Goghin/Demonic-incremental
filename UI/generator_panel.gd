@@ -13,6 +13,7 @@ var _has_upgrade_automation_style: bool = false
 
 signal upgrades_requested(generator_id: String)
 signal upgrade_automation_changed
+signal generator_purchased
 
 
 func setup(
@@ -273,8 +274,9 @@ func _on_operation_mode_option_button_item_selected(
 func _on_buy_button_pressed() -> void:
 	if input_handler == null:
 		return
-	
-	input_handler.buy_generator(generator_id)
+
+	if input_handler.buy_generator(generator_id):
+		generator_purchased.emit()
 
 
 func _on_pause_button_pressed() -> void:
