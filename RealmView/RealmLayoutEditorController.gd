@@ -51,6 +51,30 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 				owner._get_island_rect()
 			)
 			owner.queue_redraw()
+			return
+
+		var fall_width_change: float = 0.0
+		var fall_length_change: float = 0.0
+		match event.keycode:
+			KEY_BRACKETLEFT:
+				fall_width_change = -1.0
+			KEY_BRACKETRIGHT:
+				fall_width_change = 1.0
+			KEY_COMMA:
+				fall_length_change = -5.0
+			KEY_PERIOD:
+				fall_length_change = 5.0
+
+		if drag_controller.adjust_selected_waterfall(
+			owner.realm_layout,
+			fall_width_change,
+			fall_length_change
+		):
+			owner.lava_realm_visual_controller.update_positions(
+				owner.realm_layout,
+				owner._get_island_rect()
+			)
+			owner.queue_redraw()
 		return
 
 	if not layout_mode:

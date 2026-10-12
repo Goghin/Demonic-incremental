@@ -320,6 +320,38 @@ func adjust_selected_flow_width(layout: RealmLayout, amount: float) -> bool:
 	return true
 
 
+func adjust_selected_waterfall(layout: RealmLayout, width_delta: float, length_delta: float) -> bool:
+	if layout == null or not selected_object.begins_with("lava_flow:"):
+		return false
+
+	var parts: PackedStringArray = selected_object.split(":")
+	if parts.size() != 3:
+		return false
+
+	var flow_index: int = int(parts[1])
+	var point_index: int = int(parts[2])
+	if flow_index < 0 or flow_index >= layout.lava_flow_definitions.size():
+		return false
+
+	var definition: Dictionary = layout.lava_flow_definitions[flow_index]
+	var points: PackedVector2Array = _get_flow_points(layout, flow_index)
+	# The waterfall is attached to the final point of its lava flow.
+	if points.is_empty() or point_index != points.size() - 1:
+		return false
+
+	var changed: bool = false
+	if width_delta != 0.0:
+		definition["fall_width"] = maxf(1.0, float(definition.get("fall_width", 4.0)) + width_delta)
+		changed = true
+	if length_delta != 0.0:
+		definition["fall_length"] = maxf(8.0, float(definition.get("fall_length", 60.0)) + length_delta)
+		changed = true
+
+	if changed:
+		layout.lava_flow_definitions[flow_index] = definition
+	return changed
+
+
 func _insert_flow_point_at_position(
 	mouse_position: Vector2,
 	owner: RealmView,

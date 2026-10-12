@@ -107,8 +107,9 @@ func draw_overlay(
 
 func _draw_editor_help(owner: Control, selected_object: String, realm_layout: RealmLayout) -> void:
 	var has_selection: bool = selected_object != ""
-	var panel_alpha: float = 0.28 if has_selection else 1.0
-	var panel_rect: Rect2 = Rect2(14.0, 14.0, 340.0, 194.0)
+	# Keep the instructions readable while object overlays are dimmed.
+	var panel_alpha: float = 1.0
+	var panel_rect: Rect2 = Rect2(14.0, 14.0, 360.0, 224.0)
 	owner.draw_rect(panel_rect, Color(0.04, 0.03, 0.02, 0.88 * panel_alpha), true)
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9 * panel_alpha), false, 1.0)
 	var lines: Array[String] = [
@@ -117,23 +118,25 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 		"Select flow point, then +/- to change width",
 		"Ctrl + click a flow segment: insert point",
 		"Delete / Backspace: remove selected flow point",
+		"Selected flow endpoint: edit waterfall",
+		"[ / ]: waterfall width     , / .: waterfall length",
 		"Shift + click: print normalized point",
 		"F2: close editor"
 	]
 	for i in range(lines.size()):
 		owner.draw_string(
 			ThemeDB.fallback_font,
-			Vector2(24.0, 34.0 + i * 14.0),
+			Vector2(24.0, 32.0 + i * 13.0),
 			lines[i],
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
 			13 if i == 0 else 11,
-			Color(1.0, 0.88, 0.58, 1.0) if i == 0 else Color(0.92, 0.9, 0.84, 0.28 if has_selection else 1.0)
+			Color(1.0, 0.88, 0.58, 1.0) if i == 0 else Color(0.92, 0.9, 0.84, 1.0)
 		)
 	if selected_object != "":
 		owner.draw_string(
 			ThemeDB.fallback_font,
-			Vector2(24.0, 160.0),
+			Vector2(24.0, 166.0),
 			"Moving: " + selected_object,
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
@@ -152,12 +155,26 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 						if point_index >= 0 and point_index < widths.size():
 							owner.draw_string(
 								ThemeDB.fallback_font,
-								Vector2(24.0, 180.0),
+								Vector2(24.0, 186.0),
 								"Width at point %d: %.1f" % [point_index + 1, widths[point_index]],
 								HORIZONTAL_ALIGNMENT_LEFT,
 								-1.0,
 								12,
 								Color(0.78, 0.68, 1.0, 1.0)
+							)
+
+						var points: PackedVector2Array = definition.get("points", PackedVector2Array())
+						if point_index == points.size() - 1 and point_index >= 0:
+							var fall_width: float = float(definition.get("fall_width", 4.0))
+							var fall_length: float = float(definition.get("fall_length", 60.0))
+							owner.draw_string(
+								ThemeDB.fallback_font,
+								Vector2(24.0, 207.0),
+								"Fall width: %.1f   length: %.1f" % [fall_width, fall_length],
+								HORIZONTAL_ALIGNMENT_LEFT,
+								-1.0,
+								12,
+								Color(1.0, 0.58, 0.28, 1.0)
 							)
 
 
@@ -195,6 +212,13 @@ func _draw_flow_handles(
 
 			var handle_id: String = "lava_flow:%d:%d" % [flow_index, point_index]
 			var is_selected: bool = selected_object == handle_id
+			if is_selected and point_index == screen_points.size() - 1:
+				var fall_length: float = float(definition.get("fall_length", 60.0))
+				var fall_width: float = float(definition.get("fall_width", 4.0))
+				var fall_end: Vector2 = current + Vector2(0.0, fall_length)
+				owner.draw_line(current, fall_end, Color(0.04, 0.015, 0.005, 0.95), maxf(6.0, fall_width + 4.0), true)
+				owner.draw_line(current, fall_end, Color(1.0, 0.25, 0.035, 0.9), maxf(2.0, fall_width), true)
+				owner.draw_circle(fall_end, 4.0, Color(1.0, 0.9, 0.55, 1.0))
 			if is_selected and definition.has("widths"):
 				var widths: PackedFloat32Array = definition["widths"]
 				if widths.size() == screen_points.size():
