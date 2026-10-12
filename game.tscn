@@ -81,7 +81,7 @@ layout_mode = 0
 offset_left = 505.0
 offset_top = 120.0
 offset_right = 805.0
-offset_bottom = 465.0
+offset_bottom = 510.0
 
 [node name="OptionsContent" type="VBoxContainer" parent="OptionsPanel" unique_id=1682017614]
 layout_mode = 2
@@ -126,6 +126,10 @@ text = "SAVE GAME"
 [node name="OptionsCloseButton" type="Button" parent="OptionsPanel/OptionsContent" unique_id=1682017617]
 layout_mode = 2
 text = "CLOSE"
+
+[node name="QuitGameButton" type="Button" parent="OptionsPanel/OptionsContent" unique_id=1682017623]
+layout_mode = 2
+text = "QUIT GAME"
 
 [node name="UpgradesButton" type="Button" parent="." unique_id=876049299]
 layout_mode = 0
@@ -188,6 +192,7 @@ layout_mode = 1
 [connection signal="value_changed" from="OptionsPanel/OptionsContent/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
 [connection signal="pressed" from="OptionsPanel/OptionsContent/SaveButton" to="." method="_on_rub_button_pressed"]
 [connection signal="pressed" from="OptionsPanel/OptionsContent/OptionsCloseButton" to="." method="_on_options_close_button_pressed"]
+[connection signal="pressed" from="OptionsPanel/OptionsContent/QuitGameButton" to="." method="_on_quit_game_button_pressed"]
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="StatsButton" to="." method="_on_stats_button_pressed"]
 [connection signal="pressed" from="PrestigeButton" to="." method="_on_prestige_button_pressed"]
