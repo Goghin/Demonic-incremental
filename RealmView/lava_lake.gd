@@ -8,9 +8,23 @@ class LavaBurstOverlay extends Node2D:
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var lake_area_factor: float = 1.0
 	var particles: Array[Dictionary] = []
+	var outer_spark_color: Color = Color(0.72, 0.045, 0.008, 0.92)
+	var core_spark_color: Color = Color(1.0, 0.24, 0.035, 0.95)
 
 	func _ready() -> void:
 		randomizer.randomize()
+
+	func set_lava_spark_colors(outer_color: Color, core_color: Color) -> void:
+		outer_spark_color = outer_color
+		core_spark_color = core_color
+		for particle in particles:
+			var node: Node2D = particle["node"]
+			var outer := node.get_node_or_null("OuterGlow") as Polygon2D
+			var core := node.get_node_or_null("HotCore") as Polygon2D
+			if outer != null:
+				outer.color = outer_spark_color
+			if core != null:
+				core.color = core_spark_color
 
 	func set_surface_points(points: PackedVector2Array) -> void:
 		# The points are in LavaLake-local coordinates. This overlay is a
@@ -73,13 +87,13 @@ class LavaBurstOverlay extends Node2D:
 			var outer := Polygon2D.new()
 			outer.name = "OuterGlow"
 			outer.polygon = _make_spark(particle_size * randomizer.randf_range(0.7, 1.0), randomizer.randf_range(1.2, 2.0))
-			outer.color = Color(0.72, 0.045, 0.008, 0.92)
+			outer.color = outer_spark_color
 			particle_node.add_child(outer)
 
 			var core := Polygon2D.new()
 			core.name = "HotCore"
 			core.polygon = _make_spark(particle_size * 0.42, 0.65)
-			core.color = Color(1.0, 0.24, 0.035, 0.95)
+			core.color = core_spark_color
 			particle_node.add_child(core)
 
 			var angle: float = randomizer.randf_range(-PI * 0.88, -PI * 0.12)
@@ -136,6 +150,7 @@ const FILL_SMOOTH_SPEED: float = .1
 
 var animation_time: float = 0.0
 var lava_burst_overlay: LavaBurstOverlay
+var lava_palette: Dictionary = {}
 
 func setup(
 	normalized_points: PackedVector2Array,
@@ -149,6 +164,12 @@ func setup(
 	_ensure_lava_burst_overlay()
 	_update_visuals()
 
+func set_lava_palette(palette: Dictionary) -> void:
+	lava_palette = palette.duplicate(true)
+	if is_instance_valid(lava_burst_overlay):
+		lava_burst_overlay.set_lava_spark_colors(lava_palette.get("red", Color(0.72, 0.045, 0.008, 0.92)), lava_palette.get("bright", Color(1.0, 0.24, 0.035, 0.95)))
+	_update_visuals()
+
 func _ensure_lava_burst_overlay() -> void:
 	if lava_burst_overlay != null:
 		return
@@ -159,6 +180,8 @@ func _ensure_lava_burst_overlay() -> void:
 	lava_burst_overlay.visible = true
 	lava_burst_overlay.set_process(true)
 	add_child(lava_burst_overlay)
+	if not lava_palette.is_empty():
+		lava_burst_overlay.set_lava_spark_colors(lava_palette.get("red", Color(0.72, 0.045, 0.008, 0.92)), lava_palette.get("bright", Color(1.0, 0.24, 0.035, 0.95)))
 
 
 func _reposition(island_rect: Rect2) -> void:
@@ -317,12 +340,7 @@ func _update_visuals() -> void:
 	var rim: Polygon2D = $Rim
 
 	rim.polygon = rim_points
-	rim.color = Color(
-		0.32,
-		0.022,
-		0.005,
-		0.55
-	)
+	rim.color = lava_palette.get("dark", Color(0.32, 0.022, 0.005, 0.55))
 
 	# ---------------------------------------------------------
 	# LAVA SURFACE
@@ -356,12 +374,7 @@ func _update_visuals() -> void:
 	surface.polygon = surface_points
 	_ensure_lava_burst_overlay()
 	lava_burst_overlay.set_surface_points(surface_points)
-	surface.color = Color(
-		0.65,
-		0.055,
-		0.008,
-		0.9
-	)
+	surface.color = lava_palette.get("orange", Color(0.65, 0.055, 0.008, 0.9))
 	# ---------------------------------------------------------
 	# BRIGHT INNER EDGE
 	# ---------------------------------------------------------
@@ -372,12 +385,7 @@ func _update_visuals() -> void:
 
 	inner_edge.width = .8
 
-	inner_edge.default_color = Color(
-		1.0,
-		0.16,
-		0.025,
-		0.75
-	)
+	inner_edge.default_color = lava_palette.get("bright", Color(1.0, 0.16, 0.025, 0.75))
 
 	inner_edge.closed = true
 	
