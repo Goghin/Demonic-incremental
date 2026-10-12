@@ -504,12 +504,10 @@ func _apply_permanent_technology_unlocks() -> void:
 					#output.unlocked = true
 
 func get_overflow_bonus() -> float:
-	var overflow: float = overflow_bonus_from_last_realm
-
-	if overflow <= 0.0:
-		return 1.0
-
-	return overflow
+	# Overflow is a bonus, never a penalty. Clamp this as well as the
+	# next-run calculation so existing saves with a sub-1 multiplier
+	# cannot reduce the first Smash reward to zero.
+	return maxf(1.0, overflow_bonus_from_last_realm)
 
 func next_overflow_bonus() -> float:
 	var overflow: float = total_overflow_this_prestige
@@ -517,7 +515,8 @@ func next_overflow_bonus() -> float:
 	if overflow <= 0.0:
 		return 1.0
 
-	return 1+(0.1 * log(overflow) / log(10.0))
+	var multiplier: float = 1.0 + (0.1 * log(overflow) / log(10.0))
+	return maxf(1.0, multiplier)
 
 func get_overflow_crystallization_multiplier() -> float:
 	var crystallized_flames: float = get_resource_amount(
