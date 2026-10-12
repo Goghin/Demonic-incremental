@@ -106,7 +106,6 @@ func draw_overlay(
 
 
 func _draw_editor_help(owner: Control, selected_object: String, realm_layout: RealmLayout) -> void:
-	var has_selection: bool = selected_object != ""
 	# Keep the instructions readable while object overlays are dimmed.
 	var panel_alpha: float = 1.0
 	var panel_rect: Rect2 = Rect2(14.0, 14.0, 360.0, 224.0)

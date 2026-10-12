@@ -138,6 +138,13 @@ func update_positions(
 						island_rect.size * last_normalized_point
 					)
 
+				var fall_width: float = float(definition.get("fall_width", 4.0))
+				var fall_length: float = float(definition.get("fall_length", 60.0))
+				if not is_equal_approx(fall.width, fall_width) or not is_equal_approx(fall.length, fall_length):
+					fall.width = fall_width
+					fall.length = fall_length
+					fall._update_polygon()
+
 
 func _convert_lava_points(
 	normalized_points: PackedVector2Array,
