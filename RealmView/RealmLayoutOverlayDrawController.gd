@@ -22,7 +22,7 @@ func draw_overlay(
 		2.0
 	)
 
-	_draw_editor_help(owner, selected_object, realm_layout)
+	_draw_editor_help(owner, selected_object, realm_layout, island_rect)
 	_draw_flow_handles(owner, realm_layout, island_rect, selected_object)
 	_draw_lake_edge_handles(owner, realm_layout, island_rect, selected_object)
 
@@ -105,10 +105,15 @@ func draw_overlay(
 
 
 
-func _draw_editor_help(owner: Control, selected_object: String, realm_layout: RealmLayout) -> void:
+func _draw_editor_help(
+	owner: Control,
+	selected_object: String,
+	realm_layout: RealmLayout,
+	island_rect: Rect2
+) -> void:
 	# Keep the instructions readable while object overlays are dimmed.
 	var panel_alpha: float = 1.0
-	var panel_rect: Rect2 = Rect2(14.0, 14.0, 360.0, 224.0)
+	var panel_rect: Rect2 = Rect2(14.0, 14.0, 360.0, 244.0)
 	owner.draw_rect(panel_rect, Color(0.04, 0.03, 0.02, 0.88 * panel_alpha), true)
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9 * panel_alpha), false, 1.0)
 	var lines: Array[String] = [
@@ -208,6 +213,89 @@ func _draw_editor_help(owner: Control, selected_object: String, realm_layout: Re
 						12,
 						Color(0.92, 0.9, 0.84, 1.0)
 					)
+
+
+
+		var normalized_position: Vector2 = _get_selected_normalized_position(
+			selected_object,
+			realm_layout
+		)
+		if normalized_position != Vector2(-1.0, -1.0) and island_rect.size.x > 0.0 and island_rect.size.y > 0.0:
+			owner.draw_string(
+				ThemeDB.fallback_font,
+				Vector2(24.0, 227.0),
+				"Normalized: (%.4f, %.4f)" % [normalized_position.x, normalized_position.y],
+				HORIZONTAL_ALIGNMENT_LEFT,
+				-1.0,
+				12,
+				Color(0.72, 0.92, 1.0, 1.0)
+			)
+		elif selected_object != "":
+			owner.draw_string(
+				ThemeDB.fallback_font,
+				Vector2(24.0, 227.0),
+				"Normalized position unavailable",
+				HORIZONTAL_ALIGNMENT_LEFT,
+				-1.0,
+				11,
+				Color(0.75, 0.72, 0.68, 1.0)
+			)
+
+
+func _get_selected_normalized_position(
+	selected_object: String,
+	realm_layout: RealmLayout
+) -> Vector2:
+	if realm_layout == null or selected_object == "":
+		return Vector2(-1.0, -1.0)
+
+	if selected_object.begins_with("lava_flow:"):
+		var parts: PackedStringArray = selected_object.split(":")
+		if parts.size() != 3:
+			return Vector2(-1.0, -1.0)
+		var flow_index: int = int(parts[1])
+		var point_index: int = int(parts[2])
+		if flow_index < 0 or flow_index >= realm_layout.lava_flow_definitions.size():
+			return Vector2(-1.0, -1.0)
+		var points: PackedVector2Array = realm_layout.lava_flow_definitions[flow_index].get("points", PackedVector2Array())
+		if point_index < 0 or point_index >= points.size():
+			return Vector2(-1.0, -1.0)
+		return points[point_index]
+
+	if selected_object.begins_with("lake_edge:"):
+		var parts: PackedStringArray = selected_object.split(":")
+		if parts.size() != 3:
+			return Vector2(-1.0, -1.0)
+		var lake_index: int = int(parts[1])
+		var point_index: int = int(parts[2])
+		var points: PackedVector2Array
+		if lake_index == 0:
+			points = realm_layout.main_lake_edge_points
+		else:
+			var definition_index: int = lake_index - 1
+			if definition_index < 0 or definition_index >= realm_layout.small_lake_definitions.size():
+				return Vector2(-1.0, -1.0)
+			points = realm_layout.small_lake_definitions[definition_index].get("points", PackedVector2Array())
+		if point_index < 0 or point_index >= points.size():
+			return Vector2(-1.0, -1.0)
+		return points[point_index]
+
+	if selected_object.begins_with("ash_pile:"):
+		var pile_index: int = int(selected_object.substr(9))
+		if pile_index < 0 or pile_index >= realm_layout.ash_pile_layout_positions.size():
+			return Vector2(-1.0, -1.0)
+		return realm_layout.ash_pile_layout_positions[pile_index]
+
+	if selected_object.begins_with("brazier:"):
+		var stat_name: String = selected_object.substr(8)
+		if not realm_layout.brazier_layout_positions.has(stat_name):
+			return Vector2(-1.0, -1.0)
+		return realm_layout.brazier_layout_positions[stat_name]
+
+	if realm_layout.generator_layout_positions.has(selected_object):
+		return realm_layout.generator_layout_positions[selected_object]
+
+	return Vector2(-1.0, -1.0)
 
 
 
