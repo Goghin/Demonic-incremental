@@ -1200,7 +1200,6 @@ func _on_prestige_destruction_complete() -> void:
 	$PrestigePanel.perform_smash()
 
 	$GeneratorScroll.show()
-	$PrestigePanel.show()
 	
 func _on_prestige_button_pressed() -> void:
 
