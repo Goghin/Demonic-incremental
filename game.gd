@@ -161,6 +161,7 @@ func _ready() -> void:
 		state,
 		time_manager
 	)
+	state.achievement_manager.update(state)
 	realm_view.rebuild_realm(
 		state.realm_layout
 	)
@@ -178,6 +179,7 @@ func _ready() -> void:
 		await get_tree().process_frame
 
 		var offline_seconds = await time_manager.process_offline_time()
+		state.achievement_manager.update(state)
 
 		print(
 			"Offline time simulated: ",
@@ -843,6 +845,7 @@ func _process(
 	time_manager.update(
 		delta
 	)
+	state.achievement_manager.update(state)
 	_update_ambient_audio(delta)
 
 

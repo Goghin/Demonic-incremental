@@ -3,7 +3,7 @@ extends RefCounted
 
 
 const SAVE_PATH := "user://savegame.json"
-const SAVE_VERSION := 4
+const SAVE_VERSION := 5
 
 
 func save_game(
@@ -159,6 +159,7 @@ func state_to_dictionary(
 		"upgrades": {},
 		"resource_statistics": state.resource_statistics.to_dictionary(),
 		"current_run_statistics": state.current_run_statistics.to_dictionary(),
+		"achievements": state.achievement_manager.to_dictionary(),
 		"eternal_flame_state": {
 			"eternal_flame": state.eternal_flame_state.eternal_flame,
 			"spent_flames": state.eternal_flame_state.spent_flames,
@@ -502,6 +503,11 @@ func dictionary_to_state(
 				upgrade_data["level"]
 			)
 	
+	var achievement_data = data.get("achievements", {})
+	if achievement_data is Dictionary:
+		state.achievement_manager.from_dictionary(achievement_data)
+	state.achievement_manager.update(state)
+
 	state.realm_effects.rebuild(
 		state.realm_configuration,
 		state.eternal_flame_state,

@@ -11,6 +11,7 @@ var upgrade_system: UpgradeSystem
 
 var resource_statistics: ResourceStatistics
 var current_run_statistics: ResourceStatistics
+var achievement_manager: AchievementManager
 var simulation_statistics: ResourceStatistics = null
 
 var realm_layout_id: String = "default"
@@ -55,6 +56,7 @@ func _init() -> void:
 		
 	resource_statistics = ResourceStatistics.new()
 	current_run_statistics = ResourceStatistics.new()
+	achievement_manager = AchievementManager.new()
 	
 	upgrade_system = UpgradeSystem.new(
 		self
