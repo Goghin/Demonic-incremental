@@ -15,6 +15,7 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 	owner.lava_realm_visual_controller.update_dynamic_states(state, realm_layout)
 
 	_update_ash_visuals(owner, island_rect)
+	_update_matter_piles(owner, island_rect)
 	_update_braziers(owner, island_rect)
 	_update_forge_visuals(owner, island_rect)
 	_update_layout_overlay(owner, island_rect)
@@ -29,6 +30,15 @@ func _update_ash_visuals(owner: RealmView, island_rect: Rect2) -> void:
 		ash,
 		owner.size * owner.ISLAND_CENTER_RATIO,
 		owner.ASH_VISUAL_RADIUS
+	)
+
+
+func _update_matter_piles(owner: RealmView, island_rect: Rect2) -> void:
+	var matter: float = owner.state.get_resource_amount(ResourceIds.MATTER)
+	owner.matter_pile_visual_controller.update_piles(
+		owner.realm_layout,
+		island_rect,
+		matter
 	)
 
 

@@ -17,6 +17,14 @@ func update_positions(owner: RealmView, island_rect: Rect2) -> void:
 		island_rect
 	)
 
+	# Matter piles follow their normalized layout positions across rebuilds and resizes.
+	if owner.state != null:
+		owner.matter_pile_visual_controller.update_piles(
+			owner.realm_layout,
+			island_rect,
+			owner.state.get_resource_amount(ResourceIds.MATTER)
+		)
+
 	# Generator sprites and hitboxes use absolute Control coordinates.
 	owner._draw_generators(island_rect)
 
