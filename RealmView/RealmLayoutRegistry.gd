@@ -37,4 +37,6 @@ static func create_layout(
 
 		layout_id = "default"
 
-	return LAYOUTS[layout_id].new()
+	var layout: RealmLayout = LAYOUTS[layout_id].new()
+	layout.resource_name = layout_id
+	return layout
