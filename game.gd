@@ -777,10 +777,10 @@ func _on_generator_unlocked(
 
 	_play_ui_unlock()
 
-	# Most generators use the shared unlock toast and NEW panel badge.
-	# Infernal Forge has its own special-case presentation.
+	# Keep the unlock toast for every generator, including Infernal Forge.
+	# Infernal Forge is excluded from the generic island marker and particles.
 	var generator: Generator = state.get_generator(generator_id)
-	if generator_id != "infernal_forge" and generator != null:
+	if generator != null:
 		$AchievementToast.show_generator_unlocked(
 			generator.definition.display_name,
 			"A new machine is ready to build. Select it on the island or in Generators to buy its first level."
