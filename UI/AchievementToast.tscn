@@ -1,0 +1,39 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://UI/achievement_toast.gd" id="1_toast"]
+
+[node name="AchievementToast" type="PanelContainer"]
+visible = false
+z_index = 90
+layout_mode = 0
+offset_left = -170.0
+offset_top = 78.0
+offset_right = 170.0
+offset_bottom = 164.0
+grow_horizontal = 2
+mouse_filter = 2
+script = ExtResource("1_toast")
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="HeadingLabel" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.69, 0.31, 1)
+theme_override_font_sizes/font_size = 10
+text = "ACHIEVEMENT UNLOCKED"
+horizontal_alignment = 1
+
+[node name="TitleLabel" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Achievement Title"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="Content"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "Achievement description"
+horizontal_alignment = 1
+autowrap_mode = 3
