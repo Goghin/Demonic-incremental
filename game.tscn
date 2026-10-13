@@ -33,7 +33,7 @@ z_index = 51
 layout_mode = 0
 offset_left = 12.0
 offset_top = 72.0
-offset_right = 462.0
+offset_right = 512.0
 offset_bottom = 108.0
 
 [node name="NavigationTitle" type="Label" parent="NavigationTitlePanel" unique_id=1072280319]
@@ -47,7 +47,7 @@ z_index = 50
 layout_mode = 0
 offset_left = 12.0
 offset_top = 112.0
-offset_right = 462.0
+offset_right = 512.0
 offset_bottom = 575.0
 
 [node name="GeneratorContainer" type="VBoxContainer" parent="GeneratorScroll" unique_id=22294849]
@@ -84,7 +84,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 12.0
 offset_top = 112.0
-offset_right = 462.0
+offset_right = 512.0
 offset_bottom = 575.0
 grow_horizontal = 1
 grow_vertical = 1
@@ -180,7 +180,7 @@ z_index = 50
 layout_mode = 0
 offset_left = 12.0
 offset_top = 112.0
-offset_right = 462.0
+offset_right = 512.0
 offset_bottom = 575.0
 
 [node name="PrestigePanel" parent="." unique_id=34821011 instance=ExtResource("6_prestige")]
@@ -193,7 +193,7 @@ anchor_right = 0.0
 anchor_bottom = 0.0
 offset_left = 12.0
 offset_top = 112.0
-offset_right = 462.0
+offset_right = 512.0
 offset_bottom = 575.0
 grow_horizontal = 1
 grow_vertical = 1
