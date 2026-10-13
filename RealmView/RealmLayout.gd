@@ -6,6 +6,13 @@ extends Resource
 # Background artwork for this realm.
 @export var island_texture: Texture2D
 
+# Optional texture aspect ratio. Zero preserves the legacy fixed canvas shape.
+@export var island_aspect_ratio: float = 0.0
+
+# Per-layout image/canvas adjustments used by the layout editor.
+@export_range(0.5, 2.0, 0.05) var island_view_scale: float = 1.0
+@export var island_view_offset: Vector2 = Vector2.ZERO
+
 
 # Main lava lake outline, using normalized coordinates (0.0 to 1.0).
 @export var main_lake_edge_points: PackedVector2Array

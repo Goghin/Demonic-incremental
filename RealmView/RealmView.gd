@@ -169,7 +169,10 @@ func _get_island_rect() -> Rect2:
 		size,
 		ISLAND_CENTER_RATIO,
 		ISLAND_BASE_SIZE,
-		ISLAND_SCALE
+		ISLAND_SCALE,
+		realm_layout.island_aspect_ratio if realm_layout != null else 0.0,
+		realm_layout.island_view_scale if realm_layout != null else 1.0,
+		realm_layout.island_view_offset if realm_layout != null else Vector2.ZERO
 	)
 
 func _draw_generators(island_rect: Rect2) -> void:

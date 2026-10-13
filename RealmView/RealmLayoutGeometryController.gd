@@ -6,10 +6,15 @@ func get_island_rect(
 	view_size: Vector2,
 	center_ratio: Vector2,
 	base_size: Vector2,
-	island_scale: float
+	island_scale: float,
+	aspect_ratio: float = 0.0,
+	view_scale: float = 1.0,
+	view_offset: Vector2 = Vector2.ZERO
 ) -> Rect2:
-	var center: Vector2 = view_size * center_ratio
-	var island_size: Vector2 = base_size * island_scale
+	var center: Vector2 = view_size * (center_ratio + view_offset)
+	var island_size: Vector2 = base_size * island_scale * view_scale
+	if aspect_ratio > 0.0:
+		island_size.y = island_size.x / aspect_ratio
 	return Rect2(
 		center - island_size * 0.5,
 		island_size

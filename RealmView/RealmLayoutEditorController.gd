@@ -59,6 +59,37 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			RealmLayoutExportController.open_save_dialog(owner)
 			return
 
+		if event.ctrl_pressed and event.shift_pressed and event.keycode == KEY_I:
+			RealmLayoutImageController.open_texture_dialog(owner)
+			return
+
+		# Ctrl + Shift + arrows move the whole island layout in the view.
+		if event.ctrl_pressed and event.shift_pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]:
+			var offset_delta := Vector2.ZERO
+			match event.keycode:
+				KEY_LEFT:
+				offset_delta.x = -0.01
+				KEY_RIGHT:
+				offset_delta.x = 0.01
+				KEY_UP:
+				offset_delta.y = -0.01
+				KEY_DOWN:
+				offset_delta.y = 0.01
+			owner.realm_layout.island_view_offset += offset_delta
+			_refresh_island_view(owner)
+			return
+
+		# Ctrl + plus/minus scales the island and all normalized layout elements.
+		if event.ctrl_pressed and not event.shift_pressed and event.keycode in [KEY_EQUAL, KEY_KP_ADD, KEY_MINUS, KEY_KP_SUBTRACT]:
+			var scale_delta := 0.05 if event.keycode in [KEY_EQUAL, KEY_KP_ADD] else -0.05
+			owner.realm_layout.island_view_scale = clampf(
+				owner.realm_layout.island_view_scale + scale_delta,
+				0.5,
+				2.0
+			)
+			_refresh_island_view(owner)
+			return
+
 		# Shift + arrows nudge the selected item without interfering with
 		# the unmodified arrow keys used to adjust waterfall dimensions.
 		if event.shift_pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]:
@@ -132,6 +163,12 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 
 	drag_controller.handle_mouse_input(event, owner)
 
+
+
+func _refresh_island_view(owner: RealmView) -> void:
+	var island_rect: Rect2 = owner._get_island_rect()
+	owner.realm_layout_visual_controller.update_positions(owner, island_rect)
+	owner.queue_redraw()
 
 
 func _release_waterfall_key(keycode: int) -> void:
