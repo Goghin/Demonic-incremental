@@ -43,7 +43,6 @@ func _collect_active_generators(state: GameState) -> Array:
 
 	for generator_value in state.generators.values():
 		var generator: Generator = generator_value
-		var generator_id: String = generator.definition.id
 
 		# Unlocked level-zero generators are shown as dormant, clickable machines.
 		if generator.unlocked:
