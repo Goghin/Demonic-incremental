@@ -221,6 +221,9 @@ func _ready() -> void:
 		state,
 		state.achievement_manager
 	)
+	state.achievement_manager.achievement_unlocked.connect(
+		_on_achievement_unlocked
+	)
 
 	$PrestigePanel.setup(
 		state,
@@ -896,6 +899,20 @@ func _on_generators_button_pressed() -> void:
 	_refresh_generator_panel_visibility()
 
 	$GeneratorsButton.text = "GENERATORS"
+
+
+func _on_achievement_unlocked(achievement_id: String) -> void:
+	var definition: Dictionary = AchievementRegistry.get_definition(
+		achievement_id
+	)
+	if definition.is_empty():
+		return
+
+	$AchievementToast.show_achievement(
+		str(definition.get("title", achievement_id)),
+		str(definition.get("description", ""))
+	)
+	_play_ui_unlock()
 
 
 func _on_achievements_button_pressed() -> void:
