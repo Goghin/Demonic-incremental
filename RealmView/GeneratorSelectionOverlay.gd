@@ -86,7 +86,7 @@ func _draw_new_generator_markers() -> void:
 			true
 		)
 		draw_rect(
-			Rect2(badge_position, Vector2(44.0, 15.0)),
+			Rect2(badge_position, Vector2(58.0, 15.0)),
 			Color(1.0, 0.58, 0.19, 0.95),
 			false,
 			1.0
