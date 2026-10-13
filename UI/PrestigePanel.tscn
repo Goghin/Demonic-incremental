@@ -32,16 +32,16 @@ theme_override_constants/separation = 8
 [node name="TitleLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=700344071]
 layout_mode = 2
 
-[node name="CrystallizedFlameLabel" type="Label" parent="VBoxContainer" unique_id=498019979]
+[node name="CrystallizedFlameLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=498019979]
 layout_mode = 2
 
-[node name="EternalFlameLabel" type="Label" parent="VBoxContainer" unique_id=1367747663]
+[node name="EternalFlameLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=1367747663]
 layout_mode = 2
 
-[node name="GainLabel" type="Label" parent="VBoxContainer" unique_id=110474591]
+[node name="GainLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=110474591]
 layout_mode = 2
 
-[node name="SmashButton" type="Button" parent="VBoxContainer" unique_id=1018030104]
+[node name="SmashButton" type="Button" parent="ScrollContainer/VBoxContainer" unique_id=1018030104]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Smash the Flame"
