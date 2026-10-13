@@ -33,7 +33,7 @@ layout_mode = 0
 offset_left = 12.0
 offset_top = 72.0
 offset_right = 462.0
-offset_bottom = 592.0
+offset_bottom = 575.0
 
 [node name="GeneratorContainer" type="VBoxContainer" parent="GeneratorScroll" unique_id=22294849]
 layout_mode = 2
@@ -46,7 +46,7 @@ layout_mode = 0
 offset_left = 12.0
 offset_top = 230.0
 offset_right = 655.0
-offset_bottom = 590.0
+offset_bottom = 575.0
 
 [node name="UpgradeContent" type="VBoxContainer" parent="UpgradeScroll" unique_id=631500945]
 layout_mode = 2
@@ -70,7 +70,7 @@ anchor_bottom = 0.0
 offset_left = 12.0
 offset_top = 150.0
 offset_right = 569.0
-offset_bottom = 587.0
+offset_bottom = 575.0
 grow_horizontal = 1
 grow_vertical = 1
 
