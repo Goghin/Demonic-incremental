@@ -910,7 +910,6 @@ func _on_achievements_button_pressed() -> void:
 		$StatsPanel.hide()
 		$UpgradeScroll.hide()
 		$PrestigePanel.hide()
-		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
 	else:
 		$GeneratorScroll.show()
@@ -1380,6 +1379,7 @@ func _on_stats_button_pressed() -> void:
 		$OptionsPanel.hide()
 		$UpgradeScroll.hide()
 		$PrestigePanel.hide()
+		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
 
 
@@ -1439,6 +1439,7 @@ func _on_prestige_button_pressed() -> void:
 		$OptionsPanel.hide()
 		$StatsPanel.hide()
 		$UpgradeScroll.hide()
+		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
 
 
