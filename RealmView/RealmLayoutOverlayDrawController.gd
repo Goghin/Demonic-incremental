@@ -114,7 +114,7 @@ func _draw_editor_help(
 ) -> void:
 	# Keep the instructions readable while object overlays are dimmed.
 	var panel_alpha: float = 1.0
-	var panel_rect: Rect2 = Rect2(14.0, 14.0, 450.0, 360.0)
+	var panel_rect: Rect2 = Rect2(14.0, 14.0, 470.0, 390.0)
 	owner.draw_rect(panel_rect, Color(0.04, 0.03, 0.02, 0.88 * panel_alpha), true)
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9 * panel_alpha), false, 1.0)
 	var lines: Array[String] = [
@@ -151,7 +151,7 @@ func _draw_editor_help(
 	if selected_object != "":
 		owner.draw_string(
 			ThemeDB.fallback_font,
-			Vector2(24.0, 260.0),
+			Vector2(24.0, 350.0),
 			"Moving: " + selected_object,
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
@@ -170,7 +170,7 @@ func _draw_editor_help(
 						if point_index >= 0 and point_index < widths.size():
 							owner.draw_string(
 								ThemeDB.fallback_font,
-								Vector2(24.0, 280.0),
+								Vector2(24.0, 368.0),
 								"Width at point %d: %.1f" % [point_index + 1, widths[point_index]],
 								HORIZONTAL_ALIGNMENT_LEFT,
 								-1.0,
@@ -184,7 +184,7 @@ func _draw_editor_help(
 							var fall_length: float = float(definition.get("fall_length", 60.0))
 							owner.draw_string(
 								ThemeDB.fallback_font,
-								Vector2(24.0, 298.0),
+								Vector2(24.0, 386.0),
 								"Fall width: %.1f   length: %.1f" % [fall_width, fall_length],
 								HORIZONTAL_ALIGNMENT_LEFT,
 								-1.0,
@@ -233,7 +233,7 @@ func _draw_editor_help(
 		if normalized_position != Vector2(-1.0, -1.0) and island_rect.size.x > 0.0 and island_rect.size.y > 0.0:
 			owner.draw_string(
 				ThemeDB.fallback_font,
-				Vector2(24.0, 322.0),
+				Vector2(24.0, 410.0),
 				"Normalized: (%.4f, %.4f)" % [normalized_position.x, normalized_position.y],
 				HORIZONTAL_ALIGNMENT_LEFT,
 				-1.0,
@@ -243,7 +243,7 @@ func _draw_editor_help(
 		elif selected_object != "":
 			owner.draw_string(
 				ThemeDB.fallback_font,
-				Vector2(24.0, 227.0),
+				Vector2(24.0, 410.0),
 				"Normalized position unavailable",
 				HORIZONTAL_ALIGNMENT_LEFT,
 				-1.0,
