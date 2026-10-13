@@ -118,7 +118,7 @@ func _draw_editor_help(
 	owner.draw_rect(panel_rect, Color(0.04, 0.03, 0.02, 0.88 * panel_alpha), true)
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9 * panel_alpha), false, 1.0)
 	var lines: Array[String] = [
-		"REALM LAYOUT EDITOR",
+		"REALM LAYOUT EDITOR — " + (realm_layout.resource_name if realm_layout != null and realm_layout.resource_name != "" else "unnamed"),
 		"Drag machines, braziers, ash piles, flow or lake handles",
 		"Drag the gold diamond to move the main lake origin",
 		"Select a flow point, then +/- to change its width",
