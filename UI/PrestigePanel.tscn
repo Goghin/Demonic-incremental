@@ -11,20 +11,25 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hr0sl")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=149505744]
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=149505744]
+layout_mode = 2
 offset_left = 20.0
 offset_top = 20.0
 offset_right = -20.0
 offset_bottom = -20.0
-grow_horizontal = 2
-grow_vertical = 2
 theme_override_constants/separation = 8
 
-[node name="TitleLabel" type="Label" parent="VBoxContainer" unique_id=700344071]
+[node name="TitleLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=700344071]
 layout_mode = 2
 
 [node name="CrystallizedFlameLabel" type="Label" parent="VBoxContainer" unique_id=498019979]
