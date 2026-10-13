@@ -1429,7 +1429,7 @@ func _on_upgrades_button_pressed() -> void:
 
 	$UpgradeScroll.show()
 	$UpgradeScroll.offset_left = 12.0
-	$UpgradeScroll.offset_top = 81.0
+	$UpgradeScroll.offset_top = 112.0
 	$UpgradeScroll.offset_right = 655.0
 	_update_upgrade_view()
 
