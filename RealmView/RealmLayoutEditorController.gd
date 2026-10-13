@@ -63,6 +63,10 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			RealmLayoutImageController.open_texture_dialog(owner)
 			return
 
+		if event.ctrl_pressed and event.shift_pressed and event.keycode == KEY_L:
+			_cycle_layout(owner)
+			return
+
 		# Ctrl + Shift + arrows move the whole island layout in the view.
 		if event.ctrl_pressed and event.shift_pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]:
 			var offset_delta := Vector2.ZERO
@@ -163,6 +167,27 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 
 	drag_controller.handle_mouse_input(event, owner)
 
+
+
+func _cycle_layout(owner: RealmView) -> void:
+	var layout_ids: Array[String] = RealmLayoutRegistry.get_layout_ids()
+	if layout_ids.is_empty():
+		return
+
+	var current_index: int = layout_ids.find(owner.state.realm_layout_id)
+	var next_index: int = (current_index + 1) % layout_ids.size()
+	var next_layout_id: String = layout_ids[next_index]
+
+	owner.state.realm_layout_id = next_layout_id
+	owner.state.realm_layout = RealmLayoutRegistry.create_layout(next_layout_id)
+	owner.rebuild_realm(owner.state.realm_layout)
+	owner.realm_layout_debug_controller.print_layout_details(
+		owner.realm_layout,
+		owner.braziers,
+		owner.BRAZIER_STATS,
+		owner.lava_realm_visual_controller.lakes
+	)
+	print("Switched realm layout to: ", next_layout_id)
 
 
 func _refresh_island_view(owner: RealmView) -> void:
