@@ -28,6 +28,7 @@ layout_mode = 1
 offset_bottom = -576.0
 
 [node name="NavigationTitlePanel" type="PanelContainer" parent="." unique_id=1072280318]
+visible = false
 z_index = 51
 layout_mode = 0
 offset_left = 12.0
@@ -45,7 +46,7 @@ vertical_alignment = 1
 z_index = 50
 layout_mode = 0
 offset_left = 12.0
-offset_top = 72.0
+offset_top = 112.0
 offset_right = 462.0
 offset_bottom = 575.0
 
@@ -184,6 +185,7 @@ offset_bottom = 575.0
 
 [node name="PrestigePanel" parent="." unique_id=34821011 instance=ExtResource("6_prestige")]
 visible = false
+clip_contents = true
 z_index = 50
 layout_mode = 0
 anchors_preset = 0
