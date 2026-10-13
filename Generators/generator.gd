@@ -159,6 +159,18 @@ func get_production_rate(
 	
 	if operation_mode == null:
 		operation_mode = get_operation_mode()
+
+	# Resource-transfer modes conserve the input quantity exactly. They do
+	# not receive production bonuses or output modifiers, which would create
+	# or destroy resources during compression and expansion.
+	if operation_mode != null and operation_mode.is_resource_transfer:
+		if operation_mode.inputs.is_empty():
+			return 0.0
+		return (
+			operation_mode.inputs[0].amount_per_second
+			* level
+			* operation_mode.input_multiplier
+		)
 	
 	var production: float = output.amount_per_second * level
 	
@@ -250,6 +262,9 @@ func get_input_rate(
 	
 	var input_per_second = input.amount_per_second
 	var operation_mode = get_operation_mode()
+
+	if operation_mode != null and operation_mode.is_resource_transfer:
+		return input.amount_per_second * operation_mode.input_multiplier
 	
 	if operation_mode != null:
 		input_per_second *= operation_mode.input_multiplier
@@ -308,6 +323,11 @@ func can_start_operating(
 	if definition.cycle_based and not cycle_active:
 		return false
 	
+	var partial_input_operation: bool = allow_partial_inputs
+	var operation_mode = get_operation_mode()
+	if operation_mode != null and operation_mode.is_resource_transfer:
+		partial_input_operation = true
+
 	for input in get_active_inputs():
 		var input_amount = state.get_resource_amount(
 			input.resource_id
@@ -318,7 +338,7 @@ func can_start_operating(
 			state
 		)
 		
-		if allow_partial_inputs:
+		if partial_input_operation:
 			if required_input > 0.0 and input_amount <= 0.0:
 				return false
 		elif input_amount < required_input:

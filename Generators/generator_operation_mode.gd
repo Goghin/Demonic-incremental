@@ -17,6 +17,7 @@ var completion_outputs: Array[GeneratorIO]
 
 var initially_unlocked: bool = true
 var unlocked: bool = true
+var is_resource_transfer: bool = false
 
 
 func _init(
@@ -29,7 +30,8 @@ func _init(
 	mode_cycle_duration: float = 0.0,
 	mode_inputs: Array[GeneratorIO] = [],
 	mode_outputs: Array[GeneratorIO] = [],
-	mode_completion_outputs: Array[GeneratorIO] = []
+	mode_completion_outputs: Array[GeneratorIO] = [],
+	mode_is_resource_transfer: bool = false
 	) -> void:
 	
 	id = mode_id
@@ -44,3 +46,4 @@ func _init(
 	inputs = mode_inputs
 	outputs = mode_outputs
 	completion_outputs = mode_completion_outputs
+	is_resource_transfer = mode_is_resource_transfer

@@ -103,8 +103,13 @@ func update(delta: float, offline_mode: bool = false) -> void:
 			else:
 				continue
 		
+		var operation_mode = generator.get_operation_mode()
+		var resource_transfer_mode: bool = (
+			operation_mode != null
+			and operation_mode.is_resource_transfer
+		)
 		var operating_delta = delta
-		if offline_mode:
+		if offline_mode or resource_transfer_mode:
 			var duration_check_usec: int = 0
 			if profiling_enabled:
 				duration_check_usec = Time.get_ticks_usec()
@@ -150,7 +155,7 @@ func update(delta: float, offline_mode: bool = false) -> void:
 		if profiling_enabled:
 			_record_profile_time("output_production", profile_subphase_start_usec)
 		
-		if offline_mode and operating_delta < delta - 0.000001:
+		if (offline_mode or resource_transfer_mode) and operating_delta < delta - 0.000001:
 			generator.operating = false
 	if profiling_enabled:
 		_record_profile_time("generator_processing", profile_start_usec)

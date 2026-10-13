@@ -18,6 +18,7 @@ func _init() -> void:
 	add_node("realm_attunement", 1, 0)
 	add_node("infernal_foundation", 2, 0)
 	add_node("essence_extraction", 3, 0)
+	add_node("thermal_compressor_technology", 1, 5)
 
 	# Starting generator levels form a compact progression on the left.
 	add_node("accelerated_friction", 0, 1)

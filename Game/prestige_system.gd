@@ -71,13 +71,6 @@ func smash(
 		eternal_flame_gain
 	)
 
-	if not state.eternal_flame_state.is_technology_unlocked(
-		EternalFlameState.THERMAL_COMPRESSOR_TECHNOLOGY_ID
-	):
-		state.eternal_flame_state.unlock_technology(
-			EternalFlameState.THERMAL_COMPRESSOR_TECHNOLOGY_ID
-		)
-
 	state.eternal_flame_state.prestige_count += 1
 
 	# Select the physical layout for the new realm.

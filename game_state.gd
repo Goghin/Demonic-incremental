@@ -103,6 +103,13 @@ func _initialize_resources() -> void:
 			"Matter"
 		)
 	)
+
+	_register_resource(
+		GameResource.new(
+			ResourceIds.NEXUM,
+			"Nexum"
+		)
+	)
 	
 	_register_resource(
 		GameResource.new(

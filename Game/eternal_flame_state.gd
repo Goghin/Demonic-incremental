@@ -2,7 +2,7 @@ class_name EternalFlameState
 extends RefCounted
 
 
-const THERMAL_COMPRESSOR_TECHNOLOGY_ID: String = "thermal_compressor"
+const THERMAL_COMPRESSOR_TECHNOLOGY_ID: String = "thermal_compressor_technology"
 const LAVA_MITE_ESSENCE_TECHNOLOGY_ID: String = "lava_mite_essence"
 const ACCELERATED_FRICTION_TECHNOLOGY_ID: String = "accelerated_friction"
 

@@ -71,6 +71,7 @@ static func create_upgrades() -> Dictionary:
 
 	# Infernal Forge
 	_register(upgrades, _create_infernal_forge_unlock())
+	_register(upgrades, _create_thermal_compressor_unlock())
 	_register(upgrades, _create_infernal_forge_immunity())
 	_register(upgrades, _create_infernal_forge_refinement())
 
@@ -1893,6 +1894,37 @@ static func _create_infernal_forge_unlock() -> Upgrade:
 		"infernal_forge"
 	)
 	
+	return Upgrade.new(definition)
+
+
+static func _create_thermal_compressor_unlock() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"thermal_compressor_unlock",
+		"Thermal Compressor",
+		"Unlocks the Thermal Compressor, allowing active Matter to be stored as Nexum or rapidly expanded back into Matter.",
+		ResourceIds.MATTER,
+		500.0,
+		[
+			UpgradeEffect.unlock_generator(
+				"thermal_compressor"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"matter_furnace",
+				1
+			)
+		],
+		false,
+		"",
+		"infernal_forge",
+		1,
+		1.0,
+		"",
+		EternalFlameState.THERMAL_COMPRESSOR_TECHNOLOGY_ID
+	)
+
 	return Upgrade.new(definition)
 
 

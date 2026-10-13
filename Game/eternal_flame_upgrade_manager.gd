@@ -66,6 +66,19 @@ func _initialize_upgrades() -> void:
 	)
 	_add_upgrade(
 		EternalFlameUpgrade.new(
+			"thermal_compressor_technology",
+			"Thermal Compression",
+			"Permanently unlocks the Thermal Compressor technology, making its general unlock upgrade available.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			10,
+			1.0,
+			EternalFlameState.THERMAL_COMPRESSOR_TECHNOLOGY_ID
+		)
+	)
+	_add_upgrade(
+		EternalFlameUpgrade.new(
 			"accelerated_friction",
 			"Accelerated Friction",
 			"Begins each new realm with Atomic Friction at a higher level. Starting levels: 5, 10, 15, 20, and 25.",
