@@ -409,6 +409,7 @@ func _initialize_generator_selection() -> void:
 
 
 func _on_generator_selection_requested(generator_id: String) -> void:
+	$NavigationTitlePanel/NavigationTitle.text = "GENERATOR"
 	# Focusing a machine takes priority over every navigation panel.
 	$StatsPanel.hide()
 	$UpgradeScroll.hide()
@@ -888,6 +889,7 @@ func _refresh_generator_panel_visibility() -> void:
 
 
 func _on_generators_button_pressed() -> void:
+	$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
 	generator_list_mode = not generator_list_mode
 	_clear_generator_focus()
 
@@ -916,6 +918,7 @@ func _on_achievement_unlocked(achievement_id: String) -> void:
 
 
 func _on_achievements_button_pressed() -> void:
+	$NavigationTitlePanel/NavigationTitle.text = "ACHIEVEMENTS"
 	var should_open: bool = not $AchievementPanel.visible
 	generator_list_mode = false
 	_clear_generator_focus()
@@ -934,6 +937,7 @@ func _on_achievements_button_pressed() -> void:
 
 
 func _on_options_button_pressed() -> void:
+	$NavigationTitlePanel/NavigationTitle.text = "OPTIONS"
 	var should_open: bool = not $OptionsPanel.visible
 	generator_list_mode = false
 	_clear_generator_focus()
@@ -1385,6 +1389,7 @@ func _on_rub_button_pressed() -> void:
 
 
 func _on_stats_button_pressed() -> void:
+	$NavigationTitlePanel/NavigationTitle.text = "STATISTICS"
 	var should_open: bool = not $StatsPanel.visible
 	generator_list_mode = false
 	_clear_generator_focus()
@@ -1402,6 +1407,7 @@ func _on_stats_button_pressed() -> void:
 
 
 func _on_upgrades_button_pressed() -> void:
+	$NavigationTitlePanel/NavigationTitle.text = "UPGRADES"
 	var general_upgrades_are_open: bool = (
 		$UpgradeScroll.visible
 		and selected_upgrade_generator_id == ""
@@ -1445,6 +1451,7 @@ func _on_prestige_destruction_complete() -> void:
 	$GeneratorScroll.show()
 	
 func _on_prestige_button_pressed() -> void:
+	$NavigationTitlePanel/NavigationTitle.text = "REALM"
 	var should_open: bool = not $PrestigePanel.visible
 	generator_list_mode = false
 	_clear_generator_focus()
