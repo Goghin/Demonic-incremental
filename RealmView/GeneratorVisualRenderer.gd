@@ -87,7 +87,7 @@ func update_sprite(
 
 	if generator.level <= 0:
 		# Unbuilt machines should read as dormant, not as active machinery.
-		sprite.modulate = Color(0.42, 0.36, 0.31, 0.92)
+		sprite.modulate = Color(0.72, 0.62, 0.50, 1.0)
 	elif generator.is_operating():
 		var operating_alpha: float = 0.75
 		if generator.definition.id == "infernal_forge":

@@ -4,6 +4,12 @@ extends Node2D
 
 var realm_view: RealmView
 var selected_generator_id: String = ""
+var particle_time: float = 0.0
+
+
+func _process(delta: float) -> void:
+	particle_time += delta
+	queue_redraw()
 
 
 func set_selected_generator(generator_id: String) -> void:
@@ -68,6 +74,7 @@ func _draw_new_generator_markers() -> void:
 		var generator_position: Vector2 = realm_view._get_generator_position(
 			generator_id
 		)
+		_draw_dormant_particles(generator_position, generator_id.hash())
 		var badge_position: Vector2 = generator_position + Vector2(-22.0, -31.0)
 		draw_rect(
 			Rect2(badge_position, Vector2(44.0, 15.0)),
@@ -89,3 +96,26 @@ func _draw_new_generator_markers() -> void:
 			9,
 			Color(1.0, 0.76, 0.42, 1.0)
 		)
+
+
+func _draw_dormant_particles(
+	center: Vector2,
+	seed_value: int
+) -> void:
+	# Warm ember motes make even small, unbuilt machines easy to spot.
+	for particle_index in range(5):
+		var phase: float = (
+			particle_time * (1.15 + float(particle_index % 3) * 0.18)
+			+ float(seed_value % 97) * 0.07
+			+ float(particle_index) * TAU / 5.0
+		)
+		var radius: float = 17.0 + float(particle_index % 3) * 3.0
+		var particle_position: Vector2 = center + Vector2(
+			cos(phase) * radius,
+			sin(phase) * radius * 0.68 - 2.0
+		)
+		var flicker: float = 0.65 + 0.35 * sin(particle_time * 4.0 + particle_index)
+		var glow_color: Color = Color(1.0, 0.34, 0.06, 0.18 * flicker)
+		var ember_color: Color = Color(1.0, 0.56, 0.16, 0.95 * flicker)
+		draw_circle(particle_position, 4.0, glow_color)
+		draw_circle(particle_position, 1.5 + float(particle_index % 2) * 0.5, ember_color)

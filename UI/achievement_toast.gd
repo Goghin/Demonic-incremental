@@ -7,12 +7,13 @@ extends PanelContainer
 
 
 var active_tween: Tween
+var message_queue: Array[Dictionary] = []
 
 
 func show_achievement(
 	achievement_title: String,
 	achievement_description: String
-	) -> void:
+) -> void:
 	show_message(
 		"ACHIEVEMENT UNLOCKED",
 		achievement_title,
@@ -36,12 +37,23 @@ func show_message(
 	message_title: String,
 	message_description: String
 ) -> void:
-	if active_tween != null and active_tween.is_valid():
-		active_tween.kill()
+	var message: Dictionary = {
+		"heading": heading,
+		"title": message_title,
+		"description": message_description
+	}
 
-	heading_label.text = heading
-	title_label.text = message_title
-	description_label.text = message_description
+	if visible or (active_tween != null and active_tween.is_valid()):
+		message_queue.append(message)
+		return
+
+	_display_message(message)
+
+
+func _display_message(message: Dictionary) -> void:
+	heading_label.text = str(message.get("heading", ""))
+	title_label.text = str(message.get("title", ""))
+	description_label.text = str(message.get("description", ""))
 
 	visible = true
 	modulate.a = 0.0
@@ -60,10 +72,15 @@ func show_message(
 		0.0,
 		0.55
 	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-	active_tween.tween_callback(
-		_hide_toast
-	)
+	active_tween.tween_callback(_finish_current_toast)
 
 
-func _hide_toast() -> void:
+func _finish_current_toast() -> void:
 	visible = false
+	active_tween = null
+
+	if message_queue.is_empty():
+		return
+
+	var next_message: Dictionary = message_queue.pop_front()
+	_display_message(next_message)

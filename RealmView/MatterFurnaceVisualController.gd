@@ -72,4 +72,4 @@ func update(
 		generator.is_operating()
 	)
 	if generator.level <= 0:
-		animated_sprite.modulate = Color(0.42, 0.36, 0.31, 0.92)
+		animated_sprite.modulate = Color(0.72, 0.62, 0.50, 1.0)
