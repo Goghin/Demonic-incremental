@@ -841,7 +841,23 @@ func _process(
 	state.achievement_manager.update(state)
 	if $AchievementPanel.visible:
 		$AchievementPanel.refresh()
+
+	_update_navigation_title_visibility()
 	_update_ambient_audio(delta)
+
+
+func _update_navigation_title_visibility() -> void:
+	# Keep the fixed title visible only while its corresponding
+	# navigation content is open. This also handles menus closed
+	# by their own toggle buttons or by other navigation actions.
+	$NavigationTitlePanel.visible = (
+		$GeneratorScroll.visible
+		or $UpgradeScroll.visible
+		or $StatsPanel.visible
+		or $PrestigePanel.visible
+		or $OptionsPanel.visible
+		or $AchievementPanel.visible
+	)
 
 
 # ============================================================
