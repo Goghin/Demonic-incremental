@@ -6,8 +6,7 @@ const LAYOUTS: Dictionary = {
 	"default":
 		preload("res://RealmView/Layouts/DefaultRealmLayout.gd"),
 #
-	#"test":
-		#preload("res://RealmView/Layouts/TestRealmLayout.gd"),
+	
 
 	"island_1":
 		preload("res://RealmView/Layouts/BasicRealms/Realm1Layout.gd"),
@@ -16,14 +15,26 @@ const LAYOUTS: Dictionary = {
 		preload("res://RealmView/Layouts/BasicRealms/Realm2Layout.gd"),
 
 
-	#"blood_crater":
-		#preload("res://RealmView/Layouts/BloodCraterRealmLayout.gd"),
+	"island_3":
+		preload("res://RealmView/Layouts/BasicRealms/Realm4Layout.gd"),
+
+	"rune_1":
+		preload("res://RealmView/Layouts/BasicRealms/Rune1RealmLayout.gd"),
+		
+	"is1":
+		preload("res://RealmView/Layouts/BasicRealms/Island1RealmLayout.gd"),
+
+	"is2":
+		preload("res://RealmView/Layouts/BasicRealms/Island2RealmLayout.gd"),
+	"is3":
+		preload("res://RealmView/Layouts/BasicRealms/Island3RealmLayout.gd"),
 }
 
 
 static func get_layout_ids() -> Array[String]:
 	# Keep experimental layouts out of the normal cycling order.
-	return [ "island_1", "island_2" ]
+	return [ "island_1", "island_2", "is1", "is2","is3", "island_3","rune_1" ]  
+	
 
 
 static func create_layout(
