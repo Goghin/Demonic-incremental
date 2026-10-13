@@ -1,6 +1,9 @@
 extends Control
 
 
+signal results_closed
+
+
 @onready var duration_label: Label = $CenterContainer/PanelContainer/VBoxContainer/DurationLabel
 @onready var results_label: Label = $CenterContainer/PanelContainer/VBoxContainer/ResultsLabel
 @onready var close_button: Button = $CenterContainer/PanelContainer/VBoxContainer/CloseButton
@@ -23,6 +26,7 @@ func show_results(
 
 func _on_close_pressed() -> void:
 	visible = false
+	results_closed.emit()
 
 
 func _format_duration(

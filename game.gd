@@ -35,6 +35,7 @@ var simulation: Simulation
 var time_manager: TimeManager
 var input_handler: InputHandler
 var save_manager: SaveManager
+var pending_offline_achievement_ids: Array[String] = []
 
 var upgrade_group_containers: Dictionary = {}
 var upgrade_flows: Dictionary = {}
@@ -68,6 +69,9 @@ var realm_view: RealmView
 @onready var offline_results_panel: Control = $OfflineResultsPanel
 
 func _ready() -> void:
+	$OfflineResultsPanel.results_closed.connect(
+		_on_offline_results_closed
+	)
 	_load_visual_settings()
 	$OptionsPanel/OptionsContent/VisualEffectsCheckBox.set_pressed_no_signal(visual_effects_enabled)
 	$OptionsPanel/OptionsContent/UISoundsCheckBox.set_pressed_no_signal(ui_sounds_enabled)
@@ -178,8 +182,14 @@ func _ready() -> void:
 
 		await get_tree().process_frame
 
+		state.achievement_manager.achievement_unlocked.connect(
+			_on_offline_achievement_unlocked
+		)
 		var offline_seconds = await time_manager.process_offline_time()
 		state.achievement_manager.update(state)
+		state.achievement_manager.achievement_unlocked.disconnect(
+			_on_offline_achievement_unlocked
+		)
 
 		print(
 			"Offline time simulated: ",
@@ -288,6 +298,8 @@ func _ready() -> void:
 
 	is_loading = false
 	loading_screen.visible = false
+	if pending_offline_achievement_ids.size() > 0 and not $OfflineResultsPanel.visible:
+		_show_pending_offline_achievements()
 	_start_ambient_audio()
 
 
@@ -915,6 +927,23 @@ func _on_generators_button_pressed() -> void:
 	_refresh_generator_panel_visibility()
 
 	$GeneratorsButton.text = "GENERATORS"
+
+
+func _on_offline_achievement_unlocked(achievement_id: String) -> void:
+	if not pending_offline_achievement_ids.has(achievement_id):
+		pending_offline_achievement_ids.append(achievement_id)
+
+
+func _on_offline_results_closed() -> void:
+	_show_pending_offline_achievements()
+
+
+func _show_pending_offline_achievements() -> void:
+	var achievement_ids: Array[String] = pending_offline_achievement_ids.duplicate()
+	pending_offline_achievement_ids.clear()
+
+	for achievement_id in achievement_ids:
+		_on_achievement_unlocked(achievement_id)
 
 
 func _on_achievement_unlocked(achievement_id: String) -> void:
