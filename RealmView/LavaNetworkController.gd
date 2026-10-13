@@ -60,6 +60,10 @@ func create_network(
 		flow.z_index = int(definition["flow_z"])
 		lava_flows.append(flow)
 
+		if not bool(definition.get("has_fall", true)):
+			lava_falls.append(null)
+			continue
+
 		var fall: LavaFall = fall_scene.instantiate()
 		owner.add_child(fall)
 
@@ -73,12 +77,12 @@ func create_network(
 		)
 
 		fall.setup(
-			float(definition["fall_width"]),
-			float(definition["fall_length"]),
-			float(definition["fall_speed"])
+			float(definition.get("fall_width", 4.0)),
+			float(definition.get("fall_length", 60.0)),
+			float(definition.get("fall_speed", 100.0))
 		)
 
-		fall.z_index = int(definition["fall_z"])
+		fall.z_index = int(definition.get("fall_z", 7))
 		lava_falls.append(fall)
 
 
