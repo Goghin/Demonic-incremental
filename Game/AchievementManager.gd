@@ -142,6 +142,11 @@ func _get_progress(
 			)
 		"unique_generators":
 			return float(seen_generator_ids.size())
+		"total_generator_levels":
+			var total_levels: int = 0
+			for generator in state.generators.values():
+				total_levels += int(generator.level)
+			return float(total_levels)
 		"prestige_count":
 			return float(state.eternal_flame_state.prestige_count)
 		"eternal_flame":

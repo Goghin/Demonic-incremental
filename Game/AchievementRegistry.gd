@@ -156,51 +156,51 @@ const DEFINITIONS: Array[Dictionary] = [
 		"target": 500.0
 	},
 
-	# Industry: number of different generators unlocked across all Realms.
+	# Industry: total levels currently owned across all generators.
 	{
 		"id": "industry_1",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "A Machine Awakens",
-		"description": "Unlock your first generator.",
-		"progress_type": "unique_generators",
-		"target": 1.0
+		"description": "Own 10 generator levels in total.",
+		"progress_type": "total_generator_levels",
+		"target": 10.0
 	},
 	{
 		"id": "industry_2",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "Growing Industry",
-		"description": "Unlock 3 different generators across all Realms.",
-		"progress_type": "unique_generators",
-		"target": 3.0
+		"description": "Own 25 generator levels in total.",
+		"progress_type": "total_generator_levels",
+		"target": 25.0
 	},
 	{
 		"id": "industrial_revolution",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "Industrial Revolution",
-		"description": "Unlock 5 different generators across all Realms.",
-		"progress_type": "unique_generators",
-		"target": 5.0
+		"description": "Own 50 generator levels in total.",
+		"progress_type": "total_generator_levels",
+		"target": 50.0
 	},
 	{
 		"id": "industry_4",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "Engines of the Abyss",
-		"description": "Unlock 6 different generators across all Realms.",
-		"progress_type": "unique_generators",
-		"target": 6.0
+		"description": "Own 100 generator levels in total.",
+		"progress_type": "total_generator_levels",
+		"target": 100.0
 	},
 	{
 		"id": "industry_5",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "The Great Machine",
-		"description": "Unlock all 7 generators.",
-		"progress_type": "unique_generators",
-		"target": 7.0
+		"description": "Own 250 generator levels in total.",
+		"progress_type": "total_generator_levels",
+		"target": 250.0
 	},
 
 	# Eternal Flame: total earned, unaffected by spending or assignment.
