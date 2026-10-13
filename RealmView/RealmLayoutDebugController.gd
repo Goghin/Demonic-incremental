@@ -30,6 +30,15 @@ func print_layout_details(
 			layout.ash_pile_layout_positions[i]
 		)
 
+	print("--- Matter Piles ---")
+	for i in range(layout.matter_pile_layout_positions.size()):
+		print(
+			"Matter pile ",
+			i + 1,
+			" -> ",
+			layout.matter_pile_layout_positions[i]
+		)
+
 	print("--- Braziers ---")
 
 	for stat_name in brazier_stats:

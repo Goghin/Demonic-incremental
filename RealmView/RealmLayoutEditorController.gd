@@ -142,6 +142,11 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 				owner.queue_redraw()
 			return
 
+		# Create a new editable Matter pile at the mouse cursor.
+		if event.keycode == KEY_M:
+			_add_matter_pile_at_cursor(owner)
+			return
+
 		# Create a new editable flow near the mouse cursor.
 		if event.keycode == KEY_N:
 			_add_flow_at_cursor(owner)
@@ -187,6 +192,35 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 
 	drag_controller.handle_mouse_input(event, owner)
 
+
+
+func _add_matter_pile_at_cursor(owner: RealmView) -> void:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null:
+		return
+
+	var island_rect: Rect2 = owner._get_island_rect()
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return
+
+	var normalized_position: Vector2 = owner.realm_layout_geometry_controller.get_normalized_position(
+		owner.get_local_mouse_position(),
+		island_rect
+	)
+	layout.matter_pile_layout_positions.append(Vector2(
+		clampf(normalized_position.x, 0.0, 1.0),
+		clampf(normalized_position.y, 0.0, 1.0)
+	))
+	owner.matter_pile_visual_controller.setup(owner, layout)
+	owner.matter_pile_visual_controller.update_piles(
+		layout,
+		island_rect,
+		owner.state.get_resource_amount(ResourceIds.MATTER)
+	)
+	var pile_index: int = layout.matter_pile_layout_positions.size() - 1
+	drag_controller.selected_object = "matter_pile:%d" % pile_index
+	owner.queue_redraw()
+	print("Added Matter pile ", pile_index + 1, ". Drag it to position it.")
 
 
 func _add_flow_at_cursor(owner: RealmView) -> void:
@@ -237,7 +271,27 @@ func _add_flow_at_cursor(owner: RealmView) -> void:
 
 func _remove_selected_flow(owner: RealmView) -> void:
 	var layout: RealmLayout = owner.realm_layout
-	if layout == null or not drag_controller.selected_object.begins_with("lava_flow:"):
+	if layout == null:
+		return
+
+	if drag_controller.selected_object.begins_with("matter_pile:"):
+		var pile_index: int = int(drag_controller.selected_object.substr(12))
+		if pile_index < 0 or pile_index >= layout.matter_pile_layout_positions.size():
+			return
+		layout.matter_pile_layout_positions.remove_at(pile_index)
+		drag_controller.cancel_drag()
+		drag_controller.selected_object = ""
+		owner.matter_pile_visual_controller.setup(owner, layout)
+		owner.matter_pile_visual_controller.update_piles(
+			layout,
+			owner._get_island_rect(),
+			owner.state.get_resource_amount(ResourceIds.MATTER)
+		)
+		owner.queue_redraw()
+		print("Removed Matter pile ", pile_index + 1, ".")
+		return
+
+	if not drag_controller.selected_object.begins_with("lava_flow:"):
 		return
 
 	var parts: PackedStringArray = drag_controller.selected_object.split(":")
@@ -365,6 +419,17 @@ func _release_waterfall_key(keycode: int) -> void:
 
 
 func update(owner: RealmView, delta: float) -> void:
+	owner.realm_layout_overlay_renderer.update_overlay(
+		layout_mode and owner.state != null and owner.realm_layout != null,
+		owner.generator_hitboxes,
+		owner.ash_visual_controller.piles,
+		owner.braziers,
+		owner.BRAZIER_STATS,
+		drag_controller.selected_object,
+		owner.realm_layout,
+		owner._get_island_rect()
+	)
+
 	if not layout_mode or owner.state == null or owner.realm_layout == null:
 		held_fall_width_direction = 0.0
 		held_fall_length_direction = 0.0

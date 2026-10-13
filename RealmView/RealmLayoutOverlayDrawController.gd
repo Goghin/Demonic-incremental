@@ -26,6 +26,7 @@ func draw_overlay(
 	_draw_flow_handles(owner, realm_layout, island_rect, selected_object)
 	_draw_lake_edge_handles(owner, realm_layout, island_rect, selected_object)
 	_draw_main_lake_center_handle(owner, realm_layout, island_rect, selected_object)
+	_draw_matter_pile_handles(owner, realm_layout, island_rect, selected_object)
 
 	for generator_id in generator_hitboxes:
 		var hitbox: Rect2 = generator_hitboxes[generator_id]
@@ -106,6 +107,39 @@ func draw_overlay(
 
 
 
+func _draw_matter_pile_handles(
+	owner: Control,
+	realm_layout: RealmLayout,
+	island_rect: Rect2,
+	selected_object: String
+) -> void:
+	if realm_layout == null or island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return
+
+	for i in range(realm_layout.matter_pile_layout_positions.size()):
+		var position: Vector2 = island_rect.position + island_rect.size * realm_layout.matter_pile_layout_positions[i]
+		var pile_id: String = "matter_pile:%d" % i
+		var is_selected: bool = selected_object == pile_id
+		var alpha: float = 1.0 if is_selected or selected_object == "" else 0.12
+		owner.draw_circle(position, 13.0, Color(0.58, 0.28, 0.86, 0.22 * alpha))
+		owner.draw_circle(
+			position,
+			18.0 if is_selected else 14.0,
+			Color(1.0, 0.95, 0.55, 1.0) if is_selected else Color(0.76, 0.47, 1.0, 0.9 * alpha),
+			false,
+			3.0 if is_selected else 2.0
+		)
+		owner.draw_string(
+			ThemeDB.fallback_font,
+			position + Vector2(5.0, -8.0),
+			"M%d" % (i + 1),
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1.0,
+			12,
+			Color(0.9, 0.78, 1.0, 1.0 if is_selected else alpha)
+		)
+
+
 func _draw_editor_help(
 	owner: Control,
 	selected_object: String,
@@ -119,10 +153,11 @@ func _draw_editor_help(
 	owner.draw_rect(panel_rect, Color(1.0, 0.75, 0.20, 0.9 * panel_alpha), false, 1.0)
 	var lines: Array[String] = [
 		"REALM LAYOUT EDITOR — " + (realm_layout.resource_name if realm_layout != null and realm_layout.resource_name != "" else "unnamed"),
-		"Drag machines, braziers, ash piles, flow or lake handles",
+		"Drag machines, braziers, Ash/Matter piles, flow or lake handles",
 		"Drag the gold diamond to move the main lake origin",
+		"M: add Matter pile at cursor",
 		"N: add a new flow at the cursor; drag its endpoints",
-		"Ctrl + Delete: remove the selected flow",
+		"Ctrl + Delete: remove selected flow or Matter pile",
 		"Select a flow point, then +/- to change its width",
 		"Ctrl + click flow/lake edge: insert a point",
 		"Delete / Backspace: remove selected flow/lake point",
@@ -295,6 +330,12 @@ func _get_selected_normalized_position(
 		if point_index < 0 or point_index >= points.size():
 			return Vector2(-1.0, -1.0)
 		return points[point_index]
+
+	if selected_object.begins_with("matter_pile:"):
+		var pile_index: int = int(selected_object.substr(12))
+		if pile_index < 0 or pile_index >= realm_layout.matter_pile_layout_positions.size():
+			return Vector2(-1.0, -1.0)
+		return realm_layout.matter_pile_layout_positions[pile_index]
 
 	if selected_object.begins_with("ash_pile:"):
 		var pile_index: int = int(selected_object.substr(9))

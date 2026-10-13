@@ -104,6 +104,14 @@ func _is_near_existing_geometry_handle(
 			if screen_point.distance_to(mouse_position) <= 12.0:
 				return true
 
+	for matter_position in layout.matter_pile_layout_positions:
+		var matter_screen_position: Vector2 = geometry_controller.get_position_from_normalized(
+			matter_position,
+			island_rect
+		)
+		if matter_screen_position.distance_to(mouse_position) <= 18.0:
+			return true
+
 	var lake_count: int = 1 + layout.small_lake_definitions.size()
 	for lake_index in range(lake_count):
 		for point in _get_lake_points(layout, lake_index):
@@ -155,6 +163,17 @@ func find_drag_target(
 					"object": "lake_edge:%d:%d" % [lake_index, point_index],
 					"offset": mouse_position - point_position
 				}
+
+	for i in range(realm_layout.matter_pile_layout_positions.size()):
+		var matter_position: Vector2 = geometry_controller.get_position_from_normalized(
+			realm_layout.matter_pile_layout_positions[i],
+			island_rect
+		)
+		if Rect2(matter_position - Vector2(18.0, 18.0), Vector2(36.0, 36.0)).has_point(mouse_position):
+			return {
+				"object": "matter_pile:" + str(i),
+				"offset": mouse_position - matter_position
+			}
 
 	for i in range(owner.ash_visual_controller.piles.size()):
 		var pile: Sprite2D = owner.ash_visual_controller.piles[i]
@@ -285,6 +304,25 @@ func update_drag(
 		owner.queue_redraw()
 		return
 
+	if dragging_object.begins_with("matter_pile:"):
+		var pile_index: int = int(dragging_object.substr(12))
+		if pile_index < 0 or pile_index >= realm_layout.matter_pile_layout_positions.size():
+			cancel_drag()
+			return
+
+		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
+			mouse_position - drag_offset,
+			island_rect
+		)
+		realm_layout.matter_pile_layout_positions[pile_index] = _clamp_normalized_position(normalized_position)
+		owner.matter_pile_visual_controller.update_piles(
+			realm_layout,
+			island_rect,
+			owner.state.get_resource_amount(ResourceIds.MATTER)
+		)
+		owner.queue_redraw()
+		return
+
 	if dragging_object.begins_with("ash_pile:"):
 		var pile_index: int = int(dragging_object.substr(9))
 		if pile_index < 0 or pile_index >= realm_layout.ash_pile_layout_positions.size():
@@ -412,6 +450,20 @@ func nudge_selected(
 		points[point_index] = _clamp_normalized_position(points[point_index] + normalized_delta)
 		_set_lake_points(layout, lake_index, points)
 		_refresh_lake_geometry(owner, lake_index, points, island_rect)
+		return true
+
+	if selected_object.begins_with("matter_pile:"):
+		var pile_index: int = int(selected_object.substr(12))
+		if pile_index < 0 or pile_index >= layout.matter_pile_layout_positions.size():
+			return false
+		layout.matter_pile_layout_positions[pile_index] = _clamp_normalized_position(
+			layout.matter_pile_layout_positions[pile_index] + normalized_delta
+		)
+		owner.matter_pile_visual_controller.update_piles(
+			layout,
+			island_rect,
+			owner.state.get_resource_amount(ResourceIds.MATTER)
+		)
 		return true
 
 	if selected_object.begins_with("ash_pile:"):
