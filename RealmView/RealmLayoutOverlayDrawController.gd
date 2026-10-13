@@ -125,6 +125,7 @@ func _draw_editor_help(
 		"Ctrl + click flow/lake edge: insert a point",
 		"Delete / Backspace: remove selected flow/lake point",
 		"Selected flow endpoint: edit waterfall",
+		"Z: toggle selected waterfall draw order (Z 4 / Z 7)",
 		"Hold Left/Right: adjust waterfall width",
 		"Hold Up/Down: adjust waterfall length",
 		"Shift + arrows: nudge selected item by 2 px",
