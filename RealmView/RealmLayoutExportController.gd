@@ -57,6 +57,7 @@ static func build_script(layout: RealmLayout) -> String:
 		"\tisland_view_scale = %.6f" % layout.island_view_scale,
 		"\tisland_view_offset = " + _serialize_value(layout.island_view_offset, 1),
 		"\tmain_lake_edge_points = " + _serialize_value(layout.main_lake_edge_points, 1),
+		"\tmain_lake_center_position = " + _serialize_value(layout.main_lake_center_position, 1),
 		"\tsmall_lake_definitions = " + _serialize_value(layout.small_lake_definitions, 1),
 		"\tlava_flow_definitions = " + _serialize_value(layout.lava_flow_definitions, 1),
 		"\tgenerator_layout_positions = " + _serialize_value(layout.generator_layout_positions, 1),

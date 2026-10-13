@@ -90,6 +90,11 @@ func _is_near_existing_geometry_handle(
 
 	# Existing handles take priority over insertion, even if another
 	# nearby flow or lake segment would otherwise qualify.
+	var center_screen: Vector2 = geometry_controller.get_position_from_normalized(
+		_get_main_lake_center(layout), island_rect
+	)
+	if center_screen.distance_to(mouse_position) <= 14.0:
+		return true
 	for flow_index in range(layout.lava_flow_definitions.size()):
 		for point in _get_flow_points(layout, flow_index):
 			var screen_point: Vector2 = geometry_controller.get_position_from_normalized(
@@ -119,6 +124,11 @@ func find_drag_target(
 	var realm_layout: RealmLayout = owner.realm_layout
 	var island_rect: Rect2 = owner._get_island_rect()
 	var lakes: Array[LavaLake] = owner.lava_realm_visual_controller.lakes
+	var center_screen: Vector2 = geometry_controller.get_position_from_normalized(
+		_get_main_lake_center(realm_layout), island_rect
+	)
+	if center_screen.distance_to(mouse_position) <= 13.0:
+		return {"object": "lake_center", "offset": mouse_position - center_screen}
 
 	for flow_index in range(realm_layout.lava_flow_definitions.size()):
 		var flow_points: PackedVector2Array = _get_flow_points(realm_layout, flow_index)
@@ -211,6 +221,17 @@ func update_drag(
 	var realm_layout: RealmLayout = owner.realm_layout
 	if realm_layout == null:
 		cancel_drag()
+		return
+
+	if dragging_object == "lake_center":
+		realm_layout.main_lake_center_position = _clamp_normalized_position(
+			geometry_controller.get_normalized_position(mouse_position - drag_offset, island_rect)
+		)
+		if not owner.lava_realm_visual_controller.lakes.is_empty():
+			var main_lake: LavaLake = owner.lava_realm_visual_controller.lakes[0]
+			if is_instance_valid(main_lake):
+				main_lake.setup(realm_layout.main_lake_edge_points, island_rect, realm_layout.main_lake_center_position)
+		owner.queue_redraw()
 		return
 
 	if dragging_object.begins_with("lava_flow:"):
@@ -355,6 +376,16 @@ func nudge_selected(
 		pixel_delta.y / island_rect.size.y
 	)
 
+	if selected_object == "lake_center":
+		layout.main_lake_center_position = _clamp_normalized_position(
+			_get_main_lake_center(layout) + normalized_delta
+		)
+		if not owner.lava_realm_visual_controller.lakes.is_empty():
+			var main_lake: LavaLake = owner.lava_realm_visual_controller.lakes[0]
+			if is_instance_valid(main_lake):
+				main_lake.setup(layout.main_lake_edge_points, island_rect, layout.main_lake_center_position)
+		return true
+
 	if selected_object.begins_with("lava_flow:"):
 		var parts: PackedStringArray = selected_object.split(":")
 		if parts.size() != 3:
@@ -414,6 +445,17 @@ func nudge_selected(
 		layout.generator_layout_positions[selected_object] + normalized_delta
 	)
 	return true
+
+
+func _get_main_lake_center(layout: RealmLayout) -> Vector2:
+	if layout.main_lake_center_position.x >= 0.0 and layout.main_lake_center_position.y >= 0.0:
+		return layout.main_lake_center_position
+	var center: Vector2 = Vector2.ZERO
+	if layout.main_lake_edge_points.is_empty():
+		return Vector2(0.5, 0.5)
+	for point in layout.main_lake_edge_points:
+		center += point
+	return center / float(layout.main_lake_edge_points.size())
 
 
 func _clamp_normalized_position(position: Vector2) -> Vector2:
@@ -747,7 +789,10 @@ func _refresh_lake_geometry(
 		return
 	var lake: LavaLake = lakes[lake_index]
 	if is_instance_valid(lake):
-		lake.setup(points, island_rect)
+		if lake_index == 0:
+			lake.setup(points, island_rect, owner.realm_layout.main_lake_center_position)
+		else:
+			lake.setup(points, island_rect)
 
 
 func _get_lake_points(layout: RealmLayout, lake_index: int) -> PackedVector2Array:

@@ -17,6 +17,9 @@ extends Resource
 # Main lava lake outline, using normalized coordinates (0.0 to 1.0).
 @export var main_lake_edge_points: PackedVector2Array
 
+# Optional normalized origin for the main lake's expansion. Negative means auto-center.
+@export var main_lake_center_position: Vector2 = Vector2(-1.0, -1.0)
+
 
 # Additional lava reservoirs and their fill settings.
 @export var small_lake_definitions: Array[Dictionary] = []

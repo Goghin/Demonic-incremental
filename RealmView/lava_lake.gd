@@ -140,6 +140,7 @@ class LavaBurstOverlay extends Node2D:
 var edge_points: PackedVector2Array = PackedVector2Array()
 var lake_rect: Rect2 = Rect2()
 var normalized_edge_points: PackedVector2Array = PackedVector2Array()
+var normalized_center_position: Vector2 = Vector2(-1.0, -1.0)
 var heat: float = 0.0
 var heat_threshold: float = 100000.0
 
@@ -154,9 +155,11 @@ var lava_palette: Dictionary = {}
 
 func setup(
 	normalized_points: PackedVector2Array,
-	island_rect: Rect2
+	island_rect: Rect2,
+	normalized_center: Vector2 = Vector2(-1.0, -1.0)
 ) -> void:
 	normalized_edge_points = normalized_points
+	normalized_center_position = normalized_center
 	lake_rect = island_rect
 
 	_reposition(island_rect)
@@ -243,6 +246,8 @@ func _update_visuals() -> void:
 		center += point
 
 	center /= edge_points.size()
+	if normalized_center_position.x >= 0.0 and normalized_center_position.y >= 0.0:
+		center = lake_rect.position + lake_rect.size * normalized_center_position
 
 	# ---------------------------------------------------------
 	# LAKE BOUNDARY
