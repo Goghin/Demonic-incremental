@@ -414,3 +414,9 @@ func _init() -> void:
 		Vector2(0.767654, 0.522217),
 		Vector2(0.760171, 0.376853)
 	])
+
+	matter_pile_layout_positions = PackedVector2Array([
+		Vector2(0.200000, 0.600000),
+		Vector2(0.490000, 0.630000),
+		Vector2(0.800000, 0.600000)
+	])

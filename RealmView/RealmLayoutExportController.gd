@@ -63,6 +63,7 @@ static func build_script(layout: RealmLayout) -> String:
 		"\tgenerator_layout_positions = " + _serialize_value(layout.generator_layout_positions, 1),
 		"\tbrazier_layout_positions = " + _serialize_value(layout.brazier_layout_positions, 1),
 		"\tash_pile_layout_positions = " + _serialize_value(layout.ash_pile_layout_positions, 1),
+		"\tmatter_pile_layout_positions = " + _serialize_value(layout.matter_pile_layout_positions, 1),
 		""
 	])
 	return "\n".join(lines)
