@@ -24,11 +24,6 @@ propagate_maximum_size = false
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="TitleLabel" type="Label" parent="ScrollContainer/VBoxContainer" unique_id=35994137]
-layout_mode = 2
-theme_override_font_sizes/font_size = 13
-text = "STATISTICS"
-
 [node name="TimeStatsContainer" type="VBoxContainer" parent="ScrollContainer/VBoxContainer" unique_id=665679967]
 layout_mode = 2
 theme_override_constants/separation = 6
