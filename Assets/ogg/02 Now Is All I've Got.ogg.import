@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://osjegm7x0ghq"
+path="res://.godot/imported/02 Now Is All I've Got.ogg-ae7bbc8b7087d563da72655f130904b8.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/ogg/02 Now Is All I've Got.ogg"
+dest_files=["res://.godot/imported/02 Now Is All I've Got.ogg-ae7bbc8b7087d563da72655f130904b8.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

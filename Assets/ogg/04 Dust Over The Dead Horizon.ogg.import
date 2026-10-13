@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b60ujpanyfeo1"
+path="res://.godot/imported/04 Dust Over The Dead Horizon.ogg-52f4fc77a88bdc3923a3260869f09df8.oggvorbisstr"
+
+[deps]
+
+source_file="res://Assets/ogg/04 Dust Over The Dead Horizon.ogg"
+dest_files=["res://.godot/imported/04 Dust Over The Dead Horizon.ogg-52f4fc77a88bdc3923a3260869f09df8.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
