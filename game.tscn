@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dhl8mo6wt4dg0" path="res://UI/resource_panel.tscn" id="2_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://brse7a5upnxtg" path="res://UI/StatsPanel.tscn" id="3_feb5d"]
 [ext_resource type="PackedScene" path="res://UI/AchievementPanel.tscn" id="9_achievement"]
+[ext_resource type="PackedScene" path="res://UI/AchievementToast.tscn" id="10_achievement_toast"]
 [ext_resource type="PackedScene" uid="uid://bmuknpykhpamo" path="res://UI/UpgradeInfoPopup.tscn" id="4_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://cdseigfjnotw3" path="res://UI/loading_screen.tscn" id="5_7jktm"]
 [ext_resource type="PackedScene" uid="uid://di77orwlxxxqx" path="res://UI/prestige_animation.tscn" id="6_eow3j"]
@@ -207,6 +208,8 @@ offset_right = 108.0
 offset_bottom = 644.0
 text = "GENERATORS"
 theme_override_font_sizes/font_size = 10
+
+[node name="AchievementToast" parent="." instance=ExtResource("10_achievement_toast")]
 
 [node name="UpgradeInfoPopup" parent="." unique_id=1574030057 instance=ExtResource("4_fc0e3")]
 visible = false
