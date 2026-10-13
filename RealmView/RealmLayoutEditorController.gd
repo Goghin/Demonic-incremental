@@ -55,6 +55,10 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 		if not layout_mode:
 			return
 
+		if event.ctrl_pressed and event.shift_pressed and event.keycode == KEY_S:
+			RealmLayoutExportController.open_save_dialog(owner)
+			return
+
 		# Shift + arrows nudge the selected item without interfering with
 		# the unmodified arrow keys used to adjust waterfall dimensions.
 		if event.shift_pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]:
