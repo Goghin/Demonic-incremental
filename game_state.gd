@@ -147,22 +147,22 @@ func _initialize_generators() -> void:
 		MolecularAgitation.create()	
 	)
 	
-	_register_generator(
-		InfernalCondensation.create()
-	)
-	
-	_register_generator(
-		ThermalCompressor.create()
-	)
-	
 	# Ash Management / Lava Mites
 	_register_generator(
 		LavaMiteColony.create()
 	)
 	
+	_register_generator(
+		InfernalCondensation.create()
+	)
+	
 	# Matter Furnace
 	_register_generator(
 		MatterFurnace.create()
+	)
+	
+	_register_generator(
+		ThermalCompressor.create()
 	)
 	
 	_register_generator(
