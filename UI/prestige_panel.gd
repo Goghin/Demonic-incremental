@@ -136,6 +136,7 @@ func _create_main_ui() -> void:
 
 func _apply_compact_style() -> void:
 	# Main panel spacing.
+	$ScrollContainer/VBoxContainer.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	$ScrollContainer/VBoxContainer.add_theme_constant_override(
 		"separation",
 		1
@@ -180,7 +181,10 @@ func _apply_compact_style() -> void:
 
 	for button in [prestige_button, shop_button, distribution_button]:
 		if button != null:
-			button.custom_minimum_size = Vector2(0, 24)
+			# Equal minimum widths prevent the disabled/selected theme
+			# from changing the layout when a tab is clicked.
+			button.custom_minimum_size = Vector2(200, 24)
+			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			button.add_theme_font_size_override(
 				"font_size",
 				11
@@ -599,7 +603,7 @@ func _create_shop_ui() -> void:
 	eternal_flame_shop_scroll.name = "EternalFlameShopScroll"
 	eternal_flame_shop_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	eternal_flame_shop_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	eternal_flame_shop_scroll.custom_minimum_size = Vector2(0, 100)
+	eternal_flame_shop_scroll.custom_minimum_size = Vector2(0, 0)
 	eternal_flame_shop_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	eternal_flame_shop_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	shop_panel.add_child(eternal_flame_shop_scroll)
