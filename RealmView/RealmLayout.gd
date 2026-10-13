@@ -41,3 +41,6 @@ extends Resource
 
 # Six normalized positions for stored-Ash piles on this layout's artwork.
 @export var ash_pile_layout_positions: PackedVector2Array = PackedVector2Array()
+
+# Normalized positions of fixed Matter stockpiles on this layout's artwork.
+@export var matter_pile_layout_positions: PackedVector2Array = PackedVector2Array()

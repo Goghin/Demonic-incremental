@@ -123,6 +123,10 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			return
 
 		if event.keycode in [KEY_DELETE, KEY_BACKSPACE]:
+			if event.ctrl_pressed:
+				_remove_selected_flow(owner)
+				return
+
 			var removed_point: bool = drag_controller.remove_selected_flow_point(owner.realm_layout)
 			if not removed_point:
 				removed_point = drag_controller.remove_selected_lake_point(
@@ -136,6 +140,16 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 					owner._get_island_rect()
 				)
 				owner.queue_redraw()
+			return
+
+		# Create a new editable flow near the mouse cursor.
+		if event.keycode == KEY_N:
+			_add_flow_at_cursor(owner)
+			return
+
+		# Toggle the waterfall attached to the selected flow endpoint.
+		if event.keycode == KEY_F:
+			_toggle_selected_waterfall(owner)
 			return
 
 		var width_change: float = 0.0
@@ -173,6 +187,120 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 
 	drag_controller.handle_mouse_input(event, owner)
 
+
+
+func _add_flow_at_cursor(owner: RealmView) -> void:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null:
+		return
+
+	var island_rect: Rect2 = owner._get_island_rect()
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return
+
+	var start: Vector2 = owner.get_local_mouse_position()
+	var normalized_start: Vector2 = owner.realm_layout_geometry_controller.get_normalized_position(
+		start,
+		island_rect
+	)
+	var normalized_end: Vector2 = owner.realm_layout_geometry_controller.get_normalized_position(
+		start + Vector2(28.0, 28.0),
+		island_rect
+	)
+	if normalized_start.distance_to(normalized_end) < 0.005:
+		normalized_end = Vector2(
+			clampf(normalized_start.x + 0.025, 0.0, 1.0),
+			clampf(normalized_start.y + 0.025, 0.0, 1.0)
+		)
+
+	var definition: Dictionary = {
+		"points": PackedVector2Array([normalized_start, normalized_end]),
+		"widths": PackedFloat32Array([3.0, 3.0]),
+		"speed": 25.0,
+		"thickness": 1.0,
+		"flow_z": 6,
+		"start_fill": 0.5,
+		"stop_fill": 0.45,
+		"has_fall": false,
+		"fall_width": 4.0,
+		"fall_length": 60.0,
+		"fall_speed": 100.0,
+		"fall_z": 7
+	}
+	layout.lava_flow_definitions.append(definition)
+	var flow_index: int = layout.lava_flow_definitions.size() - 1
+	_rebuild_lava_visuals(owner)
+	drag_controller.selected_object = "lava_flow:%d:1" % flow_index
+	owner.queue_redraw()
+	print("Added lava flow ", flow_index, ". Drag either endpoint to shape it.")
+
+
+func _remove_selected_flow(owner: RealmView) -> void:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null or not drag_controller.selected_object.begins_with("lava_flow:"):
+		return
+
+	var parts: PackedStringArray = drag_controller.selected_object.split(":")
+	if parts.size() != 3:
+		return
+
+	var flow_index: int = int(parts[1])
+	if flow_index < 0 or flow_index >= layout.lava_flow_definitions.size():
+		return
+
+	# Keep an empty slot instead of erasing the definition: other flows can
+	# refer to this flow by index through their "requires_flow" setting.
+	var definition: Dictionary = layout.lava_flow_definitions[flow_index]
+	definition["points"] = PackedVector2Array()
+	definition["widths"] = PackedFloat32Array()
+	definition["has_fall"] = false
+	layout.lava_flow_definitions[flow_index] = definition
+
+	drag_controller.cancel_drag()
+	drag_controller.selected_object = ""
+	_rebuild_lava_visuals(owner)
+	owner.queue_redraw()
+	print("Removed lava flow ", flow_index, ".")
+
+
+func _toggle_selected_waterfall(owner: RealmView) -> void:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null or not drag_controller.selected_object.begins_with("lava_flow:"):
+		return
+
+	var parts: PackedStringArray = drag_controller.selected_object.split(":")
+	if parts.size() != 3:
+		return
+
+	var flow_index: int = int(parts[1])
+	var point_index: int = int(parts[2])
+	if flow_index < 0 or flow_index >= layout.lava_flow_definitions.size():
+		return
+
+	var definition: Dictionary = layout.lava_flow_definitions[flow_index]
+	var points: PackedVector2Array = definition.get("points", PackedVector2Array())
+	if points.is_empty() or point_index != points.size() - 1:
+		return
+
+	var has_fall: bool = bool(definition.get("has_fall", true))
+	definition["has_fall"] = not has_fall
+	layout.lava_flow_definitions[flow_index] = definition
+	_rebuild_lava_visuals(owner)
+	drag_controller.selected_object = "lava_flow:%d:%d" % [flow_index, point_index]
+	owner.queue_redraw()
+	print("Waterfall ", "enabled" if not has_fall else "removed", " for lava flow ", flow_index, ".")
+
+
+func _rebuild_lava_visuals(owner: RealmView) -> void:
+	owner.lava_realm_visual_controller.build_realm_visuals(
+		owner,
+		owner.state,
+		owner.realm_layout,
+		owner._get_island_rect(),
+		owner.LAVA_FLOW_SCENE,
+		owner.LAVA_FALL_SCENE,
+		owner.LAVA_LAKE_SCENE
+	)
 
 
 func _toggle_selected_fall_z(owner: RealmView) -> void:
