@@ -241,60 +241,60 @@ const DEFINITIONS: Array[Dictionary] = [
 		"target": 100.0
 	},
 	{
-		"id": "eternal_flame_5",
+		"id": "eternal_flame_5_lifetime_10000",
 		"line_id": "eternal_flame",
 		"line_title": "Eternal Ascension",
-		"title": "The Undying",
-		"description": "Earn 500 Eternal Flames.",
+		"title": "Eternal Ascendant",
+		"description": "Earn 10,000 Eternal Flames in total, including Flames spent.",
 		"progress_type": "eternal_flame",
-		"target": 500.0
+		"target": 10000.0
 	},
 
-	# Crystallized Flame: cumulative total earned across all Realms.
+	# Crystallized Flame: highest amount reached in a single Realm run.
 	{
-		"id": "crystallized_flame_1",
+		"id": "crystallized_run_1",
 		"line_id": "crystallized_flame",
 		"line_title": "Eternal Embers",
 		"title": "A Spark Preserved",
-		"description": "Earn 1 Crystallized Flame in total.",
-		"progress_type": "total_crystallized_flame",
+		"description": "Reach 1 Crystallized Flame in a single Realm.",
+		"progress_type": "highest_crystallized_flame_this_run",
 		"target": 1.0
 	},
 	{
-		"id": "crystallized_flame_2",
+		"id": "crystallized_run_2",
 		"line_id": "crystallized_flame",
 		"line_title": "Eternal Embers",
-		"title": "Ember Collector",
-		"description": "Earn 10 Crystallized Flames in total.",
-		"progress_type": "total_crystallized_flame",
+		"title": "Kindled Embers",
+		"description": "Reach 10 Crystallized Flames in a single Realm.",
+		"progress_type": "highest_crystallized_flame_this_run",
 		"target": 10.0
 	},
 	{
-		"id": "crystallized_flame_3",
+		"id": "crystallized_run_3",
 		"line_id": "crystallized_flame",
 		"line_title": "Eternal Embers",
-		"title": "Flame Hoarder",
-		"description": "Earn 100 Crystallized Flames in total.",
-		"progress_type": "total_crystallized_flame",
-		"target": 100.0
+		"title": "Burning Core",
+		"description": "Reach 50 Crystallized Flames in a single Realm.",
+		"progress_type": "highest_crystallized_flame_this_run",
+		"target": 50.0
 	},
 	{
-		"id": "crystallized_flame_4",
+		"id": "crystallized_run_4",
 		"line_id": "crystallized_flame",
 		"line_title": "Eternal Embers",
-		"title": "A Thousand Embers",
-		"description": "Earn 1,000 Crystallized Flames in total.",
-		"progress_type": "total_crystallized_flame",
-		"target": 1000.0
+		"title": "Eternal Pyre",
+		"description": "Reach 200 Crystallized Flames in a single Realm.",
+		"progress_type": "highest_crystallized_flame_this_run",
+		"target": 200.0
 	},
 	{
-		"id": "crystallized_flame_5",
+		"id": "crystallized_run_5",
 		"line_id": "crystallized_flame",
 		"line_title": "Eternal Embers",
-		"title": "The Eternal Pyre",
-		"description": "Earn 10,000 Crystallized Flames in total.",
-		"progress_type": "total_crystallized_flame",
-		"target": 10000.0
+		"title": "Beyond the Crucible",
+		"description": "Reach 500 Crystallized Flames in a single Realm.",
+		"progress_type": "highest_crystallized_flame_this_run",
+		"target": 500.0
 	}
 ]
 
