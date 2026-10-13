@@ -505,6 +505,7 @@ func reset_current_run() -> void:
 	upgrade_automation_manager.reset_for_new_run()
 	
 	current_run_statistics.reset()
+	achievement_manager.reset_current_run_tracking()
 	_apply_permanent_starting_generator_levels()
 	
 		
