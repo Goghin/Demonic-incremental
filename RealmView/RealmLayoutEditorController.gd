@@ -55,6 +55,12 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 		if not layout_mode:
 			return
 
+		# Toggle the selected flow's waterfall between the two draw-order layers
+		# used by the layouts: 4 (behind) and 7 (in front).
+		if event.keycode == KEY_Z:
+			_toggle_selected_fall_z(owner)
+			return
+
 		if event.ctrl_pressed and event.shift_pressed and event.keycode == KEY_S:
 			RealmLayoutExportController.open_save_dialog(owner)
 			return
@@ -167,6 +173,32 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 
 	drag_controller.handle_mouse_input(event, owner)
 
+
+
+func _toggle_selected_fall_z(owner: RealmView) -> void:
+	if not drag_controller.selected_object.begins_with("lava_flow:"):
+		return
+
+	var parts: PackedStringArray = drag_controller.selected_object.split(":")
+	if parts.size() < 2:
+		return
+
+	var flow_index: int = int(parts[1])
+	if flow_index < 0 or flow_index >= owner.realm_layout.lava_flow_definitions.size():
+		return
+
+	var definition: Dictionary = owner.realm_layout.lava_flow_definitions[flow_index]
+	var current_z: int = int(definition.get("fall_z", 7))
+	var next_z: int = 4 if current_z == 7 else 7
+	definition["fall_z"] = next_z
+
+	if flow_index < owner.lava_realm_visual_controller.falls.size():
+		var fall: LavaFall = owner.lava_realm_visual_controller.falls[flow_index]
+		if is_instance_valid(fall):
+			fall.z_index = next_z
+
+	print("Waterfall ", flow_index, " draw order set to Z ", next_z)
+	owner.queue_redraw()
 
 
 func _cycle_layout(owner: RealmView) -> void:
