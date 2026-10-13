@@ -53,19 +53,19 @@ var eternal_flame_shop_available_label: Label
 # ----------------------------------------------------------------
 
 @onready var crystallized_flame_label: Label = (
-	$VBoxContainer/CrystallizedFlameLabel
+	$ScrollContainer/VBoxContainer/CrystallizedFlameLabel
 )
 
 @onready var eternal_flame_label: Label = (
-	$VBoxContainer/EternalFlameLabel
+	$ScrollContainer/VBoxContainer/EternalFlameLabel
 )
 
 @onready var gain_label: Label = (
-	$VBoxContainer/GainLabel
+	$ScrollContainer/VBoxContainer/GainLabel
 )
 
 @onready var smash_button: Button = (
-	$VBoxContainer/SmashButton
+	$ScrollContainer/VBoxContainer/SmashButton
 )
 
 var overflow_bonus_label: Label
@@ -123,7 +123,7 @@ func _create_main_ui() -> void:
 		8
 	)
 
-	$VBoxContainer.add_child(
+	$ScrollContainer/VBoxContainer.add_child(
 		content_container
 	)
 
@@ -133,7 +133,7 @@ func _create_main_ui() -> void:
 
 func _apply_compact_style() -> void:
 	# Main panel spacing.
-	$VBoxContainer.add_theme_constant_override(
+	$ScrollContainer/VBoxContainer.add_theme_constant_override(
 		"separation",
 		1
 	)
@@ -263,11 +263,11 @@ func _create_overflow_bonus_label() -> void:
 		Control.SIZE_EXPAND_FILL
 	)
 
-	$VBoxContainer.add_child(
+	$ScrollContainer/VBoxContainer.add_child(
 		overflow_bonus_label
 	)
 
-	$VBoxContainer.move_child(
+	$ScrollContainer/VBoxContainer.move_child(
 		overflow_bonus_label,
 		gain_label.get_index() + 1
 	)
