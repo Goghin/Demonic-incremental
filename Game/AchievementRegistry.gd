@@ -162,47 +162,46 @@ const DEFINITIONS: Array[Dictionary] = [
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "A Machine Awakens",
-		"description": "Own 1,000 generator levels in total.",
+		"description": "Own 50 generator levels in total.",
 		"progress_type": "total_generator_levels",
-		"target": 1000.0
+		"target": 50.0
 	},
 	{
 		"id": "industry_2",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "Growing Industry",
-		"description": "Own 500 generator levels in total.",
+		"description": "Own 100 generator levels in total.",
 		"progress_type": "total_generator_levels",
-		"target": 500.0
+		"target": 100.0
 	},
 	{
 		"id": "industrial_revolution",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "Industrial Revolution",
-		"description": "Own 50 generator levels in total.",
+		"description": "Own 250 generator levels in total.",
 		"progress_type": "total_generator_levels",
-		"target": 50.0
+		"target": 250.0
 	},
 	{
 		"id": "industry_4",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "Engines of the Abyss",
-		"description": "Own 100 generator levels in total.",
+		"description": "Own 500 generator levels in total.",
 		"progress_type": "total_generator_levels",
-		"target": 100.0
+		"target": 500.0
 	},
 	{
 		"id": "industry_5",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "The Great Machine",
-		"description": "Own 250 generator levels in total.",
+		"description": "Own 1,000 generator levels in total.",
 		"progress_type": "total_generator_levels",
-		"target": 250.0
+		"target": 1000.0
 	},
-
 	# Eternal Flame: total earned, unaffected by spending or assignment.
 	{
 		"id": "eternal_flame",
