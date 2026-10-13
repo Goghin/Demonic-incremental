@@ -28,7 +28,7 @@ layout_mode = 1
 offset_bottom = -576.0
 
 [node name="NavigationTitlePanel" type="PanelContainer" parent="." unique_id=1072280318]
-visible = false
+visible = true
 z_index = 51
 layout_mode = 0
 offset_left = 12.0
