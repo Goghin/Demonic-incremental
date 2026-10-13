@@ -234,7 +234,7 @@ func update_drag(
 		owner.queue_redraw()
 		return
 
-	if dragging_object.begins_with("lava_flow:")
+	if dragging_object.begins_with("lava_flow:"):
 		var parts: PackedStringArray = dragging_object.split(":")
 		if parts.size() != 3:
 			cancel_drag()
