@@ -76,8 +76,27 @@ func _build_achievement_rows() -> void:
 		child.queue_free()
 
 	achievement_rows.clear()
+	var current_line_id: String = ""
 
 	for definition in AchievementRegistry.get_definitions():
+		var line_id: String = str(
+			definition.get("line_id", "")
+		)
+
+		if line_id != current_line_id:
+			current_line_id = line_id
+			var line_heading := Label.new()
+			line_heading.name = "%sHeading" % line_id
+			line_heading.text = str(
+				definition.get("line_title", line_id)
+			).to_upper()
+			line_heading.add_theme_font_size_override("font_size", 13)
+			line_heading.add_theme_color_override(
+				"font_color",
+				Color(0.95, 0.57, 0.30, 1.0)
+			)
+			achievement_list.add_child(line_heading)
+
 		var achievement_id: String = str(
 			definition.get("id", "")
 		)
@@ -133,6 +152,10 @@ func _build_achievement_rows() -> void:
 
 
 func _format_amount(amount: float) -> String:
+	if amount >= 1000000000000000.0:
+		return "%.2fQa" % (amount / 1000000000000000.0)
+	if amount >= 1000000000000.0:
+		return "%.2fT" % (amount / 1000000000000.0)
 	if amount >= 1000000000.0:
 		return "%.2fB" % (amount / 1000000000.0)
 	if amount >= 1000000.0:

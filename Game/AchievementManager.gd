@@ -146,5 +146,7 @@ func _get_progress(
 			return float(state.eternal_flame_state.prestige_count)
 		"eternal_flame":
 			return state.eternal_flame_state.eternal_flame
+		"total_crystallized_flame":
+			return state.eternal_flame_state.total_crystallized_flame
 
 	return 0.0
