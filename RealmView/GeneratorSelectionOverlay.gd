@@ -75,9 +75,9 @@ func _draw_new_generator_markers() -> void:
 			generator_id
 		)
 		_draw_dormant_particles(generator_position, generator_id.hash())
-		var badge_position: Vector2 = generator_position + Vector2(-22.0, -31.0)
+		var badge_position: Vector2 = generator_position + Vector2(-29.0, -31.0)
 		draw_rect(
-			Rect2(badge_position, Vector2(44.0, 15.0)),
+			Rect2(badge_position, Vector2(58.0, 15.0)),
 			Color(0.16, 0.09, 0.045, 0.96),
 			true
 		)
@@ -90,9 +90,9 @@ func _draw_new_generator_markers() -> void:
 		draw_string(
 			font,
 			badge_position + Vector2(0.0, 11.0),
-			"BUILD",
+			"UNLOCKED",
 			HORIZONTAL_ALIGNMENT_CENTER,
-			44.0,
+			58.0,
 			9,
 			Color(1.0, 0.76, 0.42, 1.0)
 		)
