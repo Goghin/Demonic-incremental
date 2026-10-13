@@ -22,7 +22,8 @@ func create_lakes(
 
 	main_lake.setup(
 		realm_layout.main_lake_edge_points,
-		island_rect
+		island_rect,
+		realm_layout.main_lake_center_position
 	)
 
 	var overflow: float = (

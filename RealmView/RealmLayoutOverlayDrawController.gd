@@ -25,6 +25,7 @@ func draw_overlay(
 	_draw_editor_help(owner, selected_object, realm_layout, island_rect)
 	_draw_flow_handles(owner, realm_layout, island_rect, selected_object)
 	_draw_lake_edge_handles(owner, realm_layout, island_rect, selected_object)
+	_draw_main_lake_center_handle(owner, realm_layout, island_rect, selected_object)
 
 	for generator_id in generator_hitboxes:
 		var hitbox: Rect2 = generator_hitboxes[generator_id]
@@ -119,6 +120,7 @@ func _draw_editor_help(
 	var lines: Array[String] = [
 		"REALM LAYOUT EDITOR",
 		"Drag machines, braziers, ash piles, flow or lake handles",
+		"Drag the gold diamond to move the main lake origin",
 		"Select a flow point, then +/- to change its width",
 		"Ctrl + click flow/lake edge: insert a point",
 		"Delete / Backspace: remove selected flow/lake point",
@@ -255,6 +257,9 @@ func _get_selected_normalized_position(
 ) -> Vector2:
 	if realm_layout == null or selected_object == "":
 		return Vector2(-1.0, -1.0)
+
+	if selected_object == "lake_center":
+		return _get_main_lake_center(realm_layout)
 
 	if selected_object.begins_with("lava_flow:"):
 		var parts: PackedStringArray = selected_object.split(":")
@@ -493,3 +498,48 @@ func _draw_lake_edge_handles(
 				false,
 				1.2
 			)
+
+
+
+func _draw_main_lake_center_handle(
+	owner: Control,
+	realm_layout: RealmLayout,
+	island_rect: Rect2,
+	selected_object: String
+) -> void:
+	if realm_layout == null or island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return
+	var normalized_center: Vector2 = _get_main_lake_center(realm_layout)
+	var center: Vector2 = island_rect.position + island_rect.size * normalized_center
+	var selected: bool = selected_object == "lake_center"
+	var alpha: float = 1.0 if selected or selected_object == "" else 0.18
+	var diamond := PackedVector2Array([
+		center + Vector2(0.0, -9.0),
+		center + Vector2(9.0, 0.0),
+		center + Vector2(0.0, 9.0),
+		center + Vector2(-9.0, 0.0)
+	])
+	owner.draw_colored_polygon(diamond, Color(1.0, 0.82, 0.18, alpha))
+	for i in range(diamond.size()):
+		owner.draw_line(diamond[i], diamond[(i + 1) % diamond.size()], Color(0.08, 0.035, 0.01, alpha), 1.5)
+	if selected:
+		owner.draw_string(
+			ThemeDB.fallback_font,
+			center + Vector2(12.0, -10.0),
+			"LAKE ORIGIN",
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1.0,
+			12,
+			Color(1.0, 0.92, 0.55, 1.0)
+		)
+
+
+func _get_main_lake_center(realm_layout: RealmLayout) -> Vector2:
+	if realm_layout.main_lake_center_position.x >= 0.0 and realm_layout.main_lake_center_position.y >= 0.0:
+		return realm_layout.main_lake_center_position
+	var center: Vector2 = Vector2.ZERO
+	if realm_layout.main_lake_edge_points.is_empty():
+		return Vector2(0.5, 0.5)
+	for point in realm_layout.main_lake_edge_points:
+		center += point
+	return center / float(realm_layout.main_lake_edge_points.size())
