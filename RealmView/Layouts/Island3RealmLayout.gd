@@ -35,6 +35,7 @@ func _init() -> void:
 		Vector2(0.344721, 0.503749),
 		Vector2(0.321502, 0.480267)
 	])
+	main_lake_center_position = Vector2(0.481682, 0.519653)
 	small_lake_definitions = []
 	lava_flow_definitions = [
 		{

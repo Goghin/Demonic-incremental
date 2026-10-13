@@ -5,18 +5,16 @@ extends RefCounted
 const LAYOUTS: Dictionary = {
 	"default":
 		preload("res://RealmView/Layouts/DefaultRealmLayout.gd"),
-
-	"test":
-		preload("res://RealmView/Layouts/TestRealmLayout.gd"),
+#
+	#"test":
+		#preload("res://RealmView/Layouts/TestRealmLayout.gd"),
 
 	"island_1":
-		preload("res://RealmView/Layouts/Island1RealmLayout.gd"),
+		preload("res://RealmView/Layouts/BasicRealms/Realm1Layout.gd"),
 
 	"island_2":
-		preload("res://RealmView/Layouts/Island2RealmLayout.gd"),
+		preload("res://RealmView/Layouts/BasicRealms/Realm2Layout.gd"),
 
-	#"ashen_wastes":
-		#preload("res://RealmView/Layouts/AshenWastesRealmLayout.gd"),
 
 	#"blood_crater":
 		#preload("res://RealmView/Layouts/BloodCraterRealmLayout.gd"),
@@ -25,7 +23,7 @@ const LAYOUTS: Dictionary = {
 
 static func get_layout_ids() -> Array[String]:
 	# Keep experimental layouts out of the normal cycling order.
-	return ["default", "island_1", "island_2"]
+	return [ "island_1", "island_2" ]
 
 
 static func create_layout(

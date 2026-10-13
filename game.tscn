@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://dvs5ar3vwg83r" path="res://game.gd" id="1_80nbo"]
 [ext_resource type="PackedScene" uid="uid://dhl8mo6wt4dg0" path="res://UI/resource_panel.tscn" id="2_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://brse7a5upnxtg" path="res://UI/StatsPanel.tscn" id="3_feb5d"]
-[ext_resource type="PackedScene" path="res://UI/AchievementPanel.tscn" id="9_achievement"]
-[ext_resource type="PackedScene" path="res://UI/AchievementToast.tscn" id="10_achievement_toast"]
 [ext_resource type="PackedScene" uid="uid://bmuknpykhpamo" path="res://UI/UpgradeInfoPopup.tscn" id="4_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://cdseigfjnotw3" path="res://UI/loading_screen.tscn" id="5_7jktm"]
 [ext_resource type="PackedScene" uid="uid://di77orwlxxxqx" path="res://UI/prestige_animation.tscn" id="6_eow3j"]
 [ext_resource type="PackedScene" uid="uid://6hk31507tbch" path="res://UI/PrestigePanel.tscn" id="6_prestige"]
 [ext_resource type="PackedScene" uid="uid://c4jurbln7j0tr" path="res://UI/offline_results_panel.tscn" id="8_j5wjh"]
+[ext_resource type="PackedScene" path="res://UI/AchievementPanel.tscn" id="9_achievement"]
+[ext_resource type="PackedScene" path="res://UI/AchievementToast.tscn" id="10_achievement_toast"]
 
 [node name="Game" type="Control" unique_id=2017947086]
 layout_mode = 3
@@ -28,7 +28,6 @@ layout_mode = 1
 offset_bottom = -576.0
 
 [node name="NavigationTitlePanel" type="PanelContainer" parent="." unique_id=1072280318]
-visible = true
 z_index = 51
 layout_mode = 0
 offset_left = 12.0
@@ -95,9 +94,8 @@ offset_left = 512.0
 offset_top = 601.0
 offset_right = 608.0
 offset_bottom = 644.0
-text = "OPTIONS"
 theme_override_font_sizes/font_size = 10
-
+text = "OPTIONS"
 
 [node name="OptionsPanel" type="PanelContainer" parent="." unique_id=1682017613]
 visible = false
@@ -134,9 +132,6 @@ text = "MASTER VOLUME: 70%"
 [node name="MasterVolumeSlider" type="HSlider" parent="OptionsPanel/OptionsContent" unique_id=1682017621]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
-min_value = 0.0
-max_value = 100.0
-step = 1.0
 value = 70.0
 
 [node name="SaveButton" type="Button" parent="OptionsPanel/OptionsContent" unique_id=1682017616]
@@ -157,8 +152,8 @@ offset_left = 112.0
 offset_top = 601.0
 offset_right = 208.0
 offset_bottom = 644.0
-text = "UPGRADES"
 theme_override_font_sizes/font_size = 10
+text = "UPGRADES"
 
 [node name="StatsButton" type="Button" parent="." unique_id=1142714595]
 layout_mode = 0
@@ -166,22 +161,27 @@ offset_left = 212.0
 offset_top = 601.0
 offset_right = 308.0
 offset_bottom = 644.0
-text = "STATS"
 theme_override_font_sizes/font_size = 10
+text = "STATS"
 
-[node name="AchievementPanel" parent="." instance=ExtResource("9_achievement")]
+[node name="AchievementPanel" parent="." unique_id=671841282 instance=ExtResource("9_achievement")]
 visible = false
 z_index = 50
 layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
 offset_left = 12.0
 offset_top = 112.0
 offset_right = 655.0
 offset_bottom = 575.0
+grow_horizontal = 1
+grow_vertical = 1
 
 [node name="PrestigePanel" parent="." unique_id=34821011 instance=ExtResource("6_prestige")]
 visible = false
-clip_contents = true
 z_index = 50
+clip_contents = true
 layout_mode = 0
 anchors_preset = 0
 anchor_right = 0.0
@@ -199,8 +199,8 @@ offset_left = 312.0
 offset_top = 601.0
 offset_right = 408.0
 offset_bottom = 644.0
-text = "REALM"
 theme_override_font_sizes/font_size = 10
+text = "REALM"
 
 [node name="AchievementButton" type="Button" parent="." unique_id=123456791]
 layout_mode = 0
@@ -208,8 +208,8 @@ offset_left = 412.0
 offset_top = 601.0
 offset_right = 508.0
 offset_bottom = 644.0
-text = "ACHIEVEMENTS"
 theme_override_font_sizes/font_size = 9
+text = "ACHIEVEMENTS"
 
 [node name="GeneratorsButton" type="Button" parent="." unique_id=123456790]
 layout_mode = 0
@@ -217,10 +217,11 @@ offset_left = 12.0
 offset_top = 601.0
 offset_right = 108.0
 offset_bottom = 644.0
-text = "GENERATORS"
 theme_override_font_sizes/font_size = 10
+text = "GENERATORS"
 
-[node name="AchievementToast" parent="." instance=ExtResource("10_achievement_toast")]
+[node name="AchievementToast" parent="." unique_id=1915681216 instance=ExtResource("10_achievement_toast")]
+anchors_preset = 0
 
 [node name="UpgradeInfoPopup" parent="." unique_id=1574030057 instance=ExtResource("4_fc0e3")]
 visible = false
@@ -249,6 +250,5 @@ layout_mode = 1
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="StatsButton" to="." method="_on_stats_button_pressed"]
 [connection signal="pressed" from="PrestigeButton" to="." method="_on_prestige_button_pressed"]
-[connection signal="pressed" from="GeneratorsButton" to="." method="_on_generators_button_pressed"]
-
 [connection signal="pressed" from="AchievementButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="GeneratorsButton" to="." method="_on_generators_button_pressed"]
