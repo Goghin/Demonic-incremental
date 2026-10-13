@@ -73,6 +73,14 @@ func smash(
 
 	state.eternal_flame_state.prestige_count += 1
 
+	# The first prestige grants the two foundational shop upgrades for free.
+	# Apply these before resetting the run so Atomic Friction starts at its
+	# upgraded level in the new realm.
+	if state.eternal_flame_state.prestige_count == 1:
+		for upgrade_id in ["eternal_furnace", "accelerated_friction"]:
+			if state.eternal_flame_state.get_upgrade_level(upgrade_id) < 1:
+				state.eternal_flame_state.set_upgrade_level(upgrade_id, 1)
+
 	# Select the physical layout for the new realm.
 	state.realm_layout_id = _get_new_realm_layout_id(
 		state.eternal_flame_state.prestige_count

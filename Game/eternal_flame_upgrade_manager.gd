@@ -20,7 +20,7 @@ func _initialize_upgrades() -> void:
 			EternalFlameUpgrade.EFFECT_HEAT_PRODUCTION,
 			0.15,
 			10,
-			2,
+			1,
 			2
 		)
 	)

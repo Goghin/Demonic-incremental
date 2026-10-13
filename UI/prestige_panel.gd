@@ -637,7 +637,10 @@ func _show_prestige_panel() -> void:
 
 
 func _show_shop_panel() -> void:
-	if shop_panel == null:
+	if shop_panel == null or state == null:
+		return
+
+	if state.eternal_flame_state.prestige_count < 1:
 		return
 
 	prestige_panel.visible = false
@@ -913,6 +916,9 @@ func refresh() -> void:
 		eternal_flame_gain <= 0.0
 		or not state.realm_stabilized
 	)
+
+	# The permanent shop is introduced after the first successful prestige.
+	shop_button.visible = state.eternal_flame_state.prestige_count > 0
 
 	_update_overflow_bonus_ui()
 	_refresh_realm_ui()
