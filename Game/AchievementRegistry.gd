@@ -162,18 +162,18 @@ const DEFINITIONS: Array[Dictionary] = [
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "A Machine Awakens",
-		"description": "Own 10 generator levels in total.",
+		"description": "Own 1,000 generator levels in total.",
 		"progress_type": "total_generator_levels",
-		"target": 10.0
+		"target": 1000.0
 	},
 	{
 		"id": "industry_2",
 		"line_id": "industry",
 		"line_title": "Infernal Civilization",
 		"title": "Growing Industry",
-		"description": "Own 25 generator levels in total.",
+		"description": "Own 500 generator levels in total.",
 		"progress_type": "total_generator_levels",
-		"target": 25.0
+		"target": 500.0
 	},
 	{
 		"id": "industrial_revolution",
