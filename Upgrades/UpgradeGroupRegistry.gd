@@ -63,8 +63,8 @@ static func create_groups() -> Dictionary:
 		groups,
 		UpgradeGroupDefinition.new(
 			"infernal_forge",
-			"Infernal Forge",
-			"Push Matter through the Infernal Forge and begin the process of crystallization."
+			"Generator Unlocks",
+			"Unlock additional generators as your realm develops."
 		)
 	)
 
