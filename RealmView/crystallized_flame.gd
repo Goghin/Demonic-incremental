@@ -88,8 +88,8 @@ func _ready() -> void:
 
 	_update_visual_geometry()
 
-	# Draw our destruction effects above the sprite.
-	z_index = 1
+	# Preserve the Z-index assigned by CrystalRenderer.
+	# Keep destruction effects above the animated sprite.
 	sprite.z_index = -1
 
 
