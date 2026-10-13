@@ -20,9 +20,11 @@ var time_manager: TimeManager
 var content_container: VBoxContainer
 
 var tab_container: HBoxContainer
-var distribution_button: Button
+var prestige_button: Button
 var shop_button: Button
+var distribution_button: Button
 
+var prestige_panel: VBoxContainer
 var distribution_panel: VBoxContainer
 var shop_panel: VBoxContainer
 
@@ -94,7 +96,7 @@ func setup(
 	_create_distribution_ui()
 	_create_shop_ui()
 	_apply_compact_style()
-	_show_distribution_panel()
+	_show_prestige_panel()
 
 	# Offline simulation can finish a stabilization countdown
 	# before this panel exists.
@@ -127,8 +129,9 @@ func _create_main_ui() -> void:
 		content_container
 	)
 
-	_create_overflow_bonus_label()
 	_create_tab_ui()
+	_create_prestige_stats_panel()
+	_create_overflow_bonus_label()
 
 
 func _apply_compact_style() -> void:
@@ -175,7 +178,7 @@ func _apply_compact_style() -> void:
 			3
 		)
 
-	for button in [distribution_button, shop_button]:
+	for button in [prestige_button, shop_button, distribution_button]:
 		if button != null:
 			button.custom_minimum_size = Vector2(0, 24)
 			button.add_theme_font_size_override(
@@ -263,14 +266,34 @@ func _create_overflow_bonus_label() -> void:
 		Control.SIZE_EXPAND_FILL
 	)
 
-	$ScrollContainer/VBoxContainer.add_child(
-		overflow_bonus_label
-	)
+	prestige_panel.add_child(overflow_bonus_label)
 
-	$ScrollContainer/VBoxContainer.move_child(
-		overflow_bonus_label,
-		gain_label.get_index() + 1
-	)
+
+func _create_prestige_stats_panel() -> void:
+	if prestige_panel != null:
+		return
+
+	prestige_panel = VBoxContainer.new()
+	prestige_panel.name = "PrestigeStatsPanel"
+	prestige_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	prestige_panel.add_theme_constant_override("separation", 6)
+	content_container.add_child(prestige_panel)
+
+	# Keep the existing prestige labels and Smash action together in
+	# the first tab rather than above the navigation buttons.
+	var original_parent := $ScrollContainer/VBoxContainer
+	for control in [
+		$ScrollContainer/VBoxContainer/TitleLabel,
+		crystallized_flame_label,
+		eternal_flame_label,
+		gain_label,
+		smash_button
+	]:
+		original_parent.remove_child(control)
+		prestige_panel.add_child(control)
+
+	$ScrollContainer/VBoxContainer/TitleLabel.text = "PRESTIGE STATS & SCORE"
+
 
 func _create_tab_ui() -> void:
 	if tab_container != null:
@@ -288,39 +311,29 @@ func _create_tab_ui() -> void:
 		tab_container
 	)
 
+	prestige_button = Button.new()
+	prestige_button.name = "PrestigeStatsButton"
+	prestige_button.text = "PRESTIGE & SMASH"
+	prestige_button.custom_minimum_size = Vector2(0, 40)
+	prestige_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tab_container.add_child(prestige_button)
+	prestige_button.pressed.connect(_show_prestige_panel)
+
+	shop_button = Button.new()
+	shop_button.name = "EternalFlameShopButton"
+	shop_button.text = "FLAME SHOP"
+	shop_button.custom_minimum_size = Vector2(0, 40)
+	shop_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tab_container.add_child(shop_button)
+	shop_button.pressed.connect(_show_shop_panel)
+
 	distribution_button = Button.new()
 	distribution_button.name = "FlameDistributionButton"
 	distribution_button.text = "FLAME DISTRIBUTION"
 	distribution_button.custom_minimum_size = Vector2(0, 40)
-
-	distribution_button.size_flags_horizontal = (
-		Control.SIZE_EXPAND_FILL
-	)
-
-	tab_container.add_child(
-		distribution_button
-	)
-
-	distribution_button.pressed.connect(
-		_show_distribution_panel
-	)
-
-	shop_button = Button.new()
-	shop_button.name = "EternalFlameShopButton"
-	shop_button.text = "ETERNAL FLAME SHOP"
-	shop_button.custom_minimum_size = Vector2(0, 40)
-
-	shop_button.size_flags_horizontal = (
-		Control.SIZE_EXPAND_FILL
-	)
-
-	tab_container.add_child(
-		shop_button
-	)
-
-	shop_button.pressed.connect(
-		_show_shop_panel
-	)
+	distribution_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tab_container.add_child(distribution_button)
+	distribution_button.pressed.connect(_show_distribution_panel)
 
 
 # ----------------------------------------------------------------
@@ -602,28 +615,45 @@ func _create_shop_ui() -> void:
 # Panel Switching
 # ----------------------------------------------------------------
 
-func _show_distribution_panel() -> void:
-	if distribution_panel == null:
+func _show_prestige_panel() -> void:
+	if prestige_panel == null:
 		return
 
-	distribution_panel.visible = true
+	prestige_panel.visible = true
 	shop_panel.visible = false
+	distribution_panel.visible = false
 
-	distribution_button.disabled = true
+	prestige_button.disabled = true
 	shop_button.disabled = false
+	distribution_button.disabled = false
 
 
 func _show_shop_panel() -> void:
 	if shop_panel == null:
 		return
 
-	distribution_panel.visible = false
+	prestige_panel.visible = false
 	shop_panel.visible = true
+	distribution_panel.visible = false
 
-	distribution_button.disabled = false
+	prestige_button.disabled = false
 	shop_button.disabled = true
+	distribution_button.disabled = false
 
 	_refresh_eternal_flame_upgrade_ui()
+
+
+func _show_distribution_panel() -> void:
+	if distribution_panel == null:
+		return
+
+	prestige_panel.visible = false
+	shop_panel.visible = false
+	distribution_panel.visible = true
+
+	prestige_button.disabled = false
+	shop_button.disabled = false
+	distribution_button.disabled = true
 
 
 # ----------------------------------------------------------------
