@@ -46,4 +46,4 @@ custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "Smash the Flame"
 
-[connection signal="pressed" from="VBoxContainer/SmashButton" to="." method="_on_smash_button_pressed"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/SmashButton" to="." method="_on_smash_button_pressed"]
