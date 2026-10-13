@@ -217,6 +217,11 @@ func _ready() -> void:
 		time_manager
 	)
 
+	$AchievementPanel.setup(
+		state,
+		state.achievement_manager
+	)
+
 	$PrestigePanel.setup(
 		state,
 		save_manager,
@@ -406,6 +411,7 @@ func _on_generator_selection_requested(generator_id: String) -> void:
 	$UpgradeScroll.hide()
 	$PrestigePanel.hide()
 	$OptionsPanel.hide()
+	$AchievementPanel.hide()
 
 	selected_upgrade_generator_id = ""
 	$UpgradeScroll.offset_top = 81.0
@@ -846,6 +852,8 @@ func _process(
 		delta
 	)
 	state.achievement_manager.update(state)
+	if $AchievementPanel.visible:
+		$AchievementPanel.refresh()
 	_update_ambient_audio(delta)
 
 
@@ -884,9 +892,29 @@ func _on_generators_button_pressed() -> void:
 	$StatsPanel.hide()
 	$UpgradeScroll.hide()
 	$PrestigePanel.hide()
+	$AchievementPanel.hide()
 	_refresh_generator_panel_visibility()
 
 	$GeneratorsButton.text = "GENERATORS"
+
+
+func _on_achievements_button_pressed() -> void:
+	var should_open: bool = not $AchievementPanel.visible
+	generator_list_mode = false
+	_clear_generator_focus()
+	$GeneratorsButton.text = "GENERATORS"
+	$AchievementPanel.visible = should_open
+
+	if should_open:
+		$OptionsPanel.hide()
+		$StatsPanel.hide()
+		$UpgradeScroll.hide()
+		$PrestigePanel.hide()
+		$AchievementPanel.hide()
+		$GeneratorScroll.hide()
+	else:
+		$GeneratorScroll.show()
+		_refresh_generator_panel_visibility()
 
 
 func _on_options_button_pressed() -> void:
@@ -901,6 +929,7 @@ func _on_options_button_pressed() -> void:
 		$StatsPanel.hide()
 		$UpgradeScroll.hide()
 		$PrestigePanel.hide()
+		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
 	else:
 		$GeneratorScroll.show()
@@ -1367,6 +1396,7 @@ func _on_upgrades_button_pressed() -> void:
 	$OptionsPanel.hide()
 	$StatsPanel.hide()
 	$PrestigePanel.hide()
+	$AchievementPanel.hide()
 	$GeneratorScroll.hide()
 	selected_upgrade_generator_id = ""
 
