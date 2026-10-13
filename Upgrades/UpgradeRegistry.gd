@@ -547,7 +547,7 @@ static func _create_unlock_infernal_condensation() -> Upgrade:
 			Requirement.new(
 				RequirementTypes.GENERATOR_LEVEL,
 				"molecular_agitation",
-				30
+				25
 			)
 		],
 		true,
