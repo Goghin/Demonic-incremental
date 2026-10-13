@@ -74,8 +74,9 @@ grow_vertical = 1
 
 [node name="OptionsButton" type="Button" parent="." unique_id=1682017612]
 layout_mode = 0
+offset_left = 492.0
 offset_top = 601.0
-offset_right = 120.0
+offset_right = 612.0
 offset_bottom = 644.0
 text = "OPTIONS"
 
@@ -139,17 +140,17 @@ text = "QUIT GAME"
 
 [node name="UpgradesButton" type="Button" parent="." unique_id=876049299]
 layout_mode = 0
-offset_left = 123.0
+offset_left = 135.0
 offset_top = 601.0
-offset_right = 243.0
+offset_right = 255.0
 offset_bottom = 644.0
 text = "UPGRADES"
 
 [node name="StatsButton" type="Button" parent="." unique_id=1142714595]
 layout_mode = 0
-offset_left = 246.0
+offset_left = 258.0
 offset_top = 601.0
-offset_right = 366.0
+offset_right = 378.0
 offset_bottom = 644.0
 text = "STATS"
 
@@ -169,17 +170,17 @@ grow_vertical = 1
 
 [node name="PrestigeButton" type="Button" parent="." unique_id=123456789]
 layout_mode = 0
-offset_left = 369.0
+offset_left = 381.0
 offset_top = 601.0
-offset_right = 489.0
+offset_right = 501.0
 offset_bottom = 644.0
-text = "PRESTIGE"
+text = "REALM"
 
 [node name="GeneratorsButton" type="Button" parent="." unique_id=123456790]
 layout_mode = 0
-offset_left = 492.0
+offset_left = 12.0
 offset_top = 601.0
-offset_right = 612.0
+offset_right = 132.0
 offset_bottom = 644.0
 text = "GENERATORS"
 

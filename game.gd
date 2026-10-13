@@ -883,7 +883,7 @@ func _on_generators_button_pressed() -> void:
 	$PrestigePanel.hide()
 	_refresh_generator_panel_visibility()
 
-	$GeneratorsButton.text = "REALM" if generator_list_mode else "GENERATORS"
+	$GeneratorsButton.text = "GENERATORS"
 
 
 func _on_options_button_pressed() -> void:
