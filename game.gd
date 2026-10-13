@@ -418,7 +418,7 @@ func _on_generator_selection_requested(generator_id: String) -> void:
 	$AchievementPanel.hide()
 
 	selected_upgrade_generator_id = ""
-	$UpgradeScroll.offset_top = 81.0
+	$UpgradeScroll.offset_top = 112.0
 	$UpgradeScroll.offset_right = 655.0
 	_update_upgrade_view()
 
@@ -468,23 +468,6 @@ func _clear_generator_focus() -> void:
 # ============================================================
 
 func _create_initial_upgrade_ui() -> void:
-	var upgrades_label = Label.new()
-
-	upgrades_label.text = "UPGRADES"
-
-	upgrades_label.custom_minimum_size = Vector2(
-		0,
-		35
-	)
-
-	upgrades_label.vertical_alignment = (
-		VERTICAL_ALIGNMENT_CENTER
-	)
-
-	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(
-		upgrades_label
-	)
-
 	var automatic_upgrades: Array = []
 
 	for upgrade in state.upgrades.values():
