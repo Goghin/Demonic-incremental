@@ -55,6 +55,13 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
 text_overrun_behavior = 3
 
+[node name="NewLabel" type="Label" parent="HBoxContainer/VBoxContainer/Header"]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.58, 0.19, 1)
+theme_override_font_sizes/font_size = 10
+text = "NEW"
+
 [node name="LevelLabel" type="Label" parent="HBoxContainer/VBoxContainer/Header" unique_id=1266644673]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11

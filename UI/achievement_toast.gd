@@ -13,13 +13,35 @@ func show_achievement(
 	achievement_title: String,
 	achievement_description: String
 	) -> void:
+	show_message(
+		"ACHIEVEMENT UNLOCKED",
+		achievement_title,
+		achievement_description
+	)
 
+
+func show_generator_unlocked(
+	generator_title: String,
+	generator_description: String
+) -> void:
+	show_message(
+		"NEW GENERATOR UNLOCKED",
+		generator_title,
+		generator_description
+	)
+
+
+func show_message(
+	heading: String,
+	message_title: String,
+	message_description: String
+) -> void:
 	if active_tween != null and active_tween.is_valid():
 		active_tween.kill()
 
-	heading_label.text = "ACHIEVEMENT UNLOCKED"
-	title_label.text = achievement_title
-	description_label.text = achievement_description
+	heading_label.text = heading
+	title_label.text = message_title
+	description_label.text = message_description
 
 	visible = true
 	modulate.a = 0.0

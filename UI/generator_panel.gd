@@ -18,6 +18,17 @@ signal generator_purchased
 
 
 var _normal_panel_style: StyleBox
+var is_new_unlock: bool = false
+
+
+func mark_new_unlock() -> void:
+	is_new_unlock = true
+	$HBoxContainer/VBoxContainer/Header/NewLabel.visible = true
+
+
+func mark_seen() -> void:
+	is_new_unlock = false
+	$HBoxContainer/VBoxContainer/Header/NewLabel.visible = false
 
 
 func _ready() -> void:
@@ -47,6 +58,7 @@ func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		var mouse_event := event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_LEFT and mouse_event.pressed:
+			mark_seen()
 			selection_requested.emit(generator_id)
 
 

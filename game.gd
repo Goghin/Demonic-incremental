@@ -437,6 +437,9 @@ func _set_selected_generator(generator_id: String) -> void:
 			return
 
 	selected_generator_id = generator_id
+	var selected_panel: GeneratorPanel = _get_generator_panel(generator_id)
+	if selected_panel != null:
+		selected_panel.mark_seen()
 
 	if realm_view != null:
 		realm_view.set_selected_generator(selected_generator_id)
@@ -774,10 +777,22 @@ func _on_generator_unlocked(
 
 	_play_ui_unlock()
 
+	# The toast makes the unlock explicit; the dormant machine and NEW badge
+	# keep the next action discoverable after the toast disappears.
+	var generator: Generator = state.get_generator(generator_id)
+	if generator != null:
+		$AchievementToast.show_generator_unlocked(
+			generator.definition.display_name,
+			"A new machine is ready to build. Select it on the island or in Generators to buy its first level."
+		)
+
 	# Add the newly unlocked generator without changing the current selection.
 	_create_generator_panel(
 		generator_id
 	)
+	var generator_panel: GeneratorPanel = _get_generator_panel(generator_id)
+	if generator_panel != null:
+		generator_panel.mark_new_unlock()
 	_refresh_generator_panel_visibility()
 
 	# Add all upgrades that become visible because

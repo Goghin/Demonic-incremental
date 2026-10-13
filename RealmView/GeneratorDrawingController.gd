@@ -45,10 +45,8 @@ func _collect_active_generators(state: GameState) -> Array:
 		var generator: Generator = generator_value
 		var generator_id: String = generator.definition.id
 
-		if generator.unlocked and (
-			generator.level > 0 or
-			generator_id == "infernal_forge"
-		):
+		# Unlocked level-zero generators are shown as dormant, clickable machines.
+		if generator.unlocked:
 			active_generators.append(generator)
 
 	return active_generators

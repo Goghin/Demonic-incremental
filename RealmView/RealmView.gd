@@ -120,6 +120,9 @@ func update_flame_visuals() -> void:
 func _process(_delta: float) -> void:
 	realm_layout_editor_controller.update(self, _delta)
 	realm_update_controller.update(self, _delta)
+	# Refresh the selection ring and BUILD markers from the live generator state.
+	if generator_selection_overlay != null:
+		generator_selection_overlay.queue_redraw()
 
 func _input(event: InputEvent) -> void:
 	realm_layout_editor_controller.handle_owner_input(event, self)
