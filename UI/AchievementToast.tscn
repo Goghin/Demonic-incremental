@@ -6,6 +6,9 @@
 visible = false
 z_index = 90
 layout_mode = 0
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
 offset_left = -170.0
 offset_top = 78.0
 offset_right = 170.0
