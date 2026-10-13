@@ -267,6 +267,10 @@ func _create_overflow_bonus_label() -> void:
 	)
 
 	prestige_panel.add_child(overflow_bonus_label)
+	prestige_panel.move_child(
+		overflow_bonus_label,
+		smash_button.get_index()
+	)
 
 
 func _create_prestige_stats_panel() -> void:
@@ -292,7 +296,7 @@ func _create_prestige_stats_panel() -> void:
 		original_parent.remove_child(control)
 		prestige_panel.add_child(control)
 
-	$ScrollContainer/VBoxContainer/TitleLabel.text = "PRESTIGE STATS & SCORE"
+	prestige_panel.get_node("TitleLabel").text = "PRESTIGE STATS & SCORE"
 
 
 func _create_tab_ui() -> void:
