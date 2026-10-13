@@ -32,6 +32,7 @@ func _build_realm_geometry(owner: RealmView) -> void:
 	var island_rect: Rect2 = owner._get_island_rect()
 
 	_setup_ash_visuals(owner)
+	_setup_matter_pile_visuals(owner)
 	_build_lava_network(owner, island_rect)
 
 	# Rebuilds and resizes share one positioning path, preventing duplicate
@@ -44,6 +45,13 @@ func _build_realm_geometry(owner: RealmView) -> void:
 
 func _setup_ash_visuals(owner: RealmView) -> void:
 	owner.ash_visual_controller.setup(
+		owner,
+		owner.realm_layout
+	)
+
+
+func _setup_matter_pile_visuals(owner: RealmView) -> void:
+	owner.matter_pile_visual_controller.setup(
 		owner,
 		owner.realm_layout
 	)

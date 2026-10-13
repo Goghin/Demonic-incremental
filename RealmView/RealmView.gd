@@ -15,6 +15,7 @@ var lava_mite_visual_controller: LavaMiteVisualController = LavaMiteVisualContro
 var matter_furnace_visual_controller: MatterFurnaceVisualController = MatterFurnaceVisualController.new()
 var lava_realm_visual_controller: LavaRealmVisualController = LavaRealmVisualController.new()
 var ash_visual_controller: AshVisualController = AshVisualController.new()
+var matter_pile_visual_controller: MatterPileVisualController = MatterPileVisualController.new()
 var generator_sprites: Dictionary = {}
 var generator_layer: Node2D
 var generator_selection_overlay: GeneratorSelectionOverlay
