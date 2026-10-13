@@ -68,6 +68,10 @@ func _draw_new_generator_markers() -> void:
 			continue
 
 		var generator_id: String = generator.definition.id
+		# Infernal Forge has its own special-case visuals and unlock presentation.
+		if generator_id == "infernal_forge":
+			continue
+
 		if not realm_view.realm_layout.generator_layout_positions.has(generator_id):
 			continue
 

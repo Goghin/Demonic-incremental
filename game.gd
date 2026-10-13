@@ -777,10 +777,10 @@ func _on_generator_unlocked(
 
 	_play_ui_unlock()
 
-	# The toast makes the unlock explicit; the dormant machine and NEW badge
-	# keep the next action discoverable after the toast disappears.
+	# Most generators use the shared unlock toast and NEW panel badge.
+	# Infernal Forge has its own special-case presentation.
 	var generator: Generator = state.get_generator(generator_id)
-	if generator != null:
+	if generator_id != "infernal_forge" and generator != null:
 		$AchievementToast.show_generator_unlocked(
 			generator.definition.display_name,
 			"A new machine is ready to build. Select it on the island or in Generators to buy its first level."
@@ -791,7 +791,7 @@ func _on_generator_unlocked(
 		generator_id
 	)
 	var generator_panel: GeneratorPanel = _get_generator_panel(generator_id)
-	if generator_panel != null:
+	if generator_id != "infernal_forge" and generator_panel != null:
 		generator_panel.mark_new_unlock()
 	_refresh_generator_panel_visibility()
 
