@@ -68,13 +68,13 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			var offset_delta := Vector2.ZERO
 			match event.keycode:
 				KEY_LEFT:
-				offset_delta.x = -0.01
+					offset_delta.x = -0.01
 				KEY_RIGHT:
-				offset_delta.x = 0.01
+					offset_delta.x = 0.01
 				KEY_UP:
-				offset_delta.y = -0.01
+					offset_delta.y = -0.01
 				KEY_DOWN:
-				offset_delta.y = 0.01
+					offset_delta.y = 0.01
 			owner.realm_layout.island_view_offset += offset_delta
 			_refresh_island_view(owner)
 			return
