@@ -7,10 +7,12 @@ signal achievement_unlocked(achievement_id: String)
 
 var unlocked_achievements: Dictionary = {}
 var seen_generator_ids: Dictionary = {}
+var highest_crystallized_flame_this_run: float = 0.0
 
 
 func update(state: GameState) -> void:
 	_record_unlocked_generators(state)
+	_record_crystallized_flame_peak(state)
 
 	for definition in AchievementRegistry.get_definitions():
 		var achievement_id: String = str(
@@ -57,6 +59,7 @@ func get_progress(
 		return 0.0
 
 	_record_unlocked_generators(state)
+	_record_crystallized_flame_peak(state)
 	return _get_progress(
 		definition,
 		state
@@ -87,13 +90,15 @@ func get_total_count() -> int:
 func to_dictionary() -> Dictionary:
 	return {
 		"unlocked_achievements": unlocked_achievements.duplicate(true),
-		"seen_generator_ids": seen_generator_ids.duplicate(true)
+		"seen_generator_ids": seen_generator_ids.duplicate(true),
+		"highest_crystallized_flame_this_run": highest_crystallized_flame_this_run
 	}
 
 
 func from_dictionary(data: Dictionary) -> void:
 	unlocked_achievements.clear()
 	seen_generator_ids.clear()
+	highest_crystallized_flame_this_run = 0.0
 
 	var unlocked_data = data.get(
 		"unlocked_achievements",
@@ -107,6 +112,11 @@ func from_dictionary(data: Dictionary) -> void:
 				unlocked_data[achievement_id]
 			)
 
+	highest_crystallized_flame_this_run = maxf(
+		0.0,
+		float(data.get("highest_crystallized_flame_this_run", 0.0))
+	)
+
 	var generators_data = data.get(
 		"seen_generator_ids",
 		{}
@@ -114,6 +124,20 @@ func from_dictionary(data: Dictionary) -> void:
 	if generators_data is Dictionary:
 		for generator_id in generators_data:
 			seen_generator_ids[str(generator_id)] = true
+
+
+func reset_current_run_tracking() -> void:
+	highest_crystallized_flame_this_run = 0.0
+
+
+func _record_crystallized_flame_peak(state: GameState) -> void:
+	var current_amount: float = state.get_resource_amount(
+		ResourceIds.CRYSTALIZED_FLAME
+	)
+	highest_crystallized_flame_this_run = maxf(
+		highest_crystallized_flame_this_run,
+		current_amount
+	)
 
 
 func _record_unlocked_generators(state: GameState) -> void:
@@ -151,7 +175,7 @@ func _get_progress(
 			return float(state.eternal_flame_state.prestige_count)
 		"eternal_flame":
 			return state.eternal_flame_state.eternal_flame
-		"total_crystallized_flame":
-			return state.eternal_flame_state.total_crystallized_flame
+		"highest_crystallized_flame_this_run":
+			return highest_crystallized_flame_this_run
 
 	return 0.0
