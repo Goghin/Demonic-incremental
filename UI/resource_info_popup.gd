@@ -176,13 +176,23 @@ func _get_active_modifiers_text() -> String:
 				]
 			)
 		ResourceIds.MATTER:
-			return (
-				"Realm — Density production: ×%s\nThermal mass: ×%s"
-				% [
-					NumberFormatter.format(state.realm_effects.matter_production_multiplier),
-					NumberFormatter.format(state.realm_effects.thermal_mass_multiplier)
-				]
+			var thermic_mass_multiplier := (
+				stats.get_raw_resource_modifier_multiplier(
+					"thermic_mass",
+					ModifierTypes.PRODUCTION,
+					ResourceIds.HEAT
+				)
 			)
+			return (
+				"Realm — Density production: ×%s\\n"
+				+ "Realm — Thermal Mass: ×%s\\n"
+				+ "Thermic Mass — Heat production: ×%s\\n"
+				+ "Matter above 1 increases Thermic Mass logarithmically."
+			) % [
+				NumberFormatter.format(state.realm_effects.matter_production_multiplier),
+				NumberFormatter.format(state.realm_effects.thermal_mass_multiplier),
+				NumberFormatter.format(thermic_mass_multiplier)
+			]
 		ResourceIds.ASH:
 			return "Ashen contamination: ×%s" % NumberFormatter.format(
 				state.realm_effects.ashen_contamination_multiplier
