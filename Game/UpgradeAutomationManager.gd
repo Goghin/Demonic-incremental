@@ -13,7 +13,16 @@ const AUTOMATABLE_GENERATOR_IDS: Array[String] = [
 const BASE_COOLDOWN: float = 10.0
 
 
-var state: GameState
+# GameState owns this manager. Use a weak back-reference to avoid a
+# RefCounted ownership cycle.
+var _state_ref: WeakRef
+var state: GameState:
+	get:
+		if _state_ref == null:
+			return null
+		return _state_ref.get_ref() as GameState
+	set(value):
+		_state_ref = weakref(value) if value != null else null
 var automation_states: Dictionary = {}
 var exclusive_preferences: Dictionary = {}
 
