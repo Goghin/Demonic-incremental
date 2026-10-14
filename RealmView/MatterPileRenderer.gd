@@ -87,7 +87,7 @@ func update(
 				pile.visible = false
 		return
 
-	var total_cubes: int = _get_total_cube_count(matter)
+	var total_cubes: int = _get_total_cube_count(matter, piles.size())
 	var magnitude_scale: float = _get_magnitude_scale(matter)
 	var cube_width: float = max(island_rect.size.x * BASE_WIDTH_RATIO, 4.0)
 	cube_width *= magnitude_scale
@@ -112,8 +112,9 @@ func update(
 			island_rect.size.y * normalized_position.y
 		)
 
+		# Fill piles in layout order instead of spreading fragments across all of them.
 		var pile_cube_count: int = clamp(
-			int(ceil(float(total_cubes - pile_index) / float(piles.size()))),
+			total_cubes - pile_index * MAX_CUBES_PER_PILE,
 			0,
 			MAX_CUBES_PER_PILE
 		)
@@ -123,7 +124,8 @@ func update(
 		for cube_index in range(MAX_CUBES_PER_PILE):
 			var cube: Node2D = pile.get_node("Cube_%02d" % cube_index) as Node2D
 			cube.visible = cube_index < pile_cube_count
-			var size_factor: float = _get_fragment_size(cube_index, growth_stage)
+			var pile_growth_stage: int = growth_stage - pile_index * 2
+			var size_factor: float = _get_fragment_size(cube_index, pile_growth_stage)
 			if geometry_changed:
 				_update_cube_geometry(cube, cube_width, cube_height, cube_index, pile_index)
 			_update_cube_position(
@@ -135,13 +137,14 @@ func update(
 		_last_growth_stage = growth_stage
 
 
-func _get_total_cube_count(matter: float) -> int:
-	if matter <= 0.0:
+func _get_total_cube_count(matter: float, pile_count: int) -> int:
+	if matter <= 0.0 or pile_count <= 0:
 		return 0
+	# About two orders of magnitude fills one pile; later piles then begin in order.
 	return clamp(
-		int(ceil(log(1.0 + matter) / log(10.0) * 6.0)),
+		int(ceil(log(1.0 + matter) / log(10.0) * 9.0)),
 		1,
-		MAX_CUBES_PER_PILE * 3
+		MAX_CUBES_PER_PILE * pile_count
 	)
 
 
