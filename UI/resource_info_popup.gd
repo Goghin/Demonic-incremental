@@ -171,7 +171,7 @@ func _get_base_mechanics_text() -> String:
 			)
 			return (
 				"Ashen Contamination starts above 100 Ash.\n"
-				+ "Final Ashen Contamination multiplier: ×%s"
+				+ "Current Ashen Contamination: ×%s"
 				% NumberFormatter.format(contamination_multiplier)
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
@@ -201,7 +201,7 @@ func _get_active_modifiers_text() -> String:
 				state.realm_effects.matter_production_multiplier
 			)
 		ResourceIds.ASH:
-			return "Realm — Integrity: ×%s contamination mitigation" % NumberFormatter.format(
+			return "Realm — Integrity: ×%s Ash resistance" % NumberFormatter.format(
 				state.realm_effects.ashen_contamination_multiplier
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
