@@ -370,7 +370,7 @@ func _update_visuals() -> void:
 		)
 
 	_ensure_edge_glow()
-	edge_glow.points = lake_points
+	edge_glow.points = rim_points
 	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.12, 0.01, 1.0))
 	glow_color.a = 0.16
 	edge_glow.default_color = glow_color
