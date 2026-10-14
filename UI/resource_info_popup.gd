@@ -120,7 +120,7 @@ func _refresh_content() -> void:
 	var consumption := stats.get_resource_actual_consumption_per_second(resource_id)
 	var net := production - consumption
 	rates_label.text = (
-		"Produced: +%s /s\nConsumed: -%s /s\nNet: %s /s"
+		"Produced: +%s /s\nConsumed / lost: -%s /s\nNet after outflow: %s /s"
 		% [
 			NumberFormatter.format(production),
 			NumberFormatter.format(consumption),
@@ -169,10 +169,11 @@ func _get_active_modifiers_text() -> String:
 	match resource_id:
 		ResourceIds.HEAT:
 			return (
-				"Realm — Intensity: ×%s\nEternal Furnace: ×%s\nThermal mass: ×%s"
+				"Realm — Intensity: ×%s\nEternal Furnace: ×%s\nCrystallized Flame penalty: ×%s\nThermal mass: ×%s"
 				% [
 					NumberFormatter.format(state.realm_effects.heat_production_realm_multiplier),
 					NumberFormatter.format(state.realm_effects.heat_production_upgrade_multiplier),
+					NumberFormatter.format(pow(0.8, state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME))),
 					NumberFormatter.format(state.realm_effects.thermal_mass_multiplier)
 				]
 			)
