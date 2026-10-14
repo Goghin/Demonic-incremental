@@ -1701,7 +1701,7 @@ func _get_resource_display_name(
 		ResourceIds.ASH:
 			return "Ash"
 
-		ResourceIds.CRYSTALIZED_FLAME:
+		ResourceIds.CRYSTALLIZED_FLAME:
 			return "Crystallized Flame"
 
 		_:
@@ -1728,7 +1728,7 @@ func _build_offline_results(
 		ResourceIds.HEAT,
 		ResourceIds.MATTER,
 		ResourceIds.ASH,
-		ResourceIds.CRYSTALIZED_FLAME
+		ResourceIds.CRYSTALLIZED_FLAME
 	]
 
 	for resource_id in resource_ids:
