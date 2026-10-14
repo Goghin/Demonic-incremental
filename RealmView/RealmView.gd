@@ -153,6 +153,12 @@ func _input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			return
 
+	# Clicking unobstructed realm space clears the current focus.
+	# Do not emit anything when no generator is selected.
+	if selected_generator_id != "":
+		generator_selected.emit("")
+		get_viewport().set_input_as_handled()
+
 
 func set_selected_generator(generator_id: String) -> void:
 	if selected_generator_id == generator_id:
