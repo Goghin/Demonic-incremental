@@ -184,9 +184,9 @@ func _get_active_modifiers_text() -> String:
 				)
 			)
 			return (
-				"Realm — Density production: ×%s\\n"
-				+ "Realm — Thermal Mass: ×%s\\n"
-				+ "Thermic Mass — Heat production: ×%s\\n"
+				"Realm — Density production: ×%s\n"
+				+ "Realm — Thermal Mass: ×%s\n"
+				+ "Thermic Mass — Heat production: ×%s\n"
 				+ "Matter above 1 increases Thermic Mass logarithmically."
 			) % [
 				NumberFormatter.format(state.realm_effects.matter_production_multiplier),
