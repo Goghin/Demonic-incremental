@@ -230,6 +230,10 @@ func _get_layout() -> GeneratorUpgradeLayout:
 			return MolecularAgitationUpgradeLayout.new()
 		"thermal_furnace":
 			return ThermalFurnaceUpgradeLayout.new()
+		"thermal_compressor":
+			return ThermalCompressorUpgradeLayout.new()
+		"infernal_forge":
+			return InfernalForgeUpgradeLayout.new()
 		"lava_mite_colony":
 			return LavaMiteUpgradeLayout.new()
 		"matter_furnace":
