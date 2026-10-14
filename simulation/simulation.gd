@@ -252,7 +252,7 @@ func _record_gameplay_economy_snapshot() -> void:
 			"heat_leak_per_second": state.get_heat_leak_per_second(),
 			"matter_decay_per_second": state.get_matter_decay_per_second(),
 			"total_overflow_this_prestige": state.total_overflow_this_prestige,
-			"crystallized_flame": state.get_resource_amount(ResourceIds.CRYSTALIZED_FLAME),
+			"crystallized_flame": state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME),
 			"realm_layout_id": state.realm_layout_id,
 			"generators": generators_snapshot
 		},
@@ -426,7 +426,7 @@ func complete_cycle(
 		
 		# Creating Crystallized Flame consumes all accumulated Heat.
 		# and triggers the realm crystallization visual.
-		if output.resource_id == ResourceIds.CRYSTALIZED_FLAME:
+		if output.resource_id == ResourceIds.CRYSTALLIZED_FLAME:
 			crystallization_completed.emit(amount)
 			
 			var current_heat = state.get_resource_amount(
@@ -1046,7 +1046,7 @@ func apply_heat_leak(
 	)
 
 	var crystallized_flames = state.get_resource_amount(
-		ResourceIds.CRYSTALIZED_FLAME
+		ResourceIds.CRYSTALLIZED_FLAME
 	)
 
 	var overflow_multiplier = pow(
