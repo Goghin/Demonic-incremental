@@ -8,6 +8,7 @@ var gameplay_log
 var gameplay_interval_produced: Dictionary = {}
 var gameplay_interval_consumed: Dictionary = {}
 var gameplay_interval_lost: Dictionary = {}
+var gameplay_realm_run_index: int = 0
 
 var resources: Dictionary = {}
 var generators: Dictionary = {}
@@ -522,6 +523,7 @@ func get_lava_palette_save_data() -> Dictionary:
 
 
 func reset_current_run() -> void:
+	gameplay_realm_run_index += 1
 	gameplay_interval_produced.clear()
 	gameplay_interval_consumed.clear()
 	gameplay_interval_lost.clear()
