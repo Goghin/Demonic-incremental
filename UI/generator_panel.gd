@@ -81,6 +81,11 @@ func _process(_delta: float) -> void:
 	
 	if generator == null:
 		return
+
+	# A new-unlock tag is about the first level, not about viewing the panel.
+	# Checking the live level also catches purchases made by the generator autobuyer.
+	if is_new_unlock and generator.level > 0:
+		mark_seen()
 	
 	var automation_manager = state.generator_automation_manager
 	var automation_button: Button = $HBoxContainer/VBoxContainer/BuyButtons/AutomationButton
