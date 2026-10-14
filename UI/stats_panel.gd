@@ -495,7 +495,7 @@ func update_pressure_stats() -> void:
 	var matter_decay = state.get_matter_decay_per_second()
 
 	var crystallized_flames = state.get_resource_amount(
-		ResourceIds.CRYSTALIZED_FLAME
+		ResourceIds.CRYSTALLIZED_FLAME
 	)
 
 	var overflow_multiplier = pow(
