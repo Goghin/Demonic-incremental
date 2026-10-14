@@ -2,7 +2,16 @@ class_name UpgradeSystem
 extends RefCounted
 
 
-var state: GameState
+# GameState owns this system. Keep only a weak back-reference so the two
+# RefCounted objects do not keep each other alive indefinitely.
+var _state_ref: WeakRef
+var state: GameState:
+	get:
+		if _state_ref == null:
+			return null
+		return _state_ref.get_ref() as GameState
+	set(value):
+		_state_ref = weakref(value) if value != null else null
 
 
 func _init(
