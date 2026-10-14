@@ -145,10 +145,13 @@ func _get_base_mechanics_text() -> String:
 			)
 		ResourceIds.MATTER:
 			return (
-				"Decay threshold: %s Matter\nCurrent Matter decay: %s /s"
+				"Decay threshold: %s Matter\n"
+				+ "Current Matter decay: %s /s\n"
+				+ "Realm — Thermal Mass: ×%s"
 				% [
 					NumberFormatter.format(state.realm_effects.matter_decay_threshold),
-					NumberFormatter.format(state.get_matter_decay_per_second())
+					NumberFormatter.format(state.get_matter_decay_per_second()),
+					NumberFormatter.format(state.realm_effects.thermal_mass_multiplier)
 				]
 			)
 		ResourceIds.ASH:
@@ -185,12 +188,9 @@ func _get_active_modifiers_text() -> String:
 			)
 			return (
 				"Realm — Density production: ×%s\n"
-				+ "Realm — Thermal Mass: ×%s\n"
-				+ "Thermic Mass — Heat production: ×%s\n"
-				+ "Matter above 1 increases Thermic Mass logarithmically."
+				+ "Thermic Mass — Heat production: ×%s"
 			) % [
 				NumberFormatter.format(state.realm_effects.matter_production_multiplier),
-				NumberFormatter.format(state.realm_effects.thermal_mass_multiplier),
 				NumberFormatter.format(thermic_mass_multiplier)
 			]
 		ResourceIds.ASH:
