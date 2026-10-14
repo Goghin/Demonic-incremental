@@ -1,4 +1,3 @@
-
 class_name PrestigeSystem
 extends RefCounted
 
@@ -7,10 +6,19 @@ func _get_new_realm_layout_id(
 	prestige_count: int
 	) -> String:
 
-	if prestige_count % 2 == 1:
-		return "test"
+	var layout_ids: Array[String] = RealmLayoutRegistry.get_layout_ids()
 
-	return "default"
+	if layout_ids.is_empty():
+		return "default"
+
+	# prestige_count is incremented before this is called. Starting at index
+	# zero makes the first completed prestige use the first registered layout.
+	var layout_index: int = posmod(
+		prestige_count - 1,
+		layout_ids.size()
+	)
+
+	return layout_ids[layout_index]
 
 
 func calculate_eternal_flame_gain(

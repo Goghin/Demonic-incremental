@@ -18,8 +18,6 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_atomic_mastery())
 	_register(upgrades, _create_crystallization_adaptation())
 	_register(upgrades, _create_contamination_adaptation())
-	_register(upgrades, _create_molecular_agitation_upgrade())
-	_register(upgrades, _create_atomic_mastery())
 	
 	# Molecular Agitation
 	
