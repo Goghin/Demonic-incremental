@@ -1,10 +1,8 @@
-
 class_name AtomicFrictionUpgradeLayout
 extends GeneratorUpgradeLayout
 
 
 func _init() -> void:
-
 	# First stage
 	add_node(
 		"atomic_friction_optimization",
@@ -19,7 +17,7 @@ func _init() -> void:
 		0
 	)
 
-	# Level 25 choice
+	# Level 20 choice
 	add_node(
 		"atomic_reorganization",
 		0,
@@ -32,44 +30,44 @@ func _init() -> void:
 		1
 	)
 
-	# Convergence / next generator
+	# Level 25 convergence / next generator
 	add_node(
 		"molecular_agitation",
 		1,
 		2
 	)
 
-	# Level 40 milestone
-	add_node(
-		"atomic_process_optimization",
-		1,
-		3
-	)
-
-	# Level 45 specialization
+	# Level 35 specialization choice
 	add_node(
 		"efficient_atomic_processing",
 		0,
-		4
+		3
 	)
 
 	add_node(
 		"atomic_mastery",
 		2,
+		3
+	)
+
+	# Level 40 milestone
+	add_node(
+		"atomic_process_optimization",
+		1,
 		4
 	)
 
-	# Level 65 late-game specialization
+	# Level 55 late-game specialization
 	add_node(
 		"crystallization_adaptation",
 		0,
-		6
+		5
 	)
 
 	add_node(
 		"contamination_adaptation",
 		2,
-		6
+		5
 	)
 
 	# First progression
@@ -83,7 +81,7 @@ func _init() -> void:
 		"atomic_friction_refinement"
 	)
 
-	# Both choices converge
+	# Both level 20 choices converge
 	add_connection(
 		"atomic_reorganization",
 		"molecular_agitation"
@@ -94,40 +92,35 @@ func _init() -> void:
 		"molecular_agitation"
 	)
 
-	# Level 40 milestone
+	# Level 35 specializations follow the level 25 unlock
 	add_connection(
 		"molecular_agitation",
-		"atomic_process_optimization"
-	)
-
-	# Level 45 specialization
-	add_connection(
-		"atomic_process_optimization",
 		"efficient_atomic_processing"
 	)
 
 	add_connection(
-		"atomic_process_optimization",
+		"molecular_agitation",
 		"atomic_mastery"
 	)
 
-	# Level 65 specialization
+	# Both specializations lead to the level 40 milestone
 	add_connection(
 		"efficient_atomic_processing",
-		"crystallization_adaptation"
+		"atomic_process_optimization"
 	)
 
 	add_connection(
 		"atomic_mastery",
+		"atomic_process_optimization"
+	)
+
+	# Level 55 adaptations follow the level 40 milestone
+	add_connection(
+		"atomic_process_optimization",
 		"crystallization_adaptation"
 	)
 
 	add_connection(
-		"efficient_atomic_processing",
-		"contamination_adaptation"
-	)
-
-	add_connection(
-		"atomic_mastery",
+		"atomic_process_optimization",
 		"contamination_adaptation"
 	)
