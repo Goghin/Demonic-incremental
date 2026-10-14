@@ -79,18 +79,23 @@ func _create_resource_card(resource_id: String) -> void:
 	card.add_theme_stylebox_override("panel", _make_card_style())
 
 	var row := HBoxContainer.new()
+	row.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	row.add_theme_constant_override("separation", 9)
 	card.add_child(row)
 
 	# Empty icon frame: reserved for the resource's eventual icon artwork.
+	# Ignore mouse input on children so hovering any part of the card, including
+	# the icon, is handled consistently by the card's own hover signals.
 	var icon_frame := PanelContainer.new()
 	icon_frame.name = "IconPlaceholder"
+	icon_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	icon_frame.custom_minimum_size = ICON_PLACEHOLDER_SIZE
 	icon_frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	icon_frame.add_theme_stylebox_override("panel", _make_icon_placeholder_style())
 	row.add_child(icon_frame)
 
 	var text_column := VBoxContainer.new()
+	text_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	text_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	text_column.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	text_column.add_theme_constant_override("separation", 2)
@@ -98,12 +103,14 @@ func _create_resource_card(resource_id: String) -> void:
 
 	var name_label := Label.new()
 	name_label.name = "ResourceName"
+	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	name_label.text = state.get_resource_display_name(resource_id)
 	name_label.add_theme_font_size_override("font_size", 13)
 	text_column.add_child(name_label)
 
 	var amount_label := Label.new()
 	amount_label.name = "ResourceAmount"
+	amount_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	amount_label.add_theme_font_size_override("font_size", 16)
 	amount_label.text = NumberFormatter.format(
 		state.get_resource_amount(resource_id)
@@ -156,7 +163,6 @@ func _make_icon_placeholder_style() -> StyleBoxFlat:
 	style.set_corner_radius_all(3)
 	style.set_content_margin_all(0)
 	return style
-
 
 
 func _on_resource_card_mouse_entered(resource_id: String) -> void:
