@@ -142,19 +142,17 @@ func _refresh_content() -> void:
 func _get_resource_description_text() -> String:
 	match resource_id:
 		ResourceIds.HEAT:
-			return "The realm's primary energy source. Heat powers most industrial processes, but excess Heat leaks away."
+			return "The realm's primary energy source. Heat powers many processes, but excess Heat above the threshold causes Overflow."
 		ResourceIds.MATTER:
-			return "The realm's physical substance. Matter enables advanced production and gradually decays when stockpiled beyond its threshold."
+			return "The realm's physical substance. Matter enables advanced production and gradually decays when stockpiled beyond its threshold. Stored Matter also increases all Heat production."
 		ResourceIds.ASH:
 			return "A by-product of infernal industry. Accumulated Ash contaminates production, while Lava Mites consume it."
 		ResourceIds.CRYSTALLIZED_FLAME:
-			return "A permanent-feeling prize from Infernal Forge cycles that remains in the current run. Each stored Flame makes Heat harder to produce."
+			return "A highly prized product of the Infernal Forge. Each stored Crystallized Flame makes Heat harder to produce."
 		ResourceIds.ESSENCE:
-			return "A rare substance extracted by advanced Lava Mite colonies. Stored Essence intensifies their hunger and helps resist Crystallization."
+			return "A rare, highly volatile substance that resonates with Crystallized Flames, reducing their penalty. Stored Essence also intensifies Lava Mite activity."
 		ResourceIds.NEXUM:
-			return "A condensed resource for advanced systems. Its broader uses are not yet available."
-		ResourceIds.CHUNKS:
-			return "A raw material reserved for future systems. Its broader uses are not yet available."
+			return "Highly condensed Matter bound by arcane sigils. Matter stored as Nexum does not decay, but does not contribute to the Heat production bonus. Nexum is also used in advanced processes."
 		_:
 			return "A resource used by the realm's generators and industrial systems."
 
