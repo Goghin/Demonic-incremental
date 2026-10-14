@@ -25,7 +25,7 @@ func update_if_needed(
 		return
 
 	var current_flames: float = state.get_resource_amount(
-		ResourceIds.CRYSTALIZED_FLAME
+		ResourceIds.CRYSTALLIZED_FLAME
 	)
 
 	if is_equal_approx(current_flames, last_flame_amount):
@@ -49,7 +49,7 @@ func update(
 		return
 
 	var total_flames: float = state.get_resource_amount(
-		ResourceIds.CRYSTALIZED_FLAME
+		ResourceIds.CRYSTALLIZED_FLAME
 	)
 
 	renderer.update(
@@ -102,6 +102,6 @@ func play_crystallization_event(
 		forge_position,
 		crystals,
 		crystal_values,
-		state.get_resource_amount(ResourceIds.CRYSTALIZED_FLAME),
+		state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME),
 		renderer
 	)
