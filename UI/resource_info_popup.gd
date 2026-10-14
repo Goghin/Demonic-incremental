@@ -169,12 +169,10 @@ func _get_active_modifiers_text() -> String:
 	match resource_id:
 		ResourceIds.HEAT:
 			return (
-				"Realm — Intensity: ×%s\nEternal Furnace: ×%s\nCrystallized Flame penalty: ×%s\nThermal mass: ×%s"
+				"Realm — Intensity: ×%s\nEternal Furnace: ×%s"
 				% [
 					NumberFormatter.format(state.realm_effects.heat_production_realm_multiplier),
-					NumberFormatter.format(state.realm_effects.heat_production_upgrade_multiplier),
-					NumberFormatter.format(pow(0.8, state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME))),
-					NumberFormatter.format(state.realm_effects.thermal_mass_multiplier)
+					NumberFormatter.format(state.realm_effects.heat_production_upgrade_multiplier)
 				]
 			)
 		ResourceIds.MATTER:
