@@ -171,9 +171,12 @@ func _on_resource_card_mouse_entered(resource_id: String) -> void:
 
 	hovered_resource_id = resource_id
 	info_popup.setup(state, stats, resource_id)
+	info_popup.reset_size()
 	info_popup.show()
 
-	# Wait for the popup and card layouts to settle before positioning it.
+	# Allow the popup's first layout pass to complete before measuring it.
+	await get_tree().process_frame
+	info_popup.reset_size()
 	await get_tree().process_frame
 
 	if hovered_resource_id != resource_id:

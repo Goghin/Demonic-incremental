@@ -9,6 +9,7 @@ var stats: GameStats
 var resource_id: String = ""
 
 var name_label: Label
+var description_label: Label
 var amount_label: Label
 var rates_label: Label
 var mechanics_label: Label
@@ -51,6 +52,10 @@ func _build_content() -> void:
 
 	name_label = _create_label(15, true)
 	column.add_child(name_label)
+
+	description_label = _create_label(12)
+	description_label.add_theme_color_override("font_color", Color(0.78, 0.75, 0.72))
+	column.add_child(description_label)
 
 	amount_label = _create_label(13, true)
 	column.add_child(amount_label)
@@ -112,6 +117,7 @@ func _refresh_content() -> void:
 		return
 
 	name_label.text = state.get_resource_display_name(resource_id)
+	description_label.text = _get_resource_description_text()
 	amount_label.text = "Current: %s" % NumberFormatter.format(
 		state.get_resource_amount(resource_id)
 	)
@@ -131,6 +137,26 @@ func _refresh_content() -> void:
 	mechanics_label.text = _get_base_mechanics_text()
 	modifiers_label.text = _get_active_modifiers_text()
 	reset_size()
+
+
+func _get_resource_description_text() -> String:
+	match resource_id:
+		ResourceIds.HEAT:
+			return "The realm's primary energy source. Heat powers most industrial processes, but excess Heat leaks away."
+		ResourceIds.MATTER:
+			return "The realm's physical substance. Matter enables advanced production and gradually decays when stockpiled beyond its threshold."
+		ResourceIds.ASH:
+			return "A by-product of infernal industry. Accumulated Ash contaminates production, while Lava Mites consume it."
+		ResourceIds.CRYSTALLIZED_FLAME:
+			return "A permanent-feeling prize from Infernal Forge cycles that remains in the current run. Each stored Flame makes Heat harder to produce."
+		ResourceIds.ESSENCE:
+			return "A rare substance extracted by advanced Lava Mite colonies. Stored Essence intensifies their hunger and helps resist Crystallization."
+		ResourceIds.NEXUM:
+			return "A condensed resource for advanced systems. Its broader uses are not yet available."
+		ResourceIds.CHUNKS:
+			return "A raw material reserved for future systems. Its broader uses are not yet available."
+		_:
+			return "A resource used by the realm's generators and industrial systems."
 
 
 func _get_base_mechanics_text() -> String:
@@ -208,9 +234,18 @@ func _get_active_modifiers_text() -> String:
 				state.realm_effects.ashen_contamination_multiplier
 			)
 		ResourceIds.ESSENCE:
+			var essence_amount := state.get_resource_amount(ResourceIds.ESSENCE)
+			var hunger_multiplier := 1.0 + 0.01 * sqrt(essence_amount)
+			var crystallization_sensitivity := 1.0 / (1.0 + 0.01 * sqrt(essence_amount))
+			var resistance_percent := (1.0 - crystallization_sensitivity) * 100.0
 			return (
-				"Lava Mite Hunger: increases the colony's input consumption, including Ash.\n"
-				+ "Crystallization Resistance: weakens Crystallization's production penalty."
+				"Lava Mite Hunger: ×%s input draw for the colony.\n"
+				+ "Crystallization Resistance: %s%% less sensitivity (×%s remaining)."
+				% [
+					NumberFormatter.format(hunger_multiplier),
+					NumberFormatter.format(resistance_percent),
+					NumberFormatter.format(crystallization_sensitivity)
+				]
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var count := state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)
