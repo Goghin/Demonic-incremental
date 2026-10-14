@@ -1866,7 +1866,7 @@ static func _create_infernal_forge_unlock() -> Upgrade:
 				"",
 				ModifierTypes.PRODUCTION,
 				0.8,
-				ResourceIds.CRYSTALIZED_FLAME,
+				ResourceIds.CRYSTALLIZED_FLAME,
 				Modifier.DYNAMIC_RESOURCE_EXPONENT,
 				"crystallization",
 				ResourceIds.HEAT
@@ -1875,7 +1875,7 @@ static func _create_infernal_forge_unlock() -> Upgrade:
 				#"",
 				#ModifierTypes.PRODUCTION,
 				#0.8,
-				#ResourceIds.CRYSTALIZED_FLAME,
+				#ResourceIds.CRYSTALLIZED_FLAME,
 				#Modifier.DYNAMIC_RESOURCE_EXPONENT,
 				#"crystallization",
 				#ResourceIds.MATTER
