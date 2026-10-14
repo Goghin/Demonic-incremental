@@ -939,6 +939,15 @@ func _refresh_generator_panel_visibility() -> void:
 		if child.generator_id == selected_generator_id:
 			selected_panel = child
 
+	# The focused view contains at most one panel, so never show its
+	# scrollbar. Switching modes explicitly also avoids a stale scrollbar
+	# thumb lingering until the next scroll input.
+	$GeneratorScroll.vertical_scroll_mode = (
+		ScrollContainer.SCROLL_MODE_AUTO
+		if generator_list_mode
+		else ScrollContainer.SCROLL_MODE_SHOW_NEVER
+	)
+
 	# In focused mode, no selection means no generator panel at all.
 	$GeneratorScroll.visible = generator_list_mode or selected_generator_id != ""
 
