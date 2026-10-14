@@ -164,7 +164,16 @@ func _get_base_mechanics_text() -> String:
 				]
 			)
 		ResourceIds.ASH:
-			return "Ash is produced and consumed by specialized generators."
+			var contamination_multiplier := stats.get_raw_resource_modifier_multiplier(
+				"ashen_contamination",
+				ModifierTypes.PRODUCTION,
+				""
+			)
+			return (
+				"Ashen Contamination starts above 100 Ash.\n"
+				+ "Current production multiplier: ×%s"
+				% NumberFormatter.format(contamination_multiplier)
+			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			return "Produced by the Infernal Forge. Each current Flame reduces Heat production."
 		ResourceIds.ESSENCE:
@@ -181,18 +190,18 @@ func _get_active_modifiers_text() -> String:
 	match resource_id:
 		ResourceIds.HEAT:
 			return (
-				"Realm — Intensity: ×%s\nEternal Furnace: ×%s"
+				"Realm — Intensity: ×%s production\nEternal Furnace: ×%s production"
 				% [
 					NumberFormatter.format(state.realm_effects.heat_production_realm_multiplier),
 					NumberFormatter.format(state.realm_effects.heat_production_upgrade_multiplier)
 				]
 			)
 		ResourceIds.MATTER:
-			return "Realm — Density production: ×%s" % NumberFormatter.format(
+			return "Realm — Density: ×%s production" % NumberFormatter.format(
 				state.realm_effects.matter_production_multiplier
 			)
 		ResourceIds.ASH:
-			return "Ashen contamination: ×%s" % NumberFormatter.format(
+			return "Realm — Integrity: ×%s contamination mitigation" % NumberFormatter.format(
 				state.realm_effects.ashen_contamination_multiplier
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
