@@ -373,7 +373,7 @@ func _create_generator_panel(
 		_on_generator_upgrades_requested
 	)
 	generator_panel.selection_requested.connect(
-		_on_generator_selection_requested
+		_on_generator_panel_selection_requested
 	)
 	generator_panel.upgrade_automation_changed.connect(
 		_on_upgrade_automation_settings_changed
@@ -420,7 +420,41 @@ func _initialize_generator_selection() -> void:
 	_set_selected_generator("")
 
 
+func _on_generator_panel_selection_requested(generator_id: String) -> void:
+	# In focused mode, clicking the current panel opens the full list
+	# without losing the current generator selection.
+	if generator_id == selected_generator_id:
+		if not generator_list_mode:
+			generator_list_mode = true
+			$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
+			$GeneratorsButton.text = "GENERATORS"
+			$OptionsPanel.hide()
+			$StatsPanel.hide()
+			$UpgradeScroll.hide()
+			$PrestigePanel.hide()
+			$AchievementPanel.hide()
+			selected_upgrade_generator_id = ""
+			if generator_upgrade_tree != null:
+				generator_upgrade_tree.hide()
+			_refresh_generator_panel_visibility()
+		else:
+			# Clicking the focused generator in the list returns to its panel.
+			generator_list_mode = false
+			$NavigationTitlePanel/NavigationTitle.text = "GENERATOR"
+			_refresh_generator_panel_visibility()
+		return
+
+	# Choosing another generator from the list returns to focused mode.
+	generator_list_mode = false
+	_on_generator_selection_requested(generator_id)
+
+
 func _on_generator_selection_requested(generator_id: String) -> void:
+	# Empty-space clicks in RealmView clear focus without touching navigation.
+	if generator_id == "":
+		_deselect_generator()
+		return
+
 	$NavigationTitlePanel/NavigationTitle.text = "GENERATOR"
 	# Focusing a machine takes priority over every navigation panel.
 	$StatsPanel.hide()
