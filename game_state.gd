@@ -4,6 +4,11 @@ extends RefCounted
 
 var gameplay_log
 
+# Interval counters used by hidden gameplay-log economy snapshots.
+var gameplay_interval_produced: Dictionary = {}
+var gameplay_interval_consumed: Dictionary = {}
+var gameplay_interval_lost: Dictionary = {}
+
 var resources: Dictionary = {}
 var generators: Dictionary = {}
 var upgrades: Dictionary = {}
@@ -232,6 +237,11 @@ func record_resource_produced(
 	if amount <= 0.0:
 		return
 
+	gameplay_interval_produced[resource_id] = (
+		float(gameplay_interval_produced.get(resource_id, 0.0))
+		+ amount
+	)
+
 	resource_statistics.record_produced(
 		resource_id,
 		amount
@@ -254,6 +264,11 @@ func record_resource_consumed(
 	) -> void:
 	if amount <= 0.0:
 		return
+
+	gameplay_interval_consumed[resource_id] = (
+		float(gameplay_interval_consumed.get(resource_id, 0.0))
+		+ amount
+	)
 
 	resource_statistics.record_consumed(
 		resource_id,
@@ -278,6 +293,11 @@ func record_resource_lost(
 	if amount <= 0.0:
 		return
 
+	gameplay_interval_lost[resource_id] = (
+		float(gameplay_interval_lost.get(resource_id, 0.0))
+		+ amount
+	)
+
 	resource_statistics.record_lost(
 		resource_id,
 		amount
@@ -293,6 +313,18 @@ func record_resource_lost(
 			resource_id,
 			amount
 		)
+
+func take_gameplay_interval_statistics() -> Dictionary:
+	var result: Dictionary = {
+		"produced": gameplay_interval_produced.duplicate(true),
+		"consumed": gameplay_interval_consumed.duplicate(true),
+		"lost": gameplay_interval_lost.duplicate(true)
+	}
+	gameplay_interval_produced.clear()
+	gameplay_interval_consumed.clear()
+	gameplay_interval_lost.clear()
+	return result
+
 
 func get_lava_mite_dormancy_penalty() -> float:
 	return lava_mite_dormancy_penalty
@@ -490,6 +522,10 @@ func get_lava_palette_save_data() -> Dictionary:
 
 
 func reset_current_run() -> void:
+	gameplay_interval_produced.clear()
+	gameplay_interval_consumed.clear()
+	gameplay_interval_lost.clear()
+
 	for resource_id in resources:
 		set_resource_amount(
 			resource_id,
