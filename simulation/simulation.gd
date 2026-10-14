@@ -6,6 +6,7 @@ signal crystallization_completed(crystals_created: float)
 
 const GAMEPLAY_SNAPSHOT_INTERVAL: float = 30.0
 var _gameplay_snapshot_elapsed: float = 0.0
+var _gameplay_was_offline: bool = false
 
 # Holds the current game state.
 var state: GameState
@@ -191,6 +192,11 @@ func update(delta: float, offline_mode: bool = false) -> void:
 	# Offline simulation can advance by hours in a single call and should not
 	# flood the log with hundreds of historical snapshots.
 	if not offline_mode:
+		if _gameplay_was_offline:
+			# Start a clean measurement interval after offline catch-up.
+			_gameplay_snapshot_elapsed = 0.0
+			state.take_gameplay_interval_statistics()
+		_gameplay_was_offline = false
 		_gameplay_snapshot_elapsed += delta
 		if _gameplay_snapshot_elapsed >= GAMEPLAY_SNAPSHOT_INTERVAL:
 			_gameplay_snapshot_elapsed = fmod(
@@ -198,6 +204,12 @@ func update(delta: float, offline_mode: bool = false) -> void:
 				GAMEPLAY_SNAPSHOT_INTERVAL
 			)
 			_record_gameplay_economy_snapshot()
+	elif not _gameplay_was_offline:
+		# Offline gains are reflected in resource balances, but are not mixed
+		# into a snapshot labelled as a 30-second active-play interval.
+		_gameplay_snapshot_elapsed = 0.0
+		state.take_gameplay_interval_statistics()
+		_gameplay_was_offline = true
 
 
 func _record_gameplay_economy_snapshot() -> void:
