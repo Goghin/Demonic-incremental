@@ -7,6 +7,7 @@ signal crystallization_completed(crystals_created: float)
 const GAMEPLAY_SNAPSHOT_INTERVAL: float = 30.0
 var _gameplay_snapshot_elapsed: float = 0.0
 var _gameplay_was_offline: bool = false
+var _gameplay_snapshot_realm_run_index: int = -1
 
 # Holds the current game state.
 var state: GameState
@@ -51,6 +52,11 @@ func _record_profile_time(section: String, start_usec: int) -> void:
 # Cycle-based generators only operate while a cycle is active.
 
 func update(delta: float, offline_mode: bool = false) -> void:
+	if _gameplay_snapshot_realm_run_index != state.gameplay_realm_run_index:
+		_gameplay_snapshot_elapsed = 0.0
+		_gameplay_snapshot_realm_run_index = state.gameplay_realm_run_index
+		state.take_gameplay_interval_statistics()
+
 	#if not state.realm_stabilized:
 		#return
 	
@@ -240,6 +246,7 @@ func _record_gameplay_economy_snapshot() -> void:
 		"economy_snapshot",
 		{
 			"interval_seconds": GAMEPLAY_SNAPSHOT_INTERVAL,
+			"realm_run_index": state.gameplay_realm_run_index,
 			"resources": resources_snapshot,
 			"interval_statistics": state.take_gameplay_interval_statistics(),
 			"heat_leak_per_second": state.get_heat_leak_per_second(),
