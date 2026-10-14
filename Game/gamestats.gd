@@ -1056,3 +1056,23 @@ func get_lifetime_total_overflow() -> float:
 
 func get_run_total_overflow() -> float:
 	return state.current_run_statistics.get_total_overflow()
+
+# Returns the unadjusted multiplier for a resource modifier supplied by an
+# upgrade. The raw value is shared across generators; generator-specific
+# sensitivity is applied later when production is calculated.
+func get_raw_resource_modifier_multiplier(
+	source_upgrade_id: String,
+	modifier_type: String,
+	resource_id: String
+) -> float:
+	for generator in state.get_generators().values():
+		for modifier in generator.modifiers:
+			if modifier.source_upgrade_id != source_upgrade_id:
+				continue
+
+			if not modifier.applies_to(modifier_type, resource_id):
+				continue
+
+			return modifier.get_multiplier(state)
+
+	return 1.0
