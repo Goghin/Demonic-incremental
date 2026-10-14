@@ -27,7 +27,7 @@ func calculate_eternal_flame_gain(
 
 	var crystallized_flame: float = (
 		state.get_resource_amount(
-			ResourceIds.CRYSTALIZED_FLAME
+			ResourceIds.CRYSTALLIZED_FLAME
 		)
 	)
 
@@ -81,7 +81,7 @@ func smash(
 		{
 			"eternal_flame_gained": eternal_flame_gain,
 			"prestige_count": state.eternal_flame_state.prestige_count + 1,
-			"crystallized_flame": state.get_resource_amount(ResourceIds.CRYSTALIZED_FLAME),
+			"crystallized_flame": state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME),
 			"overflow": state.total_overflow_this_prestige,
 			"overflow_bonus_used": state.get_overflow_bonus(),
 			"layout_before_smash": state.realm_layout_id
@@ -115,7 +115,7 @@ func smash(
 
 	state.eternal_flame_state.total_crystallized_flame += (
 		state.get_resource_amount(
-			ResourceIds.CRYSTALIZED_FLAME
+			ResourceIds.CRYSTALLIZED_FLAME
 		)
 	)
 
