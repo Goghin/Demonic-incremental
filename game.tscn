@@ -21,7 +21,6 @@ grow_vertical = 2
 script = ExtResource("1_80nbo")
 
 [node name="ResourcePanel" parent="." unique_id=1532266736 instance=ExtResource("2_e2o6t")]
-modulate = Color(0.50790143, 0.82818675, 0.9196969, 1)
 top_level = true
 z_index = 50
 layout_mode = 1
