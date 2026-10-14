@@ -177,7 +177,10 @@ func _get_base_mechanics_text() -> String:
 		ResourceIds.CRYSTALLIZED_FLAME:
 			return "Produced by the Infernal Forge. Each current Flame reduces Heat production."
 		ResourceIds.ESSENCE:
-			return "A rare resource tied to advanced demonic systems."
+			return (
+				"A rare resource tied to advanced demonic systems.\n"
+				+ "Stored Essence strengthens Lava Mite Hunger and grants Crystallization Resistance."
+			)
 		ResourceIds.NEXUM:
 			return "A resource reserved for systems that use Nexum."
 		ResourceIds.CHUNKS:
@@ -203,6 +206,11 @@ func _get_active_modifiers_text() -> String:
 		ResourceIds.ASH:
 			return "Realm — Integrity: ×%s Ash resistance" % NumberFormatter.format(
 				state.realm_effects.ashen_contamination_multiplier
+			)
+		ResourceIds.ESSENCE:
+			return (
+				"Lava Mite Hunger: increases the colony's input consumption, including Ash.\n"
+				+ "Crystallization Resistance: weakens Crystallization's production penalty."
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var count := state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)
