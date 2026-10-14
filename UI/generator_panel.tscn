@@ -74,11 +74,15 @@ layout_mode = 2
 
 [node name="StatusLabel" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1633091438]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 11
+text_overrun_behavior = 3
 text = "Status"
 
 [node name="PauseButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=491545568]
+custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
+size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 11
 text = "Pause"
 
