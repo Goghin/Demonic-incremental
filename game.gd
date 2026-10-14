@@ -455,6 +455,11 @@ func _on_generator_selection_requested(generator_id: String) -> void:
 		_deselect_generator()
 		return
 
+	# Clicking the already-focused machine should keep focus. Empty-space
+	# clicks are the explicit way to dismiss the focused generator.
+	if generator_id == selected_generator_id:
+		return
+
 	$NavigationTitlePanel/NavigationTitle.text = "GENERATOR"
 	# Focusing a machine takes priority over every navigation panel.
 	$StatsPanel.hide()
@@ -467,11 +472,6 @@ func _on_generator_selection_requested(generator_id: String) -> void:
 	$UpgradeScroll.offset_top = 112.0
 	$UpgradeScroll.offset_right = 655.0
 	_update_upgrade_view()
-
-	# Clicking the active machine again returns to the unobstructed realm.
-	if generator_id == selected_generator_id:
-		_deselect_generator()
-		return
 
 	_set_selected_generator(generator_id)
 
