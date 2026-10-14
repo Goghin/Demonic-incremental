@@ -248,7 +248,7 @@ func _attempt_purchase(
 				_cache_waiting_cost(generator, automation)
 			return
 
-	if simulation.buy_generator(generator_id):
+	if simulation.buy_generator(generator_id, "autobuyer"):
 		automation["waiting_for_resources"] = false
 		automation["remaining_cooldown"] = get_cooldown(generator_id)
 	else:

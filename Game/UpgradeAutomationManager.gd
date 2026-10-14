@@ -126,7 +126,7 @@ func _attempt_purchase(generator_id: String, simulation: Simulation) -> void:
 		if not simulation.can_buy_upgrade(definition.id):
 			continue
 
-		if simulation.buy_upgrade(definition.id):
+		if simulation.buy_upgrade(definition.id, "upgrade_autobuyer"):
 			automation_states[generator_id]["remaining_cooldown"] = BASE_COOLDOWN
 			return
 

@@ -2,6 +2,8 @@
 class_name GameState
 extends RefCounted
 
+var gameplay_log
+
 var resources: Dictionary = {}
 var generators: Dictionary = {}
 var upgrades: Dictionary = {}
@@ -49,6 +51,7 @@ var lava_mite_dormancy_duration: float = 13800.0
 var lava_mite_dormancy_max_penalty: float = 0.90
 
 func _init() -> void:
+	gameplay_log = preload("res://Game/GameplayLog.gd").new()
 	_initialize_resources()
 	_initialize_generators()
 	upgrade_groups = UpgradeGroupRegistry.create_groups()
@@ -541,6 +544,11 @@ func stabilize_realm() -> bool:
 		eternal_flame_upgrade_manager,
 		heat_leak_threshold,
 		matter_decay_threshold
+	)
+	gameplay_log.record_event(
+		"realm",
+		"realm_stabilized",
+		{"assigned_eternal_flames": get_assigned_eternal_flames()}
 	)
 	
 	return true

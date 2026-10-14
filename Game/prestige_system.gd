@@ -75,6 +75,19 @@ func smash(
 	if eternal_flame_gain <= 0.0:
 		return 0.0
 
+	state.gameplay_log.record_event(
+		"prestige",
+		"realm_smashed",
+		{
+			"eternal_flame_gained": eternal_flame_gain,
+			"prestige_count": state.eternal_flame_state.prestige_count + 1,
+			"crystallized_flame": state.get_resource_amount(ResourceIds.CRYSTALIZED_FLAME),
+			"overflow": state.total_overflow_this_prestige,
+			"overflow_bonus_used": state.get_overflow_bonus(),
+			"layout_before_smash": state.realm_layout_id
+		}
+	)
+
 	state.eternal_flame_state.eternal_flame += (
 		eternal_flame_gain
 	)

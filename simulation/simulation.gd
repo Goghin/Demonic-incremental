@@ -486,7 +486,8 @@ func produce_outputs(
 
 
 func buy_generator(
-	generator_id: String
+	generator_id: String,
+	source: String = "manual"
 	) -> bool:
 	
 	var generator = state.get_generator(
@@ -506,6 +507,7 @@ func buy_generator(
 	var cost = generator.get_cost(
 		state
 	)
+	var previous_level: int = generator.level
 	
 	var current_resource = state.get_resource_amount(
 		generator.definition.cost_resource_id
@@ -529,6 +531,20 @@ func buy_generator(
 	if generator.definition.cycle_based:
 		generator.cycle_progress = 0.0
 		generator.cycle_active = true
+
+	state.gameplay_log.record_event(
+		"purchase",
+		"generator_level_purchased",
+		{
+			"generator_id": generator_id,
+			"generator_name": generator.definition.display_name,
+			"old_level": previous_level,
+			"new_level": generator.level,
+			"cost_resource_id": generator.definition.cost_resource_id,
+			"cost": cost
+		},
+		source
+	)
 	
 	return true
 
@@ -565,7 +581,8 @@ func can_buy_generator(
 # -------------------------------------------------------------------
 
 func buy_upgrade(
-	upgrade_id: String
+	upgrade_id: String,
+	source: String = "manual"
 	) -> bool:
 	
 	var upgrade = state.get_upgrade(
@@ -591,6 +608,7 @@ func buy_upgrade(
 	var cost = get_upgrade_cost(
 		upgrade
 	)
+	var previous_level: int = upgrade.level
 	
 	var current_resource = state.get_resource_amount(
 		upgrade.definition.cost_resource_id
@@ -618,6 +636,21 @@ func buy_upgrade(
 	# Invalidate automation's cached costs so they refresh before use.
 	if state.generator_automation_manager != null:
 		state.generator_automation_manager.invalidate_waiting_costs()
+
+	state.gameplay_log.record_event(
+		"purchase",
+		"upgrade_purchased",
+		{
+			"upgrade_id": upgrade_id,
+			"upgrade_name": upgrade.definition.display_name,
+			"generator_id": upgrade.definition.generator_id,
+			"old_level": previous_level,
+			"new_level": upgrade.level,
+			"cost_resource_id": upgrade.definition.cost_resource_id,
+			"cost": cost
+		},
+		source
+	)
 
 	return true
 
@@ -701,6 +734,15 @@ func _apply_upgrade_effect(
 		if generator != null:
 			if not generator.unlocked:
 				generator.unlocked = true
+				state.gameplay_log.record_event(
+					"unlock",
+					"generator_unlocked",
+					{
+						"generator_id": generator.definition.id,
+						"generator_name": generator.definition.display_name
+					},
+					"upgrade_effect"
+				)
 				generator_unlocked.emit(
 					generator.definition.id
 				)
@@ -859,10 +901,22 @@ func update_automatic_upgrades() -> void:
 		):
 			continue
 		
+		var previous_level: int = upgrade.level
 		upgrade.level += 1
 		
 		_apply_upgrade_level_effects(
 			upgrade
+		)
+		state.gameplay_log.record_event(
+			"upgrade",
+			"automatic_upgrade_applied",
+			{
+				"upgrade_id": upgrade.definition.id,
+				"upgrade_name": upgrade.definition.display_name,
+				"old_level": previous_level,
+				"new_level": upgrade.level
+			},
+			"automatic"
 		)
 
 
