@@ -245,6 +245,12 @@ func dictionary_to_state(
 	if not resources_data is Dictionary:
 		return false
 	
+	# Migrate the old misspelled resource ID used by existing saves.
+	if resources_data.has("Crystalized Flame"):
+		if not resources_data.has("Crystallized Flame"):
+			resources_data["Crystallized Flame"] = resources_data["Crystalized Flame"]
+		resources_data.erase("Crystalized Flame")
+
 	for resource_id in resources_data:
 		if not state.resources.has(resource_id):
 			continue
@@ -260,9 +266,10 @@ func dictionary_to_state(
 	)
 
 	if resource_statistics_data is Dictionary:
+		_migrate_crystallized_flame_statistic_id(resource_statistics_data)
 		state.resource_statistics.from_dictionary(
-		resource_statistics_data
-	)
+			resource_statistics_data
+		)
 
 
 	var current_run_statistics_data = data.get(
@@ -271,9 +278,10 @@ func dictionary_to_state(
 	)
 
 	if current_run_statistics_data is Dictionary:
+		_migrate_crystallized_flame_statistic_id(current_run_statistics_data)
 		state.current_run_statistics.from_dictionary(
-		current_run_statistics_data
-	)
+			current_run_statistics_data
+		)
 		# --------------------------------------------------------
 	# OVERFLOW
 	# --------------------------------------------------------
@@ -522,3 +530,14 @@ func dictionary_to_state(
 		data.get("upgrade_automation", {})
 	)
 	return true
+
+
+func _migrate_crystallized_flame_statistic_id(data: Dictionary) -> void:
+	# ResourceStatistics stores resource IDs as dictionary keys.
+	if not data.has("Crystalized Flame"):
+		return
+
+	if not data.has("Crystallized Flame"):
+		data["Crystallized Flame"] = data["Crystalized Flame"]
+
+	data.erase("Crystalized Flame")
