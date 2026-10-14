@@ -4,6 +4,9 @@ extends RefCounted
 signal generator_unlocked(generator_id: String)
 signal crystallization_completed(crystals_created: float)
 
+const GAMEPLAY_SNAPSHOT_INTERVAL: float = 30.0
+var _gameplay_snapshot_elapsed: float = 0.0
+
 # Holds the current game state.
 var state: GameState
 
@@ -183,6 +186,60 @@ func update(delta: float, offline_mode: bool = false) -> void:
 	)
 	if profiling_enabled:
 		_record_profile_time("upgrade_automation", profile_start_usec)
+
+	# Keep periodic economy snapshots out of offline catch-up processing.
+	# Offline simulation can advance by hours in a single call and should not
+	# flood the log with hundreds of historical snapshots.
+	if not offline_mode:
+		_gameplay_snapshot_elapsed += delta
+		if _gameplay_snapshot_elapsed >= GAMEPLAY_SNAPSHOT_INTERVAL:
+			_gameplay_snapshot_elapsed = fmod(
+				_gameplay_snapshot_elapsed,
+				GAMEPLAY_SNAPSHOT_INTERVAL
+			)
+			_record_gameplay_economy_snapshot()
+
+
+func _record_gameplay_economy_snapshot() -> void:
+	if state.gameplay_log == null:
+		return
+
+	var resources_snapshot: Dictionary = {}
+	for resource_id in state.resources:
+		var resource_state = state.resources[resource_id]
+		resources_snapshot[resource_id] = {
+			"name": resource_state.definition.display_name,
+			"amount": state.get_resource_amount(resource_id)
+		}
+
+	var generators_snapshot: Dictionary = {}
+	for generator_id in state.generators:
+		var generator = state.generators[generator_id]
+		if not generator.unlocked:
+			continue
+		generators_snapshot[generator_id] = {
+			"level": generator.level,
+			"operating": generator.operating,
+			"cycle_active": generator.cycle_active
+		}
+
+	state.gameplay_log.record_event(
+		"economy",
+		"economy_snapshot",
+		{
+			"interval_seconds": GAMEPLAY_SNAPSHOT_INTERVAL,
+			"resources": resources_snapshot,
+			"interval_statistics": state.take_gameplay_interval_statistics(),
+			"heat_leak_per_second": state.get_heat_leak_per_second(),
+			"matter_decay_per_second": state.get_matter_decay_per_second(),
+			"total_overflow_this_prestige": state.total_overflow_this_prestige,
+			"crystallized_flame": state.get_resource_amount(ResourceIds.CRYSTALIZED_FLAME),
+			"realm_layout_id": state.realm_layout_id,
+			"generators": generators_snapshot
+		},
+		"periodic"
+	)
+
 
 func apply_environmental_effects(delta: float) -> void:
 	apply_matter_decay(delta)
