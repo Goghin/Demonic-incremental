@@ -442,6 +442,7 @@ func _on_generator_panel_selection_requested(generator_id: String) -> void:
 			generator_list_mode = false
 			$NavigationTitlePanel/NavigationTitle.text = "GENERATOR"
 			_refresh_generator_panel_visibility()
+			_on_generator_upgrades_requested(generator_id)
 		return
 
 	# Choosing another generator from the list returns to focused mode.
@@ -474,6 +475,7 @@ func _on_generator_selection_requested(generator_id: String) -> void:
 	_update_upgrade_view()
 
 	_set_selected_generator(generator_id)
+	_on_generator_upgrades_requested(generator_id)
 
 
 func _set_selected_generator(generator_id: String) -> void:
