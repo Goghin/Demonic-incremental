@@ -954,15 +954,33 @@ func _refresh_generator_panel_visibility() -> void:
 	$GeneratorScroll.visible = generator_list_mode or selected_generator_id != ""
 
 	if generator_list_mode and selected_panel != null:
-		$GeneratorScroll.ensure_control_visible(selected_panel)
+		_scroll_generator_list_to_selected()
 	elif not generator_list_mode:
 		$GeneratorScroll.scroll_vertical = 0
+
+
+func _scroll_generator_list_to_selected() -> void:
+	# Wait for the list layout to update before scrolling; otherwise the
+	# selected panel may still have its old focused-mode position.
+	await get_tree().process_frame
+
+	if not generator_list_mode or not $GeneratorScroll.visible:
+		return
+
+	var selected_panel := _get_generator_panel(selected_generator_id)
+	if selected_panel != null:
+		$GeneratorScroll.ensure_control_visible(selected_panel)
 
 
 func _on_generators_button_pressed() -> void:
 	$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
 	generator_list_mode = not generator_list_mode
-	_clear_generator_focus()
+
+	# Keep the current selection when opening the list so it can be brought
+	# into view. The same selection is focused again when the list is closed.
+	selected_upgrade_generator_id = ""
+	if generator_upgrade_tree != null:
+		generator_upgrade_tree.hide()
 
 	$OptionsPanel.hide()
 	$StatsPanel.hide()
