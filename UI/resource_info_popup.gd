@@ -233,18 +233,15 @@ func _get_active_modifiers_text() -> String:
 			)
 		ResourceIds.ESSENCE:
 			var essence_amount := state.get_resource_amount(ResourceIds.ESSENCE)
-			var hunger_multiplier := 1.0 + 0.01 * sqrt(essence_amount)
-			var crystallization_sensitivity := 1.0 / (1.0 + 0.01 * sqrt(essence_amount))
+			var essence_scaling := 0.01 * sqrt(essence_amount)
+			var hunger_multiplier := 1.0 + essence_scaling
+			var crystallization_sensitivity := 1.0 / (1.0 + essence_scaling)
 			var resistance_percent := (1.0 - crystallization_sensitivity) * 100.0
 			return (
-				(
-					"Lava Mite Hunger: ×%s input draw for the colony.\n"
-					+ "Crystallization Resistance: %s%% less sensitivity (×%s remaining)."
-				)
+				"Lava Mite Hunger: ×%s\nCrystallization Resistance: %s%%"
 				% [
 					NumberFormatter.format(hunger_multiplier),
-					NumberFormatter.format(resistance_percent),
-					NumberFormatter.format(crystallization_sensitivity)
+					NumberFormatter.format(resistance_percent)
 				]
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
