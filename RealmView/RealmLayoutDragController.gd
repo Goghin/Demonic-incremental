@@ -5,6 +5,13 @@ extends RefCounted
 var geometry_controller: RealmLayoutGeometryController = RealmLayoutGeometryController.new()
 
 
+const FLOW_HANDLE_HIT_RADIUS: float = 11.0
+const LAKE_HANDLE_HIT_RADIUS: float = 11.0
+const LAKE_CENTER_HIT_RADIUS: float = 13.0
+const MATTER_PILE_HIT_HALF_SIZE: float = 18.0
+const ASH_PILE_HIT_HALF_SIZE: float = 16.0
+const BRAZIER_HIT_HALF_SIZE: float = 32.0
+
 var dragging_object: String = ""
 var selected_object: String = ""
 var drag_offset: Vector2 = Vector2.ZERO
@@ -129,104 +136,175 @@ func find_drag_target(
 	mouse_position: Vector2,
 	owner: RealmView
 ) -> Dictionary:
-	var realm_layout: RealmLayout = owner.realm_layout
-	var island_rect: Rect2 = owner._get_island_rect()
-	var lakes: Array[LavaLake] = owner.lava_realm_visual_controller.lakes
-	var center_screen: Vector2 = geometry_controller.get_position_from_normalized(
-		_get_main_lake_center(realm_layout), island_rect
-	)
-	if center_screen.distance_to(mouse_position) <= 13.0:
-		return {"object": "lake_center", "offset": mouse_position - center_screen}
+	var candidates: Array[Dictionary] = _collect_drag_candidates(mouse_position, owner)
+	if candidates.is_empty():
+		return {"object": "", "offset": Vector2.ZERO}
+	return candidates[0]
 
-	for flow_index in range(realm_layout.lava_flow_definitions.size()):
-		var flow_points: PackedVector2Array = _get_flow_points(realm_layout, flow_index)
+
+func cycle_overlapping_target(
+	mouse_position: Vector2,
+	owner: RealmView
+) -> bool:
+	if dragging_object != "":
+		return false
+
+	var candidates: Array[Dictionary] = _collect_drag_candidates(mouse_position, owner)
+	if candidates.size() < 2:
+		return false
+
+	var selected_index: int = -1
+	for i in range(candidates.size()):
+		if str(candidates[i]["object"]) == selected_object:
+			selected_index = i
+			break
+
+	var next_index: int = (selected_index + 1) % candidates.size()
+	selected_object = str(candidates[next_index]["object"])
+	drag_offset = Vector2.ZERO
+	owner.queue_redraw()
+	return true
+
+
+func _collect_drag_candidates(
+	mouse_position: Vector2,
+	owner: RealmView
+) -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = []
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null:
+		return candidates
+
+	var island_rect: Rect2 = owner._get_island_rect()
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return candidates
+
+	var center_screen: Vector2 = geometry_controller.get_position_from_normalized(
+		_get_main_lake_center(layout), island_rect
+	)
+	_add_circle_candidate(
+		candidates, "lake_center", mouse_position, center_screen,
+		LAKE_CENTER_HIT_RADIUS
+	)
+
+	for flow_index in range(layout.lava_flow_definitions.size()):
+		var flow_points: PackedVector2Array = _get_flow_points(layout, flow_index)
 		for point_index in range(flow_points.size()):
 			var point_position: Vector2 = geometry_controller.get_position_from_normalized(
-				flow_points[point_index],
-				island_rect
+				flow_points[point_index], island_rect
 			)
-			if point_position.distance_to(mouse_position) <= 11.0:
-				return {
-					"object": "lava_flow:%d:%d" % [flow_index, point_index],
-					"offset": mouse_position - point_position
-				}
+			_add_circle_candidate(
+				candidates,
+				"lava_flow:%d:%d" % [flow_index, point_index],
+				mouse_position,
+				point_position,
+				FLOW_HANDLE_HIT_RADIUS
+			)
 
+	var lakes: Array[LavaLake] = owner.lava_realm_visual_controller.lakes
 	for lake_index in range(lakes.size()):
-		var points: PackedVector2Array = _get_lake_points(realm_layout, lake_index)
+		var points: PackedVector2Array = _get_lake_points(layout, lake_index)
 		for point_index in range(points.size()):
 			var point_position: Vector2 = geometry_controller.get_position_from_normalized(
-				points[point_index],
-				island_rect
+				points[point_index], island_rect
 			)
-			if point_position.distance_to(mouse_position) <= 11.0:
-				return {
-					"object": "lake_edge:%d:%d" % [lake_index, point_index],
-					"offset": mouse_position - point_position
-				}
+			_add_circle_candidate(
+				candidates,
+				"lake_edge:%d:%d" % [lake_index, point_index],
+				mouse_position,
+				point_position,
+				LAKE_HANDLE_HIT_RADIUS
+			)
 
-	for i in range(realm_layout.matter_pile_layout_positions.size()):
-		var matter_position: Vector2 = geometry_controller.get_position_from_normalized(
-			realm_layout.matter_pile_layout_positions[i],
-			island_rect
+	for i in range(layout.matter_pile_layout_positions.size()):
+		var position: Vector2 = geometry_controller.get_position_from_normalized(
+			layout.matter_pile_layout_positions[i], island_rect
 		)
-		if Rect2(matter_position - Vector2(18.0, 18.0), Vector2(36.0, 36.0)).has_point(mouse_position):
-			return {
-				"object": "matter_pile:" + str(i),
-				"offset": mouse_position - matter_position
-			}
+		_add_rect_candidate(
+			candidates,
+			"matter_pile:%d" % i,
+			mouse_position,
+			Rect2(position - Vector2.ONE * MATTER_PILE_HIT_HALF_SIZE,
+				Vector2.ONE * MATTER_PILE_HIT_HALF_SIZE * 2.0),
+			position
+		)
 
 	for i in range(owner.ash_visual_controller.piles.size()):
 		var pile: Sprite2D = owner.ash_visual_controller.piles[i]
 		if not is_instance_valid(pile):
 			continue
-
-		var pile_rect: Rect2 = Rect2(
-			pile.position - Vector2(16.0, 16.0),
-			Vector2(32.0, 32.0)
+		_add_rect_candidate(
+			candidates,
+			"ash_pile:%d" % i,
+			mouse_position,
+			Rect2(pile.position - Vector2.ONE * ASH_PILE_HIT_HALF_SIZE,
+				Vector2.ONE * ASH_PILE_HIT_HALF_SIZE * 2.0),
+			pile.position
 		)
-
-		if pile_rect.has_point(mouse_position):
-			return {
-				"object": "ash_pile:" + str(i),
-				"offset": mouse_position - pile.position
-			}
 
 	for stat_name in owner.BRAZIER_STATS:
 		if not owner.braziers.has(stat_name):
 			continue
-
 		var brazier: Control = owner.braziers[stat_name]
 		if not is_instance_valid(brazier):
 			continue
-
-		var brazier_rect: Rect2 = Rect2(
-			brazier.position - Vector2(32, 32),
-			Vector2(64, 64)
+		_add_rect_candidate(
+			candidates,
+			"brazier:" + stat_name,
+			mouse_position,
+			Rect2(brazier.position - Vector2.ONE * BRAZIER_HIT_HALF_SIZE,
+				Vector2.ONE * BRAZIER_HIT_HALF_SIZE * 2.0),
+			brazier.position
 		)
-
-		if brazier_rect.has_point(mouse_position):
-			return {
-				"object": "brazier:" + stat_name,
-				"offset": mouse_position - brazier.position
-			}
 
 	for generator_id in owner.generator_hitboxes:
 		var hitbox: Rect2 = owner.generator_hitboxes[generator_id]
-		if hitbox.has_point(mouse_position):
-			var generator_position: Vector2 = (
-				hitbox.position +
-				hitbox.size * 0.5
-			)
-			return {
-				"object": generator_id,
-				"offset": mouse_position - generator_position
-			}
+		if not hitbox.has_point(mouse_position):
+			continue
+		var generator_position: Vector2 = hitbox.position + hitbox.size * 0.5
+		candidates.append({
+			"object": str(generator_id),
+			"offset": mouse_position - generator_position,
+			"distance": mouse_position.distance_to(generator_position)
+		})
 
-	return {
-		"object": "",
-		"offset": Vector2.ZERO
-	}
+	candidates.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
+		return float(a["distance"]) < float(b["distance"])
+	)
+	return candidates
 
+
+func _add_circle_candidate(
+	candidates: Array[Dictionary],
+	object_id: String,
+	mouse_position: Vector2,
+	anchor_position: Vector2,
+	hit_radius: float
+) -> void:
+	var distance: float = mouse_position.distance_to(anchor_position)
+	if distance > hit_radius:
+		return
+	candidates.append({
+		"object": object_id,
+		"offset": mouse_position - anchor_position,
+		"distance": distance
+	})
+
+
+func _add_rect_candidate(
+	candidates: Array[Dictionary],
+	object_id: String,
+	mouse_position: Vector2,
+	hit_rect: Rect2,
+	anchor_position: Vector2
+) -> void:
+	if not hit_rect.has_point(mouse_position):
+		return
+	candidates.append({
+		"object": object_id,
+		"offset": mouse_position - anchor_position,
+		"distance": mouse_position.distance_to(anchor_position)
+	})
 
 func update_drag(
 	mouse_position: Vector2,

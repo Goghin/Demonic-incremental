@@ -55,6 +55,14 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 		if not layout_mode:
 			return
 
+		# Tab cycles through editable objects under the cursor when hit areas overlap.
+		if event.keycode == KEY_TAB:
+			drag_controller.cycle_overlapping_target(
+				owner.get_local_mouse_position(),
+				owner
+			)
+			return
+
 		# Toggle the selected flow's waterfall between the two draw-order layers
 		# used by the layouts: 4 (behind) and 7 (in front).
 		if event.keycode == KEY_Z:
