@@ -381,14 +381,15 @@ func update_time_stats() -> void:
 	)
 
 
+
 func format_time(seconds: float) -> String:
-	var total_seconds = int(seconds)
-	
-	var days = int(total_seconds / 86400)
-	var hours = int((total_seconds % 86400) / 3600)
-	var minutes = int((total_seconds % 3600) / 60)
-	var remaining_seconds = int(total_seconds % 60)
-	
+	var total_seconds: int = int(seconds)
+
+	var days: int = floori(float(total_seconds) / 86400.0)
+	var hours: int = floori(float(total_seconds % 86400) / 3600.0)
+	var minutes: int = floori(float(total_seconds % 3600) / 60.0)
+	var remaining_seconds: int = total_seconds % 60
+
 	if days > 0:
 		return "%dd %02dh %02dm %02ds" % [
 			days,
@@ -396,20 +397,20 @@ func format_time(seconds: float) -> String:
 			minutes,
 			remaining_seconds
 		]
-	
+
 	if hours > 0:
 		return "%dh %02dm %02ds" % [
 			hours,
 			minutes,
 			remaining_seconds
 		]
-	
+
 	if minutes > 0:
 		return "%dm %02ds" % [
 			minutes,
 			remaining_seconds
 		]
-	
+
 	return "%ds" % remaining_seconds
 
 

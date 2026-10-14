@@ -925,52 +925,45 @@ func get_modifier_effective_multiplier(
 		) * sensitivity
 	)
 
+
 func _aggregate_modifier_data(
 	modifiers: Array
-	) -> Array:
-	
+) -> Array:
 	var aggregated: Dictionary = {}
-	
+
 	for modifier in modifiers:
-		var source_upgrade_id = modifier.get(
-			"source_upgrade_id",
-			""
+		var source_upgrade_id: String = str(
+			modifier.get("source_upgrade_id", "")
 		)
-		
+
 		# Base modifiers or modifiers without a source should
 		# remain separate.
 		if source_upgrade_id == "":
-			aggregated[
-				"__base_%d" % aggregated.size()
-			] = modifier
+			aggregated["__base_%d" % aggregated.size()] = modifier
 			continue
-		
+
 		if not aggregated.has(source_upgrade_id):
-			var combined = modifier.duplicate()
-			
-			combined["current_multiplier"] = 1.0
-			
-			if combined.has("effective_multiplier"):
-				combined["effective_multiplier"] = 1.0
-			
-			aggregated[source_upgrade_id] = combined
-		
-		var combined = aggregated[source_upgrade_id]
-		
-		combined["current_multiplier"] *= modifier.get(
+			var new_combined: Dictionary = modifier.duplicate()
+			new_combined["current_multiplier"] = 1.0
+
+			if new_combined.has("effective_multiplier"):
+				new_combined["effective_multiplier"] = 1.0
+
+			aggregated[source_upgrade_id] = new_combined
+
+		var existing_combined: Dictionary = aggregated[source_upgrade_id]
+
+		existing_combined["current_multiplier"] *= modifier.get(
 			"current_multiplier",
 			1.0
 		)
-		
-		if combined.has("effective_multiplier"):
-			combined["effective_multiplier"] = (
-				combined["effective_multiplier"]
-				* modifier.get(
-					"effective_multiplier",
-					1.0
-				)
+
+		if existing_combined.has("effective_multiplier"):
+			existing_combined["effective_multiplier"] *= modifier.get(
+				"effective_multiplier",
+				1.0
 			)
-	
+
 	return aggregated.values()
 
 

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d146xomyvaa4n"]
 
 [ext_resource type="Script" uid="uid://v73fdvx5g03s" path="res://RealmView/brazier.gd" id="1_a8unq"]
-[ext_resource type="Texture2D" uid="uid://46o3ovx2vhjy" path="res://RealmView/brazier.png" id="1_ltdvk"]
+[ext_resource type="Texture2D" uid="uid://13mbs57xoqo3" path="res://RealmView/brazier.png" id="1_ltdvk"]
 
 [node name="Brazier" type="Control" unique_id=1816871559]
 layout_mode = 3

@@ -322,12 +322,21 @@ func update_drag(
 
 	if dragging_object == "lake_center":
 		realm_layout.main_lake_center_position = _clamp_normalized_position(
-			geometry_controller.get_normalized_position(mouse_position - drag_offset, island_rect)
+			geometry_controller.get_normalized_position(
+				mouse_position - drag_offset,
+				island_rect
+			)
 		)
+
 		if not owner.lava_realm_visual_controller.lakes.is_empty():
 			var main_lake: LavaLake = owner.lava_realm_visual_controller.lakes[0]
 			if is_instance_valid(main_lake):
-				main_lake.setup(realm_layout.main_lake_edge_points, island_rect, realm_layout.main_lake_center_position)
+				main_lake.setup(
+					realm_layout.main_lake_edge_points,
+					island_rect,
+					realm_layout.main_lake_center_position
+				)
+
 		owner.queue_redraw()
 		return
 
@@ -339,17 +348,24 @@ func update_drag(
 
 		var flow_index: int = int(parts[1])
 		var point_index: int = int(parts[2])
-		var points: PackedVector2Array = _get_flow_points(realm_layout, flow_index)
-		if point_index < 0 or point_index >= points.size():
+		var flow_points: PackedVector2Array = _get_flow_points(
+			realm_layout,
+			flow_index
+		)
+
+		if point_index < 0 or point_index >= flow_points.size():
 			cancel_drag()
 			return
 
-		points[point_index] = geometry_controller.get_normalized_position(
-				mouse_position - drag_offset,
-				island_rect
-			)
-		_set_flow_points(realm_layout, flow_index, points)
-		owner.lava_realm_visual_controller.update_positions(realm_layout, island_rect)
+		flow_points[point_index] = geometry_controller.get_normalized_position(
+			mouse_position - drag_offset,
+			island_rect
+		)
+		_set_flow_points(realm_layout, flow_index, flow_points)
+		owner.lava_realm_visual_controller.update_positions(
+			realm_layout,
+			island_rect
+		)
 		owner.queue_redraw()
 		return
 
@@ -361,23 +377,29 @@ func update_drag(
 
 		var lake_index: int = int(parts[1])
 		var point_index: int = int(parts[2])
-		var points: PackedVector2Array = _get_lake_points(realm_layout, lake_index)
-		if point_index < 0 or point_index >= points.size():
+		var lake_points: PackedVector2Array = _get_lake_points(
+			realm_layout,
+			lake_index
+		)
+
+		if point_index < 0 or point_index >= lake_points.size():
 			cancel_drag()
 			return
 
-		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
+		var lake_edge_normalized_position: Vector2 = (
+			geometry_controller.get_normalized_position(
 				mouse_position - drag_offset,
 				island_rect
 			)
-		points[point_index] = normalized_position
-		_set_lake_points(realm_layout, lake_index, points)
+		)
+		lake_points[point_index] = lake_edge_normalized_position
+		_set_lake_points(realm_layout, lake_index, lake_points)
 
 		var lakes: Array[LavaLake] = owner.lava_realm_visual_controller.lakes
 		if lake_index >= 0 and lake_index < lakes.size():
 			var lake: LavaLake = lakes[lake_index]
 			if is_instance_valid(lake):
-				lake.setup(points, island_rect)
+				lake.setup(lake_points, island_rect)
 
 		owner.queue_redraw()
 		return
@@ -388,11 +410,15 @@ func update_drag(
 			cancel_drag()
 			return
 
-		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-			mouse_position - drag_offset,
-			island_rect
+		var matter_pile_normalized_position: Vector2 = (
+			geometry_controller.get_normalized_position(
+				mouse_position - drag_offset,
+				island_rect
+			)
 		)
-		realm_layout.matter_pile_layout_positions[pile_index] = _clamp_normalized_position(normalized_position)
+		realm_layout.matter_pile_layout_positions[pile_index] = (
+			_clamp_normalized_position(matter_pile_normalized_position)
+		)
 		owner.matter_pile_visual_controller.update_piles(
 			realm_layout,
 			island_rect,
@@ -407,12 +433,16 @@ func update_drag(
 			cancel_drag()
 			return
 
-		var new_position: Vector2 = mouse_position - drag_offset
-		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-				new_position,
+		var ash_pile_screen_position: Vector2 = mouse_position - drag_offset
+		var ash_pile_normalized_position: Vector2 = (
+			geometry_controller.get_normalized_position(
+				ash_pile_screen_position,
 				island_rect
 			)
-		realm_layout.ash_pile_layout_positions[pile_index] = normalized_position
+		)
+		realm_layout.ash_pile_layout_positions[pile_index] = (
+			ash_pile_normalized_position
+		)
 		owner._update_ash_piles(
 			owner.state.get_resource_amount(ResourceIds.ASH)
 		)
@@ -421,22 +451,30 @@ func update_drag(
 
 	if dragging_object.begins_with("brazier:"):
 		var stat_name: String = dragging_object.substr(8)
+
 		if not owner.braziers.has(stat_name) or not is_instance_valid(owner.braziers[stat_name]):
 			cancel_drag()
 			return
+
 		if not realm_layout.brazier_layout_positions.has(stat_name):
 			cancel_drag()
 			return
 
-		var new_position: Vector2 = mouse_position - drag_offset
-		var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-				new_position,
+		var brazier_screen_position: Vector2 = mouse_position - drag_offset
+		var brazier_normalized_position: Vector2 = (
+			geometry_controller.get_normalized_position(
+				brazier_screen_position,
 				island_rect
 			)
-		realm_layout.brazier_layout_positions[stat_name] = normalized_position
-		owner.braziers[stat_name].position = geometry_controller.get_position_from_normalized(
-			normalized_position,
-			island_rect
+		)
+		realm_layout.brazier_layout_positions[stat_name] = (
+			brazier_normalized_position
+		)
+		owner.braziers[stat_name].position = (
+			geometry_controller.get_position_from_normalized(
+				brazier_normalized_position,
+				island_rect
+			)
 		)
 		owner.queue_redraw()
 		return
@@ -445,15 +483,17 @@ func update_drag(
 		cancel_drag()
 		return
 
-	var new_position: Vector2 = mouse_position - drag_offset
-	var normalized_position: Vector2 = geometry_controller.get_normalized_position(
-			new_position,
+	var generator_screen_position: Vector2 = mouse_position - drag_offset
+	var generator_normalized_position: Vector2 = (
+		geometry_controller.get_normalized_position(
+			generator_screen_position,
 			island_rect
 		)
-	realm_layout.generator_layout_positions[dragging_object] = normalized_position
+	)
+	realm_layout.generator_layout_positions[dragging_object] = (
+		generator_normalized_position
+	)
 	owner.queue_redraw()
-
-
 
 func _get_flow_points(layout: RealmLayout, flow_index: int) -> PackedVector2Array:
 	if layout == null or flow_index < 0 or flow_index >= layout.lava_flow_definitions.size():
@@ -649,6 +689,7 @@ func adjust_selected_waterfall(layout: RealmLayout, width_delta: float, length_d
 	return changed
 
 
+
 func _insert_flow_point_at_position(
 	mouse_position: Vector2,
 	owner: RealmView,
@@ -660,8 +701,12 @@ func _insert_flow_point_at_position(
 
 	# Ctrl-clicking an existing handle should still allow normal selection.
 	for flow_index in range(layout.lava_flow_definitions.size()):
-		var points: PackedVector2Array = _get_flow_points(layout, flow_index)
-		for point in points:
+		var existing_flow_points: PackedVector2Array = _get_flow_points(
+			layout,
+			flow_index
+		)
+
+		for point in existing_flow_points:
 			var screen_point: Vector2 = geometry_controller.get_position_from_normalized(
 				point,
 				island_rect
@@ -676,16 +721,21 @@ func _insert_flow_point_at_position(
 	var best_ratio: float = 0.5
 
 	for flow_index in range(layout.lava_flow_definitions.size()):
-		var points: PackedVector2Array = _get_flow_points(layout, flow_index)
-		if points.size() < 2:
+		var candidate_flow_points: PackedVector2Array = _get_flow_points(
+			layout,
+			flow_index
+		)
+		if candidate_flow_points.size() < 2:
 			continue
 
 		var screen_points := PackedVector2Array()
-		for point in points:
-			screen_points.append(geometry_controller.get_position_from_normalized(
-				point,
-				island_rect
-			))
+		for point in candidate_flow_points:
+			screen_points.append(
+				geometry_controller.get_position_from_normalized(
+					point,
+					island_rect
+				)
+			)
 
 		for segment_index in range(screen_points.size() - 1):
 			var start: Vector2 = screen_points[segment_index]
@@ -708,16 +758,23 @@ func _insert_flow_point_at_position(
 			best_flow_index = flow_index
 			best_segment_index = segment_index
 			best_position = closest
-			best_ratio = clampf((closest - start).dot(segment) / segment_length_squared, 0.0, 1.0)
+			best_ratio = clampf(
+				(closest - start).dot(segment) / segment_length_squared,
+				0.0,
+				1.0
+			)
 
 	if best_flow_index < 0:
 		return ""
 
 	var definition: Dictionary = layout.lava_flow_definitions[best_flow_index]
-	var points: PackedVector2Array = _get_flow_points(layout, best_flow_index)
+	var selected_flow_points: PackedVector2Array = _get_flow_points(
+		layout,
+		best_flow_index
+	)
 	var widths: PackedFloat32Array = _get_aligned_flow_widths(
 		definition,
-		points.size()
+		selected_flow_points.size()
 	)
 	var normalized_position: Vector2 = geometry_controller.get_normalized_position(
 		best_position,
@@ -729,13 +786,20 @@ func _insert_flow_point_at_position(
 		best_ratio
 	)
 
-	points.insert(best_segment_index + 1, normalized_position)
+	selected_flow_points.insert(
+		best_segment_index + 1,
+		normalized_position
+	)
 	widths.insert(best_segment_index + 1, inserted_width)
-	definition["points"] = points
+	definition["points"] = selected_flow_points
 	definition["widths"] = widths
 	layout.lava_flow_definitions[best_flow_index] = definition
+
 	owner.lava_realm_visual_controller.update_positions(layout, island_rect)
-	return "lava_flow:%d:%d" % [best_flow_index, best_segment_index + 1]
+	return "lava_flow:%d:%d" % [
+		best_flow_index,
+		best_segment_index + 1
+	]
 
 
 func _get_aligned_flow_widths(
@@ -808,7 +872,11 @@ func _insert_lake_point_at_position(
 
 	# Do not insert a new point when Ctrl-clicking an existing flow or lake handle.
 	for flow_index in range(layout.lava_flow_definitions.size()):
-		for point in _get_flow_points(layout, flow_index):
+		var flow_points: PackedVector2Array = _get_flow_points(
+			layout,
+			flow_index
+		)
+		for point in flow_points:
 			var flow_screen_point: Vector2 = geometry_controller.get_position_from_normalized(
 				point,
 				island_rect
@@ -817,18 +885,26 @@ func _insert_lake_point_at_position(
 				return ""
 
 	var lake_count: int = 1 + layout.small_lake_definitions.size()
+
 	for lake_index in range(lake_count):
-		var points: PackedVector2Array = _get_lake_points(layout, lake_index)
-		if points.size() < 3:
+		var existing_lake_points: PackedVector2Array = _get_lake_points(
+			layout,
+			lake_index
+		)
+		if existing_lake_points.size() < 3:
 			continue
-		var screen_points := PackedVector2Array()
-		for point in points:
-			screen_points.append(geometry_controller.get_position_from_normalized(
-				point,
-				island_rect
-			))
-		for point in screen_points:
-			if point.distance_to(mouse_position) <= 12.0:
+
+		var existing_lake_screen_points := PackedVector2Array()
+		for point in existing_lake_points:
+			existing_lake_screen_points.append(
+				geometry_controller.get_position_from_normalized(
+					point,
+					island_rect
+				)
+			)
+
+		for screen_point in existing_lake_screen_points:
+			if screen_point.distance_to(mouse_position) <= 12.0:
 				return ""
 
 	var best_lake_index: int = -1
@@ -837,20 +913,29 @@ func _insert_lake_point_at_position(
 	var best_distance: float = 10.0
 
 	for lake_index in range(lake_count):
-		var points: PackedVector2Array = _get_lake_points(layout, lake_index)
-		if points.size() < 3:
+		var candidate_lake_points: PackedVector2Array = _get_lake_points(
+			layout,
+			lake_index
+		)
+		if candidate_lake_points.size() < 3:
 			continue
-		var screen_points := PackedVector2Array()
-		for point in points:
-			screen_points.append(geometry_controller.get_position_from_normalized(
-				point,
-				island_rect
-			))
+
+		var candidate_screen_points := PackedVector2Array()
+		for point in candidate_lake_points:
+			candidate_screen_points.append(
+				geometry_controller.get_position_from_normalized(
+					point,
+					island_rect
+				)
+			)
+
 		# Lake outlines are closed, so include the final-to-first segment.
-		for segment_index in range(screen_points.size()):
-			var next_index: int = (segment_index + 1) % screen_points.size()
-			var start: Vector2 = screen_points[segment_index]
-			var finish: Vector2 = screen_points[next_index]
+		for segment_index in range(candidate_screen_points.size()):
+			var next_index: int = (
+				(segment_index + 1) % candidate_screen_points.size()
+			)
+			var start: Vector2 = candidate_screen_points[segment_index]
+			var finish: Vector2 = candidate_screen_points[next_index]
 			var closest: Vector2 = Geometry2D.get_closest_point_to_segment(
 				mouse_position,
 				start,
@@ -859,6 +944,7 @@ func _insert_lake_point_at_position(
 			var distance: float = closest.distance_to(mouse_position)
 			if distance >= best_distance:
 				continue
+
 			best_distance = distance
 			best_lake_index = lake_index
 			best_segment_index = segment_index
@@ -867,18 +953,32 @@ func _insert_lake_point_at_position(
 	if best_lake_index < 0:
 		return ""
 
-	var points: PackedVector2Array = _get_lake_points(layout, best_lake_index)
+	var selected_lake_points: PackedVector2Array = _get_lake_points(
+		layout,
+		best_lake_index
+	)
 	var normalized_position: Vector2 = geometry_controller.get_normalized_position(
 		best_position,
 		island_rect
 	)
+
 	var insert_index: int = best_segment_index + 1
-	if best_segment_index == points.size() - 1:
-		insert_index = points.size()
-	points.insert(insert_index, normalized_position)
-	_set_lake_points(layout, best_lake_index, points)
-	_refresh_lake_geometry(owner, best_lake_index, points, island_rect)
-	return "lake_edge:%d:%d" % [best_lake_index, insert_index]
+	if best_segment_index == selected_lake_points.size() - 1:
+		insert_index = selected_lake_points.size()
+
+	selected_lake_points.insert(insert_index, normalized_position)
+	_set_lake_points(layout, best_lake_index, selected_lake_points)
+	_refresh_lake_geometry(
+		owner,
+		best_lake_index,
+		selected_lake_points,
+		island_rect
+	)
+
+	return "lake_edge:%d:%d" % [
+		best_lake_index,
+		insert_index
+	]
 
 
 func remove_selected_lake_point(

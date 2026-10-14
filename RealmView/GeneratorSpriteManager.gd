@@ -50,6 +50,7 @@ func reset_generator_rotations(generator_sprites: Dictionary) -> void:
 		sprite.rotation = 0.0
 
 
+
 func create_animated_generator_sprite(
 	parent: Node,
 	generator_sprites: Dictionary,
@@ -65,12 +66,12 @@ func create_animated_generator_sprite(
 
 	var sprite: AnimatedSprite2D = AnimatedSprite2D.new()
 	sprite.name = sprite_name
-	parent.add_child(sprite)
-	generator_sprites[generator_id] = sprite
 
 	var sheet: Texture2D = load(animation_path) as Texture2D
 	if sheet == null:
 		push_warning("Could not load generator animation: " + animation_path)
+		parent.add_child(sprite)
+		generator_sprites[generator_id] = sprite
 		return sprite
 
 	if hframes <= 0 or vframes <= 0:
@@ -82,17 +83,21 @@ func create_animated_generator_sprite(
 			"x" +
 			str(vframes)
 		)
+		parent.add_child(sprite)
+		generator_sprites[generator_id] = sprite
 		return sprite
 
 	var sprite_frames: SpriteFrames = SpriteFrames.new()
 	var animation_name: StringName = &"default"
+
 	if not sprite_frames.has_animation(animation_name):
 		sprite_frames.add_animation(animation_name)
+
 	sprite_frames.set_animation_speed(animation_name, animation_fps)
 	sprite_frames.set_animation_loop(animation_name, true)
 
-	var frame_width: int = sheet.get_width() / hframes
-	var frame_height: int = sheet.get_height() / vframes
+	var frame_width: int = int(float(sheet.get_width()) / hframes)
+	var frame_height: int = int(float(sheet.get_height()) / vframes)
 
 	if frame_width <= 0 or frame_height <= 0:
 		push_warning(
@@ -103,6 +108,8 @@ func create_animated_generator_sprite(
 			"x" +
 			str(sheet.get_height())
 		)
+		parent.add_child(sprite)
+		generator_sprites[generator_id] = sprite
 		return sprite
 
 	for row in range(vframes):
@@ -122,5 +129,9 @@ func create_animated_generator_sprite(
 	sprite.autoplay = animation_name
 	sprite.frame = 0
 	sprite.z_index = 0
+
+	# Configure autoplay before entering the scene tree.
+	parent.add_child(sprite)
+	generator_sprites[generator_id] = sprite
 
 	return sprite

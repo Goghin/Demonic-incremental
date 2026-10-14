@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://8t8ia8eexg3e"
+
+[deps]
+
+files=["res://gameplay-log-report/generator_purchases.event.translation", "res://gameplay-log-report/generator_purchases.generator.translation", "res://gameplay-log-report/generator_purchases.generator.translation", "res://gameplay-log-report/generator_purchases.new.translation", "res://gameplay-log-report/generator_purchases.old.translation", "res://gameplay-log-report/generator_purchases.source.translation", "res://gameplay-log-report/generator_purchases.timestamp.translation", "res://gameplay-log-report/generator_purchases.unix.translation"]
+
+source_file="res://gameplay-log-report/generator_purchases.csv"
+dest_files=["res://gameplay-log-report/generator_purchases.event.translation", "res://gameplay-log-report/generator_purchases.generator.translation", "res://gameplay-log-report/generator_purchases.generator.translation", "res://gameplay-log-report/generator_purchases.new.translation", "res://gameplay-log-report/generator_purchases.old.translation", "res://gameplay-log-report/generator_purchases.source.translation", "res://gameplay-log-report/generator_purchases.timestamp.translation", "res://gameplay-log-report/generator_purchases.unix.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

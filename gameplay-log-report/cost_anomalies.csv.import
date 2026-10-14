@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://ddw8vlpopgdfb"
+
+[deps]
+
+files=["res://gameplay-log-report/cost_anomalies.cost.translation", "res://gameplay-log-report/cost_anomalies.current.translation", "res://gameplay-log-report/cost_anomalies.generator.translation", "res://gameplay-log-report/cost_anomalies.note.translation", "res://gameplay-log-report/cost_anomalies.previous.translation", "res://gameplay-log-report/cost_anomalies.previous.translation", "res://gameplay-log-report/cost_anomalies.timestamp.translation"]
+
+source_file="res://gameplay-log-report/cost_anomalies.csv"
+dest_files=["res://gameplay-log-report/cost_anomalies.cost.translation", "res://gameplay-log-report/cost_anomalies.current.translation", "res://gameplay-log-report/cost_anomalies.generator.translation", "res://gameplay-log-report/cost_anomalies.note.translation", "res://gameplay-log-report/cost_anomalies.previous.translation", "res://gameplay-log-report/cost_anomalies.previous.translation", "res://gameplay-log-report/cost_anomalies.timestamp.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

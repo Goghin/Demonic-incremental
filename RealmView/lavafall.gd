@@ -36,22 +36,22 @@ func set_lava_palette(palette: Dictionary) -> void:
 	if not lava_palette.is_empty():
 		rim.color = lava_palette.get("orange", Color(1.0, 0.08, 0.005, 0.75))
 
-func _apply_palette_to_material(material: ShaderMaterial) -> void:
+func _apply_palette_to_material(s_material: ShaderMaterial) -> void:
 	for key in ["dark", "red", "orange", "bright", "glow"]:
 		if lava_palette.has(key):
 			var color: Color = lava_palette[key]
-			material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
+			s_material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
 
 	if lava_palette.has("dark"):
 		var dark_color: Color = lava_palette["dark"]
-		material.set_shader_parameter(
+		s_material.set_shader_parameter(
 			"dark_blob_lava",
 			Vector3(dark_color.r * 0.25, dark_color.g * 0.25, dark_color.b * 0.25)
 		)
 
 	if lava_palette.has("bright"):
 		var bright_color: Color = lava_palette["bright"]
-		material.set_shader_parameter(
+		s_material.set_shader_parameter(
 			"bright_blob_lava",
 			Vector3(
 				minf(bright_color.r * 1.15, 1.2),
@@ -79,23 +79,23 @@ func setup(
 
 
 func _setup_material() -> void:
-	var material := ShaderMaterial.new()
+	var s_material := ShaderMaterial.new()
 
-	material.shader = FLOW_SHADER
+	s_material.shader = FLOW_SHADER
 
-	material.set_shader_parameter(
+	s_material.set_shader_parameter(
 		"lava_texture",
 		LAVA_TEXTURE
 	)
 
-	material.set_shader_parameter(
+	s_material.set_shader_parameter(
 		"flow_speed",
 		speed
 	)
 
-	surface.material = material
+	surface.material = s_material
 	if not lava_palette.is_empty():
-		_apply_palette_to_material(material)
+		_apply_palette_to_material(s_material)
 
 
 func set_filled(filled: bool) -> void:

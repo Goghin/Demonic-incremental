@@ -166,13 +166,11 @@ func _initialize_particles() -> void:
 		particle_sizes.append(size)
 		particle_ellipse.append(ellipse)
 
-
 func _get_particle_count() -> int:
 	var level: int = max(generator_level, 1)
 
-	var additional_particles: int = (
-		(level - 1)
-		/ PARTICLES_PER_LEVELS
+	var additional_particles: int = floori(
+		float(level - 1) / PARTICLES_PER_LEVELS
 	)
 
 	var count: int = (

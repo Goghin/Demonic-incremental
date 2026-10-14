@@ -283,10 +283,6 @@ func get_requirement_text(
 		)
 
 
-		var current_text := NumberFormatter.format(
-			current_amount
-		)
-
 		return "Requires %s %s (%s / %s)" % [
 			NumberFormatter.format(
 				requirement.value

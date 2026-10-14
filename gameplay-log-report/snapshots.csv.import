@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://bpqgev3u21gth"
+
+[deps]
+
+files=["res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.consumed.translation", "res://gameplay-log-report/snapshots.consumed.translation", "res://gameplay-log-report/snapshots.consumed.translation", "res://gameplay-log-report/snapshots.crystallized.translation", "res://gameplay-log-report/snapshots.heat.translation", "res://gameplay-log-report/snapshots.interval.translation", "res://gameplay-log-report/snapshots.lost.translation", "res://gameplay-log-report/snapshots.lost.translation", "res://gameplay-log-report/snapshots.matter.translation", "res://gameplay-log-report/snapshots.produced.translation", "res://gameplay-log-report/snapshots.produced.translation", "res://gameplay-log-report/snapshots.produced.translation", "res://gameplay-log-report/snapshots.produced.translation", "res://gameplay-log-report/snapshots.realm.translation", "res://gameplay-log-report/snapshots.realm.translation", "res://gameplay-log-report/snapshots.timestamp.translation", "res://gameplay-log-report/snapshots.total.translation", "res://gameplay-log-report/snapshots.unix.translation"]
+
+source_file="res://gameplay-log-report/snapshots.csv"
+dest_files=["res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.balance.translation", "res://gameplay-log-report/snapshots.consumed.translation", "res://gameplay-log-report/snapshots.consumed.translation", "res://gameplay-log-report/snapshots.consumed.translation", "res://gameplay-log-report/snapshots.crystallized.translation", "res://gameplay-log-report/snapshots.heat.translation", "res://gameplay-log-report/snapshots.interval.translation", "res://gameplay-log-report/snapshots.lost.translation", "res://gameplay-log-report/snapshots.lost.translation", "res://gameplay-log-report/snapshots.matter.translation", "res://gameplay-log-report/snapshots.produced.translation", "res://gameplay-log-report/snapshots.produced.translation", "res://gameplay-log-report/snapshots.produced.translation", "res://gameplay-log-report/snapshots.produced.translation", "res://gameplay-log-report/snapshots.realm.translation", "res://gameplay-log-report/snapshots.realm.translation", "res://gameplay-log-report/snapshots.timestamp.translation", "res://gameplay-log-report/snapshots.total.translation", "res://gameplay-log-report/snapshots.unix.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

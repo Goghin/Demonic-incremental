@@ -374,10 +374,6 @@ func build_production_details(
 		
 		production_index += 1
 		
-		var resource_name = state.get_resource_display_name(
-			resource_id
-		)
-		
 		var base_label = create_stats_label(
 			"",
 			11

@@ -174,11 +174,11 @@ func set_lava_palette(palette: Dictionary) -> void:
 
 	var surface_node := get_node_or_null("Surface") as Polygon2D
 	if surface_node != null and surface_node.material is ShaderMaterial:
-		var material := surface_node.material as ShaderMaterial
+		var node_material := surface_node.material as ShaderMaterial
 		for key in ["dark", "red", "orange", "bright"]:
 			if lava_palette.has(key):
 				var color: Color = lava_palette[key]
-				material.set_shader_parameter(
+				node_material.set_shader_parameter(
 					key + "_lava",
 					Vector3(color.r, color.g, color.b)
 				)

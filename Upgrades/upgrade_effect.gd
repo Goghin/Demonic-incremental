@@ -268,7 +268,7 @@ func set_modifier_sensitivity(
 
 static func dormancy(
 	parameter: String,
-	value: float
+	dorm_value: float
 	) -> UpgradeEffect:
 	
 	var effect = UpgradeEffect.new(
@@ -277,6 +277,6 @@ static func dormancy(
 	)
 	
 	effect.dormancy_parameter = parameter
-	effect.dormancy_value = value
+	effect.dormancy_value = dorm_value
 	
 	return effect

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://gcvgryd6dm1b"
+
+[deps]
+
+files=["res://gameplay-log-report/events.unix.translation", "res://gameplay-log-report/events.category.translation", "res://gameplay-log-report/events.event.translation", "res://gameplay-log-report/events.source.translation", "res://gameplay-log-report/events.details.translation"]
+
+source_file="res://gameplay-log-report/events.csv"
+dest_files=["res://gameplay-log-report/events.unix.translation", "res://gameplay-log-report/events.category.translation", "res://gameplay-log-report/events.event.translation", "res://gameplay-log-report/events.source.translation", "res://gameplay-log-report/events.details.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

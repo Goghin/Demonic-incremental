@@ -312,7 +312,7 @@ func purchase(
 	upgrade_id: String,
 	state: EternalFlameState,
 	realm_configuration: RealmConfiguration,
-	game_state: GameState = null
+	#game_state: GameState = null
 	) -> bool:
 
 	if not can_purchase(

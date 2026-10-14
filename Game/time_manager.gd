@@ -46,7 +46,7 @@ var game_time: float = 0.0
 # This includes stabilization time.
 var prestige_time: float = 0.0
 
-var last_real_timestamp: int = 0
+var last_real_timestamp: float = 0.0
 var current_offline_duration: float = 0.0
 
 var dormancy_recovery_remaining: float = 0.0
@@ -276,9 +276,8 @@ func get_stabilization_remaining() -> float:
 # Timestamps / Offline Time
 # ----------------------------------------------------------------
 
-func get_current_timestamp() -> int:
+func get_current_timestamp() -> float:
 	return Time.get_unix_time_from_system()
-
 
 func get_offline_seconds() -> float:
 	var current_timestamp = get_current_timestamp()

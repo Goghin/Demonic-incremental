@@ -1,0 +1,30 @@
+﻿cost,cost_resource,event,generator_id,generator_name,new_level,old_level,source,timestamp,unix_time
+5819209.70398027,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,56,55,autobuyer,2026-10-14T11:30:16,1791970216
+6679859.18077954,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,57,56,autobuyer,2026-10-14T11:30:22,1791970222
+1351012.78697023,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,58,57,autobuyer,2026-10-14T11:30:24,1791970224
+1504300.12985342,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,59,58,autobuyer,2026-10-14T11:30:24,1791970224
+1674979.61714473,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,60,59,autobuyer,2026-10-14T11:30:24,1791970224
+1865024.57998437,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,61,60,autobuyer,2026-10-14T11:30:24,1791970224
+2076632.24575545,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,62,61,autobuyer,2026-10-14T11:30:24,1791970224
+2312249.14158904,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,63,62,autobuyer,2026-10-14T11:30:24,1791970224
+2574599.38017783,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,64,63,autobuyer,2026-10-14T11:30:25,1791970225
+2866716.15492815,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,65,64,autobuyer,2026-10-14T11:30:25,1791970225
+3191976.80858542,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,66,65,autobuyer,2026-10-14T11:30:25,1791970225
+3554141.88078294,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,67,66,autobuyer,2026-10-14T11:30:25,1791970225
+3957398.58596696,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,68,67,autobuyer,2026-10-14T11:30:26,1791970226
+4406409.22437328,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,69,68,autobuyer,2026-10-14T11:30:26,1791970226
+4906365.08576445,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,70,69,autobuyer,2026-10-14T11:30:27,1791970227
+5463046.46914227,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,71,70,autobuyer,2026-10-14T11:30:27,1791970227
+6082889.51236041,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,72,71,autobuyer,2026-10-14T11:30:28,1791970228
+6773060.60429571,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,73,72,autobuyer,2026-10-14T11:30:29,1791970229
+429.6875,,generator_level_purchased,matter_furnace,Matter Furnace,3,2,manual,2026-10-14T11:30:42,1791970242
+537.109375,,generator_level_purchased,matter_furnace,Matter Furnace,4,3,manual,2026-10-14T11:30:43,1791970243
+6453888.0,,generator_level_purchased,thermal_compressor,Thermal Compressor,6,5,manual,2026-10-14T11:30:44,1791970244
+671.38671875,,generator_level_purchased,matter_furnace,Matter Furnace,5,4,manual,2026-10-14T11:31:00,1791970260
+7541539.23990334,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,74,73,autobuyer,2026-10-14T11:39:13,1791970753
+7563855.47634713,,generator_level_purchased,molecular_agitation,Molecular Agitation,97,96,autobuyer,2026-10-14T11:39:13,1791970753
+7582361.35055459,,generator_level_purchased,atomic_friction,Atomic Friction,81,80,autobuyer,2026-10-14T11:39:14,1791970754
+7839416.51137436,,generator_level_purchased,thermal_furnace,Infernal Condensation,38,37,autobuyer,2026-10-14T11:39:15,1791970755
+8397210.27609437,,generator_level_purchased,lava_mite_colony,Lava Mite Colony,75,74,autobuyer,2026-10-14T11:39:29,1791970769
+8422058.53638028,,generator_level_purchased,molecular_agitation,Molecular Agitation,98,97,autobuyer,2026-10-14T11:40:48,1791970848
+8000000.0,,generator_level_purchased,infernal_forge,Infernal Forge,4,3,manual,2026-10-14T11:48:43,1791971323

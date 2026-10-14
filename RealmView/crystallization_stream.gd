@@ -107,7 +107,7 @@ func _get_stream_position(progress: float) -> Vector2:
 		1.0
 	)
 
-	var position := start_position.lerp(
+	var s_position := start_position.lerp(
 		target_position,
 		progress
 	)
@@ -115,7 +115,7 @@ func _get_stream_position(progress: float) -> Vector2:
 	var direction := target_position - start_position
 
 	if direction.length_squared() <= 0.001:
-		return position
+		return s_position
 
 	var perpendicular := Vector2(
 		-direction.y,
@@ -402,8 +402,8 @@ func _draw_burst() -> void:
 		var direction := Vector2(cos(angle), sin(angle))
 		var distance: float = float(particle["burst_speed"]) * elapsed
 		var wobble: float = sin(elapsed * 24.0 + float(particle["phase"])) * 1.2
-		var position: Vector2 = start_position + direction * distance
-		position += direction.rotated(PI * 0.5) * wobble
+		var s_position: Vector2 = start_position + direction * distance
+		s_position += direction.rotated(PI * 0.5) * wobble
 		var size: float = float(particle["size"]) * fade
 		var particle_alpha: float = float(particle["alpha"]) * fade
 		var streak_length: float = float(particle["streak_length"])
@@ -412,15 +412,15 @@ func _draw_burst() -> void:
 			continue
 
 		draw_line(
-			position - direction * streak_length,
-			position,
+			s_position - direction * streak_length,
+			s_position,
 			Color(1.0, 0.86, 0.48, particle_alpha * 0.95),
 			maxf(size * 0.8, 0.45),
 			true
 		)
-		draw_circle(position, size * 1.45, Color(1.0, 0.25, 0.01, 0.18 * particle_alpha))
-		draw_circle(position, size, Color(1.0, 0.68, 0.12, 0.9 * particle_alpha))
-		draw_circle(position, size * 0.42, Color(1.0, 0.96, 0.72, particle_alpha))
+		draw_circle(s_position, size * 1.45, Color(1.0, 0.25, 0.01, 0.18 * particle_alpha))
+		draw_circle(s_position, size, Color(1.0, 0.68, 0.12, 0.9 * particle_alpha))
+		draw_circle(s_position, size * 0.42, Color(1.0, 0.96, 0.72, particle_alpha))
 
 	draw_circle(start_position, 12.0 * pulse * fade, Color(1.0, 0.28, 0.02, 0.2 * fade))
 	draw_circle(start_position, 5.0 * pulse * fade, Color(1.0, 0.72, 0.18, 0.8 * fade))

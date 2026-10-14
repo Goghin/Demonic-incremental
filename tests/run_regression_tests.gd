@@ -52,6 +52,7 @@ func _run_tests() -> void:
 	print("========================================")
 	print(" RESULTS: %d passed, %d failed" % [_passed, _failed])
 	print("========================================")
+	await process_frame
 	quit(0 if _failed == 0 else 1)
 
 

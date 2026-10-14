@@ -157,7 +157,7 @@ func _get_growth_stage(matter: float) -> int:
 func _get_fragment_size(cube_index: int, growth_stage: int) -> float:
 	# Older fragments grow in stages. New fragments remain tiny, keeping
 	# the overall pile varied even at high resource amounts.
-	var fragment_group: int = int(cube_index / 3)
+	var fragment_group: int = floori(float(cube_index) / 3.0)
 	var growth_steps: int = max(0, growth_stage - fragment_group - 1)
 	var size_factor: float = 0.48 + float(growth_steps) * 0.23
 	var stable_variation: float = float((cube_index * 7) % 4) * 0.035

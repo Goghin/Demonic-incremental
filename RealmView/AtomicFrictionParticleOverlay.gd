@@ -27,28 +27,28 @@ func _draw() -> void:
 	var intensity: float = 1.0 + 0.05 * sqrt(level - 1.0)
 
 	for i in range(particle_count):
-		var seed: float = float(i) * 17.31
+		var p_seed: float = float(i) * 17.31
 
 		var phase: float = (
-			time * (5.0 + fmod(seed, 4.0)) * intensity
-			+ seed
+			time * (5.0 + fmod(p_seed, 4.0)) * intensity
+			+ p_seed
 		)
 
 		var cycle: float = fmod(
-			time * (0.65 + fmod(seed, 0.4)) * intensity
-			+ seed,
+			time * (0.65 + fmod(p_seed, 0.4)) * intensity
+			+ p_seed,
 			1.0
 		)
 
 		# Particles remain clustered around the machine.
 		var radius: float = (
 			3.0
-			+ fmod(seed * 2.7, 7.0)
+			+ fmod(p_seed * 2.7, 7.0)
 			+ sin(phase) * (1.5 + 0.25 * (intensity - 1.0))
 		)
 
 		var angle: float = (
-			seed + sin(phase * 0.7) * 0.8
+			p_seed + sin(phase * 0.7) * 0.8
 		)
 
 		var particle_position: Vector2 = Vector2(
@@ -88,8 +88,8 @@ func _draw() -> void:
 			)
 
 			var spark_direction: Vector2 = Vector2(
-				cos(angle + sin(seed) * 0.5),
-				sin(angle + sin(seed) * 0.5)
+				cos(angle + sin(p_seed) * 0.5),
+				sin(angle + sin(p_seed) * 0.5)
 			)
 
 			var spark_start: Vector2 = (
@@ -120,4 +120,3 @@ func _draw() -> void:
 				0.65 * min(intensity, 1.5),
 				Color(0.8, 1.0, 1.0, spark_alpha)
 			)
-

@@ -36,24 +36,24 @@ func _draw() -> void:
 	var streak_length: float = BASE_STREAK_LENGTH + (level - 1) * STREAK_LENGTH_PER_LEVEL
 
 	for i in range(particle_count):
-		var seed: float = float(i) * 17.31
+		var p_seed: float = float(i) * 17.31
 
 		var cycle: float = fposmod(
-			time * (BASE_SPEED + fposmod(seed, 0.25)) * speed_multiplier
-			+ seed,
+			time * (BASE_SPEED + fposmod(p_seed, 0.25)) * speed_multiplier
+			+ p_seed,
 			1.0
 		)
 
 		# Sparks begin around the outer rim and travel inward.
 		var angle: float = (
 			float(i) * TAU / float(particle_count)
-			+ sin(seed) * 0.25
+			+ sin(p_seed) * 0.25
 		)
 
 		# Give each spark a stable outer radius between 2x and 3x
 		# the previous spawn distance, then pull it toward the center.
 		var radius_variation: float = fposmod(
-			absf(sin(seed * 12.9898) * 43758.5453),
+			absf(sin(p_seed * 12.9898) * 43758.5453),
 			1.0
 		)
 		var outer_distance: float = lerp(48.0, 72.0, radius_variation)
@@ -64,7 +64,7 @@ func _draw() -> void:
 		)
 
 		var wobble: float = sin(
-			time * 5.0 * speed_multiplier + seed
+			time * 5.0 * speed_multiplier + p_seed
 		) * 1.0
 
 		var radial_direction: Vector2 = Vector2(cos(angle), sin(angle))
@@ -74,7 +74,7 @@ func _draw() -> void:
 
 		# The spark travels inward, so its streak trails outward behind it.
 		var alpha: float = sin(cycle * PI) * 0.92
-		var spark_size: float = 0.55 + fposmod(seed, 0.4)
+		var spark_size: float = 0.55 + fposmod(p_seed, 0.4)
 		var spark_color: Color = Color(1.0, 0.78, 0.28, alpha)
 
 		draw_line(

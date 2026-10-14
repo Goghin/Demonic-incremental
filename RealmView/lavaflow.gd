@@ -76,7 +76,7 @@ class LavaFlowSparkOverlay extends Node2D:
 		var target_distance: float = 0.0
 		var segment_index: int = 0
 		var ratio: float = 0.0
-		var origin: Vector2 = Vector2.ZERO
+		
 		var width: float = 0.0
 		var found_valid_location: bool = false
 
@@ -89,14 +89,14 @@ class LavaFlowSparkOverlay extends Node2D:
 			ratio = 0.0 if segment_length <= 0.0 else (target_distance - distance_segments[segment_index]) / segment_length
 			width = lerp(flow_widths[segment_index], flow_widths[segment_index + 1], ratio)
 			if width > 0.1:
-				origin = flow_points[segment_index].lerp(flow_points[segment_index + 1], ratio)
+				
 				found_valid_location = true
 				break
 
 		if not found_valid_location:
 			return
 
-		origin += Vector2(randomizer.randf_range(-0.25, 0.25) * width, randomizer.randf_range(-0.2, 0.2) * width)
+		
 
 		var count: int = maxi(1, roundi(randomizer.randi_range(3, 5) * activity_factor))
 		for j in range(count):
@@ -143,6 +143,7 @@ class LavaFlowSparkOverlay extends Node2D:
 				"life": life,
 				"max_life": life
 			})
+	
 	func _make_spark(length: float, width: float) -> PackedVector2Array:
 		return PackedVector2Array([
 			Vector2(0.0, -length),
@@ -311,11 +312,11 @@ func set_lava_palette(palette: Dictionary) -> void:
 		if is_instance_valid(edge_glow):
 			edge_glow.default_color = glow_color
 
-func _apply_palette_to_material(material: ShaderMaterial) -> void:
+func _apply_palette_to_material(s_material: ShaderMaterial) -> void:
 	for key in ["dark", "red", "orange", "bright", "glow"]:
 		if lava_palette.has(key):
 			var color: Color = lava_palette[key]
-			material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
+			s_material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
 
 func _setup_material() -> void:
 	surface_material = ShaderMaterial.new()

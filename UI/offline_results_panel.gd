@@ -29,14 +29,15 @@ func _on_close_pressed() -> void:
 	results_closed.emit()
 
 
+
 func _format_duration(
 	seconds: float
-	) -> String:
-	var total_seconds = int(seconds)
+) -> String:
+	var total_seconds: int = int(seconds)
 
-	var hours = total_seconds / 3600
-	var minutes = (total_seconds % 3600) / 60
-	var remaining_seconds = total_seconds % 60
+	var hours: int = floori(float(total_seconds) / 3600.0)
+	var minutes: int = floori(float(total_seconds % 3600) / 60.0)
+	var remaining_seconds: int = total_seconds % 60
 
 	if hours > 0:
 		return "%dh %02dm" % [

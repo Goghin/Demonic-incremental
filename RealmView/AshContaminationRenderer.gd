@@ -30,7 +30,7 @@ func _process(delta: float) -> void:
 
 	elapsed_time += delta
 
-	var ash_factor: float = _get_ash_factor()
+	
 	var target_count: int = _get_target_particle_count()
 
 	while airborne_particles.size() < target_count:

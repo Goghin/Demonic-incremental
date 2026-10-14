@@ -107,9 +107,9 @@ func _create_upgrade_nodes() -> void:
 
 		$TreeScroll/TreeArea.add_child(panel)
 
-		var position: Vector2 = layout.positions[upgrade_id]
+		var node_position: Vector2 = layout.positions[upgrade_id]
 
-		panel.position = position
+		panel.position = node_position
 
 		panel.exclusive_preference_changed.connect(
 			_on_upgrade_panel_exclusive_preference_changed
@@ -128,7 +128,7 @@ func _create_upgrade_nodes() -> void:
 
 		max_y = max(
 			max_y,
-			position.y + UPGRADE_SIZE.y
+			node_position.y + UPGRADE_SIZE.y
 		)
 
 	# The inner scroll area owns the tree height; the header stays fixed.

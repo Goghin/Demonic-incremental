@@ -288,9 +288,9 @@ func update_cycle_generator(
 			return
 	
 	if offline_mode:
-		var cycle_duration = generator.get_cycle_duration()
+		var offline_cycle_duration = generator.get_cycle_duration()
 		var remaining_cycle_time = max(
-			cycle_duration - generator.cycle_progress,
+			offline_cycle_duration - generator.cycle_progress,
 			0.0
 		)
 		var requested_delta = min(
@@ -317,8 +317,8 @@ func update_cycle_generator(
 		)
 		generator.cycle_progress += operating_delta
 		
-		if generator.cycle_progress >= cycle_duration - 0.000001:
-			generator.cycle_progress = cycle_duration
+		if generator.cycle_progress >= offline_cycle_duration - 0.000001:
+			generator.cycle_progress = offline_cycle_duration
 			complete_cycle(generator)
 		elif operating_delta < requested_delta - 0.000001:
 			generator.operating = false

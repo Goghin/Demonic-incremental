@@ -1787,9 +1787,9 @@ func _format_duration(
 	if seconds < 60.0:
 		return "%.0fs" % seconds
 
-	var total_minutes := int(seconds / 60.0)
-	var minutes := total_minutes % 60
-	var hours := int(total_minutes / 60)
+	var total_minutes: int = floori(seconds / 60.0)
+	var minutes: int = total_minutes % 60
+	var hours: int = floori(float(total_minutes) / 60.0)
 
 	if hours > 0:
 		return "%dh %02dm" % [
