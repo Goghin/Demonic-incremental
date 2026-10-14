@@ -132,7 +132,7 @@ func reset_current_run_tracking() -> void:
 
 func _record_crystallized_flame_peak(state: GameState) -> void:
 	var current_amount: float = state.get_resource_amount(
-		ResourceIds.CRYSTALIZED_FLAME
+		ResourceIds.CRYSTALLIZED_FLAME
 	)
 	highest_crystallized_flame_this_run = maxf(
 		highest_crystallized_flame_this_run,
