@@ -29,7 +29,7 @@ static func create() -> Generator:
 		],
 		[
 			GeneratorIO.new(
-				ResourceIds.CRYSTALIZED_FLAME,
+				ResourceIds.CRYSTALLIZED_FLAME,
 				1.0,
 				true
 			)
@@ -58,7 +58,7 @@ static func create() -> Generator:
 		],
 		[
 			GeneratorIO.new(
-				ResourceIds.CRYSTALIZED_FLAME,
+				ResourceIds.CRYSTALLIZED_FLAME,
 				1.0,
 				true
 			)
@@ -87,7 +87,7 @@ static func create() -> Generator:
 		],
 		[
 			GeneratorIO.new(
-				ResourceIds.CRYSTALIZED_FLAME,
+				ResourceIds.CRYSTALLIZED_FLAME,
 				1.0,
 				true
 			)
@@ -116,7 +116,7 @@ static func create() -> Generator:
 		],
 		[
 			GeneratorIO.new(
-				ResourceIds.CRYSTALIZED_FLAME,
+				ResourceIds.CRYSTALLIZED_FLAME,
 				1.0,
 				true
 			)
