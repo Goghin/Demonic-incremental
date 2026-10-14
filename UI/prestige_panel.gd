@@ -883,7 +883,7 @@ func refresh() -> void:
 
 	var crystallized_flame = (
 		state.get_resource_amount(
-			ResourceIds.CRYSTALIZED_FLAME
+			ResourceIds.CRYSTALLIZED_FLAME
 		)
 	)
 
@@ -953,7 +953,7 @@ func _update_overflow_bonus_ui() -> void:
 
 	var crystallized_flame: float = (
 		state.get_resource_amount(
-			ResourceIds.CRYSTALIZED_FLAME
+			ResourceIds.CRYSTALLIZED_FLAME
 		)
 	)
 
