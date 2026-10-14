@@ -154,7 +154,7 @@ func _get_base_mechanics_text() -> String:
 		ResourceIds.ASH:
 			return "Ash is produced and consumed by specialized generators."
 		ResourceIds.CRYSTALLIZED_FLAME:
-			return "Created by the Infernal Forge and retained between realms."
+			return "Produced by the Infernal Forge. Each current Flame reduces Heat production."
 		ResourceIds.ESSENCE:
 			return "A rare resource tied to advanced demonic systems."
 		ResourceIds.NEXUM:
