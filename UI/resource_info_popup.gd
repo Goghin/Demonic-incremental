@@ -144,14 +144,23 @@ func _get_base_mechanics_text() -> String:
 				]
 			)
 		ResourceIds.MATTER:
+			var thermic_mass_multiplier := (
+				stats.get_raw_resource_modifier_multiplier(
+					"thermic_mass",
+					ModifierTypes.PRODUCTION,
+					ResourceIds.HEAT
+				)
+			)
 			return (
-				"Decay threshold: %s Matter\n"
-				+ "Current Matter decay: %s /s\n"
-				+ "Realm — Thermal Mass: ×%s"
+				(
+					"Decay threshold: %s Matter\n"
+					+ "Current Matter decay: %s /s\n"
+					+ "Thermic Mass — Heat production: ×%s"
+				)
 				% [
 					NumberFormatter.format(state.realm_effects.matter_decay_threshold),
 					NumberFormatter.format(state.get_matter_decay_per_second()),
-					NumberFormatter.format(state.realm_effects.thermal_mass_multiplier)
+					NumberFormatter.format(thermic_mass_multiplier)
 				]
 			)
 		ResourceIds.ASH:
@@ -179,20 +188,9 @@ func _get_active_modifiers_text() -> String:
 				]
 			)
 		ResourceIds.MATTER:
-			var thermic_mass_multiplier := (
-				stats.get_raw_resource_modifier_multiplier(
-					"thermic_mass",
-					ModifierTypes.PRODUCTION,
-					ResourceIds.HEAT
-				)
+			return "Realm — Density production: ×%s" % NumberFormatter.format(
+				state.realm_effects.matter_production_multiplier
 			)
-			return (
-				"Realm — Density production: ×%s\n"
-				+ "Thermic Mass — Heat production: ×%s"
-			) % [
-				NumberFormatter.format(state.realm_effects.matter_production_multiplier),
-				NumberFormatter.format(thermic_mass_multiplier)
-			]
 		ResourceIds.ASH:
 			return "Ashen contamination: ×%s" % NumberFormatter.format(
 				state.realm_effects.ashen_contamination_multiplier
