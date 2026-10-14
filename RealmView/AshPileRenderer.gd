@@ -25,7 +25,7 @@ func setup(
 	for i in range(layout.ash_pile_layout_positions.size()):
 		var pile: Sprite2D = Sprite2D.new()
 		pile.name = "AshPile_%02d" % (i + 1)
-		pile.texture = ASH_PILE_TEXTURE
+		pile.texture = _get_pile_texture(layout, i)
 		pile.centered = true
 		pile.z_index = 7
 		pile.visible = false
@@ -44,7 +44,6 @@ func update(
 	if piles.is_empty():
 		return
 
-	var texture_width: float = max(ASH_PILE_TEXTURE.get_size().x, 1.0)
 	var total_progress: float = _get_total_pile_progress(ash)
 
 	for i in range(piles.size()):
@@ -66,6 +65,8 @@ func update(
 		if not pile.visible:
 			continue
 
+		var pile_texture: Texture2D = pile.texture if pile.texture != null else ASH_PILE_TEXTURE
+		var texture_width: float = max(pile_texture.get_size().x, 1.0)
 		var curved_growth: float = pow(individual_progress, GROWTH_CURVE_POWER)
 		var width_ratio: float = lerp(
 			ASH_PILE_BASE_WIDTH_RATIO,
@@ -76,6 +77,14 @@ func update(
 		var target_width: float = island_rect.size.x * width_ratio * pile_variation
 		var uniform_scale: float = target_width / texture_width
 		pile.scale = Vector2.ONE * uniform_scale
+
+
+func _get_pile_texture(layout: RealmLayout, pile_index: int) -> Texture2D:
+	if pile_index < layout.ash_pile_textures.size():
+		var custom_texture: Texture2D = layout.ash_pile_textures[pile_index]
+		if custom_texture != null:
+			return custom_texture
+	return ASH_PILE_TEXTURE
 
 
 func _get_total_pile_progress(ash: float) -> float:
