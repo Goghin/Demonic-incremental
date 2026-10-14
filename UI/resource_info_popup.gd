@@ -171,7 +171,7 @@ func _get_base_mechanics_text() -> String:
 			)
 			return (
 				"Ashen Contamination starts above 100 Ash.\n"
-				+ "Current production multiplier: ×%s"
+				+ "Final Ashen Contamination multiplier: ×%s"
 				% NumberFormatter.format(contamination_multiplier)
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
