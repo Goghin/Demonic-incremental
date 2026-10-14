@@ -63,8 +63,8 @@ static func create_groups() -> Dictionary:
 		groups,
 		UpgradeGroupDefinition.new(
 			"infernal_forge",
-			"Generator Unlocks",
-			"Unlock additional generators as your realm develops."
+			"Generator Unlocks & Effects",
+			"Unlock additional generators and research global effects that influence them."
 		)
 	)
 

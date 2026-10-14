@@ -1957,7 +1957,7 @@ static func _create_infernal_forge_immunity() -> Upgrade:
 		"infernal_forge",
 		1,
 		1,
-		"infernal_forge"
+		""
 	)
 	
 	return Upgrade.new(definition)
