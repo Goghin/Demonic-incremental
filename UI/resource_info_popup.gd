@@ -239,8 +239,10 @@ func _get_active_modifiers_text() -> String:
 			var crystallization_sensitivity := 1.0 / (1.0 + 0.01 * sqrt(essence_amount))
 			var resistance_percent := (1.0 - crystallization_sensitivity) * 100.0
 			return (
-				"Lava Mite Hunger: ×%s input draw for the colony.\n"
-				+ "Crystallization Resistance: %s%% less sensitivity (×%s remaining)."
+				(
+					"Lava Mite Hunger: ×%s input draw for the colony.\n"
+					+ "Crystallization Resistance: %s%% less sensitivity (×%s remaining)."
+				)
 				% [
 					NumberFormatter.format(hunger_multiplier),
 					NumberFormatter.format(resistance_percent),
