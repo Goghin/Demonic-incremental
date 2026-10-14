@@ -151,6 +151,7 @@ const FILL_SMOOTH_SPEED: float = .1
 
 var animation_time: float = 0.0
 var lava_burst_overlay: LavaBurstOverlay
+var edge_glow: Line2D
 var lava_palette: Dictionary = {}
 
 func setup(
@@ -164,6 +165,7 @@ func setup(
 
 	_reposition(island_rect)
 	_update_fill()
+	_ensure_edge_glow()
 	_ensure_lava_burst_overlay()
 	_update_visuals()
 
@@ -184,6 +186,19 @@ func set_lava_palette(palette: Dictionary) -> void:
 	if is_instance_valid(lava_burst_overlay):
 		lava_burst_overlay.set_lava_spark_colors(lava_palette.get("red", Color(0.72, 0.045, 0.008, 0.92)), lava_palette.get("bright", Color(1.0, 0.24, 0.035, 0.95)))
 	_update_visuals()
+
+func _ensure_edge_glow() -> void:
+	if is_instance_valid(edge_glow):
+		return
+
+	edge_glow = Line2D.new()
+	edge_glow.name = "LavaEdgeGlow"
+	edge_glow.z_index = 0
+	edge_glow.width = 5.0
+	edge_glow.closed = true
+	edge_glow.antialiased = false
+	add_child(edge_glow)
+
 
 func _ensure_lava_burst_overlay() -> void:
 	if lava_burst_overlay != null:
@@ -353,6 +368,13 @@ func _update_visuals() -> void:
 			normalized_direction *
 			expanded_distance
 		)
+
+	_ensure_edge_glow()
+	edge_glow.points = lake_points
+	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.12, 0.01, 1.0))
+	glow_color.a = 0.16
+	edge_glow.default_color = glow_color
+	edge_glow.width = 5.0
 
 	var rim: Polygon2D = $Rim
 

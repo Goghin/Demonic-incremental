@@ -155,6 +155,7 @@ class LavaFlowSparkOverlay extends Node2D:
 @onready var surface: Node2D = $Surface
 @onready var rim: Line2D = $Rim
 @onready var channel: Polygon2D = $Channel
+var edge_glow: Line2D
 
 const FLOW_SHADER = preload("res://RealmView/lava_flow.gdshader")
 const LAVA_TEXTURE = preload("res://RealmView/lava1.png")
@@ -233,7 +234,21 @@ func setup(
 	cooling_length = 0.0
 
 	_clear_flow_polygons()
+	_ensure_edge_glow()
 	_ensure_spark_overlay()
+
+
+func _ensure_edge_glow() -> void:
+	if is_instance_valid(edge_glow):
+		return
+
+	edge_glow = Line2D.new()
+	edge_glow.name = "LavaFlowEdgeGlow"
+	edge_glow.z_index = -2
+	edge_glow.width = 4.0
+	edge_glow.default_color = Color(1.0, 0.10, 0.008, 0.16)
+	edge_glow.antialiased = false
+	add_child(edge_glow)
 
 
 func _ensure_spark_overlay() -> void:
@@ -291,6 +306,10 @@ func set_lava_palette(palette: Dictionary) -> void:
 		spark_overlay.set_lava_spark_colors(lava_palette.get("red", Color(0.72, 0.045, 0.008, 0.9)), lava_palette.get("bright", Color(1.0, 0.24, 0.035, 0.92)))
 	if not lava_palette.is_empty():
 		rim.default_color = lava_palette.get("orange", Color(1.0, 0.10, 0.008, 0.80))
+		var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.10, 0.008, 1.0))
+		glow_color.a = 0.16
+		if is_instance_valid(edge_glow):
+			edge_glow.default_color = glow_color
 
 func _apply_palette_to_material(material: ShaderMaterial) -> void:
 	for key in ["dark", "red", "orange", "bright", "glow"]:
@@ -449,6 +468,13 @@ func _update_surface() -> void:
 		if is_instance_valid(spark_overlay):
 			spark_overlay.set_flow_shape(PackedVector2Array(), PackedFloat32Array())
 		return
+
+	_ensure_edge_glow()
+	edge_glow.points = active_points
+	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.10, 0.008, 1.0))
+	glow_color.a = 0.16
+	edge_glow.default_color = glow_color
+	edge_glow.width = maxf(active_widths[0] * 1.12 + 3.0, 4.0)
 
 	_ensure_spark_overlay()
 	spark_overlay.set_flow_shape(active_points, active_widths)
@@ -695,6 +721,8 @@ func _clear_flow_polygons() -> void:
 		polygon.polygon = PackedVector2Array()
 
 	rim.points = PackedVector2Array()
+	if is_instance_valid(edge_glow):
+		edge_glow.points = PackedVector2Array()
 
 
 func _get_point_at_distance(

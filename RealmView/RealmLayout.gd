@@ -39,12 +39,8 @@ extends Resource
 @export var brazier_layout_positions: Dictionary = {}
 
 
-# Normalized positions of stored-Ash piles on this layout's artwork.
+# Six normalized positions for stored-Ash piles on this layout's artwork.
 @export var ash_pile_layout_positions: PackedVector2Array = PackedVector2Array()
-
-# Optional per-pile artwork, matched by index to ash_pile_layout_positions.
-# Empty or missing entries use the default ashpile.png texture.
-@export var ash_pile_textures: Array[Texture2D] = []
 
 # Normalized positions of fixed Matter stockpiles on this layout's artwork.
 @export var matter_pile_layout_positions: PackedVector2Array = PackedVector2Array()
