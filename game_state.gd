@@ -131,8 +131,8 @@ func _initialize_resources() -> void:
 	
 	_register_resource(
 		GameResource.new(
-			ResourceIds.CRYSTALIZED_FLAME,
-			"Crystalized Flame"
+			ResourceIds.CRYSTALLIZED_FLAME,
+			"Crystallized Flame"
 		)
 	)
 	
@@ -643,7 +643,7 @@ func next_overflow_bonus() -> float:
 
 func get_overflow_crystallization_multiplier() -> float:
 	var crystallized_flames: float = get_resource_amount(
-		ResourceIds.CRYSTALIZED_FLAME
+		ResourceIds.CRYSTALLIZED_FLAME
 	)
 
 	return pow(1.25, crystallized_flames)
