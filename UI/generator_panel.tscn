@@ -112,6 +112,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
 [node name="CostLabel" type="VBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=410299147]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
