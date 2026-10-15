@@ -130,7 +130,7 @@ func update(
 			if geometry_changed:
 				_update_cube_geometry(cube, cube_width, cube_height, cube_index, pile_index)
 			_update_cube_position(
-				cube, cube_width, cube_height, cube_index, pile_index, size_factor
+				cube, cube_width, cube_height, cube_index, pile_index, size_factor, pile_growth_stage
 			)
 
 	if geometry_changed:
@@ -271,15 +271,21 @@ func _update_cube_position(
 	height: float,
 	cube_index: int,
 	pile_index: int,
-	size_factor: float
+	size_factor: float,
+	growth_stage: int
 ) -> void:
 	var slot: Vector3 = CUBE_SLOTS[cube_index]
 	var variation: float = float((cube_index * 13 + pile_index * 7) % 5)
 	var jitter_x: float = (variation - 2.0) * width * 0.025
 	var jitter_y: float = float((cube_index + pile_index * 3) % 3 - 1) * height * 0.035
+	# At very high Matter levels, a few upper cubes detach slightly from the
+	# heap, suggesting the resource is becoming charged and less stable.
+	var floating_lift: float = 0.0
+	if cube_index >= 14 and growth_stage >= 8:
+		floating_lift = min(float(growth_stage - 7) * 0.09, 0.72) * height
 	cube.position = Vector2(
 		slot.x * width * 0.46 + jitter_x,
-		-slot.y * height * 0.60 + slot.z * height * 0.20 + jitter_y
+		-slot.y * height * 0.60 + slot.z * height * 0.20 + jitter_y - floating_lift
 	)
 	cube.scale = Vector2.ONE * size_factor
 
