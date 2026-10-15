@@ -9,9 +9,9 @@ const MAX_SATURATED_SCALE_BONUS: float = 0.12
 const SATURATION_SCALE_START_MAGNITUDE: float = 9.0
 const SCALE_PER_EXTRA_MAGNITUDE: float = 0.02
 
-const TOP_COLOR: Color = Color(0.26, 0.75, 0.90, 1.0)
-const LEFT_COLOR: Color = Color(0.15, 0.53, 0.69, 1.0)
-const RIGHT_COLOR: Color = Color(0.47, 0.89, 0.96, 1.0)
+const TOP_COLOR: Color = Color(0.15, 0.53, 0.69, 1.0)
+const LEFT_COLOR: Color = Color(0.47, 0.89, 0.96, 1.0)
+const RIGHT_COLOR: Color = Color(0.26, 0.75, 0.90, 1.0)
 const OUTLINE_COLOR: Color = Color(0.035, 0.12, 0.16, 1.0)
 const GLOW_COLOR: Color = Color(0.12, 0.62, 0.82, 0.075)
 const SHADOW_COLOR: Color = Color(0.015, 0.035, 0.045, 0.48)
@@ -341,9 +341,11 @@ func _update_cube_geometry(
 		Vector2(-half_width + outline * 0.25, quarter_height + highlight_width * 0.45)
 	])
 	top_highlight.color = EDGE_HIGHLIGHT_COLOR
-	left_face.color = LEFT_COLOR.darkened(float((cube_index + pile_index) % 3) * 0.035)
-	right_face.color = RIGHT_COLOR.lightened(float((cube_index * 2 + pile_index) % 3) * 0.025)
-	top_face.color = TOP_COLOR.darkened(float((cube_index * 3 + pile_index) % 5) * 0.025)
+	# Match the icon's lighting: the left-facing facet is the brightest,
+	# while the right facet is shaded and the top sits between them.
+	left_face.color = LEFT_COLOR.lightened(float((cube_index + pile_index) % 3) * 0.025)
+	right_face.color = RIGHT_COLOR.darkened(float((cube_index * 2 + pile_index) % 3) * 0.035)
+	top_face.color = TOP_COLOR.darkened(float((cube_index * 3 + pile_index) % 5) * 0.015)
 
 
 func _outline_polygon(points: PackedVector2Array, outline: float) -> PackedVector2Array:
