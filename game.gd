@@ -1080,6 +1080,9 @@ func _update_navigation_buttons(active_button_name: String = "GeneratorsButton")
 		button.text = str(entry.label)
 		button.icon = load(str(entry.icon_path)) as Texture2D
 		button.expand_icon = false
+		button.add_theme_font_size_override(
+			"font_size", 8 if str(entry.name) in ["GeneratorsButton", "AchievementButton"] else 9
+		)
 		var is_active: bool = str(entry.name) == active_button_name
 		var normal := StyleBoxFlat.new()
 		normal.bg_color = Color(0.19, 0.105, 0.075, 1.0) if is_active else Color(0.075, 0.06, 0.075, 0.98)
