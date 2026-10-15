@@ -25,6 +25,8 @@ func _ready() -> void:
 	$MarginContainer/VBoxContainer.mouse_filter = (
 		Control.MOUSE_FILTER_IGNORE
 	)
+	_replace_display_label_with_container("CostLabel")
+	_replace_display_label_with_container("RequirementLabel")
 	_setup_font_size()
 
 func _setup_popup_style() -> void:
@@ -99,102 +101,32 @@ func update_info() -> void:
 	)
 
 	if upgrade.definition.max_level > 1:
-
 		if upgrade.is_maxed():
-
-			$MarginContainer/VBoxContainer/CostLabel.text = (
-				"Level: %d / %d\nMAX LEVEL"
-				% [
-					upgrade.level,
-					upgrade.definition.max_level
-				]
-			)
-
+			_set_cost_display([
+				"Level: %d / %d" % [upgrade.level, upgrade.definition.max_level],
+				"MAX LEVEL",
+			], "", "")
 		else:
-
-			var cost_name = (
-				state.get_resource_display_name(
-					upgrade.definition.cost_resource_id
-				)
-			)
-
-			var next_cost = simulation.get_upgrade_cost(
-				upgrade
-			)
-
+			var next_cost := simulation.get_upgrade_cost(upgrade)
 			if next_cost <= 0.0:
-
-				$MarginContainer/VBoxContainer/CostLabel.text = ""
-
+				_set_cost_display([], "", "")
 			else:
-
-				$MarginContainer/VBoxContainer/CostLabel.text = (
-					"Level: %d / %d\nNext level: %d\nCost: %s %s"
-					% [
-						upgrade.level,
-						upgrade.definition.max_level,
-						upgrade.level + 1,
-						NumberFormatter.format(
-							next_cost
-						),
-						cost_name
-					]
-				)
-
+				_set_cost_display([
+					"Level: %d / %d" % [upgrade.level, upgrade.definition.max_level],
+					"Next level: %d" % (upgrade.level + 1),
+				], upgrade.definition.cost_resource_id, NumberFormatter.format(next_cost))
 	else:
-
-		var cost_name = (
-			state.get_resource_display_name(
-				upgrade.definition.cost_resource_id
-			)
-		)
-
 		if upgrade.definition.cost <= 0.0:
-
-			$MarginContainer/VBoxContainer/CostLabel.text = ""
-
+			_set_cost_display([], "", "")
 		else:
+			_set_cost_display([], upgrade.definition.cost_resource_id, NumberFormatter.format(upgrade.definition.cost))
 
-			$MarginContainer/VBoxContainer/CostLabel.text = (
-				"Cost: %s %s"
-				% [
-					NumberFormatter.format(
-						upgrade.definition.cost
-					),
-					cost_name
-				]
-			)
-
-	var requirement_text := ""
-
+	var unmet_requirements: Array[Requirement] = []
 	if upgrade.level == 0:
-
 		for requirement in upgrade.definition.requirements:
-
-			if state.upgrade_system.requirement_met(
-				requirement
-			):
-				continue
-
-			if requirement_text != "":
-				requirement_text += "\n"
-
-			requirement_text += (
-				get_requirement_text(
-					requirement
-				)
-			)
-
-	if requirement_text == "":
-
-		$MarginContainer/VBoxContainer/RequirementLabel.text = ""
-
-	else:
-
-		$MarginContainer/VBoxContainer/RequirementLabel.text = (
-			"Requirements:\n%s"
-			% requirement_text
-		)
+			if not state.upgrade_system.requirement_met(requirement):
+				unmet_requirements.append(requirement)
+	_set_requirement_display(unmet_requirements)
 
 	var status_text := ""
 
@@ -370,17 +302,103 @@ func _setup_font_size() -> void:
 		font_size
 	)
 
-	$MarginContainer/VBoxContainer/CostLabel.add_theme_font_size_override(
-		"font_size",
-		font_size
-	)
 
-	$MarginContainer/VBoxContainer/RequirementLabel.add_theme_font_size_override(
-		"font_size",
-		font_size
-	)
 
 	$MarginContainer/VBoxContainer/StatusLabel.add_theme_font_size_override(
 		"font_size",
 		font_size
 	)
+
+
+
+func _replace_display_label_with_container(node_name: String) -> void:
+	var parent := $MarginContainer/VBoxContainer
+	var old_label := parent.get_node(node_name) as Label
+	if old_label == null:
+		return
+
+	var index := old_label.get_index()
+	var replacement := VBoxContainer.new()
+	replacement.name = node_name
+	replacement.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	parent.remove_child(old_label)
+	parent.add_child(replacement)
+	parent.move_child(replacement, index)
+	old_label.queue_free()
+
+
+func _clear_display_container(container: Node) -> void:
+	for child in container.get_children():
+		container.remove_child(child)
+		child.queue_free()
+
+
+func _add_display_label(container: Node, text_value: String) -> void:
+	if text_value.is_empty():
+		return
+	var label := Label.new()
+	label.text = text_value
+	label.add_theme_font_size_override("font_size", 11)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	container.add_child(label)
+
+
+func _set_cost_display(info_lines: Array[String], resource_id: String, amount_text: String) -> void:
+	var container := $MarginContainer/VBoxContainer/CostLabel as VBoxContainer
+	_clear_display_container(container)
+
+	for line in info_lines:
+		_add_display_label(container, line)
+
+	if resource_id.is_empty() or amount_text.is_empty():
+		return
+
+	var cost_row := HBoxContainer.new()
+	cost_row.add_theme_constant_override("separation", 4)
+	cost_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	container.add_child(cost_row)
+
+	var cost_prefix := Label.new()
+	cost_prefix.text = "Cost:"
+	cost_prefix.add_theme_font_size_override("font_size", 11)
+	cost_row.add_child(cost_prefix)
+
+	var icon := ResourceIcon.new()
+	icon.setup(resource_id, Vector2(15.0, 15.0))
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	cost_row.add_child(icon)
+
+	var cost_value := Label.new()
+	cost_value.text = "%s %s" % [amount_text, state.get_resource_display_name(resource_id)]
+	cost_value.add_theme_font_size_override("font_size", 11)
+	cost_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	cost_row.add_child(cost_value)
+
+
+func _set_requirement_display(requirements: Array[Requirement]) -> void:
+	var container := $MarginContainer/VBoxContainer/RequirementLabel as VBoxContainer
+	_clear_display_container(container)
+	if requirements.is_empty():
+		return
+
+	_add_display_label(container, "Requirements:")
+	for requirement in requirements:
+		if requirement.type == RequirementTypes.RESOURCE:
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 4)
+			row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			container.add_child(row)
+
+			var icon := ResourceIcon.new()
+			icon.setup(requirement.target_id, Vector2(15.0, 15.0))
+			icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			row.add_child(icon)
+
+			var label := Label.new()
+			label.text = get_requirement_text(requirement)
+			label.add_theme_font_size_override("font_size", 11)
+			label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+			label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row.add_child(label)
+		else:
+			_add_display_label(container, get_requirement_text(requirement))
