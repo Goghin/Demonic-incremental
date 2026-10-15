@@ -1772,7 +1772,10 @@ func _build_offline_results(
 			continue
 
 		lines.append(
-			"%s:" % _get_resource_display_name(resource_id)
+			"[img=14x14]%s[/img] [b]%s:[/b]" % [
+				ResourceIconRegistry.get_icon_path(resource_id),
+				_get_resource_display_name(resource_id)
+			]
 		)
 
 		lines.append(
@@ -1793,7 +1796,10 @@ func _build_offline_results(
 
 	if not is_zero_approx(overflow):
 		lines.append(
-			"Heat Overflow: %s" % _format_resource_amount(overflow)
+			"[img=14x14]%s[/img] Heat Overflow: %s" % [
+				ResourceIconRegistry.get_icon_path(ResourceIds.HEAT),
+				_format_resource_amount(overflow)
+			]
 		)
 
 	lines.append("")
