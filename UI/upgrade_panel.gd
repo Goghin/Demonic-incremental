@@ -58,8 +58,6 @@ func _process(_delta: float) -> void:
 	_update_button(upgrade)
 	_update_exclusive_preference_checkbox(upgrade)
 
-	if info_popup != null and info_popup.visible:
-		info_popup.update_info()
 
 
 # -------------------------------------------------------------------
