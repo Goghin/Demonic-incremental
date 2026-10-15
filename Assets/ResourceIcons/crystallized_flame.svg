@@ -1,12 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="crystalCore" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#d7b7ff"/>
-      <stop offset="0.38" stop-color="#8054dc"/>
-      <stop offset="0.66" stop-color="#5730a0"/>
-      <stop offset="0.84" stop-color="#ff663b"/>
-      <stop offset="1" stop-color="#fff18a"/>
-    </linearGradient>
     <linearGradient id="fire" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#ff9a47"/>
       <stop offset="0.55" stop-color="#ff512f"/>
