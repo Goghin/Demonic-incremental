@@ -351,6 +351,23 @@ func _style_options_panel() -> void:
 		checkbox.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.73))
 		checkbox.add_theme_color_override("font_pressed_color", Color(1.0, 0.84, 0.65))
 		checkbox.add_theme_color_override("font_disabled_color", Color(0.42, 0.38, 0.38))
+		checkbox.add_theme_icon_override(
+			"unchecked",
+			load("res://Assets/UI/Options/checkbox_unchecked.svg") as Texture2D
+		)
+		checkbox.add_theme_icon_override(
+			"checked",
+			load("res://Assets/UI/Options/checkbox_checked.svg") as Texture2D
+		)
+		checkbox.add_theme_icon_override(
+			"unchecked_disabled",
+			load("res://Assets/UI/Options/checkbox_unchecked.svg") as Texture2D
+		)
+		checkbox.add_theme_icon_override(
+			"checked_disabled",
+			load("res://Assets/UI/Options/checkbox_checked.svg") as Texture2D
+		)
+		checkbox.add_theme_constant_override("h_separation", 7)
 
 	$OptionsPanel/OptionsContent/MasterVolumeLabel.add_theme_font_size_override(
 		"font_size", 10
