@@ -9,6 +9,7 @@ var stats: GameStats
 var resource_id: String = ""
 
 var name_label: Label
+var resource_icon: ResourceIcon
 var description_label: Label
 var amount_label: Label
 var rates_label: Label
@@ -50,8 +51,20 @@ func _build_content() -> void:
 	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	margin.add_child(column)
 
+	var title_row := HBoxContainer.new()
+	title_row.add_theme_constant_override("separation", 7)
+	title_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.add_child(title_row)
+
+	resource_icon = ResourceIcon.new()
+	resource_icon.name = "ResourceIcon"
+	resource_icon.setup(resource_id, Vector2(22.0, 22.0))
+	resource_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	title_row.add_child(resource_icon)
+
 	name_label = _create_label(15, true)
-	column.add_child(name_label)
+	name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title_row.add_child(name_label)
 
 	description_label = _create_label(12)
 	description_label.add_theme_color_override("font_color", Color(0.78, 0.75, 0.72))
@@ -117,6 +130,7 @@ func _refresh_content() -> void:
 		return
 
 	name_label.text = state.get_resource_display_name(resource_id)
+	resource_icon.setup(resource_id, Vector2(22.0, 22.0))
 	description_label.text = _get_resource_description_text()
 	amount_label.text = "Current: %s" % NumberFormatter.format(
 		state.get_resource_amount(resource_id)
