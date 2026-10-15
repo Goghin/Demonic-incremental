@@ -93,6 +93,7 @@ func setup(
 		smash_button.mouse_entered.connect(_debug_smash_button_hover)
 
 	_create_main_ui()
+	_add_crystallized_flame_icon()
 	_create_distribution_ui()
 	_create_shop_ui()
 	_apply_compact_style()
@@ -103,6 +104,40 @@ func setup(
 	_check_stabilization_completion()
 
 	refresh()
+
+
+func _add_crystallized_flame_icon() -> void:
+	if not is_instance_valid(crystallized_flame_label):
+		return
+
+	var parent := crystallized_flame_label.get_parent()
+	if parent == null:
+		return
+
+	var existing_parent := parent.get_parent()
+	if existing_parent is HBoxContainer and existing_parent.get_child_count() > 0:
+		if existing_parent.get_child(0) is ResourceIcon:
+			return
+
+	var original_index: int = parent.get_child_index(crystallized_flame_label)
+	parent.remove_child(crystallized_flame_label)
+
+	var row := HBoxContainer.new()
+	row.name = "CrystallizedFlameRow"
+	row.add_theme_constant_override("separation", 6)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+
+	var icon := ResourceIcon.new()
+	icon.name = "CrystallizedFlameIcon"
+	icon.setup(ResourceIds.CRYSTALLIZED_FLAME, Vector2(18.0, 18.0))
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(icon)
+
+	crystallized_flame_label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	row.add_child(crystallized_flame_label)
+	parent.add_child(row)
+	parent.move_child(row, original_index)
 
 
 # ----------------------------------------------------------------
