@@ -17,6 +17,7 @@ const GLOW_COLOR: Color = Color(0.12, 0.62, 0.82, 0.075)
 const SHADOW_COLOR: Color = Color(0.015, 0.035, 0.045, 0.48)
 const RUBBLE_COLOR: Color = Color(0.10, 0.34, 0.44, 0.85)
 const RUBBLE_HIGHLIGHT: Color = Color(0.30, 0.68, 0.78, 0.85)
+const EDGE_HIGHLIGHT_COLOR: Color = Color(0.70, 0.96, 1.0, 0.95)
 
 # Each slot is (horizontal offset, vertical layer, front/back depth).
 # This is a scatter of fragments rather than a neat stack.
@@ -254,7 +255,7 @@ func _create_cube(cube_index: int) -> Node2D:
 	cube.name = "Cube_%02d" % cube_index
 	for face_name in [
 		"LeftOutline", "RightOutline", "TopOutline",
-		"LeftFace", "RightFace", "TopFace"
+		"LeftFace", "RightFace", "TopFace", "TopHighlight"
 	]:
 		var face: Polygon2D = Polygon2D.new()
 		face.name = face_name
@@ -313,6 +314,7 @@ func _update_cube_geometry(
 	var left_face: Polygon2D = cube.get_node("LeftFace") as Polygon2D
 	var right_face: Polygon2D = cube.get_node("RightFace") as Polygon2D
 	var top_face: Polygon2D = cube.get_node("TopFace") as Polygon2D
+	var top_highlight: Polygon2D = cube.get_node("TopHighlight") as Polygon2D
 	left_outline.polygon = _outline_polygon(left, outline)
 	right_outline.polygon = _outline_polygon(right, outline)
 	top_outline.polygon = _outline_polygon(top, outline)
@@ -322,6 +324,17 @@ func _update_cube_geometry(
 	left_face.polygon = left
 	right_face.polygon = right
 	top_face.polygon = top
+	# A narrow, pixel-like glint on the upper V edge helps each cube read at small sizes.
+	var highlight_width: float = max(width * 0.055, 0.35)
+	top_highlight.polygon = PackedVector2Array([
+		Vector2(-half_width + outline * 0.25, quarter_height - highlight_width * 0.35),
+		Vector2(0.0, highlight_width * 0.35),
+		Vector2(half_width - outline * 0.25, quarter_height - highlight_width * 0.35),
+		Vector2(half_width - outline * 0.25, quarter_height + highlight_width * 0.45),
+		Vector2(0.0, highlight_width * 0.95),
+		Vector2(-half_width + outline * 0.25, quarter_height + highlight_width * 0.45)
+	])
+	top_highlight.color = EDGE_HIGHLIGHT_COLOR
 	left_face.color = LEFT_COLOR.darkened(float((cube_index + pile_index) % 3) * 0.035)
 	right_face.color = RIGHT_COLOR.lightened(float((cube_index * 2 + pile_index) % 3) * 0.025)
 	top_face.color = TOP_COLOR.darkened(float((cube_index * 3 + pile_index) % 5) * 0.025)
