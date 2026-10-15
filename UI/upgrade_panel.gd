@@ -488,81 +488,72 @@ func _on_upgrade_button_mouse_exited() -> void:
 
 func _set_button_state(state_name: String) -> void:
 	var button := $UpgradeButton
+	var background := Color(0.095, 0.075, 0.085, 1.0)
+	var border := Color(0.30, 0.22, 0.21, 1.0)
+	var hover_background := Color(0.16, 0.095, 0.075, 1.0)
+	var hover_border := Color(0.70, 0.36, 0.20, 1.0)
+	var font_color := Color(0.90, 0.82, 0.76, 1.0)
+	var disabled := false
+	var icon_tint := Color.WHITE
 
 	match state_name:
 		"active":
-			button.disabled = true
-			button.modulate = Color(1.0, 1.0, 1.0)
-
-			var active_style := _create_state_style(
-				Color(0.32, 0.32, 0.36, 1.0),
-				Color(0.65, 0.65, 0.70, 1.0)
-			)
-			button.add_theme_stylebox_override("normal", active_style)
-			button.add_theme_stylebox_override("disabled", active_style)
-
+			disabled = true
+			background = Color(0.22, 0.15, 0.12, 1.0)
+			border = Color(0.68, 0.43, 0.27, 1.0)
+			hover_background = background.lightened(0.08)
+			hover_border = border.lightened(0.08)
+			font_color = Color(1.0, 0.86, 0.67, 1.0)
 		"available":
-			button.disabled = false
-			button.modulate = Color(1.0, 1.0, 1.0)
-			button.add_theme_stylebox_override(
-				"normal",
-				_create_state_style(
-					Color(0.34, 0.34, 0.40),
-					Color(0.75, 0.75, 0.85)
-				)
-			)
-			button.add_theme_stylebox_override(
-				"hover",
-				_create_state_style(
-					Color(0.45, 0.45, 0.52),
-					Color(0.95, 0.95, 1.0)
-				)
-			)
-
+			background = Color(0.12, 0.085, 0.08, 1.0)
+			border = Color(0.54, 0.32, 0.23, 1.0)
+			hover_background = Color(0.22, 0.12, 0.08, 1.0)
+			hover_border = Color(0.98, 0.53, 0.25, 1.0)
+			font_color = Color(1.0, 0.88, 0.74, 1.0)
 		"cannot_afford":
-			button.disabled = true
-			button.modulate = Color(0.65, 0.65, 0.65)
-			button.add_theme_stylebox_override(
-				"disabled",
-				_create_state_style(
-					Color(0.27, 0.27, 0.30),
-					Color(0.18, 0.18, 0.21)
-				)
-			)
-
+			disabled = true
+			background = Color(0.10, 0.075, 0.08, 1.0)
+			border = Color(0.22, 0.17, 0.18, 1.0)
+			font_color = Color(0.48, 0.42, 0.41, 1.0)
+			icon_tint = Color(0.62, 0.57, 0.57, 1.0)
 		"requirements":
-			button.disabled = true
-			button.modulate = Color(0.50, 0.50, 0.50)
-			button.add_theme_stylebox_override(
-				"disabled",
-				_create_state_style(
-					Color(0.22, 0.22, 0.25),
-					Color(0.14, 0.14, 0.17)
-				)
-			)
-
+			disabled = true
+			background = Color(0.085, 0.065, 0.075, 1.0)
+			border = Color(0.18, 0.14, 0.16, 1.0)
+			font_color = Color(0.40, 0.36, 0.38, 1.0)
+			icon_tint = Color(0.52, 0.48, 0.50, 1.0)
 		"exclusive":
-			button.disabled = true
-			button.modulate = Color(0.35, 0.35, 0.35)
-			button.add_theme_stylebox_override(
-				"disabled",
-				_create_state_style(
-					Color(0.17, 0.17, 0.19),
-					Color(0.10, 0.10, 0.12)
-				)
-			)
-
+			disabled = true
+			background = Color(0.12, 0.065, 0.075, 1.0)
+			border = Color(0.36, 0.16, 0.18, 1.0)
+			font_color = Color(0.58, 0.40, 0.41, 1.0)
+			icon_tint = Color(0.65, 0.48, 0.48, 1.0)
 		"purchased":
-			button.disabled = true
-			button.modulate = Color(1.0, 1.0, 1.0)
+			disabled = true
+			background = Color(0.20, 0.19, 0.11, 1.0)
+			border = Color(0.91, 0.65, 0.25, 1.0)
+			hover_background = background.lightened(0.08)
+			hover_border = border.lightened(0.08)
+			font_color = Color(1.0, 0.90, 0.60, 1.0)
 
-			var purchased_style := _create_state_style(
-				Color(0.381, 0.62, 0.24, 1.0),
-				Color(1.0, 0.82, 0.20, 1.0)
-			)
-			button.add_theme_stylebox_override("normal", purchased_style)
-			button.add_theme_stylebox_override("disabled", purchased_style)
-
+	button.disabled = disabled
+	button.modulate = icon_tint
+	button.add_theme_color_override("font_color", font_color)
+	button.add_theme_color_override("font_disabled_color", font_color)
+	button.add_theme_stylebox_override(
+		"normal", _create_state_style(background, border)
+	)
+	button.add_theme_stylebox_override(
+		"hover", _create_state_style(hover_background, hover_border)
+	)
+	button.add_theme_stylebox_override(
+		"pressed", _create_state_style(
+			background.darkened(0.12), border.lightened(0.05)
+		)
+	)
+	button.add_theme_stylebox_override(
+		"disabled", _create_state_style(background, border)
+	)
 
 func _create_state_style(
 	background_color: Color,
