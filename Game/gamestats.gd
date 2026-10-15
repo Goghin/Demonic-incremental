@@ -1056,19 +1056,10 @@ func get_essence_influence_data() -> Dictionary:
 				state
 			)
 
-	var total_sensitivity := 1.0
-	var sensitivity_data := get_modifier_sensitivity_data(
-		"atomic_friction",
-		"crystallization"
-	)
-	total_sensitivity = sensitivity_data["sensitivity"]
-
 	return {
 		"hunger_multiplier": hunger_multiplier,
 		"essence_sensitivity": essence_sensitivity,
-		"essence_resistance_percent": (1.0 - essence_sensitivity) * 100.0,
-		"total_sensitivity": total_sensitivity,
-		"total_resistance_percent": (1.0 - total_sensitivity) * 100.0
+		"essence_resistance_percent": (1.0 - essence_sensitivity) * 100.0
 	}
 
 
@@ -1096,24 +1087,18 @@ func get_crystallization_modifier_data() -> Dictionary:
 		):
 			continue
 
-		var sensitivity_data := get_modifier_sensitivity_data(
-			"atomic_friction",
-			modifier.id
-		)
+		var essence_data := get_essence_influence_data()
 		var raw_multiplier: float = modifier.get_multiplier(state)
-		var sensitivity: float = sensitivity_data["sensitivity"]
 
 		return {
 			"raw_multiplier": raw_multiplier,
-			"sensitivity": sensitivity,
-			"resistance_percent": (1.0 - sensitivity) * 100.0,
+			"essence_resistance_percent": essence_data["essence_resistance_percent"],
 			"effective_multiplier": modifier.get_effective_multiplier(state, generator)
 		}
 
 	return {
 		"raw_multiplier": 1.0,
-		"sensitivity": 1.0,
-		"resistance_percent": 0.0,
+		"essence_resistance_percent": 0.0,
 		"effective_multiplier": 1.0
 	}
 
