@@ -127,7 +127,8 @@ func update_info() -> void:
 					"Next level: %d" % (upgrade.level + 1),
 				], upgrade.definition.cost_resource_id, NumberFormatter.format(next_cost))
 	else:
-		if upgrade.definition.cost <= 0.0:
+		# One-level upgrades no longer have a purchase cost once bought.
+		if upgrade.is_maxed() or upgrade.definition.cost <= 0.0:
 			_set_cost_display([], "", "")
 		else:
 			_set_cost_display([], upgrade.definition.cost_resource_id, NumberFormatter.format(upgrade.definition.cost))
