@@ -104,7 +104,6 @@ func update_info() -> void:
 		if upgrade.is_maxed():
 			_set_cost_display([
 				"Level: %d / %d" % [upgrade.level, upgrade.definition.max_level],
-				"MAX LEVEL",
 			], "", "")
 		else:
 			var next_cost := simulation.get_upgrade_cost(upgrade)
@@ -328,6 +327,7 @@ func _replace_display_label_with_container(node_name: String) -> void:
 
 
 func _clear_display_container(container: Node) -> void:
+	container.visible = false
 	for child in container.get_children():
 		container.remove_child(child)
 		child.queue_free()
@@ -341,6 +341,7 @@ func _add_display_label(container: Node, text_value: String) -> void:
 	label.add_theme_font_size_override("font_size", 11)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	container.add_child(label)
+	container.visible = true
 
 
 func _set_cost_display(info_lines: Array, resource_id: String, amount_text: String) -> void:
@@ -353,6 +354,7 @@ func _set_cost_display(info_lines: Array, resource_id: String, amount_text: Stri
 	if resource_id.is_empty() or amount_text.is_empty():
 		return
 
+	container.visible = true
 	var cost_row := HBoxContainer.new()
 	cost_row.add_theme_constant_override("separation", 4)
 	cost_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
