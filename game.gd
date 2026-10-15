@@ -1582,6 +1582,7 @@ func _on_upgrades_button_pressed() -> void:
 	$UpgradeScroll.offset_top = 112.0
 	$UpgradeScroll.offset_right = 655.0
 	_update_upgrade_view()
+	_update_navigation_buttons("UpgradesButton")
 
 func _on_prestige_requested() -> void:
 	$StatsPanel.hide()
