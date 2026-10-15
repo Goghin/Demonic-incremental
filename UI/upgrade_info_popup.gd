@@ -112,7 +112,11 @@ func update_info() -> void:
 		upgrade.definition.description
 	)
 
-	if upgrade.definition.max_level > 1:
+	var exclusive_upgrade = state.upgrade_system.get_exclusive_upgrade(upgrade)
+	if exclusive_upgrade != null:
+		# This upgrade cannot be purchased while its exclusive alternative is active.
+		_set_cost_display([], "", "")
+	elif upgrade.definition.max_level > 1:
 		if upgrade.is_maxed():
 			_set_cost_display([
 				"Level: %d / %d" % [upgrade.level, upgrade.definition.max_level],
@@ -150,12 +154,6 @@ func update_info() -> void:
 			status_text = "MAX LEVEL"
 
 	else:
-
-		var exclusive_upgrade = (
-			state.upgrade_system.get_exclusive_upgrade(
-				upgrade
-			)
-		)
 
 		if exclusive_upgrade != null:
 
