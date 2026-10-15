@@ -134,9 +134,9 @@ func _process(_delta: float) -> void:
 		$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.text = ""
 		$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.disabled = true
 		$HBoxContainer/VBoxContainer/ProgressBar.visible = false
-		$HBoxContainer/VBoxContainer/InputLabel.text = ""
-		$HBoxContainer/VBoxContainer/ProductionLabel.text = ""
-		$HBoxContainer/VBoxContainer/CostLabel.text = ""
+		_clear_resource_rows($HBoxContainer/VBoxContainer/InputLabel)
+		_clear_resource_rows($HBoxContainer/VBoxContainer/ProductionLabel)
+		_clear_resource_rows($HBoxContainer/VBoxContainer/CostLabel)
 		$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = true
 		return
 	
@@ -176,67 +176,33 @@ func _process(_delta: float) -> void:
 	
 	var operating = generator.is_operating()
 	
-	var input_text = ""
-	
+	var input_rows: Array[Dictionary] = []
 	for input in generator.get_active_inputs():
-		var input_rate = 0.0
-		
+		var input_rate := 0.0
 		if operating:
-			input_rate = generator.get_input_consumption_per_second(
-				input,
-				state
-			)
-		
-		var input_name = state.get_resource_display_name(
-			input.resource_id
-		)
-		
-		if input_text != "":
-			input_text += "\n"
-		
-		input_text += "Consumes: %s %s/s" % [
-			NumberFormatter.format(input_rate),
-			input_name
-		]
-	
-	$HBoxContainer/VBoxContainer/InputLabel.text = input_text
-	
-	var production_outputs = (
-		generator.get_production_per_second(state)
-	)
-	
-	var production_text = ""
-	
-	for output in production_outputs:
-		var production = 0.0
-		
-		if operating:
-			production = output.amount_per_second
-		
-		var output_name = state.get_resource_display_name(
-			output.resource_id
-		)
-		
-		if production_text != "":
-			production_text += "\n"
-		
-		production_text += "Production: %s %s/s" % [
-			NumberFormatter.format(production),
-			output_name
-		]
-	
-	$HBoxContainer/VBoxContainer/ProductionLabel.text = production_text
-	
-	var cost_name = state.get_resource_display_name(
-		generator.definition.cost_resource_id
-	)
-	
-	$HBoxContainer/VBoxContainer/CostLabel.text = "Cost: %s %s" % [
-		NumberFormatter.format(
-			generator.get_cost(state)
-		),
-		cost_name
-	]
+			input_rate = generator.get_input_consumption_per_second(input, state)
+		input_rows.append({
+			"resource_id": input.resource_id,
+			"prefix": "Consumes:",
+			"amount": "%s/s" % NumberFormatter.format(input_rate),
+		})
+	_update_resource_rows($HBoxContainer/VBoxContainer/InputLabel, input_rows)
+
+	var production_rows: Array[Dictionary] = []
+	for output in generator.get_production_per_second(state):
+		var production := output.amount_per_second if operating else 0.0
+		production_rows.append({
+			"resource_id": output.resource_id,
+			"prefix": "Produces:",
+			"amount": "%s/s" % NumberFormatter.format(production),
+		})
+	_update_resource_rows($HBoxContainer/VBoxContainer/ProductionLabel, production_rows)
+
+	_update_resource_rows($HBoxContainer/VBoxContainer/CostLabel, [{
+		"resource_id": generator.definition.cost_resource_id,
+		"prefix": "Cost:",
+		"amount": NumberFormatter.format(generator.get_cost(state)),
+	}])
 	
 	$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = (
 		not input_handler.can_buy_generator(
@@ -415,3 +381,40 @@ func _update_toggle_button_style(button: Button, enabled: bool) -> void:
 	var pressed_style := style.duplicate() as StyleBoxFlat
 	pressed_style.bg_color = style.bg_color.darkened(0.10)
 	button.add_theme_stylebox_override("pressed", pressed_style)
+
+
+
+func _clear_resource_rows(container: Node) -> void:
+	for child in container.get_children():
+		container.remove_child(child)
+		child.queue_free()
+
+
+func _update_resource_rows(container: Node, rows: Array[Dictionary]) -> void:
+	_clear_resource_rows(container)
+
+	for row_data in rows:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 4)
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		container.add_child(row)
+
+		var prefix_label := Label.new()
+		prefix_label.text = str(row_data.get("prefix", ""))
+		prefix_label.add_theme_font_size_override("font_size", 11)
+		row.add_child(prefix_label)
+
+		var resource_id := str(row_data.get("resource_id", ""))
+		var icon := ResourceIcon.new()
+		icon.setup(resource_id, Vector2(14.0, 14.0))
+		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(icon)
+
+		var value_label := Label.new()
+		value_label.text = "%s %s" % [
+			str(row_data.get("amount", "")),
+			state.get_resource_display_name(resource_id),
+		]
+		value_label.add_theme_font_size_override("font_size", 11)
+		value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(value_label)
