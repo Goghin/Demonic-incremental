@@ -517,13 +517,13 @@ func ensure_generator_stats() -> void:
 func _setup_pressure_rows() -> void:
 	var container: VBoxContainer = $ScrollContainer/VBoxContainer/PressureContainer
 	var row_configs: Array[Dictionary] = [
-		{"key": "heat_threshold", "label": "HeatLeakageThresholdLabel", "resource": ResourceIds.HEAT},
-		{"key": "heat_rate", "label": "HeatLeakageLabel", "resource": ResourceIds.HEAT},
-		{"key": "overflow_multiplier", "label": "OverflowMultiplierLabel", "resource": ResourceIds.HEAT},
-		{"key": "overflow_this_realm", "label": "OverflowThisRealmLabel", "resource": ResourceIds.HEAT},
-		{"key": "overflow_all_realms", "label": "OverflowAllRealmsLabel", "resource": ResourceIds.HEAT},
-		{"key": "matter_threshold", "label": "MatterDecayThresholdLabel", "resource": ResourceIds.MATTER},
-		{"key": "matter_decay", "label": "MatterDecayLabel", "resource": ResourceIds.MATTER},
+		{"key": "heat_threshold", "label": "HeatLeakageThresholdLabel", "resources": [ResourceIds.HEAT]},
+		{"key": "heat_rate", "label": "HeatLeakageLabel", "resources": [ResourceIds.HEAT]},
+		{"key": "overflow_multiplier", "label": "OverflowMultiplierLabel", "resources": [ResourceIds.CRYSTALLIZED_FLAME]},
+		{"key": "overflow_this_realm", "label": "OverflowThisRealmLabel", "resources": [ResourceIds.HEAT]},
+		{"key": "overflow_all_realms", "label": "OverflowAllRealmsLabel", "resources": [ResourceIds.HEAT]},
+		{"key": "matter_threshold", "label": "MatterDecayThresholdLabel", "resources": [ResourceIds.MATTER]},
+		{"key": "matter_decay", "label": "MatterDecayLabel", "resources": [ResourceIds.MATTER, ResourceIds.HEAT]},
 	]
 
 	for config in row_configs:
@@ -541,10 +541,11 @@ func _setup_pressure_rows() -> void:
 		container.add_child(row)
 		container.move_child(row, original_index)
 
-		var icon := ResourceIcon.new()
-		icon.setup(config["resource"], Vector2(14.0, 14.0))
-		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		row.add_child(icon)
+		for resource_id in config["resources"]:
+			var icon := ResourceIcon.new()
+			icon.setup(resource_id, Vector2(14.0, 14.0))
+			icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			row.add_child(icon)
 
 		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		row.add_child(label)
@@ -580,7 +581,11 @@ func _setup_pressure_rows() -> void:
 func update_pressure_stats() -> void:
 	var overflow_rate = state.get_heat_leak_per_second()
 	var matter_decay = state.get_matter_decay_per_second()
-	var ash_amount = state.get_resource_amount(ResourceIds.ASH)
+	var ash_contamination_multiplier := stats.get_raw_resource_modifier_multiplier(
+		"ashen_contamination",
+		ModifierTypes.PRODUCTION,
+		""
+	)
 
 	var crystallized_flames = state.get_resource_amount(
 		ResourceIds.CRYSTALLIZED_FLAME
@@ -621,6 +626,6 @@ func update_pressure_stats() -> void:
 		]
 	)
 	pressure_labels["ash_contamination"].text = (
-		"Ash Contamination: %s"
-		% NumberFormatter.format(ash_amount)
+		"Ash Contamination: ×%s"
+		% NumberFormatter.format(ash_contamination_multiplier)
 	)
