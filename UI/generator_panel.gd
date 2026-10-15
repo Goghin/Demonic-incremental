@@ -565,9 +565,18 @@ func _update_resource_rows(container: Node, rows: Array[Dictionary]) -> void:
 			state.get_resource_display_name(str(row_data.get("resource_id", ""))),
 		]
 		var prefix := str(row_data.get("prefix", ""))
+		var resource_id := str(row_data.get("resource_id", ""))
+		var is_ash := resource_id == "ash"
+
 		if prefix == "Produces:":
-			value_label.add_theme_color_override("font_color", Color(0.55, 0.85, 0.58))
+			value_label.add_theme_color_override(
+				"font_color",
+				Color(0.88, 0.57, 0.50) if is_ash else Color(0.55, 0.85, 0.58)
+			)
 		elif prefix == "Consumes:":
-			value_label.add_theme_color_override("font_color", Color(0.88, 0.57, 0.50))
+			value_label.add_theme_color_override(
+				"font_color",
+				Color(0.55, 0.85, 0.58) if is_ash else Color(0.88, 0.57, 0.50)
+			)
 		else:
 			value_label.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
