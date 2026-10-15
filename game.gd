@@ -972,6 +972,42 @@ func _scroll_generator_list_to_selected() -> void:
 		$GeneratorScroll.ensure_control_visible(selected_panel)
 
 
+func _update_navigation_buttons(active_button_name: String = "GeneratorsButton") -> void:
+	var navigation: Array[Dictionary] = [
+		{"name": "GeneratorsButton", "label": "GENERATORS", "icon": "▦"},
+		{"name": "UpgradesButton", "label": "UPGRADES", "icon": "✦"},
+		{"name": "StatsButton", "label": "STATS", "icon": "▤"},
+		{"name": "PrestigeButton", "label": "REALM", "icon": "◈"},
+		{"name": "AchievementButton", "label": "ACHIEVEMENTS", "icon": "★"},
+		{"name": "OptionsButton", "label": "OPTIONS", "icon": "⚙"},
+	]
+	for entry in navigation:
+		var button := get_node_or_null(str(entry.name)) as Button
+		if button == null:
+			continue
+		button.text = "%s  %s" % [str(entry.icon), str(entry.label)]
+		var is_active: bool = str(entry.name) == active_button_name
+		var normal := StyleBoxFlat.new()
+		normal.bg_color = Color(0.19, 0.105, 0.075, 1.0) if is_active else Color(0.075, 0.06, 0.075, 0.98)
+		normal.border_color = Color(0.95, 0.48, 0.20, 1.0) if is_active else Color(0.28, 0.20, 0.19, 1.0)
+		normal.set_border_width_all(2 if is_active else 1)
+		normal.set_corner_radius_all(4)
+		normal.content_margin_left = 5.0
+		normal.content_margin_right = 5.0
+		normal.content_margin_top = 4.0
+		normal.content_margin_bottom = 4.0
+		button.add_theme_stylebox_override("normal", normal)
+		button.add_theme_color_override("font_color", Color(1.0, 0.84, 0.65) if is_active else Color(0.86, 0.78, 0.73))
+		var hover := normal.duplicate() as StyleBoxFlat
+		hover.bg_color = Color(0.24, 0.13, 0.09, 1.0) if is_active else Color(0.14, 0.09, 0.085, 1.0)
+		hover.border_color = Color(1.0, 0.59, 0.29, 1.0) if is_active else Color(0.55, 0.32, 0.23, 1.0)
+		button.add_theme_stylebox_override("hover", hover)
+		var pressed := normal.duplicate() as StyleBoxFlat
+		pressed.bg_color = Color(0.28, 0.14, 0.095, 1.0)
+		pressed.border_color = Color(0.85, 0.43, 0.20, 1.0)
+		button.add_theme_stylebox_override("pressed", pressed)
+
+
 func _on_generators_button_pressed() -> void:
 	$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
 	generator_list_mode = not generator_list_mode
@@ -990,6 +1026,7 @@ func _on_generators_button_pressed() -> void:
 	_refresh_generator_panel_visibility()
 
 	$GeneratorsButton.text = "GENERATORS"
+	_update_navigation_buttons("GeneratorsButton")
 
 
 func _on_offline_achievement_unlocked(achievement_id: String) -> void:
@@ -1040,6 +1077,7 @@ func _on_achievements_button_pressed() -> void:
 	else:
 		$GeneratorScroll.show()
 		_refresh_generator_panel_visibility()
+	_update_navigation_buttons("AchievementButton")
 
 
 func _on_options_button_pressed() -> void:
@@ -1060,6 +1098,7 @@ func _on_options_button_pressed() -> void:
 	else:
 		$GeneratorScroll.show()
 		_refresh_generator_panel_visibility()
+	_update_navigation_buttons("OptionsButton")
 
 
 func _on_options_close_button_pressed() -> void:
@@ -1510,6 +1549,7 @@ func _on_stats_button_pressed() -> void:
 		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
 
+	_update_navigation_buttons("StatsButton")
 
 
 func _on_upgrades_button_pressed() -> void:
@@ -1532,6 +1572,7 @@ func _on_upgrades_button_pressed() -> void:
 	if general_upgrades_are_open:
 		$UpgradeScroll.hide()
 		_update_upgrade_view()
+		_update_navigation_buttons("UpgradesButton")
 		return
 
 	$UpgradeScroll.show()
@@ -1571,6 +1612,7 @@ func _on_prestige_button_pressed() -> void:
 		$UpgradeScroll.hide()
 		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
+	_update_navigation_buttons("PrestigeButton")
 
 
 func _on_run_reset() -> void:
