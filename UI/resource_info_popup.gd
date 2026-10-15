@@ -265,7 +265,7 @@ func _get_active_modifiers_text() -> String:
 			var effective_multiplier: float = modifier_data["effective_multiplier"]
 			var resistance_percent := (1.0 - sensitivity) * 100.0
 			return (
-				"Raw Heat penalty: ×%s\\nCrystallization Resistance: %s%%\\nFinal Heat production: ×%s"
+				"Raw Heat penalty: ×%s\nCrystallization Resistance: %s%%\nFinal Heat production: ×%s"
 				% [
 					NumberFormatter.format(raw_multiplier),
 					NumberFormatter.format(resistance_percent),
