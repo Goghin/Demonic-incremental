@@ -5,11 +5,14 @@ signal results_closed
 
 
 @onready var duration_label: Label = $CenterContainer/PanelContainer/VBoxContainer/DurationLabel
-@onready var results_label: Label = $CenterContainer/PanelContainer/VBoxContainer/ResultsLabel
+@onready var results_label: RichTextLabel = $CenterContainer/PanelContainer/VBoxContainer/ResultsLabel
 @onready var close_button: Button = $CenterContainer/PanelContainer/VBoxContainer/CloseButton
 
 
 func _ready() -> void:
+	results_label.bbcode_enabled = true
+	results_label.fit_content = true
+	results_label.scroll_active = false
 	close_button.pressed.connect(_on_close_pressed)
 
 
