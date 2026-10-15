@@ -48,11 +48,13 @@ theme_override_font_sizes/font_size = 12
 text = "Awakening the realm..."
 horizontal_alignment = 1
 
-[node name="ResultsLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=59921555]
+[node name="ResultsLabel" type="RichTextLabel" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=59921555]
 layout_mode = 2
-theme_override_font_sizes/font_size = 11
+theme_override_font_sizes/normal_font_size = 11
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
 text = "THE DEMONIC REALM"
-horizontal_alignment = 1
 
 [node name="CloseButton" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=1193809591]
 layout_mode = 2
