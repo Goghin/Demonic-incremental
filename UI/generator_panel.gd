@@ -432,8 +432,10 @@ func _update_resource_rows(container: Node, rows: Array[Dictionary]) -> void:
 	for i in range(rows.size()):
 		var row_data: Dictionary = rows[i]
 		var row := container.get_child(i) as HBoxContainer
-		row.get_node("PrefixLabel").text = str(row_data.get("prefix", ""))
-		row.get_node("ValueLabel").text = "%s %s" % [
+		var prefix_label := row.get_node("PrefixLabel") as Label
+		prefix_label.text = str(row_data.get("prefix", ""))
+		var value_label := row.get_node("ValueLabel") as Label
+		value_label.text = "%s %s" % [
 			str(row_data.get("amount", "")),
 			state.get_resource_display_name(str(row_data.get("resource_id", ""))),
 		]
