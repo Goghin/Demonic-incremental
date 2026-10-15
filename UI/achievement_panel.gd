@@ -139,10 +139,27 @@ func _build_achievement_rows() -> void:
 		progress_bar.custom_minimum_size = Vector2(0, 8)
 		content.add_child(progress_bar)
 
+		var progress_row := HBoxContainer.new()
+		progress_row.add_theme_constant_override("separation", 4)
+		progress_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		progress_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		content.add_child(progress_row)
+
+		var resource_id: String = str(definition.get("resource_id", ""))
+		if resource_id.is_empty() and str(definition.get("progress_type", "")) == "highest_crystallized_flame_this_run":
+			resource_id = ResourceIds.CRYSTALLIZED_FLAME
+
+		if not resource_id.is_empty():
+			var resource_icon := ResourceIcon.new()
+			resource_icon.setup(resource_id, Vector2(13.0, 13.0))
+			resource_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			progress_row.add_child(resource_icon)
+
 		var progress_label := Label.new()
 		progress_label.add_theme_font_size_override("font_size", 9)
 		progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		content.add_child(progress_label)
+		progress_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		progress_row.add_child(progress_label)
 
 		achievement_rows[achievement_id] = {
 			"status": status,
