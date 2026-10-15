@@ -361,9 +361,32 @@ func add_detail_row(
 	resource_id: String = "",
 	modifier_index: int = -1
 	) -> void:
-	
-	detail_container.add_child(label)
-	
+	var show_resource_icon: bool = (
+		not resource_id.is_empty()
+		and row_type in [
+			"production_base",
+			"production_final",
+			"consumption_base",
+			"consumption_final"
+		]
+	)
+
+	if show_resource_icon:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 4)
+		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		detail_container.add_child(row)
+
+		var icon := ResourceIcon.new()
+		icon.setup(resource_id, Vector2(12.0, 12.0))
+		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(icon)
+
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(label)
+	else:
+		detail_container.add_child(label)
+
 	detail_rows.append({
 		"label": label,
 		"type": row_type,
