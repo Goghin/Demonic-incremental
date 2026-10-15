@@ -14,6 +14,11 @@ var upgrade_id: String
 
 func _ready() -> void:
 
+	# This popup is positioned manually beside upgrade buttons. Keep it
+	# content-sized instead of inheriting the full size of its parent.
+	set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 	_setup_popup_style()
