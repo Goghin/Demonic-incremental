@@ -135,8 +135,8 @@ func _create_resource_card(resource_id: String) -> void:
 	)
 	resource_cards[resource_id] = {
 		"card": card,
-			"amount_label": amount_label,
-			"net_rate_label": net_rate_label
+		"amount_label": amount_label,
+		"net_rate_label": net_rate_label
 	}
 	_update_resource_card_rate(resource_id)
 
