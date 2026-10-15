@@ -3,7 +3,7 @@ extends Control
 
 
 const RESOURCE_CARD_MIN_SIZE := Vector2(170.0, 58.0)
-const ICON_PLACEHOLDER_SIZE := Vector2(34.0, 34.0)
+const RESOURCE_ICON_SIZE := Vector2(34.0, 34.0)
 
 var state: GameState
 var stats: GameStats
@@ -83,16 +83,13 @@ func _create_resource_card(resource_id: String) -> void:
 	row.add_theme_constant_override("separation", 9)
 	card.add_child(row)
 
-	# Empty icon frame: reserved for the resource's eventual icon artwork.
-	# Ignore mouse input on children so hovering any part of the card, including
-	# the icon, is handled consistently by the card's own hover signals.
-	var icon_frame := PanelContainer.new()
-	icon_frame.name = "IconPlaceholder"
-	icon_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon_frame.custom_minimum_size = ICON_PLACEHOLDER_SIZE
-	icon_frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	icon_frame.add_theme_stylebox_override("panel", _make_icon_placeholder_style())
-	row.add_child(icon_frame)
+	# Resource identity comes from the resource ID, not its display name.
+	# Keep mouse input ignored so the card retains its existing hover behavior.
+	var resource_icon := ResourceIcon.new()
+	resource_icon.name = "ResourceIcon"
+	resource_icon.setup(resource_id, RESOURCE_ICON_SIZE)
+	resource_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(resource_icon)
 
 	var text_column := VBoxContainer.new()
 	text_column.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -154,15 +151,6 @@ func _make_card_style() -> StyleBoxFlat:
 	style.set_content_margin_all(8)
 	return style
 
-
-func _make_icon_placeholder_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color(0.10, 0.085, 0.09, 1.0)
-	style.border_color = Color(0.42, 0.31, 0.29, 1.0)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(3)
-	style.set_content_margin_all(0)
-	return style
 
 
 func _on_resource_card_mouse_entered(resource_id: String) -> void:
