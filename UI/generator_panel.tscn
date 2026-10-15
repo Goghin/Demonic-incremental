@@ -7,12 +7,24 @@ content_margin_left = 8.0
 content_margin_top = 8.0
 content_margin_right = 8.0
 content_margin_bottom = 8.0
-bg_color = Color(0.58909595, 0.5890955, 0.5890956, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
-border_color = Color(0.11858138, 0.11858139, 0.11858133, 1)
+bg_color = Color(0.055, 0.045, 0.055, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.32, 0.22, 0.20, 0.95)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_illustration"]
+bg_color = Color(0.09, 0.065, 0.075, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.22, 0.15, 0.15, 1)
 corner_radius_top_left = 3
 corner_radius_top_right = 3
 corner_radius_bottom_right = 3
@@ -33,6 +45,7 @@ custom_minimum_size = Vector2(56, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_illustration")
 
 [node name="Illustration" type="TextureRect" parent="HBoxContainer/IllustrationPanel" unique_id=454988067]
 layout_mode = 2
