@@ -15,10 +15,10 @@
   <path d="M19 31 28 38 24 50 16 39Z" fill="#643a9d"/>
   <path d="M36 37 47 29 51 35 42 43 38 51 32 47Z" fill="#39205f"/>
   <path d="M28 38 32 47 24 53 24 50Z" fill="#b0448c"/>
-  <path d="M32 47 38 51 32 60 24 53Z" fill="url(#fire)"/>
-  <path d="M24 50 28 38 32 47 24 53 19 43Z" fill="#ff713f"/>
-  <path d="M32 47 42 43 38 51 32 60Z" fill="#ff4f35"/>
-  <path d="M32 53 32 60 27 54Z" fill="#fff4a1"/>
+  <path d="M28 36 36 36 42 43 38 51 32 60 24 53 19 43 24 36Z" fill="url(#fire)"/>
+  <path d="M28 36 32 47 24 53 19 43Z" fill="#ff713f"/>
+  <path d="M36 36 42 43 38 51 32 60 32 47Z" fill="#ff4f35"/>
+  <path d="M32 43 32 60 27 54Z" fill="#fff4a1"/>
   <path d="M25 14 32 23 28 38 24 50" fill="none" stroke="#f4dfff" stroke-width="1" stroke-linecap="round" opacity=".8"/>
   <path d="M38 14 32 23 36 37" fill="none" stroke="#c3a2ff" stroke-width=".8" stroke-linecap="round" opacity=".7"/>
   <path d="M32 47 32 60" fill="none" stroke="#ffd77c" stroke-width=".9" opacity=".9"/>
