@@ -246,30 +246,22 @@ func _get_active_modifiers_text() -> String:
 				state.realm_effects.ashen_contamination_multiplier
 			)
 		ResourceIds.ESSENCE:
-			var essence_amount := state.get_resource_amount(ResourceIds.ESSENCE)
-			var essence_scaling := 0.01 * sqrt(essence_amount)
-			var hunger_multiplier := 1.0 + essence_scaling
-			var crystallization_sensitivity := 1.0 / (1.0 + essence_scaling)
-			var resistance_percent := (1.0 - crystallization_sensitivity) * 100.0
+			var essence_data := stats.get_essence_influence_data()
 			return (
 				"Lava Mite Hunger: ×%s\nCrystallization Resistance: %s%%"
 				% [
-					NumberFormatter.format(hunger_multiplier),
-					NumberFormatter.format(resistance_percent)
+					NumberFormatter.format(essence_data["hunger_multiplier"]),
+					NumberFormatter.format(essence_data["essence_resistance_percent"])
 				]
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var modifier_data := stats.get_crystallization_modifier_data()
-			var raw_multiplier: float = modifier_data["raw_multiplier"]
-			var sensitivity: float = modifier_data["sensitivity"]
-			var effective_multiplier: float = modifier_data["effective_multiplier"]
-			var resistance_percent := (1.0 - sensitivity) * 100.0
 			return (
-				"Raw Heat penalty: ×%s\nCrystallization Resistance: %s%%\nFinal Heat production: ×%s"
+				"Raw Heat penalty: ×%s\nTotal Crystallization Resistance: %s%%\nFinal Heat production: ×%s"
 				% [
-					NumberFormatter.format(raw_multiplier),
-					NumberFormatter.format(resistance_percent),
-					NumberFormatter.format(effective_multiplier)
+					NumberFormatter.format(modifier_data["raw_multiplier"]),
+					NumberFormatter.format(modifier_data["resistance_percent"]),
+					NumberFormatter.format(modifier_data["effective_multiplier"])
 				]
 			)
 		_:
