@@ -259,12 +259,18 @@ func _get_active_modifiers_text() -> String:
 				]
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
-			var count := state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)
-			var essence_amount := state.get_resource_amount(ResourceIds.ESSENCE)
-			var essence_scaling := 0.01 * sqrt(essence_amount)
-			var crystallization_sensitivity := 1.0 / (1.0 + essence_scaling)
-			var penalty_per_flame := 1.0 + (0.8 - 1.0) * crystallization_sensitivity
-			var heat_production_multiplier := pow(penalty_per_flame, count)
-			return "Heat production: ×%s" % NumberFormatter.format(heat_production_multiplier)
+			var modifier_data := stats.get_crystallization_modifier_data()
+			var raw_multiplier: float = modifier_data["raw_multiplier"]
+			var sensitivity: float = modifier_data["sensitivity"]
+			var effective_multiplier: float = modifier_data["effective_multiplier"]
+			var resistance_percent := (1.0 - sensitivity) * 100.0
+			return (
+				"Raw Heat penalty: ×%s\\nCrystallization Resistance: %s%%\\nFinal Heat production: ×%s"
+				% [
+					NumberFormatter.format(raw_multiplier),
+					NumberFormatter.format(resistance_percent),
+					NumberFormatter.format(effective_multiplier)
+				]
+			)
 		_:
 			return "No resource-specific realm modifier."
