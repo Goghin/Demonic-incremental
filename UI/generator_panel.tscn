@@ -90,15 +90,15 @@ text = "Pause"
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 
-[node name="InputLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=419617575]
+[node name="InputLabel" type="VBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=419617575]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
-[node name="ProductionLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=1206109155]
+[node name="ProductionLabel" type="VBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1206109155]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
-[node name="CostLabel" type="Label" parent="HBoxContainer/VBoxContainer" unique_id=410299147]
+[node name="CostLabel" type="VBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=410299147]
 layout_mode = 2
 theme_override_font_sizes/font_size = 11
 
