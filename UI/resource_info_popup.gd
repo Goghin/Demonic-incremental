@@ -162,9 +162,9 @@ func _get_resource_description_text() -> String:
 		ResourceIds.ASH:
 			return "A by-product of infernal industry. Accumulated Ash contaminates production, while Lava Mites consume it."
 		ResourceIds.CRYSTALLIZED_FLAME:
-			return "A highly prized product of the Infernal Forge. Each stored Flame makes Heat harder to produce, but increases the value of Overflow."
+			return "A highly prized product of the Infernal Forge."
 		ResourceIds.ESSENCE:
-			return "A rare, highly volatile substance that resonates with Crystallized Flames, reducing their penalty. Stored Essence also intensifies Lava Mite activity."
+			return "A rare, highly volatile substance used by advanced demonic systems."
 		ResourceIds.NEXUM:
 			return "Highly condensed Matter bound by arcane sigils. Matter stored as Nexum does not decay, but does not contribute to the Heat production bonus. Nexum is also used in advanced processes."
 		_:
@@ -214,25 +214,19 @@ func _get_base_mechanics_text() -> String:
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var modifier_data := stats.get_crystallization_modifier_data()
-			return (
-				"Produced by the Infernal Forge. Each current Flame reduces Heat production.\n"
-				+ "Raw Heat penalty: ×%s"
-				% NumberFormatter.format(modifier_data["raw_multiplier"])
+			return "Raw Heat penalty: ×" + NumberFormatter.format(
+				modifier_data["raw_multiplier"]
 			)
 		ResourceIds.ESSENCE:
 			var essence_data := stats.get_essence_influence_data()
 			var modifier_data := stats.get_crystallization_modifier_data()
 			return (
-				"A rare resource tied to advanced demonic systems.\n"
-				+ "Stored Essence strengthens Lava Mite Activity and grants Crystallization Resistance.\n"
-				+ "Lava Mite Activity: ×%s\n"
-				+ "Crystallization Resistance: %s%%\n"
-				+ "Final Heat production multiplier: ×%s"
-				% [
-					NumberFormatter.format(essence_data["hunger_multiplier"]),
-					NumberFormatter.format(essence_data["essence_resistance_percent"]),
-					NumberFormatter.format(modifier_data["effective_multiplier"])
-				]
+				"Lava Mite Activity: ×"
+				+ NumberFormatter.format(essence_data["hunger_multiplier"])
+				+ "\nCrystallization Resistance: "
+				+ NumberFormatter.format(essence_data["essence_resistance_percent"])
+				+ "%\nFinal Heat production multiplier: ×"
+				+ NumberFormatter.format(modifier_data["effective_multiplier"])
 			)
 		ResourceIds.NEXUM:
 			return "A resource reserved for systems that use Nexum."
