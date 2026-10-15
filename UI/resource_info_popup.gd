@@ -224,7 +224,7 @@ func _get_base_mechanics_text() -> String:
 				"Lava Mite Activity: ×"
 				+ NumberFormatter.format(essence_data["hunger_multiplier"])
 				+ "\nCrystallization Resistance: "
-				+ NumberFormatter.format(essence_data["essence_resistance_percent"])
+				+ NumberFormatter.format(modifier_data["essence_resistance_percent"])
 				+ "%\nFinal Heat production multiplier: ×"
 				+ NumberFormatter.format(modifier_data["effective_multiplier"])
 			)
