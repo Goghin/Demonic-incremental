@@ -1037,11 +1037,25 @@ func get_modifier_sensitivity_data(
 # modifiers or sensitivity list. Generator-specific sensitivity is applied
 # separately by the production simulation.
 func get_essence_influence_data() -> Dictionary:
-	var hunger_multiplier := get_raw_resource_modifier_multiplier(
-		"essence_influence",
-		ModifierTypes.INPUT_DRAW,
-		ResourceIds.ASH
-	)
+	var hunger_multiplier: float = 1.0
+	var essence_upgrade = state.get_upgrade("essence_influence")
+
+	if essence_upgrade != null and essence_upgrade.is_purchased():
+		for effect in essence_upgrade.definition.effects:
+			if effect.type != UpgradeEffectTypes.APPLY_MODIFIER:
+				continue
+			if effect.modifier_type != ModifierTypes.INPUT_DRAW:
+				continue
+			if effect.modifier_target_id != ResourceIds.ASH:
+				continue
+			if effect.dynamic_formula != Modifier.DYNAMIC_RESOURCE_SQRT:
+				continue
+
+			var amount := state.get_resource_amount(effect.dynamic_resource_id)
+			if amount > 0.0:
+				hunger_multiplier = 1.0 + effect.value * sqrt(amount)
+			break
+
 	var crystallization_data := get_crystallization_modifier_data()
 
 	return {
