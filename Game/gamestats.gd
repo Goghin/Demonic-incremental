@@ -1032,15 +1032,57 @@ func get_modifier_sensitivity_data(
 	}
 
 
+# Returns the live Essence-related values used by gameplay.
+# Keep the resource popup as presentation only: all formulas and source
+# selection belong here and use the same Modifier / ModifierSensitivity
+# implementations as the simulation.
+func get_essence_influence_data() -> Dictionary:
+	var hunger_multiplier := get_raw_resource_modifier_multiplier(
+		"essence_influence",
+		ModifierTypes.INPUT_DRAW,
+		ResourceIds.ASH
+	)
+
+	var essence_sensitivity := 1.0
+	var atomic_friction = state.get_generator("atomic_friction")
+	if atomic_friction != null:
+		for sensitivity_modifier in atomic_friction.modifier_sensitivities:
+			if sensitivity_modifier.modifier_id != "crystallization":
+				continue
+			if sensitivity_modifier.source_upgrade_id != "essence_influence":
+				continue
+
+			essence_sensitivity *= sensitivity_modifier.get_effective_multiplier(
+				state
+			)
+
+	var total_sensitivity := 1.0
+	var sensitivity_data := get_modifier_sensitivity_data(
+		"atomic_friction",
+		"crystallization"
+	)
+	total_sensitivity = sensitivity_data["sensitivity"]
+
+	return {
+		"hunger_multiplier": hunger_multiplier,
+		"essence_sensitivity": essence_sensitivity,
+		"essence_resistance_percent": (1.0 - essence_sensitivity) * 100.0,
+		"total_sensitivity": total_sensitivity,
+		"total_resistance_percent": (1.0 - total_sensitivity) * 100.0
+	}
+
+
 # Returns the live Crystallization modifier values used by Atomic Friction's
-# Heat production. The popup reads these values instead of recreating the
-# raw penalty or Essence sensitivity formula itself.
+# Heat production. The raw and effective values come directly from the
+# Modifier methods used during production; sensitivity is shared with the
+# generator's modifier-sensitivity system.
 func get_crystallization_modifier_data() -> Dictionary:
 	var generator = state.get_generator("atomic_friction")
 	if generator == null:
 		return {
 			"raw_multiplier": 1.0,
 			"sensitivity": 1.0,
+			"resistance_percent": 0.0,
 			"effective_multiplier": 1.0
 		}
 
@@ -1064,12 +1106,14 @@ func get_crystallization_modifier_data() -> Dictionary:
 		return {
 			"raw_multiplier": raw_multiplier,
 			"sensitivity": sensitivity,
+			"resistance_percent": (1.0 - sensitivity) * 100.0,
 			"effective_multiplier": modifier.get_effective_multiplier(state, generator)
 		}
 
 	return {
 		"raw_multiplier": 1.0,
 		"sensitivity": 1.0,
+		"resistance_percent": 0.0,
 		"effective_multiplier": 1.0
 	}
 
