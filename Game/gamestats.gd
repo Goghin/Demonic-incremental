@@ -1097,12 +1097,17 @@ func get_crystallization_modifier_data() -> Dictionary:
 			if stats_modifier["source_upgrade_id"] != modifier.source_upgrade_id:
 				continue
 
+			var raw_multiplier: float = stats_modifier["current_multiplier"]
 			var sensitivity: float = stats_modifier["sensitivity"]
+			# Match the StatsPanel's displayed interpolation exactly. Do not use
+			# the separately aggregated effective value here, as it can multiply
+			# per-modifier effective multipliers and disagree with raw × sensitivity.
+			var effective_multiplier: float = 1.0 + (raw_multiplier - 1.0) * sensitivity
 			return {
-				"raw_multiplier": stats_modifier["current_multiplier"],
+				"raw_multiplier": raw_multiplier,
 				"sensitivity": sensitivity,
 				"essence_resistance_percent": (1.0 - sensitivity) * 100.0,
-				"effective_multiplier": stats_modifier["effective_multiplier"]
+				"effective_multiplier": effective_multiplier
 			}
 
 	return {
