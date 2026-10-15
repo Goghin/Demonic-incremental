@@ -247,22 +247,17 @@ func _get_active_modifiers_text() -> String:
 			)
 		ResourceIds.ESSENCE:
 			var essence_data := stats.get_essence_influence_data()
+			var modifier_data := stats.get_crystallization_modifier_data()
 			return (
-				"Lava Mite Hunger: ×%s\nCrystallization Resistance: %s%%"
+				"Lava Mite Hunger: ×%s\nCrystallization Resistance: %s%%\nFinal Heat production multiplier: ×%s"
 				% [
 					NumberFormatter.format(essence_data["hunger_multiplier"]),
-					NumberFormatter.format(essence_data["essence_resistance_percent"])
+					NumberFormatter.format(essence_data["essence_resistance_percent"]),
+					NumberFormatter.format(modifier_data["effective_multiplier"])
 				]
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var modifier_data := stats.get_crystallization_modifier_data()
-			return (
-				"Raw Heat penalty: ×%s\nEssence Resistance: %s%%\nFinal Heat production multiplier: ×%s"
-				% [
-					NumberFormatter.format(modifier_data["raw_multiplier"]),
-					NumberFormatter.format(modifier_data["essence_resistance_percent"]),
-					NumberFormatter.format(modifier_data["effective_multiplier"])
-				]
-			)
+			return "Raw Heat penalty: ×%s" % NumberFormatter.format(modifier_data["raw_multiplier"])
 		_:
 			return "No resource-specific realm modifier."
