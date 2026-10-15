@@ -164,7 +164,7 @@ func _get_resource_description_text() -> String:
 		ResourceIds.CRYSTALLIZED_FLAME:
 			return "A highly prized product of the Infernal Forge. Each Crystallized Flame draws power from the realm, making Heat progressively harder to produce."
 		ResourceIds.ESSENCE:
-			return "A rare, highly volatile substance that intensifies Lava Mite activity and weakens the Heat production penalty caused by Crystallized Flames."
+			return "A volatile substance that fuels Lava Mite activity and helps counteract the effects of Crystallized Flames."
 		ResourceIds.NEXUM:
 			return "Highly condensed Matter bound by arcane sigils. Matter stored as Nexum does not decay, but does not contribute to the Heat production bonus. Nexum is also used in advanced processes."
 		_:
@@ -214,18 +214,18 @@ func _get_base_mechanics_text() -> String:
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var modifier_data := stats.get_crystallization_modifier_data()
-			return "Raw Heat penalty: ×" + NumberFormatter.format(
+			return "Raw Heat production multiplier: ×" + NumberFormatter.format(
 				modifier_data["raw_multiplier"]
 			)
 		ResourceIds.ESSENCE:
 			var essence_data := stats.get_essence_influence_data()
 			var modifier_data := stats.get_crystallization_modifier_data()
 			return (
-				"Lava Mite Activity: ×"
+				"Lava Mite activity multiplier: ×"
 				+ NumberFormatter.format(essence_data["hunger_multiplier"])
-				+ "\nBase Crystallization Resistance: "
+				+ "\nCrystallization resistance: "
 				+ NumberFormatter.format(modifier_data["essence_resistance_percent"])
-				+ "%\nBase Heat production multiplier: ×"
+				+ "%\nHeat production multiplier after resistance: ×"
 				+ NumberFormatter.format(modifier_data["effective_multiplier"])
 			)
 		ResourceIds.NEXUM:
