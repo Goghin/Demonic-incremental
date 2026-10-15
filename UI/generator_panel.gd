@@ -384,6 +384,7 @@ func _update_toggle_button_style(button: Button, enabled: bool) -> void:
 
 
 
+
 func _clear_resource_rows(container: Node) -> void:
 	for child in container.get_children():
 		container.remove_child(child)
@@ -391,30 +392,48 @@ func _clear_resource_rows(container: Node) -> void:
 
 
 func _update_resource_rows(container: Node, rows: Array[Dictionary]) -> void:
-	_clear_resource_rows(container)
+	var rebuild := container.get_child_count() != rows.size()
+	if not rebuild:
+		for i in range(rows.size()):
+			var existing_row := container.get_child(i) as HBoxContainer
+			if (
+				existing_row == null
+				or str(existing_row.get_meta("resource_id", "")) != str(rows[i].get("resource_id", ""))
+			):
+				rebuild = true
+				break
 
-	for row_data in rows:
-		var row := HBoxContainer.new()
-		row.add_theme_constant_override("separation", 4)
-		row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		container.add_child(row)
+	if rebuild:
+		_clear_resource_rows(container)
+		for row_data in rows:
+			var row := HBoxContainer.new()
+			row.add_theme_constant_override("separation", 4)
+			row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.set_meta("resource_id", str(row_data.get("resource_id", "")))
+			container.add_child(row)
 
-		var prefix_label := Label.new()
-		prefix_label.text = str(row_data.get("prefix", ""))
-		prefix_label.add_theme_font_size_override("font_size", 11)
-		row.add_child(prefix_label)
+			var prefix_label := Label.new()
+			prefix_label.name = "PrefixLabel"
+			prefix_label.add_theme_font_size_override("font_size", 11)
+			row.add_child(prefix_label)
 
-		var resource_id := str(row_data.get("resource_id", ""))
-		var icon := ResourceIcon.new()
-		icon.setup(resource_id, Vector2(14.0, 14.0))
-		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-		row.add_child(icon)
+			var icon := ResourceIcon.new()
+			icon.name = "ResourceIcon"
+			icon.setup(str(row_data.get("resource_id", "")), Vector2(14.0, 14.0))
+			icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+			row.add_child(icon)
 
-		var value_label := Label.new()
-		value_label.text = "%s %s" % [
+			var value_label := Label.new()
+			value_label.name = "ValueLabel"
+			value_label.add_theme_font_size_override("font_size", 11)
+			value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row.add_child(value_label)
+
+	for i in range(rows.size()):
+		var row_data: Dictionary = rows[i]
+		var row := container.get_child(i) as HBoxContainer
+		row.get_node("PrefixLabel").text = str(row_data.get("prefix", ""))
+		row.get_node("ValueLabel").text = "%s %s" % [
 			str(row_data.get("amount", "")),
-			state.get_resource_display_name(resource_id),
+			state.get_resource_display_name(str(row_data.get("resource_id", ""))),
 		]
-		value_label.add_theme_font_size_override("font_size", 11)
-		value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(value_label)
