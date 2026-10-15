@@ -10,6 +10,7 @@ const MAX_WIDTH := 280.0
 var state: GameState
 var simulation: Simulation
 var upgrade_id: String
+var _last_maxed_upgrade_id: String = ""
 
 
 func _ready() -> void:
@@ -91,6 +92,17 @@ func update_info() -> void:
 
 	if upgrade == null:
 		return
+
+	# Maxed upgrades have no changing costs or requirements. Avoid rebuilding
+	# their labels every frame while the popup is visible; queue_free() is
+	# deferred, so repeated rebuilding can temporarily inflate container size.
+	if upgrade.is_maxed() and _last_maxed_upgrade_id == upgrade_id:
+		return
+
+	if upgrade.is_maxed():
+		_last_maxed_upgrade_id = upgrade_id
+	else:
+		_last_maxed_upgrade_id = ""
 
 	$MarginContainer/VBoxContainer/NameLabel.text = (
 		upgrade.definition.display_name
