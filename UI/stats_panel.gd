@@ -106,12 +106,23 @@ func _setup_resource_stats() -> void:
 		
 		container.add_child(row)
 		
-		var name_label = _create_column_label(
+		var name_container := HBoxContainer.new()
+		name_container.custom_minimum_size = Vector2(RESOURCE_NAME_WIDTH, 0)
+		name_container.add_theme_constant_override("separation", 4)
+		name_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+		var resource_icon := ResourceIcon.new()
+		resource_icon.setup(resource_id, Vector2(14.0, 14.0))
+		resource_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		name_container.add_child(resource_icon)
+
+		var name_label := _create_column_label(
 			resource.definition.display_name,
-			RESOURCE_NAME_WIDTH,
+			RESOURCE_NAME_WIDTH - 18,
 			HORIZONTAL_ALIGNMENT_LEFT,
 			11
 		)
+		name_container.add_child(name_label)
 		
 		var amount_label = _create_column_label(
 			"",
@@ -141,7 +152,7 @@ func _setup_resource_stats() -> void:
 			11
 		)
 		
-		row.add_child(name_label)
+		row.add_child(name_container)
 		row.add_child(amount_label)
 		row.add_child(production_label)
 		row.add_child(consumption_label)
@@ -175,13 +186,24 @@ func _setup_resource_statistics() -> void:
 
 		is_first_resource = false
 		
-		# Resource name
-		var name_label = _create_column_label(
+		# Resource identity for this resource's history.
+		var name_container := HBoxContainer.new()
+		name_container.custom_minimum_size = Vector2(RESOURCE_STATISTICS_NAME_WIDTH, 0)
+		name_container.add_theme_constant_override("separation", 4)
+		name_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+		var resource_icon := ResourceIcon.new()
+		resource_icon.setup(resource_id, Vector2(14.0, 14.0))
+		resource_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		name_container.add_child(resource_icon)
+
+		var name_label := _create_column_label(
 			resource.definition.display_name,
-			RESOURCE_STATISTICS_NAME_WIDTH,
+			RESOURCE_STATISTICS_NAME_WIDTH - 18,
 			HORIZONTAL_ALIGNMENT_LEFT,
 			11
 		)
+		name_container.add_child(name_label)
 		
 		# Section containing This Realm and All Realms
 		var stats_container = VBoxContainer.new()
@@ -238,7 +260,7 @@ func _setup_resource_statistics() -> void:
 		var row = HBoxContainer.new()
 		row.custom_minimum_size = Vector2(0, 90)
 		
-		row.add_child(name_label)
+		row.add_child(name_container)
 		row.add_child(stats_container)
 		
 		container.add_child(row)
