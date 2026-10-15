@@ -38,6 +38,7 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradesButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/AutomationButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
+	_style_operation_mode_dropdown()
 
 
 func set_selected(is_selected: bool) -> void:
@@ -211,6 +212,9 @@ func _process(_delta: float) -> void:
 		state.get_resource_display_name(cost_resource_id),
 	]
 	buy_button.text = "BUY · %s" % cost_text
+	buy_button.icon = ResourceIconRegistry.get_texture(cost_resource_id)
+	buy_button.expand_icon = false
+	buy_button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	$HBoxContainer/VBoxContainer/CostLabel.visible = false
 	
 	buy_button.disabled = (
@@ -396,6 +400,56 @@ func _style_action_button(button: Button) -> void:
 	disabled.bg_color = Color(0.085, 0.07, 0.08, 1.0)
 	disabled.border_color = Color(0.20, 0.16, 0.16, 1.0)
 	button.add_theme_stylebox_override("disabled", disabled)
+
+
+func _style_operation_mode_dropdown() -> void:
+	var option_button: OptionButton = $HBoxContainer/VBoxContainer/OperationModeOptionButton
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.12, 0.085, 0.095, 1.0)
+	normal.border_color = Color(0.32, 0.22, 0.20, 0.95)
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(4)
+	normal.content_margin_left = 6.0
+	normal.content_margin_right = 6.0
+	normal.content_margin_top = 3.0
+	normal.content_margin_bottom = 3.0
+	option_button.add_theme_stylebox_override("normal", normal)
+	option_button.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
+	option_button.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.75))
+	option_button.add_theme_color_override("font_disabled_color", Color(0.43, 0.38, 0.38))
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color(0.20, 0.12, 0.105, 1.0)
+	hover.border_color = Color(0.62, 0.34, 0.22, 1.0)
+	option_button.add_theme_stylebox_override("hover", hover)
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color(0.28, 0.14, 0.095, 1.0)
+	pressed.border_color = Color(0.82, 0.40, 0.22, 1.0)
+	option_button.add_theme_stylebox_override("pressed", pressed)
+	var disabled := normal.duplicate() as StyleBoxFlat
+	disabled.bg_color = Color(0.085, 0.07, 0.08, 1.0)
+	disabled.border_color = Color(0.20, 0.16, 0.16, 1.0)
+	option_button.add_theme_stylebox_override("disabled", disabled)
+
+	var popup: PopupMenu = option_button.get_popup()
+	var popup_panel := StyleBoxFlat.new()
+	popup_panel.bg_color = Color(0.055, 0.045, 0.055, 0.99)
+	popup_panel.border_color = Color(0.32, 0.22, 0.20, 1.0)
+	popup_panel.set_border_width_all(1)
+	popup_panel.set_corner_radius_all(4)
+	popup_panel.content_margin_left = 4.0
+	popup_panel.content_margin_right = 4.0
+	popup_panel.content_margin_top = 4.0
+	popup_panel.content_margin_bottom = 4.0
+	popup.add_theme_stylebox_override("panel", popup_panel)
+	var popup_hover := StyleBoxFlat.new()
+	popup_hover.bg_color = Color(0.24, 0.13, 0.10, 1.0)
+	popup_hover.set_corner_radius_all(3)
+	popup.add_theme_stylebox_override("hover", popup_hover)
+	popup.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
+	popup.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.75))
+	popup.add_theme_color_override("font_disabled_color", Color(0.43, 0.38, 0.38))
+	popup.add_theme_color_override("font_accelerator_color", Color(0.66, 0.59, 0.57))
+	popup.add_theme_color_override("font_separator_color", Color(0.32, 0.22, 0.20))
 
 
 func _update_toggle_button_style(button: Button, enabled: bool) -> void:
