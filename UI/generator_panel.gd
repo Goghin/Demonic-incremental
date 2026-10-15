@@ -49,8 +49,8 @@ func set_selected(is_selected: bool) -> void:
 		selected_style = _normal_panel_style.duplicate() as StyleBoxFlat
 	else:
 		selected_style.bg_color = Color(0.12, 0.10, 0.09, 1.0)
-	selected_style.set_border_width_all(3)
-	selected_style.border_color = Color(1.0, 0.48, 0.16, 1.0)
+	selected_style.set_border_width_all(2)
+	selected_style.border_color = Color(0.95, 0.43, 0.17, 1.0)
 	add_theme_stylebox_override("panel", selected_style)
 
 
@@ -434,8 +434,16 @@ func _update_resource_rows(container: Node, rows: Array[Dictionary]) -> void:
 		var row := container.get_child(i) as HBoxContainer
 		var prefix_label := row.get_node("PrefixLabel") as Label
 		prefix_label.text = str(row_data.get("prefix", ""))
+		prefix_label.add_theme_color_override("font_color", Color(0.66, 0.59, 0.57))
 		var value_label := row.get_node("ValueLabel") as Label
 		value_label.text = "%s %s" % [
 			str(row_data.get("amount", "")),
 			state.get_resource_display_name(str(row_data.get("resource_id", ""))),
 		]
+		var prefix := str(row_data.get("prefix", ""))
+		if prefix == "Produces:":
+			value_label.add_theme_color_override("font_color", Color(0.55, 0.85, 0.58))
+		elif prefix == "Consumes:":
+			value_label.add_theme_color_override("font_color", Color(0.88, 0.57, 0.50))
+		else:
+			value_label.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
