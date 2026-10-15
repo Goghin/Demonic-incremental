@@ -9,14 +9,14 @@ const MAX_SATURATED_SCALE_BONUS: float = 0.12
 const SATURATION_SCALE_START_MAGNITUDE: float = 9.0
 const SCALE_PER_EXTRA_MAGNITUDE: float = 0.02
 
-const TOP_COLOR: Color = Color(0.73, 0.43, 0.95, 1.0)
-const LEFT_COLOR: Color = Color(0.39, 0.20, 0.57, 1.0)
-const RIGHT_COLOR: Color = Color(0.23, 0.12, 0.36, 1.0)
-const OUTLINE_COLOR: Color = Color(0.12, 0.07, 0.19, 1.0)
-const GLOW_COLOR: Color = Color(0.48, 0.17, 0.78, 0.075)
-const SHADOW_COLOR: Color = Color(0.035, 0.015, 0.06, 0.48)
-const RUBBLE_COLOR: Color = Color(0.34, 0.19, 0.48, 0.85)
-const RUBBLE_HIGHLIGHT: Color = Color(0.58, 0.32, 0.72, 0.85)
+const TOP_COLOR: Color = Color(0.26, 0.75, 0.90, 1.0)
+const LEFT_COLOR: Color = Color(0.15, 0.53, 0.69, 1.0)
+const RIGHT_COLOR: Color = Color(0.47, 0.89, 0.96, 1.0)
+const OUTLINE_COLOR: Color = Color(0.035, 0.12, 0.16, 1.0)
+const GLOW_COLOR: Color = Color(0.12, 0.62, 0.82, 0.075)
+const SHADOW_COLOR: Color = Color(0.015, 0.035, 0.045, 0.48)
+const RUBBLE_COLOR: Color = Color(0.10, 0.34, 0.44, 0.85)
+const RUBBLE_HIGHLIGHT: Color = Color(0.30, 0.68, 0.78, 0.85)
 
 # Each slot is (horizontal offset, vertical layer, front/back depth).
 # This is a scatter of fragments rather than a neat stack.
