@@ -69,6 +69,7 @@ var realm_view: RealmView
 @onready var offline_results_panel: Control = $OfflineResultsPanel
 
 func _ready() -> void:
+	_update_navigation_buttons("GeneratorsButton")
 	$OfflineResultsPanel.results_closed.connect(
 		_on_offline_results_closed
 	)
@@ -473,6 +474,7 @@ func _on_generator_selection_requested(generator_id: String) -> void:
 	$UpgradeScroll.offset_top = 112.0
 	$UpgradeScroll.offset_right = 655.0
 	_update_upgrade_view()
+	_update_navigation_buttons("UpgradesButton")
 
 	_set_selected_generator(generator_id)
 	_on_generator_upgrades_requested(generator_id)
@@ -1077,7 +1079,7 @@ func _on_achievements_button_pressed() -> void:
 	else:
 		$GeneratorScroll.show()
 		_refresh_generator_panel_visibility()
-	_update_navigation_buttons("AchievementButton")
+	_update_navigation_buttons("AchievementButton" if should_open else "GeneratorsButton")
 
 
 func _on_options_button_pressed() -> void:
@@ -1098,7 +1100,7 @@ func _on_options_button_pressed() -> void:
 	else:
 		$GeneratorScroll.show()
 		_refresh_generator_panel_visibility()
-	_update_navigation_buttons("OptionsButton")
+	_update_navigation_buttons("OptionsButton" if should_open else "GeneratorsButton")
 
 
 func _on_options_close_button_pressed() -> void:
@@ -1549,7 +1551,7 @@ func _on_stats_button_pressed() -> void:
 		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
 
-	_update_navigation_buttons("StatsButton")
+	_update_navigation_buttons("StatsButton" if should_open else "GeneratorsButton")
 
 
 func _on_upgrades_button_pressed() -> void:
@@ -1572,7 +1574,7 @@ func _on_upgrades_button_pressed() -> void:
 	if general_upgrades_are_open:
 		$UpgradeScroll.hide()
 		_update_upgrade_view()
-		_update_navigation_buttons("UpgradesButton")
+		_update_navigation_buttons("GeneratorsButton")
 		return
 
 	$UpgradeScroll.show()
@@ -1612,7 +1614,7 @@ func _on_prestige_button_pressed() -> void:
 		$UpgradeScroll.hide()
 		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
-	_update_navigation_buttons("PrestigeButton")
+	_update_navigation_buttons("PrestigeButton" if should_open else "GeneratorsButton")
 
 
 func _on_run_reset() -> void:
