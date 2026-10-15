@@ -1032,89 +1032,79 @@ func get_modifier_sensitivity_data(
 	}
 
 
-# Returns the live Essence-related values used by gameplay.
-# Keep the resource popup as presentation only: all formulas and source
-# selection belong here and use the same Modifier / ModifierSensitivity
-# implementations as the simulation.
+# Returns the base Crystallization and Essence Influence values.
+# These are read from upgrade definitions, not from a generator's live
+# modifiers or sensitivity list. Generator-specific sensitivity is applied
+# separately by the production simulation.
 func get_essence_influence_data() -> Dictionary:
 	var hunger_multiplier := get_raw_resource_modifier_multiplier(
 		"essence_influence",
 		ModifierTypes.INPUT_DRAW,
 		ResourceIds.ASH
 	)
-
-	var essence_sensitivity := 1.0
-	var atomic_friction = state.get_generator("atomic_friction")
-	if atomic_friction != null:
-		for sensitivity_modifier in atomic_friction.modifier_sensitivities:
-			if sensitivity_modifier.modifier_id != "crystallization":
-				continue
-			if sensitivity_modifier.source_upgrade_id != "essence_influence":
-				continue
-
-			essence_sensitivity *= sensitivity_modifier.get_effective_multiplier(
-				state
-			)
+	var crystallization_data := get_crystallization_modifier_data()
 
 	return {
 		"hunger_multiplier": hunger_multiplier,
-		"essence_sensitivity": essence_sensitivity,
-		"essence_resistance_percent": (1.0 - essence_sensitivity) * 100.0
+		"essence_sensitivity": crystallization_data["essence_sensitivity"],
+		"essence_resistance_percent": crystallization_data["essence_resistance_percent"]
 	}
 
 
-# Returns the live Crystallization modifier values used by Atomic Friction's
-# Heat production. The raw and effective values come directly from the
-# Modifier methods used during production; sensitivity is shared with the
-# generator's modifier-sensitivity system.
+# Reads the global Crystallization and Essence Influence base effects from
+# their upgrade definitions. No generator's sensitivity is used here.
 func get_crystallization_modifier_data() -> Dictionary:
-	var generator = state.get_generator("atomic_friction")
-	if generator == null:
-		return {
-			"raw_multiplier": 1.0,
-			"sensitivity": 1.0,
-			"essence_resistance_percent": 0.0,
-			"effective_multiplier": 1.0
-		}
+	var raw_multiplier: float = 1.0
+	var essence_sensitivity: float = 1.0
 
-	# Identify the upgrade source for the live Crystallization modifier.
-	# The StatsPanel displays modifiers aggregated by source upgrade, so use
-	# that same aggregated entry for the popup instead of recalculating it
-	# from an individual Modifier instance.
-	for modifier in generator.modifiers:
-		if modifier.id != "crystallization":
-			continue
-		if not modifier.applies_to(
-			ModifierTypes.PRODUCTION,
-			ResourceIds.HEAT
-		):
-			continue
-
-		for stats_modifier in get_generator_production_modifiers(
-			"atomic_friction",
-			ResourceIds.HEAT
-		):
-			if stats_modifier["source_upgrade_id"] != modifier.source_upgrade_id:
+	var crystallization_upgrade = state.get_upgrade("infernal_forge_unlock")
+	if crystallization_upgrade != null and crystallization_upgrade.is_purchased():
+		for effect in crystallization_upgrade.definition.effects:
+			if effect.type != UpgradeEffectTypes.APPLY_MODIFIER:
+				continue
+			if effect.modifier_id != "crystallization":
+				continue
+			if effect.modifier_type != ModifierTypes.PRODUCTION:
+				continue
+			if effect.modifier_target_id != ResourceIds.HEAT:
 				continue
 
-			var raw_multiplier: float = stats_modifier["current_multiplier"]
-			var sensitivity: float = stats_modifier["sensitivity"]
-			# Match the StatsPanel's displayed interpolation exactly. Do not use
-			# the separately aggregated effective value here, as it can multiply
-			# per-modifier effective multipliers and disagree with raw × sensitivity.
-			var effective_multiplier: float = 1.0 + (raw_multiplier - 1.0) * sensitivity
-			return {
-				"raw_multiplier": raw_multiplier,
-				"sensitivity": sensitivity,
-				"essence_resistance_percent": (1.0 - sensitivity) * 100.0,
-				"effective_multiplier": effective_multiplier
-			}
+			# Match Modifier.DYNAMIC_RESOURCE_EXPONENT using the effect's
+			# configured base value and resource, without reading a generator.
+			var amount := state.get_resource_amount(effect.dynamic_resource_id)
+			raw_multiplier = pow(effect.value, amount)
+			break
+
+	var essence_upgrade = state.get_upgrade("essence_influence")
+	if essence_upgrade != null and essence_upgrade.is_purchased():
+		for effect in essence_upgrade.definition.effects:
+			if effect.type != UpgradeEffectTypes.APPLY_SENSITIVITY:
+				continue
+			if effect.sensitivity_modifier_id != "crystallization":
+				continue
+
+			var sensitivity_resource_amount := state.get_resource_amount(
+				effect.sensitivity_dynamic_resource_id
+			)
+			if effect.sensitivity_dynamic_formula == ModifierSensitivity.DYNAMIC_RESOURCE_SQRT_INVERSE:
+				if sensitivity_resource_amount > 0.0:
+					essence_sensitivity = 1.0 / (
+						1.0
+						+ effect.sensitivity_multiplier
+						* sqrt(sensitivity_resource_amount)
+					)
+			break
+
+	var effective_multiplier: float = 1.0 + (
+		raw_multiplier - 1.0
+	) * essence_sensitivity
 
 	return {
-		"raw_multiplier": 1.0,
-		"sensitivity": 1.0,
-		"essence_resistance_percent": 0.0,
-		"effective_multiplier": 1.0
+		"raw_multiplier": raw_multiplier,
+		"essence_sensitivity": essence_sensitivity,
+		"sensitivity": essence_sensitivity,
+		"essence_resistance_percent": (1.0 - essence_sensitivity) * 100.0,
+		"effective_multiplier": effective_multiplier
 	}
 
 func get_heat_leak_per_second() -> float:
