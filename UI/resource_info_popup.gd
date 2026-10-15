@@ -213,11 +213,26 @@ func _get_base_mechanics_text() -> String:
 				% NumberFormatter.format(contamination_multiplier)
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
-			return "Produced by the Infernal Forge. Each current Flame reduces Heat production."
+			var modifier_data := stats.get_crystallization_modifier_data()
+			return (
+				"Produced by the Infernal Forge. Each current Flame reduces Heat production.\n"
+				+ "Raw Heat penalty: ×%s"
+				% NumberFormatter.format(modifier_data["raw_multiplier"])
+			)
 		ResourceIds.ESSENCE:
+			var essence_data := stats.get_essence_influence_data()
+			var modifier_data := stats.get_crystallization_modifier_data()
 			return (
 				"A rare resource tied to advanced demonic systems.\n"
-				+ "Stored Essence strengthens Lava Mite Hunger and grants Crystallization Resistance."
+				+ "Stored Essence strengthens Lava Mite Activity and grants Crystallization Resistance.\n"
+				+ "Lava Mite Activity: ×%s\n"
+				+ "Crystallization Resistance: %s%%\n"
+				+ "Final Heat production multiplier: ×%s"
+				% [
+					NumberFormatter.format(essence_data["hunger_multiplier"]),
+					NumberFormatter.format(essence_data["essence_resistance_percent"]),
+					NumberFormatter.format(modifier_data["effective_multiplier"])
+				]
 			)
 		ResourceIds.NEXUM:
 			return "A resource reserved for systems that use Nexum."
@@ -246,18 +261,8 @@ func _get_active_modifiers_text() -> String:
 				state.realm_effects.ashen_contamination_multiplier
 			)
 		ResourceIds.ESSENCE:
-			var essence_data := stats.get_essence_influence_data()
-			var modifier_data := stats.get_crystallization_modifier_data()
-			return (
-				"Lava Mite Activity: ×%s\nCrystallization Resistance: %s%%\nFinal Heat production multiplier: ×%s"
-				% [
-					NumberFormatter.format(essence_data["hunger_multiplier"]),
-					NumberFormatter.format(essence_data["essence_resistance_percent"]),
-					NumberFormatter.format(modifier_data["effective_multiplier"])
-				]
-			)
+			return "No direct modifiers to Essence production."
 		ResourceIds.CRYSTALLIZED_FLAME:
-			var modifier_data := stats.get_crystallization_modifier_data()
-			return "Raw Heat penalty: ×%s" % NumberFormatter.format(modifier_data["raw_multiplier"])
+			return "No direct modifiers to Crystallized Flame production."
 		_:
 			return "No resource-specific realm modifier."
