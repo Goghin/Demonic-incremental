@@ -1046,7 +1046,9 @@ func get_essence_influence_data() -> Dictionary:
 				continue
 			if effect.modifier_type != ModifierTypes.INPUT_DRAW:
 				continue
-			if effect.modifier_target_id != ResourceIds.ASH:
+			if effect.modifier_id != "essence_lava_mite_ash":
+				continue
+			if effect.dynamic_resource_id != ResourceIds.ESSENCE:
 				continue
 			if effect.dynamic_formula != Modifier.DYNAMIC_RESOURCE_SQRT:
 				continue
