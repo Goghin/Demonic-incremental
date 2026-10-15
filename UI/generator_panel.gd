@@ -213,8 +213,7 @@ func _process(_delta: float) -> void:
 	]
 	buy_button.text = "BUY · %s" % cost_text
 	buy_button.icon = ResourceIconRegistry.get_texture(cost_resource_id)
-	buy_button.icon_max_width = 16
-	buy_button.expand_icon = true
+	buy_button.expand_icon = false
 	buy_button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	$HBoxContainer/VBoxContainer/CostLabel.visible = false
 	
