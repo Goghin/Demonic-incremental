@@ -126,19 +126,30 @@ func _update_header_rate_rows(
 	rates: Dictionary,
 	prefix: String
 ) -> void:
-	while container.get_child_count() > rates.size():
-		var last_child := container.get_child(container.get_child_count() - 1)
-		container.remove_child(last_child)
-		last_child.queue_free()
-
 	var resource_ids: Array = rates.keys()
-	for i in range(resource_ids.size()):
-		var resource_id: String = str(resource_ids[i])
-		var row: HBoxContainer
-		if i >= container.get_child_count():
-			row = HBoxContainer.new()
+	var rebuild := container.get_child_count() != resource_ids.size()
+
+	if not rebuild:
+		for i in range(resource_ids.size()):
+			var existing_row := container.get_child(i) as HBoxContainer
+			if (
+				existing_row == null
+				or str(existing_row.get_meta("resource_id", "")) != str(resource_ids[i])
+			):
+				rebuild = true
+				break
+
+	if rebuild:
+		for child in container.get_children():
+			container.remove_child(child)
+			child.queue_free()
+
+		for resource_value in resource_ids:
+			var resource_id: String = str(resource_value)
+			var row := HBoxContainer.new()
 			row.add_theme_constant_override("separation", 3)
 			row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			row.set_meta("resource_id", resource_id)
 			container.add_child(row)
 
 			var icon := ResourceIcon.new()
@@ -152,34 +163,14 @@ func _update_header_rate_rows(
 			value_label.add_theme_font_size_override("font_size", 10)
 			value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			row.add_child(value_label)
-		else:
-			row = container.get_child(i) as HBoxContainer
-			if str(row.get_meta("resource_id", "")) != resource_id:
-				var old_child := row
-				container.remove_child(old_child)
-				old_child.queue_free()
-				row = HBoxContainer.new()
-				row.add_theme_constant_override("separation", 3)
-				row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				container.add_child(row)
-				var icon := ResourceIcon.new()
-				icon.name = "ResourceIcon"
-				icon.setup(resource_id, Vector2(12.0, 12.0))
-				icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-				row.add_child(icon)
-				var value_label := Label.new()
-				value_label.name = "RateLabel"
-				value_label.add_theme_font_size_override("font_size", 10)
-				value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-				row.add_child(value_label)
 
-		row.set_meta("resource_id", resource_id)
-		var icon_node := row.get_node("ResourceIcon") as ResourceIcon
-		icon_node.setup(resource_id, Vector2(12.0, 12.0))
+	for i in range(resource_ids.size()):
+		var resource_id: String = str(resource_ids[i])
+		var row := container.get_child(i) as HBoxContainer
 		var label := row.get_node("RateLabel") as Label
 		label.text = "%s%s %s/s" % [
 			prefix,
-			NumberFormatter.format(float(rates[resource_id])),
+			NumberFormatter.format(float(rates[resource_ids[i]])),
 			state.get_resource_display_name(resource_id)
 		]
 
