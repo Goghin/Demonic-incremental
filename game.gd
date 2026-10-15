@@ -70,6 +70,7 @@ var realm_view: RealmView
 
 func _ready() -> void:
 	_update_navigation_buttons("GeneratorsButton")
+	_style_options_panel()
 	$OfflineResultsPanel.results_closed.connect(
 		_on_offline_results_closed
 	)
@@ -302,6 +303,95 @@ func _ready() -> void:
 	if pending_offline_achievement_ids.size() > 0 and not $OfflineResultsPanel.visible:
 		_show_pending_offline_achievements()
 	_start_ambient_audio()
+
+
+func _style_options_panel() -> void:
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.055, 0.045, 0.055, 0.97)
+	panel_style.border_color = Color(0.42, 0.27, 0.22, 1.0)
+	panel_style.set_border_width_all(1)
+	panel_style.set_corner_radius_all(4)
+	panel_style.content_margin_left = 14.0
+	panel_style.content_margin_right = 14.0
+	panel_style.content_margin_top = 12.0
+	panel_style.content_margin_bottom = 12.0
+	$OptionsPanel.add_theme_stylebox_override("panel", panel_style)
+
+	for node_path in [
+		"OptionsPanel/OptionsContent/SaveButton",
+		"OptionsPanel/OptionsContent/OptionsCloseButton",
+		"OptionsPanel/OptionsContent/QuitGameButton"
+	]:
+		var button := get_node(node_path) as Button
+		button.add_theme_font_size_override("font_size", 10)
+		button.add_theme_color_override("font_color", Color(1.0, 0.84, 0.68))
+		button.add_theme_color_override("font_hover_color", Color(1.0, 0.94, 0.82))
+		button.add_theme_color_override("font_pressed_color", Color(1.0, 0.75, 0.48))
+		button.add_theme_stylebox_override("normal", _create_options_button_style(
+			Color(0.095, 0.065, 0.065, 1.0), Color(0.34, 0.23, 0.20, 1.0)
+		))
+		button.add_theme_stylebox_override("hover", _create_options_button_style(
+			Color(0.17, 0.095, 0.07, 1.0), Color(0.78, 0.39, 0.20, 1.0)
+		))
+		button.add_theme_stylebox_override("pressed", _create_options_button_style(
+			Color(0.24, 0.12, 0.075, 1.0), Color(0.95, 0.49, 0.22, 1.0)
+		))
+		button.add_theme_stylebox_override("disabled", _create_options_button_style(
+			Color(0.075, 0.065, 0.07, 1.0), Color(0.22, 0.17, 0.16, 1.0)
+		))
+
+	for node_path in [
+		"OptionsPanel/OptionsContent/VisualEffectsCheckBox",
+		"OptionsPanel/OptionsContent/UISoundsCheckBox",
+		"OptionsPanel/OptionsContent/AmbientAudioCheckBox"
+	]:
+		var checkbox := get_node(node_path) as CheckBox
+		checkbox.add_theme_font_size_override("font_size", 10)
+		checkbox.add_theme_color_override("font_color", Color(0.88, 0.80, 0.75))
+		checkbox.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.73))
+		checkbox.add_theme_color_override("font_pressed_color", Color(1.0, 0.84, 0.65))
+		checkbox.add_theme_color_override("font_disabled_color", Color(0.42, 0.38, 0.38))
+
+	$OptionsPanel/OptionsContent/MasterVolumeLabel.add_theme_font_size_override(
+		"font_size", 10
+	)
+	$OptionsPanel/OptionsContent/MasterVolumeLabel.add_theme_color_override(
+		"font_color", Color(1.0, 0.84, 0.68)
+	)
+
+	var slider_track := StyleBoxFlat.new()
+	slider_track.bg_color = Color(0.13, 0.095, 0.09, 1.0)
+	slider_track.border_color = Color(0.34, 0.23, 0.20, 1.0)
+	slider_track.set_border_width_all(1)
+	slider_track.set_corner_radius_all(3)
+	var slider_fill := StyleBoxFlat.new()
+	slider_fill.bg_color = Color(0.75, 0.32, 0.15, 1.0)
+	slider_fill.set_corner_radius_all(3)
+	$OptionsPanel/OptionsContent/MasterVolumeSlider.add_theme_stylebox_override(
+		"slider", slider_track
+	)
+	$OptionsPanel/OptionsContent/MasterVolumeSlider.add_theme_stylebox_override(
+		"grabber_area", slider_fill
+	)
+	$OptionsPanel/OptionsContent/MasterVolumeSlider.add_theme_stylebox_override(
+		"grabber_area_highlight", slider_fill.duplicate()
+	)
+
+
+func _create_options_button_style(
+	background_color: Color,
+	border_color: Color
+) -> StyleBoxFlat:
+	var style := StyleBoxFlat.new()
+	style.bg_color = background_color
+	style.border_color = border_color
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(3)
+	style.content_margin_left = 8.0
+	style.content_margin_right = 8.0
+	style.content_margin_top = 5.0
+	style.content_margin_bottom = 5.0
+	return style
 
 
 func _create_realm_view() -> void:
