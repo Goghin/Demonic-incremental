@@ -105,6 +105,12 @@ func _create_resource_card(resource_id: String) -> void:
 	name_label.add_theme_font_size_override("font_size", 13)
 	text_column.add_child(name_label)
 
+	var amount_row := HBoxContainer.new()
+	amount_row.name = "ResourceAmountRow"
+	amount_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	amount_row.add_theme_constant_override("separation", 4)
+	text_column.add_child(amount_row)
+
 	var amount_label := Label.new()
 	amount_label.name = "ResourceAmount"
 	amount_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -112,7 +118,13 @@ func _create_resource_card(resource_id: String) -> void:
 	amount_label.text = NumberFormatter.format(
 		state.get_resource_amount(resource_id)
 	)
-	text_column.add_child(amount_label)
+	amount_row.add_child(amount_label)
+
+	var net_rate_label := Label.new()
+	net_rate_label.name = "ResourceNetRate"
+	net_rate_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	net_rate_label.add_theme_font_size_override("font_size", 11)
+	amount_row.add_child(net_rate_label)
 
 	$ResourceContainer.add_child(card)
 	card.mouse_entered.connect(
@@ -123,8 +135,10 @@ func _create_resource_card(resource_id: String) -> void:
 	)
 	resource_cards[resource_id] = {
 		"card": card,
-		"amount_label": amount_label
+			"amount_label": amount_label,
+			"net_rate_label": net_rate_label
 	}
+	_update_resource_card_rate(resource_id)
 
 
 func _update_resource_amounts() -> void:
@@ -133,6 +147,27 @@ func _update_resource_amounts() -> void:
 		amount_label.text = NumberFormatter.format(
 			state.get_resource_amount(resource_id)
 		)
+		_update_resource_card_rate(resource_id)
+
+
+func _update_resource_card_rate(resource_id: String) -> void:
+	if stats == null or not resource_cards.has(resource_id):
+		return
+
+	var production := stats.get_resource_actual_production_per_second(resource_id)
+	var consumption := stats.get_resource_actual_consumption_per_second(resource_id)
+	var net := production - consumption
+	var net_rate_label: Label = resource_cards[resource_id]["net_rate_label"]
+
+	if net > 0.0:
+		net_rate_label.text = "(+%s/s)" % NumberFormatter.format(net)
+		net_rate_label.add_theme_color_override("font_color", Color(0.55, 0.85, 0.58))
+	elif net < 0.0:
+		net_rate_label.text = "(%s/s)" % NumberFormatter.format(net)
+		net_rate_label.add_theme_color_override("font_color", Color(0.95, 0.48, 0.40))
+	else:
+		net_rate_label.text = "(0/s)"
+		net_rate_label.add_theme_color_override("font_color", Color(0.68, 0.65, 0.64))
 
 
 func _clear_resource_cards() -> void:
