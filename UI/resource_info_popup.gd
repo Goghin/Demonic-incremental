@@ -249,7 +249,7 @@ func _get_active_modifiers_text() -> String:
 			var essence_data := stats.get_essence_influence_data()
 			var modifier_data := stats.get_crystallization_modifier_data()
 			return (
-				"Lava Mite Hunger: ×%s\nCrystallization Resistance: %s%%\nFinal Heat production multiplier: ×%s"
+				"Lava Mite Activity: ×%s\nCrystallization Resistance: %s%%\nFinal Heat production multiplier: ×%s"
 				% [
 					NumberFormatter.format(essence_data["hunger_multiplier"]),
 					NumberFormatter.format(essence_data["essence_resistance_percent"]),
