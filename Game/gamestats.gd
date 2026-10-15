@@ -1073,41 +1073,41 @@ func get_crystallization_modifier_data() -> Dictionary:
 		return {
 			"raw_multiplier": 1.0,
 			"sensitivity": 1.0,
-			"resistance_percent": 0.0,
+			"essence_resistance_percent": 0.0,
 			"effective_multiplier": 1.0
 		}
 
+	# Identify the upgrade source for the live Crystallization modifier.
+	# The StatsPanel displays modifiers aggregated by source upgrade, so use
+	# that same aggregated entry for the popup instead of recalculating it
+	# from an individual Modifier instance.
 	for modifier in generator.modifiers:
 		if modifier.id != "crystallization":
 			continue
-
 		if not modifier.applies_to(
 			ModifierTypes.PRODUCTION,
 			ResourceIds.HEAT
 		):
 			continue
 
-		var raw_multiplier: float = modifier.get_multiplier(state)
-		# Use the same sensitivity lookup and interpolation formula as the
-		# generator stats panel. The popup must not calculate resistance from
-		# Essence alone while calculating the final multiplier through a
-		# separate path, or the displayed values can contradict one another.
-		var sensitivity_data := get_modifier_sensitivity_data(
+		for stats_modifier in get_generator_production_modifiers(
 			"atomic_friction",
-			modifier.id
-		)
-		var sensitivity: float = sensitivity_data["sensitivity"]
-		var effective_multiplier := 1.0 + (raw_multiplier - 1.0) * sensitivity
+			ResourceIds.HEAT
+		):
+			if stats_modifier["source_upgrade_id"] != modifier.source_upgrade_id:
+				continue
 
-		return {
-			"raw_multiplier": raw_multiplier,
-			"sensitivity": sensitivity,
-			"essence_resistance_percent": (1.0 - sensitivity) * 100.0,
-			"effective_multiplier": effective_multiplier
-		}
+			var sensitivity: float = stats_modifier["sensitivity"]
+			return {
+				"raw_multiplier": stats_modifier["current_multiplier"],
+				"sensitivity": sensitivity,
+				"essence_resistance_percent": (1.0 - sensitivity) * 100.0,
+				"effective_multiplier": stats_modifier["effective_multiplier"]
+			}
 
 	return {
 		"raw_multiplier": 1.0,
+		"sensitivity": 1.0,
 		"essence_resistance_percent": 0.0,
 		"effective_multiplier": 1.0
 	}
