@@ -1032,6 +1032,47 @@ func get_modifier_sensitivity_data(
 	}
 
 
+# Returns the live Crystallization modifier values used by Atomic Friction's
+# Heat production. The popup reads these values instead of recreating the
+# raw penalty or Essence sensitivity formula itself.
+func get_crystallization_modifier_data() -> Dictionary:
+	var generator = state.get_generator("atomic_friction")
+	if generator == null:
+		return {
+			"raw_multiplier": 1.0,
+			"sensitivity": 1.0,
+			"effective_multiplier": 1.0
+		}
+
+	for modifier in generator.modifiers:
+		if modifier.id != "crystallization":
+			continue
+
+		if not modifier.applies_to(
+			ModifierTypes.PRODUCTION,
+			ResourceIds.HEAT
+		):
+			continue
+
+		var sensitivity_data := get_modifier_sensitivity_data(
+			"atomic_friction",
+			modifier.id
+		)
+		var raw_multiplier: float = modifier.get_multiplier(state)
+		var sensitivity: float = sensitivity_data["sensitivity"]
+
+		return {
+			"raw_multiplier": raw_multiplier,
+			"sensitivity": sensitivity,
+			"effective_multiplier": 1.0 + (raw_multiplier - 1.0) * sensitivity
+		}
+
+	return {
+		"raw_multiplier": 1.0,
+		"sensitivity": 1.0,
+		"effective_multiplier": 1.0
+	}
+
 func get_heat_leak_per_second() -> float:
 	return state.get_heat_leak_per_second()
 
