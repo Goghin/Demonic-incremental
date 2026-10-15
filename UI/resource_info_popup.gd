@@ -162,7 +162,7 @@ func _get_resource_description_text() -> String:
 		ResourceIds.ASH:
 			return "A by-product of infernal industry. Accumulated Ash contaminates production, while Lava Mites consume it."
 		ResourceIds.CRYSTALLIZED_FLAME:
-			return "A highly prized product of the Infernal Forge. Each stored Crystallized Flame makes Heat harder to produce, though Essence can weaken this penalty."
+			return "A highly prized product of the Infernal Forge. Each Crystallized Flame draws power from the realm, making Heat progressively harder to produce."
 		ResourceIds.ESSENCE:
 			return "A rare, highly volatile substance that intensifies Lava Mite activity and weakens the Heat production penalty caused by Crystallized Flames."
 		ResourceIds.NEXUM:
