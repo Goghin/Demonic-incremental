@@ -343,7 +343,7 @@ func _add_display_label(container: Node, text_value: String) -> void:
 	container.add_child(label)
 
 
-func _set_cost_display(info_lines: Array[String], resource_id: String, amount_text: String) -> void:
+func _set_cost_display(info_lines: Array, resource_id: String, amount_text: String) -> void:
 	var container := $MarginContainer/VBoxContainer/CostLabel as VBoxContainer
 	_clear_display_container(container)
 
@@ -369,7 +369,10 @@ func _set_cost_display(info_lines: Array[String], resource_id: String, amount_te
 	cost_row.add_child(icon)
 
 	var cost_value := Label.new()
-	cost_value.text = "%s %s" % [amount_text, state.get_resource_display_name(resource_id)]
+	cost_value.text = "%s %s" % [
+		amount_text,
+		state.get_resource_display_name(resource_id),
+	]
 	cost_value.add_theme_font_size_override("font_size", 11)
 	cost_value.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	cost_row.add_child(cost_value)
