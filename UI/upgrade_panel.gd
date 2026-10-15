@@ -400,15 +400,22 @@ func _on_upgrade_button_mouse_entered() -> void:
 	if info_popup == null:
 		return
 
+	# The popup is shared by general upgrades and generator trees. Reset its
+	# layout before measuring so a previous full-height layout cannot persist.
+	info_popup.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	info_popup.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	info_popup.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	info_popup.setup(state, simulation, upgrade_id)
 	info_popup.visible = true
 
-	# Wait for the popup layout to calculate its final size.
+	# Let the labels and their containers calculate their minimum sizes first.
 	await get_tree().process_frame
 
 	if not is_instance_valid(info_popup) or not info_popup.visible:
 		return
 
+	info_popup.reset_size()
+	info_popup.size.y = info_popup.get_combined_minimum_size().y
 	_position_info_popup()
 
 
