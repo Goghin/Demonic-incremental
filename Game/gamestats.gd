@@ -1087,13 +1087,23 @@ func get_crystallization_modifier_data() -> Dictionary:
 		):
 			continue
 
-		var essence_data := get_essence_influence_data()
 		var raw_multiplier: float = modifier.get_multiplier(state)
+		# Use the same sensitivity lookup and interpolation formula as the
+		# generator stats panel. The popup must not calculate resistance from
+		# Essence alone while calculating the final multiplier through a
+		# separate path, or the displayed values can contradict one another.
+		var sensitivity_data := get_modifier_sensitivity_data(
+			"atomic_friction",
+			modifier.id
+		)
+		var sensitivity: float = sensitivity_data["sensitivity"]
+		var effective_multiplier := 1.0 + (raw_multiplier - 1.0) * sensitivity
 
 		return {
 			"raw_multiplier": raw_multiplier,
-			"essence_resistance_percent": essence_data["essence_resistance_percent"],
-			"effective_multiplier": modifier.get_effective_multiplier(state, generator)
+			"sensitivity": sensitivity,
+			"essence_resistance_percent": (1.0 - sensitivity) * 100.0,
+			"effective_multiplier": effective_multiplier
 		}
 
 	return {
