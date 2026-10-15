@@ -10,6 +10,7 @@ var _last_automation_style_enabled: bool = false
 var _has_automation_style: bool = false
 var _last_upgrade_automation_style_enabled: bool = false
 var _has_upgrade_automation_style: bool = false
+var _resource_icon_cache: Dictionary = {}
 
 signal upgrades_requested(generator_id: String)
 signal selection_requested(generator_id: String)
@@ -212,7 +213,7 @@ func _process(_delta: float) -> void:
 		state.get_resource_display_name(cost_resource_id),
 	]
 	buy_button.text = "BUY · %s" % cost_text
-	buy_button.icon = ResourceIconRegistry.get_texture(cost_resource_id)
+	buy_button.icon = _get_small_resource_icon(cost_resource_id)
 	buy_button.expand_icon = false
 	buy_button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	$HBoxContainer/VBoxContainer/CostLabel.visible = false
@@ -223,6 +224,24 @@ func _process(_delta: float) -> void:
 		)
 	)
 
+
+
+func _get_small_resource_icon(resource_id: String) -> Texture2D:
+	if _resource_icon_cache.has(resource_id):
+		return _resource_icon_cache[resource_id] as Texture2D
+
+	var source_texture: Texture2D = ResourceIconRegistry.get_texture(resource_id)
+	if source_texture == null:
+		return null
+
+	var image: Image = source_texture.get_image()
+	if image == null or image.is_empty():
+		return source_texture
+
+	image.resize(14, 14, Image.INTERPOLATE_LANCZOS)
+	var small_texture := ImageTexture.create_from_image(image)
+	_resource_icon_cache[resource_id] = small_texture
+	return small_texture
 
 func update_operation_mode_ui(
 	generator: Generator
