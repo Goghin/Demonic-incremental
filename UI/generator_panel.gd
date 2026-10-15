@@ -33,6 +33,11 @@ func mark_seen() -> void:
 
 func _ready() -> void:
 	_normal_panel_style = get_theme_stylebox("panel")
+	_style_action_button($HBoxContainer/VBoxContainer/HBoxContainer/PauseButton)
+	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/BuyButton)
+	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradesButton)
+	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/AutomationButton)
+	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 
 
 func set_selected(is_selected: bool) -> void:
@@ -138,6 +143,7 @@ func _process(_delta: float) -> void:
 		_clear_resource_rows($HBoxContainer/VBoxContainer/ProductionLabel)
 		_clear_resource_rows($HBoxContainer/VBoxContainer/CostLabel)
 		$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = true
+		$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.text = "LOCKED"
 		return
 	
 	$HBoxContainer/VBoxContainer/Header/GeneratorLabel.text = (
@@ -198,13 +204,16 @@ func _process(_delta: float) -> void:
 		})
 	_update_resource_rows($HBoxContainer/VBoxContainer/ProductionLabel, production_rows)
 
-	_update_resource_rows($HBoxContainer/VBoxContainer/CostLabel, [{
-		"resource_id": generator.definition.cost_resource_id,
-		"prefix": "Cost:",
-		"amount": NumberFormatter.format(generator.get_cost(state)),
-	}])
+	var buy_button: Button = $HBoxContainer/VBoxContainer/BuyButtons/BuyButton
+	var cost_resource_id: String = generator.definition.cost_resource_id
+	var cost_text: String = "%s %s" % [
+		NumberFormatter.format(generator.get_cost(state)),
+		state.get_resource_display_name(cost_resource_id),
+	]
+	buy_button.text = "BUY · %s" % cost_text
+	$HBoxContainer/VBoxContainer/CostLabel.visible = false
 	
-	$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = (
+	buy_button.disabled = (
 		not input_handler.can_buy_generator(
 			generator_id
 		)
@@ -360,27 +369,69 @@ func _update_upgrade_automation_button_style(button: Button, enabled: bool) -> v
 	_update_toggle_button_style(button, enabled)
 
 
+func _style_action_button(button: Button) -> void:
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.12, 0.085, 0.095, 1.0)
+	normal.border_color = Color(0.32, 0.22, 0.20, 0.95)
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(4)
+	normal.content_margin_left = 5.0
+	normal.content_margin_right = 5.0
+	normal.content_margin_top = 3.0
+	normal.content_margin_bottom = 3.0
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
+	button.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.75))
+	button.add_theme_color_override("font_pressed_color", Color(1.0, 0.88, 0.75))
+	button.add_theme_color_override("font_disabled_color", Color(0.43, 0.38, 0.38))
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color(0.20, 0.12, 0.105, 1.0)
+	hover.border_color = Color(0.62, 0.34, 0.22, 1.0)
+	button.add_theme_stylebox_override("hover", hover)
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color(0.28, 0.14, 0.095, 1.0)
+	pressed.border_color = Color(0.82, 0.40, 0.22, 1.0)
+	button.add_theme_stylebox_override("pressed", pressed)
+	var disabled := normal.duplicate() as StyleBoxFlat
+	disabled.bg_color = Color(0.085, 0.07, 0.08, 1.0)
+	disabled.border_color = Color(0.20, 0.16, 0.16, 1.0)
+	button.add_theme_stylebox_override("disabled", disabled)
+
+
 func _update_toggle_button_style(button: Button, enabled: bool) -> void:
 	var style := StyleBoxFlat.new()
 	style.bg_color = (
-		Color(0.18, 0.36, 0.22, 1.0)
+		Color(0.105, 0.19, 0.12, 1.0)
 		if enabled
-		else Color(0.25, 0.20, 0.20, 1.0)
+		else Color(0.12, 0.085, 0.095, 1.0)
 	)
 	style.border_color = (
-		Color(0.55, 0.90, 0.52, 1.0)
+		Color(0.34, 0.52, 0.34, 1.0)
 		if enabled
-		else Color(0.90, 0.52, 0.42, 1.0)
+		else Color(0.32, 0.22, 0.20, 0.95)
 	)
-	style.set_border_width_all(2)
+	style.set_border_width_all(1)
 	style.set_corner_radius_all(4)
+	style.content_margin_left = 5.0
+	style.content_margin_right = 5.0
+	style.content_margin_top = 3.0
+	style.content_margin_bottom = 3.0
 	button.add_theme_stylebox_override("normal", style)
+	button.add_theme_color_override(
+		"font_color",
+		Color(0.68, 0.83, 0.67) if enabled else Color(0.88, 0.80, 0.70)
+	)
 	var hover_style := style.duplicate() as StyleBoxFlat
-	hover_style.bg_color = style.bg_color.lightened(0.12)
+	hover_style.bg_color = style.bg_color.lightened(0.08)
+	hover_style.border_color = style.border_color.lightened(0.08)
 	button.add_theme_stylebox_override("hover", hover_style)
 	var pressed_style := style.duplicate() as StyleBoxFlat
-	pressed_style.bg_color = style.bg_color.darkened(0.10)
+	pressed_style.bg_color = style.bg_color.darkened(0.08)
 	button.add_theme_stylebox_override("pressed", pressed_style)
+	var disabled_style := style.duplicate() as StyleBoxFlat
+	disabled_style.bg_color = Color(0.085, 0.07, 0.08, 1.0)
+	disabled_style.border_color = Color(0.20, 0.16, 0.16, 1.0)
+	button.add_theme_stylebox_override("disabled", disabled_style)
 
 
 
