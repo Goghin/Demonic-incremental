@@ -976,18 +976,20 @@ func _scroll_generator_list_to_selected() -> void:
 
 func _update_navigation_buttons(active_button_name: String = "GeneratorsButton") -> void:
 	var navigation: Array[Dictionary] = [
-		{"name": "GeneratorsButton", "label": "GENERATORS", "icon": "▦"},
-		{"name": "UpgradesButton", "label": "UPGRADES", "icon": "✦"},
-		{"name": "StatsButton", "label": "STATS", "icon": "▤"},
-		{"name": "PrestigeButton", "label": "REALM", "icon": "◈"},
-		{"name": "AchievementButton", "label": "ACHIEVEMENTS", "icon": "★"},
-		{"name": "OptionsButton", "label": "OPTIONS", "icon": "⚙"},
+		{"name": "GeneratorsButton", "label": "GENERATORS", "icon_path": "res://Assets/UI/Navigation/generators.svg"},
+		{"name": "UpgradesButton", "label": "UPGRADES", "icon_path": "res://Assets/UI/Navigation/upgrades.svg"},
+		{"name": "StatsButton", "label": "STATS", "icon_path": "res://Assets/UI/Navigation/stats.svg"},
+		{"name": "PrestigeButton", "label": "REALM", "icon_path": "res://Assets/UI/Navigation/realm.svg"},
+		{"name": "AchievementButton", "label": "ACHIEVEMENTS", "icon_path": "res://Assets/UI/Navigation/achievements.svg"},
+		{"name": "OptionsButton", "label": "OPTIONS", "icon_path": "res://Assets/UI/Navigation/options.svg"},
 	]
 	for entry in navigation:
 		var button := get_node_or_null(str(entry.name)) as Button
 		if button == null:
 			continue
-		button.text = "%s  %s" % [str(entry.icon), str(entry.label)]
+		button.text = str(entry.label)
+		button.icon = load(str(entry.icon_path)) as Texture2D
+		button.expand_icon = false
 		var is_active: bool = str(entry.name) == active_button_name
 		var normal := StyleBoxFlat.new()
 		normal.bg_color = Color(0.19, 0.105, 0.075, 1.0) if is_active else Color(0.075, 0.06, 0.075, 0.98)
