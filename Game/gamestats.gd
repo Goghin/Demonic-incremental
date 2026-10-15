@@ -1064,7 +1064,7 @@ func get_crystallization_modifier_data() -> Dictionary:
 		return {
 			"raw_multiplier": raw_multiplier,
 			"sensitivity": sensitivity,
-			"effective_multiplier": 1.0 + (raw_multiplier - 1.0) * sensitivity
+			"effective_multiplier": modifier.get_effective_multiplier(state, generator)
 		}
 
 	return {
