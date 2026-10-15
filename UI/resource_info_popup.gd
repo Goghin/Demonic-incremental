@@ -257,10 +257,10 @@ func _get_active_modifiers_text() -> String:
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var modifier_data := stats.get_crystallization_modifier_data()
 			return (
-				"Raw Heat penalty: ×%s\nTotal Crystallization Resistance: %s%%\nFinal Heat production: ×%s"
+				"Raw Heat penalty: ×%s\nEssence Resistance: %s%%\nFinal Heat production multiplier: ×%s"
 				% [
 					NumberFormatter.format(modifier_data["raw_multiplier"]),
-					NumberFormatter.format(modifier_data["resistance_percent"]),
+					NumberFormatter.format(modifier_data["essence_resistance_percent"]),
 					NumberFormatter.format(modifier_data["effective_multiplier"])
 				]
 			)
