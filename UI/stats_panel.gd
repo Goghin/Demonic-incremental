@@ -16,6 +16,7 @@ var time_manager: TimeManager
 
 var resource_stat_rows: Dictionary = {}
 var resource_statistics_rows: Dictionary = {}
+var pressure_labels: Dictionary = {}
 
 func setup(
 	game_state: GameState,
@@ -27,6 +28,7 @@ func setup(
 	
 	_setup_resource_stats()
 	_setup_resource_statistics()
+	_setup_pressure_rows()
 
 func _process(_delta: float) -> void:
 	if stats == null or time_manager == null:
@@ -512,65 +514,113 @@ func ensure_generator_stats() -> void:
 			generator_id
 		)
 
+func _setup_pressure_rows() -> void:
+	var container: VBoxContainer = $ScrollContainer/VBoxContainer/PressureContainer
+	var row_configs: Array[Dictionary] = [
+		{"key": "heat_threshold", "label": "HeatLeakageThresholdLabel", "resource": ResourceIds.HEAT},
+		{"key": "heat_rate", "label": "HeatLeakageLabel", "resource": ResourceIds.HEAT},
+		{"key": "overflow_multiplier", "label": "OverflowMultiplierLabel", "resource": ResourceIds.HEAT},
+		{"key": "overflow_this_realm", "label": "OverflowThisRealmLabel", "resource": ResourceIds.HEAT},
+		{"key": "overflow_all_realms", "label": "OverflowAllRealmsLabel", "resource": ResourceIds.HEAT},
+		{"key": "matter_threshold", "label": "MatterDecayThresholdLabel", "resource": ResourceIds.MATTER},
+		{"key": "matter_decay", "label": "MatterDecayLabel", "resource": ResourceIds.MATTER},
+	]
+
+	for config in row_configs:
+		var label := container.get_node_or_null(config["label"]) as Label
+		if label == null:
+			continue
+
+		var original_index := label.get_index()
+		container.remove_child(label)
+
+		var row := HBoxContainer.new()
+		row.name = str(config["label"]).trim_suffix("Label") + "Row"
+		row.add_theme_constant_override("separation", 5)
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		container.add_child(row)
+		container.move_child(row, original_index)
+
+		var icon := ResourceIcon.new()
+		icon.setup(config["resource"], Vector2(14.0, 14.0))
+		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+		row.add_child(icon)
+
+		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.add_child(label)
+		pressure_labels[config["key"]] = label
+
+	var ash_row := HBoxContainer.new()
+	ash_row.name = "AshContaminationRow"
+	ash_row.add_theme_constant_override("separation", 5)
+	ash_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+	var ash_icon := ResourceIcon.new()
+	ash_icon.setup(ResourceIds.ASH, Vector2(14.0, 14.0))
+	ash_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	ash_row.add_child(ash_icon)
+
+	var ash_label := Label.new()
+	ash_label.name = "AshContaminationLabel"
+	ash_label.add_theme_font_size_override("font_size", 10)
+	ash_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	ash_label.text = "Ash Contamination: 0"
+	ash_row.add_child(ash_label)
+
+	var separator := container.get_node_or_null("PressureSectionSeparator")
+	if separator != null:
+		container.add_child(ash_row)
+		container.move_child(ash_row, separator.get_index())
+	else:
+		container.add_child(ash_row)
+
+	pressure_labels["ash_contamination"] = ash_label
+
+
 func update_pressure_stats() -> void:
 	var overflow_rate = state.get_heat_leak_per_second()
 	var matter_decay = state.get_matter_decay_per_second()
+	var ash_amount = state.get_resource_amount(ResourceIds.ASH)
 
 	var crystallized_flames = state.get_resource_amount(
 		ResourceIds.CRYSTALLIZED_FLAME
 	)
+	var overflow_multiplier = pow(1.25, crystallized_flames)
+	var heat_leak_threshold = state.realm_effects.heat_leak_threshold
+	var matter_decay_threshold = state.realm_effects.matter_decay_threshold
 
-	var overflow_multiplier = pow(
-		1.25,
-		crystallized_flames
-	)
-
-	var heat_leak_threshold = (
-		state.realm_effects.heat_leak_threshold
-	)
-
-	var matter_decay_threshold = (
-		state.realm_effects.matter_decay_threshold
-	)
-
-	$ScrollContainer/VBoxContainer/PressureContainer/HeatLeakageThresholdLabel.text = (
+	pressure_labels["heat_threshold"].text = (
 		"Overflow Threshold: %s"
 		% NumberFormatter.format(heat_leak_threshold)
 	)
-
-	$ScrollContainer/VBoxContainer/PressureContainer/HeatLeakageLabel.text = (
+	pressure_labels["heat_rate"].text = (
 		"Overflow Rate: %s /s"
 		% NumberFormatter.format(overflow_rate)
 	)
-
-	$ScrollContainer/VBoxContainer/PressureContainer/OverflowMultiplierLabel.text = (
+	pressure_labels["overflow_multiplier"].text = (
 		"Overflow Multiplier: ×%s"
 		% NumberFormatter.format(overflow_multiplier)
 	)
-
-	$ScrollContainer/VBoxContainer/PressureContainer/OverflowThisRealmLabel.text = (
+	pressure_labels["overflow_this_realm"].text = (
 		"Overflow This Realm: %s"
-		% NumberFormatter.format(
-			state.current_run_statistics.get_total_overflow()
-		)
+		% NumberFormatter.format(state.current_run_statistics.get_total_overflow())
 	)
-
-	$ScrollContainer/VBoxContainer/PressureContainer/OverflowAllRealmsLabel.text = (
+	pressure_labels["overflow_all_realms"].text = (
 		"Overflow All Realms: %s"
-		% NumberFormatter.format(
-			state.resource_statistics.get_total_overflow()
-		)
+		% NumberFormatter.format(state.resource_statistics.get_total_overflow())
 	)
-
-	$ScrollContainer/VBoxContainer/PressureContainer/MatterDecayThresholdLabel.text = (
+	pressure_labels["matter_threshold"].text = (
 		"Decay Threshold: %s Matter"
 		% NumberFormatter.format(matter_decay_threshold)
 	)
-
-	$ScrollContainer/VBoxContainer/PressureContainer/MatterDecayLabel.text = (
+	pressure_labels["matter_decay"].text = (
 		"Decay: %s Matter/s → %s Heat/s"
 		% [
 			NumberFormatter.format(matter_decay),
 			NumberFormatter.format(matter_decay)
 		]
+	)
+	pressure_labels["ash_contamination"].text = (
+		"Ash Contamination: %s"
+		% NumberFormatter.format(ash_amount)
 	)
