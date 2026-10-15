@@ -47,11 +47,11 @@ horizontal_alignment = 2
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ProductionLabel" type="Label" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/RateRow" unique_id=749494009]
+[node name="ProductionLabel" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/RateRow" unique_id=749494009]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 
-[node name="ConsumptionLabel" type="Label" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/RateRow" unique_id=1917635751]
+[node name="ConsumptionLabel" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/RateRow" unique_id=1917635751]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 horizontal_alignment = 2
