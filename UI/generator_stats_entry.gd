@@ -39,8 +39,44 @@ var detail_rows: Array[Dictionary] = []
 
 func _ready() -> void:
 	header_button.pressed.connect(_on_header_pressed)
-	
+	_style_entry()
 	detail_container.visible = false
+
+
+func _style_entry() -> void:
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.055, 0.045, 0.055, 0.96)
+	panel_style.border_color = Color(0.30, 0.21, 0.19, 1.0)
+	panel_style.set_border_width_all(1)
+	panel_style.set_corner_radius_all(3)
+	panel_style.set_content_margin_all(6)
+	$PanelContainer.add_theme_stylebox_override("panel", panel_style)
+
+	header_button.add_theme_font_size_override("font_size", 10)
+	header_button.add_theme_color_override("font_color", Color(1.0, 0.83, 0.66))
+	header_button.add_theme_color_override("font_hover_color", Color(1.0, 0.92, 0.78))
+	header_button.add_theme_color_override("font_pressed_color", Color(1.0, 0.70, 0.43))
+
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.085, 0.06, 0.06, 1.0)
+	normal.border_color = Color(0.34, 0.23, 0.20, 1.0)
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(2)
+	normal.content_margin_left = 7.0
+	normal.content_margin_right = 7.0
+	normal.content_margin_top = 5.0
+	normal.content_margin_bottom = 5.0
+	header_button.add_theme_stylebox_override("normal", normal)
+
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color(0.15, 0.085, 0.065, 1.0)
+	hover.border_color = Color(0.72, 0.38, 0.22, 1.0)
+	header_button.add_theme_stylebox_override("hover", hover)
+
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color(0.22, 0.12, 0.075, 1.0)
+	pressed.border_color = Color(0.95, 0.52, 0.25, 1.0)
+	header_button.add_theme_stylebox_override("pressed", pressed)
 
 
 func setup(
