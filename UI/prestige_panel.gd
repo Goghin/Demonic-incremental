@@ -182,16 +182,26 @@ func _apply_compact_style() -> void:
 		4
 	)
 
-	# Reduce the font size of the existing prestige labels.
+	# Give prestige resources and the next reward distinct visual weight.
+	crystallized_flame_label.add_theme_color_override(
+		"font_color",
+		Color(1.0, 0.57, 0.34)
+	)
+	eternal_flame_label.add_theme_color_override(
+		"font_color",
+		Color(1.0, 0.76, 0.39)
+	)
+	gain_label.add_theme_color_override(
+		"font_color",
+		Color(0.79, 0.91, 0.67)
+	)
+
 	for label in [
 		crystallized_flame_label,
 		eternal_flame_label,
 		gain_label
 	]:
-		label.add_theme_font_size_override(
-			"font_size",
-			12
-		)
+		label.add_theme_font_size_override("font_size", 12)
 
 	# Compact prestige action button.
 	smash_button.custom_minimum_size = Vector2(0, 25)
@@ -408,7 +418,10 @@ func _create_prestige_stats_panel() -> void:
 		original_parent.remove_child(control)
 		prestige_panel.add_child(control)
 
-	prestige_panel.get_node("TitleLabel").text = "PRESTIGE STATS & SCORE"
+	var heading: Label = prestige_panel.get_node("TitleLabel")
+	heading.text = "PRESTIGE STATS & SCORE"
+	heading.add_theme_font_size_override("font_size", 12)
+	heading.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 
 
 func _create_tab_ui() -> void:
@@ -499,11 +512,12 @@ func _create_realm_ui() -> void:
 		realm_container
 	)
 
-	var title = Label.new()
-	title.text = "REALM"
-	title.custom_minimum_size = Vector2(0, 30)
+	var title := Label.new()
+	title.text = "REALM ATTRIBUTES"
+	title.custom_minimum_size = Vector2(0, 28)
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-
+	title.add_theme_font_size_override("font_size", 12)
+	title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	realm_container.add_child(title)
 
 	realm_available_label = Label.new()
@@ -708,8 +722,10 @@ func _create_shop_ui() -> void:
 
 	var title := Label.new()
 	title.text = "ETERNAL FLAME SHOP"
-	title.custom_minimum_size = Vector2(0, 30)
+	title.custom_minimum_size = Vector2(0, 28)
 	title.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 12)
+	title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	shop_panel.add_child(title)
 
 	eternal_flame_shop_available_label = Label.new()
