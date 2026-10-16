@@ -1933,6 +1933,7 @@ static func _create_infernal_forge_unlock() -> Upgrade:
 		"infernal_forge"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_unlock.svg"
 	return Upgrade.new(definition)
 
 
@@ -2001,6 +2002,7 @@ static func _create_infernal_forge_immunity() -> Upgrade:
 		""
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_immunity.svg"
 	return Upgrade.new(definition)
 
 
@@ -2033,4 +2035,5 @@ static func _create_infernal_forge_refinement() -> Upgrade:
 		"infernal_forge"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_refinement.svg"
 	return Upgrade.new(definition)
