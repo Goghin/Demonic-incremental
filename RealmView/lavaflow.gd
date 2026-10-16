@@ -553,10 +553,10 @@ func _update_surface() -> void:
 
 		# Keep UVs in path-distance units so the shader texture scale stays
 		# consistent regardless of the total length of this flow.
-		var uv_a: float = active_distances[i]
-		var uv_b: float = active_distances[i + 1]
-		var width_a: float = active_widths[i]
-		var width_b: float = active_widths[i + 1]
+		var uv_a: float = active_distances[i] * 0.07
+		var uv_b: float = active_distances[i + 1] * 0.07
+		var width_a: float = active_widths[i] * 0.07
+		var width_b: float = active_widths[i + 1] * 0.07
 
 		surface_segments[i].uv = PackedVector2Array([
 			Vector2(width_a, uv_a),
