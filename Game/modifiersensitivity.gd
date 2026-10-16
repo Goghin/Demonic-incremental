@@ -8,6 +8,7 @@ const DYNAMIC_RESOURCE_SQRT_INVERSE = "resource_sqrt_inverse"
 var modifier_id: String
 var multiplier: float
 var source_upgrade_id: String
+var operation_mode_ids: Array[String] = []
 
 var dynamic: bool = false
 var dynamic_formula: String = ""
@@ -25,8 +26,11 @@ func _init(
 
 
 func get_effective_multiplier(
-	state: GameState
+	state: GameState,
+	current_operation_mode_id: String = ""
 	) -> float:
+	if not operation_mode_ids.is_empty() and not operation_mode_ids.has(current_operation_mode_id):
+		return 1.0
 	
 	if not dynamic:
 		return multiplier
