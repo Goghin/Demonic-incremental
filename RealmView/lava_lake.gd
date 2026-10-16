@@ -197,6 +197,21 @@ func _ensure_edge_glow() -> void:
 	edge_glow.width = 5.5
 	edge_glow.closed = true
 	edge_glow.antialiased = false
+
+	# Vary the glow thickness around the shoreline instead of making it a
+	# perfectly uniform outline. The curve is subtle so the edge still reads
+	# as one continuous pool of light.
+	var glow_width_curve := Curve.new()
+	glow_width_curve.add_point(Vector2(0.0, 0.78))
+	glow_width_curve.add_point(Vector2(0.14, 1.0))
+	glow_width_curve.add_point(Vector2(0.29, 0.72))
+	glow_width_curve.add_point(Vector2(0.44, 1.12))
+	glow_width_curve.add_point(Vector2(0.60, 0.82))
+	glow_width_curve.add_point(Vector2(0.76, 1.08))
+	glow_width_curve.add_point(Vector2(0.90, 0.70))
+	glow_width_curve.add_point(Vector2(1.0, 0.78))
+	edge_glow.width_curve = glow_width_curve
+
 	add_child(edge_glow)
 
 
@@ -372,9 +387,18 @@ func _update_visuals() -> void:
 	_ensure_edge_glow()
 	edge_glow.points = rim_points
 	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.12, 0.01, 1.0))
-	glow_color.a = 0.20
-	edge_glow.default_color = glow_color
-	edge_glow.width = 5.0
+	glow_color.a = 1.0
+	var glow_gradient := Gradient.new()
+	glow_gradient.set_color(0, Color(glow_color.r, glow_color.g, glow_color.b, 0.13))
+	glow_gradient.add_point(0.13, Color(glow_color.r, glow_color.g, glow_color.b, 0.22))
+	glow_gradient.add_point(0.28, Color(glow_color.r, glow_color.g, glow_color.b, 0.15))
+	glow_gradient.add_point(0.43, Color(glow_color.r, glow_color.g, glow_color.b, 0.25))
+	glow_gradient.add_point(0.60, Color(glow_color.r, glow_color.g, glow_color.b, 0.16))
+	glow_gradient.add_point(0.77, Color(glow_color.r, glow_color.g, glow_color.b, 0.23))
+	glow_gradient.add_point(0.91, Color(glow_color.r, glow_color.g, glow_color.b, 0.14))
+	glow_gradient.set_color(1, Color(glow_color.r, glow_color.g, glow_color.b, 0.13))
+	edge_glow.gradient = glow_gradient
+	edge_glow.width = 5.5
 
 	var rim: Polygon2D = $Rim
 
