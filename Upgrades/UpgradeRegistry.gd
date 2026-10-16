@@ -1990,11 +1990,6 @@ static func _create_infernal_forge_immunity() -> Upgrade:
 				"crystallization",
 				0.0
 			),
-			UpgradeEffect.sensitivity(
-				"infernal_forge",
-				"ashen_contamination_cycle_speed",
-				0.0
-			)
 		],
 		[
 			Requirement.new(
