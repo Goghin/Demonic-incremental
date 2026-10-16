@@ -402,7 +402,7 @@ func update_resource_statistics() -> void:
 		)
 
 		var all_realms_text = (
-			"Produced: %s    Consumed: %s\nLost: %s    Highest: %s"
+			"Produced: %s    Consumed: %s\\nLost: %s    Highest: %s"
 			% [
 				NumberFormatter.format(
 					lifetime_statistics.get_total_produced(
@@ -426,6 +426,10 @@ func update_resource_statistics() -> void:
 				)
 			]
 		)
+		if resource_id == ResourceIds.HEAT:
+			all_realms_text += "\\nOverflow: %s" % NumberFormatter.format(
+				lifetime_statistics.get_total_overflow()
+			)
 
 
 		row["this_realm"].text = this_realm_text
@@ -588,66 +592,134 @@ func ensure_generator_stats() -> void:
 
 func _setup_pressure_rows() -> void:
 	var container: VBoxContainer = $ScrollContainer/VBoxContainer/PressureContainer
-	var row_configs: Array[Dictionary] = [
-		{"key": "heat_threshold", "label": "HeatLeakageThresholdLabel", "resources": [ResourceIds.HEAT]},
-		{"key": "heat_rate", "label": "HeatLeakageLabel", "resources": [ResourceIds.HEAT]},
-		{"key": "overflow_multiplier", "label": "OverflowMultiplierLabel", "resources": [ResourceIds.CRYSTALLIZED_FLAME]},
-		{"key": "overflow_this_realm", "label": "OverflowThisRealmLabel", "resources": [ResourceIds.HEAT]},
-		{"key": "overflow_all_realms", "label": "OverflowAllRealmsLabel", "resources": [ResourceIds.HEAT]},
-		{"key": "matter_threshold", "label": "MatterDecayThresholdLabel", "resources": [ResourceIds.MATTER]},
-		{"key": "matter_decay", "label": "MatterDecayLabel", "resources": [ResourceIds.MATTER, ResourceIds.HEAT]},
-	]
+	var title: Label = container.get_node("PressureTitleLabel")
+	title.text = "EFFECTS"
 
-	for config in row_configs:
-		var label := container.get_node_or_null(config["label"]) as Label
-		if label == null:
+	for child in container.get_children():
+		if child == title:
 			continue
+		container.remove_child(child)
+		child.queue_free()
 
-		var original_index := label.get_index()
-		container.remove_child(label)
+	pressure_labels.clear()
 
-		var row := HBoxContainer.new()
-		row.name = str(config["label"]).trim_suffix("Label") + "Row"
-		row.add_theme_constant_override("separation", 5)
-		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		container.add_child(row)
-		container.move_child(row, original_index)
+	_add_effect_section(container, "HEAT")
+	_add_effect_row(container, "heat_threshold", "Overflow Threshold: 0", ResourceIds.HEAT)
+	_add_effect_row(container, "heat_rate", "Overflow Rate: 0 /s", ResourceIds.HEAT)
+	_add_effect_row(container, "overflow_this_realm", "Overflow This Realm: 0", ResourceIds.HEAT)
 
-		for resource_id in config["resources"]:
-			var icon := ResourceIcon.new()
-			icon.setup(resource_id, Vector2(14.0, 14.0))
-			icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-			row.add_child(icon)
+	_add_effect_section(container, "DECAY")
+	_add_effect_row(container, "matter_threshold", "Decay Threshold: 0 Matter", ResourceIds.MATTER)
+	_add_effect_row(container, "matter_decay", "Decay Rate: 0 Matter/s → 0 Heat/s", ResourceIds.MATTER)
+	
+	_add_effect_section(container, "ASH CONTAMINATION")
+	_add_effect_row(container, "ash_contamination", "Ash Contamination: ×1", ResourceIds.ASH)
 
-		label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(label)
-		pressure_labels[config["key"]] = label
+	_add_effect_section(container, "CRYSTALLIZED FLAME")
+	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
+	_add_effect_row(container, "overflow_bonus", "Overflow Bonus: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 
-	var ash_row := HBoxContainer.new()
-	ash_row.name = "AshContaminationRow"
-	ash_row.add_theme_constant_override("separation", 5)
-	ash_row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_add_effect_section(container, "ESSENCE")
+	_add_effect_row(container, "essence_hunger", "Lava Mite Hunger: ×1", ResourceIds.ESSENCE)
+	_add_effect_row(container, "essence_resistance", "Crystallization Resistance: 0%", ResourceIds.ESSENCE)
 
-	var ash_icon := ResourceIcon.new()
-	ash_icon.setup(ResourceIds.ASH, Vector2(14.0, 14.0))
-	ash_icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	ash_row.add_child(ash_icon)
+	_add_effect_section(container, "NEXUM")
+	_add_effect_row(container, "nexum_placeholder", "No effects yet", ResourceIds.NEXUM)
 
-	var ash_label := Label.new()
-	ash_label.name = "AshContaminationLabel"
-	ash_label.add_theme_font_size_override("font_size", 10)
-	ash_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	ash_label.text = "Ash Contamination: 0"
-	ash_row.add_child(ash_label)
 
-	var separator := container.get_node_or_null("PressureSectionSeparator")
-	if separator != null:
-		container.add_child(ash_row)
-		container.move_child(ash_row, separator.get_index())
-	else:
-		container.add_child(ash_row)
+func _add_effect_section(container: VBoxContainer, heading: String) -> void:
+	var label := Label.new()
+	label.text = heading
+	label.add_theme_font_size_override("font_size", 10)
+	label.add_theme_color_override("font_color", Color(1.0, 0.66, 0.36))
+	container.add_child(label)
 
-	pressure_labels["ash_contamination"] = ash_label
+
+func _add_effect_row(
+	container: VBoxContainer,
+	key: String,
+	initial_text: String,
+	resource_id: String
+	) -> void:
+	var row := HBoxContainer.new()
+	row.name = key.capitalize().replace(" ", "") + "Row"
+	row.add_theme_constant_override("separation", 5)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+	var icon := ResourceIcon.new()
+	icon.setup(resource_id, Vector2(14.0, 14.0))
+	icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	row.add_child(icon)
+
+	var label := Label.new()
+	label.name = key.capitalize().replace(" ", "") + "Label"
+	label.text = initial_text
+	label.add_theme_font_size_override("font_size", 10)
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(label)
+
+	container.add_child(row)
+	pressure_labels[key] = label
+
+
+func update_pressure_stats() -> void:
+	var overflow_rate := state.get_heat_leak_per_second()
+	var matter_decay := state.get_matter_decay_per_second()
+	var ash_contamination_multiplier := stats.get_raw_resource_modifier_multiplier(
+		"ashen_contamination",
+		ModifierTypes.PRODUCTION,
+		""
+	)
+
+	var flame_data := stats.get_crystallization_modifier_data()
+	var essence_data := stats.get_essence_influence_data()
+	var heat_leak_threshold := state.realm_effects.heat_leak_threshold
+	var matter_decay_threshold := state.realm_effects.matter_decay_threshold
+
+	pressure_labels["heat_threshold"].text = (
+		"Overflow Threshold: %s Heat"
+		% NumberFormatter.format(heat_leak_threshold)
+	)
+	pressure_labels["heat_rate"].text = (
+		"Overflow Rate: %s Heat/s"
+		% NumberFormatter.format(overflow_rate)
+	)
+	pressure_labels["overflow_this_realm"].text = (
+		"Overflow This Realm: %s"
+		% NumberFormatter.format(state.current_run_statistics.get_total_overflow())
+	)
+	pressure_labels["matter_threshold"].text = (
+		"Decay Threshold: %s Matter"
+		% NumberFormatter.format(matter_decay_threshold)
+	)
+	pressure_labels["matter_decay"].text = (
+		"Decay Rate: %s Matter/s → %s Heat/s"
+		% [
+			NumberFormatter.format(matter_decay),
+			NumberFormatter.format(matter_decay)
+		]
+	)
+	pressure_labels["ash_contamination"].text = (
+		"Ash Contamination: ×%s"
+		% NumberFormatter.format(ash_contamination_multiplier)
+	)
+	pressure_labels["flame_raw_multiplier"].text = (
+		"Raw Heat Production Multiplier: ×%s"
+		% NumberFormatter.format(flame_data["raw_multiplier"])
+	)
+	pressure_labels["overflow_bonus"].text = (
+		"Overflow Bonus: ×%s"
+		% NumberFormatter.format(pow(1.25, state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)))
+	)
+	pressure_labels["essence_hunger"].text = (
+		"Lava Mite Hunger: ×%s"
+		% NumberFormatter.format(essence_data["hunger_multiplier"])
+	)
+	pressure_labels["essence_resistance"].text = (
+		"Crystallization Resistance: %s%%"
+		% NumberFormatter.format(flame_data["essence_resistance_percent"])
+	)
+	pressure_labels["nexum_placeholder"].text = "No effects yet"
 
 
 func update_pressure_stats() -> void:
