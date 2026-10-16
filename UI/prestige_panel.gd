@@ -278,6 +278,79 @@ func _apply_compact_style() -> void:
 			4
 		)
 
+	# Keep the Realm panel visually consistent with the game's navigation.
+	for button in [prestige_button, shop_button, distribution_button]:
+		if button != null:
+			_style_realm_button(button, true)
+
+	_style_realm_button(smash_button, false)
+	if stabilize_button != null:
+		_style_realm_button(stabilize_button, false)
+
+	for stat_name in realm_rows:
+		var row = realm_rows[stat_name]
+		for key in ["minus_button", "plus_button", "minus_10_button", "plus_10_button"]:
+			_style_realm_button(row[key], false)
+
+	if realm_available_label != null:
+		realm_available_label.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
+	if realm_assigned_label != null:
+		realm_assigned_label.add_theme_color_override("font_color", Color(0.88, 0.78, 0.70))
+
+
+func _make_realm_style(
+	background_color: Color,
+	border_color: Color,
+	border_width: int = 1
+	) -> StyleBoxFlat:
+
+	var style := StyleBoxFlat.new()
+	style.bg_color = background_color
+	style.border_color = border_color
+	style.set_border_width_all(border_width)
+	style.set_corner_radius_all(4)
+	style.content_margin_left = 7.0
+	style.content_margin_top = 4.0
+	style.content_margin_right = 7.0
+	style.content_margin_bottom = 4.0
+	return style
+
+
+func _style_realm_button(button: Button, is_tab: bool) -> void:
+	if button == null:
+		return
+
+	var normal := _make_realm_style(
+		Color(0.075, 0.055, 0.06, 1.0),
+		Color(0.30, 0.19, 0.17, 1.0)
+	)
+	var hover := _make_realm_style(
+		Color(0.14, 0.085, 0.065, 1.0),
+		Color(0.62, 0.32, 0.18, 1.0)
+	)
+	var pressed := _make_realm_style(
+		Color(0.24, 0.115, 0.065, 1.0),
+		Color(0.92, 0.48, 0.20, 1.0),
+		2
+	)
+	var active := _make_realm_style(
+		Color(0.19, 0.095, 0.065, 1.0),
+		Color(0.78, 0.38, 0.18, 1.0),
+		1
+	)
+
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", hover)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_stylebox_override("focus", active)
+	button.add_theme_color_override("font_color", Color(0.91, 0.82, 0.74))
+	button.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.70))
+	button.add_theme_color_override("font_pressed_color", Color(1.0, 0.94, 0.82))
+
+	if is_tab:
+		button.add_theme_stylebox_override("disabled", active)
+		button.add_theme_color_override("font_disabled_color", Color(1.0, 0.72, 0.38))
+
 
 func _create_overflow_bonus_label() -> void:
 	if overflow_bonus_label != null:
@@ -487,17 +560,24 @@ func _create_realm_stat_row(
 	display_name: String
 	) -> void:
 
-	var row = VBoxContainer.new()
+	# Each realm attribute gets its own subtle industrial card.
+	var row_card := PanelContainer.new()
+	row_card.name = "%sCard" % stat_name
+	row_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row_card.add_theme_stylebox_override(
+		"panel",
+		_make_realm_style(
+			Color(0.055, 0.045, 0.052, 0.96),
+			Color(0.24, 0.16, 0.15, 0.95)
+		)
+	)
+	realm_container.add_child(row_card)
+
+	var row := VBoxContainer.new()
 	row.name = "%sRow" % stat_name
-
-	row.add_theme_constant_override(
-		"separation",
-		2
-	)
-
-	realm_container.add_child(
-		row
-	)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_theme_constant_override("separation", 3)
+	row_card.add_child(row)
 
 	var assignment_row = HBoxContainer.new()
 	assignment_row.add_theme_constant_override(
@@ -509,9 +589,12 @@ func _create_realm_stat_row(
 		assignment_row
 	)
 
-	var label = Label.new()
-	label.text = display_name
-	label.custom_minimum_size = Vector2(90, 0)
+	var label := Label.new()
+	label.text = display_name.to_upper()
+	label.custom_minimum_size = Vector2(82, 0)
+	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 10)
+	label.add_theme_color_override("font_color", Color(0.86, 0.73, 0.64))
 
 	assignment_row.add_child(label)
 
@@ -563,11 +646,11 @@ func _create_realm_stat_row(
 	effect_label.autowrap_mode = (
 		TextServer.AUTOWRAP_WORD_SMART
 	)
-	effect_label.modulate = Color(0.7, 0.7, 0.7)
+	effect_label.add_theme_font_size_override("font_size", 10)
+	effect_label.add_theme_color_override("font_color", Color(0.70, 0.72, 0.72))
+	effect_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 
-	row.add_child(
-		effect_label
-	)
+	row.add_child(effect_label)
 
 	minus_10_button.pressed.connect(
 		func():
