@@ -24,4 +24,4 @@ z_index = 2
 material = SubResource("ShaderMaterial_dpddx")
 
 [node name="InnerEdge" type="Line2D" parent="." unique_id=925762656]
-z_index = 3
+z_index = 0
