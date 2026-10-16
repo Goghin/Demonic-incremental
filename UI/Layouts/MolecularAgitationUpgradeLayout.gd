@@ -9,8 +9,6 @@ func _init() -> void:
 	add_node("resonant_containment", 0, 1)
 	add_node("agitation_optimization", 2, 1)
 	
-	# Unlock the next generator
-	add_node("unlock_infernal_condensation", 1, 2)
 	# Refinement after the specialization branches
 	
 	add_node("molecular_agitation_refinement", 1, 3)
