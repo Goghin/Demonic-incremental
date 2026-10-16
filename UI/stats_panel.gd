@@ -18,6 +18,58 @@ var resource_stat_rows: Dictionary = {}
 var resource_statistics_rows: Dictionary = {}
 var pressure_labels: Dictionary = {}
 
+func _ready() -> void:
+	_style_stats_panel()
+
+
+func _style_stats_panel() -> void:
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.045, 0.035, 0.045, 0.97)
+	panel_style.border_color = Color(0.34, 0.23, 0.20, 1.0)
+	panel_style.set_border_width_all(1)
+	panel_style.set_corner_radius_all(4)
+	panel_style.content_margin_left = 10.0
+	panel_style.content_margin_right = 10.0
+	panel_style.content_margin_top = 9.0
+	panel_style.content_margin_bottom = 9.0
+	add_theme_stylebox_override("panel", panel_style)
+
+	add_theme_color_override("font_color", Color(0.86, 0.79, 0.74))
+	add_theme_color_override("font_hover_color", Color(1.0, 0.89, 0.75))
+	add_theme_color_override("font_pressed_color", Color(1.0, 0.84, 0.65))
+
+	for node_path in [
+		"ScrollContainer/VBoxContainer/TimeStatsContainer/TimeTitleLabel",
+		"ScrollContainer/VBoxContainer/CurrentResourcesTitleLabel",
+		"ScrollContainer/VBoxContainer/PressureContainer/PressureTitleLabel",
+		"ScrollContainer/VBoxContainer/ResourceHistoryTitleLabel",
+		"ScrollContainer/VBoxContainer/GeneratorStatsTitleLabel"
+	]:
+		var title := get_node_or_null(node_path) as Label
+		if title == null:
+			continue
+		title.add_theme_font_size_override("font_size", 11)
+		title.add_theme_color_override("font_color", Color(1.0, 0.66, 0.36))
+
+	for node_path in [
+		"ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel",
+		"ScrollContainer/VBoxContainer/TimeStatsContainer/ActiveTimeLabel",
+		"ScrollContainer/VBoxContainer/TimeStatsContainer/OfflineTimeLabel",
+		"ScrollContainer/VBoxContainer/TimeStatsContainer/GameTimeLabel",
+		"ScrollContainer/VBoxContainer/TimeStatsContainer/PrestigeTimeLabel",
+		"ScrollContainer/VBoxContainer/TimeStatsContainer/TimeScaleLabel"
+	]:
+		var value_label := get_node_or_null(node_path) as Label
+		if value_label != null:
+			value_label.add_theme_font_size_override("font_size", 10)
+			value_label.add_theme_color_override("font_color", Color(0.84, 0.78, 0.74))
+
+	var separator_style := StyleBoxLine.new()
+	separator_style.color = Color(0.34, 0.23, 0.20, 0.9)
+	separator_style.thickness = 1
+	add_theme_stylebox_override("separator", separator_style)
+
+
 func setup(
 	game_state: GameState,
 	game_time_manager: TimeManager
@@ -214,7 +266,8 @@ func _setup_resource_statistics() -> void:
 		)
 		
 		var this_realm_label = Label.new()
-		this_realm_label.text = "This Realm"
+		this_realm_label.text = "THIS REALM"
+		this_realm_label.add_theme_color_override("font_color", Color(1.0, 0.70, 0.40))
 		this_realm_label.add_theme_font_size_override(
 			"font_size",
 			10
@@ -228,7 +281,8 @@ func _setup_resource_statistics() -> void:
 		)
 		
 		var all_realms_label = Label.new()
-		all_realms_label.text = "All Realms"
+		all_realms_label.text = "ALL REALMS"
+		all_realms_label.add_theme_color_override("font_color", Color(0.78, 0.67, 0.59))
 		all_realms_label.add_theme_font_size_override(
 			"font_size",
 			10
@@ -292,6 +346,10 @@ func _create_column_label(
 	)
 	
 	label.horizontal_alignment = alignment
+	label.add_theme_color_override(
+		"font_color",
+		Color(1.0, 0.75, 0.49) if text in ["RESOURCE", "AMOUNT", "PRODUCTION", "CONSUMPTION", "NET"] else Color(0.86, 0.79, 0.74)
+	)
 	
 	label.add_theme_font_size_override(
 		"font_size",
@@ -480,6 +538,20 @@ func update_resource_stats() -> void:
 		row["net"].text = "%+s /s" % (
 			NumberFormatter.format(net)
 		)
+
+		var net_color := Color(0.68, 0.68, 0.65)
+		if net > 0.0:
+			net_color = Color(0.58, 0.84, 0.60)
+		elif net < 0.0:
+			net_color = Color(0.96, 0.51, 0.43)
+		if resource_id == ResourceIds.ASH:
+			if net > 0.0:
+				net_color = Color(0.96, 0.51, 0.43)
+			elif net < 0.0:
+				net_color = Color(0.58, 0.84, 0.60)
+		row["net"].add_theme_color_override("font_color", net_color)
+		row["production"].add_theme_color_override("font_color", Color(0.68, 0.84, 0.65))
+		row["consumption"].add_theme_color_override("font_color", Color(0.93, 0.64, 0.53))
 
 
 func update_generator_stats() -> void:
