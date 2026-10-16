@@ -182,6 +182,22 @@ func _process(_delta: float) -> void:
 	else:
 		$HBoxContainer/VBoxContainer/ProgressBar.visible = false
 	
+	var contamination_label: Label = $HBoxContainer/VBoxContainer/ContaminationLabel
+	contamination_label.visible = false
+	if generator_id == "infernal_forge":
+		var contamination_upgrade = state.upgrades.get("ashen_contamination")
+		if contamination_upgrade != null and contamination_upgrade.is_purchased():
+			var ash_amount := state.get_resource_amount(ResourceIds.ASH)
+			if ash_amount > 100.0:
+				var raw_multiplier := 1.0 / (1.0 + (0.05 / state.realm_effects.ashen_contamination_multiplier) * (sqrt(ash_amount) - 10.0))
+				var sensitivity := generator.get_modifier_sensitivity("ashen_contamination_cycle_speed", state)
+				var speed_multiplier := 1.0 + (raw_multiplier - 1.0) * sensitivity
+				if speed_multiplier < 0.9999:
+					var remaining_progress := maxf(generator.get_cycle_duration() - generator.cycle_progress, 0.0)
+					var remaining_seconds := remaining_progress / maxf(speed_multiplier, 0.0001)
+					contamination_label.text = "Ash contamination: -%s%% cycle speed (x%s) · ~%ss left" % [NumberFormatter.format((1.0 - speed_multiplier) * 100.0), NumberFormatter.format(speed_multiplier), NumberFormatter.format(remaining_seconds)]
+					contamination_label.visible = true
+
 	var operating = generator.is_operating()
 	
 	var input_rows: Array[Dictionary] = []
