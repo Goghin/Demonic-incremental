@@ -267,6 +267,10 @@ func set_modifier_sensitivity(
 		effect_sensitivity_multiplier
 	)
 
+func set_operation_modes(mode_ids: Array[String]) -> void:
+	operation_mode_ids = mode_ids.duplicate()
+
+
 static func dormancy(
 	parameter: String,
 	dorm_value: float
