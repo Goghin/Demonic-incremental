@@ -1,0 +1,63 @@
+[gd_resource type="Theme" load_steps=5 format=3]
+
+[sub_resource type="StyleBoxFlat" id="ScrollbarTrack"]
+bg_color = Color(0.055, 0.043, 0.05, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.19, 0.13, 0.13, 0.95)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="ScrollbarGrabber"]
+bg_color = Color(0.34, 0.19, 0.14, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.52, 0.29, 0.20, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="ScrollbarGrabberHighlight"]
+bg_color = Color(0.48, 0.25, 0.16, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.78, 0.40, 0.22, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="ScrollbarGrabberPressed"]
+bg_color = Color(0.65, 0.31, 0.16, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.95, 0.52, 0.25, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[resource]
+VScrollBar/constants/scrollbar_width = 10
+VScrollBar/constants/grabber_min_size = 22
+VScrollBar/styles/scroll = SubResource("ScrollbarTrack")
+VScrollBar/styles/grabber = SubResource("ScrollbarGrabber")
+VScrollBar/styles/grabber_highlight = SubResource("ScrollbarGrabberHighlight")
+VScrollBar/styles/grabber_pressed = SubResource("ScrollbarGrabberPressed")
+HScrollBar/constants/scrollbar_horizontal_height = 10
+HScrollBar/constants/grabber_min_size = 22
+HScrollBar/styles/scroll = SubResource("ScrollbarTrack")
+HScrollBar/styles/grabber = SubResource("ScrollbarGrabber")
+HScrollBar/styles/grabber_highlight = SubResource("ScrollbarGrabberHighlight")
+HScrollBar/styles/grabber_pressed = SubResource("ScrollbarGrabberPressed")
