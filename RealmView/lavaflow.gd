@@ -158,7 +158,7 @@ class LavaFlowSparkOverlay extends Node2D:
 @onready var channel: Polygon2D = $Channel
 var edge_glow: Line2D
 
-const FLOW_SHADER = preload("res://RealmView/lava_flow.gdshader")
+const FLOW_SHADER = preload("res://RealmView/lava_flow_direction_test.gdshader")
 const LAVA_TEXTURE = preload("res://RealmView/lava1.png")
 
 var points: PackedVector2Array = PackedVector2Array()
