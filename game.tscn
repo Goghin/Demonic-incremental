@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://c4jurbln7j0tr" path="res://UI/offline_results_panel.tscn" id="8_j5wjh"]
 [ext_resource type="PackedScene" path="res://UI/AchievementPanel.tscn" id="9_achievement"]
 [ext_resource type="PackedScene" path="res://UI/AchievementToast.tscn" id="10_achievement_toast"]
+[ext_resource type="Theme" path="res://UI/ScrollbarTheme.tres" id="11_scrollbar_theme"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_NavigationTitle"]
 content_margin_left = 8.0
@@ -82,6 +83,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("11_scrollbar_theme")
 script = ExtResource("1_80nbo")
 
 [node name="ResourcePanel" parent="." unique_id=1532266736 instance=ExtResource("2_e2o6t")]
