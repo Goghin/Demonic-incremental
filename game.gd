@@ -631,29 +631,58 @@ func _clear_generator_focus() -> void:
 
 func _create_initial_upgrade_ui() -> void:
 	var automatic_upgrades: Array = []
+	var tree_assigned_upgrade_ids := _get_upgrade_tree_assigned_ids()
 
 	for upgrade in state.upgrades.values():
-		
-		if upgrade.definition.generator_id != "":
+		if not state.upgrade_system.is_upgrade_visible(upgrade):
 			continue
-		
-		if not state.upgrade_system.is_upgrade_visible(
-			upgrade
-			):
+
+		var upgrade_id: String = upgrade.definition.id
+		var generator_id: String = upgrade.definition.generator_id
+
+		# Keep global upgrades in the main panel as before. Generator-specific
+		# upgrades only appear here when no upgrade tree has a node for them.
+		if generator_id != "" and tree_assigned_upgrade_ids.has(upgrade_id):
 			continue
-		
+
 		if upgrade.definition.automatic:
-			automatic_upgrades.append(
-				upgrade
-			)
+			automatic_upgrades.append(upgrade)
 			continue
 
-		add_upgrade_panel(
-			upgrade
-		)
+		add_upgrade_panel(upgrade)
 
-	_create_initial_effects_ui(
-		automatic_upgrades
+	_create_initial_effects_ui(automatic_upgrades)
+
+
+func _get_upgrade_tree_assigned_ids() -> Dictionary:
+	var assigned_ids: Dictionary = {}
+	var layouts: Array[GeneratorUpgradeLayout] = [
+		AtomicFrictionUpgradeLayout.new(),
+		MolecularAgitationUpgradeLayout.new(),
+		ThermalFurnaceUpgradeLayout.new(),
+		ThermalCompressorUpgradeLayout.new(),
+		InfernalForgeUpgradeLayout.new(),
+		LavaMiteUpgradeLayout.new(),
+		MatterFurnaceUpgradeLayout.new()
+	]
+
+	for layout in layouts:
+		for upgrade_id in layout.positions.keys():
+			assigned_ids[upgrade_id] = true
+
+	var eternal_layout := EternalFlameUpgradeLayout.new()
+	for upgrade_id in eternal_layout.positions.keys():
+		assigned_ids[upgrade_id] = true
+
+	return assigned_ids
+
+
+func _is_unassigned_generator_upgrade(upgrade: Upgrade) -> bool:
+	if upgrade.definition.generator_id == "":
+		return false
+
+	return not _get_upgrade_tree_assigned_ids().has(
+		upgrade.definition.id
 	)
 
 
@@ -662,8 +691,12 @@ func add_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
 
-	# Generator-specific upgrades belong only in their generator tree.
-	if upgrade.definition.generator_id != "":
+	# Generator-specific upgrades belong in their tree when assigned.
+	# Unassigned ones fall back to the main Upgrades panel as a safety net.
+	if (
+		upgrade.definition.generator_id != ""
+		and not _is_unassigned_generator_upgrade(upgrade)
+	):
 		return
 
 	if upgrade_panels.has(
@@ -886,8 +919,12 @@ func add_automatic_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
 
-	# Generator-specific automatic upgrades belong only in their generator tree.
-	if upgrade.definition.generator_id != "":
+	# Automatic generator upgrades also fall back here when they have
+	# no node in a generator upgrade tree.
+	if (
+		upgrade.definition.generator_id != ""
+		and not _is_unassigned_generator_upgrade(upgrade)
+	):
 		return
 
 	if upgrade_panels.has(
