@@ -29,6 +29,7 @@ text = "UPGRADE AUTO: OFF"
 visible = false
 
 [node name="TreeScroll" type="ScrollContainer" parent="."]
+vertical_scroll_mode = 4
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
