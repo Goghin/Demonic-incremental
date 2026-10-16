@@ -570,10 +570,10 @@ static func _create_unlock_infernal_condensation() -> Upgrade:
 		],
 		true,
 		"",
-		"molecular_agitation",
+		"infernal_forge",
 		1,
 		1,
-		"molecular_agitation"
+		""
 	)
 	
 	definition.icon_path = "res://Assets/UpgradeIcons/MolecularAgitation/unlock_infernal_condensation.svg"
@@ -1191,7 +1191,7 @@ static func _create_lava_mite_colony_unlock() -> Upgrade:
 		],
 		true ,
 		"",
-		"ash_management"
+		"infernal_forge"
 	)
 	
 	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_colony_unlock.svg"
