@@ -31,7 +31,7 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [node name="GeneratorPanel" type="PanelContainer" unique_id=270267716]
-custom_minimum_size = Vector2(450, 150)
+custom_minimum_size = Vector2(438, 150)
 size_flags_horizontal = 0
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_dpddx")
