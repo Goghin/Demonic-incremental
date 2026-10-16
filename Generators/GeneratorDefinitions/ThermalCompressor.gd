@@ -32,6 +32,30 @@ static func create() -> Generator:
 		false
 	)
 
+	var expansion_mode = GeneratorOperationMode.new(
+		"expansion",
+		"Expansion",
+		"Rapidly releases stored Nexum back into active Matter. Expanded Matter regains its thermal bonus and becomes vulnerable to decay.",
+		1.0,
+		5.0,
+		1.0,
+		0.0,
+		[
+			GeneratorIO.new(
+				ResourceIds.NEXUM,
+				1.0
+			)
+		],
+		[
+			GeneratorIO.new(
+				ResourceIds.MATTER,
+				1.0
+			)
+		],
+		[],
+		true
+	)
+
 	var definition = GeneratorDefinition.new(
 		"thermal_compressor",
 		"Arcane Compressor",
@@ -41,7 +65,8 @@ static func create() -> Generator:
 		false,
 		"res://Generators/GeneratorDefinitions/Thermal_Compressor.png",
 		[
-			compression_mode
+			compression_mode,
+			expansion_mode
 		]
 	)
 
