@@ -551,10 +551,15 @@ func _update_surface() -> void:
 			right_a
 		])
 
-		# UV.y stores distance along the full path in texture-sized units.
-		# This keeps the texture continuous and makes its motion follow every bend.
-		var uv_a: float = active_distances[i] / 32.0
-		var uv_b: float = active_distances[i + 1] / 32.0
+		var uv_a: float = (
+			active_distances[i] /
+			total_distance
+		)
+
+		var uv_b: float = (
+			active_distances[i + 1] /
+			total_distance
+		)
 
 		surface_segments[i].uv = PackedVector2Array([
 			Vector2(0.0, uv_a),
