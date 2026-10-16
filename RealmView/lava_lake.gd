@@ -194,7 +194,7 @@ func _ensure_edge_glow() -> void:
 	edge_glow = Line2D.new()
 	edge_glow.name = "LavaEdgeGlow"
 	edge_glow.z_index = 0
-	edge_glow.width = 5.0
+	edge_glow.width = 5.5
 	edge_glow.closed = true
 	edge_glow.antialiased = false
 	add_child(edge_glow)
@@ -372,7 +372,7 @@ func _update_visuals() -> void:
 	_ensure_edge_glow()
 	edge_glow.points = rim_points
 	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.12, 0.01, 1.0))
-	glow_color.a = 0.16
+	glow_color.a = 0.20
 	edge_glow.default_color = glow_color
 	edge_glow.width = 5.0
 
