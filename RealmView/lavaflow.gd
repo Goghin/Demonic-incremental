@@ -551,15 +551,10 @@ func _update_surface() -> void:
 			right_a
 		])
 
-		var uv_a: float = (
-			active_distances[i] /
-			total_distance
-		)
-
-		var uv_b: float = (
-			active_distances[i + 1] /
-			total_distance
-		)
+		# UV.y stores distance along the full path in texture-sized units.
+		# This keeps the texture continuous and makes its motion follow every bend.
+		var uv_a: float = active_distances[i] / 32.0
+		var uv_b: float = active_distances[i + 1] / 32.0
 
 		surface_segments[i].uv = PackedVector2Array([
 			Vector2(0.0, uv_a),
@@ -700,12 +695,11 @@ func _create_corner_polygon(
 
 		polygon_points.append(point)
 
-		polygon_uv.append(
-			Vector2(
-				0.5 + cos(angle) * 0.5,
-				0.5 + sin(angle) * 0.5
-			)
-		)
+		# Keep the same across-channel / along-flow UV orientation at bends.
+		polygon_uv.append(Vector2(
+			0.5 + cos(angle) * 0.5,
+			0.5 + sin(angle) * 0.5
+		))
 
 	polygon.polygon = polygon_points
 	polygon.uv = polygon_uv
