@@ -8,6 +8,12 @@ uniform vec2 segment_start = vec2(0.0, 0.0);
 uniform vec2 segment_direction = vec2(1.0, 0.0);
 uniform float path_distance_start = 0.0;
 
+uniform vec3 dark_lava = vec3(0.28, 0.010, 0.002);
+uniform vec3 red_lava = vec3(0.60, 0.025, 0.003);
+uniform vec3 orange_lava = vec3(0.90, 0.070, 0.005);
+uniform vec3 bright_lava = vec3(1.0, 0.20, 0.015);
+uniform vec3 glow_lava = vec3(1.0, 0.08, 0.01);
+
 // Capture the polygon's local-space vertex position before the fragment stage.
 // Fragment-stage VERTEX can be in screen space, which breaks per-segment axes.
 varying vec2 segment_local_position;
@@ -15,12 +21,6 @@ varying vec2 segment_local_position;
 void vertex() {
 	segment_local_position = VERTEX;
 }
-
-uniform vec3 dark_lava = vec3(0.28, 0.010, 0.002);
-uniform vec3 red_lava = vec3(0.60, 0.025, 0.003);
-uniform vec3 orange_lava = vec3(0.90, 0.070, 0.005);
-uniform vec3 bright_lava = vec3(1.0, 0.20, 0.015);
-uniform vec3 glow_lava = vec3(1.0, 0.08, 0.01);
 
 void fragment() {
 	// Project each fragment onto this segment's local tangent and normal.
