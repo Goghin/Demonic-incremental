@@ -608,7 +608,7 @@ func _setup_pressure_rows() -> void:
 	_add_effect_row(container, "heat_rate", "Overflow Rate: 0 /s", ResourceIds.HEAT)
 	_add_effect_row(container, "overflow_this_realm", "Overflow This Realm: 0", ResourceIds.HEAT)
 
-	_add_effect_section(container, "DECAY")
+	_add_effect_section(container, "MATTER")
 	_add_effect_row(container, "matter_threshold", "Decay Threshold: 0 Matter", ResourceIds.MATTER)
 	_add_effect_row(container, "matter_decay", "Decay Rate: 0 Matter/s → 0 Heat/s", ResourceIds.MATTER)
 	
@@ -622,6 +622,7 @@ func _setup_pressure_rows() -> void:
 	_add_effect_section(container, "ESSENCE")
 	_add_effect_row(container, "essence_hunger", "Lava Mite Hunger: ×1", ResourceIds.ESSENCE)
 	_add_effect_row(container, "essence_resistance", "Crystallization Resistance: 0%", ResourceIds.ESSENCE)
+	_add_effect_row(container, "essence_final_multiplier", "Final Heat Production Multiplier: ×1", ResourceIds.ESSENCE)
 
 	_add_effect_section(container, "NEXUM")
 	_add_effect_row(container, "nexum_placeholder", "No effects yet", ResourceIds.NEXUM)
@@ -718,5 +719,9 @@ func update_pressure_stats() -> void:
 	pressure_labels["essence_resistance"].text = (
 		"Crystallization Resistance: %s%%"
 		% NumberFormatter.format(flame_data["essence_resistance_percent"])
+	)
+	pressure_labels["essence_final_multiplier"].text = (
+		"Final Heat Production Multiplier: ×%s"
+		% NumberFormatter.format(flame_data["effective_multiplier"])
 	)
 	pressure_labels["nexum_placeholder"].text = "No effects yet"
