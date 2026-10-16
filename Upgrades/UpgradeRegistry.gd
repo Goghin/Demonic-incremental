@@ -72,6 +72,8 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_thermal_compressor_unlock())
 	_register(upgrades, _create_infernal_forge_immunity())
 	_register(upgrades, _create_infernal_forge_refinement())
+	_register(upgrades, _create_infernal_forge_careful_mode())
+	_register(upgrades, _create_infernal_forge_fast_mode())
 
 	# Infernal Condensation Specialization
 	_register(upgrades, _create_thermal_ash_filtration())
@@ -2002,6 +2004,66 @@ static func _create_infernal_forge_immunity() -> Upgrade:
 	)
 	
 	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_immunity.svg"
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_careful_mode() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_careful_mode",
+		"Careful",
+		"Unlocks the Careful operation mode for the Infernal Forge.",
+		ResourceIds.MATTER,
+		25000.0,
+		[
+			UpgradeEffect.unlock_operation_mode(
+				"infernal_forge",
+				"careful"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"infernal_forge",
+				1
+			)
+		],
+		false,
+		"infernal_forge_operation_mode",
+		"infernal_forge",
+		1,
+		1.0,
+		"infernal_forge"
+	)
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_fast_mode() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_fast_mode",
+		"Fast",
+		"Unlocks the Fast operation mode for the Infernal Forge.",
+		ResourceIds.MATTER,
+		25000.0,
+		[
+			UpgradeEffect.unlock_operation_mode(
+				"infernal_forge",
+				"fast"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"infernal_forge",
+				1
+			)
+		],
+		false,
+		"infernal_forge_operation_mode",
+		"infernal_forge",
+		1,
+		1.0,
+		"infernal_forge"
+	)
 	return Upgrade.new(definition)
 
 
