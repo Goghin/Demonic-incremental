@@ -123,6 +123,7 @@ static func _create_intensified_friction_essence() -> Upgrade:
 		"atomic_friction",
 		EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
 	)
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/intensified_friction_essence.svg"
 	return Upgrade.new(definition)
 
 
@@ -157,6 +158,7 @@ static func _create_atomic_friction_optimization() -> Upgrade:
 		"res://Assets/ICONS/tile000.png"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/atomic_friction_optimization.svg"
 	return Upgrade.new(definition)
 
 static func _create_atomic_reorganization() -> Upgrade:
@@ -190,6 +192,7 @@ static func _create_atomic_reorganization() -> Upgrade:
 		"atomic_friction"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/atomic_reorganization.svg"
 	return Upgrade.new(definition)
 
 static func _create_atomic_friction_refinement() -> Upgrade:
@@ -221,6 +224,7 @@ static func _create_atomic_friction_refinement() -> Upgrade:
 		"atomic_friction"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/atomic_friction_refinement.svg"
 	return Upgrade.new(definition)
 
 static func _create_molecular_agitation_upgrade() -> Upgrade:
@@ -250,6 +254,7 @@ static func _create_molecular_agitation_upgrade() -> Upgrade:
 		"atomic_friction"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/molecular_agitation.svg"
 	return Upgrade.new(definition)
 
 
@@ -287,6 +292,7 @@ static func _create_atomic_mastery() -> Upgrade:
 		"atomic_friction"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/atomic_mastery.svg"
 	return Upgrade.new(definition)
 
 static func _create_efficient_atomic_processing() -> Upgrade:
@@ -322,6 +328,7 @@ static func _create_efficient_atomic_processing() -> Upgrade:
 		"atomic_friction"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/efficient_atomic_processing.svg"
 	return Upgrade.new(definition)
 
 static func _create_atomic_process_optimization() -> Upgrade:
@@ -358,6 +365,7 @@ static func _create_atomic_process_optimization() -> Upgrade:
 		"atomic_friction"
 	)
 
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/atomic_process_optimization.svg"
 	return Upgrade.new(definition)
 
 static func _create_crystallization_adaptation() -> Upgrade:
@@ -389,6 +397,7 @@ static func _create_crystallization_adaptation() -> Upgrade:
 		"atomic_friction"
 	)
 
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/crystallization_adaptation.svg"
 	return Upgrade.new(definition)
 
 static func _create_contamination_adaptation() -> Upgrade:
@@ -420,6 +429,7 @@ static func _create_contamination_adaptation() -> Upgrade:
 		"atomic_friction"
 	)
 
+	definition.icon_path = "res://Assets/UpgradeIcons/AtomicFriction/contamination_adaptation.svg"
 	return Upgrade.new(definition)
 
 # -------------------------------------------------------------------
