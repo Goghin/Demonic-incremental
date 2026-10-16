@@ -30,13 +30,6 @@ func _init() -> void:
 		1
 	)
 
-	# Level 25 convergence / next generator
-	add_node(
-		"molecular_agitation",
-		1,
-		2
-	)
-
 	# Level 35 specialization choice
 	add_node(
 		"efficient_atomic_processing",
@@ -79,28 +72,6 @@ func _init() -> void:
 	add_connection(
 		"atomic_friction_optimization",
 		"atomic_friction_refinement"
-	)
-
-	# Both level 20 choices converge
-	add_connection(
-		"atomic_reorganization",
-		"molecular_agitation"
-	)
-
-	add_connection(
-		"atomic_friction_refinement",
-		"molecular_agitation"
-	)
-
-	# Level 35 specializations follow the level 25 unlock
-	add_connection(
-		"molecular_agitation",
-		"efficient_atomic_processing"
-	)
-
-	add_connection(
-		"molecular_agitation",
-		"atomic_mastery"
 	)
 
 	# Both specializations lead to the level 40 milestone
