@@ -47,6 +47,7 @@ func _run_tests() -> void:
 	_run_test("Generator production increases Heat and records statistics", _test_generator_production)
 	_run_test("Interval statistics are returned and cleared", _test_interval_statistics)
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
+	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 
 	print("")
 	print("========================================")
@@ -213,3 +214,26 @@ func _test_realm_reset() -> void:
 	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), 0.0, "Heat was not reset.")
 	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Matter was not reset.")
 	_expect(state.gameplay_interval_produced.is_empty(), "Interval statistics survived the realm reset.")
+
+
+func _test_modifier_operation_mode_targeting() -> void:
+	var state := _new_test_state()
+	var generator: Generator = state.get_generator("infernal_forge")
+	if generator == null:
+		_expect(false, "Infernal Forge is missing.")
+		return
+
+	var modifier := Modifier.new(ModifierTypes.PRODUCTION, "", 1.5)
+	modifier.operation_mode_ids = ["fast_crystallization"]
+	generator.load_operation_mode("normal")
+	_expect_approx(
+		modifier.get_effective_multiplier(state, generator),
+		1.0,
+		"Mode-restricted modifier should not affect an untargeted mode."
+	)
+	generator.load_operation_mode("fast_crystallization")
+	_expect_approx(
+		modifier.get_effective_multiplier(state, generator),
+		1.5,
+		"Mode-restricted modifier should affect its targeted mode."
+	)
