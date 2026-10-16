@@ -11,9 +11,9 @@ uniform vec3 bright_lava = vec3(1.0, 0.20, 0.015);
 uniform vec3 glow_lava = vec3(1.0, 0.08, 0.01);
 
 void fragment() {
-	vec2 pos = VERTEX;
-
-	vec2 uv = pos * texture_scale;
+	// UVs are mapped to distance along the channel and width across it.
+	// This makes the texture travel along the flow path instead of screen-space Y.
+	vec2 uv = UV * texture_scale;
 	uv.y -= TIME * flow_speed * 0.01;
 
 	float lava = texture(lava_texture, uv).r;
