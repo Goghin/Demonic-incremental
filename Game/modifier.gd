@@ -8,6 +8,7 @@ var type: String
 var target_id: String
 var multiplier: float
 var source_upgrade_id: String = ""
+var operation_mode_ids: Array[String] = []
 
 const DYNAMIC_NONE = ""
 const DYNAMIC_RESOURCE_LOG10 = "resource_log10"
@@ -64,6 +65,9 @@ func get_effective_multiplier(
 	state: GameState,
 	generator: Generator
 ) -> float:
+	
+	if not operation_mode_ids.is_empty() and not operation_mode_ids.has(generator.operation_mode_id):
+		return 1.0
 	
 	var raw_multiplier = get_multiplier(state)
 	
