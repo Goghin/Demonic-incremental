@@ -2035,6 +2035,7 @@ static func _create_infernal_forge_careful_mode() -> Upgrade:
 		1.0,
 		"infernal_forge"
 	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_careful.svg"
 	return Upgrade.new(definition)
 
 
@@ -2065,6 +2066,7 @@ static func _create_infernal_forge_fast_mode() -> Upgrade:
 		1.0,
 		"infernal_forge"
 	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_fast.svg"
 	return Upgrade.new(definition)
 
 
@@ -2100,6 +2102,7 @@ static func _create_infernal_forge_infernal_mode() -> Upgrade:
 		1.0,
 		"infernal_forge"
 	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_infernal.svg"
 	return Upgrade.new(definition)
 
 
