@@ -4,7 +4,7 @@ uniform sampler2D lava_texture : repeat_enable;
 
 // UVs are measured in flow-local pixels, so a larger scale produces
 // smaller texture features and reduces their apparent screen-space speed.
-uniform float texture_scale = 0.18;
+uniform float texture_scale = 3.6;
 uniform float flow_speed = 15.0;
 uniform vec3 dark_lava = vec3(0.28, 0.010, 0.002);
 uniform vec3 red_lava = vec3(0.60, 0.025, 0.003);
