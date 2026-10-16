@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b5xwxlat6llu2" path="res://UI/stats_panel.gd" id="1_ff2w1"]
 
-[node name="StatsPanel" type="Control" unique_id=682952637]
+[node name="StatsPanel" type="PanelContainer" unique_id=682952637]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,12 +12,9 @@ grow_vertical = 2
 script = ExtResource("1_ff2w1")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=753617594]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer" unique_id=1310331131]
 propagate_maximum_size = false
