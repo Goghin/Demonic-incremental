@@ -2,15 +2,6 @@
 
 [ext_resource type="Script" uid="uid://hpfo6sc3ufw3" path="res://UI/prestige_panel.gd" id="1_hr0sl"]
 
-[node name="PrestigePanel" type="Control" unique_id=1634673890]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_hr0sl")
-
 [sub_resource type="StyleBoxFlat" id="StyleBox_RealmHeader"]
 content_margin_left = 8.0
 content_margin_top = 4.0
@@ -26,6 +17,15 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
+
+[node name="PrestigePanel" type="Control" unique_id=1634673890]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hr0sl")
 
 [node name="RealmHeaderPanel" type="PanelContainer" parent="."]
 layout_mode = 0
