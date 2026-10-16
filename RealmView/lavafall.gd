@@ -33,8 +33,9 @@ func set_lava_palette(palette: Dictionary) -> void:
 	lava_palette = palette.duplicate(true)
 	if surface.material is ShaderMaterial:
 		_apply_palette_to_material(surface.material as ShaderMaterial)
-	if not lava_palette.is_empty():
-		rim.color = lava_palette.get("orange", Color(1.0, 0.08, 0.005, 0.75))
+	# Falls should have no bright outline; keep the rim geometry hidden
+	# so the animated lava surface meets the surrounding rock cleanly.
+	rim.color = Color.TRANSPARENT
 
 func _apply_palette_to_material(s_material: ShaderMaterial) -> void:
 	for key in ["dark", "red", "orange", "bright", "glow"]:
@@ -341,7 +342,7 @@ func _set_surface_polygon(
 		)
 
 	rim.polygon = rim_polygon
-	rim.color = lava_palette.get("orange", Color(1.0, 0.08, 0.005, 0.75))
+	rim.color = Color.TRANSPARENT
 func _build_full_surface() -> void:
 	var points := PackedVector2Array([
 		Vector2(0.0, 0.0),
