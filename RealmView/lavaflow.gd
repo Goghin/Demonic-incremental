@@ -164,7 +164,7 @@ const LAVA_TEXTURE = preload("res://RealmView/lava1.png")
 var points: PackedVector2Array = PackedVector2Array()
 var widths: PackedFloat32Array = PackedFloat32Array()
 
-var speed: float = 25.0
+var speed: float = 18.0
 var intensity: float = 1.0
 
 var start_ratio: float = 0.10
