@@ -119,7 +119,7 @@ func _add_crystallized_flame_icon() -> void:
 		if existing_parent.get_child(0) is ResourceIcon:
 			return
 
-	var original_index: int = parent.get_child_index(crystallized_flame_label)
+	var original_index: int = crystallized_flame_label.get_index()
 	parent.remove_child(crystallized_flame_label)
 
 	var row := HBoxContainer.new()
