@@ -170,13 +170,13 @@ func _update_resource_card_rate(resource_id: String) -> void:
 	var is_ash := resource_id == ResourceIds.ASH
 
 	if net > 0.0:
-		net_rate_label.text = "(+%s/s)" % NumberFormatter.format(snappedf(net, 0.1))
+		net_rate_label.text = "(+%s/s)" % _format_net_rate(absf(net))
 		net_rate_label.add_theme_color_override(
 			"font_color",
 			Color(0.95, 0.48, 0.40) if is_ash else Color(0.55, 0.85, 0.58)
 		)
 	elif net < 0.0:
-		net_rate_label.text = "(%s/s)" % NumberFormatter.format(snappedf(net, 0.1))
+		net_rate_label.text = "(%s/s)" % _format_net_rate(absf(net))
 		net_rate_label.add_theme_color_override(
 			"font_color",
 			Color(0.55, 0.85, 0.58) if is_ash else Color(0.95, 0.48, 0.40)
@@ -184,6 +184,17 @@ func _update_resource_card_rate(resource_id: String) -> void:
 	else:
 		net_rate_label.text = "(0/s)"
 		net_rate_label.add_theme_color_override("font_color", Color(0.68, 0.65, 0.64))
+
+
+func _format_net_rate(rate: float) -> String:
+	# Keep ordinary rates compact, but retain useful precision as rates get small.
+	var step := 0.1
+	if rate < 0.1:
+		step = 0.001
+	elif rate < 1.0:
+		step = 0.01
+
+	return NumberFormatter.format(snappedf(rate, step))
 
 
 func _clear_resource_cards() -> void:
