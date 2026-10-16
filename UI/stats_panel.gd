@@ -402,7 +402,7 @@ func update_resource_statistics() -> void:
 		)
 
 		var all_realms_text = (
-			"Produced: %s    Consumed: %s\\nLost: %s    Highest: %s"
+			"Produced: %s    Consumed: %s\nLost: %s    Highest: %s"
 			% [
 				NumberFormatter.format(
 					lifetime_statistics.get_total_produced(
@@ -427,7 +427,7 @@ func update_resource_statistics() -> void:
 			]
 		)
 		if resource_id == ResourceIds.HEAT:
-			all_realms_text += "\\nOverflow: %s" % NumberFormatter.format(
+			all_realms_text += "\nOverflow: %s" % NumberFormatter.format(
 				lifetime_statistics.get_total_overflow()
 			)
 
@@ -617,7 +617,7 @@ func _setup_pressure_rows() -> void:
 
 	_add_effect_section(container, "CRYSTALLIZED FLAME")
 	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
-	_add_effect_row(container, "overflow_bonus", "Overflow Bonus: ×1", ResourceIds.CRYSTALLIZED_FLAME)
+	_add_effect_row(container, "overflow_bonus", "Overflow Bonus Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 
 	_add_effect_section(container, "ESSENCE")
 	_add_effect_row(container, "essence_hunger", "Lava Mite Hunger: ×1", ResourceIds.ESSENCE)
@@ -708,7 +708,7 @@ func update_pressure_stats() -> void:
 		% NumberFormatter.format(flame_data["raw_multiplier"])
 	)
 	pressure_labels["overflow_bonus"].text = (
-		"Overflow Bonus: ×%s"
+		"Overflow Bonus Multiplier: ×%s"
 		% NumberFormatter.format(pow(1.25, state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)))
 	)
 	pressure_labels["essence_hunger"].text = (
@@ -720,56 +720,3 @@ func update_pressure_stats() -> void:
 		% NumberFormatter.format(flame_data["essence_resistance_percent"])
 	)
 	pressure_labels["nexum_placeholder"].text = "No effects yet"
-
-
-func update_pressure_stats() -> void:
-	var overflow_rate = state.get_heat_leak_per_second()
-	var matter_decay = state.get_matter_decay_per_second()
-	var ash_contamination_multiplier := stats.get_raw_resource_modifier_multiplier(
-		"ashen_contamination",
-		ModifierTypes.PRODUCTION,
-		""
-	)
-
-	var crystallized_flames = state.get_resource_amount(
-		ResourceIds.CRYSTALLIZED_FLAME
-	)
-	var overflow_multiplier = pow(1.25, crystallized_flames)
-	var heat_leak_threshold = state.realm_effects.heat_leak_threshold
-	var matter_decay_threshold = state.realm_effects.matter_decay_threshold
-
-	pressure_labels["heat_threshold"].text = (
-		"Overflow Threshold: %s"
-		% NumberFormatter.format(heat_leak_threshold)
-	)
-	pressure_labels["heat_rate"].text = (
-		"Overflow Rate: %s /s"
-		% NumberFormatter.format(overflow_rate)
-	)
-	pressure_labels["overflow_multiplier"].text = (
-		"Overflow Multiplier: ×%s"
-		% NumberFormatter.format(overflow_multiplier)
-	)
-	pressure_labels["overflow_this_realm"].text = (
-		"Overflow This Realm: %s"
-		% NumberFormatter.format(state.current_run_statistics.get_total_overflow())
-	)
-	pressure_labels["overflow_all_realms"].text = (
-		"Overflow All Realms: %s"
-		% NumberFormatter.format(state.resource_statistics.get_total_overflow())
-	)
-	pressure_labels["matter_threshold"].text = (
-		"Decay Threshold: %s Matter"
-		% NumberFormatter.format(matter_decay_threshold)
-	)
-	pressure_labels["matter_decay"].text = (
-		"Decay: %s Matter/s → %s Heat/s"
-		% [
-			NumberFormatter.format(matter_decay),
-			NumberFormatter.format(matter_decay)
-		]
-	)
-	pressure_labels["ash_contamination"].text = (
-		"Ash Contamination: ×%s"
-		% NumberFormatter.format(ash_contamination_multiplier)
-	)
