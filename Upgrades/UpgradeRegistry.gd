@@ -467,6 +467,7 @@ static func _create_molecular_resonance() -> Upgrade:
 		"molecular_agitation"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MolecularAgitation/molecular_resonance.svg"
 	return Upgrade.new(definition)
 
 static func _create_resonant_containment() -> Upgrade:
@@ -498,6 +499,7 @@ static func _create_resonant_containment() -> Upgrade:
 		"molecular_agitation"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MolecularAgitation/resonant_containment.svg"
 	return Upgrade.new(definition)
 
 static func _create_agitation_optimization() -> Upgrade:
@@ -537,6 +539,7 @@ static func _create_agitation_optimization() -> Upgrade:
 		"molecular_agitation"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MolecularAgitation/agitation_optimization.svg"
 	return Upgrade.new(definition)
 
 static func _create_unlock_infernal_condensation() -> Upgrade:
@@ -566,6 +569,7 @@ static func _create_unlock_infernal_condensation() -> Upgrade:
 		"molecular_agitation"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MolecularAgitation/unlock_infernal_condensation.svg"
 	return Upgrade.new(definition)
 
 static func _create_molecular_agitation_refinement() -> Upgrade:
@@ -605,6 +609,7 @@ static func _create_molecular_agitation_refinement() -> Upgrade:
 		"molecular_agitation"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MolecularAgitation/molecular_agitation_refinement.svg"
 	return Upgrade.new(definition)
 
 static func _create_molecular_agitation_boost() -> Upgrade:
@@ -649,6 +654,7 @@ static func _create_molecular_agitation_boost() -> Upgrade:
 		"molecular_agitation"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MolecularAgitation/molecular_agitation_boost.svg"
 	return Upgrade.new(definition)
 
 static func _create_molecular_agitation_expansion() -> Upgrade:
@@ -686,6 +692,7 @@ static func _create_molecular_agitation_expansion() -> Upgrade:
 		"molecular_agitation"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MolecularAgitation/molecular_agitation_expansion.svg"
 	return Upgrade.new(definition)
 
 
