@@ -1,7 +1,18 @@
 shader_type canvas_item;
 
-// Diagnostic pass: amplify custom UVs so small values remain visible.
-// Red = across-channel coordinate; green = along-flow coordinate.
+// Diagnostic pass: capture the built-in UV in the vertex stage and
+// forward it explicitly to the fragment stage.
+varying vec2 diagnostic_uv;
+
+void vertex() {
+	diagnostic_uv = UV;
+}
+
 void fragment() {
-	COLOR = vec4(clamp(UV.x * 3.0, 0.0, 1.0), clamp(UV.y * 20.0, 0.0, 1.0), 0.0, 1.0);
+	COLOR = vec4(
+		clamp(diagnostic_uv.x * 3.0, 0.0, 1.0),
+		clamp(diagnostic_uv.y * 20.0, 0.0, 1.0),
+		0.0,
+		1.0
+	);
 }
