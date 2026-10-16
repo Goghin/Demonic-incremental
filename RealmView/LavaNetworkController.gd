@@ -57,7 +57,8 @@ func create_network(
 			definition["thickness"]
 		)
 
-		flow.z_index = int(definition["flow_z"])
+		# Draw the flow above the lake inner edge so the stream can visually join the lake.
+		flow.z_index = int(definition["flow_z"]) + 1
 		lava_flows.append(flow)
 
 		if not bool(definition.get("has_fall", true)):
