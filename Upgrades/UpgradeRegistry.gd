@@ -1740,6 +1740,7 @@ static func _create_matter_furnace_unlock() -> Upgrade:
 		"matter_furnace"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MatterFurnace/matter_furnace_unlock.svg"
 	return Upgrade.new(definition)
 
 static func _create_thermal_conversion() -> Upgrade:
@@ -1776,6 +1777,7 @@ static func _create_thermal_conversion() -> Upgrade:
 		"matter_furnace"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MatterFurnace/thermal_conversion.svg"
 	return Upgrade.new(definition)
 
 static func _create_matter_refinement() -> Upgrade:
@@ -1813,6 +1815,7 @@ static func _create_matter_refinement() -> Upgrade:
 		"matter_furnace"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MatterFurnace/matter_refinement.svg"
 	return Upgrade.new(definition)
 
 static func _create_matter_furnace_refinement() -> Upgrade:
@@ -1844,6 +1847,7 @@ static func _create_matter_furnace_refinement() -> Upgrade:
 		"matter_furnace"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MatterFurnace/matter_furnace_refinement.svg"
 	return Upgrade.new(definition)
 
 static func _create_matter_furnace_ash_reduction() -> Upgrade:
@@ -1881,6 +1885,7 @@ static func _create_matter_furnace_ash_reduction() -> Upgrade:
 		"matter_furnace"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/MatterFurnace/matter_furnace_ash_reduction.svg"
 	return Upgrade.new(definition)
 
 # -------------------------------------------------------------------
