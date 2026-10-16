@@ -108,12 +108,16 @@ func _create_resource_card(resource_id: String) -> void:
 	var amount_row := HBoxContainer.new()
 	amount_row.name = "ResourceAmountRow"
 	amount_row.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	amount_row.clip_contents = true
 	amount_row.add_theme_constant_override("separation", 4)
 	text_column.add_child(amount_row)
 
 	var amount_label := Label.new()
 	amount_label.name = "ResourceAmount"
 	amount_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	amount_label.clip_text = true
+	amount_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	amount_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	amount_label.add_theme_font_size_override("font_size", 16)
 	amount_label.text = NumberFormatter.format(
 		state.get_resource_amount(resource_id)
@@ -123,6 +127,9 @@ func _create_resource_card(resource_id: String) -> void:
 	var net_rate_label := Label.new()
 	net_rate_label.name = "ResourceNetRate"
 	net_rate_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	net_rate_label.clip_text = true
+	net_rate_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	net_rate_label.size_flags_horizontal = Control.SIZE_SHRINK_END
 	net_rate_label.add_theme_font_size_override("font_size", 11)
 	amount_row.add_child(net_rate_label)
 
