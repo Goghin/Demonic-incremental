@@ -1153,6 +1153,7 @@ static func _create_ashen_contamination() -> Upgrade:
 		"ash_management"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/ashen_contamination.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_colony_unlock() -> Upgrade:
@@ -1179,6 +1180,7 @@ static func _create_lava_mite_colony_unlock() -> Upgrade:
 		"ash_management"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_colony_unlock.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_dormancy() -> Upgrade:
@@ -1210,6 +1212,7 @@ static func _create_lava_mite_dormancy() -> Upgrade:
 		"ash_management"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_dormancy.svg"
 	return Upgrade.new(definition)
 	
 static func _create_essence_influence() -> Upgrade:
@@ -1249,6 +1252,7 @@ static func _create_essence_influence() -> Upgrade:
 		"ash_management"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/essence_influence.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_husbandry() -> Upgrade:
@@ -1281,6 +1285,7 @@ static func _create_lava_mite_husbandry() -> Upgrade:
 		"lava_mite_colony"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_husbandry.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_refinement() -> Upgrade:
@@ -1313,6 +1318,7 @@ static func _create_lava_mite_refinement() -> Upgrade:
 		"lava_mite_colony"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_refinement.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_adaptation() -> Upgrade:
@@ -1368,6 +1374,7 @@ static func _create_lava_mite_adaptation() -> Upgrade:
 		
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_adaptation.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_improved_adaptation() -> Upgrade:
@@ -1423,6 +1430,7 @@ static func _create_lava_mite_improved_adaptation() -> Upgrade:
 		
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_improved_adaptation.svg"
 	return Upgrade.new(definition)
 	
 static func _create_lava_mite_essence() -> Upgrade:
@@ -1459,6 +1467,7 @@ static func _create_lava_mite_essence() -> Upgrade:
 		EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
 	)
 
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_essence.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_essence_adaptation() -> Upgrade:
@@ -1500,6 +1509,7 @@ static func _create_lava_mite_essence_adaptation() -> Upgrade:
 		"lava_mite_colony",
 		EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
 	)
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_essence_adaptation.svg"
 	return Upgrade.new(definition)
 
 
@@ -1533,6 +1543,7 @@ static func _create_lava_mite_metabolism() -> Upgrade:
 		"lava_mite_colony"
 	)
 
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_metabolism.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_colony_growth() -> Upgrade:
@@ -1564,6 +1575,7 @@ static func _create_lava_mite_colony_growth() -> Upgrade:
 		"lava_mite_colony"
 	)
 
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_colony_growth.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_dormancy_delay() -> Upgrade:
@@ -1594,6 +1606,7 @@ static func _create_lava_mite_dormancy_delay() -> Upgrade:
 		"lava_mite_colony"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_dormancy_delay.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_dormancy_conditioning() -> Upgrade:
@@ -1624,6 +1637,7 @@ static func _create_lava_mite_dormancy_conditioning() -> Upgrade:
 		"lava_mite_colony"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_dormancy_conditioning.svg"
 	return Upgrade.new(definition)
 	
 static func _create_improved_lava_mite_colony_management() -> Upgrade:
@@ -1656,6 +1670,7 @@ static func _create_improved_lava_mite_colony_management() -> Upgrade:
 		"lava_mite_colony"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/improved_lava_mite_colony_management.svg"
 	return Upgrade.new(definition)
 
 static func _create_lava_mite_dormancy_resilience() -> Upgrade:
@@ -1686,6 +1701,7 @@ static func _create_lava_mite_dormancy_resilience() -> Upgrade:
 		"lava_mite_colony"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/lava_mite_dormancy_resilience.svg"
 	return Upgrade.new(definition)
 
 
