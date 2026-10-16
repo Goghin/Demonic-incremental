@@ -74,6 +74,7 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_infernal_forge_refinement())
 	_register(upgrades, _create_infernal_forge_careful_mode())
 	_register(upgrades, _create_infernal_forge_fast_mode())
+	_register(upgrades, _create_infernal_forge_infernal_mode())
 
 	# Infernal Condensation Specialization
 	_register(upgrades, _create_thermal_ash_filtration())
@@ -2028,7 +2029,7 @@ static func _create_infernal_forge_careful_mode() -> Upgrade:
 			)
 		],
 		false,
-		"infernal_forge_operation_mode",
+		"",
 		"infernal_forge",
 		1,
 		1.0,
@@ -2058,7 +2059,42 @@ static func _create_infernal_forge_fast_mode() -> Upgrade:
 			)
 		],
 		false,
-		"infernal_forge_operation_mode",
+		"",
+		"infernal_forge",
+		1,
+		1.0,
+		"infernal_forge"
+	)
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_infernal_mode() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_infernal_mode",
+		"Infernal Crystallization",
+		"Unlocks the Infernal Crystallization operation mode for the Infernal Forge.",
+		ResourceIds.MATTER,
+		2500000.0,
+		[
+			UpgradeEffect.unlock_operation_mode(
+				"infernal_forge",
+				"infernal_crystallization"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.GENERATOR_LEVEL,
+				"infernal_forge",
+				1
+			),
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_fast_mode",
+				1
+			)
+		],
+		false,
+		"",
 		"infernal_forge",
 		1,
 		1.0,
