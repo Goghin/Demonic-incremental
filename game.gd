@@ -545,6 +545,7 @@ func _on_generator_panel_selection_requested(generator_id: String) -> void:
 			if generator_upgrade_tree != null:
 				generator_upgrade_tree.hide()
 			_refresh_generator_panel_visibility()
+			_update_navigation_buttons("GeneratorsButton")
 		else:
 			# Clicking the focused generator in the list returns to its panel.
 			generator_list_mode = false
@@ -581,7 +582,8 @@ func _on_generator_selection_requested(generator_id: String) -> void:
 	$UpgradeScroll.offset_top = 112.0
 	$UpgradeScroll.offset_right = 655.0
 	_update_upgrade_view()
-	_update_navigation_buttons("UpgradesButton")
+	# Generator focus is not a bottom-navigation destination.
+	_update_navigation_buttons("")
 
 	_set_selected_generator(generator_id)
 	_on_generator_upgrades_requested(generator_id)
