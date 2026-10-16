@@ -1,5 +1,5 @@
 class_name AchievementPanel
-extends Control
+extends PanelContainer
 
 
 var state: GameState
@@ -54,7 +54,7 @@ func refresh() -> void:
 	if state == null or achievement_manager == null:
 		return
 
-	summary_label.text = "Unlocked: %d / %d" % [
+	summary_label.text = "ACHIEVEMENTS  •  %d / %d UNLOCKED" % [
 		achievement_manager.get_unlocked_count(),
 		achievement_manager.get_total_count()
 	]
