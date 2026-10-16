@@ -551,17 +551,21 @@ func _update_surface() -> void:
 			normal * half_width_b
 		)
 
+		# Keep each segment's vertices in its own local coordinate space.
+		# The shader's VERTEX is local to this Polygon2D, so the segment origin
+		# must be zero rather than a point in the parent flow's coordinate space.
+		surface_segments[i].position = point_a
 		surface_segments[i].polygon = PackedVector2Array([
-			left_a,
-			left_b,
-			right_b,
-			right_a
+			left_a - point_a,
+			left_b - point_a,
+			right_b - point_a,
+			right_a - point_a
 		])
 
-		# Each segment receives its own tangent and cumulative path distance.
-		# The shader derives texture coordinates from geometry, not Polygon2D.uv.
+		# Each segment gets its own material and tangent, so texture coordinates
+		# follow this specific segment instead of sharing a global direction.
 		var segment_material: ShaderMaterial = segment_materials[i]
-		segment_material.set_shader_parameter("segment_start", point_a)
+		segment_material.set_shader_parameter("segment_start", Vector2.ZERO)
 		segment_material.set_shader_parameter("segment_direction", direction)
 		segment_material.set_shader_parameter("path_distance_start", active_distances[i])
 		surface_segments[i].visible = true
