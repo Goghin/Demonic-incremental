@@ -1015,6 +1015,7 @@ static func _create_thermal_ash_filtration() -> Upgrade:
 		"thermal_furnace"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalCondensation/thermal_ash_filtration.svg"
 	return Upgrade.new(definition)
 
 
@@ -1049,6 +1050,7 @@ static func _create_thermal_furnace_mastery() -> Upgrade:
 		"thermal_furnace"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalCondensation/thermal_furnace_mastery.svg"
 	return Upgrade.new(definition)
 
 
@@ -1087,6 +1089,7 @@ static func _create_thermal_furnace_efficiency() -> Upgrade:
 		
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalCondensation/thermal_furnace_efficiency.svg"
 	return Upgrade.new(definition)
 
 
@@ -1120,6 +1123,7 @@ static func _create_thermal_purity() -> Upgrade:
 		"thermal_furnace"
 	)
 	
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalCondensation/thermal_purity.svg"
 	return Upgrade.new(definition)
 
 
