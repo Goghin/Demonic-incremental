@@ -194,10 +194,11 @@ func _process(_delta: float) -> void:
 				var speed_multiplier := 1.0 + (raw_multiplier - 1.0) * sensitivity
 				var remaining_progress := maxf(generator.get_cycle_duration() - generator.cycle_progress, 0.0)
 				var remaining_seconds := remaining_progress / maxf(speed_multiplier, 0.0001)
+				var remaining_time_text := _format_duration(remaining_seconds)
 				if speed_multiplier < 0.9999:
-					contamination_label.text = "Ash contamination: -%s%% speed (x%s) · ~%ss left" % [NumberFormatter.format((1.0 - speed_multiplier) * 100.0), NumberFormatter.format(speed_multiplier), NumberFormatter.format(remaining_seconds)]
+					contamination_label.text = "Ash contamination: -%s%% speed (x%s) · ~%s left" % [NumberFormatter.format((1.0 - speed_multiplier) * 100.0), NumberFormatter.format(speed_multiplier), remaining_time_text]
 				else:
-					contamination_label.text = "Ash contamination: no slowdown (x%s) · ~%ss left" % [NumberFormatter.format(speed_multiplier), NumberFormatter.format(remaining_seconds)]
+					contamination_label.text = "Ash contamination: no slowdown (x%s) · ~%s left" % [NumberFormatter.format(speed_multiplier), remaining_time_text]
 				contamination_label.visible = true
 
 	var operating = generator.is_operating()
@@ -242,6 +243,19 @@ func _process(_delta: float) -> void:
 		)
 	)
 
+
+
+static func _format_duration(seconds: float) -> String:
+	var total_seconds := maxi(0, int(ceil(seconds)))
+	var hours := total_seconds / 3600
+	var minutes := (total_seconds % 3600) / 60
+	var remaining_seconds := total_seconds % 60
+
+	if hours > 0:
+		return "%dh %02dm %02ds" % [hours, minutes, remaining_seconds]
+	if minutes > 0:
+		return "%dm %02ds" % [minutes, remaining_seconds]
+	return "%ds" % remaining_seconds
 
 
 func _get_small_resource_icon(resource_id: String) -> Texture2D:
