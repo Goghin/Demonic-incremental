@@ -564,10 +564,6 @@ func _update_surface() -> void:
 			Vector2(0.0, uv_b),
 			Vector2(0.0, uv_a)
 		])
-		# Temporary runtime diagnostic: confirm the custom UVs survive assignment.
-		if i == 0 and not surface_segments[i].get_meta("uv_diagnostic_logged", false):
-			print("LavaFlow UV diagnostic | assigned=", surface_segments[i].uv, " | polygon_vertices=", surface_segments[i].polygon.size())
-			surface_segments[i].set_meta("uv_diagnostic_logged", true)
 
 		surface_segments[i].visible = true
 
