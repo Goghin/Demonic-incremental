@@ -430,7 +430,8 @@ func get_modifier_sensitivity(
 		
 		sensitivity *= (
 			modifier_sensitivity.get_effective_multiplier(
-				state
+				state,
+				operation_mode_id
 			)
 		)
 	
