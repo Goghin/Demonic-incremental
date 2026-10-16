@@ -215,17 +215,19 @@ func _ensure_edge_glow() -> void:
 
 	# Reuse one gradient rather than allocating a new resource every frame.
 	edge_glow_gradient = Gradient.new()
-	for point in [
-		Vector2(0.0, 0.13),
-		Vector2(0.13, 0.22),
-		Vector2(0.28, 0.15),
-		Vector2(0.43, 0.25),
-		Vector2(0.60, 0.16),
-		Vector2(0.77, 0.23),
-		Vector2(0.91, 0.14),
-		Vector2(1.0, 0.13)
-	]:
-		edge_glow_gradient.add_point(point.x, Color(1.0, 1.0, 1.0, point.y))
+	edge_glow_gradient.offsets = PackedFloat32Array([
+		0.0, 0.13, 0.28, 0.43, 0.60, 0.77, 0.91, 1.0
+	])
+	edge_glow_gradient.colors = PackedColorArray([
+		Color(1.0, 1.0, 1.0, 0.13),
+		Color(1.0, 1.0, 1.0, 0.22),
+		Color(1.0, 1.0, 1.0, 0.15),
+		Color(1.0, 1.0, 1.0, 0.25),
+		Color(1.0, 1.0, 1.0, 0.16),
+		Color(1.0, 1.0, 1.0, 0.23),
+		Color(1.0, 1.0, 1.0, 0.14),
+		Color(1.0, 1.0, 1.0, 0.13)
+	])
 	edge_glow.gradient = edge_glow_gradient
 
 	add_child(edge_glow)
