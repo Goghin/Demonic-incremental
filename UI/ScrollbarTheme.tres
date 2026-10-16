@@ -2,6 +2,10 @@
 
 [sub_resource type="StyleBoxFlat" id="ScrollbarTrack"]
 bg_color = Color(0.055, 0.043, 0.05, 0.96)
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
