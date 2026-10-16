@@ -2,10 +2,10 @@
 
 [sub_resource type="StyleBoxFlat" id="ScrollbarTrack"]
 bg_color = Color(0.055, 0.043, 0.05, 0.96)
-content_margin_left = 7.0
-content_margin_top = 7.0
-content_margin_right = 7.0
-content_margin_bottom = 7.0
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -53,13 +53,13 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [resource]
-VScrollBar/constants/scrollbar_width = 16
+VScrollBar/constants/scrollbar_width = 12
 VScrollBar/constants/grabber_min_size = 22
 VScrollBar/styles/scroll = SubResource("ScrollbarTrack")
 VScrollBar/styles/grabber = SubResource("ScrollbarGrabber")
 VScrollBar/styles/grabber_highlight = SubResource("ScrollbarGrabberHighlight")
 VScrollBar/styles/grabber_pressed = SubResource("ScrollbarGrabberPressed")
-HScrollBar/constants/scrollbar_horizontal_height = 16
+HScrollBar/constants/scrollbar_horizontal_height = 12
 HScrollBar/constants/grabber_min_size = 22
 HScrollBar/styles/scroll = SubResource("ScrollbarTrack")
 HScrollBar/styles/grabber = SubResource("ScrollbarGrabber")
