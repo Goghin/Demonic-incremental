@@ -84,7 +84,7 @@ theme_override_constants/separation = 4
 [node name="PressureTitleLabel" type="Label" parent="ScrollContainer/VBoxContainer/PressureContainer" unique_id=541728193]
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
-text = "Pressure"
+text = "EFFECTS"
 
 [node name="HeatLeakageThresholdLabel" type="Label" parent="ScrollContainer/VBoxContainer/PressureContainer" unique_id=1227789898]
 layout_mode = 2
