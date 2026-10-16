@@ -176,7 +176,7 @@ func _update_resource_card_rate(resource_id: String) -> void:
 			Color(0.95, 0.48, 0.40) if is_ash else Color(0.55, 0.85, 0.58)
 		)
 	elif net < 0.0:
-		net_rate_label.text = "(%s/s)" % _format_net_rate(absf(net))
+		net_rate_label.text = "(-%s/s)" % _format_net_rate(absf(net))
 		net_rate_label.add_theme_color_override(
 			"font_color",
 			Color(0.55, 0.85, 0.58) if is_ash else Color(0.95, 0.48, 0.40)
