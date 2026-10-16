@@ -76,6 +76,8 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_infernal_forge_careful_ash_resistance())
 	_register(upgrades, _create_infernal_forge_ash_adaptation())
 	_register(upgrades, _create_infernal_forge_fast_mode())
+	_register(upgrades, _create_infernal_forge_fast_ash_sensitivity())
+	_register(upgrades, _create_infernal_forge_fast_ash_reduction())
 	_register(upgrades, _create_infernal_forge_infernal_mode())
 
 	# Infernal Condensation Specialization
@@ -2049,10 +2051,11 @@ static func _create_infernal_forge_careful_ash_resistance() -> Upgrade:
 		ResourceIds.MATTER,
 		100000.0,
 		[
-			UpgradeEffect.sensitivity(
-				"infernal_forge",
-				"ashen_contamination_cycle_speed",
-				0.95
+			_upgrade_mode_sensitivity(
+			"infernal_forge",
+			"ashen_contamination_cycle_speed",
+			0.95,
+			"careful"
 			)
 		],
 		[
@@ -2081,10 +2084,11 @@ static func _create_infernal_forge_ash_adaptation() -> Upgrade:
 		ResourceIds.MATTER,
 		0.0,
 		[
-			UpgradeEffect.sensitivity(
-				"infernal_forge",
-				"ashen_contamination_cycle_speed",
-				0.9
+			_upgrade_mode_sensitivity(
+			"infernal_forge",
+			"ashen_contamination_cycle_speed",
+			0.9,
+			"careful"
 			)
 		],
 		[
@@ -2134,6 +2138,105 @@ static func _create_infernal_forge_fast_mode() -> Upgrade:
 	)
 	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_fast.svg"
 	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_fast_ash_sensitivity() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_fast_ash_sensitivity",
+		"Fast Ash Instability",
+		"Automatically increases the Fast mode's sensitivity to Ash contamination cycle slowdown by 15%.",
+		ResourceIds.MATTER,
+		0.0,
+		[
+			_upgrade_mode_sensitivity(
+				"infernal_forge",
+				"ashen_contamination_cycle_speed",
+				1.15,
+				"fast"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_fast_mode",
+				1
+			)
+		],
+		true,
+		"",
+		"infernal_forge",
+		1,
+		1.0,
+		"infernal_forge"
+	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_fast_ash_sensitivity.svg"
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_fast_ash_reduction() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_fast_ash_reduction",
+		"Fast Ash Suppression",
+		"Reduces Ash production in Fast mode by 5% per level.",
+		ResourceIds.MATTER,
+		100000.0,
+		[
+			_upgrade_mode_modifier(
+				"infernal_forge",
+				ModifierTypes.PRODUCTION,
+				0.95,
+				ResourceIds.ASH,
+				"fast"
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_fast_mode",
+				1
+			)
+		],
+		false,
+		"",
+		"infernal_forge",
+		5,
+		1.8,
+		"infernal_forge"
+	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_fast_ash_reduction.svg"
+	return Upgrade.new(definition)
+
+
+static func _upgrade_mode_sensitivity(
+	generator_id: String,
+	sensitivity_id: String,
+	multiplier: float,
+	mode_id: String
+	) -> UpgradeEffect:
+	var effect = UpgradeEffect.sensitivity(
+		generator_id,
+		sensitivity_id,
+		multiplier
+	)
+	effect.set_operation_modes([mode_id])
+	return effect
+
+
+static func _upgrade_mode_modifier(
+	generator_id: String,
+	modifier_type: String,
+	multiplier: float,
+	resource_id: String,
+	mode_id: String
+	) -> UpgradeEffect:
+	var effect = UpgradeEffect.modifier(
+		generator_id,
+		modifier_type,
+		multiplier,
+		resource_id
+	)
+	effect.set_operation_modes([mode_id])
+	return effect
 
 
 static func _create_infernal_forge_infernal_mode() -> Upgrade:
