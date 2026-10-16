@@ -359,6 +359,10 @@ func _get_cycle_progress_delta(generator: Generator, elapsed_delta: float) -> fl
 	if generator.definition.id != "infernal_forge":
 		return elapsed_delta
 
+	var contamination_upgrade = state.upgrades.get("ashen_contamination")
+	if contamination_upgrade == null or not contamination_upgrade.is_purchased():
+		return elapsed_delta
+
 	var ash_amount := state.get_resource_amount(ResourceIds.ASH)
 	var raw_multiplier := 1.0
 	if ash_amount > 100.0:
