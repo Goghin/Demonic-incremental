@@ -11,6 +11,34 @@ var achievement_rows: Dictionary = {}
 @onready var achievement_list: VBoxContainer = $ScrollContainer/Content/AchievementList
 
 
+func _ready() -> void:
+	_style_panel()
+
+
+func _style_panel() -> void:
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.045, 0.035, 0.045, 0.97)
+	panel_style.border_color = Color(0.34, 0.23, 0.20, 1.0)
+	panel_style.set_border_width_all(1)
+	panel_style.set_corner_radius_all(4)
+	panel_style.content_margin_left = 9.0
+	panel_style.content_margin_right = 9.0
+	panel_style.content_margin_top = 9.0
+	panel_style.content_margin_bottom = 9.0
+	add_theme_stylebox_override("panel", panel_style)
+
+	summary_label.add_theme_font_size_override("font_size", 11)
+	summary_label.add_theme_color_override("font_color", Color(1.0, 0.72, 0.43))
+
+	var separator_style := StyleBoxLine.new()
+	separator_style.color = Color(0.34, 0.23, 0.20, 0.9)
+	separator_style.thickness = 1
+	$ScrollContainer/Content/Separator.add_theme_stylebox_override(
+		"separator",
+		separator_style
+	)
+
+
 func setup(
 	game_state: GameState,
 	manager: AchievementManager
@@ -59,10 +87,11 @@ func refresh() -> void:
 			)
 
 		row["status"].text = "UNLOCKED" if is_unlocked else "LOCKED"
-		row["status"].modulate = (
-			Color(0.72, 0.92, 0.66, 1.0)
+		row["status"].add_theme_color_override(
+			"font_color",
+			Color(1.0, 0.72, 0.38, 1.0)
 			if is_unlocked
-			else Color(0.68, 0.68, 0.68, 1.0)
+			else Color(0.58, 0.52, 0.50, 1.0)
 		)
 		row["progress_bar"].value = progress_ratio * 100.0
 		row["progress_label"].text = "%s / %s" % [
@@ -105,6 +134,16 @@ func _build_achievement_rows() -> void:
 		card.name = achievement_id
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		card.custom_minimum_size = Vector2(0, 88)
+		var card_style := StyleBoxFlat.new()
+		card_style.bg_color = Color(0.055, 0.045, 0.055, 0.96)
+		card_style.border_color = Color(0.30, 0.21, 0.19, 1.0)
+		card_style.set_border_width_all(1)
+		card_style.set_corner_radius_all(3)
+		card_style.content_margin_left = 8.0
+		card_style.content_margin_right = 8.0
+		card_style.content_margin_top = 6.0
+		card_style.content_margin_bottom = 6.0
+		card.add_theme_stylebox_override("panel", card_style)
 		achievement_list.add_child(card)
 
 		var content := VBoxContainer.new()
@@ -119,24 +158,35 @@ func _build_achievement_rows() -> void:
 		title.text = str(definition.get("title", achievement_id))
 		title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		title.add_theme_font_size_override("font_size", 12)
+		title.add_theme_color_override("font_color", Color(0.94, 0.84, 0.76))
 		heading.add_child(title)
 
 		var status := Label.new()
 		status.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		status.add_theme_font_size_override("font_size", 10)
+		status.add_theme_font_size_override("font_size", 9)
+		status.add_theme_color_override("font_color", Color(0.58, 0.52, 0.50))
 		heading.add_child(status)
 
 		var description := Label.new()
 		description.text = str(definition.get("description", ""))
 		description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		description.add_theme_font_size_override("font_size", 10)
+		description.add_theme_color_override("font_color", Color(0.72, 0.66, 0.63))
 		content.add_child(description)
 
 		var progress_bar := ProgressBar.new()
 		progress_bar.min_value = 0.0
 		progress_bar.max_value = 100.0
 		progress_bar.show_percentage = false
-		progress_bar.custom_minimum_size = Vector2(0, 8)
+		progress_bar.custom_minimum_size = Vector2(0, 7)
+		var progress_background := StyleBoxFlat.new()
+		progress_background.bg_color = Color(0.12, 0.085, 0.08, 1.0)
+		progress_background.set_corner_radius_all(2)
+		progress_bar.add_theme_stylebox_override("background", progress_background)
+		var progress_fill := StyleBoxFlat.new()
+		progress_fill.bg_color = Color(0.88, 0.39, 0.18, 1.0)
+		progress_fill.set_corner_radius_all(2)
+		progress_bar.add_theme_stylebox_override("fill", progress_fill)
 		content.add_child(progress_bar)
 
 		var progress_row := HBoxContainer.new()
@@ -157,6 +207,7 @@ func _build_achievement_rows() -> void:
 
 		var progress_label := Label.new()
 		progress_label.add_theme_font_size_override("font_size", 9)
+		progress_label.add_theme_color_override("font_color", Color(0.75, 0.66, 0.60))
 		progress_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		progress_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		progress_row.add_child(progress_label)
