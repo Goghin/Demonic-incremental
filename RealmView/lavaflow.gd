@@ -193,6 +193,7 @@ var target_active: bool = false
 
 var surface_segments: Array[Polygon2D] = []
 var surface_corners: Array[Polygon2D] = []
+var segment_materials: Array[ShaderMaterial] = []
 var surface_material: ShaderMaterial
 var spark_overlay: LavaFlowSparkOverlay
 var lava_palette: Dictionary = {}
@@ -317,6 +318,12 @@ func _apply_palette_to_material(s_material: ShaderMaterial) -> void:
 		if lava_palette.has(key):
 			var color: Color = lava_palette[key]
 			s_material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
+	for segment_material in segment_materials:
+		if segment_material != null:
+			for key in ["dark", "red", "orange", "bright", "glow"]:
+				if lava_palette.has(key):
+					var color: Color = lava_palette[key]
+					segment_material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
 
 func _setup_material() -> void:
 	surface_material = ShaderMaterial.new()
@@ -551,20 +558,12 @@ func _update_surface() -> void:
 			right_a
 		])
 
-		# Keep UVs in path-distance units so the shader texture scale stays
-		# consistent regardless of the total length of this flow.
-		var uv_a: float = active_distances[i] * 0.07
-		var uv_b: float = active_distances[i + 1] * 0.07
-		var width_a: float = active_widths[i] * 0.07
-		var width_b: float = active_widths[i + 1] * 0.07
-
-		surface_segments[i].uv = PackedVector2Array([
-			Vector2(width_a, uv_a),
-			Vector2(width_b, uv_b),
-			Vector2(0.0, uv_b),
-			Vector2(0.0, uv_a)
-		])
-
+		# Each segment receives its own tangent and cumulative path distance.
+		# The shader derives texture coordinates from geometry, not Polygon2D.uv.
+		var segment_material: ShaderMaterial = segment_materials[i]
+		segment_material.set_shader_parameter("segment_start", point_a)
+		segment_material.set_shader_parameter("segment_direction", direction)
+		segment_material.set_shader_parameter("path_distance_start", active_distances[i])
 		surface_segments[i].visible = true
 
 	# --------------------------------------------------
@@ -659,11 +658,13 @@ func _ensure_surface_segments(count: int) -> void:
 		# represented consistently in the generated polygon mesh. The shader
 		# still samples this texture explicitly through the lava_texture uniform.
 		polygon.texture = LAVA_TEXTURE
-		polygon.material = surface_material
+		var segment_material := surface_material.duplicate() as ShaderMaterial
+		polygon.material = segment_material
 		polygon.z_index = 0
 
 		surface.add_child(polygon)
 		surface_segments.append(polygon)
+		segment_materials.append(segment_material)
 
 
 func _ensure_surface_corners(count: int) -> void:
