@@ -551,21 +551,18 @@ func _update_surface() -> void:
 			right_a
 		])
 
-		var uv_a: float = (
-			active_distances[i] /
-			total_distance
-		)
-
-		var uv_b: float = (
-			active_distances[i + 1] /
-			total_distance
-		)
+		# UVs use pixel-like distances so the shader can follow the channel
+		# while keeping the existing texture scale approximately unchanged.
+		var distance_a: float = active_distances[i]
+		var distance_b: float = active_distances[i + 1]
+		var width_a: float = active_widths[i]
+		var width_b: float = active_widths[i + 1]
 
 		surface_segments[i].uv = PackedVector2Array([
-			Vector2(0.0, uv_a),
-			Vector2(0.0, uv_b),
-			Vector2(1.0, uv_b),
-			Vector2(1.0, uv_a)
+			Vector2(0.0, distance_a),
+			Vector2(0.0, distance_b),
+			Vector2(width_b, distance_b),
+			Vector2(width_a, distance_a)
 		])
 
 		surface_segments[i].visible = true
@@ -596,10 +593,20 @@ func _update_surface() -> void:
 			active_widths[i + 1] * 0.8
 		)
 
+		var incoming := (active_points[i + 1] - active_points[i]).normalized()
+		var outgoing := (active_points[i + 2] - active_points[i + 1]).normalized()
+		var tangent := incoming + outgoing
+		if tangent.length_squared() <= 0.000001:
+			tangent = outgoing
+		else:
+			tangent = tangent.normalized()
+
 		_create_corner_polygon(
 			surface_corners[i],
 			corner,
-			radius
+			radius,
+			active_distances[i + 1],
+			tangent
 		)
 
 	for i in range(
@@ -679,13 +686,16 @@ func _ensure_surface_corners(count: int) -> void:
 func _create_corner_polygon(
 	polygon: Polygon2D,
 	center: Vector2,
-	radius: float
+	radius: float,
+	path_distance: float,
+	tangent: Vector2
 ) -> void:
 
 	const CORNER_POINTS: int = 8
 
 	var polygon_points := PackedVector2Array()
 	var polygon_uv := PackedVector2Array()
+	var normal := Vector2(-tangent.y, tangent.x)
 
 	for i in range(CORNER_POINTS):
 		var angle: float = (
@@ -693,17 +703,15 @@ func _create_corner_polygon(
 			float(CORNER_POINTS)
 		) * TAU
 
-		var point := center + Vector2(
-			cos(angle),
-			sin(angle)
-		) * radius
+		var offset := Vector2(cos(angle), sin(angle)) * radius
+		var point := center + offset
 
 		polygon_points.append(point)
 
-		# Keep the same across-channel / along-flow UV orientation at bends.
+		# Continue the distance-based UV mapping through the bend.
 		polygon_uv.append(Vector2(
-			0.5 + cos(angle) * 0.5,
-			0.5 + sin(angle) * 0.5
+			radius + offset.dot(normal),
+			path_distance + offset.dot(tangent)
 		))
 
 	polygon.polygon = polygon_points
