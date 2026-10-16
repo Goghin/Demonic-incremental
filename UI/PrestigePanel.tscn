@@ -2,22 +2,6 @@
 
 [ext_resource type="Script" uid="uid://hpfo6sc3ufw3" path="res://UI/prestige_panel.gd" id="1_hr0sl"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBox_RealmHeader"]
-content_margin_left = 8.0
-content_margin_top = 4.0
-content_margin_right = 8.0
-content_margin_bottom = 4.0
-bg_color = Color(0.055, 0.045, 0.055, 0.98)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.32, 0.22, 0.20, 0.95)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
 [node name="PrestigePanel" type="Control" unique_id=1634673890]
 layout_mode = 3
 anchors_preset = 15
@@ -27,29 +11,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_hr0sl")
 
-[node name="RealmHeaderPanel" type="PanelContainer" parent="."]
-layout_mode = 0
-anchor_right = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 34.0
-theme_override_styles/panel = SubResource("StyleBox_RealmHeader")
-
-[node name="RealmHeaderLabel" type="Label" parent="RealmHeaderPanel"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.91, 0.78, 0.68, 1)
-theme_override_font_sizes/font_size = 12
-text = "REALM"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 horizontal_scroll_mode = 0
