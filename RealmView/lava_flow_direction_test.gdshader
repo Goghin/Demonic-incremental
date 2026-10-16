@@ -11,25 +11,7 @@ uniform vec3 bright_lava = vec3(1.0, 0.20, 0.015);
 uniform vec3 glow_lava = vec3(1.0, 0.08, 0.01);
 
 void fragment() {
-	// UV.y is assigned from distance along the flow path in lavaflow.gd.
-	// Unlike VERTEX, this coordinate follows bends and changes in direction.
-	// UVs are scaled in lavaflow.gd before reaching the shader.
-	// Keep the interpolated coordinates small and only animate the flow axis.
-	vec2 uv = UV;
-	uv.y -= TIME * flow_speed * 0.01;
-
-	float lava = texture(lava_texture, uv).r;
-
-	float warm = smoothstep(0.25, 0.50, lava);
-	float hot = smoothstep(0.50, 0.72, lava);
-	float very_hot = smoothstep(0.72, 0.90, lava);
-
-	vec3 color = mix(dark_lava, red_lava, warm);
-	color = mix(color, orange_lava, hot);
-	color = mix(color, bright_lava, very_hot);
-
-	float glow = smoothstep(0.65, 0.90, lava);
-	color += glow_lava * glow * 0.38;
-
-	COLOR = vec4(color, 1.0);
+	// Diagnostic pass: visualize the custom Polygon2D UV coordinates directly.
+	// Red shows across-channel UV; green shows distance along the flow.
+	COLOR = vec4(fract(UV.x * 2.0), fract(UV.y * 0.25), 0.0, 1.0);
 }
