@@ -14,6 +14,7 @@ var modifier_id: String
 
 var output_resource_id: String
 var operation_mode_id: String = ""
+var operation_mode_ids: Array[String] = []
 
 var dynamic_formula: String
 var dynamic_resource_id: String
