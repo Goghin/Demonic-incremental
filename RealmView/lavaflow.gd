@@ -551,23 +551,29 @@ func _update_surface() -> void:
 			normal * half_width_b
 		)
 
-		# Keep each segment's vertices in its own local coordinate space.
-		# The shader's VERTEX is local to this Polygon2D, so the segment origin
-		# must be zero rather than a point in the parent flow's coordinate space.
-		surface_segments[i].position = point_a
+		# Build the polygon in the flow's coordinate space and explicitly map
+		# texture coordinates along this segment's tangent and path distance.
+		surface_segments[i].position = Vector2.ZERO
 		surface_segments[i].polygon = PackedVector2Array([
-			left_a - point_a,
-			left_b - point_a,
-			right_b - point_a,
-			right_a - point_a
+			left_a,
+			left_b,
+			right_b,
+			right_a
 		])
 
-		# Each segment gets its own material and tangent, so texture coordinates
-		# follow this specific segment instead of sharing a global direction.
-		var segment_material: ShaderMaterial = segment_materials[i]
-		segment_material.set_shader_parameter("segment_start", Vector2.ZERO)
-		segment_material.set_shader_parameter("segment_direction", direction)
-		segment_material.set_shader_parameter("path_distance_start", active_distances[i])
+		var along_a: float = active_distances[i] - SEGMENT_OVERLAP
+		var along_b: float = active_distances[i + 1] + SEGMENT_OVERLAP
+		var across_left_a: float = half_width_a
+		var across_left_b: float = half_width_b
+		var across_right_a: float = -half_width_a
+		var across_right_b: float = -half_width_b
+		surface_segments[i].uv = PackedVector2Array([
+			Vector2(across_left_a, along_a),
+			Vector2(across_left_b, along_b),
+			Vector2(across_right_b, along_b),
+			Vector2(across_right_a, along_a)
+		])
+
 		surface_segments[i].visible = true
 
 	# --------------------------------------------------
@@ -591,15 +597,24 @@ func _update_surface() -> void:
 
 	for i in range(active_points.size() - 2):
 		var corner: Vector2 = active_points[i + 1]
+		var incoming: Vector2 = (corner - active_points[i]).normalized()
+		var outgoing: Vector2 = (active_points[i + 2] - corner).normalized()
+		var corner_tangent: Vector2 = incoming + outgoing
+		if corner_tangent.length_squared() <= 0.000001:
+			corner_tangent = outgoing
+		else:
+			corner_tangent = corner_tangent.normalized()
 
-		var radius: float = (
-			active_widths[i + 1] * 0.8
-		)
+		var radius: float = active_widths[i + 1] * 0.8
+		var half_width: float = active_widths[i + 1] * 0.5
 
 		_create_corner_polygon(
 			surface_corners[i],
 			corner,
-			radius
+			radius,
+			corner_tangent,
+			half_width,
+			active_distances[i + 1]
 		)
 
 	for i in range(
@@ -686,33 +701,30 @@ func _ensure_surface_corners(count: int) -> void:
 func _create_corner_polygon(
 	polygon: Polygon2D,
 	center: Vector2,
-	radius: float
+	radius: float,
+	tangent: Vector2,
+	half_width: float,
+	path_distance: float
 ) -> void:
 
 	const CORNER_POINTS: int = 8
-
+	var normal := Vector2(-tangent.y, tangent.x)
 	var polygon_points := PackedVector2Array()
 	var polygon_uv := PackedVector2Array()
 
 	for i in range(CORNER_POINTS):
-		var angle: float = (
-			float(i) /
-			float(CORNER_POINTS)
-		) * TAU
-
-		var point := center + Vector2(
-			cos(angle),
-			sin(angle)
-		) * radius
-
+		var angle: float = (float(i) / float(CORNER_POINTS)) * TAU
+		var offset := Vector2(cos(angle), sin(angle)) * radius
+		var point := center + offset
 		polygon_points.append(point)
 
-		# Keep the same across-channel / along-flow UV orientation at bends.
+		# Match the adjoining segments' path-distance texture coordinates.
 		polygon_uv.append(Vector2(
-			0.5 + cos(angle) * 0.5,
-			0.5 + sin(angle) * 0.5
+			half_width - offset.dot(normal),
+			path_distance + offset.dot(tangent)
 		))
 
+	polygon.position = Vector2.ZERO
 	polygon.polygon = polygon_points
 	polygon.uv = polygon_uv
 	polygon.visible = true
