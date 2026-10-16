@@ -130,9 +130,9 @@ func _create_resource_card(resource_id: String) -> void:
 	net_rate_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	net_rate_label.clip_text = true
 	net_rate_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	net_rate_label.custom_minimum_size.x = 54.0
+	net_rate_label.custom_minimum_size.x = 62.0
 	net_rate_label.size_flags_horizontal = Control.SIZE_SHRINK_END
-	net_rate_label.add_theme_font_size_override("font_size", 11)
+	net_rate_label.add_theme_font_size_override("font_size", 9)
 	amount_row.add_child(net_rate_label)
 
 	$ResourceContainer.add_child(card)
