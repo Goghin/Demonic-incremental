@@ -314,13 +314,13 @@ func set_lava_palette(palette: Dictionary) -> void:
 			edge_glow.default_color = glow_color
 
 func _apply_palette_to_material(s_material: ShaderMaterial) -> void:
-	for key in ["dark", "red", "orange", "bright", "glow"]:
+	for key in ["dark", "red", "orange", "bright"]:
 		if lava_palette.has(key):
 			var color: Color = lava_palette[key]
 			s_material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
 	for segment_material in segment_materials:
 		if segment_material != null:
-			for key in ["dark", "red", "orange", "bright", "glow"]:
+			for key in ["dark", "red", "orange", "bright"]:
 				if lava_palette.has(key):
 					var color: Color = lava_palette[key]
 					segment_material.set_shader_parameter(key + "_lava", Vector3(color.r, color.g, color.b))
