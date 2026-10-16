@@ -655,6 +655,10 @@ func _ensure_surface_segments(count: int) -> void:
 	while surface_segments.size() < count:
 		var polygon := Polygon2D.new()
 
+		# Polygon2D needs its texture assigned for its custom UV array to be
+		# represented consistently in the generated polygon mesh. The shader
+		# still samples this texture explicitly through the lava_texture uniform.
+		polygon.texture = LAVA_TEXTURE
 		polygon.material = surface_material
 		polygon.z_index = 0
 
@@ -666,6 +670,7 @@ func _ensure_surface_corners(count: int) -> void:
 	while surface_corners.size() < count:
 		var polygon := Polygon2D.new()
 
+		polygon.texture = LAVA_TEXTURE
 		polygon.material = surface_material
 		polygon.z_index = 0
 
