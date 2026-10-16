@@ -118,7 +118,7 @@ func _create_resource_card(resource_id: String) -> void:
 	amount_label.clip_text = true
 	amount_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	amount_label.custom_minimum_size.x = 0.0
-	amount_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	amount_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL | Control.SIZE_SHRINK_BEGIN
 	amount_label.add_theme_font_size_override("font_size", 16)
 	amount_label.text = NumberFormatter.format(
 		state.get_resource_amount(resource_id)
@@ -170,13 +170,13 @@ func _update_resource_card_rate(resource_id: String) -> void:
 	var is_ash := resource_id == ResourceIds.ASH
 
 	if net > 0.0:
-		net_rate_label.text = "(+%s/s)" % NumberFormatter.format(net)
+		net_rate_label.text = "(+%s/s)" % NumberFormatter.format(snappedf(net, 0.1))
 		net_rate_label.add_theme_color_override(
 			"font_color",
 			Color(0.95, 0.48, 0.40) if is_ash else Color(0.55, 0.85, 0.58)
 		)
 	elif net < 0.0:
-		net_rate_label.text = "(%s/s)" % NumberFormatter.format(net)
+		net_rate_label.text = "(%s/s)" % NumberFormatter.format(snappedf(net, 0.1))
 		net_rate_label.add_theme_color_override(
 			"font_color",
 			Color(0.55, 0.85, 0.58) if is_ash else Color(0.95, 0.48, 0.40)
