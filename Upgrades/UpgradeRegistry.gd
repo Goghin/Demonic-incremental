@@ -73,6 +73,8 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_infernal_forge_immunity())
 	_register(upgrades, _create_infernal_forge_refinement())
 	_register(upgrades, _create_infernal_forge_careful_mode())
+	_register(upgrades, _create_infernal_forge_careful_ash_resistance())
+	_register(upgrades, _create_infernal_forge_ash_adaptation())
 	_register(upgrades, _create_infernal_forge_fast_mode())
 	_register(upgrades, _create_infernal_forge_infernal_mode())
 
@@ -2036,6 +2038,70 @@ static func _create_infernal_forge_careful_mode() -> Upgrade:
 		"infernal_forge"
 	)
 	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_careful.svg"
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_careful_ash_resistance() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_careful_ash_resistance",
+		"Careful Ash Resistance",
+		"Reduces the Infernal Forge's sensitivity to Ash contamination cycle slowdown by 5% per level.",
+		ResourceIds.MATTER,
+		100000.0,
+		[
+			UpgradeEffect.sensitivity(
+				"infernal_forge",
+				"ashen_contamination_cycle_speed",
+				0.95
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_careful_mode",
+				1
+			)
+		],
+		false,
+		"",
+		"infernal_forge",
+		2,
+		1.8,
+		"infernal_forge"
+	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_ash_adaptation.svg"
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_ash_adaptation() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_ash_adaptation",
+		"Careful Ash Conditioning",
+		"Automatically improves the Infernal Forge after Careful is unlocked, reducing sensitivity to Ash contamination cycle slowdown by 10%.",
+		ResourceIds.MATTER,
+		0.0,
+		[
+			UpgradeEffect.sensitivity(
+				"infernal_forge",
+				"ashen_contamination_cycle_speed",
+				0.9
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_careful_mode",
+				1
+			)
+		],
+		true,
+		"",
+		"infernal_forge",
+		1,
+		1.0,
+		"infernal_forge"
+	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_careful_ash_resistance.svg"
 	return Upgrade.new(definition)
 
 
