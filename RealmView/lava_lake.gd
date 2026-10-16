@@ -152,6 +152,7 @@ const FILL_SMOOTH_SPEED: float = .1
 var animation_time: float = 0.0
 var lava_burst_overlay: LavaBurstOverlay
 var edge_glow: Line2D
+var edge_glow_gradient: Gradient
 var lava_palette: Dictionary = {}
 
 func setup(
@@ -211,6 +212,21 @@ func _ensure_edge_glow() -> void:
 	glow_width_curve.add_point(Vector2(0.90, 0.70))
 	glow_width_curve.add_point(Vector2(1.0, 0.78))
 	edge_glow.width_curve = glow_width_curve
+
+	# Reuse one gradient rather than allocating a new resource every frame.
+	edge_glow_gradient = Gradient.new()
+	for point in [
+		Vector2(0.0, 0.13),
+		Vector2(0.13, 0.22),
+		Vector2(0.28, 0.15),
+		Vector2(0.43, 0.25),
+		Vector2(0.60, 0.16),
+		Vector2(0.77, 0.23),
+		Vector2(0.91, 0.14),
+		Vector2(1.0, 0.13)
+	]:
+		edge_glow_gradient.add_point(point.x, Color(1.0, 1.0, 1.0, point.y))
+	edge_glow.gradient = edge_glow_gradient
 
 	add_child(edge_glow)
 
@@ -387,17 +403,14 @@ func _update_visuals() -> void:
 	_ensure_edge_glow()
 	edge_glow.points = rim_points
 	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.12, 0.01, 1.0))
-	glow_color.a = 1.0
-	var glow_gradient := Gradient.new()
-	glow_gradient.set_color(0, Color(glow_color.r, glow_color.g, glow_color.b, 0.13))
-	glow_gradient.add_point(0.13, Color(glow_color.r, glow_color.g, glow_color.b, 0.22))
-	glow_gradient.add_point(0.28, Color(glow_color.r, glow_color.g, glow_color.b, 0.15))
-	glow_gradient.add_point(0.43, Color(glow_color.r, glow_color.g, glow_color.b, 0.25))
-	glow_gradient.add_point(0.60, Color(glow_color.r, glow_color.g, glow_color.b, 0.16))
-	glow_gradient.add_point(0.77, Color(glow_color.r, glow_color.g, glow_color.b, 0.23))
-	glow_gradient.add_point(0.91, Color(glow_color.r, glow_color.g, glow_color.b, 0.14))
-	glow_gradient.set_color(1, Color(glow_color.r, glow_color.g, glow_color.b, 0.13))
-	edge_glow.gradient = glow_gradient
+	var glow_alphas: Array[float] = [0.13, 0.22, 0.15, 0.25, 0.16, 0.23, 0.14, 0.13]
+	for i in range(glow_alphas.size()):
+		edge_glow_gradient.set_color(i, Color(
+			glow_color.r,
+			glow_color.g,
+			glow_color.b,
+			glow_alphas[i]
+		))
 	edge_glow.width = 5.5
 
 	var rim: Polygon2D = $Rim
