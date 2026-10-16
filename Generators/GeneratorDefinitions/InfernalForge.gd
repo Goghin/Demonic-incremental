@@ -36,64 +36,49 @@ static func create() -> Generator:
 		]
 	)
 	
-	var fast_crystallization_mode = GeneratorOperationMode.new(
-		"fast_crystallization",
-		"Fast Crystallization",
-		"Accelerates crystallization at greatly increased resource consumption.",
+	var careful_mode = GeneratorOperationMode.new(
+		"careful",
+		"Careful",
+		"Runs a slower, controlled crystallization cycle with reduced Heat and Ash output.",
+		1.0,
+		1.0,
+		1.0,
+		900.0,
+		[
+			GeneratorIO.new(ResourceIds.HEAT, 5000.0),
+			GeneratorIO.new(ResourceIds.MATTER, 5.0)
+		],
+		[
+			GeneratorIO.new(ResourceIds.ASH, 3.0)
+		],
+		[
+			GeneratorIO.new(ResourceIds.CRYSTALLIZED_FLAME, 1.0, true)
+		]
+	)
+	careful_mode.initially_unlocked = false
+	careful_mode.unlocked = false
+
+	var fast_mode = GeneratorOperationMode.new(
+		"fast",
+		"Fast",
+		"Accelerates crystallization at greatly increased Matter consumption and Ash output.",
 		1.0,
 		1.0,
 		1.5,
 		18.0,
 		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				15.0
-			)
+			GeneratorIO.new(ResourceIds.MATTER, 15.0)
 		],
 		[
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				17.5
-			)
+			GeneratorIO.new(ResourceIds.ASH, 17.5)
 		],
 		[
-			GeneratorIO.new(
-				ResourceIds.CRYSTALLIZED_FLAME,
-				1.0,
-				true
-			)
+			GeneratorIO.new(ResourceIds.CRYSTALLIZED_FLAME, 1.0, true)
 		]
 	)
-	
-	var violent_crystallization_mode = GeneratorOperationMode.new(
-		"violent_crystallization",
-		"Violent Crystallization",
-		"Forces crystallization through immense pressure, consuming enormous quantities of Matter and Ash.",
-		1.0,
-		1.0,
-		4.5,
-		60.0,
-		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				2500.0
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				3333.3333333
-			)
-		],
-		[
-			GeneratorIO.new(
-				ResourceIds.CRYSTALLIZED_FLAME,
-				1.0,
-				true
-			)
-		]
-	)
-	
+	fast_mode.initially_unlocked = false
+	fast_mode.unlocked = false
+
 	var infernal_crystallization_mode = GeneratorOperationMode.new(
 		"infernal_crystallization",
 		"Infernal Crystallization",
@@ -103,26 +88,17 @@ static func create() -> Generator:
 		15.0,
 		20.0,
 		[
-			GeneratorIO.new(
-				ResourceIds.MATTER,
-				50000.0
-			)
+			GeneratorIO.new(ResourceIds.MATTER, 50000.0)
 		],
 		[
-			GeneratorIO.new(
-				ResourceIds.ASH,
-				60000.0
-			)
+			GeneratorIO.new(ResourceIds.ASH, 60000.0)
 		],
 		[
-			GeneratorIO.new(
-				ResourceIds.CRYSTALLIZED_FLAME,
-				1.0,
-				true
-			)
+			GeneratorIO.new(ResourceIds.CRYSTALLIZED_FLAME, 1.0, true)
 		]
 	)
-	
+	infernal_crystallization_mode.initially_unlocked = false
+	infernal_crystallization_mode.unlocked = false
 	
 	
 	var definition = GeneratorDefinition.new(
@@ -135,8 +111,8 @@ static func create() -> Generator:
 		"res://Generators/GeneratorDefinitions/Infernal_Forge.png",
 		[
 			normal_mode,
-			fast_crystallization_mode,
-			violent_crystallization_mode,
+			careful_mode,
+			fast_mode,
 			infernal_crystallization_mode
 		]
 	)
