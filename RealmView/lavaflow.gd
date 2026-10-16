@@ -563,15 +563,11 @@ func _update_surface() -> void:
 
 		var along_a: float = active_distances[i] - SEGMENT_OVERLAP
 		var along_b: float = active_distances[i + 1] + SEGMENT_OVERLAP
-		var across_left_a: float = half_width_a
-		var across_left_b: float = half_width_b
-		var across_right_a: float = -half_width_a
-		var across_right_b: float = -half_width_b
 		surface_segments[i].uv = PackedVector2Array([
-			Vector2(across_left_a, along_a),
-			Vector2(across_left_b, along_b),
-			Vector2(across_right_b, along_b),
-			Vector2(across_right_a, along_a)
+			Vector2(0.0, along_a),
+			Vector2(0.0, along_b),
+			Vector2(active_widths[i + 1], along_b),
+			Vector2(active_widths[i], along_a)
 		])
 
 		surface_segments[i].visible = true
@@ -605,7 +601,9 @@ func _update_surface() -> void:
 		else:
 			corner_tangent = corner_tangent.normalized()
 
-		var radius: float = active_widths[i + 1] * 0.8
+		# A half-width radius makes the corner fill meet the channel edges,
+		# while its UVs continue the same across-channel/path-distance mapping.
+		var radius: float = active_widths[i + 1] * 0.5
 		var half_width: float = active_widths[i + 1] * 0.5
 
 		_create_corner_polygon(
