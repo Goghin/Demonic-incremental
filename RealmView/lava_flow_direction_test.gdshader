@@ -13,7 +13,9 @@ uniform vec3 glow_lava = vec3(1.0, 0.08, 0.01);
 void fragment() {
 	// UV.y is assigned from distance along the flow path in lavaflow.gd.
 	// Unlike VERTEX, this coordinate follows bends and changes in direction.
-	vec2 uv = UV * texture_scale;
+	// UVs are scaled in lavaflow.gd before reaching the shader.
+	// Keep the interpolated coordinates small and only animate the flow axis.
+	vec2 uv = UV;
 	uv.y -= TIME * flow_speed * 0.01;
 
 	float lava = texture(lava_texture, uv).r;
