@@ -49,13 +49,13 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [resource]
-VScrollBar/constants/scrollbar_width = 10
+VScrollBar/constants/scrollbar_width = 16
 VScrollBar/constants/grabber_min_size = 22
 VScrollBar/styles/scroll = SubResource("ScrollbarTrack")
 VScrollBar/styles/grabber = SubResource("ScrollbarGrabber")
 VScrollBar/styles/grabber_highlight = SubResource("ScrollbarGrabberHighlight")
 VScrollBar/styles/grabber_pressed = SubResource("ScrollbarGrabberPressed")
-HScrollBar/constants/scrollbar_horizontal_height = 10
+HScrollBar/constants/scrollbar_horizontal_height = 16
 HScrollBar/constants/grabber_min_size = 22
 HScrollBar/styles/scroll = SubResource("ScrollbarTrack")
 HScrollBar/styles/grabber = SubResource("ScrollbarGrabber")
