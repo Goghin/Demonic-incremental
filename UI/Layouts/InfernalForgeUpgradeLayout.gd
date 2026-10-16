@@ -9,10 +9,20 @@ func _init() -> void:
 	add_node("infernal_forge_infernal_mode", 1, 2)
 	add_node("infernal_forge_ash_adaptation", 0, 2)
 	add_node("infernal_forge_careful_ash_resistance", 0, 3)
+	add_node("infernal_forge_fast_ash_sensitivity", 3, 2)
+	add_node("infernal_forge_fast_ash_reduction", 3, 3)
 
 	add_connection(
 		"infernal_forge_fast_mode",
 		"infernal_forge_infernal_mode"
+	)
+	add_connection(
+		"infernal_forge_fast_mode",
+		"infernal_forge_fast_ash_sensitivity"
+	)
+	add_connection(
+		"infernal_forge_fast_ash_sensitivity",
+		"infernal_forge_fast_ash_reduction"
 	)
 	add_connection(
 		"infernal_forge_careful_mode",
