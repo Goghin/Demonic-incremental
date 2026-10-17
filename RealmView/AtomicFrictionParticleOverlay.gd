@@ -4,6 +4,7 @@ extends Node2D
 var time: float = 0.0
 var active: bool = false
 var generator_level: int = 1
+var operation_mode_id: String = "normal"
 
 func _process(delta: float) -> void:
 	time += delta
@@ -69,10 +70,17 @@ func _draw() -> void:
 			0.3 * min(1.0 + 0.08 * sqrt(level - 1.0), 1.2)
 		)
 
+		var particle_color: Color
+		if operation_mode_id == "intensified_friction":
+			particle_color = Color(0.18, 1.0, 0.28, alpha)
+		else:
+			# Normal operation uses the same fiery orange palette as Infernal Condensation.
+			particle_color = Color(1.0, 0.35, 0.04, alpha)
+
 		draw_circle(
 			particle_position,
 			particle_size,
-			Color(0.72, 0.38, 1.0, alpha)
+			particle_color
 		)
 
 		# Sparks escape more often as the machine levels up.
@@ -108,15 +116,24 @@ func _draw() -> void:
 				1.0 - spark_progress
 			)
 
+			var spark_color: Color
+			var spark_core_color: Color
+			if operation_mode_id == "intensified_friction":
+				spark_color = Color(0.55, 1.0, 0.35, spark_alpha)
+				spark_core_color = Color(0.85, 1.0, 0.72, spark_alpha)
+			else:
+				spark_color = Color(1.0, 0.85, 0.3, spark_alpha)
+				spark_core_color = Color(1.0, 0.98, 0.72, spark_alpha)
+
 			draw_line(
 				spark_start,
 				spark_end,
-				Color(0.92, 0.78, 1.0, spark_alpha),
+				spark_color,
 				1.0
 			)
 
 			draw_circle(
 				spark_end,
 				0.65 * min(intensity, 1.5),
-				Color(1.0, 0.94, 1.0, spark_alpha)
+				spark_core_color
 			)
