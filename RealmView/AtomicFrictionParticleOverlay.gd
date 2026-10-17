@@ -72,7 +72,7 @@ func _draw() -> void:
 		draw_circle(
 			particle_position,
 			particle_size,
-			Color(0.05, 0.85, 0.78, alpha)
+			Color(0.72, 0.38, 1.0, alpha)
 		)
 
 		# Sparks escape more often as the machine levels up.
@@ -111,12 +111,12 @@ func _draw() -> void:
 			draw_line(
 				spark_start,
 				spark_end,
-				Color(0.35, 0.95, 1.0, spark_alpha),
+				Color(0.92, 0.78, 1.0, spark_alpha),
 				1.0
 			)
 
 			draw_circle(
 				spark_end,
 				0.65 * min(intensity, 1.5),
-				Color(0.8, 1.0, 1.0, spark_alpha)
+				Color(1.0, 0.94, 1.0, spark_alpha)
 			)
