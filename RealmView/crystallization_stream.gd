@@ -60,19 +60,13 @@ func setup(
 	queue_redraw()
 
 
-func setup_burst(at_position: Vector2) -> void:
+func setup_burst(at_position: Vector2, critical: bool = false) -> void:
 	burst_mode = true
 	start_position = at_position
 	target_position = at_position
 	elapsed = 0.0
-	# Most completions stay restrained; occasional bursts feel more powerful.
-	var burst_roll: float = randf()
-	if burst_roll < 0.85:
-		burst_scale = 1.0
-	elif burst_roll < 0.98:
-		burst_scale = randf_range(1.8, 2.5)
-	else:
-		burst_scale = 3.0
+	# Reserve the large version for an actual critical Forge result.
+	burst_scale = 2.5 if critical else 1.0
 	duration = 1.8 + (burst_scale - 1.0) * 0.18
 	active = true
 	particles.clear()
