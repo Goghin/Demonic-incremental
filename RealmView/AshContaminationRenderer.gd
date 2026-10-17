@@ -98,10 +98,6 @@ func _draw() -> void:
 			sin(angle) * swirl_radius * 0.38 + vertical_offset + sin(phase * 0.7) * 5.0
 		)
 
-		var tangent: Vector2 = Vector2(
-			-sin(angle),
-			cos(angle) * 0.38
-		).normalized()
 
 		var particle_size: float = float(particle["size"]) * particle_scale
 		var particle_alpha: float = float(particle["alpha"]) * (0.65 + ash_factor * 0.55)
