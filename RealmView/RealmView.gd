@@ -62,6 +62,10 @@ const LAVA_FALL_SCENE = preload(
 	"res://RealmView/lavafall.tscn"
 )
 
+const FORGE_LEVEL_REDUCTION_EFFECT = preload(
+	"res://RealmView/ForgeLevelReductionEffect.gd"
+)
+
 
 var generator_hitboxes: Dictionary = {}
 var selected_generator_id: String = ""
@@ -237,6 +241,21 @@ func play_crystallization_event(
 		_get_generator_position("infernal_forge"),
 		false
 	)
+
+
+
+
+func play_forge_level_reduction_event(
+	generator_id: String,
+	_previous_level: int,
+	_new_level: int
+) -> void:
+	if not visual_effects_enabled or generator_id != "infernal_forge":
+		return
+
+	var effect := FORGE_LEVEL_REDUCTION_EFFECT.new() as Node2D
+	effect.position = _get_generator_position(generator_id)
+	add_child(effect)
 
 
 func play_critical_crystallization_event(crystals_created: float) -> void:
