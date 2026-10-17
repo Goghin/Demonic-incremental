@@ -5,7 +5,7 @@ extends RefCounted
 var emitters: Array[SmokeEmitterRenderer] = []
 
 
-func update(owner: RealmView, island_rect: Rect2, delta: float) -> void:
+func update(owner: RealmView, island_rect: Rect2) -> void:
 	var layout: RealmLayout = owner.realm_layout
 	if layout == null:
 		_clear_emitters()
