@@ -356,26 +356,18 @@ func update_cycle_generator(
 # In offline mode, return how much of this step the generator can actually
 # operate for before one of its input resources is depleted.
 func _get_cycle_progress_delta(generator: Generator, elapsed_delta: float) -> float:
-	if generator.definition.id != "infernal_forge":
-		return elapsed_delta
+	var cycle_speed_multiplier: float = 1.0
 
-	var contamination_upgrade = state.upgrades.get("ashen_contamination")
-	if contamination_upgrade == null or not contamination_upgrade.is_purchased():
-		return elapsed_delta
+	for modifier in generator.modifiers:
+		if not modifier.applies_to(ModifierTypes.CYCLE_SPEED):
+			continue
 
-	var ash_amount := state.get_resource_amount(ResourceIds.ASH)
-	var raw_multiplier := 1.0
-	if ash_amount > 100.0:
-		var excess := sqrt(ash_amount) - 10.0
-		var scaling_multiplier := 0.05 / state.realm_effects.ashen_contamination_multiplier
-		raw_multiplier = 1.0 / (1.0 + scaling_multiplier * excess)
+		cycle_speed_multiplier *= modifier.get_effective_multiplier(
+			state,
+			generator
+		)
 
-	var sensitivity := generator.get_modifier_sensitivity(
-		"ashen_contamination_cycle_speed",
-		state
-	)
-	var effective_multiplier := 1.0 + (raw_multiplier - 1.0) * sensitivity
-	return elapsed_delta * clampf(effective_multiplier, 0.0, 1.0)
+	return elapsed_delta * maxf(cycle_speed_multiplier, 0.0)
 
 
 func _get_available_operating_delta(
@@ -936,6 +928,8 @@ func _add_modifier_to_generator(
 		modifier.dynamic_generator_id = effect.dynamic_generator_id
 		modifier.dynamic_threshold = effect.dynamic_threshold
 		modifier.dynamic_exponent = effect.dynamic_exponent
+		modifier.dynamic_realm_effect_id = effect.dynamic_realm_effect_id
+		modifier.dynamic_realm_effect_is_divisor = effect.dynamic_realm_effect_is_divisor
 		
 	generator.modifiers.append(modifier)
 
