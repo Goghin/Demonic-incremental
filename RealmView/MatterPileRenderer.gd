@@ -298,9 +298,13 @@ func _update_cube_position(
 	var floating_lift: float = 0.0
 	if cube_index >= 14 and growth_stage >= 8:
 		floating_lift = min(float(growth_stage - 7) * 0.09, 0.72) * height
+	# Give the pile a more deliberate 3D silhouette: the lower rows keep a
+	# broad footprint, while higher rows draw inward and rise more clearly.
+	var layer_progress: float = clamp(slot.y / 2.85, 0.0, 1.0)
+	var upper_layer_taper: float = lerp(1.0, 0.58, layer_progress)
 	cube.position = Vector2(
-		slot.x * width * 0.58 + jitter_x,
-		-slot.y * height * 0.78 + slot.z * height * 0.35 + jitter_y - floating_lift
+		slot.x * width * 0.58 * upper_layer_taper + jitter_x,
+		-slot.y * height * 1.02 + slot.z * height * 0.42 + jitter_y - floating_lift
 	)
 	cube.scale = Vector2.ONE * size_factor
 
