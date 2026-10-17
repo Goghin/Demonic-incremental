@@ -225,14 +225,20 @@ func _test_modifier_operation_mode_targeting() -> void:
 		return
 
 	var modifier := Modifier.new(ModifierTypes.PRODUCTION, "", 1.5)
-	modifier.operation_mode_ids = ["fast_crystallization"]
-	generator.load_operation_mode("normal")
+	modifier.operation_mode_ids = ["fast"]
+	_expect(
+		generator.load_operation_mode("normal"),
+		"Could not load the normal Infernal Forge mode for the test."
+	)
 	_expect_approx(
 		modifier.get_effective_multiplier(state, generator),
 		1.0,
 		"Mode-restricted modifier should not affect an untargeted mode."
 	)
-	generator.load_operation_mode("fast_crystallization")
+	_expect(
+		generator.load_operation_mode("fast"),
+		"Could not load the fast Infernal Forge mode for the test."
+	)
 	_expect_approx(
 		modifier.get_effective_multiplier(state, generator),
 		1.5,
