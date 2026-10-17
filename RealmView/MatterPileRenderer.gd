@@ -20,27 +20,27 @@ const RUBBLE_HIGHLIGHT: Color = Color(0.30, 0.68, 0.78, 0.85)
 const EDGE_HIGHLIGHT_COLOR: Color = Color(0.76, 0.97, 1.0, 0.88)
 
 # Each slot is (horizontal offset, mound elevation, ground-plane depth).
-# Depth runs from the foreground (0) to the back (1.3); elevation is modest
-# so the pile reads as an isometric heap rather than a side-view stack.
+# The footprint stays wide at the base and narrows toward the center/back,
+# with several elevated central fragments forming a low, irregular peak.
 const CUBE_SLOTS: Array[Vector3] = [
 	Vector3(-1.30, 0.0, 0.0),
 	Vector3(-0.48, 0.0, 0.0),
 	Vector3(0.42, 0.0, 0.0),
 	Vector3(1.22, 0.0, 0.0),
-	Vector3(-1.12, 0.0, 0.62),
-	Vector3(-0.35, 0.35, 0.62),
-	Vector3(0.48, 0.25, 0.62),
-	Vector3(1.18, 0.0, 0.62),
-	Vector3(-0.96, 0.0, 1.24),
-	Vector3(-0.35, 0.45, 1.24),
-	Vector3(0.38, 0.55, 1.24),
-	Vector3(0.98, 0.0, 1.24),
-	Vector3(-0.72, 0.25, 0.38),
-	Vector3(0.05, 0.75, 0.42),
-	Vector3(0.72, 0.35, 0.42),
-	Vector3(-0.45, 0.65, 0.92),
-	Vector3(0.22, 1.05, 0.88),
-	Vector3(0.48, 0.65, 0.98)
+	Vector3(-1.05, 0.0, 0.52),
+	Vector3(-0.48, 0.35, 0.52),
+	Vector3(0.34, 0.40, 0.52),
+	Vector3(1.05, 0.0, 0.52),
+	Vector3(-0.78, 0.0, 1.02),
+	Vector3(-0.32, 0.45, 1.02),
+	Vector3(0.28, 0.55, 1.02),
+	Vector3(0.76, 0.0, 1.02),
+	Vector3(-0.72, 0.25, 0.30),
+	Vector3(-0.18, 0.75, 0.36),
+	Vector3(0.48, 0.45, 0.36),
+	Vector3(-0.38, 0.72, 0.78),
+	Vector3(0.10, 1.25, 0.76),
+	Vector3(0.42, 0.85, 0.82)
 ]
 
 
@@ -297,12 +297,12 @@ func _update_cube_position(
 	var floating_lift: float = 0.0
 	if cube_index >= 14 and growth_stage >= 8:
 		floating_lift = min(float(growth_stage - 7) * 0.09, 0.72) * height
-	# Project the ground plane diagonally: back rows move upward on screen and
-	# slightly sideways, while elevation adds a smaller extra lift.
-	var centered_depth: float = slot.z - 0.62
+	# Project the ground plane diagonally: back rows move upward on screen.
+	# Mound elevation contributes a stronger lift to create a clear central peak.
+	var centered_depth: float = slot.z - 0.52
 	cube.position = Vector2(
-		(slot.x - centered_depth * 0.38) * width * 0.58 + jitter_x,
-		-slot.z * height * 0.82 - slot.y * height * 0.72 + jitter_y - floating_lift
+		(slot.x - centered_depth * 0.30) * width * 0.58 + jitter_x,
+		-slot.z * height * 0.76 - slot.y * height * 1.12 + jitter_y - floating_lift
 	)
 	cube.scale = Vector2.ONE * size_factor
 
