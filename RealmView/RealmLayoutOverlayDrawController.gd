@@ -27,6 +27,7 @@ func draw_overlay(
 	_draw_lake_edge_handles(owner, realm_layout, island_rect, selected_object)
 	_draw_main_lake_center_handle(owner, realm_layout, island_rect, selected_object)
 	_draw_matter_pile_handles(owner, realm_layout, island_rect, selected_object)
+	_draw_smoke_emitter_handles(owner, realm_layout, island_rect, selected_object)
 
 	for generator_id in generator_hitboxes:
 		var hitbox: Rect2 = generator_hitboxes[generator_id]
@@ -107,6 +108,40 @@ func draw_overlay(
 
 
 
+func _draw_smoke_emitter_handles(
+	owner: Control,
+	realm_layout: RealmLayout,
+	island_rect: Rect2,
+	selected_object: String
+) -> void:
+	if realm_layout == null or island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return
+	for i in range(realm_layout.smoke_emitter_definitions.size()):
+		var definition: Dictionary = realm_layout.smoke_emitter_definitions[i]
+		var position: Vector2 = island_rect.position + island_rect.size * definition.get("position", Vector2(0.5, 0.5))
+		var smoke_id: String = "smoke_emitter:%d" % i
+		var selected: bool = selected_object == smoke_id
+		var alpha: float = 1.0 if selected or selected_object == "" else 0.12
+		var radius: float = 10.0 * float(definition.get("size", 1.0))
+		owner.draw_circle(position, radius, Color(0.58, 0.62, 0.68, 0.22 * alpha))
+		owner.draw_circle(
+			position,
+			radius + 5.0 if selected else radius + 2.0,
+			Color(1.0, 0.95, 0.55, 1.0) if selected else Color(0.72, 0.82, 0.92, 0.85 * alpha),
+			false,
+			3.0 if selected else 1.5
+		)
+		owner.draw_string(
+			ThemeDB.fallback_font,
+			position + Vector2(5.0, -radius - 4.0),
+			"S%d" % (i + 1),
+			HORIZONTAL_ALIGNMENT_LEFT,
+			-1.0,
+			12,
+			Color(0.88, 0.93, 1.0, 1.0 if selected else alpha)
+		)
+
+
 func _draw_matter_pile_handles(
 	owner: Control,
 	realm_layout: RealmLayout,
@@ -156,6 +191,8 @@ func _draw_editor_help(
 		"Drag machines, braziers, Ash/Matter piles, flow or lake handles",
 		"Drag the gold diamond to move the main lake origin",
 		"M: add Matter pile at cursor",
+		"A: add smoke emitter at cursor; drag to move",
+		"Smoke selected: +/- size; Delete removes it",
 		"N: add a new flow at the cursor; drag its endpoints",
 		"Ctrl + Delete: remove selected flow or Matter pile",
 		"Select a flow point, then +/- to change its width",
@@ -348,6 +385,12 @@ func _get_selected_normalized_position(
 		if not realm_layout.brazier_layout_positions.has(stat_name):
 			return Vector2(-1.0, -1.0)
 		return realm_layout.brazier_layout_positions[stat_name]
+
+	if selected_object.begins_with("smoke_emitter:"):
+		var smoke_index: int = int(selected_object.substr(14))
+		if smoke_index < 0 or smoke_index >= realm_layout.smoke_emitter_definitions.size():
+			return Vector2(-1.0, -1.0)
+		return realm_layout.smoke_emitter_definitions[smoke_index].get("position", Vector2(0.5, 0.5))
 
 	if realm_layout.generator_layout_positions.has(selected_object):
 		return realm_layout.generator_layout_positions[selected_object]
