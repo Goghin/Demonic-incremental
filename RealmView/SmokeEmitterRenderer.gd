@@ -25,7 +25,9 @@ func _process(delta: float) -> void:
 	for index in range(_particles.size() - 1, -1, -1):
 		var particle: Dictionary = _particles[index]
 		particle["age"] = float(particle["age"]) + delta
-		particle["offset"] = (particle["offset"] as Vector2) + (particle["drift"] as Vector2) * delta
+		var offset: Vector2 = particle["offset"]
+		var drift: Vector2 = particle["drift"]
+		particle["offset"] = offset + drift * delta
 		_particles[index] = particle
 		if float(particle["age"]) >= float(particle["lifetime"]):
 			_particles.remove_at(index)
