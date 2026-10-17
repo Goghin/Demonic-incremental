@@ -456,11 +456,7 @@ func complete_cycle(
 
 
 func _event_effect_source_id(effect: UpgradeEffect) -> String:
-	for upgrade in state.upgrades.values():
-		for registered_effect in upgrade.definition.effects:
-			if registered_effect == effect:
-				return upgrade.definition.id
-	return ""
+	return effect.event_source_upgrade_id
 
 
 func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
@@ -940,6 +936,7 @@ func _apply_upgrade_effect(
 	elif effect.type == UpgradeEffectTypes.REGISTER_EVENT_EFFECT:
 		var generator = state.get_generator(effect.target_id)
 		if generator != null and not generator.event_effects.has(effect):
+			effect.event_source_upgrade_id = source_upgrade_id
 			generator.event_effects.append(effect)
 		
 func _add_modifier_to_generator(
