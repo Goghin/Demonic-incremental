@@ -427,7 +427,7 @@ func complete_cycle(
 				amount = modifier.apply(amount, state, generator)
 		
 		for effect in generator.event_effects:
-			if effect.event_trigger != "cycle_completed" or effect.event_action != "multiply_completion_output":
+			if effect.event_trigger != UpgradeEffectTypes.EVENT_CYCLE_COMPLETED or effect.event_action != UpgradeEffectTypes.EVENT_ACTION_MULTIPLY_COMPLETION_OUTPUT:
 				continue
 			if effect.event_resource_id != "" and effect.event_resource_id != output.resource_id:
 				continue
@@ -462,7 +462,7 @@ func _event_effect_source_id(effect: UpgradeEffect) -> String:
 func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 	var triggered_events: Dictionary = {"cycle_completed": true}
 	for effect in generator.event_effects:
-		if effect.event_trigger != "cycle_completed" or effect.event_action != "trigger_event":
+		if effect.event_trigger != UpgradeEffectTypes.EVENT_CYCLE_COMPLETED or effect.event_action != UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
 			continue
 		var source_upgrade_id := _event_effect_source_id(effect)
 		var source_upgrade: Upgrade = state.get_upgrade(source_upgrade_id)
@@ -476,7 +476,7 @@ func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 func _apply_cycle_completion_consequences(generator: Generator, triggered_events: Dictionary) -> void:
 	var consequences: Array[UpgradeEffect] = []
 	for effect in generator.event_effects:
-		if effect.event_trigger == "cycle_completed" and effect.event_action == "decrease_generator_level":
+		if effect.event_trigger == UpgradeEffectTypes.EVENT_CYCLE_COMPLETED and effect.event_action == UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
 			consequences.append(effect)
 	consequences.sort_custom(
 		func(a: UpgradeEffect, b: UpgradeEffect) -> bool:
