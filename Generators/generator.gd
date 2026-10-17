@@ -5,6 +5,7 @@ extends RefCounted
 var definition: GeneratorDefinition
 var level: int = 0
 var modifiers: Array[Modifier] = []
+var event_effects: Array[UpgradeEffect] = []
 var modifier_sensitivities: Array = []
 var production_progress: Dictionary = {}
 var initial_unlocked: bool = true
@@ -35,6 +36,7 @@ func _init(generator_definition: GeneratorDefinition) -> void:
 func reset() -> void:
 	level = 0
 	modifiers.clear()
+	event_effects.clear()
 	modifier_sensitivities.clear()
 
 	unlocked = initial_unlocked
