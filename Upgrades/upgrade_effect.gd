@@ -43,6 +43,7 @@ var event_chance: float = 0.0
 var event_value: float = 0.0
 var event_resource_id: String = ""
 var event_order: int = 0
+var event_source_upgrade_id: String = ""
 
 const DORMANCY_DELAY := "dormancy_delay"
 const DORMANCY_DURATION := "dormancy_duration"
