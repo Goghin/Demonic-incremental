@@ -119,6 +119,13 @@ func _is_near_existing_geometry_handle(
 		if matter_screen_position.distance_to(mouse_position) <= 18.0:
 			return true
 
+	for smoke_definition in layout.smoke_emitter_definitions:
+		var smoke_position: Vector2 = geometry_controller.get_position_from_normalized(
+			smoke_definition.get("position", Vector2(0.5, 0.5)), island_rect
+		)
+		if smoke_position.distance_to(mouse_position) <= 20.0:
+			return true
+
 	var lake_count: int = 1 + layout.small_lake_definitions.size()
 	for lake_index in range(lake_count):
 		for point in _get_lake_points(layout, lake_index):
@@ -255,6 +262,16 @@ func _collect_drag_candidates(
 			Rect2(brazier.position - Vector2.ONE * BRAZIER_HIT_HALF_SIZE,
 				Vector2.ONE * BRAZIER_HIT_HALF_SIZE * 2.0),
 			brazier.position
+		)
+
+	for i in range(layout.smoke_emitter_definitions.size()):
+		var smoke_definition: Dictionary = layout.smoke_emitter_definitions[i]
+		var smoke_position: Vector2 = geometry_controller.get_position_from_normalized(
+			smoke_definition.get("position", Vector2(0.5, 0.5)), island_rect
+		)
+		_add_circle_candidate(
+			candidates, "smoke_emitter:%d" % i, mouse_position,
+			smoke_position, 20.0
 		)
 
 	for generator_id in owner.generator_hitboxes:
@@ -479,6 +496,19 @@ func update_drag(
 		owner.queue_redraw()
 		return
 
+	if dragging_object.begins_with("smoke_emitter:"):
+		var smoke_index: int = int(dragging_object.substr(14))
+		if smoke_index < 0 or smoke_index >= realm_layout.smoke_emitter_definitions.size():
+			cancel_drag()
+			return
+		var smoke_definition: Dictionary = realm_layout.smoke_emitter_definitions[smoke_index]
+		smoke_definition["position"] = _clamp_normalized_position(
+			geometry_controller.get_normalized_position(mouse_position - drag_offset, island_rect)
+		)
+		realm_layout.smoke_emitter_definitions[smoke_index] = smoke_definition
+		owner.queue_redraw()
+		return
+
 	if not realm_layout.generator_layout_positions.has(dragging_object):
 		cancel_drag()
 		return
@@ -607,6 +637,17 @@ func nudge_selected(
 				normalized_position,
 				island_rect
 			)
+		return true
+
+	if selected_object.begins_with("smoke_emitter:"):
+		var smoke_index: int = int(selected_object.substr(14))
+		if smoke_index < 0 or smoke_index >= layout.smoke_emitter_definitions.size():
+			return false
+		var smoke_definition: Dictionary = layout.smoke_emitter_definitions[smoke_index]
+		smoke_definition["position"] = _clamp_normalized_position(
+			smoke_definition.get("position", Vector2(0.5, 0.5)) + normalized_delta
+		)
+		layout.smoke_emitter_definitions[smoke_index] = smoke_definition
 		return true
 
 	if not layout.generator_layout_positions.has(selected_object):
