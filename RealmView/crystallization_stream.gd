@@ -16,6 +16,7 @@ var particles: Array = []
 var curve_strength: float = 18.0
 var pulse_phase: float = 0.0
 var burst_mode: bool = false
+var burst_scale: float = 1.0
 var straight_mode: bool = false
 
 
@@ -64,7 +65,15 @@ func setup_burst(at_position: Vector2) -> void:
 	start_position = at_position
 	target_position = at_position
 	elapsed = 0.0
-	duration = 1.8
+	# Most completions stay restrained; occasional bursts feel more powerful.
+	var burst_roll: float = randf()
+	if burst_roll < 0.85:
+		burst_scale = 1.0
+	elif burst_roll < 0.98:
+		burst_scale = randf_range(1.8, 2.5)
+	else:
+		burst_scale = 3.0
+	duration = 1.8 + (burst_scale - 1.0) * 0.18
 	active = true
 	particles.clear()
 
@@ -374,7 +383,7 @@ func _draw_burst() -> void:
 
 	# A fast, expanding shockwave gives the burst a clear sense of impact.
 	var shockwave_progress: float = ease(progress, 0.55)
-	var shockwave_radius: float = lerpf(8.0, 118.0, shockwave_progress)
+	var shockwave_radius: float = lerpf(8.0, 118.0 * burst_scale, shockwave_progress)
 	var shockwave_alpha: float = (1.0 - progress) * 0.75
 	draw_arc(
 		start_position,
@@ -400,13 +409,13 @@ func _draw_burst() -> void:
 	for particle in particles:
 		var angle: float = float(particle["angle"])
 		var direction := Vector2(cos(angle), sin(angle))
-		var distance: float = float(particle["burst_speed"]) * elapsed
+		var distance: float = float(particle["burst_speed"]) * elapsed * burst_scale
 		var wobble: float = sin(elapsed * 24.0 + float(particle["phase"])) * 1.2
 		var s_position: Vector2 = start_position + direction * distance
 		s_position += direction.rotated(PI * 0.5) * wobble
-		var size: float = float(particle["size"]) * fade
+		var size: float = float(particle["size"]) * fade * sqrt(burst_scale)
 		var particle_alpha: float = float(particle["alpha"]) * fade
-		var streak_length: float = float(particle["streak_length"])
+		var streak_length: float = float(particle["streak_length"]) * sqrt(burst_scale)
 
 		if size <= 0.0:
 			continue
@@ -422,5 +431,5 @@ func _draw_burst() -> void:
 		draw_circle(s_position, size, Color(1.0, 0.68, 0.12, 0.9 * particle_alpha))
 		draw_circle(s_position, size * 0.42, Color(1.0, 0.96, 0.72, particle_alpha))
 
-	draw_circle(start_position, 12.0 * pulse * fade, Color(1.0, 0.28, 0.02, 0.2 * fade))
-	draw_circle(start_position, 5.0 * pulse * fade, Color(1.0, 0.72, 0.18, 0.8 * fade))
+	draw_circle(start_position, 12.0 * pulse * fade * burst_scale, Color(1.0, 0.28, 0.02, 0.2 * fade))
+	draw_circle(start_position, 5.0 * pulse * fade * burst_scale, Color(1.0, 0.72, 0.18, 0.8 * fade))
