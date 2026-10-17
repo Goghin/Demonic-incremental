@@ -11,6 +11,8 @@ var _has_automation_style: bool = false
 var _last_upgrade_automation_style_enabled: bool = false
 var _has_upgrade_automation_style: bool = false
 var _resource_icon_cache: Dictionary = {}
+var _event_effects_button: Button
+var _event_effects_popup: AcceptDialog
 
 signal upgrades_requested(generator_id: String)
 signal selection_requested(generator_id: String)
@@ -40,6 +42,7 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/AutomationButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
+	_setup_event_effects_ui()
 
 
 func set_selected(is_selected: bool) -> void:
@@ -135,7 +138,8 @@ func _process(_delta: float) -> void:
 			_has_automation_style = true
 	update_illustration(generator)
 	update_operation_mode_ui(generator)
-	
+	_update_event_effects_ui(generator)
+
 	if not generator.unlocked:
 		$HBoxContainer/VBoxContainer/Header/LevelLabel.text = "Locked"
 		$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.text = ""
@@ -625,3 +629,153 @@ func _update_resource_rows(container: Node, rows: Array[Dictionary]) -> void:
 			)
 		else:
 			value_label.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
+
+
+# Event effects are kept behind a small optional button so the generator card
+# remains compact until the player wants the detailed chance/effect breakdown.
+func _setup_event_effects_ui() -> void:
+	var generator_content: VBoxContainer = $HBoxContainer/VBoxContainer
+
+	_event_effects_button = Button.new()
+	_event_effects_button.name = "EventEffectsButton"
+	_event_effects_button.text = "Cycle Effects  ·  INFO"
+	_event_effects_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	_event_effects_button.visible = false
+	_style_action_button(_event_effects_button)
+	_event_effects_button.pressed.connect(_on_event_effects_button_pressed)
+	generator_content.add_child(_event_effects_button)
+
+	_event_effects_popup = AcceptDialog.new()
+	_event_effects_popup.name = "EventEffectsPopup"
+	_event_effects_popup.title = "Generator Effects"
+	_event_effects_popup.dialog_text = ""
+	_event_effects_popup.min_size = Vector2i(320, 180)
+	add_child(_event_effects_popup)
+
+
+func _update_event_effects_ui(generator: Generator) -> void:
+	if _event_effects_button == null:
+		return
+
+	var has_event_effects := false
+	for effect in generator.event_effects:
+		if state.get_upgrade(effect.event_source_upgrade_id) != null:
+			has_event_effects = true
+			break
+
+	_event_effects_button.visible = generator.unlocked and has_event_effects
+	_event_effects_button.text = "Cycle Effects  ·  INFO"
+	_event_effects_button.tooltip_text = (
+		"View event chances, effects, and operation-mode restrictions."
+	)
+
+
+func _on_event_effects_button_pressed() -> void:
+	if state == null or _event_effects_popup == null:
+		return
+	var generator: Generator = state.get_generator(generator_id)
+	if generator == null:
+		return
+
+	_event_effects_popup.title = "%s — Effects" % generator.definition.display_name
+	_event_effects_popup.dialog_text = _build_event_effects_text(generator)
+	_event_effects_popup.popup_centered()
+
+
+func _build_event_effects_text(generator: Generator) -> String:
+	var lines: PackedStringArray = []
+	var current_mode_name := generator.operation_mode_id
+	var current_mode := generator.get_operation_mode()
+	if current_mode != null:
+		current_mode_name = current_mode.display_name
+
+	lines.append("Current mode: %s" % current_mode_name)
+	lines.append("Chance values include the levels you have purchased.")
+	lines.append("")
+
+	var found_effect := false
+	for effect in generator.event_effects:
+		var source_upgrade: Upgrade = state.get_upgrade(effect.event_source_upgrade_id)
+		if source_upgrade == null or source_upgrade.level <= 0:
+			continue
+
+		found_effect = true
+		var mode_restricted := not effect.operation_mode_ids.is_empty()
+		var applies_now := (
+			not mode_restricted
+			or effect.operation_mode_ids.has(generator.operation_mode_id)
+		)
+		var mode_text := "All modes" if not mode_restricted else _get_event_effect_mode_names(generator, effect.operation_mode_ids)
+		lines.append("%s%s" % [
+			"✓ " if applies_now else "— ",
+			source_upgrade.definition.display_name
+		])
+		lines.append("  " + _describe_event_effect(effect, source_upgrade))
+		lines.append("  Modes: %s%s" % [
+			mode_text,
+			"" if applies_now else " (inactive in current mode)"
+		])
+		lines.append("")
+
+	if not found_effect:
+		lines.append("No purchased event effects are currently registered.")
+
+	return "\n".join(lines).strip_edges()
+
+
+func _describe_event_effect(effect: UpgradeEffect, source_upgrade: Upgrade) -> String:
+	var effect_level: int = maxi(source_upgrade.level, 0)
+	match effect.event_action:
+		UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
+			var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+			return "Chance: %s%% per completed cycle to trigger %s." % [
+				NumberFormatter.format(chance * 100.0),
+				_get_event_display_name(effect.event_id)
+			]
+		UpgradeEffectTypes.EVENT_ACTION_MULTIPLY_COMPLETION_OUTPUT:
+			var bonus := effect.event_value * effect_level * 100.0
+			var resource_name := state.get_resource_display_name(effect.event_resource_id) if effect.event_resource_id != "" else "completion output"
+			var condition_text := ""
+			if effect.event_condition_id != "":
+				condition_text = " when %s triggers" % _get_event_display_name(effect.event_condition_id)
+			return "Bonus: +%s%% %s%s." % [
+				NumberFormatter.format(bonus),
+				resource_name,
+				condition_text
+			]
+		UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
+			var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+			var levels_lost := maxi(roundi(effect.event_value), 1)
+			return "Chance: %s%% per completed cycle to lose %d generator level(s)." % [
+				NumberFormatter.format(chance * 100.0),
+				levels_lost
+			]
+		_:
+			return "Event action: %s." % effect.event_action.replace("_", " ")
+
+
+func _get_event_display_name(event_id: String) -> String:
+	if event_id == UpgradeEffectTypes.EVENT_CYCLE_COMPLETED:
+		return "cycle completion"
+	for effect in state.get_generator(generator_id).event_effects:
+		if effect.event_id != event_id:
+			continue
+		var source_upgrade: Upgrade = state.get_upgrade(effect.event_source_upgrade_id)
+		if source_upgrade != null:
+			return source_upgrade.definition.display_name
+	return event_id.replace("_", " ")
+
+
+func _get_event_effect_mode_names(generator: Generator, mode_ids: Array[String]) -> String:
+	var names: Array[String] = []
+	for mode_id in mode_ids:
+		var found := false
+		for mode in generator.definition.operation_modes:
+			if mode.id != mode_id:
+				continue
+			names.append(mode.display_name)
+			found = true
+			break
+		if not found:
+			names.append(mode_id.replace("_", " ").capitalize())
+	return ", ".join(names)
