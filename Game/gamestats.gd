@@ -556,7 +556,13 @@ func get_generator_modifiers(
 	# --------------------------------------------------------
 	
 	for modifier in unsourced_modifiers:
+		var raw_multiplier = modifier.get_multiplier(state)
+		var effective_multiplier = modifier.get_effective_multiplier(
+			state,
+			generator
+		)
 		modifiers.append({
+			"id": modifier.id,
 			"type": modifier.type,
 			"value": modifier.multiplier,
 			"dynamic": modifier.dynamic,
@@ -564,9 +570,8 @@ func get_generator_modifiers(
 			"resource_id": modifier.dynamic_resource_id,
 			"generator_id": modifier.dynamic_generator_id,
 			"source_upgrade_id": modifier.source_upgrade_id,
-			"current_multiplier": modifier.get_multiplier(
-				state
-			)
+			"current_multiplier": raw_multiplier,
+			"effective_multiplier": effective_multiplier
 		})
 	
 	# --------------------------------------------------------
@@ -577,14 +582,18 @@ func get_generator_modifiers(
 		var grouped_modifiers = modifier_groups[group_key]
 		
 		var combined_multiplier = 1.0
+		var combined_effective_multiplier = 1.0
 		var first_modifier = grouped_modifiers[0]
 		
 		for modifier in grouped_modifiers:
-			combined_multiplier *= modifier.get_multiplier(
-				state
+			combined_multiplier *= modifier.get_multiplier(state)
+			combined_effective_multiplier *= modifier.get_effective_multiplier(
+				state,
+				generator
 			)
 		
 		modifiers.append({
+			"id": first_modifier.id,
 			"type": first_modifier.type,
 			"value": combined_multiplier,
 			"dynamic": first_modifier.dynamic,
@@ -592,7 +601,8 @@ func get_generator_modifiers(
 			"resource_id": first_modifier.dynamic_resource_id,
 			"generator_id": first_modifier.dynamic_generator_id,
 			"source_upgrade_id": first_modifier.source_upgrade_id,
-			"current_multiplier": combined_multiplier
+			"current_multiplier": combined_multiplier,
+			"effective_multiplier": combined_effective_multiplier
 		})
 	
 	return modifiers
