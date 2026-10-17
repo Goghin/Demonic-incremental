@@ -427,6 +427,8 @@ func complete_cycle(
 				amount = modifier.apply(amount, state, generator)
 		
 		for effect in generator.event_effects:
+			if not _event_effect_applies_to_mode(effect, generator):
+				continue
 			if effect.event_trigger != UpgradeEffectTypes.EVENT_CYCLE_COMPLETED or effect.event_action != UpgradeEffectTypes.EVENT_ACTION_MULTIPLY_COMPLETION_OUTPUT:
 				continue
 			if effect.event_resource_id != "" and effect.event_resource_id != output.resource_id:
@@ -459,9 +461,19 @@ func _event_effect_source_id(effect: UpgradeEffect) -> String:
 	return effect.event_source_upgrade_id
 
 
+func _event_effect_applies_to_mode(effect: UpgradeEffect, generator: Generator) -> bool:
+	# An empty mode list preserves the default behavior: apply in every mode.
+	return (
+		effect.operation_mode_ids.is_empty()
+		or effect.operation_mode_ids.has(generator.operation_mode_id)
+	)
+
+
 func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 	var triggered_events: Dictionary = {"cycle_completed": true}
 	for effect in generator.event_effects:
+		if not _event_effect_applies_to_mode(effect, generator):
+			continue
 		if effect.event_trigger != UpgradeEffectTypes.EVENT_CYCLE_COMPLETED or effect.event_action != UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
 			continue
 		var source_upgrade_id := _event_effect_source_id(effect)
@@ -476,6 +488,8 @@ func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 func _apply_cycle_completion_consequences(generator: Generator, triggered_events: Dictionary) -> void:
 	var consequences: Array[UpgradeEffect] = []
 	for effect in generator.event_effects:
+		if not _event_effect_applies_to_mode(effect, generator):
+			continue
 		if effect.event_trigger == UpgradeEffectTypes.EVENT_CYCLE_COMPLETED and effect.event_action == UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
 			consequences.append(effect)
 	consequences.sort_custom(
