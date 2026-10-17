@@ -297,7 +297,8 @@ static func generator_event(
 	effect_value: float = 0.0,
 	resource_id: String = "",
 	condition_event_id: String = "",
-	order: int = 0
+	order: int = 0,
+	mode_ids: Array[String] = []
 	) -> UpgradeEffect:
 	var effect := UpgradeEffect.new(
 		UpgradeEffectTypes.REGISTER_EVENT_EFFECT,
@@ -311,6 +312,7 @@ static func generator_event(
 	effect.event_resource_id = resource_id
 	effect.event_condition_id = condition_event_id
 	effect.event_order = order
+	effect.operation_mode_ids = mode_ids.duplicate()
 	return effect
 
 
