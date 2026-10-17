@@ -131,6 +131,9 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			return
 
 		if event.keycode in [KEY_DELETE, KEY_BACKSPACE]:
+			if drag_controller.selected_object.begins_with("smoke_emitter:"):
+				_remove_selected_flow(owner)
+				return
 			if event.ctrl_pressed:
 				_remove_selected_flow(owner)
 				return
@@ -155,6 +158,11 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			_add_matter_pile_at_cursor(owner)
 			return
 
+		# Add a placeable smoke emitter at the cursor.
+		if event.keycode == KEY_A:
+			_add_smoke_emitter_at_cursor(owner)
+			return
+
 		# Create a new editable flow near the mouse cursor.
 		if event.keycode == KEY_N:
 			_add_flow_at_cursor(owner)
@@ -170,6 +178,10 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			width_change = 0.5
 		elif event.keycode in [KEY_MINUS, KEY_KP_SUBTRACT]:
 			width_change = -0.5
+
+		if width_change != 0.0 and drag_controller.selected_object.begins_with("smoke_emitter:"):
+			_adjust_selected_smoke_size(owner, signf(width_change) * 0.25)
+			return
 
 		if width_change != 0.0 and drag_controller.adjust_selected_flow_width(owner.realm_layout, width_change):
 			owner.lava_realm_visual_controller.update_positions(
@@ -231,6 +243,42 @@ func _add_matter_pile_at_cursor(owner: RealmView) -> void:
 	print("Added Matter pile ", pile_index + 1, ". Drag it to position it.")
 
 
+func _add_smoke_emitter_at_cursor(owner: RealmView) -> void:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null:
+		return
+	var island_rect: Rect2 = owner._get_island_rect()
+	if island_rect.size.x <= 0.0 or island_rect.size.y <= 0.0:
+		return
+	var normalized_position: Vector2 = owner.realm_layout_geometry_controller.get_normalized_position(
+		owner.get_local_mouse_position(), island_rect
+	)
+	layout.smoke_emitter_definitions.append({
+		"position": normalized_position,
+		"size": 1.0,
+		"emission_rate": 1.0,
+		"opacity": 0.7
+	})
+	var smoke_index: int = layout.smoke_emitter_definitions.size() - 1
+	drag_controller.selected_object = "smoke_emitter:%d" % smoke_index
+	owner.queue_redraw()
+	print("Added smoke emitter ", smoke_index + 1, ". Drag to position it; +/- changes size.")
+
+
+func _adjust_selected_smoke_size(owner: RealmView, amount: float) -> void:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null or not drag_controller.selected_object.begins_with("smoke_emitter:"):
+		return
+	var smoke_index: int = int(drag_controller.selected_object.substr(14))
+	if smoke_index < 0 or smoke_index >= layout.smoke_emitter_definitions.size():
+		return
+	var definition: Dictionary = layout.smoke_emitter_definitions[smoke_index]
+	definition["size"] = clampf(float(definition.get("size", 1.0)) + amount, 0.25, 3.0)
+	layout.smoke_emitter_definitions[smoke_index] = definition
+	owner.queue_redraw()
+	print("Smoke emitter ", smoke_index + 1, " size: ", definition["size"], "x")
+
+
 func _add_flow_at_cursor(owner: RealmView) -> void:
 	var layout: RealmLayout = owner.realm_layout
 	if layout == null:
@@ -280,6 +328,17 @@ func _add_flow_at_cursor(owner: RealmView) -> void:
 func _remove_selected_flow(owner: RealmView) -> void:
 	var layout: RealmLayout = owner.realm_layout
 	if layout == null:
+		return
+
+	if drag_controller.selected_object.begins_with("smoke_emitter:"):
+		var smoke_index: int = int(drag_controller.selected_object.substr(14))
+		if smoke_index < 0 or smoke_index >= layout.smoke_emitter_definitions.size():
+			return
+		layout.smoke_emitter_definitions.remove_at(smoke_index)
+		drag_controller.cancel_drag()
+		drag_controller.selected_object = ""
+		owner.queue_redraw()
+		print("Removed smoke emitter ", smoke_index + 1, ".")
 		return
 
 	if drag_controller.selected_object.begins_with("matter_pile:"):
