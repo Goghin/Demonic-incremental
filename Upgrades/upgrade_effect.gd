@@ -19,6 +19,8 @@ var operation_mode_ids: Array[String] = []
 var dynamic_formula: String
 var dynamic_resource_id: String
 var dynamic_generator_id: String
+var dynamic_realm_effect_id: String = ""
+var dynamic_realm_effect_is_divisor: bool = false
 
 var sensitivity_modifier_id: String
 var sensitivity_multiplier: float
@@ -110,7 +112,9 @@ static func dynamic_resource_modifier(
 	effect_modifier_id: String = "",
 	effect_modifier_target_id: String = "",
 	effect_dynamic_threshold: float = 1000.0,
-	effect_dynamic_exponent: float = 0.35
+	effect_dynamic_exponent: float = 0.35,
+	effect_dynamic_realm_effect_id: String = "",
+	effect_dynamic_realm_effect_is_divisor: bool = false
 	) -> UpgradeEffect:
 	
 	var effect = UpgradeEffect.new(
@@ -131,6 +135,8 @@ static func dynamic_resource_modifier(
 	
 	effect.dynamic_threshold = effect_dynamic_threshold
 	effect.dynamic_exponent = effect_dynamic_exponent
+	effect.dynamic_realm_effect_id = effect_dynamic_realm_effect_id
+	effect.dynamic_realm_effect_is_divisor = effect_dynamic_realm_effect_is_divisor
 	
 	effect.set_modifier_id(
 		effect_modifier_id
