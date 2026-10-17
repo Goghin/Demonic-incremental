@@ -1163,7 +1163,7 @@ static func _create_ashen_contamination() -> Upgrade:
 				true
 			),
 			UpgradeEffect.dynamic_resource_modifier(
-				"",
+				"infernal_forge",
 				ModifierTypes.CYCLE_SPEED,
 				0.05,
 				ResourceIds.ASH,
