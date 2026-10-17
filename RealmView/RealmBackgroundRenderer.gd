@@ -13,6 +13,12 @@ const PARTICLE_VERTICAL_SCALE: float = 0.65
 const PARTICLE_MIN_SIZE: float = 0.4
 const PARTICLE_SIZE_SPREAD: float = 1.6
 
+var animation_time: float = 0.0
+
+
+func advance(delta: float) -> void:
+	animation_time += delta
+
 
 func draw_background(owner: RealmView) -> void:
 	var center: Vector2 = owner.size * owner.ISLAND_CENTER_RATIO
@@ -48,10 +54,11 @@ func draw_background(owner: RealmView) -> void:
 	# Ambient haze
 	# ------------------------------------------------------------
 
+	var haze_pulse: float = 0.5 + 0.5 * sin(animation_time * 0.32)
 	owner.draw_circle(
 		center + Vector2(0, HAZE_VERTICAL_OFFSET),
-		HAZE_RADIUS,
-		Color(0.16, 0.07, 0.22, 0.12)
+		HAZE_RADIUS + sin(animation_time * 0.24) * 7.0,
+		Color(0.16, 0.07, 0.22, 0.09 + haze_pulse * 0.045)
 	)
 
 	# ------------------------------------------------------------
@@ -78,11 +85,14 @@ func draw_background(owner: RealmView) -> void:
 			float(i),
 			PARTICLE_SIZE_SPREAD
 		)
+		var twinkle: float = 0.5 + 0.5 * sin(
+			animation_time * 0.55 + float(i) * 0.73
+		)
 
 		owner.draw_circle(
 			particle_position,
-			particle_size,
-			Color(0.55, 0.36, 0.65, 0.30)
+			particle_size * (0.88 + twinkle * 0.16),
+			Color(0.55, 0.36, 0.65, 0.18 + twinkle * 0.16)
 		)
 
 	# Restore the normal RealmView transform for subsequent drawing.
