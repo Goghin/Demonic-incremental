@@ -139,7 +139,7 @@ func update(
 			if geometry_changed:
 				_update_cube_geometry(cube, cube_width, cube_height, cube_index, pile_index)
 			_update_cube_position(
-				cube, cube_width, cube_height, cube_index, pile_index, size_factor, pile_growth_stage
+				cube, cube_width, cube_height, cube_index, pile_index, pile_growth_stage
 			)
 			_set_cube_active(cube, should_be_visible, size_factor)
 
@@ -282,13 +282,17 @@ func _set_cube_active(cube: Node2D, should_be_visible: bool, target_scale: float
 	var currently_targeted_visible: bool = bool(cube.get_meta("matter_target_visible", false))
 	if should_be_visible == currently_targeted_visible:
 		if should_be_visible:
-			var active_tween: Variant = cube.get_meta("matter_animation_tween", null)
+			var active_tween: Variant = null
+			if cube.has_meta("matter_animation_tween"):
+				active_tween = cube.get_meta("matter_animation_tween")
 			if not (active_tween is Tween and is_instance_valid(active_tween) and (active_tween as Tween).is_running()):
 				cube.scale = Vector2.ONE * target_scale
 		return
 
 	cube.set_meta("matter_target_visible", should_be_visible)
-	var previous_tween: Variant = cube.get_meta("matter_animation_tween", null)
+	var previous_tween: Variant = null
+	if cube.has_meta("matter_animation_tween"):
+		previous_tween = cube.get_meta("matter_animation_tween")
 	if previous_tween is Tween and is_instance_valid(previous_tween):
 		(previous_tween as Tween).kill()
 
@@ -330,7 +334,6 @@ func _update_cube_position(
 	height: float,
 	cube_index: int,
 	pile_index: int,
-	size_factor: float,
 	growth_stage: int
 ) -> void:
 	var slot: Vector3 = CUBE_SLOTS[cube_index]
