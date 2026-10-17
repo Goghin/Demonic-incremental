@@ -719,7 +719,7 @@ static func _create_thermic_mass() -> Upgrade:
 		ResourceIds.HEAT,
 		0.0,
 		[
-			UpgradeEffect.dynamic_resource_modifier(
+			_dynamic_resource_modifier_with_realm_effect(
 				"",
 				ModifierTypes.PRODUCTION,
 				0.4,
@@ -1149,7 +1149,7 @@ static func _create_ashen_contamination() -> Upgrade:
 		ResourceIds.HEAT,
 		0.0,
 		[
-			UpgradeEffect.dynamic_resource_modifier(
+			_dynamic_resource_modifier_with_realm_effect(
 				"",
 				ModifierTypes.PRODUCTION,
 				0.05,
@@ -1162,7 +1162,7 @@ static func _create_ashen_contamination() -> Upgrade:
 				"ashen_contamination_multiplier",
 				true
 			),
-			UpgradeEffect.dynamic_resource_modifier(
+			_dynamic_resource_modifier_with_realm_effect(
 				"infernal_forge",
 				ModifierTypes.CYCLE_SPEED,
 				0.05,
@@ -2226,6 +2226,35 @@ static func _create_infernal_forge_fast_ash_reduction() -> Upgrade:
 	)
 	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_fast_ash_reduction.svg"
 	return Upgrade.new(definition)
+
+
+static func _dynamic_resource_modifier_with_realm_effect(
+	effect_target_id: String,
+	effect_modifier_type: String,
+	effect_value: float,
+	effect_resource_id: String,
+	effect_dynamic_formula: String,
+	effect_modifier_id: String,
+	effect_modifier_target_id: String,
+	effect_dynamic_threshold: float,
+	effect_dynamic_exponent: float,
+	effect_dynamic_realm_effect_id: String,
+	effect_dynamic_realm_effect_is_divisor: bool = false
+	) -> UpgradeEffect:
+	var effect = UpgradeEffect.dynamic_resource_modifier(
+		effect_target_id,
+		effect_modifier_type,
+		effect_value,
+		effect_resource_id,
+		effect_dynamic_formula,
+		effect_modifier_id,
+		effect_modifier_target_id,
+		effect_dynamic_threshold,
+		effect_dynamic_exponent
+	)
+	effect.dynamic_realm_effect_id = effect_dynamic_realm_effect_id
+	effect.dynamic_realm_effect_is_divisor = effect_dynamic_realm_effect_is_divisor
+	return effect
 
 
 static func _upgrade_mode_sensitivity(
