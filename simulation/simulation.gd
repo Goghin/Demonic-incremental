@@ -293,9 +293,13 @@ func update_cycle_generator(
 			offline_cycle_duration - generator.cycle_progress,
 			0.0
 		)
+		var cycle_speed_multiplier := _get_cycle_speed_multiplier(generator)
+		var time_to_complete := delta
+		if cycle_speed_multiplier > 0.0:
+			time_to_complete = remaining_cycle_time / cycle_speed_multiplier
 		var requested_delta = min(
 			delta,
-			remaining_cycle_time
+			time_to_complete
 		)
 		var operating_delta = _get_available_operating_delta(
 			generator,
@@ -355,7 +359,7 @@ func update_cycle_generator(
 
 # In offline mode, return how much of this step the generator can actually
 # operate for before one of its input resources is depleted.
-func _get_cycle_progress_delta(generator: Generator, elapsed_delta: float) -> float:
+func _get_cycle_speed_multiplier(generator: Generator) -> float:
 	var cycle_speed_multiplier: float = 1.0
 
 	for modifier in generator.modifiers:
@@ -367,7 +371,11 @@ func _get_cycle_progress_delta(generator: Generator, elapsed_delta: float) -> fl
 			generator
 		)
 
-	return elapsed_delta * maxf(cycle_speed_multiplier, 0.0)
+	return maxf(cycle_speed_multiplier, 0.0)
+
+
+func _get_cycle_progress_delta(generator: Generator, elapsed_delta: float) -> float:
+	return elapsed_delta * _get_cycle_speed_multiplier(generator)
 
 
 func _get_available_operating_delta(
