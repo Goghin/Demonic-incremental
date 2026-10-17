@@ -39,10 +39,6 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 		emitter.visible = owner.visual_effects_enabled
 		emitter.set_process(owner.visual_effects_enabled)
 
-	# The emitter owns particle animation; delta is kept in this API so the
-	# controller can later support shared emission budgets if needed.
-	if delta < 0.0:
-		return
 
 
 func _clear_emitters() -> void:
