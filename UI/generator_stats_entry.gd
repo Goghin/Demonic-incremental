@@ -959,31 +959,54 @@ func update_modifier_label(
 		return
 	
 	var modifier = misc_modifiers[modifier_index]
-	var display_multiplier: float = modifier["current_multiplier"]
-	if modifier["type"] == ModifierTypes.CYCLE_SPEED:
-		display_multiplier = modifier.get(
-			"effective_multiplier",
-			display_multiplier
-		)
+	var raw_multiplier: float = modifier.get(
+		"current_multiplier",
+		1.0
+	)
+	var effective_multiplier: float = modifier.get(
+		"effective_multiplier",
+		raw_multiplier
+	)
+	var sensitivity: float = modifier.get(
+		"sensitivity",
+		1.0
+	)
+	var source_name: String = stats.get_modifier_source_name(modifier)
+	var sensitivity_applied: bool = not is_equal_approx(
+		raw_multiplier,
+		effective_multiplier
+	)
+	
 	apply_modifier_color(
 		label,
 		modifier["type"],
-		display_multiplier
+		effective_multiplier
 	)
+	
+	var multiplier_text := "×%s — %s" % [
+		NumberFormatter.format(effective_multiplier),
+		source_name
+	]
+	if sensitivity_applied:
+		multiplier_text += " (raw ×%s, sensitivity ×%s)" % [
+			NumberFormatter.format(raw_multiplier),
+			NumberFormatter.format(sensitivity)
+		]
 	
 	if modifier["type"] == ModifierTypes.CYCLE_SPEED:
 		label.text = "  ×%s  Cycle speed — %s" % [
-			NumberFormatter.format(display_multiplier),
-			stats.get_modifier_source_name(modifier)
+			NumberFormatter.format(effective_multiplier),
+			source_name
 		]
+		if sensitivity_applied:
+			label.text += " (raw ×%s, sensitivity ×%s)" % [
+				NumberFormatter.format(raw_multiplier),
+				NumberFormatter.format(sensitivity)
+			]
 	else:
 		label.text = "  %s: %s" % [
-			get_modifier_type_name(
-				modifier["type"]
-			),
-			stats.get_modifier_description_from_data(
-				modifier
-			)
+			get_modifier_type_name(modifier["type"]),
+			multiplier_text
 		]
 
 
