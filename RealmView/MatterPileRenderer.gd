@@ -69,8 +69,15 @@ func setup(
 		pile.visible = false
 		view.add_child(pile)
 		_create_ground_visuals(pile)
+		# Sort cubes by their screen-space Y position so foreground cubes
+		# naturally overlap cubes behind them without changing the pile's
+		# overall draw layer in RealmView.
+		var cube_container: Node2D = Node2D.new()
+		cube_container.name = "CubeContainer"
+		cube_container.y_sort_enabled = true
+		pile.add_child(cube_container)
 		for cube_index in range(MAX_CUBES_PER_PILE):
-			pile.add_child(_create_cube(cube_index))
+			cube_container.add_child(_create_cube(cube_index))
 		old_piles.append(pile)
 
 	return old_piles
@@ -123,7 +130,7 @@ func update(
 		_update_ground_visuals(pile, cube_width, geometry_changed, pile_cube_count)
 
 		for cube_index in range(MAX_CUBES_PER_PILE):
-			var cube: Node2D = pile.get_node("Cube_%02d" % cube_index) as Node2D
+			var cube: Node2D = pile.get_node("CubeContainer/Cube_%02d" % cube_index) as Node2D
 			cube.visible = cube_index < pile_cube_count
 			var pile_growth_stage: int = growth_stage - pile_index * 2
 			var size_factor: float = _get_fragment_size(cube_index, pile_growth_stage)
@@ -284,8 +291,8 @@ func _update_cube_position(
 	if cube_index >= 14 and growth_stage >= 8:
 		floating_lift = min(float(growth_stage - 7) * 0.09, 0.72) * height
 	cube.position = Vector2(
-		slot.x * width * 0.46 + jitter_x,
-		-slot.y * height * 0.60 + slot.z * height * 0.20 + jitter_y - floating_lift
+		slot.x * width * 0.58 + jitter_x,
+		-slot.y * height * 0.78 + slot.z * height * 0.35 + jitter_y - floating_lift
 	)
 	cube.scale = Vector2.ONE * size_factor
 
