@@ -2004,13 +2004,18 @@ static func _create_infernal_forge_immunity() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"infernal_forge_immunity",
 		"Forge Immunity",
-		"The Infernal Forge is immune to Ashen Contamination and the effects of Crystallization.",
+		"The Infernal Forge ignores Ashen Contamination's production penalty and the effects of Crystallization, but Ash can still slow its cycle.",
 		ResourceIds.HEAT,
 		0.0,
 		[
 			UpgradeEffect.sensitivity(
 				"infernal_forge",
 				"crystallization",
+				0.0
+			),
+			UpgradeEffect.sensitivity(
+				"infernal_forge",
+				"ashen_contamination",
 				0.0
 			),
 		],
