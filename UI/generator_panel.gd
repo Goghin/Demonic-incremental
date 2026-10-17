@@ -202,7 +202,8 @@ func _process(_delta: float) -> void:
 		var remaining_progress := maxf(generator.get_cycle_duration() - generator.cycle_progress, 0.0)
 		var remaining_seconds := remaining_progress / maxf(speed_multiplier, 0.0001)
 		var remaining_time_text := _format_duration(remaining_seconds)
-		contamination_label.text = "Cycle: ~%s left" % remaining_time_text
+		var cycle_time_suffix := " left" if generator.is_operating() else ""
+		contamination_label.text = "Cycle: ~%s%s" % [remaining_time_text, cycle_time_suffix]
 		if show_contamination_status:
 			if speed_multiplier < 0.9999:
 				contamination_label.text += " · Ash: -%s%% speed (x%s)" % [
