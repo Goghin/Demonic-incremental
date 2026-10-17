@@ -235,14 +235,14 @@ func _draw() -> void:
 			* GLOW_SIZE_MULTIPLIER
 		)
 
-		# Soft purple particle glow
+		# Soft turquoise particle glow
 		draw_circle(
 			particle_position,
 			glow_size,
 			Color(
-				0.55,
-				0.20,
-				0.95,
+				0.02,
+				0.42,
+				0.40,
 				0.10
 			)
 		)
@@ -252,9 +252,9 @@ func _draw() -> void:
 			particle_position,
 			particle_size,
 			Color(
-				0.72,
-				0.38,
-				1.0,
+				0.05,
+				0.85,
+				0.78,
 				0.75
 			)
 		)
@@ -264,8 +264,8 @@ func _draw() -> void:
 			particle_position,
 			particle_size * 0.45,
 			Color(
-				0.92,
-				0.78,
+				0.80,
+				1.0,
 				1.0,
 				0.95
 			)
@@ -298,9 +298,9 @@ func _draw() -> void:
 		Vector2.ZERO,
 		core_glow_size,
 		Color(
-			0.45,
-			0.10,
-			0.85,
+			0.01,
+			0.24,
+			0.25,
 			CORE_GLOW_ALPHA
 		)
 	)
@@ -310,9 +310,9 @@ func _draw() -> void:
 		Vector2.ZERO,
 		core_glow_size * 0.55,
 		Color(
-			0.65,
-			0.20,
-			1.0,
+			0.02,
+			0.58,
+			0.55,
 			0.18
 		)
 	)
@@ -322,9 +322,9 @@ func _draw() -> void:
 		Vector2.ZERO,
 		core_size,
 		Color(
-			0.72,
-			0.32,
-			1.0,
+			0.05,
+			0.85,
+			0.78,
 			CORE_ALPHA
 		)
 	)
@@ -334,9 +334,9 @@ func _draw() -> void:
 		Vector2.ZERO,
 		core_size * 0.45,
 		Color(
-			0.95,
-			0.85,
+			0.82,
 			1.0,
+			0.98,
 			1.0
 		)
 	)
