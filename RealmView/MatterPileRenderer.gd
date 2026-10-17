@@ -132,7 +132,7 @@ func update(
 
 		for cube_index in range(MAX_CUBES_PER_PILE):
 			var cube: Node2D = pile.get_node("CubeContainer/Cube_%02d" % cube_index) as Node2D
-			cube.visible = cube_index < pile_cube_count
+			var should_be_visible: bool = cube_index < pile_cube_count
 			# Every pile uses the same growth stage so matching layers grow evenly.
 			var pile_growth_stage: int = growth_stage
 			var size_factor: float = _get_fragment_size(cube_index, pile_growth_stage)
@@ -141,6 +141,7 @@ func update(
 			_update_cube_position(
 				cube, cube_width, cube_height, cube_index, pile_index, size_factor, pile_growth_stage
 			)
+			_set_cube_active(cube, should_be_visible, size_factor)
 
 	if geometry_changed:
 		_last_geometry_width = cube_width
@@ -262,6 +263,9 @@ func _ellipse_polygon(
 func _create_cube(cube_index: int) -> Node2D:
 	var cube: Node2D = Node2D.new()
 	cube.name = "Cube_%02d" % cube_index
+	cube.visible = false
+	cube.scale = Vector2.ZERO
+	cube.set_meta("matter_target_visible", false)
 	for face_name in [
 		"LeftOutline", "RightOutline", "TopOutline",
 		"LeftFace", "RightFace", "TopFace", "TopHighlight"
@@ -272,6 +276,46 @@ func _create_cube(cube_index: int) -> Node2D:
 		face.color = OUTLINE_COLOR
 		cube.add_child(face)
 	return cube
+
+
+func _set_cube_active(cube: Node2D, should_be_visible: bool, target_scale: float) -> void:
+	var currently_targeted_visible: bool = bool(cube.get_meta("matter_target_visible", false))
+	if should_be_visible == currently_targeted_visible:
+		return
+
+	cube.set_meta("matter_target_visible", should_be_visible)
+	var previous_tween: Variant = cube.get_meta("matter_animation_tween", null)
+	if previous_tween is Tween and is_instance_valid(previous_tween):
+		(previous_tween as Tween).kill()
+
+	var tween: Tween = cube.create_tween()
+	cube.set_meta("matter_animation_tween", tween)
+	if should_be_visible:
+		cube.visible = true
+		cube.scale = Vector2.ONE * target_scale * 0.08
+		cube.modulate = Color(1.0, 1.0, 1.0, 0.0)
+		tween.set_parallel(true)
+		tween.set_trans(Tween.TRANS_BACK)
+		tween.set_ease(Tween.EASE_OUT)
+		tween.tween_property(cube, "scale", Vector2.ONE * target_scale, 0.24)
+		tween.tween_property(cube, "modulate:a", 1.0, 0.18)
+	else:
+		tween.set_parallel(true)
+		tween.set_trans(Tween.TRANS_CUBIC)
+		tween.set_ease(Tween.EASE_IN)
+		tween.tween_property(cube, "scale", Vector2.ONE * target_scale * 0.06, 0.17)
+		tween.tween_property(cube, "modulate:a", 0.0, 0.17)
+		tween.set_parallel(false)
+		tween.tween_callback(_finish_cube_removal.bind(cube))
+
+
+func _finish_cube_removal(cube: Node2D) -> void:
+	if not is_instance_valid(cube):
+		return
+	if not bool(cube.get_meta("matter_target_visible", false)):
+		cube.visible = false
+		cube.scale = Vector2.ZERO
+		cube.modulate = Color.WHITE
 
 
 func _update_cube_position(
@@ -296,7 +340,6 @@ func _update_cube_position(
 		slot.x * width * 0.58 + jitter_x,
 		-slot.y * height * 0.78 + slot.z * height * 0.35 + jitter_y - floating_lift
 	)
-	cube.scale = Vector2.ONE * size_factor
 
 
 func _update_cube_geometry(
