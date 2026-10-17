@@ -128,6 +128,9 @@ func _ready() -> void:
 	simulation.critical_crystallization_completed.connect(
 		realm_view.play_critical_crystallization_event
 	)
+	simulation.generator_level_reduced.connect(
+		realm_view.play_forge_level_reduction_event
+	)
 	loading_screen.set_status(
 		"Preparing the flow of time..."
 	)
