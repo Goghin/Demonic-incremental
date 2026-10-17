@@ -295,9 +295,11 @@ func _set_cube_active(cube: Node2D, should_be_visible: bool, target_scale: float
 	var tween: Tween = cube.create_tween()
 	cube.set_meta("matter_animation_tween", tween)
 	if should_be_visible:
+		var is_reappearing_during_removal: bool = cube.visible
 		cube.visible = true
-		cube.scale = Vector2.ONE * target_scale * 0.08
-		cube.modulate = Color(1.0, 1.0, 1.0, 0.0)
+		if not is_reappearing_during_removal:
+			cube.scale = Vector2.ONE * target_scale * 0.08
+			cube.modulate = Color(1.0, 1.0, 1.0, 0.0)
 		tween.set_parallel(true)
 		tween.set_trans(Tween.TRANS_BACK)
 		tween.set_ease(Tween.EASE_OUT)
