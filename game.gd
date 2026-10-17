@@ -656,14 +656,14 @@ func _create_initial_upgrade_ui() -> void:
 
 		add_upgrade_panel(upgrade)
 
+	_create_initial_effects_ui(automatic_upgrades)
+
 
 func _is_generator_unlock_for_main_panel(upgrade: Upgrade) -> bool:
 	return upgrade.definition.id in [
 		"lava_mite_colony_unlock",
 		"unlock_infernal_condensation"
 	]
-
-	_create_initial_effects_ui(automatic_upgrades)
 
 
 func _get_upgrade_tree_assigned_ids() -> Dictionary:
