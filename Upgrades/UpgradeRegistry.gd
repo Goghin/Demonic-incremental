@@ -72,6 +72,9 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_thermal_compressor_unlock())
 	_register(upgrades, _create_infernal_forge_immunity())
 	_register(upgrades, _create_infernal_forge_refinement())
+	_register(upgrades, _create_infernal_forge_critical_chance())
+	_register(upgrades, _create_infernal_forge_critical_production())
+	_register(upgrades, _create_infernal_forge_recrystallization())
 	_register(upgrades, _create_infernal_forge_careful_mode())
 	_register(upgrades, _create_infernal_forge_careful_ash_resistance())
 	_register(upgrades, _create_infernal_forge_ash_adaptation())
@@ -2327,6 +2330,103 @@ static func _create_infernal_forge_infernal_mode() -> Upgrade:
 		"infernal_forge"
 	)
 	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_infernal.svg"
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_critical_chance() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_critical_chance",
+		"Crystallization Critical Chance",
+		"Increases the chance for a completed Forge cycle to critically produce bonus Crystallized Flame by 5% per level.",
+		ResourceIds.MATTER,
+		100000.0,
+		[
+			UpgradeEffect.generator_event(
+				"infernal_forge",
+				"cycle_completed",
+				"trigger_event",
+				"forge_critical",
+				0.05
+			)
+		],
+		[
+			Requirement.new(RequirementTypes.GENERATOR_LEVEL, "infernal_forge", 1)
+		],
+		false,
+		"",
+		"infernal_forge",
+		5,
+		1.8,
+		"infernal_forge"
+	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_refinement.svg"
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_critical_production() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_critical_production",
+		"Critical Crystallization Yield",
+		"Increases bonus Crystallized Flame produced by a critical Forge cycle by 50% per level.",
+		ResourceIds.MATTER,
+		150000.0,
+		[
+			UpgradeEffect.generator_event(
+				"infernal_forge",
+				"cycle_completed",
+				"multiply_completion_output",
+				"",
+				0.0,
+				0.5,
+				ResourceIds.CRYSTALLIZED_FLAME,
+				"forge_critical"
+			)
+		],
+		[
+			Requirement.new(RequirementTypes.GENERATOR_LEVEL, "infernal_forge", 1)
+		],
+		false,
+		"",
+		"infernal_forge",
+		5,
+		1.9,
+		"infernal_forge"
+	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_refinement.svg"
+	return Upgrade.new(definition)
+
+
+static func _create_infernal_forge_recrystallization() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"infernal_forge_recrystallization",
+		"Re-crystallization",
+		"Gives each completed Forge cycle a 5% chance per level to lose one Forge level after its output is awarded. This can reduce the Forge to level 0.",
+		ResourceIds.MATTER,
+		200000.0,
+		[
+			UpgradeEffect.generator_event(
+				"infernal_forge",
+				"cycle_completed",
+				"decrease_generator_level",
+				"",
+				0.05,
+				1.0,
+				"",
+				"",
+				100
+			)
+		],
+		[
+			Requirement.new(RequirementTypes.GENERATOR_LEVEL, "infernal_forge", 1)
+		],
+		false,
+		"",
+		"infernal_forge",
+		5,
+		2.0,
+		"infernal_forge"
+	)
+	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_refinement.svg"
 	return Upgrade.new(definition)
 
 
