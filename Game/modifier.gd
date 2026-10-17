@@ -25,6 +25,8 @@ var dynamic: bool = false
 var dynamic_resource_id: String = ""
 var dynamic_formula: String = ""
 var dynamic_generator_id: String = ""
+var dynamic_realm_effect_id: String = ""
+var dynamic_realm_effect_is_divisor: bool = false
 
 
 func _init(
@@ -94,11 +96,15 @@ func get_multiplier(state: GameState) -> float:
 			return 1.0
 	
 		var scaling_multiplier = 1.0
-	
-		if source_upgrade_id == "thermic_mass":
-			scaling_multiplier = (
-			state.realm_effects.thermal_mass_multiplier
-		)
+		if dynamic_realm_effect_id != "":
+			var realm_effect_multiplier := float(
+				state.realm_effects.get(dynamic_realm_effect_id)
+			)
+			if dynamic_realm_effect_is_divisor:
+				if realm_effect_multiplier > 0.0:
+					scaling_multiplier /= realm_effect_multiplier
+			else:
+				scaling_multiplier *= realm_effect_multiplier
 	
 		return 1.0 + (
 			multiplier
@@ -140,11 +146,15 @@ func get_multiplier(state: GameState) -> float:
 		var excess = sqrt(resource_amount) - sqrt(threshold)
 	
 		var scaling_multiplier = multiplier
-
-		if source_upgrade_id == "ashen_contamination":
-			scaling_multiplier /= (
-			state.realm_effects.ashen_contamination_multiplier
-		)
+		if dynamic_realm_effect_id != "":
+			var realm_effect_multiplier := float(
+				state.realm_effects.get(dynamic_realm_effect_id)
+			)
+			if dynamic_realm_effect_is_divisor:
+				if realm_effect_multiplier > 0.0:
+					scaling_multiplier /= realm_effect_multiplier
+			else:
+				scaling_multiplier *= realm_effect_multiplier
 	
 		return 1.0 / (
 			1.0 + scaling_multiplier * excess
