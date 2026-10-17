@@ -2343,8 +2343,8 @@ static func _create_infernal_forge_critical_chance() -> Upgrade:
 		[
 			UpgradeEffect.generator_event(
 				"infernal_forge",
-				"cycle_completed",
-				"trigger_event",
+				UpgradeEffectTypes.EVENT_CYCLE_COMPLETED,
+				UpgradeEffectTypes.EVENT_ACTION_TRIGGER,
 				"forge_critical",
 				0.05
 			)
@@ -2373,8 +2373,8 @@ static func _create_infernal_forge_critical_production() -> Upgrade:
 		[
 			UpgradeEffect.generator_event(
 				"infernal_forge",
-				"cycle_completed",
-				"multiply_completion_output",
+				UpgradeEffectTypes.EVENT_CYCLE_COMPLETED,
+				UpgradeEffectTypes.EVENT_ACTION_MULTIPLY_COMPLETION_OUTPUT,
 				"",
 				0.0,
 				0.5,
@@ -2406,8 +2406,8 @@ static func _create_infernal_forge_recrystallization() -> Upgrade:
 		[
 			UpgradeEffect.generator_event(
 				"infernal_forge",
-				"cycle_completed",
-				"decrease_generator_level",
+				UpgradeEffectTypes.EVENT_CYCLE_COMPLETED,
+				UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL,
 				"",
 				0.05,
 				1.0,
