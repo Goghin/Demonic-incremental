@@ -48,6 +48,7 @@ func _run_tests() -> void:
 	_run_test("Interval statistics are returned and cleared", _test_interval_statistics)
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
+	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 
 	print("")
 	print("========================================")
@@ -236,4 +237,51 @@ func _test_modifier_operation_mode_targeting() -> void:
 		modifier.get_effective_multiplier(state, generator),
 		1.5,
 		"Mode-restricted modifier should affect its targeted mode."
+	)
+
+
+func _test_ashen_contamination_cycle_speed_modifier() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var forge: Generator = state.get_generator("infernal_forge")
+	var friction: Generator = state.get_generator("atomic_friction")
+	if forge == null or friction == null:
+		_expect(false, "Required generators are missing.")
+		return
+
+	state.set_resource_amount(ResourceIds.ASH, 100.0)
+	simulation.update_automatic_upgrades()
+	_expect(
+		state.get_upgrade("ashen_contamination").is_purchased(),
+		"Ashen Contamination did not unlock at its Ash requirement."
+	)
+	_expect_approx(
+		simulation._get_cycle_speed_multiplier(forge),
+		1.0,
+		"Ash at the contamination threshold should not slow cycle speed."
+	)
+
+	state.set_resource_amount(ResourceIds.ASH, 1000.0)
+	var contaminated_speed: float = simulation._get_cycle_speed_multiplier(forge)
+	_expect(
+		contaminated_speed < 1.0,
+		"Ash contamination did not slow Infernal Forge cycle speed."
+	)
+	_expect_approx(
+		simulation._get_cycle_speed_multiplier(friction),
+		1.0,
+		"Cycle-speed contamination should not affect continuous generators."
+	)
+
+	forge.modifier_sensitivities.append(
+		ModifierSensitivity.new(
+			"ashen_contamination_cycle_speed",
+			0.0,
+			"regression_test"
+		)
+	)
+	_expect_approx(
+		simulation._get_cycle_speed_multiplier(forge),
+		1.0,
+		"A zero modifier sensitivity should negate the cycle-speed penalty."
 	)
