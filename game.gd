@@ -646,10 +646,22 @@ func _create_initial_upgrade_ui() -> void:
 			continue
 
 		if upgrade.definition.automatic:
-			automatic_upgrades.append(upgrade)
+			# Keep generator unlocks in the main Upgrades grid even though
+			# their effects are applied automatically when requirements are met.
+			if _is_generator_unlock_for_main_panel(upgrade):
+				add_upgrade_panel(upgrade)
+			else:
+				automatic_upgrades.append(upgrade)
 			continue
 
 		add_upgrade_panel(upgrade)
+
+
+func _is_generator_unlock_for_main_panel(upgrade: Upgrade) -> bool:
+	return upgrade.definition.id in [
+		"lava_mite_colony_unlock",
+		"unlock_infernal_condensation"
+	]
 
 	_create_initial_effects_ui(automatic_upgrades)
 
