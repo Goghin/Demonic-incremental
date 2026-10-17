@@ -50,6 +50,7 @@ func _run_tests() -> void:
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
+	_run_test("Miscellaneous modifiers report effective multipliers and sensitivity", _test_misc_modifier_sensitivity_reporting)
 
 	print("")
 	print("========================================")
@@ -332,3 +333,50 @@ func _test_forge_immunity_ash_sensitivity() -> void:
 			cycle_speed_modifier.get_effective_multiplier(state, forge) < 1.0,
 			"Forge Immunity must not remove Ashen Contamination cycle slowdown."
 		)
+
+
+func _test_misc_modifier_sensitivity_reporting() -> void:
+	var state := _new_test_state()
+	var forge: Generator = state.get_generator("infernal_forge")
+	if forge == null:
+		_expect(false, "Infernal Forge is missing.")
+		return
+
+	var modifier := Modifier.new(ModifierTypes.COST, "", 1.5)
+	modifier.id = "regression_misc_sensitivity"
+	forge.modifiers.append(modifier)
+	forge.modifier_sensitivities.append(
+		ModifierSensitivity.new(
+			"regression_misc_sensitivity",
+			0.5,
+			"regression_test"
+		)
+	)
+
+	var stats := GameStats.new(state)
+	var misc_modifiers: Array = stats.get_generator_modifiers("infernal_forge")
+	var found_modifier: Dictionary = {}
+	for modifier_data in misc_modifiers:
+		if modifier_data.get("id", "") == "regression_misc_sensitivity":
+			found_modifier = modifier_data
+			break
+
+	_expect(not found_modifier.is_empty(), "Miscellaneous modifier was not returned by GameStats.")
+	if found_modifier.is_empty():
+		return
+
+	_expect_approx(
+		float(found_modifier.get("current_multiplier", 1.0)),
+		1.5,
+		"Miscellaneous modifier raw multiplier was incorrect."
+	)
+	_expect_approx(
+		float(found_modifier.get("effective_multiplier", 1.0)),
+		1.25,
+		"Miscellaneous modifier did not apply sensitivity to its effective multiplier."
+	)
+	_expect_approx(
+		float(found_modifier.get("sensitivity", 1.0)),
+		0.5,
+		"Miscellaneous modifier sensitivity was not exposed to the StatsPanel."
+	)
