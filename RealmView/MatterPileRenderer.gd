@@ -19,27 +19,28 @@ const RUBBLE_COLOR: Color = Color(0.10, 0.34, 0.44, 0.85)
 const RUBBLE_HIGHLIGHT: Color = Color(0.30, 0.68, 0.78, 0.85)
 const EDGE_HIGHLIGHT_COLOR: Color = Color(0.76, 0.97, 1.0, 0.88)
 
-# Each slot is (horizontal offset, vertical layer, front/back depth).
-# This is a scatter of fragments rather than a neat stack.
+# Each slot is (horizontal offset, mound elevation, ground-plane depth).
+# Depth runs from the foreground (0) to the back (1.3); elevation is modest
+# so the pile reads as an isometric heap rather than a side-view stack.
 const CUBE_SLOTS: Array[Vector3] = [
-	Vector3(-1.35, 0.0, 0.0),
-	Vector3(-0.45, 0.0, 0.4),
-	Vector3(0.48, 0.0, 0.0),
-	Vector3(1.28, 0.0, 0.5),
-	Vector3(-1.02, 0.55, 0.7),
-	Vector3(0.08, 0.65, 0.0),
-	Vector3(0.92, 0.5, 0.7),
-	Vector3(-0.62, 1.05, 0.0),
-	Vector3(0.48, 1.15, 0.5),
-	Vector3(1.45, 0.95, 0.0),
-	Vector3(-1.38, 1.0, 0.5),
-	Vector3(-0.05, 1.55, 0.2),
-	Vector3(0.95, 1.65, 0.0),
-	Vector3(-0.92, 1.9, 0.5),
-	Vector3(0.28, 2.15, 0.0),
-	Vector3(1.18, 2.05, 0.4),
-	Vector3(-0.42, 2.55, 0.0),
-	Vector3(0.55, 2.85, 0.3)
+	Vector3(-1.30, 0.0, 0.0),
+	Vector3(-0.48, 0.0, 0.0),
+	Vector3(0.42, 0.0, 0.0),
+	Vector3(1.22, 0.0, 0.0),
+	Vector3(-1.12, 0.0, 0.62),
+	Vector3(-0.35, 0.35, 0.62),
+	Vector3(0.48, 0.25, 0.62),
+	Vector3(1.18, 0.0, 0.62),
+	Vector3(-0.96, 0.0, 1.24),
+	Vector3(-0.35, 0.45, 1.24),
+	Vector3(0.38, 0.55, 1.24),
+	Vector3(0.98, 0.0, 1.24),
+	Vector3(-0.72, 0.25, 0.38),
+	Vector3(0.05, 0.75, 0.42),
+	Vector3(0.72, 0.35, 0.42),
+	Vector3(-0.45, 0.65, 0.92),
+	Vector3(0.22, 1.05, 0.88),
+	Vector3(0.48, 0.65, 0.98)
 ]
 
 
@@ -163,22 +164,20 @@ func _get_growth_stage(matter: float) -> int:
 
 
 func _get_fragment_size(cube_index: int, growth_stage: int) -> float:
-	# Grow the lower layers first to preserve a pyramidal silhouette. Within
-	# each layer, fragments farther back (smaller screen-space depth offset)
-	# grow before the foreground fragments that overlap them.
+	# Establish the footprint from the back row toward the foreground. Raised
+	# center fragments then grow gradually without turning the heap into a tower.
 	var slot: Vector3 = CUBE_SLOTS[cube_index]
-	var layer_group: int = floori(slot.y / 0.55)
+	var elevation_group: int = floori(slot.y / 0.35)
 	var depth_group: int = 0
-	if slot.z >= 0.65:
+	if slot.z < 0.55:
 		depth_group = 2
-	elif slot.z >= 0.35:
+	elif slot.z < 0.95:
 		depth_group = 1
-	var fragment_group: int = layer_group * 3 + depth_group
+	var fragment_group: int = elevation_group * 3 + depth_group
 	var growth_steps: int = max(0, growth_stage - fragment_group - 1)
 	var size_factor: float = 0.48 + float(growth_steps) * 0.23
 	var stable_variation: float = float((cube_index * 7) % 4) * 0.035
 	return clamp(size_factor + stable_variation, 0.42, 1.75)
-
 
 func _get_magnitude_scale(matter: float) -> float:
 	if matter <= 0.0:
@@ -298,13 +297,12 @@ func _update_cube_position(
 	var floating_lift: float = 0.0
 	if cube_index >= 14 and growth_stage >= 8:
 		floating_lift = min(float(growth_stage - 7) * 0.09, 0.72) * height
-	# Give the pile a more deliberate 3D silhouette: the lower rows keep a
-	# broad footprint, while higher rows draw inward and rise more clearly.
-	var layer_progress: float = clamp(slot.y / 2.85, 0.0, 1.0)
-	var upper_layer_taper: float = lerp(1.0, 0.58, layer_progress)
+	# Project the ground plane diagonally: back rows move upward on screen and
+	# slightly sideways, while elevation adds a smaller extra lift.
+	var centered_depth: float = slot.z - 0.62
 	cube.position = Vector2(
-		slot.x * width * 0.58 * upper_layer_taper + jitter_x,
-		-slot.y * height * 1.02 + slot.z * height * 0.42 + jitter_y - floating_lift
+		(slot.x - centered_depth * 0.38) * width * 0.58 + jitter_x,
+		-slot.z * height * 0.82 - slot.y * height * 0.72 + jitter_y - floating_lift
 	)
 	cube.scale = Vector2.ONE * size_factor
 
