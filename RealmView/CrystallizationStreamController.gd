@@ -9,7 +9,8 @@ func play_crystallization_event(
 	crystals: Array[CrystallizedFlame],
 	crystal_values: Array[float],
 	total_flames: float,
-	crystal_renderer: CrystalRenderer
+	crystal_renderer: CrystalRenderer,
+	is_critical: bool = false
 ) -> void:
 	if crystals_created <= 0.0:
 		return
@@ -24,7 +25,7 @@ func play_crystallization_event(
 
 	# A completion always releases a short radial burst from the forge,
 	# even when the visible crystal count is already at its cap.
-	play_burst(owner, forge_position)
+	play_burst(owner, forge_position, is_critical)
 
 	var new_count: int = crystals.size()
 	if new_count > old_count:
@@ -133,7 +134,7 @@ func play(
 
 
 
-func play_burst(owner: Node, position: Vector2) -> void:
+func play_burst(owner: Node, position: Vector2, is_critical: bool = false) -> void:
 	var delay := owner.create_tween()
 	delay.tween_interval(0.6)
 	delay.tween_callback(func() -> void:
@@ -141,7 +142,7 @@ func play_burst(owner: Node, position: Vector2) -> void:
 			return
 
 		var burst := CrystallizationStream.new()
-		burst.setup_burst(position)
+		burst.setup_burst(position, is_critical)
 		burst.z_index = 22
 		owner.add_child(burst)
 	)
