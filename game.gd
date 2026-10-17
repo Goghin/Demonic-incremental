@@ -125,6 +125,9 @@ func _ready() -> void:
 	simulation.crystallization_completed.connect(
 		realm_view.play_crystallization_event
 		)
+	simulation.critical_crystallization_completed.connect(
+		realm_view.play_critical_crystallization_event
+	)
 	loading_screen.set_status(
 		"Preparing the flow of time..."
 	)
