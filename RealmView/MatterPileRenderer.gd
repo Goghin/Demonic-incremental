@@ -120,9 +120,10 @@ func update(
 			island_rect.size.y * normalized_position.y
 		)
 
-		# Fill piles in layout order instead of spreading fragments across all of them.
+		# Grow piles in rounds: add one low fragment to each pile before
+		# starting the next round, keeping their sizes visually balanced.
 		var pile_cube_count: int = clamp(
-			total_cubes - pile_index * MAX_CUBES_PER_PILE,
+			int(ceil(float(total_cubes - pile_index) / float(piles.size()))),
 			0,
 			MAX_CUBES_PER_PILE
 		)
@@ -132,7 +133,8 @@ func update(
 		for cube_index in range(MAX_CUBES_PER_PILE):
 			var cube: Node2D = pile.get_node("CubeContainer/Cube_%02d" % cube_index) as Node2D
 			cube.visible = cube_index < pile_cube_count
-			var pile_growth_stage: int = growth_stage - pile_index * 2
+			# Every pile uses the same growth stage so matching layers grow evenly.
+			var pile_growth_stage: int = growth_stage
 			var size_factor: float = _get_fragment_size(cube_index, pile_growth_stage)
 			if geometry_changed:
 				_update_cube_geometry(cube, cube_width, cube_height, cube_index, pile_index)
