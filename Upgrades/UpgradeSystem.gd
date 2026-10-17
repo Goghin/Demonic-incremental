@@ -151,6 +151,12 @@ func is_upgrade_visible(
 		):
 			return false
 	
+	# Generator unlocks are general progression upgrades. Their visibility
+	# must not depend on the target generator already being unlocked.
+	for effect in definition.effects:
+		if effect.type == UpgradeEffectTypes.UNLOCK_GENERATOR:
+			return true
+
 	# No generator association means this is a global upgrade.
 	if definition.generator_id == "":
 		return true

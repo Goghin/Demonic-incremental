@@ -629,14 +629,23 @@ func _clear_generator_focus() -> void:
 # UPGRADE UI
 # ============================================================
 
+func _is_general_upgrade(upgrade: Upgrade) -> bool:
+	# Unlocking a generator is a progression milestone, not an upgrade to
+	# the generator itself. Keep it in the main Upgrades panel.
+	for effect in upgrade.definition.effects:
+		if effect.type == UpgradeEffectTypes.UNLOCK_GENERATOR:
+			return true
+
+	return upgrade.definition.generator_id == ""
+
+
 func _create_initial_upgrade_ui() -> void:
 	var automatic_upgrades: Array = []
 
 	for upgrade in state.upgrades.values():
-		
-		if upgrade.definition.generator_id != "":
+		if not _is_general_upgrade(upgrade):
 			continue
-		
+
 		if not state.upgrade_system.is_upgrade_visible(
 			upgrade
 			):
@@ -662,8 +671,10 @@ func add_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
 
-	# Generator-specific upgrades belong only in their generator tree.
-	if upgrade.definition.generator_id != "":
+	# Generator-specific improvements belong in their generator tree.
+	# Generator-unlock upgrades are general progression upgrades, even when
+	# their definitions retain a generator association for legacy/UI metadata.
+	if not _is_general_upgrade(upgrade):
 		return
 
 	if upgrade_panels.has(
@@ -886,8 +897,9 @@ func add_automatic_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
 
-	# Generator-specific automatic upgrades belong only in their generator tree.
-	if upgrade.definition.generator_id != "":
+	# Generator-specific automatic improvements belong in their tree.
+	# Generator unlocks are shown in the general upgrades panel.
+	if not _is_general_upgrade(upgrade):
 		return
 
 	if upgrade_panels.has(
