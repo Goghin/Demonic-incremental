@@ -726,7 +726,10 @@ static func _create_thermic_mass() -> Upgrade:
 				ResourceIds.MATTER,
 				Modifier.DYNAMIC_RESOURCE_LOG10,
 				"thermic_mass",
-				ResourceIds.HEAT
+				ResourceIds.HEAT,
+				1000.0,
+				0.35,
+				"thermal_mass_multiplier"
 			)
 		],
 		[
@@ -1152,7 +1155,25 @@ static func _create_ashen_contamination() -> Upgrade:
 				0.05,
 				ResourceIds.ASH,
 				Modifier.DYNAMIC_RESOURCE_SQRT_INVERSE,
-				"ashen_contamination"
+				"ashen_contamination",
+				"",
+				1000.0,
+				0.35,
+				"ashen_contamination_multiplier",
+				true
+			),
+			UpgradeEffect.dynamic_resource_modifier(
+				"",
+				ModifierTypes.CYCLE_SPEED,
+				0.05,
+				ResourceIds.ASH,
+				Modifier.DYNAMIC_RESOURCE_SQRT_INVERSE,
+				"ashen_contamination_cycle_speed",
+				"",
+				1000.0,
+				0.35,
+				"ashen_contamination_multiplier",
+				true
 			)
 		],
 		[
