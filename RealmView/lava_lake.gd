@@ -59,7 +59,8 @@ class LavaBurstOverlay extends Node2D:
 				particle["velocity"] = velocity
 				var life_ratio: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
 				particle_node.modulate.a = life_ratio
-				particle_node.scale = Vector2(lerp(0.45, 1.0, life_ratio), lerp(0.9, 1.35, life_ratio))
+				var burst_scale: float = float(particle.get("burst_scale", 1.0))
+				particle_node.scale = Vector2(lerp(0.45, 1.0, life_ratio), lerp(0.9, 1.35, life_ratio)) * burst_scale
 				particles[i] = particle
 
 	func _spawn_burst() -> void:
@@ -74,8 +75,18 @@ class LavaBurstOverlay extends Node2D:
 		var edge_position: Vector2 = edge_point.lerp(next_point, randomizer.randf())
 		var burst_position: Vector2 = center.lerp(edge_position, sqrt(randomizer.randf()))
 
+		var burst_roll: float = randomizer.randf()
+		var burst_scale: float = 1.0
+		if burst_roll < 0.85:
+			burst_scale = 1.0
+		elif burst_roll < 0.98:
+			burst_scale = randomizer.randf_range(1.8, 2.5)
+		else:
+			burst_scale = 3.0
+
 		var base_particle_count: int = randomizer.randi_range(3, 6)
-		var particle_count: int = maxi(1, roundi(float(base_particle_count) * lake_area_factor))
+		var burst_count_multiplier: float = 1.0 if burst_scale == 1.0 else (1.25 if burst_scale < 3.0 else 1.5)
+		var particle_count: int = maxi(1, roundi(float(base_particle_count) * lake_area_factor * burst_count_multiplier))
 		for i in range(particle_count):
 			var particle_node := Node2D.new()
 			particle_node.name = "LavaBurstParticle"
@@ -97,13 +108,14 @@ class LavaBurstOverlay extends Node2D:
 			particle_node.add_child(core)
 
 			var angle: float = randomizer.randf_range(-PI * 0.88, -PI * 0.12)
-			var speed: float = randomizer.randf_range(22.0, 48.0)
-			var particle_life: float = randomizer.randf_range(0.45, 0.8)
+			var speed: float = randomizer.randf_range(22.0, 48.0) * sqrt(burst_scale)
+			var particle_life: float = randomizer.randf_range(0.45, 0.8) * (1.0 + (burst_scale - 1.0) * 0.12)
 			particles.append({
 				"node": particle_node,
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
 				"life": particle_life,
-				"max_life": particle_life
+				"max_life": particle_life,
+				"burst_scale": sqrt(burst_scale)
 			})
 
 	func _calculate_area_factor(points: PackedVector2Array) -> float:
