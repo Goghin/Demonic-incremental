@@ -60,7 +60,8 @@ class LavaFlowSparkOverlay extends Node2D:
 				particle["velocity"] = velocity
 				var ratio: float = clamp(life / float(particle["max_life"]), 0.0, 1.0)
 				node.modulate.a = ratio
-				node.scale = Vector2(lerp(0.45, 1.0, ratio), lerp(0.85, 1.15, ratio))
+				var burst_scale: float = float(particle.get("burst_scale", 1.0))
+				node.scale = Vector2(lerp(0.45, 1.0, ratio), lerp(0.85, 1.15, ratio)) * burst_scale
 				particles[i] = particle
 
 	func _spawn_burst() -> void:
@@ -98,7 +99,16 @@ class LavaFlowSparkOverlay extends Node2D:
 
 		
 
-		var count: int = maxi(1, roundi(randomizer.randi_range(3, 5) * activity_factor))
+		var burst_roll: float = randomizer.randf()
+		var burst_scale: float = 1.0
+		if burst_roll < 0.85:
+			burst_scale = 1.0
+		elif burst_roll < 0.98:
+			burst_scale = randomizer.randf_range(1.8, 2.5)
+		else:
+			burst_scale = 3.0
+		var count_multiplier: float = 1.0 if burst_scale == 1.0 else (1.25 if burst_scale < 3.0 else 1.5)
+		var count: int = maxi(1, roundi(randomizer.randi_range(3, 5) * activity_factor * count_multiplier))
 		for j in range(count):
 			var spread_distance: float = randomizer.randf_range(-14.0, 14.0)
 			var particle_distance: float = clamp(target_distance + spread_distance, 0.0, total_length)
@@ -121,7 +131,7 @@ class LavaFlowSparkOverlay extends Node2D:
 			node.z_index = 2
 			add_child(node)
 
-			var size: float = randomizer.randf_range(1.9, 3.1)
+			var size: float = randomizer.randf_range(1.9, 3.1) * sqrt(burst_scale)
 			var outer := Polygon2D.new()
 			outer.polygon = _make_spark(size, randomizer.randf_range(0.7, 1.2))
 			outer.name = "OuterGlow"
@@ -135,13 +145,14 @@ class LavaFlowSparkOverlay extends Node2D:
 			node.add_child(core)
 
 			var angle: float = randomizer.randf_range(-PI * 0.85, -PI * 0.15)
-			var speed: float = randomizer.randf_range(14.0, 32.0)
-			var life: float = randomizer.randf_range(0.5, 0.95)
+			var speed: float = randomizer.randf_range(14.0, 32.0) * sqrt(burst_scale)
+			var life: float = randomizer.randf_range(0.5, 0.95) * (1.0 + (burst_scale - 1.0) * 0.12)
 			particles.append({
 				"node": node,
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
 				"life": life,
-				"max_life": life
+				"max_life": life,
+				"burst_scale": 1.0
 			})
 	
 	func _make_spark(length: float, width: float) -> PackedVector2Array:
