@@ -91,7 +91,8 @@ func play_crystallization_event(
 	owner: Control,
 	state: GameState,
 	crystals_created: float,
-	forge_position: Vector2
+	forge_position: Vector2,
+	is_critical: bool = false
 ) -> void:
 	if state == null:
 		return
@@ -103,5 +104,6 @@ func play_crystallization_event(
 		crystals,
 		crystal_values,
 		state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME),
-		renderer
+		renderer,
+		is_critical
 	)
