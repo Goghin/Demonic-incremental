@@ -115,7 +115,7 @@ class LavaBurstOverlay extends Node2D:
 				"velocity": Vector2(cos(angle), sin(angle)) * speed,
 				"life": particle_life,
 				"max_life": particle_life,
-				"burst_scale": sqrt(burst_scale)
+				"burst_scale": burst_scale
 			})
 
 	func _calculate_area_factor(points: PackedVector2Array) -> float:
