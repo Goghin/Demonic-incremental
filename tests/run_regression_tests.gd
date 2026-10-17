@@ -51,6 +51,7 @@ func _run_tests() -> void:
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
 	_run_test("Miscellaneous modifiers report effective multipliers and sensitivity", _test_misc_modifier_sensitivity_reporting)
+	_run_test("Generic cycle completion effects modify output and can reduce level to zero", _test_cycle_completion_event_effects)
 
 	print("")
 	print("========================================")
@@ -380,3 +381,51 @@ func _test_misc_modifier_sensitivity_reporting() -> void:
 		0.5,
 		"Miscellaneous modifier sensitivity was not exposed to the StatsPanel."
 	)
+
+
+
+func _test_cycle_completion_event_effects() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var forge: Generator = state.get_generator("infernal_forge")
+	if forge == null:
+		_expect(false, "Infernal Forge is missing.")
+		return
+
+	forge.unlocked = true
+	forge.level = 1
+	state.set_resource_amount(ResourceIds.MATTER, 1000000000.0)
+	_expect(simulation.buy_upgrade("infernal_forge_critical_chance"), "Could not buy Critical Chance upgrade.")
+	_expect(simulation.buy_upgrade("infernal_forge_critical_production"), "Could not buy Critical Production upgrade.")
+	_expect(simulation.buy_upgrade("infernal_forge_recrystallization"), "Could not buy Re-crystallization upgrade.")
+
+	for effect in forge.event_effects:
+		if effect.event_action == "trigger_event" or effect.event_action == "decrease_generator_level":
+			effect.event_chance = 1.0
+
+	state.set_resource_amount(ResourceIds.HEAT, 500000.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 0.0)
+	forge.cycle_active = true
+	forge.operating = true
+	simulation.complete_cycle(forge)
+
+	_expect_approx(
+		state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME),
+		1.5,
+		"Critical completion did not apply its output bonus before Re-crystallization."
+	)
+	_expect(
+		forge.level == 0,
+		"Re-crystallization did not allow the Forge to drop from level 1 to level 0."
+	)
+	_expect(not forge.cycle_active, "Completed cycle remained active after Re-crystallization.")
+	_expect_approx(
+		state.get_resource_amount(ResourceIds.HEAT),
+		0.0,
+		"Crystallization should still consume accumulated Heat."
+	)
+
+	state.set_resource_amount(ResourceIds.HEAT, 1000001.0)
+	_expect(simulation.buy_generator("infernal_forge"), "Forge could not be restarted by purchasing a level from level 0.")
+	_expect(forge.level == 1, "Buying from level 0 did not restore Forge level 1.")
+	_expect(forge.cycle_active, "Buying a level from level 0 did not start a new cycle.")
