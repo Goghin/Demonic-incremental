@@ -34,6 +34,16 @@ var sensitivity_dynamic_resource_id: String
 var dormancy_parameter: String = ""
 var dormancy_value: float = 0.0
 
+# Data-driven generator event effect configuration.
+var event_trigger: String = ""
+var event_action: String = ""
+var event_id: String = ""
+var event_condition_id: String = ""
+var event_chance: float = 0.0
+var event_value: float = 0.0
+var event_resource_id: String = ""
+var event_order: int = 0
+
 const DORMANCY_DELAY := "dormancy_delay"
 const DORMANCY_DURATION := "dormancy_duration"
 const DORMANCY_MAX_PENALTY := "dormancy_max_penalty"
@@ -275,6 +285,32 @@ func set_modifier_sensitivity(
 
 func set_operation_modes(mode_ids: Array[String]) -> void:
 	operation_mode_ids = mode_ids.duplicate()
+
+
+static func generator_event(
+	generator_id: String,
+	trigger: String,
+	action: String,
+	effect_event_id: String = "",
+	chance: float = 0.0,
+	effect_value: float = 0.0,
+	resource_id: String = "",
+	condition_event_id: String = "",
+	order: int = 0
+	) -> UpgradeEffect:
+	var effect := UpgradeEffect.new(
+		UpgradeEffectTypes.REGISTER_EVENT_EFFECT,
+		generator_id
+	)
+	effect.event_trigger = trigger
+	effect.event_action = action
+	effect.event_id = effect_event_id
+	effect.event_chance = chance
+	effect.event_value = effect_value
+	effect.event_resource_id = resource_id
+	effect.event_condition_id = condition_event_id
+	effect.event_order = order
+	return effect
 
 
 static func dormancy(
