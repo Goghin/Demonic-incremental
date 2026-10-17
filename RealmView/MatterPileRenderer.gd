@@ -281,6 +281,10 @@ func _create_cube(cube_index: int) -> Node2D:
 func _set_cube_active(cube: Node2D, should_be_visible: bool, target_scale: float) -> void:
 	var currently_targeted_visible: bool = bool(cube.get_meta("matter_target_visible", false))
 	if should_be_visible == currently_targeted_visible:
+		if should_be_visible:
+			var active_tween: Variant = cube.get_meta("matter_animation_tween", null)
+			if not (active_tween is Tween and is_instance_valid(active_tween) and (active_tween as Tween).is_running()):
+				cube.scale = Vector2.ONE * target_scale
 		return
 
 	cube.set_meta("matter_target_visible", should_be_visible)
