@@ -45,6 +45,8 @@ func setup(
 	$UpgradeButton.mouse_exited.connect(
 		_on_upgrade_button_mouse_exited
 	)
+	if not purchase_succeeded.is_connected(_on_purchase_succeeded):
+		purchase_succeeded.connect(_on_purchase_succeeded)
 
 
 func _process(_delta: float) -> void:
@@ -480,6 +482,25 @@ func _on_upgrade_button_mouse_exited() -> void:
 		return
 
 	info_popup.visible = false
+
+
+func _on_purchase_succeeded() -> void:
+	if info_popup == null or not info_popup.visible:
+		return
+	if info_popup.upgrade_id != upgrade_id:
+		return
+
+	info_popup.update_info()
+
+	# Re-measure after the labels have been rebuilt so level/cost changes do
+	# not leave the visible popup with stale dimensions.
+	await get_tree().process_frame
+	if not is_instance_valid(info_popup) or not info_popup.visible:
+		return
+
+	info_popup.reset_size()
+	info_popup.size.y = info_popup.get_combined_minimum_size().y
+	_position_info_popup()
 
 
 # -------------------------------------------------------------------
