@@ -11,6 +11,13 @@ func _init() -> void:
 	add_node("infernal_forge_careful_ash_resistance", 0, 3)
 	add_node("infernal_forge_fast_ash_sensitivity", 3, 2)
 	add_node("infernal_forge_fast_ash_reduction", 3, 3)
+	add_node("infernal_forge_critical_chance", 0, 4)
+	add_node("infernal_forge_critical_production", 1, 4)
+	add_node("infernal_forge_recrystallization", 2, 4)
+
+	add_connection("infernal_forge_refinement", "infernal_forge_critical_chance")
+	add_connection("infernal_forge_refinement", "infernal_forge_critical_production")
+	add_connection("infernal_forge_refinement", "infernal_forge_recrystallization")
 
 	add_connection(
 		"infernal_forge_fast_mode",
