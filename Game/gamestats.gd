@@ -557,6 +557,10 @@ func get_generator_modifiers(
 	
 	for modifier in unsourced_modifiers:
 		var raw_multiplier = modifier.get_multiplier(state)
+		var sensitivity_data = get_modifier_sensitivity_data(
+			generator_id,
+			modifier.id
+		)
 		var effective_multiplier = modifier.get_effective_multiplier(
 			state,
 			generator
@@ -571,7 +575,9 @@ func get_generator_modifiers(
 			"generator_id": modifier.dynamic_generator_id,
 			"source_upgrade_id": modifier.source_upgrade_id,
 			"current_multiplier": raw_multiplier,
-			"effective_multiplier": effective_multiplier
+			"effective_multiplier": effective_multiplier,
+			"sensitivity": sensitivity_data["sensitivity"],
+			"sensitivity_sources": sensitivity_data["sources"]
 		})
 	
 	# --------------------------------------------------------
@@ -584,6 +590,10 @@ func get_generator_modifiers(
 		var combined_multiplier = 1.0
 		var combined_effective_multiplier = 1.0
 		var first_modifier = grouped_modifiers[0]
+		var sensitivity_data = get_modifier_sensitivity_data(
+			generator_id,
+			first_modifier.id
+		)
 		
 		for modifier in grouped_modifiers:
 			combined_multiplier *= modifier.get_multiplier(state)
@@ -602,7 +612,9 @@ func get_generator_modifiers(
 			"generator_id": first_modifier.dynamic_generator_id,
 			"source_upgrade_id": first_modifier.source_upgrade_id,
 			"current_multiplier": combined_multiplier,
-			"effective_multiplier": combined_effective_multiplier
+			"effective_multiplier": combined_effective_multiplier,
+			"sensitivity": sensitivity_data["sensitivity"],
+			"sensitivity_sources": sensitivity_data["sources"]
 		})
 	
 	return modifiers
