@@ -163,11 +163,17 @@ func _get_growth_stage(matter: float) -> int:
 
 
 func _get_fragment_size(cube_index: int, growth_stage: int) -> float:
-	# Older fragments grow in stages. New fragments remain tiny, keeping
-	# the overall pile varied even at high resource amounts.
-	# Higher-index slots sit farther back in the pile, so let those
-	# fragments grow first. The front keeps smaller pieces that overlap them.
-	var fragment_group: int = floori(float(MAX_CUBES_PER_PILE - 1 - cube_index) / 3.0)
+	# Grow the lower layers first to preserve a pyramidal silhouette. Within
+	# each layer, fragments farther back (smaller screen-space depth offset)
+	# grow before the foreground fragments that overlap them.
+	var slot: Vector3 = CUBE_SLOTS[cube_index]
+	var layer_group: int = floori(slot.y / 0.55)
+	var depth_group: int = 0
+	if slot.z >= 0.65:
+		depth_group = 2
+	elif slot.z >= 0.35:
+		depth_group = 1
+	var fragment_group: int = layer_group * 3 + depth_group
 	var growth_steps: int = max(0, growth_stage - fragment_group - 1)
 	var size_factor: float = 0.48 + float(growth_steps) * 0.23
 	var stable_variation: float = float((cube_index * 7) % 4) * 0.035
