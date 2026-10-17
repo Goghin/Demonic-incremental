@@ -959,19 +959,32 @@ func update_modifier_label(
 		return
 	
 	var modifier = misc_modifiers[modifier_index]
-	apply_modifier_color(
-	label,
-	modifier["type"],
-	modifier["current_multiplier"]
-	)
-	label.text = "  %s: %s" % [
-		get_modifier_type_name(
-			modifier["type"]
-		),
-		stats.get_modifier_description_from_data(
-			modifier
+	var display_multiplier: float = modifier["current_multiplier"]
+	if modifier["type"] == ModifierTypes.CYCLE_SPEED:
+		display_multiplier = modifier.get(
+			"effective_multiplier",
+			display_multiplier
 		)
-	]
+	apply_modifier_color(
+		label,
+		modifier["type"],
+		display_multiplier
+	)
+	
+	if modifier["type"] == ModifierTypes.CYCLE_SPEED:
+		label.text = "  ×%s  Cycle speed — %s" % [
+			NumberFormatter.format(display_multiplier),
+			stats.get_modifier_source_name(modifier)
+		]
+	else:
+		label.text = "  %s: %s" % [
+			get_modifier_type_name(
+				modifier["type"]
+			),
+			stats.get_modifier_description_from_data(
+				modifier
+			)
+		]
 
 
 func get_modifier_type_name(
@@ -990,6 +1003,9 @@ func get_modifier_type_name(
 		
 		ModifierTypes.INPUT_DRAW:
 			return "Input draw"
+		
+		ModifierTypes.CYCLE_SPEED:
+			return "Cycle speed"
 	
 	return modifier_type
 
