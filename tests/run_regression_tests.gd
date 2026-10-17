@@ -49,6 +49,7 @@ func _run_tests() -> void:
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
+	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
 
 	print("")
 	print("========================================")
@@ -291,3 +292,43 @@ func _test_ashen_contamination_cycle_speed_modifier() -> void:
 		1.0,
 		"A zero modifier sensitivity should negate the cycle-speed penalty."
 	)
+
+
+func _test_forge_immunity_ash_sensitivity() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var forge: Generator = state.get_generator("infernal_forge")
+	if forge == null:
+		_expect(false, "Infernal Forge is missing.")
+		return
+
+	forge.level = 1
+	state.set_resource_amount(ResourceIds.ASH, 1000.0)
+	simulation.update_automatic_upgrades()
+
+	var immunity: Upgrade = state.get_upgrade("infernal_forge_immunity")
+	var contamination: Upgrade = state.get_upgrade("ashen_contamination")
+	_expect(immunity != null and immunity.is_purchased(), "Forge Immunity did not activate at Forge level 1.")
+	_expect(contamination != null and contamination.is_purchased(), "Ashen Contamination did not activate at the test Ash level.")
+
+	var production_modifier: Modifier = null
+	var cycle_speed_modifier: Modifier = null
+	for modifier in forge.modifiers:
+		if modifier.id == "ashen_contamination":
+			production_modifier = modifier
+		elif modifier.id == "ashen_contamination_cycle_speed":
+			cycle_speed_modifier = modifier
+
+	_expect(production_modifier != null, "Ashen Contamination production modifier was not registered on the Forge.")
+	_expect(cycle_speed_modifier != null, "Ashen Contamination cycle-speed modifier was not registered on the Forge.")
+	if production_modifier != null:
+		_expect_approx(
+			production_modifier.get_effective_multiplier(state, forge),
+			1.0,
+			"Forge Immunity should reduce Ashen Contamination production sensitivity to zero."
+		)
+	if cycle_speed_modifier != null:
+		_expect(
+			cycle_speed_modifier.get_effective_multiplier(state, forge) < 1.0,
+			"Forge Immunity must not remove Ashen Contamination cycle slowdown."
+		)
