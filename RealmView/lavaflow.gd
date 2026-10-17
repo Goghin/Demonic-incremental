@@ -166,6 +166,7 @@ var widths: PackedFloat32Array = PackedFloat32Array()
 
 var speed: float = 18.0
 var intensity: float = 1.0
+var glow_animation_time: float = 0.0
 
 var start_ratio: float = 0.10
 var stop_ratio: float = 0.07
@@ -343,6 +344,9 @@ func _setup_material() -> void:
 
 
 func _process(delta: float) -> void:
+	glow_animation_time += delta
+	_update_edge_glow_pulse()
+
 	match flow_state:
 		FlowState.STARTING:
 			active_length += (
@@ -379,6 +383,21 @@ func _process(delta: float) -> void:
 			active_length = 0.0
 			cooling_length = 0.0
 			_update_surface()
+
+func _update_edge_glow_pulse() -> void:
+	if not is_instance_valid(edge_glow):
+		return
+	if flow_state == FlowState.INACTIVE or edge_glow.points.size() < 2:
+		return
+
+	var pulse: float = 0.5 + 0.5 * sin(glow_animation_time * 2.1)
+	var glow_color: Color = lava_palette.get(
+		"orange",
+		Color(1.0, 0.10, 0.008, 1.0)
+	)
+	glow_color.a = 0.10 + pulse * 0.08
+	edge_glow.default_color = glow_color
+
 
 func _update_surface() -> void:
 	if not is_instance_valid(surface):
