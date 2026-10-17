@@ -446,9 +446,10 @@ func complete_cycle(
 		state.record_resource_produced(output.resource_id, amount)
 		
 		if output.resource_id == ResourceIds.CRYSTALLIZED_FLAME:
-			crystallization_completed.emit(amount)
 			if triggered_events.get("forge_critical", false):
 				critical_crystallization_completed.emit(amount)
+			else:
+				crystallization_completed.emit(amount)
 			var current_heat := state.get_resource_amount(ResourceIds.HEAT)
 			if current_heat > 0.0:
 				state.record_resource_lost(ResourceIds.HEAT, current_heat)
