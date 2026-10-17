@@ -415,61 +415,86 @@ func _get_available_operating_delta(
 func complete_cycle(
 	generator: Generator
 	) -> void:
+	var triggered_events: Dictionary = _resolve_cycle_completion_events(generator)
 	
 	for output in generator.get_active_completion_outputs():
-		var amount = (
-			output.amount_per_second
-			* generator.level
-		)
+		if not output.unlocked:
+			continue
+		var amount: float = output.amount_per_second * generator.level
 		
 		for modifier in generator.modifiers:
-			if modifier.applies_to(
-				ModifierTypes.PRODUCTION,
-				output.resource_id
-			):
-				amount = modifier.apply(
-					amount,
-					state,
-					generator
-				)
+			if modifier.applies_to(ModifierTypes.PRODUCTION, output.resource_id):
+				amount = modifier.apply(amount, state, generator)
 		
-		var current_amount = state.get_resource_amount(
-			output.resource_id
-		)
+		for effect in generator.event_effects:
+			if effect.event_trigger != "cycle_completed" or effect.event_action != "multiply_completion_output":
+				continue
+			if effect.event_resource_id != "" and effect.event_resource_id != output.resource_id:
+				continue
+			if effect.event_condition_id != "" and not triggered_events.get(effect.event_condition_id, false):
+				continue
+			var source_upgrade_id := _event_effect_source_id(effect)
+			var source_upgrade: Upgrade = state.get_upgrade(source_upgrade_id)
+			var effect_level: int = source_upgrade.level if source_upgrade != null else 1
+			amount *= 1.0 + effect.event_value * effect_level
 		
-		state.set_resource_amount(
-			output.resource_id,
-			current_amount + amount
-		)
+		var current_amount := state.get_resource_amount(output.resource_id)
+		state.set_resource_amount(output.resource_id, current_amount + amount)
+		state.record_resource_produced(output.resource_id, amount)
 		
-		state.record_resource_produced(
-			output.resource_id,
-			amount
-		)
-		
-		# Creating Crystallized Flame consumes all accumulated Heat.
-		# and triggers the realm crystallization visual.
 		if output.resource_id == ResourceIds.CRYSTALLIZED_FLAME:
 			crystallization_completed.emit(amount)
-			
-			var current_heat = state.get_resource_amount(
-				ResourceIds.HEAT
-			)
-			
+			var current_heat := state.get_resource_amount(ResourceIds.HEAT)
 			if current_heat > 0.0:
-				state.record_resource_lost(
-					ResourceIds.HEAT,
-					current_heat
-				)
-				
-				state.set_resource_amount(
-					ResourceIds.HEAT,
-					0.0
-				)
+				state.record_resource_lost(ResourceIds.HEAT, current_heat)
+				state.set_resource_amount(ResourceIds.HEAT, 0.0)
 	
+	_apply_cycle_completion_consequences(generator, triggered_events)
 	generator.cycle_active = false
 	generator.operating = false
 	generator.cycle_progress = 0.0
+
+
+func _event_effect_source_id(effect: UpgradeEffect) -> String:
+	for upgrade in state.upgrades.values():
+		for registered_effect in upgrade.definition.effects:
+			if registered_effect == effect:
+				return upgrade.definition.id
+	return ""
+
+
+func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
+	var triggered_events: Dictionary = {"cycle_completed": true}
+	for effect in generator.event_effects:
+		if effect.event_trigger != "cycle_completed" or effect.event_action != "trigger_event":
+			continue
+		var source_upgrade_id := _event_effect_source_id(effect)
+		var source_upgrade: Upgrade = state.get_upgrade(source_upgrade_id)
+		var effect_level: int = source_upgrade.level if source_upgrade != null else 1
+		var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+		if chance >= 1.0 or (chance > 0.0 and randf() < chance):
+			triggered_events[effect.event_id] = true
+	return triggered_events
+
+
+func _apply_cycle_completion_consequences(generator: Generator, triggered_events: Dictionary) -> void:
+	var consequences: Array[UpgradeEffect] = []
+	for effect in generator.event_effects:
+		if effect.event_trigger == "cycle_completed" and effect.event_action == "decrease_generator_level":
+			consequences.append(effect)
+	consequences.sort_custom(
+		func(a: UpgradeEffect, b: UpgradeEffect) -> bool:
+			return a.event_order < b.event_order
+	)
+	for effect in consequences:
+		if effect.event_condition_id != "" and not triggered_events.get(effect.event_condition_id, false):
+			continue
+		var source_upgrade_id := _event_effect_source_id(effect)
+		var source_upgrade: Upgrade = state.get_upgrade(source_upgrade_id)
+		var effect_level: int = source_upgrade.level if source_upgrade != null else 1
+		var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+		if chance >= 1.0 or (chance > 0.0 and randf() < chance):
+			generator.level = maxi(generator.level - maxi(roundi(effect.event_value), 1), 0)
 
 
 # Consume the inputs required for the current simulation step.
@@ -912,6 +937,10 @@ func _apply_upgrade_effect(
 		_apply_dormancy_effect(
 			effect
 		)
+	elif effect.type == UpgradeEffectTypes.REGISTER_EVENT_EFFECT:
+		var generator = state.get_generator(effect.target_id)
+		if generator != null and not generator.event_effects.has(effect):
+			generator.event_effects.append(effect)
 		
 func _add_modifier_to_generator(
 	generator: Generator,
