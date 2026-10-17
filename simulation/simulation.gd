@@ -4,6 +4,7 @@ extends RefCounted
 signal generator_unlocked(generator_id: String)
 signal crystallization_completed(crystals_created: float)
 signal critical_crystallization_completed(crystals_created: float)
+signal generator_level_reduced(generator_id: String, previous_level: int, new_level: int)
 
 const GAMEPLAY_SNAPSHOT_INTERVAL: float = 30.0
 var _gameplay_snapshot_elapsed: float = 0.0
@@ -508,7 +509,14 @@ func _apply_cycle_completion_consequences(generator: Generator, triggered_events
 		var effect_level: int = source_upgrade.level if source_upgrade != null else 1
 		var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
 		if chance >= 1.0 or (chance > 0.0 and randf() < chance):
+			var previous_level: int = generator.level
 			generator.level = maxi(generator.level - maxi(roundi(effect.event_value), 1), 0)
+			if generator.level < previous_level and generator.definition.id == "infernal_forge":
+				generator_level_reduced.emit(
+					generator.definition.id,
+					previous_level,
+					generator.level
+				)
 
 
 # Consume the inputs required for the current simulation step.
