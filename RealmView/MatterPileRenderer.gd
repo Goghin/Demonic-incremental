@@ -19,28 +19,27 @@ const RUBBLE_COLOR: Color = Color(0.10, 0.34, 0.44, 0.85)
 const RUBBLE_HIGHLIGHT: Color = Color(0.30, 0.68, 0.78, 0.85)
 const EDGE_HIGHLIGHT_COLOR: Color = Color(0.76, 0.97, 1.0, 0.88)
 
-# Each slot is (horizontal offset, mound elevation, ground-plane depth).
-# The footprint stays wide at the base and narrows toward the center/back,
-# with several elevated central fragments forming a low, irregular peak.
+# Each slot is (horizontal offset, vertical layer, front/back depth).
+# This is a scatter of fragments rather than a neat stack.
 const CUBE_SLOTS: Array[Vector3] = [
-	Vector3(-1.30, 0.0, 0.0),
-	Vector3(-0.48, 0.0, 0.0),
-	Vector3(0.42, 0.0, 0.0),
-	Vector3(1.22, 0.0, 0.0),
-	Vector3(-1.05, 0.0, 0.52),
-	Vector3(-0.48, 0.35, 0.52),
-	Vector3(0.34, 0.40, 0.52),
-	Vector3(1.05, 0.0, 0.52),
-	Vector3(-0.78, 0.0, 1.02),
-	Vector3(-0.32, 0.45, 1.02),
-	Vector3(0.28, 0.55, 1.02),
-	Vector3(0.76, 0.0, 1.02),
-	Vector3(-0.72, 0.25, 0.30),
-	Vector3(-0.18, 0.75, 0.36),
-	Vector3(0.48, 0.45, 0.36),
-	Vector3(-0.38, 0.72, 0.78),
-	Vector3(0.10, 1.25, 0.76),
-	Vector3(0.42, 0.85, 0.82)
+	Vector3(-1.35, 0.0, 0.0),
+	Vector3(-0.45, 0.0, 0.4),
+	Vector3(0.48, 0.0, 0.0),
+	Vector3(1.28, 0.0, 0.5),
+	Vector3(-1.02, 0.55, 0.7),
+	Vector3(0.08, 0.65, 0.0),
+	Vector3(0.92, 0.5, 0.7),
+	Vector3(-0.62, 1.05, 0.0),
+	Vector3(0.48, 1.15, 0.5),
+	Vector3(1.45, 0.95, 0.0),
+	Vector3(-1.38, 1.0, 0.5),
+	Vector3(-0.05, 1.55, 0.2),
+	Vector3(0.95, 1.65, 0.0),
+	Vector3(-0.92, 1.9, 0.5),
+	Vector3(0.28, 2.15, 0.0),
+	Vector3(1.18, 2.05, 0.4),
+	Vector3(-0.42, 2.55, 0.0),
+	Vector3(0.55, 2.85, 0.3)
 ]
 
 
@@ -164,20 +163,14 @@ func _get_growth_stage(matter: float) -> int:
 
 
 func _get_fragment_size(cube_index: int, growth_stage: int) -> float:
-	# Establish the footprint from the back row toward the foreground. Raised
-	# center fragments then grow gradually without turning the heap into a tower.
-	var slot: Vector3 = CUBE_SLOTS[cube_index]
-	var elevation_group: int = floori(slot.y / 0.35)
-	var depth_group: int = 0
-	if slot.z < 0.55:
-		depth_group = 2
-	elif slot.z < 0.95:
-		depth_group = 1
-	var fragment_group: int = elevation_group * 3 + depth_group
+	# Older fragments grow in stages. New fragments remain tiny, keeping
+	# the overall pile varied even at high resource amounts.
+	var fragment_group: int = floori(float(cube_index) / 3.0)
 	var growth_steps: int = max(0, growth_stage - fragment_group - 1)
 	var size_factor: float = 0.48 + float(growth_steps) * 0.23
 	var stable_variation: float = float((cube_index * 7) % 4) * 0.035
 	return clamp(size_factor + stable_variation, 0.42, 1.75)
+
 
 func _get_magnitude_scale(matter: float) -> float:
 	if matter <= 0.0:
@@ -297,12 +290,9 @@ func _update_cube_position(
 	var floating_lift: float = 0.0
 	if cube_index >= 14 and growth_stage >= 8:
 		floating_lift = min(float(growth_stage - 7) * 0.09, 0.72) * height
-	# Project the ground plane diagonally: back rows move upward on screen.
-	# Mound elevation contributes a stronger lift to create a clear central peak.
-	var centered_depth: float = slot.z - 0.52
 	cube.position = Vector2(
-		(slot.x - centered_depth * 0.30) * width * 0.58 + jitter_x,
-		-slot.z * height * 0.76 - slot.y * height * 1.12 + jitter_y - floating_lift
+		slot.x * width * 0.58 + jitter_x,
+		-slot.y * height * 0.78 + slot.z * height * 0.35 + jitter_y - floating_lift
 	)
 	cube.scale = Vector2.ONE * size_factor
 
