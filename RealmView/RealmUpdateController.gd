@@ -8,6 +8,8 @@ func update(owner: RealmView, delta: float) -> void:
 	if state == null:
 		return
 
+	owner.realm_background_renderer.advance(delta)
+
 	var animation_controller: GeneratorAnimationController = owner.generator_animation_controller
 	var generator_layer: Node2D = owner.generator_layer
 	var generator_sprites: Dictionary = owner.generator_sprites
