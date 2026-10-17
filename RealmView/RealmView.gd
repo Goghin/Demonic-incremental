@@ -234,7 +234,22 @@ func play_crystallization_event(
 		self,
 		state,
 		crystals_created,
-		_get_generator_position("infernal_forge")
+		_get_generator_position("infernal_forge"),
+		false
+	)
+
+
+func play_critical_crystallization_event(crystals_created: float) -> void:
+	if not visual_effects_enabled:
+		update_flame_visuals()
+		return
+
+	crystallized_flame_visual_controller.play_crystallization_event(
+		self,
+		state,
+		crystals_created,
+		_get_generator_position("infernal_forge"),
+		true
 	)
 
 
