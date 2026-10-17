@@ -406,14 +406,16 @@ func _update_visuals() -> void:
 	edge_glow.points = rim_points
 	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.12, 0.01, 1.0))
 	var glow_alphas: Array[float] = [0.13, 0.22, 0.15, 0.25, 0.16, 0.23, 0.14, 0.13]
+	var glow_pulse: float = 0.5 + 0.5 * sin(animation_time * 0.72)
+	var glow_intensity: float = lerp(0.88, 1.12, glow_pulse)
 	for i in range(glow_alphas.size()):
 		edge_glow_gradient.set_color(i, Color(
 			glow_color.r,
 			glow_color.g,
 			glow_color.b,
-			glow_alphas[i]
+			glow_alphas[i] * glow_intensity
 		))
-	edge_glow.width = 5.5
+	edge_glow.width = 5.2 + glow_pulse * 0.6
 
 	var rim: Polygon2D = $Rim
 
@@ -461,9 +463,14 @@ func _update_visuals() -> void:
 
 	inner_edge.points = lake_points
 
-	inner_edge.width = .8
+	inner_edge.width = 0.8 + glow_pulse * 0.12
 
-	inner_edge.default_color = lava_palette.get("bright", Color(1.0, 0.16, 0.025, 0.75))
+	var inner_edge_color: Color = lava_palette.get(
+		"bright",
+		Color(1.0, 0.16, 0.025, 0.75)
+	)
+	inner_edge_color.a *= 0.88 + glow_pulse * 0.18
+	inner_edge.default_color = inner_edge_color
 
 	inner_edge.closed = true
 	
