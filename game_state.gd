@@ -2,6 +2,13 @@
 class_name GameState
 extends RefCounted
 
+
+const HEAT_THRESHOLD_LINE_1_ID: String = "heat_threshold_line_1"
+const HEAT_THRESHOLD_LINE_2_ID: String = "heat_threshold_line_2"
+const MATTER_THRESHOLD_LINE_1_ID: String = "matter_threshold_line_1"
+const MATTER_THRESHOLD_LINE_2_ID: String = "matter_threshold_line_2"
+
+
 var gameplay_log
 
 # Interval counters used by hidden gameplay-log economy snapshots.
@@ -39,7 +46,7 @@ var realm_stabilized: bool = true
 
 var lava_mite_dormancy_penalty: float = 0.0
 
-var heat_leak_threshold: float = 100000.0
+var heat_leak_threshold: float = 1000.0
 var heat_leak_base: float = 1.0
 var heat_leak_scaling: float = 16.4
 var heat_leak_exponent: float = 2.14
@@ -47,7 +54,7 @@ var heat_leak_exponent: float = 2.14
 var total_overflow_this_prestige: float = 0.0
 var overflow_bonus_from_last_realm: float = 1.0
 
-var matter_decay_threshold: float = 10000.0
+var matter_decay_threshold: float = 100.0
 var matter_decay_base: float = 0.0
 var matter_decay_scaling: float = 1
 var matter_decay_exponent: float = 2.0
@@ -62,6 +69,7 @@ func _init() -> void:
 	_initialize_generators()
 	upgrade_groups = UpgradeGroupRegistry.create_groups()
 	upgrades = UpgradeRegistry.create_upgrades()
+	_initialize_threshold_upgrades()
 		
 	resource_statistics = ResourceStatistics.new()
 	current_run_statistics = ResourceStatistics.new()
@@ -86,13 +94,7 @@ func _init() -> void:
 	)
 	_generate_lava_palette()
 	
-	realm_effects.rebuild(
-		realm_configuration,
-		eternal_flame_state,
-		eternal_flame_upgrade_manager,
-		heat_leak_threshold,
-		matter_decay_threshold
-	)
+	rebuild_realm_effects()
 
 # -------------------------------------------------------------------
 # Resources
@@ -393,6 +395,61 @@ func get_upgrade_group(
 		
 	return upgrade_groups[group_id]
 
+
+func _initialize_threshold_upgrades() -> void:
+	# Each realm starts with level 1 of the first line for both resources.
+	for upgrade_id in [
+		HEAT_THRESHOLD_LINE_1_ID,
+		MATTER_THRESHOLD_LINE_1_ID
+	]:
+		var upgrade: Upgrade = get_upgrade(upgrade_id)
+		if upgrade != null:
+			upgrade.level = 1
+	_refresh_base_thresholds()
+
+
+func _refresh_base_thresholds() -> void:
+	var heat_line_1: Upgrade = get_upgrade(HEAT_THRESHOLD_LINE_1_ID)
+	var heat_line_2: Upgrade = get_upgrade(HEAT_THRESHOLD_LINE_2_ID)
+	var matter_line_1: Upgrade = get_upgrade(MATTER_THRESHOLD_LINE_1_ID)
+	var matter_line_2: Upgrade = get_upgrade(MATTER_THRESHOLD_LINE_2_ID)
+	var heat_base: float = 0.0
+	if heat_line_1 != null:
+		heat_base += float(heat_line_1.level) * 1000.0
+	if heat_line_2 != null:
+		heat_base += float(heat_line_2.level) * 10000.0
+	var matter_base: float = 0.0
+	if matter_line_1 != null:
+		matter_base += float(matter_line_1.level) * 100.0
+	if matter_line_2 != null:
+		matter_base += float(matter_line_2.level) * 1000.0
+	# Keep base thresholds positive even if every upgrade level is zero.
+	heat_leak_threshold = maxf(heat_base, 1.0)
+	matter_decay_threshold = maxf(matter_base, 1.0)
+
+
+func is_threshold_upgrade(upgrade_id: String) -> bool:
+	return upgrade_id in [
+		HEAT_THRESHOLD_LINE_1_ID,
+		HEAT_THRESHOLD_LINE_2_ID,
+		MATTER_THRESHOLD_LINE_1_ID,
+		MATTER_THRESHOLD_LINE_2_ID
+	]
+
+
+func rebuild_realm_effects() -> void:
+	_refresh_base_thresholds()
+	if realm_effects == null or realm_configuration == null:
+		return
+	realm_effects.rebuild(
+		realm_configuration,
+		eternal_flame_state,
+		eternal_flame_upgrade_manager,
+		heat_leak_threshold,
+		matter_decay_threshold
+	)
+
+
 # -------------------------------------------------------------------
 # Heat leakage / Matter decay
 # -------------------------------------------------------------------
@@ -413,7 +470,7 @@ func get_heat_leak_per_second() -> float:
 	
 	var normalized_excess = (
 		excess_heat
-		/ effective_threshold
+		/ maxf(effective_threshold, 1.0)
 	)
 	
 	return (
@@ -443,7 +500,7 @@ func get_matter_decay_per_second() -> float:
 	
 	var normalized_excess = (
 		excess_matter
-		/ effective_threshold
+		/ maxf(effective_threshold, 1.0)
 	)
 	
 	return (
@@ -539,6 +596,7 @@ func reset_current_run() -> void:
 	
 	for upgrade in upgrades.values():
 		upgrade.reset()
+	_initialize_threshold_upgrades()
 	
 	lava_mite_dormancy_penalty = 0.0
 	
@@ -554,6 +612,7 @@ func reset_current_run() -> void:
 	total_overflow_this_prestige = 0.0
 	
 	_apply_permanent_technology_unlocks()
+	rebuild_realm_effects()
 
 func get_unassigned_eternal_flames() -> int:
 	return eternal_flame_state.get_unassigned_flames(
@@ -576,13 +635,7 @@ func stabilize_realm() -> bool:
 	realm_configuration.lock()
 	realm_stabilized = true
 	
-	realm_effects.rebuild(
-		realm_configuration,
-		eternal_flame_state,
-		eternal_flame_upgrade_manager,
-		heat_leak_threshold,
-		matter_decay_threshold
-	)
+	rebuild_realm_effects()
 	gameplay_log.record_event(
 		"realm",
 		"realm_stabilized",
@@ -595,13 +648,7 @@ func begin_realm_configuration() -> void:
 	realm_configuration.reset()
 	realm_stabilized = false
 	
-	realm_effects.rebuild(
-		realm_configuration,
-		eternal_flame_state,
-		eternal_flame_upgrade_manager,
-		heat_leak_threshold,
-		matter_decay_threshold
-	)
+	rebuild_realm_effects()
 
 func _apply_permanent_technology_unlocks() -> void:
 	if eternal_flame_state.is_technology_unlocked(

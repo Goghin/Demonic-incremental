@@ -8,6 +8,15 @@ static func create_groups() -> Dictionary:
 	_register(
 		groups,
 		UpgradeGroupDefinition.new(
+			"realm_thresholds",
+			"Realm Thresholds",
+			"Increase the base Heat leak and Matter decay thresholds for the current realm."
+		)
+	)
+
+	_register(
+		groups,
+		UpgradeGroupDefinition.new(
 			"atomic_friction",
 			"Atomic Friction",
 			"Develop the fundamental process of generating Heat through atomic friction."

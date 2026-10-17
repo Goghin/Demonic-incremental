@@ -516,13 +516,7 @@ func dictionary_to_state(
 		state.achievement_manager.from_dictionary(achievement_data)
 	state.achievement_manager.update(state)
 
-	state.realm_effects.rebuild(
-		state.realm_configuration,
-		state.eternal_flame_state,
-		state.eternal_flame_upgrade_manager,
-		state.heat_leak_threshold,
-		state.matter_decay_threshold
-	)
+	state.rebuild_realm_effects()
 	state.generator_automation_manager.load_save_data(
 		data.get("generator_automation", {})
 	)

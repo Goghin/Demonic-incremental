@@ -777,6 +777,8 @@ func buy_upgrade(
 	_apply_upgrade_level_effects(
 		upgrade
 	)
+	if state.is_threshold_upgrade(upgrade_id):
+		state.rebuild_realm_effects()
 
 	# Upgrade effects can update existing cost modifiers in place.
 	# Invalidate automation's cached costs so they refresh before use.

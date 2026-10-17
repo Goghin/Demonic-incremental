@@ -5,6 +5,11 @@ extends RefCounted
 static func create_upgrades() -> Dictionary:
 	var upgrades: Dictionary = {}
 
+	# Realm threshold upgrades
+	_register(upgrades, _create_heat_threshold_line_1())
+	_register(upgrades, _create_heat_threshold_line_2())
+	_register(upgrades, _create_matter_threshold_line_1())
+	_register(upgrades, _create_matter_threshold_line_2())
 
 	# Atomic Friction
 	
@@ -2460,4 +2465,80 @@ static func _create_infernal_forge_refinement() -> Upgrade:
 	)
 	
 	definition.icon_path = "res://Assets/UpgradeIcons/InfernalForge/infernal_forge_refinement.svg"
+	return Upgrade.new(definition)
+
+
+# -------------------------------------------------------------------
+# Realm threshold upgrades
+# -------------------------------------------------------------------
+
+static func _create_heat_threshold_line_1() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"heat_threshold_line_1",
+		"Heat Retention I",
+		"Increases the base Heat leak threshold by 1,000 per level. Starts at level 1 and is capped at level 10.",
+		ResourceIds.HEAT,
+		500.0,
+		[],
+		[],
+		false,
+		"",
+		"realm_thresholds",
+		10,
+		1.5
+	)
+	return Upgrade.new(definition)
+
+
+static func _create_heat_threshold_line_2() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"heat_threshold_line_2",
+		"Heat Retention II",
+		"Increases the base Heat leak threshold by 10,000 per level. Capped at level 10.",
+		ResourceIds.HEAT,
+		5000.0,
+		[],
+		[],
+		false,
+		"",
+		"realm_thresholds",
+		10,
+		1.6
+	)
+	return Upgrade.new(definition)
+
+
+static func _create_matter_threshold_line_1() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"matter_threshold_line_1",
+		"Matter Preservation I",
+		"Increases the base Matter decay threshold by 100 per level. Starts at level 1 and is capped at level 10.",
+		ResourceIds.MATTER,
+		100.0,
+		[],
+		[],
+		false,
+		"",
+		"realm_thresholds",
+		10,
+		1.5
+	)
+	return Upgrade.new(definition)
+
+
+static func _create_matter_threshold_line_2() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"matter_threshold_line_2",
+		"Matter Preservation II",
+		"Increases the base Matter decay threshold by 1,000 per level. Capped at level 10.",
+		ResourceIds.MATTER,
+		1000.0,
+		[],
+		[],
+		false,
+		"",
+		"realm_thresholds",
+		10,
+		1.6
+	)
 	return Upgrade.new(definition)
