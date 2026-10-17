@@ -131,7 +131,7 @@ class LavaFlowSparkOverlay extends Node2D:
 			node.z_index = 2
 			add_child(node)
 
-			var size: float = randomizer.randf_range(1.9, 3.1) * sqrt(burst_scale)
+			var size: float = randomizer.randf_range(1.9, 3.1) * burst_scale
 			var outer := Polygon2D.new()
 			outer.polygon = _make_spark(size, randomizer.randf_range(0.7, 1.2))
 			outer.name = "OuterGlow"
