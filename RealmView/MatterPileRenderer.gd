@@ -10,8 +10,8 @@ const SATURATION_SCALE_START_MAGNITUDE: float = 9.0
 const SCALE_PER_EXTRA_MAGNITUDE: float = 0.02
 
 const TOP_COLOR: Color = Color(0.32, 0.84, 0.96, 1.0)
-const LEFT_COLOR: Color = Color(0.19, 0.53, 0.72, 1.0)
-const RIGHT_COLOR: Color = Color(0.075, 0.24, 0.42, 1.0)
+const LEFT_COLOR: Color = Color(0.075, 0.24, 0.42, 1.0)
+const RIGHT_COLOR: Color = Color(0.19, 0.53, 0.72, 1.0)
 const OUTLINE_COLOR: Color = Color(0.018, 0.055, 0.095, 1.0)
 const GLOW_COLOR: Color = Color(0.12, 0.62, 0.82, 0.075)
 const SHADOW_COLOR: Color = Color(0.015, 0.035, 0.045, 0.48)
@@ -341,8 +341,8 @@ func _update_cube_geometry(
 		Vector2(-half_width + outline * 0.25, quarter_height + highlight_width * 0.45)
 	])
 	top_highlight.color = EDGE_HIGHLIGHT_COLOR
-	# Light comes from above: the top face is brightest, the left face is
-	# mid-tone, and the right face stays darkest for a chunky, readable cube.
+	# Light comes from above: the top face is brightest, the right face is
+	# mid-tone, and the left face stays darkest for a chunky, readable cube.
 	top_face.color = TOP_COLOR.darkened(float((cube_index * 3 + pile_index) % 5) * 0.012)
 	left_face.color = LEFT_COLOR.lightened(float((cube_index + pile_index) % 3) * 0.018)
 	right_face.color = RIGHT_COLOR.lightened(float((cube_index * 2 + pile_index) % 3) * 0.012)
