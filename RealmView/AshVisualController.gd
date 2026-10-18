@@ -25,7 +25,7 @@ func setup(
 	for i in range(piles.size()):
 		var emitter := SmokeEmitterRenderer.new()
 		emitter.name = "AshPileSmoke_%02d" % (i + 1)
-		emitter.z_index = 8
+		emitter.z_index = 20
 		owner.add_child(emitter)
 		pile_smoke_emitters.append(emitter)
 
@@ -75,7 +75,7 @@ func update_piles(
 			continue
 
 		# Keep the column's base lower, closer to the middle of the Ash pile.
-		var pile_top_offset: float = texture_height * pile.scale.y * 0.10
+		var pile_top_offset: float = 0.0
 		emitter.position = pile.position + Vector2(0.0, -pile_top_offset)
 
 		# Bigger piles produce a larger, more visible column.
