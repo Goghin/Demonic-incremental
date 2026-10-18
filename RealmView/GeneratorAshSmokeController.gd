@@ -57,9 +57,9 @@ const EMITTER_OFFSETS_BY_GENERATOR: Dictionary = {
 		Vector2(0.22, -0.30)
 	],
 	"infernal_forge": [
-		Vector2(-0.32, -0.22),
-		Vector2(0.0, -0.34),
-		Vector2(0.32, -0.22)
+		Vector2(-0.20, -0.10),
+		Vector2(0.0, -0.22),
+		Vector2(0.20, -0.10)
 	]
 }
 
