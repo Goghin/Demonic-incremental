@@ -109,6 +109,8 @@ func _run_case(
 	enable_profiling: bool = false,
 	enable_diagnostics: bool = false
 ) -> Dictionary:
+	# Keep stochastic cycle events reproducible across step-size comparisons.
+	seed(123456)
 	var state := GameState.new()
 	_configure_test_state(state)
 
