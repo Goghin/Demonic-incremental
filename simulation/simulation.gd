@@ -669,12 +669,20 @@ func consume_inputs(
 			input.resource_id
 		)
 		
+		var input_rate_start_usec: int = 0
+		if profiling_enabled:
+			input_rate_start_usec = Time.get_ticks_usec()
 		var input_per_second = (
 			generator.get_input_consumption_per_second(
 				input,
 				state
 			)
 		)
+		if profiling_enabled:
+			_record_profile_time(
+				"input_rate_calculation",
+				input_rate_start_usec
+			)
 		
 		var required_input = (
 			input_per_second
@@ -712,15 +720,21 @@ func produce_outputs(
 		if not output.unlocked:
 			continue
 		
-		var production: float = (
-			generator.get_production_rate(
-				output,
-				state,
-				operation_mode,
-				heat_upgrade_multiplier
-			)
-			* delta
+		var production_rate_start_usec: int = 0
+		if profiling_enabled:
+			production_rate_start_usec = Time.get_ticks_usec()
+		var production_rate: float = generator.get_production_rate(
+			output,
+			state,
+			operation_mode,
+			heat_upgrade_multiplier
 		)
+		if profiling_enabled:
+			_record_profile_time(
+				"production_rate_calculation",
+				production_rate_start_usec
+			)
+		var production: float = production_rate * delta
 		
 		if output.discrete:
 			var progress = generator.get_production_progress(
