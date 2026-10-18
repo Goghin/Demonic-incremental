@@ -4,8 +4,7 @@ extends SceneTree
 const BASELINE_STEP: float = 0.1
 const COMPARISON_STEPS: Array[float] = [0.5, 1.0]
 const BENCHMARK_DURATIONS: Array[Dictionary] = [
-	{"label": "1 hour", "seconds": 3600.0},
-	{"label": "8 hours", "seconds": 28800.0}
+	{"label": "1 hour", "seconds": 3600.0}
 ]
 
 
