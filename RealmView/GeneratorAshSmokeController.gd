@@ -12,6 +12,7 @@ const EMITTERS_PER_GENERATOR: int = 3
 # Activation order: middle first, then left, then right.
 const EMITTER_STAGE_ORDER: Array[int] = [1, 0, 2]
 const MAX_NORMALIZED_ASH_OUTPUT: float = 1.0
+const ASH_OUTPUT_CURVE_POWER: float = 3.0
 const EMITTER_SIZE_MIN: Array[float] = [0.32, 0.28, 0.24]
 const EMITTER_SIZE_MAX: Array[float] = [0.88, 1.18, 0.76]
 const EMITTER_RATE_MIN: Array[float] = [0.12, 0.10, 0.08]
@@ -19,13 +20,13 @@ const EMITTER_RATE_MAX: Array[float] = [1.00, 1.25, 0.78]
 const EMITTER_OPACITY_MIN: Array[float] = [0.10, 0.08, 0.07]
 const EMITTER_OPACITY_MAX: Array[float] = [0.44, 0.52, 0.36]
 
-# Ash output rate at which each generator reaches the end of stage 3.
+# Ash output rate at which each generator reaches maximum smoke intensity.
 # Tune these independently to match each generator's expected production range.
 const ASH_OUTPUT_TARGET_BY_GENERATOR: Dictionary = {
-	"molecular_agitation": 8.0,
-	"thermal_furnace": 8.0,
-	"matter_furnace": 8.0,
-	"infernal_forge": 8.0
+	"molecular_agitation": 1000.0,
+	"thermal_furnace": 1000.0,
+	"matter_furnace": 1000.0,
+	"infernal_forge": 1000.0
 }
 
 # Offsets are normalized to each machine's visual size. Tune these per sprite.
@@ -81,14 +82,17 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 		var active: bool = generator.unlocked and generator.level > 0 and generator.is_operating()
 		var enabled: bool = owner.visual_effects_enabled and active and ash_rate > 0.0
 		var target_rate: float = maxf(
-			float(ASH_OUTPUT_TARGET_BY_GENERATOR.get(generator_id, 8.0)),
+			float(ASH_OUTPUT_TARGET_BY_GENERATOR.get(generator_id, 1000.0)),
 			0.001
 		)
-		var normalized_output: float = clampf(
-			ash_rate / target_rate,
-			0.0,
-			MAX_NORMALIZED_ASH_OUTPUT
-		) if active else 0.0
+		var normalized_output: float = 0.0
+		if active and ash_rate > 0.0:
+			var logarithmic_output: float = log(1.0 + ash_rate) / log(1.0 + target_rate)
+			normalized_output = clampf(
+				pow(logarithmic_output, ASH_OUTPUT_CURVE_POWER),
+				0.0,
+				MAX_NORMALIZED_ASH_OUTPUT
+			)
 
 		for index in range(emitters.size()):
 			var emitter: SmokeEmitterRenderer = emitters[index]
