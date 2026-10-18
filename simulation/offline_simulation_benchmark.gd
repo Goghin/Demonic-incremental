@@ -30,7 +30,13 @@ func _run_benchmarks() -> void:
 	for duration_data in BENCHMARK_DURATIONS:
 		var label: String = str(duration_data["label"])
 		var duration: float = float(duration_data["seconds"])
-		var result: Dictionary = _run_case(duration, BASELINE_STEP)
+		var capture_diagnostics: bool = is_equal_approx(duration, 3600.0)
+		var result: Dictionary = _run_case(
+			duration,
+			BASELINE_STEP,
+			false,
+			capture_diagnostics
+		)
 
 		print(
 			"%s | wall time: %s | steps: %s | simulated: %s" % [
@@ -59,7 +65,12 @@ func _run_benchmarks() -> void:
 	print("========================================")
 
 	for step_size in COMPARISON_STEPS:
-		var result: Dictionary = _run_case(3600.0, step_size)
+		var result: Dictionary = _run_case(
+			3600.0,
+			step_size,
+			false,
+			true
+		)
 		var max_deviation: float = _get_max_deviation(
 			one_hour_baseline,
 			result
@@ -81,6 +92,11 @@ func _run_benchmarks() -> void:
 			]
 		)
 		_print_detailed_comparison(one_hour_baseline, result)
+		_print_first_progression_divergence(
+			one_hour_baseline.get("diagnostic_events", []),
+			result.get("diagnostic_events", []),
+			step_size
+		)
 
 	print("")
 	print("Benchmark complete. No save file was read or modified.")
@@ -90,13 +106,15 @@ func _run_benchmarks() -> void:
 func _run_case(
 	duration_seconds: float,
 	step_size: float,
-	enable_profiling: bool = false
+	enable_profiling: bool = false,
+	enable_diagnostics: bool = false
 ) -> Dictionary:
 	var state := GameState.new()
 	_configure_test_state(state)
 
 	var simulation := Simulation.new(state)
 	simulation.profiling_enabled = enable_profiling
+	simulation.diagnostics_enabled = enable_diagnostics
 	var time_manager := TimeManager.new(simulation)
 	var offline_statistics := ResourceStatistics.new()
 	state.simulation_statistics = offline_statistics
@@ -122,6 +140,7 @@ func _run_case(
 			)
 		)
 
+		simulation.diagnostic_time_seconds = elapsed_seconds + delta
 		simulation.update(delta, true)
 		elapsed_seconds = min(
 			duration_seconds,
@@ -140,7 +159,8 @@ func _run_case(
 		"generators": _snapshot_generators(state),
 		"overflow": state.total_overflow_this_prestige,
 		"statistics": offline_statistics.to_dictionary(),
-		"profile": simulation.get_profile_report()
+		"profile": simulation.get_profile_report(),
+		"diagnostic_events": simulation.diagnostic_events.duplicate(true)
 	}
 
 	# GameState and its managers reference one another. Break those references
@@ -156,6 +176,73 @@ func _run_case(
 	state.upgrade_system = null
 
 	return result
+
+
+func _print_first_progression_divergence(
+	baseline_events: Array,
+	comparison_events: Array,
+	comparison_step: float
+) -> void:
+	print("")
+	print("  PROGRESSION EVENT TRACE (0.10s baseline vs %.2fs)" % comparison_step)
+	print("    Baseline events: %s | comparison events: %s" % [
+		baseline_events.size(),
+		comparison_events.size()
+	])
+
+	var shared_count: int = mini(baseline_events.size(), comparison_events.size())
+	var divergence_index: int = -1
+	var timing_only: bool = false
+	for i in range(shared_count):
+		var a: Dictionary = baseline_events[i]
+		var b: Dictionary = comparison_events[i]
+		var same_event: bool = (
+			str(a.get("type", "")) == str(b.get("type", ""))
+			and str(a.get("id", "")) == str(b.get("id", ""))
+			and int(a.get("level", 0)) == int(b.get("level", 0))
+			and str(a.get("source", "")) == str(b.get("source", ""))
+		)
+		if not same_event:
+			divergence_index = i
+			break
+		if absf(float(a.get("time", 0.0)) - float(b.get("time", 0.0))) > 1.0:
+			divergence_index = i
+			timing_only = true
+			break
+
+	if divergence_index < 0 and baseline_events.size() != comparison_events.size():
+		divergence_index = shared_count
+
+	if divergence_index < 0:
+		print("    No event-sequence divergence found (timing differences stayed within 1 second).")
+		return
+
+	if timing_only:
+		print("    First detected divergence: event timing differs by more than 1.0 simulated second.")
+	else:
+		print("    First detected divergence: event identity/order differs.")
+	print("    Event index: %s" % divergence_index)
+	for i in range(maxi(0, divergence_index - 2), mini(divergence_index + 4, shared_count)):
+		var a: Dictionary = baseline_events[i]
+		var b: Dictionary = comparison_events[i]
+		print("      #%s baseline t=%s: %s %s L%s (%s)" % [
+			i,
+			_format_number(float(a.get("time", 0.0))),
+			str(a.get("type", "")),
+			str(a.get("id", "")),
+			str(a.get("level", "")),
+			str(a.get("source", ""))
+		])
+		print("         step %.2fs t=%s: %s %s L%s (%s)" % [
+			comparison_step,
+			_format_number(float(b.get("time", 0.0))),
+			str(b.get("type", "")),
+			str(b.get("id", "")),
+			str(b.get("level", "")),
+			str(b.get("source", ""))
+		])
+	if divergence_index >= shared_count:
+		print("    One trace ended before the other at the first unmatched event.")
 
 
 func _print_profile_report(profile: Dictionary) -> void:
