@@ -459,24 +459,22 @@ func rebuild_realm_effects() -> void:
 # -------------------------------------------------------------------
 
 func get_heat_leak_per_second() -> float:
-	var heat = get_resource_amount(
-		ResourceIds.HEAT
+	return get_heat_leak_per_second_at(
+		get_resource_amount(ResourceIds.HEAT)
 	)
-	
+
+
+# Calculate the existing leak curve at an arbitrary Heat value without changing
+# the live resource balance; the implicit solver uses this during integration.
+func get_heat_leak_per_second_at(heat: float) -> float:
 	var effective_threshold = realm_effects.heat_leak_threshold
-	
+
 	if heat <= effective_threshold:
 		return 0.0
-	
-	var excess_heat = (
-		heat - effective_threshold
-	)
-	
-	var normalized_excess = (
-		excess_heat
-		/ maxf(effective_threshold, 1.0)
-	)
-	
+
+	var excess_heat = heat - effective_threshold
+	var normalized_excess = excess_heat / maxf(effective_threshold, 1.0)
+
 	var coefficient: float = maxf(
 		20.0,
 		heat_leak_scaling - 2.0 * _get_heat_loss_coefficient_upgrade_level()
@@ -486,7 +484,6 @@ func get_heat_leak_per_second() -> float:
 		heat_leak_exponent - 0.02 * _get_heat_loss_exponent_upgrade_level()
 	)
 	return coefficient * pow(normalized_excess, exponent)
-
 
 
 func get_matter_decay_per_second() -> float:
