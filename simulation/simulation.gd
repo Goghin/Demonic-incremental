@@ -280,11 +280,22 @@ func _select_lava_mite_input_fallback(
 	if generator.definition.id != "lava_mite_colony":
 		return
 
+	var operation_mode := generator.get_operation_mode()
 	for input in generator.get_active_inputs():
-		var enhanced_required := (
-			generator.get_input_consumption_per_second(input, state)
-			* delta
+		var enhanced_rate := generator.get_input_consumption_per_second(
+			input,
+			state
 		)
+		var base_rate := input.amount_per_second * generator.level
+		if operation_mode != null:
+			base_rate *= operation_mode.input_multiplier
+
+		# Only fall back when a modifier has raised this input above its
+		# base rate and the raised requirement cannot be covered this step.
+		if enhanced_rate <= base_rate:
+			continue
+
+		var enhanced_required := enhanced_rate * delta
 		var available := state.get_resource_amount(input.resource_id)
 		if enhanced_required > available:
 			generator.use_base_input_rates = true
