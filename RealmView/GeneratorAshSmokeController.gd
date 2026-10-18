@@ -39,7 +39,7 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 			island_rect
 		)
 		var machine_size: float = _get_machine_size(generator_id, island_rect)
-		var ash_rate: float = _get_ash_output_rate(generator)
+		var ash_rate: float = _get_ash_output_rate(generator, state)
 		var active: bool = generator.unlocked and generator.level > 0 and generator.is_operating()
 		var intensity: float = clampf(ash_rate / 8.0, 0.0, 1.0) if active else 0.0
 		var enabled: bool = owner.visual_effects_enabled and active and ash_rate > 0.0
@@ -64,22 +64,13 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 			emitter.set_process(enabled)
 
 
-func _get_ash_output_rate(generator: Generator) -> float:
+func _get_ash_output_rate(generator: Generator, state: GameState) -> float:
 	var rate: float = 0.0
 	for output in generator.get_active_outputs():
 		if output.resource_id != ResourceIds.ASH or not output.unlocked:
 			continue
-		rate += generator.get_production_rate(output, _get_state_for_generator(generator))
+		rate += generator.get_production_rate(output, state)
 	return rate
-
-
-func _get_state_for_generator(generator: Generator) -> GameState:
-	# The owner state is supplied by update; this fallback is replaced there
-	# by the state-aware helper below.
-	return _current_state
-
-
-var _current_state: GameState
 
 
 func _ensure_emitters(owner: RealmView, generator_id: String) -> Array:
