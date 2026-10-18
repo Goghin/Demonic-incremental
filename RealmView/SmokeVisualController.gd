@@ -19,7 +19,7 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 	while emitters.size() < layout.smoke_emitter_definitions.size():
 		var emitter := SmokeEmitterRenderer.new()
 		emitter.name = "SmokeEmitter%d" % (emitters.size() + 1)
-		emitter.z_index = 5
+		emitter.z_index = 15
 		owner.add_child(emitter)
 		emitters.append(emitter)
 
