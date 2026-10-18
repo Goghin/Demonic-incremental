@@ -34,7 +34,7 @@ const ASH_OUTPUT_TARGET_BY_GENERATOR: Dictionary = {
 	"molecular_agitation": 1000.0,
 	"thermal_furnace": 1000.0,
 	"matter_furnace": 1000.0,
-	"infernal_forge": 1000.0
+	"infernal_forge": 750.0
 }
 
 # Offsets are normalized to each machine's visual size. Tune these per sprite.
