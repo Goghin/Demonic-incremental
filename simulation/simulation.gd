@@ -23,6 +23,7 @@ var profile_call_counts: Dictionary = {}
 var diagnostics_enabled: bool = false
 var diagnostic_time_seconds: float = 0.0
 var diagnostic_events: Array[Dictionary] = []
+var diagnostic_checkpoints: Array[Dictionary] = []
 
 
 func _init(game_state: GameState) -> void:
@@ -56,6 +57,20 @@ func _record_diagnostic_event(
 		"level": level,
 		"source": source
 	})
+
+
+func _get_diagnostic_resource_amounts() -> Dictionary:
+	var amounts: Dictionary = {}
+	for resource_id in [
+		ResourceIds.HEAT,
+		ResourceIds.MATTER,
+		ResourceIds.ASH,
+		ResourceIds.ESSENCE,
+		ResourceIds.CRYSTALLIZED_FLAME,
+		ResourceIds.NEXUM
+	]:
+		amounts[str(resource_id)] = state.get_resource_amount(str(resource_id))
+	return amounts
 
 
 func _record_profile_time(section: String, start_usec: int) -> void:
@@ -203,6 +218,38 @@ func update(delta: float, offline_mode: bool = false) -> void:
 	if profiling_enabled:
 		_record_profile_time("environmental_effects", profile_start_usec)
 	
+	if diagnostics_enabled and (
+		diagnostic_time_seconds >= 4.0
+		and diagnostic_time_seconds <= 6.0
+	):
+		var affordability: Dictionary = {}
+		for generator_id in [
+			"atomic_friction",
+			"molecular_agitation",
+			"thermal_furnace",
+			"thermal_compressor",
+			"matter_furnace"
+		]:
+			var generator: Generator = state.get_generator(generator_id)
+			if generator == null:
+				continue
+			var cost: float = generator.get_cost(state)
+			var resource_id: String = generator.definition.cost_resource_id
+			var available: float = state.get_resource_amount(resource_id)
+			affordability[generator_id] = {
+				"level": generator.level,
+				"resource": resource_id,
+				"available": available,
+				"cost": cost,
+				"affordable": available >= cost,
+				"operating": generator.operating
+			}
+		diagnostic_checkpoints.append({
+			"time": diagnostic_time_seconds,
+			"resources": _get_diagnostic_resource_amounts(),
+			"generators": affordability
+		})
+
 	if profiling_enabled:
 		profile_start_usec = Time.get_ticks_usec()
 	state.generator_automation_manager.update(
