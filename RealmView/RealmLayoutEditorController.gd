@@ -158,9 +158,14 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			_add_matter_pile_at_cursor(owner)
 			return
 
-		# Add a placeable smoke emitter at the cursor.
+		# Add a placeable smoke emitter at the cursor. Shift+A creates an animated column.
 		if event.keycode == KEY_A:
-			_add_smoke_emitter_at_cursor(owner)
+			_add_smoke_emitter_at_cursor(owner, event.shift_pressed)
+			return
+
+		# Cycle through the five animated smoke column variants on the selected emitter.
+		if event.keycode == KEY_V and drag_controller.selected_object.begins_with("smoke_emitter:"):
+			_cycle_selected_smoke_variant(owner)
 			return
 
 		# Create a new editable flow near the mouse cursor.
@@ -243,7 +248,7 @@ func _add_matter_pile_at_cursor(owner: RealmView) -> void:
 	print("Added Matter pile ", pile_index + 1, ". Drag it to position it.")
 
 
-func _add_smoke_emitter_at_cursor(owner: RealmView) -> void:
+func _add_smoke_emitter_at_cursor(owner: RealmView, animated_column: bool = false) -> void:
 	var layout: RealmLayout = owner.realm_layout
 	if layout == null:
 		return
@@ -253,16 +258,37 @@ func _add_smoke_emitter_at_cursor(owner: RealmView) -> void:
 	var normalized_position: Vector2 = owner.realm_layout_geometry_controller.get_normalized_position(
 		owner.get_local_mouse_position(), island_rect
 	)
-	layout.smoke_emitter_definitions.append({
+	var definition: Dictionary = {
 		"position": normalized_position,
 		"size": 1.0,
 		"emission_rate": 1.0,
-		"opacity": 0.7
-	})
+		"opacity": 0.7,
+		"style": "column" if animated_column else "puff",
+		"variant": randi_range(1, 5) if animated_column else 1
+	}
+	layout.smoke_emitter_definitions.append(definition)
 	var smoke_index: int = layout.smoke_emitter_definitions.size() - 1
 	drag_controller.selected_object = "smoke_emitter:%d" % smoke_index
 	owner.queue_redraw()
-	print("Added smoke emitter ", smoke_index + 1, ". Drag to position it; +/- changes size.")
+	if animated_column:
+		print("Added animated smoke column ", smoke_index + 1, " (variant ", definition["variant"], "). Drag to position it; +/- changes size; V cycles variants.")
+	else:
+		print("Added smoke puff emitter ", smoke_index + 1, ". Drag to position it; +/- changes size.")
+
+
+func _cycle_selected_smoke_variant(owner: RealmView) -> void:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null or not drag_controller.selected_object.begins_with("smoke_emitter:"):
+		return
+	var smoke_index: int = int(drag_controller.selected_object.substr(14))
+	if smoke_index < 0 or smoke_index >= layout.smoke_emitter_definitions.size():
+		return
+	var definition: Dictionary = layout.smoke_emitter_definitions[smoke_index]
+	definition["style"] = "column"
+	definition["variant"] = int(definition.get("variant", 1)) % 5 + 1
+	layout.smoke_emitter_definitions[smoke_index] = definition
+	owner.queue_redraw()
+	print("Smoke emitter ", smoke_index + 1, " animation variant: ", definition["variant"])
 
 
 func _adjust_selected_smoke_size(owner: RealmView, amount: float) -> void:
