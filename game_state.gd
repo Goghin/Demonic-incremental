@@ -488,48 +488,6 @@ func get_heat_leak_per_second() -> float:
 	return coefficient * pow(normalized_excess, exponent)
 
 
-# Calculate Heat lost over a duration by integrating the existing nonlinear
-# leak curve. This avoids treating a rapidly changing leak rate as constant
-# for an entire offline simulation step.
-func get_heat_leak_amount(delta: float) -> float:
-	if delta <= 0.0:
-		return 0.0
-
-	var heat: float = get_resource_amount(ResourceIds.HEAT)
-	var effective_threshold: float = realm_effects.heat_leak_threshold
-	if heat <= effective_threshold:
-		return 0.0
-
-	var coefficient: float = maxf(
-		20.0,
-		heat_leak_scaling - 2.0 * _get_heat_loss_coefficient_upgrade_level()
-	)
-	var exponent: float = maxf(
-		2.0,
-		heat_leak_exponent - 0.02 * _get_heat_loss_exponent_upgrade_level()
-	)
-	var normalized_excess: float = (
-		(heat - effective_threshold) / maxf(effective_threshold, 1.0)
-	)
-
-	# For dx/dt = -(coefficient / threshold) * x^exponent,
-	# the integrated solution is x(t) = [x(0)^(1-p) +
-	# (p-1) * coefficient * t / threshold]^(1/(1-p)).
-	# The configured exponent is always >= 2, so p != 1.
-	var integrated_power: float = pow(normalized_excess, 1.0 - exponent)
-	integrated_power += (
-		(exponent - 1.0)
-		* coefficient
-		* delta
-		/ maxf(effective_threshold, 1.0)
-	)
-	var remaining_excess: float = pow(
-		integrated_power,
-		1.0 / (1.0 - exponent)
-	)
-	var heat_after: float = effective_threshold * (1.0 + remaining_excess)
-	return clampf(heat - heat_after, 0.0, heat)
-
 
 func get_matter_decay_per_second() -> float:
 	var matter = get_resource_amount(
