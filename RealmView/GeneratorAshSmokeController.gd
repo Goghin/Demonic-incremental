@@ -19,8 +19,8 @@ const EMITTER_STAGE_ORDER_BY_GENERATOR: Dictionary = {
 	"matter_furnace": [1, 3, 4, 0, 2]
 }
 const MAX_NORMALIZED_ASH_OUTPUT: float = 1.0
-# A slightly lower power makes smoke build a little sooner at low Ash output.
-const ASH_OUTPUT_CURVE_POWER: float = 2.0
+# Use a square-root curve so even very low Ash production creates visible smoke.
+const ASH_OUTPUT_CURVE_POWER: float = 0.5
 const EMITTER_SIZE_MIN: Array[float] = [0.32, 0.28, 0.24, 0.22, 0.22]
 const EMITTER_SIZE_MAX: Array[float] = [1.00, 1.35, 0.90, 0.82, 0.82]
 const EMITTER_RATE_MIN: Array[float] = [0.12, 0.10, 0.08, 0.07, 0.07]
