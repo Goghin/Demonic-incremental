@@ -110,8 +110,8 @@ func _load_column_frames() -> void:
 
 
 func _spawn_particle() -> void:
-	# Bound the active count so many emitters remain inexpensive.
-	if _particles.size() >= 18:
+	# Keep a hard cap so denser smoke remains inexpensive across all emitters.
+	if _particles.size() >= 24:
 		return
 
 	_particles.append({
@@ -119,7 +119,7 @@ func _spawn_particle() -> void:
 		"lifetime": randf_range(1.6, 2.8),
 		"offset": Vector2(randf_range(-3.0, 3.0), randf_range(-2.0, 2.0)),
 		"drift": Vector2(randf_range(-9.0, 9.0), randf_range(-34.0, -20.0)),
-		"size": randf_range(7.0, 12.0),
+		"size": randf_range(8.0, 14.0),
 		"rotation": randf_range(-0.55, 0.55),
 		"opacity": randf_range(0.65, 1.0)
 	})
