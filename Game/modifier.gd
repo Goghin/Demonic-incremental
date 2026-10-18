@@ -78,6 +78,15 @@ func get_effective_multiplier(
 		state
 	)
 	
+	# Crystallization is a compounding penalty, not a linear modifier.
+	# Essence reduces the exponent applied to the raw penalty, allowing
+	# severe penalties to remain scalable without imposing a flat floor.
+	if id == "crystallization":
+		return pow(
+			maxf(raw_multiplier, 0.0),
+			clampf(sensitivity, 0.0, 1.0)
+		)
+
 	return 1.0 + (
 		raw_multiplier - 1.0
 	) * sensitivity
