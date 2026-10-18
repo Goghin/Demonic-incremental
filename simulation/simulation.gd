@@ -1280,9 +1280,9 @@ func apply_heat_leak(
 	# For stiff steps, integrate the changing leak curve together with the net
 	# Heat change caused by generators and Matter decay. Otherwise retain the
 	# cheaper explicit calculation.
-	if heat_at_step_start > effective_threshold and (
+	if maxf(heat_at_step_start, heat) > effective_threshold and (
 		requested_loss >= 0.05 * maxf(excess_heat, 1.0)
-		or heat <= effective_threshold
+		or (heat_at_step_start > effective_threshold and heat <= effective_threshold)
 	):
 		var net_heat_rate: float = (heat - heat_at_step_start) / delta
 		var integrated_heat: float = _integrate_heat_balance(
@@ -1310,9 +1310,9 @@ func apply_heat_leak(
 			"requested_loss": requested_loss,
 			"actual_loss": overflow_amount,
 			"heat_after": state.get_resource_amount(ResourceIds.HEAT),
-			"integrated": heat_at_step_start > effective_threshold and (
+			"integrated": maxf(heat_at_step_start, heat) > effective_threshold and (
 				requested_loss >= 0.05 * maxf(excess_heat, 1.0)
-				or heat <= effective_threshold
+				or (heat_at_step_start > effective_threshold and heat <= effective_threshold)
 			)
 		})
 
