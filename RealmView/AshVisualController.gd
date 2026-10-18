@@ -74,15 +74,14 @@ func update_piles(
 			emitter.set_process(false)
 			continue
 
-		# Anchor the column near the top of the pile so it looks like smoke
-		# is rising from the Ash itself, rather than from the pile's center.
-		var pile_top_offset: float = texture_height * pile.scale.y * 0.28
+		# Keep the column's base lower, closer to the middle of the Ash pile.
+		var pile_top_offset: float = texture_height * pile.scale.y * 0.10
 		emitter.position = pile.position + Vector2(0.0, -pile_top_offset)
 
-		# Bigger piles produce a fuller, more visible column.
+		# Bigger piles produce a larger, more visible column.
 		var pile_growth: float = clampf(pile.scale.x / max_pile_scale, 0.0, 1.0)
-		var smoke_size: float = lerpf(0.35, 0.82, pile_growth)
-		var smoke_opacity: float = lerpf(0.18, 0.48, pile_growth)
+		var smoke_size: float = lerpf(0.45, 0.95, pile_growth)
+		var smoke_opacity: float = lerpf(0.30, 0.68, pile_growth)
 		emitter.configure(
 			smoke_size,
 			0.1,
