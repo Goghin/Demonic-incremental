@@ -232,14 +232,26 @@ func _get_base_mechanics_text() -> String:
 		ResourceIds.ESSENCE:
 			var essence_data := stats.get_essence_influence_data()
 			var modifier_data := stats.get_crystallization_modifier_data()
+			var effective_multiplier: float = float(modifier_data["effective_multiplier"])
+			var heat_production_text: String
+			if effective_multiplier > 0.0 and effective_multiplier < 0.0001:
+				heat_production_text = (
+					"Final Heat Production: ~1 in "
+					+ NumberFormatter.format(1.0 / effective_multiplier)
+					+ " of normal output"
+				)
+			else:
+				heat_production_text = (
+					"Final Heat Production Multiplier: ×"
+					+ NumberFormatter.format(effective_multiplier)
+				)
 			return (
-				"Lava Mite activity multiplier: ×"
+				"Lava Mite Hunger: ×"
 				+ NumberFormatter.format(essence_data["hunger_multiplier"])
-				+ "\nCrystallization resistance: "
+				+ "\nCrystallization Resistance: "
 				+ NumberFormatter.format(modifier_data["essence_resistance_percent"])
-				+ "%\nHeat production multiplier after resistance: ×"
-				+ NumberFormatter.format(modifier_data["effective_multiplier"])
-				+ "\nResistance weakens the penalty's exponent rather than setting a floor."
+				+ "%\n"
+				+ heat_production_text
 			)
 		ResourceIds.NEXUM:
 			return "A resource reserved for systems that use Nexum."
