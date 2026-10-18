@@ -36,6 +36,11 @@ const ASH_OUTPUT_TARGET_BY_GENERATOR: Dictionary = {
 	"matter_furnace": 1000.0,
 	"infernal_forge": 750.0
 }
+# The Forge is a much larger machine, so give its smoke a stronger visual presence
+# at the same Ash output without changing the other generators.
+const ASH_SMOKE_INTENSITY_MULTIPLIER_BY_GENERATOR: Dictionary = {
+	"infernal_forge": 1.30
+}
 
 # Offsets are normalized to each machine's visual size. Tune these per sprite.
 const EMITTER_OFFSETS_BY_GENERATOR: Dictionary = {
@@ -99,7 +104,8 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 		if active and ash_rate > 0.0:
 			var logarithmic_output: float = log(1.0 + ash_rate) / log(1.0 + target_rate)
 			normalized_output = clampf(
-				pow(logarithmic_output, ASH_OUTPUT_CURVE_POWER),
+				pow(logarithmic_output, ASH_OUTPUT_CURVE_POWER)
+					* float(ASH_SMOKE_INTENSITY_MULTIPLIER_BY_GENERATOR.get(generator_id, 1.0)),
 				0.0,
 				MAX_NORMALIZED_ASH_OUTPUT
 			)
