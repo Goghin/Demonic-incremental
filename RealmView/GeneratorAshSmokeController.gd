@@ -12,8 +12,8 @@ const EMITTERS_PER_GENERATOR: int = 3
 # Activation order: middle first, then left, then right.
 const EMITTER_STAGE_ORDER: Array[int] = [1, 0, 2]
 const MAX_NORMALIZED_ASH_OUTPUT: float = 1.0
-# Lower powers build smoke sooner; 2.2 is less delayed than the previous cubic curve.
-const ASH_OUTPUT_CURVE_POWER: float = 2.2
+# A slightly lower power makes smoke build a little sooner at low Ash output.
+const ASH_OUTPUT_CURVE_POWER: float = 2.0
 const EMITTER_SIZE_MIN: Array[float] = [0.32, 0.28, 0.24]
 const EMITTER_SIZE_MAX: Array[float] = [1.00, 1.35, 0.90]
 const EMITTER_RATE_MIN: Array[float] = [0.12, 0.10, 0.08]
