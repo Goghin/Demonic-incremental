@@ -86,7 +86,7 @@ func update(delta: float, offline_mode: bool = false) -> void:
 		if not generator.unlocked:
 			continue
 
-		_update_lava_mite_throttle_state(generator, delta)
+		_update_lava_mite_throttle_state(generator)
 		
 		if generator.definition.cycle_based:
 			var cycle_start_usec: int = 0
@@ -273,8 +273,7 @@ func apply_environmental_effects(delta: float) -> void:
 # checks. Use a fixed one-second Ash reserve so throttling does not change
 # merely because offline simulation uses a larger timestep.
 func _update_lava_mite_throttle_state(
-	generator: Generator,
-	delta: float
+	generator: Generator
 	) -> void:
 	if generator.definition.id != "lava_mite_colony":
 		generator.is_throttled = false
