@@ -272,6 +272,9 @@ func get_input_rate(
 	if operation_mode != null and operation_mode.is_resource_transfer:
 		return input.amount_per_second * operation_mode.input_multiplier
 
+	if operation_mode != null:
+		input_per_second *= operation_mode.input_multiplier
+
 	if definition.id == "lava_mite_colony" and use_base_input_rates:
 		# Throttling suppresses only dynamic input formulas driven by Ash.
 		# Permanent input upgrades and other dynamic effects remain active.
@@ -293,9 +296,6 @@ func get_input_rate(
 				self
 			)
 		return input_per_second
-	
-	if operation_mode != null:
-		input_per_second *= operation_mode.input_multiplier
 	
 	for modifier in modifiers:
 		if modifier.applies_to(
