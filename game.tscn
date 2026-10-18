@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://c4jurbln7j0tr" path="res://UI/offline_results_panel.tscn" id="8_j5wjh"]
 [ext_resource type="PackedScene" path="res://UI/AchievementPanel.tscn" id="9_achievement"]
 [ext_resource type="PackedScene" path="res://UI/AchievementToast.tscn" id="10_achievement_toast"]
-[ext_resource type="Theme" path="res://UI/ScrollbarTheme.tres" id="11_scrollbar_theme"]
+[ext_resource type="Theme" uid="uid://c08etm04gpkvh" path="res://UI/ScrollbarTheme.tres" id="11_scrollbar_theme"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBox_NavigationTitle"]
 content_margin_left = 8.0
@@ -22,7 +22,7 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.32, 0.22, 0.20, 0.95)
+border_color = Color(0.32, 0.22, 0.2, 0.95)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -38,7 +38,23 @@ border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.28, 0.20, 0.19, 1)
+border_color = Color(0.28, 0.2, 0.19, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_NavButtonPressed"]
+content_margin_left = 5.0
+content_margin_top = 4.0
+content_margin_right = 5.0
+content_margin_bottom = 4.0
+bg_color = Color(0.22, 0.12, 0.085, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.43, 0.2, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -55,22 +71,6 @@ border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0.55, 0.32, 0.23, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBox_NavButtonPressed"]
-content_margin_left = 5.0
-content_margin_top = 4.0
-content_margin_right = 5.0
-content_margin_bottom = 4.0
-bg_color = Color(0.22, 0.12, 0.085, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.85, 0.43, 0.20, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -94,12 +94,12 @@ offset_bottom = -576.0
 
 [node name="NavigationTitlePanel" type="PanelContainer" parent="." unique_id=1072280318]
 z_index = 51
-theme_override_styles/panel = SubResource("StyleBox_NavigationTitle")
 layout_mode = 0
 offset_left = 12.0
 offset_top = 72.0
 offset_right = 462.0
 offset_bottom = 108.0
+theme_override_styles/panel = SubResource("StyleBox_NavigationTitle")
 
 [node name="NavigationTitle" type="Label" parent="NavigationTitlePanel" unique_id=1072280319]
 layout_mode = 2
@@ -108,13 +108,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GeneratorScroll" type="ScrollContainer" parent="." unique_id=1072280317]
-vertical_scroll_mode = 4
 z_index = 50
 layout_mode = 0
 offset_left = 12.0
 offset_top = 112.0
 offset_right = 462.0
 offset_bottom = 575.0
+vertical_scroll_mode = 4
 
 [node name="GeneratorContainer" type="VBoxContainer" parent="GeneratorScroll" unique_id=22294849]
 layout_mode = 2
@@ -122,13 +122,13 @@ theme_override_constants/separation = 8
 
 [node name="UpgradeScroll" type="ScrollContainer" parent="." unique_id=1357864504]
 visible = false
-vertical_scroll_mode = 4
 z_index = 50
 layout_mode = 0
 offset_left = 12.0
 offset_top = 112.0
 offset_right = 655.0
 offset_bottom = 575.0
+vertical_scroll_mode = 4
 
 [node name="UpgradeContent" type="VBoxContainer" parent="UpgradeScroll" unique_id=631500945]
 layout_mode = 2
@@ -157,16 +157,16 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="OptionsButton" type="Button" parent="." unique_id=1682017612]
-theme_override_styles/normal = SubResource("StyleBox_NavButton")
-theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
-theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
-theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 layout_mode = 0
 offset_left = 512.0
 offset_top = 601.0
 offset_right = 608.0
 offset_bottom = 644.0
+theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBox_NavButton")
+theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
+theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
 text = "OPTIONS"
 
 [node name="OptionsPanel" type="PanelContainer" parent="." unique_id=1682017613]
@@ -219,29 +219,29 @@ layout_mode = 2
 text = "QUIT GAME"
 
 [node name="UpgradesButton" type="Button" parent="." unique_id=876049299]
-theme_override_styles/normal = SubResource("StyleBox_NavButton")
-theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
-theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
-theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 layout_mode = 0
 offset_left = 112.0
 offset_top = 601.0
 offset_right = 208.0
 offset_bottom = 644.0
+theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBox_NavButton")
+theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
+theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
 text = "UPGRADES"
 
 [node name="StatsButton" type="Button" parent="." unique_id=1142714595]
-theme_override_styles/normal = SubResource("StyleBox_NavButton")
-theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
-theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
-theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 layout_mode = 0
 offset_left = 212.0
 offset_top = 601.0
 offset_right = 308.0
 offset_bottom = 644.0
+theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBox_NavButton")
+theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
+theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
 text = "STATS"
 
 [node name="AchievementPanel" parent="." unique_id=671841282 instance=ExtResource("9_achievement")]
@@ -274,42 +274,42 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="PrestigeButton" type="Button" parent="." unique_id=123456789]
-theme_override_styles/normal = SubResource("StyleBox_NavButton")
-theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
-theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
-theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 layout_mode = 0
 offset_left = 312.0
 offset_top = 601.0
 offset_right = 408.0
 offset_bottom = 644.0
+theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBox_NavButton")
+theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
+theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
 text = "REALM"
 
 [node name="AchievementButton" type="Button" parent="." unique_id=123456791]
-theme_override_styles/normal = SubResource("StyleBox_NavButton")
-theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
-theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
-theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 layout_mode = 0
 offset_left = 412.0
 offset_top = 601.0
 offset_right = 508.0
 offset_bottom = 644.0
+theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBox_NavButton")
+theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
+theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
 text = "ACHIEVEMENTS"
 
 [node name="GeneratorsButton" type="Button" parent="." unique_id=123456790]
-theme_override_styles/normal = SubResource("StyleBox_NavButton")
-theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
-theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
-theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 layout_mode = 0
 offset_left = 12.0
 offset_top = 601.0
 offset_right = 108.0
 offset_bottom = 644.0
+theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBox_NavButton")
+theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
+theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
 text = "GENERATORS"
 
 [node name="AchievementToast" parent="." unique_id=1915681216 instance=ExtResource("10_achievement_toast")]

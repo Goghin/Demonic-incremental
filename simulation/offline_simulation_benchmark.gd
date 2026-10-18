@@ -264,7 +264,7 @@ func _configure_test_state(state: GameState) -> void:
 	state.set_resource_amount(ResourceIds.HEAT, 2000000.0)
 	state.set_resource_amount(ResourceIds.MATTER, 20000.0)
 	state.set_resource_amount(ResourceIds.ASH, 5000.0)
-	state.set_resource_amount(ResourceIds.CRYSTALIZED_FLAME, 2.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 2.0)
 	state.set_resource_amount(ResourceIds.ESSENCE, 100.0)
 
 	# Stress-test realm effects using high values for the four active stats.
