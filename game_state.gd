@@ -47,17 +47,15 @@ var realm_stabilized: bool = true
 var lava_mite_dormancy_penalty: float = 0.0
 
 var heat_leak_threshold: float = 1000.0
-var heat_leak_base: float = 1.0
-var heat_leak_scaling: float = 16.4
-var heat_leak_exponent: float = 2.14
+var heat_leak_scaling: float = 30.0
+var heat_leak_exponent: float = 2.5
 
 var total_overflow_this_prestige: float = 0.0
 var overflow_bonus_from_last_realm: float = 1.0
 
 var matter_decay_threshold: float = 100.0
-var matter_decay_base: float = 0.0
-var matter_decay_scaling: float = 1
-var matter_decay_exponent: float = 2.0
+var matter_decay_scaling: float = 30.0
+var matter_decay_exponent: float = 2.5
 
 var lava_mite_dormancy_delay: float = 600.0
 var lava_mite_dormancy_duration: float = 13800.0
@@ -473,14 +471,15 @@ func get_heat_leak_per_second() -> float:
 		/ maxf(effective_threshold, 1.0)
 	)
 	
-	return (
-		heat_leak_base
-		+ heat_leak_scaling
-		* pow(
-			normalized_excess,
-			heat_leak_exponent
-		)
+	var coefficient: float = maxf(
+		20.0,
+		heat_leak_scaling - 2.0 * _get_loss_coefficient_upgrade_level()
 	)
+	var exponent: float = maxf(
+		2.0,
+		heat_leak_exponent - 0.1 * _get_loss_exponent_upgrade_level()
+	)
+	return coefficient * pow(normalized_excess, exponent)
 
 func get_matter_decay_per_second() -> float:
 	var matter = get_resource_amount(
@@ -503,14 +502,26 @@ func get_matter_decay_per_second() -> float:
 		/ maxf(effective_threshold, 1.0)
 	)
 	
-	return (
-		matter_decay_base
-		+ matter_decay_scaling
-		* pow(
-			normalized_excess,
-			matter_decay_exponent
-		)
+	var coefficient: float = maxf(
+		20.0,
+		matter_decay_scaling - 2.0 * _get_loss_coefficient_upgrade_level()
 	)
+	var exponent: float = maxf(
+		2.0,
+		matter_decay_exponent - 0.1 * _get_loss_exponent_upgrade_level()
+	)
+	return coefficient * pow(normalized_excess, exponent)
+
+
+
+func _get_loss_coefficient_upgrade_level() -> int:
+	var upgrade: Upgrade = get_upgrade("loss_coefficient_refinement")
+	return upgrade.level if upgrade != null else 0
+
+
+func _get_loss_exponent_upgrade_level() -> int:
+	var upgrade: Upgrade = get_upgrade("loss_exponent_refinement")
+	return upgrade.level if upgrade != null else 0
 
 # -------------------------------------------------------------------
 # Current run reset
