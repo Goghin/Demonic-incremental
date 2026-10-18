@@ -412,12 +412,14 @@ func _print_profile_report(profile: Dictionary) -> void:
 		"generator_continue_checks",
 		"available_operating_duration",
 		"input_consumption",
+		"input_rate_calculation",
 		"output_production",
+		"production_rate_calculation",
 		"cycle_generator_processing"
 	]
 	print("")
 	print("  GENERATOR PROCESSING DETAILS")
-	print("  Percentages here are relative to the generator-processing phase.")
+	print("  Phase timings include nested rate-calculation timings listed below.")
 	for section in generator_details:
 		var elapsed_usec: int = int(totals.get(section, 0))
 		var calls: int = int(counts.get(section, 0))
