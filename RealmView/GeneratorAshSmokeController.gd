@@ -9,13 +9,15 @@ const ASH_PRODUCING_GENERATORS: Array[String] = [
 	"infernal_forge"
 ]
 const EMITTERS_PER_GENERATOR: int = 3
+# Activation order: middle first, then left, then right.
+const EMITTER_STAGE_ORDER: Array[int] = [1, 0, 2]
 const MAX_NORMALIZED_ASH_OUTPUT: float = 1.0
 const EMITTER_SIZE_MIN: Array[float] = [0.32, 0.28, 0.24]
-const EMITTER_SIZE_MAX: Array[float] = [0.95, 0.82, 0.72]
+const EMITTER_SIZE_MAX: Array[float] = [0.88, 1.18, 0.76]
 const EMITTER_RATE_MIN: Array[float] = [0.12, 0.10, 0.08]
-const EMITTER_RATE_MAX: Array[float] = [1.15, 0.95, 0.80]
+const EMITTER_RATE_MAX: Array[float] = [1.00, 1.25, 0.78]
 const EMITTER_OPACITY_MIN: Array[float] = [0.10, 0.08, 0.07]
-const EMITTER_OPACITY_MAX: Array[float] = [0.48, 0.42, 0.38]
+const EMITTER_OPACITY_MAX: Array[float] = [0.44, 0.52, 0.36]
 
 # Ash output rate at which each generator reaches the end of stage 3.
 # Tune these independently to match each generator's expected production range.
@@ -103,11 +105,13 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 				offset.y * machine_size
 			)
 
-			# Each emitter owns one third of the normalized output range.
-			# Earlier emitters remain at full output as later ones ramp up.
-			var stage_start: float = float(index) / float(EMITTERS_PER_GENERATOR)
+			# Activate the middle plume first, then the left, then the right.
+			# Every active emitter keeps growing as total Ash output rises;
+			# later emitters do not stop the middle plume from growing.
+			var stage: int = EMITTER_STAGE_ORDER.find(index)
+			var stage_start: float = float(stage) / float(EMITTERS_PER_GENERATOR)
 			var stage_progress: float = clampf(
-				(normalized_output - stage_start) * float(EMITTERS_PER_GENERATOR),
+				(normalized_output - stage_start) / (1.0 - stage_start),
 				0.0,
 				1.0
 			)
