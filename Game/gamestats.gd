@@ -740,11 +740,6 @@ func get_generator_production_modifiers(
 				raw_multiplier - 1.0
 			) * sensitivity_data["sensitivity"]
 		)
-		if first_modifier.id == "crystallization":
-			effective_multiplier = pow(
-				maxf(raw_multiplier, 0.0),
-				clampf(sensitivity_data["sensitivity"], 0.0, 1.0)
-			)
 		if modifier.id == "crystallization":
 			effective_multiplier = pow(
 				maxf(raw_multiplier, 0.0),
@@ -792,6 +787,11 @@ func get_generator_production_modifiers(
 				raw_multiplier - 1.0
 			) * sensitivity_data["sensitivity"]
 		)
+		if first_modifier.id == "crystallization":
+			effective_multiplier = pow(
+				maxf(raw_multiplier, 0.0),
+				clampf(sensitivity_data["sensitivity"], 0.0, 1.0)
+			)
 		
 		modifiers.append({
 			"current_multiplier": raw_multiplier,
