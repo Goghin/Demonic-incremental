@@ -110,17 +110,34 @@ func update(delta: float, simulation: Simulation) -> void:
 			continue
 
 		var automation: Dictionary = automation_states[generator_id]
-		automation["remaining_cooldown"] = max(
-			0.0,
-			float(automation["remaining_cooldown"]) - delta
-		)
-		if float(automation["remaining_cooldown"]) > 0.0:
-			continue
+		var remaining_delta: float = maxf(delta, 0.0)
 
-		_attempt_purchase(generator_id, simulation)
+		# Preserve cooldown overshoot so the result does not depend as heavily
+		# on how many simulation updates happened during the same elapsed time.
+		while true:
+			var cooldown: float = maxf(
+				float(automation["remaining_cooldown"]),
+				0.0
+			)
+			if cooldown > remaining_delta:
+				automation["remaining_cooldown"] = cooldown - remaining_delta
+				break
+
+			remaining_delta = maxf(remaining_delta - cooldown, 0.0)
+			automation["remaining_cooldown"] = 0.0
+			if not _attempt_purchase(generator_id, simulation):
+				# No upgrade is affordable. The failed check still starts the
+				# normal cooldown; account for the unused part of this step.
+				automation["remaining_cooldown"] = maxf(
+					BASE_COOLDOWN - remaining_delta,
+					0.0
+				)
+				break
+			if remaining_delta <= 0.0:
+				break
 
 
-func _attempt_purchase(generator_id: String, simulation: Simulation) -> void:
+func _attempt_purchase(generator_id: String, simulation: Simulation) -> bool:
 	for upgrade_value in state.upgrades.values():
 		var upgrade: Upgrade = upgrade_value
 		var definition: UpgradeDefinition = upgrade.definition
@@ -137,10 +154,11 @@ func _attempt_purchase(generator_id: String, simulation: Simulation) -> void:
 
 		if simulation.buy_upgrade(definition.id, "upgrade_autobuyer"):
 			automation_states[generator_id]["remaining_cooldown"] = BASE_COOLDOWN
-			return
+			return true
 
 	# Avoid checking every frame when no eligible upgrade is affordable.
 	automation_states[generator_id]["remaining_cooldown"] = BASE_COOLDOWN
+	return false
 
 
 func reset_for_new_run() -> void:
