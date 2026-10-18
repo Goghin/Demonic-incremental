@@ -1163,6 +1163,24 @@ func apply_heat_leak(
 	) -> void:
 	var overflow_rate = state.get_heat_leak_per_second()
 
+	if overflow_rate > 0.0:
+		var heat_before_leak: float = state.get_resource_amount(
+			ResourceIds.HEAT
+		)
+		var effective_threshold: float = state.realm_effects.heat_leak_threshold
+
+		if overflow_rate * delta >= heat_before_leak:
+			push_warning(
+				"EXTREME HEAT LEAK | Heat: %.3f | Threshold: %.3f | Rate/s: %.3f | Delta: %.4f | Requested loss: %.3f"
+				% [
+					heat_before_leak,
+					effective_threshold,
+					overflow_rate,
+					delta,
+					overflow_rate * delta
+				]
+			)
+
 	if overflow_rate <= 0.0:
 		return
 
