@@ -12,9 +12,9 @@ var initial_unlocked: bool = true
 var unlocked: bool = true
 var manually_paused: bool = false
 var operating: bool = false
-# Lava Mite Colony falls back to its unmodified base input rates when its
-# Ash-scaled input requirements cannot be sustained.
-var use_base_input_rates: bool = false
+# Lava Mite Colony suppresses Ash-scaled input escalation when it cannot
+# sustain the normal input requirements.
+var is_throttled: bool = false
 
 var cycle_active: bool = false
 var cycle_progress: float = 0.0
@@ -45,7 +45,7 @@ func reset() -> void:
 	unlocked = initial_unlocked
 	manually_paused = false
 	operating = false
-	use_base_input_rates = false
+	is_throttled = false
 
 	cycle_active = false
 	cycle_progress = 0.0
@@ -275,7 +275,7 @@ func get_input_rate(
 	if operation_mode != null:
 		input_per_second *= operation_mode.input_multiplier
 
-	if definition.id == "lava_mite_colony" and use_base_input_rates:
+	if definition.id == "lava_mite_colony" and is_throttled:
 		# Throttling suppresses only dynamic input formulas driven by Ash.
 		# Permanent input upgrades and other dynamic effects remain active.
 		for modifier in modifiers:
@@ -476,7 +476,7 @@ func get_status() -> String:
 	if manually_paused:
 		return "Paused"
 
-	if definition.id == "lava_mite_colony" and use_base_input_rates:
+	if definition.id == "lava_mite_colony" and is_throttled:
 		return "Throttled"
 	
 	if definition.cycle_based:
