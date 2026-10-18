@@ -102,6 +102,11 @@ func _run_benchmarks() -> void:
 			result.get("diagnostic_checkpoints", []),
 			step_size
 		)
+		_print_heat_leak_checkpoints(
+			one_hour_baseline.get("diagnostic_environmental_checkpoints", []),
+			result.get("diagnostic_environmental_checkpoints", []),
+			step_size
+		)
 
 	print("")
 	print("Benchmark complete. No save file was read or modified.")
@@ -168,7 +173,8 @@ func _run_case(
 		"statistics": offline_statistics.to_dictionary(),
 		"profile": simulation.get_profile_report(),
 		"diagnostic_events": simulation.diagnostic_events.duplicate(true),
-		"diagnostic_checkpoints": simulation.diagnostic_checkpoints.duplicate(true)
+		"diagnostic_checkpoints": simulation.diagnostic_checkpoints.duplicate(true),
+		"diagnostic_environmental_checkpoints": simulation.diagnostic_environmental_checkpoints.duplicate(true)
 	}
 
 	# GameState and its managers reference one another. Break those references
@@ -295,6 +301,37 @@ func _print_affordability_checkpoints(
 			])
 			for state_line in states:
 				print("        %s" % state_line)
+			printed += 1
+		if printed == 0:
+			print("      No checkpoints recorded in this interval.")
+
+
+func _print_heat_leak_checkpoints(
+	baseline_checkpoints: Array,
+	comparison_checkpoints: Array,
+	comparison_step: float
+) -> void:
+	print("")
+	print("  HEAT-LEAK DIAGNOSTICS (4.0s–6.0s)")
+	for label in ["0.10s baseline", "%.2fs comparison" % comparison_step]:
+		var checkpoints: Array = baseline_checkpoints if label == "0.10s baseline" else comparison_checkpoints
+		print("    %s:" % label)
+		var printed: int = 0
+		for checkpoint_variant in checkpoints:
+			var checkpoint: Dictionary = checkpoint_variant
+			var time: float = float(checkpoint.get("time", 0.0))
+			if time < 4.0 or time > 6.0:
+				continue
+			print("      t=%s Δt=%s | Heat %s -> %s | threshold=%s | rate/s=%s | requested=%s | actual=%s" % [
+				_format_number(time),
+				_format_number(float(checkpoint.get("delta", 0.0))),
+				_format_number(float(checkpoint.get("heat_before", 0.0))),
+				_format_number(float(checkpoint.get("heat_after", 0.0))),
+				_format_number(float(checkpoint.get("threshold", 0.0))),
+				_format_number(float(checkpoint.get("leak_rate_per_second", 0.0))),
+				_format_number(float(checkpoint.get("requested_loss", 0.0))),
+				_format_number(float(checkpoint.get("actual_loss", 0.0)))
+			])
 			printed += 1
 		if printed == 0:
 			print("      No checkpoints recorded in this interval.")
