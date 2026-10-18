@@ -263,11 +263,11 @@ func can_afford(
 # of this generator after INPUT_DRAW modifiers.
 func get_input_rate(
 	input: GeneratorIO,
-	state: GameState
+	state: GameState,
+	apply_throttling: bool = true
 	) -> float:
-	
-	var input_per_second = input.amount_per_second
-	var operation_mode = get_operation_mode()
+	var input_per_second := input.amount_per_second
+	var operation_mode := get_operation_mode()
 
 	if operation_mode != null and operation_mode.is_resource_transfer:
 		return input.amount_per_second * operation_mode.input_multiplier
@@ -275,52 +275,51 @@ func get_input_rate(
 	if operation_mode != null:
 		input_per_second *= operation_mode.input_multiplier
 
-	if definition.id == "lava_mite_colony" and is_throttled:
-		# Throttling suppresses only dynamic input formulas driven by Ash.
-		# Permanent input upgrades and other dynamic effects remain active.
-		for modifier in modifiers:
-			if not modifier.applies_to(
-				ModifierTypes.INPUT_DRAW,
-				input.resource_id
-			):
-				continue
-			if (
-				modifier.dynamic
-				and modifier.dynamic_resource_id == ResourceIds.ASH
-				and modifier.id != "lava_mite_dormancy"
-			):
-				continue
-			input_per_second = modifier.apply(
-				input_per_second,
-				state,
-				self
-			)
-		return input_per_second
-	
+	var suppress_ash_escalation := (
+		apply_throttling
+		and definition.id == "lava_mite_colony"
+		and is_throttled
+	)
 	for modifier in modifiers:
-		if modifier.applies_to(
+		if not modifier.applies_to(
 			ModifierTypes.INPUT_DRAW,
 			input.resource_id
 		):
-			input_per_second = modifier.apply(
-				input_per_second,
-				state,
-				self
-			)
-	
+			continue
+		if (
+			suppress_ash_escalation
+			and _is_suppressed_by_lava_mite_throttling(modifier)
+		):
+			continue
+		input_per_second = modifier.apply(
+			input_per_second,
+			state,
+			self
+		)
 	return input_per_second
+
+
+func _is_suppressed_by_lava_mite_throttling(
+	modifier: Modifier
+	) -> bool:
+	return (
+		modifier.dynamic
+		and modifier.dynamic_resource_id == ResourceIds.ASH
+		and modifier.id != "lava_mite_dormancy"
+	)
 
 # Returns the actual input consumption rate for this generator,
 # including its current level and INPUT_DRAW modifiers.
 func get_input_consumption_per_second(
 	input: GeneratorIO,
-	state: GameState
+	state: GameState,
+	apply_throttling: bool = true
 	) -> float:
-	
 	return (
 		get_input_rate(
 			input,
-			state
+			state,
+			apply_throttling
 		)
 		* level
 	)
