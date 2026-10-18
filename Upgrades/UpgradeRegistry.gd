@@ -2628,4 +2628,3 @@ static func _create_heat_loss_exponent_refinement() -> Upgrade:
 		2.0
 	)
 	return Upgrade.new(definition)
-
