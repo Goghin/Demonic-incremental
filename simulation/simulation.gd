@@ -342,8 +342,16 @@ func apply_environmental_effects(
 	delta: float,
 	heat_at_step_start: float = -1.0
 	) -> void:
+	var phase_start_usec: int = 0
+	if profiling_enabled:
+		phase_start_usec = Time.get_ticks_usec()
 	apply_matter_decay(delta)
+	if profiling_enabled:
+		_record_profile_time("matter_decay", phase_start_usec)
+		phase_start_usec = Time.get_ticks_usec()
 	apply_heat_leak(delta, heat_at_step_start)
+	if profiling_enabled:
+		_record_profile_time("heat_leak", phase_start_usec)
 
 # Select the Lava Mite Colony's base-input fallback before its operating
 # checks. Use a fixed one-second Ash reserve so throttling does not change
@@ -1301,11 +1309,16 @@ func apply_heat_leak(
 		or (heat_at_step_start > effective_threshold and heat <= effective_threshold)
 	):
 		var net_heat_rate: float = (heat - heat_at_step_start) / delta
+		var integration_start_usec: int = 0
+		if profiling_enabled:
+			integration_start_usec = Time.get_ticks_usec()
 		var integrated_heat: float = _integrate_heat_balance(
 			heat_at_step_start,
 			net_heat_rate,
 			delta
 		)
+		if profiling_enabled:
+			_record_profile_time("heat_leak_integration", integration_start_usec)
 		overflow_amount = maxf(heat - integrated_heat, 0.0)
 		state.set_resource_amount(ResourceIds.HEAT, integrated_heat)
 	elif overflow_rate > 0.0:
