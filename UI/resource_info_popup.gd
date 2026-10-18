@@ -239,6 +239,7 @@ func _get_base_mechanics_text() -> String:
 				+ NumberFormatter.format(modifier_data["essence_resistance_percent"])
 				+ "%\nHeat production multiplier after resistance: ×"
 				+ NumberFormatter.format(modifier_data["effective_multiplier"])
+				+ "\nResistance weakens the penalty's exponent rather than setting a floor."
 			)
 		ResourceIds.NEXUM:
 			return "A resource reserved for systems that use Nexum."
