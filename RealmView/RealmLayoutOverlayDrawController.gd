@@ -131,10 +131,13 @@ func _draw_smoke_emitter_handles(
 			false,
 			3.0 if selected else 1.5
 		)
+		var smoke_label: String = "S%d" % (i + 1)
+		if str(definition.get("style", "puff")) == "column":
+			smoke_label += " C%d" % int(definition.get("variant", 1))
 		owner.draw_string(
 			ThemeDB.fallback_font,
 			position + Vector2(5.0, -radius - 4.0),
-			"S%d" % (i + 1),
+			smoke_label,
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1.0,
 			12,
@@ -191,8 +194,9 @@ func _draw_editor_help(
 		"Drag machines, braziers, Ash/Matter piles, flow or lake handles",
 		"Drag the gold diamond to move the main lake origin",
 		"M: add Matter pile at cursor",
-		"A: add smoke emitter at cursor; drag to move",
-		"Smoke selected: +/- size; Delete removes it",
+		"A: add smoke puffs; Shift+A: animated column",
+		"Smoke selected: +/- size; V cycles column variant",
+		"Delete removes selected smoke emitter",
 		"N: add a new flow at the cursor; drag its endpoints",
 		"Ctrl + Delete: remove selected flow or Matter pile",
 		"Select a flow point, then +/- to change its width",
