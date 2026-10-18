@@ -24,6 +24,7 @@ var diagnostics_enabled: bool = false
 var diagnostic_time_seconds: float = 0.0
 var diagnostic_events: Array[Dictionary] = []
 var diagnostic_checkpoints: Array[Dictionary] = []
+var diagnostic_environmental_checkpoints: Array[Dictionary] = []
 
 
 func _init(game_state: GameState) -> void:
@@ -1255,41 +1256,29 @@ func toggle_generator_pause(
 func apply_heat_leak(
 	delta: float
 	) -> void:
-	var overflow_rate = state.get_heat_leak_per_second()
+	var heat: float = state.get_resource_amount(ResourceIds.HEAT)
+	var overflow_rate: float = state.get_heat_leak_per_second()
+	var requested_loss: float = overflow_rate * delta
+	var overflow_amount: float = min(requested_loss, heat)
 
-	# Temporarily disabled for benchmarking: repeated warnings can dominate
-	# runtime when requested Heat loss exceeds the available Heat.
-	# if overflow_rate > 0.0:
-	# 	var heat_before_leak: float = state.get_resource_amount(
-	# 		ResourceIds.HEAT
-	# 	)
-	# 	var effective_threshold: float = state.realm_effects.heat_leak_threshold
-	#
-	# 	if overflow_rate * delta >= heat_before_leak:
-	# 		push_warning(
-	# 			"EXTREME HEAT LEAK | Heat: %.3f | Threshold: %.3f | Rate/s: %.3f | Delta: %.4f | Requested loss: %.3f"
-	# 			% [
-	# 				heat_before_leak,
-	# 				effective_threshold,
-	# 				overflow_rate,
-	# 				delta,
-	# 				overflow_rate * delta
-	# 			]
-	# 		)
+	# Benchmark-only trace: record the actual state used by the leak calculation,
+	# including requested loss before it is clamped to the available Heat.
+	if diagnostics_enabled and (
+		diagnostic_time_seconds >= 4.0
+		and diagnostic_time_seconds <= 6.0
+	):
+		diagnostic_environmental_checkpoints.append({
+			"time": diagnostic_time_seconds,
+			"delta": delta,
+			"heat_before": heat,
+			"threshold": state.realm_effects.heat_leak_threshold,
+			"leak_rate_per_second": overflow_rate,
+			"requested_loss": requested_loss,
+			"actual_loss": overflow_amount,
+			"heat_after": heat - overflow_amount
+		})
 
-	if overflow_rate <= 0.0:
-		return
-
-	var heat = state.get_resource_amount(
-		ResourceIds.HEAT
-	)
-
-	var overflow_amount = min(
-		overflow_rate * delta,
-		heat
-	)
-
-	if overflow_amount <= 0.0:
+	if overflow_rate <= 0.0 or overflow_amount <= 0.0:
 		return
 
 	state.set_resource_amount(
