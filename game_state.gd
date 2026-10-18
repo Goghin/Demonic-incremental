@@ -473,11 +473,11 @@ func get_heat_leak_per_second() -> float:
 	
 	var coefficient: float = maxf(
 		20.0,
-		heat_leak_scaling - 2.0 * _get_loss_coefficient_upgrade_level()
+		heat_leak_scaling - 2.0 * _get_heat_loss_coefficient_upgrade_level()
 	)
 	var exponent: float = maxf(
 		2.0,
-		heat_leak_exponent - 0.1 * _get_loss_exponent_upgrade_level()
+		heat_leak_exponent - 0.1 * _get_heat_loss_exponent_upgrade_level()
 	)
 	return coefficient * pow(normalized_excess, exponent)
 
@@ -512,6 +512,16 @@ func get_matter_decay_per_second() -> float:
 	)
 	return coefficient * pow(normalized_excess, exponent)
 
+
+
+func _get_heat_loss_coefficient_upgrade_level() -> int:
+	var upgrade: Upgrade = get_upgrade("heat_loss_coefficient_refinement")
+	return upgrade.level if upgrade != null else 0
+
+
+func _get_heat_loss_exponent_upgrade_level() -> int:
+	var upgrade: Upgrade = get_upgrade("heat_loss_exponent_refinement")
+	return upgrade.level if upgrade != null else 0
 
 
 func _get_loss_coefficient_upgrade_level() -> int:
