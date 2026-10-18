@@ -128,9 +128,12 @@ func update(delta: float, simulation: Simulation) -> void:
 			if not _attempt_purchase(generator_id, simulation):
 				# No upgrade is affordable. The failed check still starts the
 				# normal cooldown; account for the unused part of this step.
-				automation["remaining_cooldown"] = maxf(
-					BASE_COOLDOWN - remaining_delta,
-					0.0
+				var elapsed_after_failed_check: float = fmod(
+					remaining_delta,
+					BASE_COOLDOWN
+				)
+				automation["remaining_cooldown"] = (
+					BASE_COOLDOWN - elapsed_after_failed_check
 				)
 				break
 			if remaining_delta <= 0.0:
