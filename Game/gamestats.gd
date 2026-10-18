@@ -869,7 +869,8 @@ func get_generator_input_modifiers(
 			"formula": modifier.dynamic_formula,
 			"resource_id": modifier.dynamic_resource_id,
 			"generator_id": modifier.dynamic_generator_id,
-			"source_upgrade_id": modifier.source_upgrade_id
+			"source_upgrade_id": modifier.source_upgrade_id,
+			"modifier_ids": [modifier.id]
 		})
 	
 	# --------------------------------------------------------
@@ -898,6 +899,10 @@ func get_generator_input_modifiers(
 				)
 			)
 		
+		var modifier_ids: Array[String] = []
+		for modifier in grouped_modifiers:
+			modifier_ids.append(modifier.id)
+
 		modifiers.append({
 			"current_multiplier": raw_multiplier,
 			"effective_multiplier": effective_multiplier,
@@ -909,7 +914,8 @@ func get_generator_input_modifiers(
 			"formula": first_modifier.dynamic_formula,
 			"resource_id": first_modifier.dynamic_resource_id,
 			"generator_id": first_modifier.dynamic_generator_id,
-			"source_upgrade_id": source_upgrade_id
+			"source_upgrade_id": source_upgrade_id,
+			"modifier_ids": modifier_ids
 		})
 	
 	return modifiers
