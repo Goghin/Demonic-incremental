@@ -45,6 +45,15 @@ static func format(value: float) -> String:
 	)
 
 
+static func format_precise_multiplier(value: float) -> String:
+	# Keep tiny penalties visible instead of rounding them to ×0.0000.
+	if is_nan(value) or is_inf(value):
+		return "0"
+	if value != 0.0 and abs(value) < 0.0001:
+		return "%.3e" % value
+	return format(value)
+
+
 static func _format_small(value: float) -> String:
 	var absolute_value = abs(value)
 
