@@ -270,8 +270,8 @@ func apply_environmental_effects(delta: float) -> void:
 	apply_heat_leak(delta)
 
 # Select the Lava Mite Colony's base-input fallback before its operating
-# checks. If any Ash-scaled input cannot cover this step, the colony attempts
-# to run using its definition's base input rates instead.
+# checks. Use a fixed one-second Ash reserve so throttling does not change
+# merely because offline simulation uses a larger timestep.
 func _update_lava_mite_throttle_state(
 	generator: Generator,
 	delta: float
@@ -285,7 +285,7 @@ func _update_lava_mite_throttle_state(
 			generator.is_throttled = false
 		return
 
-	if _normal_lava_mite_inputs_exceed_available_resources(generator, delta):
+	if _normal_lava_mite_inputs_exceed_available_resources(generator):
 		generator.is_throttled = true
 
 
@@ -306,8 +306,7 @@ func _has_normal_lava_mite_input_reserve(
 
 
 func _normal_lava_mite_inputs_exceed_available_resources(
-	generator: Generator,
-	delta: float
+	generator: Generator
 	) -> bool:
 	for input in generator.get_active_inputs():
 		var normal_rate := generator.get_input_consumption_per_second(
@@ -323,7 +322,9 @@ func _normal_lava_mite_inputs_exceed_available_resources(
 		if normal_rate <= throttled_rate:
 			continue
 
-		var required_input := normal_rate * delta
+		# Match the one-second reserve used when recovering from
+		# throttling. The threshold must not depend on simulation step size.
+		var required_input := normal_rate
 		if required_input > state.get_resource_amount(input.resource_id):
 			return true
 	return false
