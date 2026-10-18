@@ -69,11 +69,11 @@ func _setup_flame_animation() -> void:
 			var frame_path: String = (
 				FLAME_ASSET_ROOT +
 				variant +
-			"/" +
-			variant +
-			"_" +
-			str(frame_index) +
-			".png"
+				"/" +
+				variant +
+				"_" +
+				str(frame_index) +
+				".png"
 			)
 			var frame_texture: Texture2D = load(frame_path) as Texture2D
 
@@ -85,8 +85,10 @@ func _setup_flame_animation() -> void:
 		flame_sprite.name = variant.replace(" ", "").replace("-", "")
 		flame_sprite.sprite_frames = flame_frames
 		flame_sprite.animation = variant
-		flame_sprite.centered = true
-		flame_sprite.position = Vector2(0.0, -13.0)
+		# Use the sprite's top-left origin and calculate its position so its
+		# bottom-center remains anchored to the same point on the brazier.
+		flame_sprite.centered = false
+		flame_sprite.position = Vector2.ZERO
 		flame_sprite.scale = Vector2.ONE * FLAME_BASE_SCALE
 		flame_sprite.modulate = get_stat_color()
 		flame_sprite.visible = false
@@ -126,7 +128,20 @@ func _update_flame_sprites() -> void:
 			sin(flame_time * 8.0 + float(index)) * 0.025 +
 			sin(flame_time * 13.0) * 0.015
 		)
-		flame_sprite.scale = Vector2.ONE * FLAME_BASE_SCALE * strength_scale * flicker
+		var final_scale: float = FLAME_BASE_SCALE * strength_scale * flicker
+		flame_sprite.scale = Vector2.ONE * final_scale
+
+		# Anchor each frame by its bottom-center, regardless of texture size or scale.
+		var frame_texture: Texture2D = flame_sprite.sprite_frames.get_frame_texture(
+			flame_sprite.animation,
+			flame_sprite.frame
+		)
+		if frame_texture != null:
+			var frame_size: Vector2 = frame_texture.get_size()
+			flame_sprite.position = Vector2(
+				-frame_size.x * final_scale * 0.5,
+				-frame_size.y * final_scale
+			)
 
 
 func set_stat(stat: String) -> void:
