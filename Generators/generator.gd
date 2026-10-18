@@ -5,6 +5,9 @@ extends RefCounted
 var definition: GeneratorDefinition
 var level: int = 0
 var modifiers: Array[Modifier] = []
+# Cache the production modifiers relevant to each output resource. Upgrade effects
+# can add modifiers during play, so those changes explicitly invalidate this cache.
+var _production_modifier_cache: Dictionary = {}
 var event_effects: Array[UpgradeEffect] = []
 var modifier_sensitivities: Array = []
 var production_progress: Dictionary = {}
@@ -36,9 +39,27 @@ func _init(generator_definition: GeneratorDefinition) -> void:
 			production_progress[output.resource_id] = 0.0
 
 
+func get_production_modifiers(resource_id: String) -> Array[Modifier]:
+	if _production_modifier_cache.has(resource_id):
+		return _production_modifier_cache[resource_id]
+
+	var matching_modifiers: Array[Modifier] = []
+	for modifier in modifiers:
+		if modifier.applies_to(ModifierTypes.PRODUCTION, resource_id):
+			matching_modifiers.append(modifier)
+
+	_production_modifier_cache[resource_id] = matching_modifiers
+	return matching_modifiers
+
+
+func invalidate_production_modifier_cache() -> void:
+	_production_modifier_cache.clear()
+
+
 func reset() -> void:
 	level = 0
 	modifiers.clear()
+	invalidate_production_modifier_cache()
 	event_effects.clear()
 	modifier_sensitivities.clear()
 
