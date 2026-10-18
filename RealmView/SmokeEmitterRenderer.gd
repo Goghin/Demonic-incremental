@@ -1,6 +1,8 @@
 class_name SmokeEmitterRenderer
 extends Node2D
 
+const SMOKE_TEXTURE: Texture2D = preload("res://Assets/smoke.png")
+
 var emitter_size: float = 1.0
 var emission_rate: float = 1.0
 var smoke_opacity: float = 0.7
@@ -10,10 +12,14 @@ var _particles: Array[Dictionary] = []
 
 
 func configure(new_size: float, new_emission_rate: float, new_opacity: float) -> void:
-	emitter_size = clampf(new_size, 0.25, 3.0)
-	emission_rate = clampf(new_emission_rate, 0.1, 3.0)
-	smoke_opacity = clampf(new_opacity, 0.05, 1.0)
-	queue_redraw()
+	var clamped_size: float = clampf(new_size, 0.25, 3.0)
+	var clamped_rate: float = clampf(new_emission_rate, 0.1, 3.0)
+	var clamped_opacity: float = clampf(new_opacity, 0.05, 1.0)
+	if not is_equal_approx(emitter_size, clamped_size) or not is_equal_approx(emission_rate, clamped_rate) or not is_equal_approx(smoke_opacity, clamped_opacity):
+		emitter_size = clamped_size
+		emission_rate = clamped_rate
+		smoke_opacity = clamped_opacity
+		queue_redraw()
 
 
 func _process(delta: float) -> void:
@@ -46,11 +52,14 @@ func _spawn_particle() -> void:
 		"offset": Vector2(randf_range(-3.0, 3.0), randf_range(-2.0, 2.0)),
 		"drift": Vector2(randf_range(-9.0, 9.0), randf_range(-34.0, -20.0)),
 		"size": randf_range(7.0, 12.0),
-		"seed": randi()
+		"rotation": randf_range(-0.35, 0.35)
 	})
 
 
 func _draw() -> void:
+	if SMOKE_TEXTURE == null:
+		return
+
 	for particle in _particles:
 		var lifetime: float = float(particle["lifetime"])
 		var progress: float = clampf(float(particle["age"]) / lifetime, 0.0, 1.0)
@@ -62,22 +71,15 @@ func _draw() -> void:
 
 		var puff_center: Vector2 = particle["offset"]
 		var puff_size: float = float(particle["size"]) * emitter_size * lerpf(0.35, 1.45, progress)
-		var puff_seed: int = int(particle["seed"])
-		var base := Color(0.28, 0.28, 0.30, alpha * 0.72)
-		var light := Color(0.43, 0.43, 0.45, alpha * 0.55)
-		var dark := Color(0.17, 0.17, 0.19, alpha * 0.75)
+		var rotation: float = float(particle["rotation"])
+		var draw_size := Vector2.ONE * puff_size * 2.0
 
-		_draw_smoke_blob(puff_center, puff_size, base, puff_seed)
-		_draw_smoke_blob(puff_center + Vector2(-puff_size * 0.36, -puff_size * 0.12), puff_size * 0.66, light, puff_seed + 7)
-		_draw_smoke_blob(puff_center + Vector2(puff_size * 0.32, puff_size * 0.08), puff_size * 0.72, dark, puff_seed + 13)
+		draw_set_transform(puff_center, rotation, Vector2.ONE)
+		draw_texture_rect(
+			SMOKE_TEXTURE,
+			Rect2(-draw_size * 0.5, draw_size),
+			false,
+			Color(1.0, 1.0, 1.0, alpha)
+		)
 
-
-func _draw_smoke_blob(center: Vector2, radius: float, color: Color, seed_value: int) -> void:
-	var points := PackedVector2Array()
-	var vertex_count: int = 8
-	for vertex in range(vertex_count):
-		var angle: float = TAU * float(vertex) / float(vertex_count)
-		var variation: float = 0.78 + float(abs((seed_value * (vertex + 3) * 17) % 31)) / 100.0
-		var point_radius: float = radius * variation
-		points.append(center + Vector2(cos(angle) * point_radius, sin(angle) * point_radius * 0.82))
-	draw_colored_polygon(points, color)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
