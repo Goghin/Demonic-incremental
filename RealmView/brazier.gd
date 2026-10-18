@@ -7,7 +7,7 @@ const FLAME_FRAME_COUNT: int = 14
 const FLAME_FPS: float = 12.0
 const FLAME_BASE_SCALE: float = 0.55
 const FLAME_TRANSITION_WIDTH: float = 0.12
-const FLAME_ANCHOR_OFFSET: Vector2 = Vector2(0.0, -4.0)
+const FLAME_ANCHOR_OFFSET: Vector2 = Vector2(0.0, -8.0)
 
 
 @export var brazier_size: float = 1.0
