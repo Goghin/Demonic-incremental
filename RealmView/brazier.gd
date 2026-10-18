@@ -20,6 +20,8 @@ var displayed_stat_strength: float = 0.0
 var target_stat_strength: float = 0.0
 
 var flame_time: float = 0.0
+var flame_phase_offset: float = 0.0
+var glow_phase_offset: float = 0.0
 var base_scale: Vector2
 
 var flame_sprites: Array[AnimatedSprite2D] = []
@@ -33,6 +35,9 @@ func _ready() -> void:
 	)
 
 	scale = base_scale
+	# Give each brazier its own flicker rhythm so nearby braziers do not pulse together.
+	flame_phase_offset = randf_range(0.0, TAU)
+	glow_phase_offset = randf_range(0.0, TAU)
 	_setup_flame_animation()
 	queue_redraw()
 
@@ -81,7 +86,9 @@ func _setup_flame_animation() -> void:
 			if frame_texture != null:
 				flame_frames.add_frame(variant, frame_texture)
 
-	for variant in variants:
+	var variant_speeds: Array[float] = [0.88, 1.0, 0.93]
+	for variant_index in range(variants.size()):
+		var variant: String = variants[variant_index]
 		var flame_sprite := AnimatedSprite2D.new()
 		flame_sprite.name = variant.replace(" ", "").replace("-", "")
 		flame_sprite.sprite_frames = flame_frames
@@ -93,8 +100,14 @@ func _setup_flame_animation() -> void:
 		flame_sprite.scale = Vector2.ONE * FLAME_BASE_SCALE
 		flame_sprite.modulate = get_stat_color()
 		flame_sprite.visible = false
+		flame_sprite.speed_scale = variant_speeds[variant_index]
 		add_child(flame_sprite)
 		flame_sprite.play(variant)
+		# Start at a different frame and partial frame progress for every layer/brazier.
+		var frame_count: int = flame_frames.get_frame_count(variant)
+		if frame_count > 0:
+			flame_sprite.frame = randi_range(0, frame_count - 1)
+			flame_sprite.frame_progress = randf()
 		flame_sprites.append(flame_sprite)
 
 
@@ -126,8 +139,8 @@ func _update_flame_sprites() -> void:
 		var strength_scale: float = lerpf(0.65, 1.0, strength)
 		var flicker: float = (
 			1.0 +
-			sin(flame_time * 8.0 + float(index)) * 0.025 +
-			sin(flame_time * 13.0) * 0.015
+			sin(flame_time * 8.0 + float(index) * 1.7 + flame_phase_offset) * 0.025 +
+			sin(flame_time * 13.0 + flame_phase_offset * 0.6) * 0.015
 		)
 		var final_scale: float = FLAME_BASE_SCALE * strength_scale * flicker
 		flame_sprite.scale = Vector2.ONE * final_scale
@@ -214,30 +227,33 @@ func _draw() -> void:
 	if stat_strength <= 0.001:
 		return
 
+	# Use several very transparent layers instead of one hard-edged pulsing disc.
+	# Slightly different rhythms make the light feel less mechanically regular.
 	var flicker: float = (
-		sin(flame_time * 7.0) * 0.08 +
-		sin(flame_time * 13.0) * 0.04
+		sin(flame_time * 6.1 + glow_phase_offset) * 0.012 +
+		sin(flame_time * 10.7 + glow_phase_offset * 1.4) * 0.008
+	)
+	var glow_radius: float = lerpf(12.0, 32.0, stat_strength)
+	var glow_center: Vector2 = Vector2(0.0, -8.0)
+	var glow_alpha: float = clampf(
+		lerpf(0.018, 0.055, stat_strength) + flicker,
+		0.008,
+		0.075
 	)
 
-	var glow_radius: float = lerp(
-		12.0,
-		32.0,
-		stat_strength
-	)
-
-	var glow_alpha: float = lerp(
-		0.08,
-		0.18,
-		stat_strength
-	) + flicker
-
+	# Broad ambient halo, then progressively tighter and brighter light near the flame.
 	draw_circle(
-		Vector2(0.0, -8.0),
-		glow_radius,
-		Color(
-			stat_color.r,
-			stat_color.g,
-			stat_color.b,
-			glow_alpha
-		)
+		glow_center,
+		glow_radius * 1.65,
+		Color(stat_color.r, stat_color.g, stat_color.b, glow_alpha * 0.45)
+	)
+	draw_circle(
+		glow_center,
+		glow_radius * 1.15,
+		Color(stat_color.r, stat_color.g, stat_color.b, glow_alpha * 0.7)
+	)
+	draw_circle(
+		glow_center,
+		glow_radius * 0.62,
+		Color(stat_color.r, stat_color.g, stat_color.b, glow_alpha)
 	)
