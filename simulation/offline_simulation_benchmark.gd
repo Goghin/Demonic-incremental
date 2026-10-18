@@ -97,6 +97,11 @@ func _run_benchmarks() -> void:
 			result.get("diagnostic_events", []),
 			step_size
 		)
+		_print_affordability_checkpoints(
+			one_hour_baseline.get("diagnostic_checkpoints", []),
+			result.get("diagnostic_checkpoints", []),
+			step_size
+		)
 
 	print("")
 	print("Benchmark complete. No save file was read or modified.")
@@ -162,7 +167,8 @@ func _run_case(
 		"overflow": state.total_overflow_this_prestige,
 		"statistics": offline_statistics.to_dictionary(),
 		"profile": simulation.get_profile_report(),
-		"diagnostic_events": simulation.diagnostic_events.duplicate(true)
+		"diagnostic_events": simulation.diagnostic_events.duplicate(true),
+		"diagnostic_checkpoints": simulation.diagnostic_checkpoints.duplicate(true)
 	}
 
 	# GameState and its managers reference one another. Break those references
@@ -245,6 +251,53 @@ func _print_first_progression_divergence(
 		])
 	if divergence_index >= shared_count:
 		print("    One trace ended before the other at the first unmatched event.")
+
+
+func _print_affordability_checkpoints(
+	baseline_checkpoints: Array,
+	comparison_checkpoints: Array,
+	comparison_step: float
+) -> void:
+	print("")
+	print("  RESOURCE / PURCHASE AFFORDABILITY CHECK (4.5s–5.5s)")
+	for label in ["0.10s baseline", "%.2fs comparison" % comparison_step]:
+		var checkpoints: Array = baseline_checkpoints if label == "0.10s baseline" else comparison_checkpoints
+		print("    %s:" % label)
+		var printed: int = 0
+		for checkpoint_variant in checkpoints:
+			var checkpoint: Dictionary = checkpoint_variant
+			var time: float = float(checkpoint.get("time", 0.0))
+			if time < 4.5 or time > 5.5:
+				continue
+			var resources: Dictionary = checkpoint.get("resources", {})
+			var generators: Dictionary = checkpoint.get("generators", {})
+			var states: Array[String] = []
+			for generator_id in [
+				"atomic_friction",
+				"molecular_agitation",
+				"thermal_furnace",
+				"thermal_compressor",
+				"matter_furnace"
+			]:
+				var info: Dictionary = generators.get(generator_id, {})
+				states.append("%s L%s %s/%s %s" % [
+					generator_id,
+					str(info.get("level", "?")),
+					_format_number(float(info.get("available", 0.0))),
+					_format_number(float(info.get("cost", 0.0))),
+					"CAN BUY" if bool(info.get("affordable", false)) else "can't buy"
+				])
+			print("      t=%s | Heat=%s Matter=%s Ash=%s" % [
+				_format_number(time),
+				_format_number(float(resources.get(str(ResourceIds.HEAT), 0.0))),
+				_format_number(float(resources.get(str(ResourceIds.MATTER), 0.0))),
+				_format_number(float(resources.get(str(ResourceIds.ASH), 0.0)))
+			])
+			for state_line in states:
+				print("        %s" % state_line)
+			printed += 1
+		if printed == 0:
+			print("      No checkpoints recorded in this interval.")
 
 
 func _print_profile_report(profile: Dictionary) -> void:
