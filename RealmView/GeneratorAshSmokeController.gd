@@ -3,16 +3,35 @@ extends RefCounted
 
 
 const ASH_PRODUCING_GENERATORS: Array[String] = [
+	"molecular_agitation",
 	"thermal_furnace",
 	"matter_furnace",
 	"infernal_forge"
 ]
 const EMITTERS_PER_GENERATOR: int = 3
-const EMITTER_OFFSETS: Array[Vector2] = [
-	Vector2(-0.32, -0.22),
-	Vector2(0.0, -0.34),
-	Vector2(0.32, -0.22)
-]
+# Offsets are normalized to each machine's visual size. Tune these per sprite.
+const EMITTER_OFFSETS_BY_GENERATOR: Dictionary = {
+	"molecular_agitation": [
+		Vector2(-0.32, -0.22),
+		Vector2(0.0, -0.34),
+		Vector2(0.32, -0.22)
+	],
+	"thermal_furnace": [
+		Vector2(-0.32, -0.22),
+		Vector2(0.0, -0.34),
+		Vector2(0.32, -0.22)
+	],
+	"matter_furnace": [
+		Vector2(-0.32, -0.22),
+		Vector2(0.0, -0.34),
+		Vector2(0.32, -0.22)
+	],
+	"infernal_forge": [
+		Vector2(-0.32, -0.22),
+		Vector2(0.0, -0.34),
+		Vector2(0.32, -0.22)
+	]
+}
 
 var emitters_by_generator: Dictionary = {}
 
@@ -49,7 +68,10 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 			if not is_instance_valid(emitter):
 				continue
 
-			var offset: Vector2 = EMITTER_OFFSETS[index]
+			var offsets: Array = EMITTER_OFFSETS_BY_GENERATOR.get(generator_id, [])
+			if index >= offsets.size():
+				continue
+			var offset: Vector2 = offsets[index]
 			emitter.position = generator_position + Vector2(
 				offset.x * machine_size,
 				offset.y * machine_size
