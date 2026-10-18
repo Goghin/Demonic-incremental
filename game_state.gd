@@ -15,6 +15,9 @@ var gameplay_log
 var gameplay_interval_produced: Dictionary = {}
 var gameplay_interval_consumed: Dictionary = {}
 var gameplay_interval_lost: Dictionary = {}
+# Offline catch-up doesn't emit periodic economy snapshots, so avoid maintaining
+# interval-only counters while the simulation is running offline.
+var track_gameplay_interval_statistics: bool = true
 var gameplay_realm_run_index: int = 0
 
 var resources: Dictionary = {}
@@ -238,10 +241,11 @@ func record_resource_produced(
 	if amount <= 0.0:
 		return
 
-	gameplay_interval_produced[resource_id] = (
-		float(gameplay_interval_produced.get(resource_id, 0.0))
-		+ amount
-	)
+	if track_gameplay_interval_statistics:
+		gameplay_interval_produced[resource_id] = (
+			float(gameplay_interval_produced.get(resource_id, 0.0))
+			+ amount
+		)
 
 	resource_statistics.record_produced(
 		resource_id,
@@ -266,10 +270,11 @@ func record_resource_consumed(
 	if amount <= 0.0:
 		return
 
-	gameplay_interval_consumed[resource_id] = (
-		float(gameplay_interval_consumed.get(resource_id, 0.0))
-		+ amount
-	)
+	if track_gameplay_interval_statistics:
+		gameplay_interval_consumed[resource_id] = (
+			float(gameplay_interval_consumed.get(resource_id, 0.0))
+			+ amount
+		)
 
 	resource_statistics.record_consumed(
 		resource_id,
@@ -294,10 +299,11 @@ func record_resource_lost(
 	if amount <= 0.0:
 		return
 
-	gameplay_interval_lost[resource_id] = (
-		float(gameplay_interval_lost.get(resource_id, 0.0))
-		+ amount
-	)
+	if track_gameplay_interval_statistics:
+		gameplay_interval_lost[resource_id] = (
+			float(gameplay_interval_lost.get(resource_id, 0.0))
+			+ amount
+		)
 
 	resource_statistics.record_lost(
 		resource_id,
