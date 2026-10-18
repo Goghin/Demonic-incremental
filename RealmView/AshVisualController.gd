@@ -74,9 +74,9 @@ func update_piles(
 			emitter.set_process(false)
 			continue
 
-		# Keep the column's base lower, closer to the middle of the Ash pile.
-		var pile_top_offset: float = 0.0
-		emitter.position = pile.position + Vector2(0.0, -pile_top_offset)
+		# Anchor the column deeper inside the Ash pile so it emerges from lower down.
+		var pile_base_offset: float = texture_height * pile.scale.y * 0.18
+		emitter.position = pile.position + Vector2(0.0, pile_base_offset)
 
 		# Bigger piles produce a larger, more visible column.
 		var pile_growth: float = clampf(pile.scale.x / max_pile_scale, 0.0, 1.0)
