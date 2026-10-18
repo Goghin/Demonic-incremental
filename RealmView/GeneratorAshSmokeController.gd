@@ -55,11 +55,11 @@ const EMITTER_OFFSETS_BY_GENERATOR: Dictionary = {
 		Vector2(0.12, -0.10)
 	],
 	"matter_furnace": [
-		Vector2(-0.42, -0.20),
-		Vector2(0.0, -0.36),
-		Vector2(0.42, -0.20),
-		Vector2(-0.22, -0.30),
-		Vector2(0.22, -0.30)
+		Vector2(-0.42, -0.15),
+		Vector2(0.0, -0.31),
+		Vector2(0.42, -0.15),
+		Vector2(-0.22, -0.25),
+		Vector2(0.22, -0.25)
 	],
 	"infernal_forge": [
 		Vector2(-0.20, -0.10),
