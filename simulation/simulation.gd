@@ -1165,6 +1165,7 @@ func _add_modifier_to_generator(
 		modifier.dynamic_realm_effect_is_divisor = effect.dynamic_realm_effect_is_divisor
 		
 	generator.modifiers.append(modifier)
+	generator.invalidate_production_modifier_cache()
 
 
 func _add_modifier_sensitivity_to_generator(
@@ -1199,6 +1200,7 @@ func rebuild_upgrade_effects() -> void:
 	
 	for generator in state.get_generators().values():
 		generator.modifiers.clear()
+		generator.invalidate_production_modifier_cache()
 		generator.modifier_sensitivities.clear()
 		for mode in generator.definition.operation_modes:
 			mode.unlocked = mode.initially_unlocked
