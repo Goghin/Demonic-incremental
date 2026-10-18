@@ -76,6 +76,10 @@ func reset() -> void:
 	
 			
 func get_operation_mode() -> GeneratorOperationMode:
+	# Most generators have exactly one operation mode. Avoid scanning the
+	# mode array on every simulation input/output lookup for those generators.
+	if definition.operation_modes.size() == 1:
+		return definition.operation_modes[0]
 	
 	for mode in definition.operation_modes:
 		if mode.id == operation_mode_id:
