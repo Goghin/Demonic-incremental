@@ -49,6 +49,7 @@ var realm_layout_geometry_controller: RealmLayoutGeometryController = RealmLayou
 var realm_resize_controller: RealmResizeController = RealmResizeController.new()
 var realm_layout_visual_controller: RealmLayoutVisualController = RealmLayoutVisualController.new()
 var smoke_visual_controller: SmokeVisualController = SmokeVisualController.new()
+var generator_ash_smoke_controller: GeneratorAshSmokeController = GeneratorAshSmokeController.new()
 var realm_rebuild_state_controller: RealmRebuildStateController = RealmRebuildStateController.new()
 
 const LAVA_LAKE_SCENE = preload(
