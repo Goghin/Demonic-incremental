@@ -269,10 +269,10 @@ func _configure_test_state(state: GameState) -> void:
 
 	# Stress-test realm effects using high values for the four active stats.
 	# These are benchmark-only values; no player save is loaded or modified.
-	state.realm_configuration.stability = 30
-	state.realm_configuration.integrity = 30
-	state.realm_configuration.intensity = 30
-	state.realm_configuration.density = 30
+	state.realm_configuration.stability = 1000
+	state.realm_configuration.integrity = 1000
+	state.realm_configuration.intensity = 1000
+	state.realm_configuration.density = 1000
 	state.rebuild_realm_effects()
 
 	var test_levels: Dictionary = {
