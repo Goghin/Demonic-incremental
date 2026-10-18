@@ -275,24 +275,42 @@ func _select_lava_mite_input_fallback(
 	generator: Generator,
 	delta: float
 ) -> void:
-	generator.use_base_input_rates = false
-
 	if generator.definition.id != "lava_mite_colony":
+		generator.use_base_input_rates = false
 		return
 
-	var operation_mode := generator.get_operation_mode()
+	var was_throttled := generator.use_base_input_rates
+	generator.use_base_input_rates = false
+
+	# Hysteresis: once throttled, stay throttled until normal rates have a full
+	# second of every input available. This prevents rapid mode-flipping.
+	if was_throttled:
+		for input in generator.get_active_inputs():
+			var normal_rate := generator.get_input_consumption_per_second(
+				input,
+				state
+			)
+			var available := state.get_resource_amount(input.resource_id)
+			if available < normal_rate:
+				generator.use_base_input_rates = true
+				return
+		return
+
 	for input in generator.get_active_inputs():
 		var enhanced_rate := generator.get_input_consumption_per_second(
 			input,
 			state
 		)
-		var base_rate := input.amount_per_second * generator.level
-		if operation_mode != null:
-			base_rate *= operation_mode.input_multiplier
+		generator.use_base_input_rates = true
+		var throttled_rate := generator.get_input_consumption_per_second(
+			input,
+			state
+		)
+		generator.use_base_input_rates = false
 
-		# Only fall back when a modifier has raised this input above its
-		# base rate and the raised requirement cannot be covered this step.
-		if enhanced_rate <= base_rate:
+		# Only Ash-scaled escalation should trigger throttling. Permanent input
+		# bonuses and non-Ash dynamic formulas remain part of the baseline.
+		if enhanced_rate <= throttled_rate:
 			continue
 
 		var enhanced_required := enhanced_rate * delta
@@ -300,7 +318,6 @@ func _select_lava_mite_input_fallback(
 		if enhanced_required > available:
 			generator.use_base_input_rates = true
 			return
-
 
 # Process one simulation step for a cycle-based generator.
 #
