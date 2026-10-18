@@ -378,6 +378,34 @@ func _print_profile_report(profile: Dictionary) -> void:
 		]
 	)
 
+	var environmental_details: Array[String] = [
+		"matter_decay",
+		"heat_leak",
+		"heat_leak_integration"
+	]
+	var environmental_total_usec: int = int(totals.get("environmental_effects", 0))
+	print("")
+	print("  ENVIRONMENTAL EFFECTS DETAILS")
+	print("  Subphase timings are nested within environmental_effects.")
+	for section in environmental_details:
+		var elapsed_usec: int = int(totals.get(section, 0))
+		var calls: int = int(counts.get(section, 0))
+		var percent: float = 0.0
+		var average_usec: float = 0.0
+		if environmental_total_usec > 0:
+			percent = float(elapsed_usec) / float(environmental_total_usec) * 100.0
+		if calls > 0:
+			average_usec = float(elapsed_usec) / float(calls)
+		print(
+			"    %s | %s ms | %.1f%% of environmental phase | avg %.2f us/call | calls %s" % [
+				section,
+				_format_number(float(elapsed_usec) / 1000.0),
+				percent,
+				average_usec,
+				_format_integer(calls)
+			]
+		)
+
 	var automation_details: Array[String] = [
 		"generator_automation_loop_checks",
 		"generator_automation_waiting_checks",
