@@ -25,7 +25,7 @@ func update(
 	overlay.visible = should_be_active
 	overlay.active = should_be_active
 	overlay.generator_level = generator.level
-overlay.operation_mode_id = generator.operation_mode_id
+	overlay.operation_mode_id = generator.operation_mode_id
 
 
 func reset() -> void:

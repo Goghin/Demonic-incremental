@@ -133,7 +133,7 @@ func _draw() -> void:
 					var point: Vector2 = point_data
 					points.append(particle_position + point.rotated(shape_angle) * particle_size)
 				draw_colored_polygon(points, flake_color)
-		2:
+			2:
 				# A curled fragment, kept dim so it reads as ash rather than a spark.
 				draw_arc(
 					particle_position, particle_size * 0.9,
@@ -141,7 +141,7 @@ func _draw() -> void:
 					6, Color(0.62, 0.48, 0.38, particle_alpha * 0.75),
 					max(particle_size * 0.35, 0.4), true
 				)
-		3:
+			3:
 				# Rare warm ember among the otherwise cool grey ash.
 				draw_circle(particle_position, particle_size * 0.75, ember_color)
 				if warmth > 0.72:
