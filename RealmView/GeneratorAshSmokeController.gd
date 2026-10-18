@@ -9,6 +9,23 @@ const ASH_PRODUCING_GENERATORS: Array[String] = [
 	"infernal_forge"
 ]
 const EMITTERS_PER_GENERATOR: int = 3
+const MAX_NORMALIZED_ASH_OUTPUT: float = 1.0
+const EMITTER_SIZE_MIN: Array[float] = [0.32, 0.28, 0.24]
+const EMITTER_SIZE_MAX: Array[float] = [0.95, 0.82, 0.72]
+const EMITTER_RATE_MIN: Array[float] = [0.12, 0.10, 0.08]
+const EMITTER_RATE_MAX: Array[float] = [1.15, 0.95, 0.80]
+const EMITTER_OPACITY_MIN: Array[float] = [0.10, 0.08, 0.07]
+const EMITTER_OPACITY_MAX: Array[float] = [0.48, 0.42, 0.38]
+
+# Ash output rate at which each generator reaches the end of stage 3.
+# Tune these independently to match each generator's expected production range.
+const ASH_OUTPUT_TARGET_BY_GENERATOR: Dictionary = {
+	"molecular_agitation": 8.0,
+	"thermal_furnace": 8.0,
+	"matter_furnace": 8.0,
+	"infernal_forge": 8.0
+}
+
 # Offsets are normalized to each machine's visual size. Tune these per sprite.
 const EMITTER_OFFSETS_BY_GENERATOR: Dictionary = {
 	"molecular_agitation": [
@@ -60,8 +77,16 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 		var machine_size: float = _get_machine_size(generator_id, island_rect)
 		var ash_rate: float = _get_ash_output_rate(generator, state)
 		var active: bool = generator.unlocked and generator.level > 0 and generator.is_operating()
-		var intensity: float = clampf(ash_rate / 8.0, 0.0, 1.0) if active else 0.0
 		var enabled: bool = owner.visual_effects_enabled and active and ash_rate > 0.0
+		var target_rate: float = maxf(
+			float(ASH_OUTPUT_TARGET_BY_GENERATOR.get(generator_id, 8.0)),
+			0.001
+		)
+		var normalized_output: float = clampf(
+			ash_rate / target_rate,
+			0.0,
+			MAX_NORMALIZED_ASH_OUTPUT
+		) if active else 0.0
 
 		for index in range(emitters.size()):
 			var emitter: SmokeEmitterRenderer = emitters[index]
@@ -71,19 +96,41 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 			var offsets: Array = EMITTER_OFFSETS_BY_GENERATOR.get(generator_id, [])
 			if index >= offsets.size():
 				continue
+
 			var offset: Vector2 = offsets[index]
 			emitter.position = generator_position + Vector2(
 				offset.x * machine_size,
 				offset.y * machine_size
 			)
-			emitter.configure(
-				0.45 + intensity * 0.5,
-				0.1 + intensity * 1.7,
-				0.12 + intensity * 0.36,
-				"puff"
+
+			# Each emitter owns one third of the normalized output range.
+			# Earlier emitters remain at full output as later ones ramp up.
+			var stage_start: float = float(index) / float(EMITTERS_PER_GENERATOR)
+			var stage_progress: float = clampf(
+				(normalized_output - stage_start) * float(EMITTERS_PER_GENERATOR),
+				0.0,
+				1.0
 			)
-			emitter.visible = enabled
-			emitter.set_process(enabled)
+			var stage_active: bool = enabled and normalized_output > stage_start
+			var size: float = lerpf(
+				EMITTER_SIZE_MIN[index],
+				EMITTER_SIZE_MAX[index],
+				stage_progress
+			)
+			var rate: float = lerpf(
+				EMITTER_RATE_MIN[index],
+				EMITTER_RATE_MAX[index],
+				stage_progress
+			)
+			var opacity: float = lerpf(
+				EMITTER_OPACITY_MIN[index],
+				EMITTER_OPACITY_MAX[index],
+				stage_progress
+			)
+
+			emitter.configure(size, rate, opacity, "puff")
+			emitter.visible = stage_active
+			emitter.set_process(stage_active)
 
 
 func _get_ash_output_rate(generator: Generator, state: GameState) -> float:
