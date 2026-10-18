@@ -142,7 +142,9 @@ func _draw_animated_column() -> void:
 	var tint := Color(1.0, 1.0, 1.0, alpha)
 	draw_texture_rect(
 		frame,
-		Rect2(Vector2(-frame_size.x * 0.5, -frame_size.y * 0.5), frame_size),
+		# The emitter position is the column's base, so the editor handle
+		# stays anchored where smoke emerges from the ground/source.
+		Rect2(Vector2(-frame_size.x * 0.5, -frame_size.y), frame_size),
 		false,
 		tint
 	)
