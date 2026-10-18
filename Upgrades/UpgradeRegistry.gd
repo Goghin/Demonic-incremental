@@ -2029,8 +2029,8 @@ static func _create_infernal_forge_immunity() -> Upgrade:
 		],
 		[
 			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"infernal_forge",
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_unlock",
 				1
 			)
 		],
@@ -2061,8 +2061,8 @@ static func _create_infernal_forge_careful_mode() -> Upgrade:
 		],
 		[
 			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"infernal_forge",
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_unlock",
 				1
 			)
 		],
@@ -2158,8 +2158,8 @@ static func _create_infernal_forge_fast_mode() -> Upgrade:
 		],
 		[
 			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"infernal_forge",
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_unlock",
 				1
 			)
 		],
@@ -2317,8 +2317,8 @@ static func _create_infernal_forge_infernal_mode() -> Upgrade:
 		],
 		[
 			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"infernal_forge",
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_unlock",
 				1
 			),
 			Requirement.new(
@@ -2355,7 +2355,11 @@ static func _create_infernal_forge_critical_chance() -> Upgrade:
 			)
 		],
 		[
-			Requirement.new(RequirementTypes.GENERATOR_LEVEL, "infernal_forge", 1)
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_unlock",
+				1
+			)
 		],
 		false,
 		"",
@@ -2388,7 +2392,11 @@ static func _create_infernal_forge_critical_production() -> Upgrade:
 			)
 		],
 		[
-			Requirement.new(RequirementTypes.GENERATOR_LEVEL, "infernal_forge", 1)
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_unlock",
+				1
+			)
 		],
 		false,
 		"",
@@ -2422,7 +2430,11 @@ static func _create_infernal_forge_recrystallization() -> Upgrade:
 			)
 		],
 		[
-			Requirement.new(RequirementTypes.GENERATOR_LEVEL, "infernal_forge", 1)
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_unlock",
+				1
+			)
 		],
 		false,
 		"",
@@ -2451,8 +2463,8 @@ static func _create_infernal_forge_refinement() -> Upgrade:
 		],
 		[
 			Requirement.new(
-				RequirementTypes.GENERATOR_LEVEL,
-				"infernal_forge",
+				RequirementTypes.UPGRADE_PURCHASED,
+				"infernal_forge_unlock",
 				1
 			)
 		],
