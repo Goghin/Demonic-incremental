@@ -92,6 +92,9 @@ func _record_profile_time(section: String, start_usec: int) -> void:
 # Cycle-based generators only operate while a cycle is active.
 
 func update(delta: float, offline_mode: bool = false) -> void:
+	# Capture the balance before this step so stiff Heat leakage can account for
+	# the net production and consumption that occur during generator processing.
+	var heat_at_step_start: float = state.get_resource_amount(ResourceIds.HEAT)
 	state.track_gameplay_interval_statistics = not offline_mode
 	if _gameplay_snapshot_realm_run_index != state.gameplay_realm_run_index:
 		_gameplay_snapshot_elapsed = 0.0
@@ -215,7 +218,7 @@ func update(delta: float, offline_mode: bool = false) -> void:
 	
 	if profiling_enabled:
 		profile_start_usec = Time.get_ticks_usec()
-	apply_environmental_effects(delta)
+	apply_environmental_effects(delta, heat_at_step_start)
 	if profiling_enabled:
 		_record_profile_time("environmental_effects", profile_start_usec)
 	
@@ -335,9 +338,12 @@ func _record_gameplay_economy_snapshot() -> void:
 	)
 
 
-func apply_environmental_effects(delta: float) -> void:
+func apply_environmental_effects(
+	delta: float,
+	heat_at_step_start: float = -1.0
+	) -> void:
 	apply_matter_decay(delta)
-	apply_heat_leak(delta)
+	apply_heat_leak(delta, heat_at_step_start)
 
 # Select the Lava Mite Colony's base-input fallback before its operating
 # checks. Use a fixed one-second Ash reserve so throttling does not change
@@ -1254,15 +1260,42 @@ func toggle_generator_pause(
 
 
 func apply_heat_leak(
-	delta: float
+	delta: float,
+	heat_at_step_start: float = -1.0
 	) -> void:
-	var heat: float = state.get_resource_amount(ResourceIds.HEAT)
-	var overflow_rate: float = state.get_heat_leak_per_second()
-	var requested_loss: float = overflow_rate * delta
-	var overflow_amount: float = min(requested_loss, heat)
+	if delta <= 0.0:
+		return
 
-	# Benchmark-only trace: record the actual state used by the leak calculation,
-	# including requested loss before it is clamped to the available Heat.
+	var heat: float = state.get_resource_amount(ResourceIds.HEAT)
+	if heat_at_step_start < 0.0:
+		# Preserve sensible behavior for direct calls without a step-start balance.
+		heat_at_step_start = heat
+
+	var overflow_rate: float = state.get_heat_leak_per_second()
+	var effective_threshold: float = state.realm_effects.heat_leak_threshold
+	var excess_heat: float = maxf(maxf(heat, heat_at_step_start) - effective_threshold, 0.0)
+	var requested_loss: float = overflow_rate * delta
+	var overflow_amount: float = 0.0
+
+	# For stiff steps, integrate the changing leak curve together with the net
+	# Heat change caused by generators and Matter decay. Otherwise retain the
+	# cheaper explicit calculation.
+	if heat_at_step_start > effective_threshold and (
+		requested_loss >= 0.05 * maxf(excess_heat, 1.0)
+		or heat <= effective_threshold
+	):
+		var net_heat_rate: float = (heat - heat_at_step_start) / delta
+		var integrated_heat: float = _integrate_heat_balance(
+			heat_at_step_start,
+			net_heat_rate,
+			delta
+		)
+		overflow_amount = maxf(heat - integrated_heat, 0.0)
+		state.set_resource_amount(ResourceIds.HEAT, integrated_heat)
+	elif overflow_rate > 0.0:
+		overflow_amount = min(requested_loss, heat)
+		state.set_resource_amount(ResourceIds.HEAT, heat - overflow_amount)
+
 	if diagnostics_enabled and (
 		diagnostic_time_seconds >= 4.0
 		and diagnostic_time_seconds <= 6.0
@@ -1270,55 +1303,83 @@ func apply_heat_leak(
 		diagnostic_environmental_checkpoints.append({
 			"time": diagnostic_time_seconds,
 			"delta": delta,
+			"heat_at_step_start": heat_at_step_start,
 			"heat_before": heat,
-			"threshold": state.realm_effects.heat_leak_threshold,
+			"threshold": effective_threshold,
 			"leak_rate_per_second": overflow_rate,
 			"requested_loss": requested_loss,
 			"actual_loss": overflow_amount,
-			"heat_after": heat - overflow_amount
+			"heat_after": state.get_resource_amount(ResourceIds.HEAT),
+			"integrated": heat_at_step_start > effective_threshold and (
+				requested_loss >= 0.05 * maxf(excess_heat, 1.0)
+				or heat <= effective_threshold
+			)
 		})
 
-	if overflow_rate <= 0.0 or overflow_amount <= 0.0:
+	if overflow_amount <= 0.0:
 		return
 
-	state.set_resource_amount(
-		ResourceIds.HEAT,
-		heat - overflow_amount
-	)
+	state.record_resource_lost(ResourceIds.HEAT, overflow_amount)
 
-	state.record_resource_lost(
-		ResourceIds.HEAT,
-		overflow_amount
-	)
-
-	var crystallized_flames = state.get_resource_amount(
-		ResourceIds.CRYSTALLIZED_FLAME
-	)
-
-	var overflow_multiplier = pow(
-		1.25,
-		crystallized_flames
-	)
-
-	var recorded_overflow = (
-		overflow_amount * overflow_multiplier
-	)
+	var crystallized_flames = state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)
+	var overflow_multiplier = pow(1.25, crystallized_flames)
+	var recorded_overflow = overflow_amount * overflow_multiplier
 
 	state.total_overflow_this_prestige += recorded_overflow
+	state.resource_statistics.record_overflow(recorded_overflow)
+	state.current_run_statistics.record_overflow(recorded_overflow)
 
-	state.resource_statistics.record_overflow(
-		recorded_overflow
-	)
-
-	state.current_run_statistics.record_overflow(
-		recorded_overflow
-	)
-	
 	if state.simulation_statistics != null:
-		state.simulation_statistics.record_overflow(
-			recorded_overflow
+		state.simulation_statistics.record_overflow(recorded_overflow)
+
+
+# Integrate dHeat/dt = net_heat_rate - leak(Heat) with bounded implicit substeps.
+# This avoids draining the entire stockpile when a large simulation step spans
+# a substantial fraction of the nonlinear leak curve's timescale.
+func _integrate_heat_balance(
+	initial_heat: float,
+	net_heat_rate: float,
+	delta: float
+	) -> float:
+	const SUBSTEPS: int = 32
+	const BISECTION_ITERATIONS: int = 40
+
+	var heat: float = maxf(initial_heat, 0.0)
+	var step_delta: float = delta / float(SUBSTEPS)
+	var threshold: float = state.realm_effects.heat_leak_threshold
+
+	for _step in range(SUBSTEPS):
+		var low: float = 0.0
+		var high: float = maxf(
+			heat + maxf(net_heat_rate, 0.0) * step_delta,
+			threshold
 		)
-		
+
+		var low_residual: float = (
+			low - heat - step_delta * (
+				net_heat_rate - state.get_heat_leak_per_second_at(low)
+			)
+		)
+		if low_residual >= 0.0:
+			heat = 0.0
+			continue
+
+		for _iteration in range(BISECTION_ITERATIONS):
+			var midpoint: float = (low + high) * 0.5
+			var residual: float = (
+				midpoint - heat - step_delta * (
+					net_heat_rate - state.get_heat_leak_per_second_at(midpoint)
+				)
+			)
+			if residual > 0.0:
+				high = midpoint
+			else:
+				low = midpoint
+
+		heat = maxf((low + high) * 0.5, 0.0)
+
+	return heat
+
 func apply_matter_decay(
 	delta: float
 	) -> void:
