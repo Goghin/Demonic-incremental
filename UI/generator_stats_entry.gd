@@ -880,10 +880,13 @@ func update_consumption_modifier_label(
 	var effective_multiplier = modifier[
 		"effective_multiplier"
 	]
+	var inactive_due_to_throttling := (
+		_is_modifier_inactive_due_to_throttling(modifier)
+	)
 	apply_modifier_color(
-	label,
-	ModifierTypes.INPUT_DRAW,
-	effective_multiplier
+		label,
+		ModifierTypes.INPUT_DRAW,
+		effective_multiplier
 	)
 	if is_equal_approx(
 		raw_multiplier,
@@ -911,6 +914,35 @@ func update_consumption_modifier_label(
 				modifier["sensitivity"]
 			)
 		]
+
+	if inactive_due_to_throttling:
+		label.text += "  [INACTIVE — Throttled]"
+		label.add_theme_color_override(
+			"font_color",
+			Color(0.58, 0.55, 0.54)
+		)
+
+
+func _is_modifier_inactive_due_to_throttling(
+	modifier: Dictionary
+	) -> bool:
+	var generator = state.get_generator(generator_id)
+	if (
+		generator == null
+		or generator.definition.id != "lava_mite_colony"
+		or not generator.is_throttled
+	):
+		return false
+
+	if (
+		not bool(modifier.get("dynamic", false))
+		or str(modifier.get("resource_id", "")) != ResourceIds.ASH
+	):
+		return false
+
+	# Dormancy remains active while throttled, so do not mark it inactive.
+	var modifier_ids: Array = modifier.get("modifier_ids", [])
+	return not modifier_ids.has("lava_mite_dormancy")
 
 
 func update_consumption_final_label(
