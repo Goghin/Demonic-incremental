@@ -215,10 +215,16 @@ func _get_base_mechanics_text() -> String:
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var modifier_data := stats.get_crystallization_modifier_data()
 			var raw_multiplier: float = float(modifier_data["raw_multiplier"])
+			if raw_multiplier > 0.0 and raw_multiplier < 0.0001:
+				return (
+					"Heat output remaining: ~1 in "
+					+ NumberFormatter.format(1.0 / raw_multiplier)
+					+ " of normal output"
+				)
 			var penalty_percent: float = (1.0 - raw_multiplier) * 100.0
 			return (
 				"Raw Heat production multiplier: ×"
-				+ NumberFormatter.format_precise_multiplier(raw_multiplier)
+				+ NumberFormatter.format(raw_multiplier)
 				+ "\nHeat production penalty: "
 				+ NumberFormatter.format(penalty_percent)
 				+ "%"
