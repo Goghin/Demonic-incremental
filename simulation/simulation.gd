@@ -1341,8 +1341,11 @@ func _integrate_heat_balance(
 	net_heat_rate: float,
 	delta: float
 	) -> float:
-	const SUBSTEPS: int = 32
-	const BISECTION_ITERATIONS: int = 40
+	# Keep the implicit solve bounded without overspending CPU on each step.
+	# 16 substeps and 24 bisection rounds use 384 leak evaluations at most,
+	# down from 1,280, while retaining a tightly bounded root solve.
+	const SUBSTEPS: int = 16
+	const BISECTION_ITERATIONS: int = 24
 
 	var heat: float = maxf(initial_heat, 0.0)
 	var step_delta: float = delta / float(SUBSTEPS)
