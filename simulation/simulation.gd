@@ -1341,15 +1341,22 @@ func _integrate_heat_balance(
 	net_heat_rate: float,
 	delta: float
 	) -> float:
-	# Keep the implicit solve bounded without overspending CPU on each step.
-	# 16 substeps and 24 bisection rounds use 384 leak evaluations at most,
-	# down from 1,280, while retaining a tightly bounded root solve.
+	# Solve each implicit substep with safeguarded Newton iterations. The
+	# derivative follows directly from the existing power-law leak curve:
+	# d(residual)/dHeat = 1 + step_delta * leak * exponent / excess_heat.
+	# If Newton does not converge quickly, finish with bounded bisection.
 	const SUBSTEPS: int = 16
+	const NEWTON_ITERATIONS: int = 8
 	const BISECTION_ITERATIONS: int = 24
 
 	var heat: float = maxf(initial_heat, 0.0)
 	var step_delta: float = delta / float(SUBSTEPS)
 	var threshold: float = state.realm_effects.heat_leak_threshold
+	var exponent: float = maxf(
+		2.0,
+		state.heat_leak_exponent
+		- 0.02 * state._get_heat_loss_exponent_upgrade_level()
+	)
 
 	for _step in range(SUBSTEPS):
 		var low: float = 0.0
@@ -1367,19 +1374,52 @@ func _integrate_heat_balance(
 			heat = 0.0
 			continue
 
-		for _iteration in range(BISECTION_ITERATIONS):
-			var midpoint: float = (low + high) * 0.5
+		var estimate: float = (low + high) * 0.5
+		var converged: bool = false
+		for _iteration in range(NEWTON_ITERATIONS):
+			var leak: float = state.get_heat_leak_per_second_at(estimate)
 			var residual: float = (
-				midpoint - heat - step_delta * (
-					net_heat_rate - state.get_heat_leak_per_second_at(midpoint)
-				)
+				estimate - heat - step_delta * (net_heat_rate - leak)
 			)
 			if residual > 0.0:
-				high = midpoint
+				high = estimate
 			else:
-				low = midpoint
+				low = estimate
 
-		heat = maxf((low + high) * 0.5, 0.0)
+			var tolerance: float = maxf(1e-8, absf(estimate) * 1e-10)
+			if absf(residual) <= tolerance:
+				converged = true
+				break
+
+			var derivative: float = 1.0
+			var excess_heat: float = estimate - threshold
+			if excess_heat > 0.0 and leak > 0.0:
+				derivative += step_delta * leak * exponent / excess_heat
+
+			var candidate: float = estimate - residual / derivative
+			# Keep every Newton step inside the proven root bracket. A midpoint
+			# step is the safe fallback when Newton would leave that bracket.
+			if candidate <= low or candidate >= high:
+				candidate = (low + high) * 0.5
+			estimate = candidate
+
+		if not converged:
+			# Retain the previous bounded accuracy guarantee for difficult cases.
+			for _iteration in range(BISECTION_ITERATIONS):
+				var midpoint: float = (low + high) * 0.5
+				var residual: float = (
+					midpoint - heat - step_delta * (
+						net_heat_rate
+						- state.get_heat_leak_per_second_at(midpoint)
+					)
+				)
+				if residual > 0.0:
+					high = midpoint
+				else:
+					low = midpoint
+			estimate = (low + high) * 0.5
+
+		heat = maxf(estimate, 0.0)
 
 	return heat
 
