@@ -1258,7 +1258,7 @@ func apply_heat_leak(
 	) -> void:
 	var heat: float = state.get_resource_amount(ResourceIds.HEAT)
 	var overflow_rate: float = state.get_heat_leak_per_second()
-	var requested_loss: float = state.get_heat_leak_amount(delta)
+	var requested_loss: float = overflow_rate * delta
 	var overflow_amount: float = min(requested_loss, heat)
 
 	# Benchmark-only trace: record the actual state used by the leak calculation,
