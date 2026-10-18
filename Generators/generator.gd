@@ -272,9 +272,22 @@ func get_input_rate(
 		return input.amount_per_second * operation_mode.input_multiplier
 
 	if definition.id == "lava_mite_colony" and use_base_input_rates:
+		var base_input_rate := input.amount_per_second
 		if operation_mode != null:
-			return input.amount_per_second * operation_mode.input_multiplier
-		return input.amount_per_second
+			base_input_rate *= operation_mode.input_multiplier
+
+		# Keep Natural Dormancy active during fallback. Only the Ash/Essence
+		# driven escalation is bypassed; the colony must not evade dormancy.
+		for modifier in modifiers:
+			if modifier.id != "lava_mite_dormancy":
+				continue
+			if modifier.applies_to(ModifierTypes.INPUT_DRAW, input.resource_id):
+				base_input_rate = modifier.apply(
+					base_input_rate,
+					state,
+					self
+				)
+		return base_input_rate
 	
 	if operation_mode != null:
 		input_per_second *= operation_mode.input_multiplier
