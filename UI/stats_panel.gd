@@ -616,7 +616,8 @@ func _setup_pressure_rows() -> void:
 	_add_effect_row(container, "ash_contamination", "Ash Contamination: ×1", ResourceIds.ASH)
 
 	_add_effect_section(container, "CRYSTALLIZED FLAME")
-	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production: ×1 (0% penalty)", ResourceIds.CRYSTALLIZED_FLAME)
+	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
+	_add_effect_row(container, "flame_penalty", "Heat Production Penalty: 0%", ResourceIds.CRYSTALLIZED_FLAME)
 	_add_effect_row(container, "overflow_bonus", "Overflow Bonus Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 
 	_add_effect_section(container, "ESSENCE")
@@ -705,20 +706,21 @@ func update_pressure_stats() -> void:
 		% NumberFormatter.format(ash_contamination_multiplier)
 	)
 	var raw_flame_multiplier: float = float(flame_data["raw_multiplier"])
+	var raw_flame_penalty_percent: float = (1.0 - raw_flame_multiplier) * 100.0
 	if raw_flame_multiplier > 0.0 and raw_flame_multiplier < 0.0001:
 		pressure_labels["flame_raw_multiplier"].text = (
 			"Raw Heat Production: ~1 in %s of normal output"
 			% NumberFormatter.format(1.0 / raw_flame_multiplier)
 		)
 	else:
-		var raw_flame_penalty_percent: float = (1.0 - raw_flame_multiplier) * 100.0
 		pressure_labels["flame_raw_multiplier"].text = (
-			"Raw Heat Production: ×%s (%.2f%% penalty)"
-			% [
-				NumberFormatter.format(raw_flame_multiplier),
-				raw_flame_penalty_percent
-			]
+			"Raw Heat Production Multiplier: ×%s"
+			% NumberFormatter.format(raw_flame_multiplier)
 		)
+	pressure_labels["flame_penalty"].text = (
+		"Heat Production Penalty: %s%%"
+		% NumberFormatter.format(raw_flame_penalty_percent)
+	)
 	pressure_labels["overflow_bonus"].text = (
 		"Overflow Bonus Multiplier: ×%s"
 		% NumberFormatter.format(pow(1.25, state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)))
@@ -731,8 +733,15 @@ func update_pressure_stats() -> void:
 		"Crystallization Resistance: %s%%"
 		% NumberFormatter.format(flame_data["essence_resistance_percent"])
 	)
-	pressure_labels["essence_final_multiplier"].text = (
-		"Final Heat Production Multiplier: ×%s"
-		% NumberFormatter.format(flame_data["effective_multiplier"])
-	)
+	var effective_multiplier: float = float(flame_data["effective_multiplier"])
+	if effective_multiplier > 0.0 and effective_multiplier < 0.0001:
+		pressure_labels["essence_final_multiplier"].text = (
+			"Final Heat Production: ~1 in %s of normal output"
+			% NumberFormatter.format(1.0 / effective_multiplier)
+		)
+	else:
+		pressure_labels["essence_final_multiplier"].text = (
+			"Final Heat Production Multiplier: ×%s"
+			% NumberFormatter.format(effective_multiplier)
+		)
 	pressure_labels["nexum_placeholder"].text = "No effects yet"
