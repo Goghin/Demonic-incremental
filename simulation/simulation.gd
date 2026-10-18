@@ -1381,6 +1381,11 @@ func _integrate_heat_balance(
 	var heat: float = maxf(initial_heat, 0.0)
 	var step_delta: float = delta / float(SUBSTEPS)
 	var threshold: float = state.realm_effects.heat_leak_threshold
+	var coefficient: float = maxf(
+		20.0,
+		state.heat_leak_scaling
+		- 2.0 * state._get_heat_loss_coefficient_upgrade_level()
+	)
 	var exponent: float = maxf(
 		2.0,
 		state.heat_leak_exponent
@@ -1396,7 +1401,12 @@ func _integrate_heat_balance(
 
 		var low_residual: float = (
 			low - heat - step_delta * (
-				net_heat_rate - state.get_heat_leak_per_second_at(low)
+				net_heat_rate - state.get_heat_leak_per_second_at_with_parameters(
+				low,
+				threshold,
+				coefficient,
+				exponent
+			)
 			)
 		)
 		if low_residual >= 0.0:
@@ -1406,7 +1416,12 @@ func _integrate_heat_balance(
 		var estimate: float = (low + high) * 0.5
 		var converged: bool = false
 		for _iteration in range(NEWTON_ITERATIONS):
-			var leak: float = state.get_heat_leak_per_second_at(estimate)
+			var leak: float = state.get_heat_leak_per_second_at_with_parameters(
+				estimate,
+				threshold,
+				coefficient,
+				exponent
+			)
 			var residual: float = (
 				estimate - heat - step_delta * (net_heat_rate - leak)
 			)
@@ -1439,7 +1454,12 @@ func _integrate_heat_balance(
 				var residual: float = (
 					midpoint - heat - step_delta * (
 						net_heat_rate
-						- state.get_heat_leak_per_second_at(midpoint)
+						- state.get_heat_leak_per_second_at_with_parameters(
+						midpoint,
+						threshold,
+						coefficient,
+						exponent
+					)
 					)
 				)
 				if residual > 0.0:
