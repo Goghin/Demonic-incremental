@@ -219,7 +219,7 @@ func _get_base_mechanics_text() -> String:
 			return (
 				"Raw Heat production multiplier: ×"
 				+ NumberFormatter.format_precise_multiplier(raw_multiplier)
-				+ "\\nHeat production penalty: "
+				+ "\nHeat production penalty: "
 				+ NumberFormatter.format(penalty_percent)
 				+ "%"
 			)
