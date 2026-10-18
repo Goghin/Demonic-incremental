@@ -616,7 +616,7 @@ func _setup_pressure_rows() -> void:
 	_add_effect_row(container, "ash_contamination", "Ash Contamination: ×1", ResourceIds.ASH)
 
 	_add_effect_section(container, "CRYSTALLIZED FLAME")
-	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
+	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production: ×1 (0% penalty)", ResourceIds.CRYSTALLIZED_FLAME)
 	_add_effect_row(container, "overflow_bonus", "Overflow Bonus Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 
 	_add_effect_section(container, "ESSENCE")
@@ -704,9 +704,14 @@ func update_pressure_stats() -> void:
 		"Ash Contamination: ×%s"
 		% NumberFormatter.format(ash_contamination_multiplier)
 	)
+	var raw_flame_multiplier: float = float(flame_data["raw_multiplier"])
+	var raw_flame_penalty_percent: float = (1.0 - raw_flame_multiplier) * 100.0
 	pressure_labels["flame_raw_multiplier"].text = (
-		"Raw Heat Production Multiplier: ×%s"
-		% NumberFormatter.format(flame_data["raw_multiplier"])
+		"Raw Heat Production: ×%s (%.2f%% penalty)"
+		% [
+			NumberFormatter.format_precise_multiplier(raw_flame_multiplier),
+			raw_flame_penalty_percent
+		]
 	)
 	pressure_labels["overflow_bonus"].text = (
 		"Overflow Bonus Multiplier: ×%s"
