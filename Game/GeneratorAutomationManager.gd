@@ -193,12 +193,20 @@ func update(delta: float, simulation: Simulation) -> void:
 		# This allows multiple elapsed cooldowns to be handled in one large step.
 		var remaining_delta: float = maxf(delta, 0.0)
 		while true:
+			var cooldown_check_usec: int = 0
+			if simulation.profiling_enabled:
+				cooldown_check_usec = Time.get_ticks_usec()
 			var cooldown: float = maxf(
 				float(automation["remaining_cooldown"]),
 				0.0
 			)
 			if cooldown > remaining_delta:
 				automation["remaining_cooldown"] = cooldown - remaining_delta
+				if simulation.profiling_enabled:
+					simulation._record_profile_time(
+						"generator_automation_loop_checks",
+						cooldown_check_usec
+					)
 				break
 
 			remaining_delta = maxf(remaining_delta - cooldown, 0.0)
@@ -206,7 +214,7 @@ func update(delta: float, simulation: Simulation) -> void:
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
 					"generator_automation_loop_checks",
-					profile_start_usec
+					cooldown_check_usec
 				)
 			var purchase_start_usec: int = 0
 			if simulation.profiling_enabled:
