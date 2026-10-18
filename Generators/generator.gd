@@ -273,22 +273,26 @@ func get_input_rate(
 		return input.amount_per_second * operation_mode.input_multiplier
 
 	if definition.id == "lava_mite_colony" and use_base_input_rates:
-		var base_input_rate := input.amount_per_second
-		if operation_mode != null:
-			base_input_rate *= operation_mode.input_multiplier
-
-		# Keep Natural Dormancy active during fallback. Only the Ash/Essence
-		# driven escalation is bypassed; the colony must not evade dormancy.
+		# Throttling suppresses only dynamic input formulas driven by Ash.
+		# Permanent input upgrades and other dynamic effects remain active.
 		for modifier in modifiers:
-			if modifier.id != "lava_mite_dormancy":
+			if not modifier.applies_to(
+				ModifierTypes.INPUT_DRAW,
+				input.resource_id
+			):
 				continue
-			if modifier.applies_to(ModifierTypes.INPUT_DRAW, input.resource_id):
-				base_input_rate = modifier.apply(
-					base_input_rate,
-					state,
-					self
-				)
-		return base_input_rate
+			if (
+				modifier.dynamic
+				and modifier.dynamic_resource_id == ResourceIds.ASH
+				and modifier.id != "lava_mite_dormancy"
+			):
+				continue
+			input_per_second = modifier.apply(
+				input_per_second,
+				state,
+				self
+			)
+		return input_per_second
 	
 	if operation_mode != null:
 		input_per_second *= operation_mode.input_multiplier
@@ -347,10 +351,7 @@ func can_start_operating(
 	if definition.cycle_based and not cycle_active:
 		return false
 	
-	var partial_input_operation: bool = (
-		allow_partial_inputs
-		or definition.id == "lava_mite_colony"
-	)
+	var partial_input_operation: bool = allow_partial_inputs
 	var operation_mode = get_operation_mode()
 	if operation_mode != null and operation_mode.is_resource_transfer:
 		partial_input_operation = true
@@ -474,6 +475,9 @@ func get_status() -> String:
 	
 	if manually_paused:
 		return "Paused"
+
+	if definition.id == "lava_mite_colony" and use_base_input_rates:
+		return "Throttled"
 	
 	if definition.cycle_based:
 		if not cycle_active:
