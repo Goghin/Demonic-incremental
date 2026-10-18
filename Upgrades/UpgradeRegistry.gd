@@ -2581,7 +2581,7 @@ static func _create_loss_exponent_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"loss_exponent_refinement",
 		"Loss Exponent Refinement",
-		"Reduces the Matter decay exponent from 2.5 to 2.0 over 5 levels.",
+		"Reduces the Matter decay exponent from 2.5 to 2.4 over 5 levels.",
 		ResourceIds.MATTER,
 		10000.0,
 		[],
@@ -2616,7 +2616,7 @@ static func _create_heat_loss_exponent_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"heat_loss_exponent_refinement",
 		"Heat Loss Exponent Refinement",
-		"Reduces the Heat leak exponent from 2.5 to 2.0 over 5 levels.",
+		"Reduces the Heat leak exponent from 2.5 to 2.4 over 5 levels.",
 		ResourceIds.HEAT,
 		10000.0,
 		[],
