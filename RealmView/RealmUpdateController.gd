@@ -18,6 +18,7 @@ func update(owner: RealmView, delta: float) -> void:
 	var forge_activity_controller: ForgeActivityVisualController = owner.forge_activity_visual_controller
 	var island_rect: Rect2 = owner._get_island_rect()
 	owner.smoke_visual_controller.update(owner, island_rect)
+	owner.generator_ash_smoke_controller.update(owner, island_rect)
 	var thermal_furnace_position: Vector2 = owner._get_generator_position_in_rect(
 		"thermal_furnace",
 		island_rect
