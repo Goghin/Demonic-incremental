@@ -221,16 +221,12 @@ func get_production_rate(
 				state.eternal_flame_state
 			)
 	
-	for modifier in modifiers:
-		if modifier.applies_to(
-			ModifierTypes.PRODUCTION,
-			output.resource_id
-		):
-			production = modifier.apply(
-				production,
-				state,
-				self
-			)
+	for modifier in get_production_modifiers(output.resource_id):
+		production = modifier.apply(
+			production,
+			state,
+			self
+		)
 	
 	return production
 
