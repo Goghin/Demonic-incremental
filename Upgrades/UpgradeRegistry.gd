@@ -43,6 +43,8 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_thermal_recovery())
 	_register(upgrades, _create_loss_coefficient_refinement())
 	_register(upgrades, _create_loss_exponent_refinement())
+	_register(upgrades, _create_heat_loss_coefficient_refinement())
+	_register(upgrades, _create_heat_loss_exponent_refinement())
 
 	# Infernal Condensation
 	_register(upgrades, _create_thermal_furnace_optimization())
@@ -2561,14 +2563,14 @@ static func _create_loss_coefficient_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"loss_coefficient_refinement",
 		"Loss Coefficient Refinement",
-		"Reduces the Heat leak and Matter decay coefficient from 30 to 20 over 5 levels.",
+		"Reduces the Matter decay coefficient from 30 to 20 over 5 levels.",
 		ResourceIds.MATTER,
 		1000.0,
 		[],
 		[],
 		false,
 		"",
-		"matter",
+		"realm_thresholds",
 		5,
 		2.0
 	)
@@ -2579,14 +2581,49 @@ static func _create_loss_exponent_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"loss_exponent_refinement",
 		"Loss Exponent Refinement",
-		"Reduces the Heat leak and Matter decay exponent from 2.5 to 2.0 over 5 levels.",
+		"Reduces the Matter decay exponent from 2.5 to 2.0 over 5 levels.",
 		ResourceIds.MATTER,
 		10000.0,
 		[],
 		[],
 		false,
 		"",
-		"matter",
+		"realm_thresholds",
+		5,
+		2.0
+	)
+	return Upgrade.new(definition)
+
+static func _create_heat_loss_coefficient_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"heat_loss_coefficient_refinement",
+		"Heat Loss Coefficient Refinement",
+		"Reduces the Heat leak coefficient from 30 to 20 over 5 levels.",
+		ResourceIds.HEAT,
+		1000.0,
+		[],
+		[],
+		false,
+		"",
+		"realm_thresholds",
+		5,
+		2.0
+	)
+	return Upgrade.new(definition)
+
+
+static func _create_heat_loss_exponent_refinement() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"heat_loss_exponent_refinement",
+		"Heat Loss Exponent Refinement",
+		"Reduces the Heat leak exponent from 2.5 to 2.0 over 5 levels.",
+		ResourceIds.HEAT,
+		10000.0,
+		[],
+		[],
+		false,
+		"",
+		"realm_thresholds",
 		5,
 		2.0
 	)
