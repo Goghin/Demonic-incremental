@@ -12,6 +12,9 @@ var initial_unlocked: bool = true
 var unlocked: bool = true
 var manually_paused: bool = false
 var operating: bool = false
+# Lava Mite Colony falls back to its unmodified base input rates when its
+# Ash-scaled input requirements cannot be sustained.
+var use_base_input_rates: bool = false
 
 var cycle_active: bool = false
 var cycle_progress: float = 0.0
@@ -267,6 +270,11 @@ func get_input_rate(
 
 	if operation_mode != null and operation_mode.is_resource_transfer:
 		return input.amount_per_second * operation_mode.input_multiplier
+
+	if definition.id == "lava_mite_colony" and use_base_input_rates:
+		if operation_mode != null:
+			return input.amount_per_second * operation_mode.input_multiplier
+		return input.amount_per_second
 	
 	if operation_mode != null:
 		input_per_second *= operation_mode.input_multiplier
