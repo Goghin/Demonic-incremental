@@ -84,6 +84,8 @@ func update(delta: float, offline_mode: bool = false) -> void:
 	for generator in state.generators.values():
 		if not generator.unlocked:
 			continue
+
+		_select_lava_mite_input_fallback(generator, delta)
 		
 		if generator.definition.cycle_based:
 			var cycle_start_usec: int = 0
@@ -265,6 +267,30 @@ func _record_gameplay_economy_snapshot() -> void:
 func apply_environmental_effects(delta: float) -> void:
 	apply_matter_decay(delta)
 	apply_heat_leak(delta)
+
+# Select the Lava Mite Colony's base-input fallback before its operating
+# checks. If any Ash-scaled input cannot cover this step, the colony attempts
+# to run using its definition's base input rates instead.
+func _select_lava_mite_input_fallback(
+	generator: Generator,
+	delta: float
+) -> void:
+	generator.use_base_input_rates = false
+
+	if generator.definition.id != "lava_mite_colony":
+		return
+
+	for input in generator.get_active_inputs():
+		var enhanced_required := (
+			generator.get_input_consumption_per_second(input, state)
+			* delta
+		)
+		var available := state.get_resource_amount(input.resource_id)
+		if enhanced_required > available:
+			generator.use_base_input_rates = true
+			return
+
+
 # Process one simulation step for a cycle-based generator.
 #
 # A cycle only progresses when all required inputs are available.
