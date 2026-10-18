@@ -325,7 +325,10 @@ func can_start_operating(
 	if definition.cycle_based and not cycle_active:
 		return false
 	
-	var partial_input_operation: bool = allow_partial_inputs
+	var partial_input_operation: bool = (
+		allow_partial_inputs
+		or definition.id == "lava_mite_colony"
+	)
 	var operation_mode = get_operation_mode()
 	if operation_mode != null and operation_mode.is_resource_transfer:
 		partial_input_operation = true
