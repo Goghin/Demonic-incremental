@@ -138,6 +138,8 @@ func _draw_animated_column() -> void:
 
 	var frame: Texture2D = _column_frames[_column_frame_index]
 	var frame_size: Vector2 = Vector2(frame.get_size()) * emitter_size
+	# Keep smoke columns slightly slimmer without shortening their height.
+	frame_size.x *= 0.82
 	var alpha: float = smoke_opacity
 	var tint := Color(1.0, 1.0, 1.0, alpha)
 	draw_texture_rect(
