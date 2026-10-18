@@ -468,6 +468,9 @@ func get_heat_leak_per_second() -> float:
 # the live resource balance; the implicit solver uses this during integration.
 func get_heat_leak_per_second_at(heat: float) -> float:
 	var effective_threshold: float = realm_effects.heat_leak_threshold
+	if heat <= effective_threshold:
+		return 0.0
+
 	var coefficient: float = maxf(
 		20.0,
 		heat_leak_scaling - 2.0 * _get_heat_loss_coefficient_upgrade_level()
