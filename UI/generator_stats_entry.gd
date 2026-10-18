@@ -935,20 +935,18 @@ func _is_modifier_inactive_due_to_throttling(
 	modifier: Dictionary
 	) -> bool:
 	var generator = state.get_generator(generator_id)
-	if (
-		generator == null
-		or generator.definition.id != "lava_mite_colony"
-		or not generator.is_throttled
-	):
+	if generator == null or not generator.is_throttled:
+		return false
+	if generator.definition.id != "lava_mite_colony":
 		return false
 
-	if (
-		not bool(modifier.get("dynamic", false))
-		or str(modifier.get("resource_id", "")) != ResourceIds.ASH
-	):
+	# Mirror Generator's throttling filter: only Ash-driven dynamic
+	# modifiers are suppressed, except Natural Dormancy.
+	if not bool(modifier.get("dynamic", false)):
+		return false
+	if str(modifier.get("resource_id", "")) != ResourceIds.ASH:
 		return false
 
-	# Dormancy remains active while throttled, so do not mark it inactive.
 	var modifier_ids: Array = modifier.get("modifier_ids", [])
 	return not modifier_ids.has("lava_mite_dormancy")
 
