@@ -19,8 +19,8 @@ func _run_benchmarks() -> void:
 	print(" OFFLINE SIMULATION BASELINE BENCHMARK")
 	print("========================================")
 	print("Baseline step: %.2f seconds" % BASELINE_STEP)
-	print("Test profile: seeded resources, all generators unlocked,")
-	print("cycle generator and automation behavior enabled.")
+	print("Test profile: high realm stats, seeded resources,")
+	print("all generators unlocked, cycle generator and automation enabled.")
 	print("Accuracy report includes per-resource totals and generator states.")
 	print("These are controlled test results, not a copy of a player save.")
 	print("")
@@ -266,6 +266,14 @@ func _configure_test_state(state: GameState) -> void:
 	state.set_resource_amount(ResourceIds.ASH, 5000.0)
 	state.set_resource_amount(ResourceIds.CRYSTALIZED_FLAME, 2.0)
 	state.set_resource_amount(ResourceIds.ESSENCE, 100.0)
+
+	# Stress-test realm effects using high values for the four active stats.
+	# These are benchmark-only values; no player save is loaded or modified.
+	state.realm_configuration.stability = 30
+	state.realm_configuration.integrity = 30
+	state.realm_configuration.intensity = 30
+	state.realm_configuration.density = 30
+	state.rebuild_realm_effects()
 
 	var test_levels: Dictionary = {
 		"atomic_friction": 20,
