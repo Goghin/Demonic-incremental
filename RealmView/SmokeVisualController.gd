@@ -34,11 +34,12 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 		emitter.configure(
 			float(definition.get("size", 1.0)),
 			float(definition.get("emission_rate", 1.0)),
-			float(definition.get("opacity", 0.7))
+			float(definition.get("opacity", 0.7)),
+			str(definition.get("style", "puff")),
+			int(definition.get("variant", 1))
 		)
 		emitter.visible = owner.visual_effects_enabled
 		emitter.set_process(owner.visual_effects_enabled)
-
 
 
 func _clear_emitters() -> void:
