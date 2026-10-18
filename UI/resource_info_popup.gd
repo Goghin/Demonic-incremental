@@ -214,8 +214,14 @@ func _get_base_mechanics_text() -> String:
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var modifier_data := stats.get_crystallization_modifier_data()
-			return "Raw Heat production multiplier: ×" + NumberFormatter.format(
-				modifier_data["raw_multiplier"]
+			var raw_multiplier: float = float(modifier_data["raw_multiplier"])
+			var penalty_percent: float = (1.0 - raw_multiplier) * 100.0
+			return (
+				"Raw Heat production multiplier: ×"
+				+ NumberFormatter.format_precise_multiplier(raw_multiplier)
+				+ "\\nHeat production penalty: "
+				+ NumberFormatter.format(penalty_percent)
+				+ "%"
 			)
 		ResourceIds.ESSENCE:
 			var essence_data := stats.get_essence_influence_data()
