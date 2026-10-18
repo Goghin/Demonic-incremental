@@ -54,6 +54,7 @@ func _record_profile_time(section: String, start_usec: int) -> void:
 # Cycle-based generators only operate while a cycle is active.
 
 func update(delta: float, offline_mode: bool = false) -> void:
+	state.track_gameplay_interval_statistics = not offline_mode
 	if _gameplay_snapshot_realm_run_index != state.gameplay_realm_run_index:
 		_gameplay_snapshot_elapsed = 0.0
 		_gameplay_snapshot_realm_run_index = state.gameplay_realm_run_index
