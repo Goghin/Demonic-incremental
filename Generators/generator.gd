@@ -264,7 +264,7 @@ func can_afford(
 func get_input_rate(
 	input: GeneratorIO,
 	state: GameState,
-	apply_throttling: bool = true
+	throttled_override: Variant = null
 	) -> float:
 	var input_per_second := input.amount_per_second
 	var operation_mode := get_operation_mode()
@@ -275,10 +275,13 @@ func get_input_rate(
 	if operation_mode != null:
 		input_per_second *= operation_mode.input_multiplier
 
+	var use_throttled_rates := is_throttled
+	if throttled_override != null:
+		use_throttled_rates = bool(throttled_override)
+
 	var suppress_ash_escalation := (
-		apply_throttling
-		and definition.id == "lava_mite_colony"
-		and is_throttled
+		definition.id == "lava_mite_colony"
+		and use_throttled_rates
 	)
 	for modifier in modifiers:
 		if not modifier.applies_to(
@@ -313,13 +316,13 @@ func _is_suppressed_by_lava_mite_throttling(
 func get_input_consumption_per_second(
 	input: GeneratorIO,
 	state: GameState,
-	apply_throttling: bool = true
+	throttled_override: Variant = null
 	) -> float:
 	return (
 		get_input_rate(
 			input,
 			state,
-			apply_throttling
+			throttled_override
 		)
 		* level
 	)
