@@ -7,6 +7,7 @@ const FLAME_FRAME_COUNT: int = 14
 const FLAME_FPS: float = 12.0
 const FLAME_BASE_SCALE: float = 0.55
 const FLAME_TRANSITION_WIDTH: float = 0.12
+const FLAME_ANCHOR_OFFSET: Vector2 = Vector2(0.0, -4.0)
 
 
 @export var brazier_size: float = 1.0
@@ -139,8 +140,8 @@ func _update_flame_sprites() -> void:
 		if frame_texture != null:
 			var frame_size: Vector2 = frame_texture.get_size()
 			flame_sprite.position = Vector2(
-				-frame_size.x * final_scale * 0.5,
-				-frame_size.y * final_scale
+				-frame_size.x * final_scale * 0.5 + FLAME_ANCHOR_OFFSET.x,
+				-frame_size.y * final_scale + FLAME_ANCHOR_OFFSET.y
 			)
 
 
