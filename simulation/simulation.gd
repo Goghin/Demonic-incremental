@@ -19,6 +19,11 @@ var profiling_enabled: bool = false
 var profile_totals_usec: Dictionary = {}
 var profile_call_counts: Dictionary = {}
 
+# Optional benchmark-only event trace used to locate timestep-dependent progression.
+var diagnostics_enabled: bool = false
+var diagnostic_time_seconds: float = 0.0
+var diagnostic_events: Array[Dictionary] = []
+
 
 func _init(game_state: GameState) -> void:
 	state = game_state
@@ -34,6 +39,23 @@ func get_profile_report() -> Dictionary:
 		"totals_usec": profile_totals_usec.duplicate(),
 		"call_counts": profile_call_counts.duplicate()
 	}
+
+
+func _record_diagnostic_event(
+	event_type: String,
+	event_id: String,
+	level: int,
+	source: String
+) -> void:
+	if not diagnostics_enabled:
+		return
+	diagnostic_events.append({
+		"time": diagnostic_time_seconds,
+		"type": event_type,
+		"id": event_id,
+		"level": level,
+		"source": source
+	})
 
 
 func _record_profile_time(section: String, start_usec: int) -> void:
@@ -736,6 +758,12 @@ func buy_generator(
 	)
 	
 	generator.level += 1
+	_record_diagnostic_event(
+		"generator_purchase",
+		generator_id,
+		generator.level,
+		source
+	)
 	
 	if generator.definition.cycle_based:
 		generator.cycle_progress = 0.0
@@ -837,6 +865,12 @@ func buy_upgrade(
 	)
 	
 	upgrade.level += 1
+	_record_diagnostic_event(
+		"upgrade_purchase",
+		upgrade_id,
+		upgrade.level,
+		source
+	)
 	_apply_upgrade_level_effects(
 		upgrade
 	)
@@ -945,6 +979,12 @@ func _apply_upgrade_effect(
 		if generator != null:
 			if not generator.unlocked:
 				generator.unlocked = true
+				_record_diagnostic_event(
+					"generator_unlock",
+					generator.definition.id,
+					generator.level,
+					source_upgrade_id
+				)
 				state.gameplay_log.record_event(
 					"unlock",
 					"generator_unlocked",
@@ -1123,6 +1163,12 @@ func update_automatic_upgrades() -> void:
 		
 		var previous_level: int = upgrade.level
 		upgrade.level += 1
+		_record_diagnostic_event(
+			"automatic_upgrade",
+			upgrade.definition.id,
+			upgrade.level,
+			"automatic"
+		)
 		
 		_apply_upgrade_level_effects(
 			upgrade
