@@ -705,14 +705,20 @@ func update_pressure_stats() -> void:
 		% NumberFormatter.format(ash_contamination_multiplier)
 	)
 	var raw_flame_multiplier: float = float(flame_data["raw_multiplier"])
-	var raw_flame_penalty_percent: float = (1.0 - raw_flame_multiplier) * 100.0
-	pressure_labels["flame_raw_multiplier"].text = (
-		"Raw Heat Production: ×%s (%.2f%% penalty)"
-		% [
-			NumberFormatter.format_precise_multiplier(raw_flame_multiplier),
-			raw_flame_penalty_percent
-		]
-	)
+	if raw_flame_multiplier > 0.0 and raw_flame_multiplier < 0.0001:
+		pressure_labels["flame_raw_multiplier"].text = (
+			"Raw Heat Production: ~1 in %s of normal output"
+			% NumberFormatter.format(1.0 / raw_flame_multiplier)
+		)
+	else:
+		var raw_flame_penalty_percent: float = (1.0 - raw_flame_multiplier) * 100.0
+		pressure_labels["flame_raw_multiplier"].text = (
+			"Raw Heat Production: ×%s (%.2f%% penalty)"
+			% [
+				NumberFormatter.format(raw_flame_multiplier),
+				raw_flame_penalty_percent
+			]
+		)
 	pressure_labels["overflow_bonus"].text = (
 		"Overflow Bonus Multiplier: ×%s"
 		% NumberFormatter.format(pow(1.25, state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)))
