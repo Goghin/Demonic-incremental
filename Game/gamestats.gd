@@ -740,6 +740,16 @@ func get_generator_production_modifiers(
 				raw_multiplier - 1.0
 			) * sensitivity_data["sensitivity"]
 		)
+		if first_modifier.id == "crystallization":
+			effective_multiplier = pow(
+				maxf(raw_multiplier, 0.0),
+				clampf(sensitivity_data["sensitivity"], 0.0, 1.0)
+			)
+		if modifier.id == "crystallization":
+			effective_multiplier = pow(
+				maxf(raw_multiplier, 0.0),
+				clampf(sensitivity_data["sensitivity"], 0.0, 1.0)
+			)
 		
 		modifiers.append({
 			"current_multiplier": raw_multiplier,
@@ -1133,15 +1143,20 @@ func get_crystallization_modifier_data() -> Dictionary:
 					)
 			break
 
-	var effective_multiplier: float = 1.0 + (
-		raw_multiplier - 1.0
-	) * essence_sensitivity
+	# Resistance is capped at 100%, so Essence can remove the penalty
+	# completely but can never turn it into a Heat production bonus.
+	var penalty_exponent: float = clampf(essence_sensitivity, 0.0, 1.0)
+	var resistance_percent: float = (1.0 - penalty_exponent) * 100.0
+	var effective_multiplier: float = pow(
+		maxf(raw_multiplier, 0.0),
+		penalty_exponent
+	)
 
 	return {
 		"raw_multiplier": raw_multiplier,
-		"essence_sensitivity": essence_sensitivity,
-		"sensitivity": essence_sensitivity,
-		"essence_resistance_percent": (1.0 - essence_sensitivity) * 100.0,
+		"essence_sensitivity": penalty_exponent,
+		"sensitivity": penalty_exponent,
+		"essence_resistance_percent": resistance_percent,
 		"effective_multiplier": effective_multiplier
 	}
 
