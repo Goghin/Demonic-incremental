@@ -139,15 +139,7 @@ func update(delta: float, simulation: Simulation) -> void:
 		if simulation.profiling_enabled:
 			profile_start_usec = Time.get_ticks_usec()
 
-		if not is_enabled(generator_id):
-			if simulation.profiling_enabled:
-				simulation._record_profile_time(
-					"generator_automation_loop_checks",
-					profile_start_usec
-				)
-			continue
-
-		if not is_automation_unlocked(generator_id):
+		if not is_enabled(generator_id) or not is_automation_unlocked(generator_id):
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
 					"generator_automation_loop_checks",
@@ -156,7 +148,6 @@ func update(delta: float, simulation: Simulation) -> void:
 			continue
 
 		var generator = state.get_generator(generator_id)
-
 		if generator == null or not generator.unlocked:
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
@@ -167,15 +158,14 @@ func update(delta: float, simulation: Simulation) -> void:
 
 		var automation: Dictionary = automation_states[generator_id]
 
-		# While waiting, compare the resource balance against the cached
-		# cost. Recalculate the cost only if known cost inputs changed.
+		# Waiting generators are resource-triggered: check once per simulation
+		# update, as before, rather than repeatedly retrying within a large step.
 		if automation["waiting_for_resources"]:
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
 					"generator_automation_loop_checks",
 					profile_start_usec
 				)
-
 			var waiting_start_usec: int = 0
 			if simulation.profiling_enabled:
 				waiting_start_usec = Time.get_ticks_usec()
@@ -183,24 +173,13 @@ func update(delta: float, simulation: Simulation) -> void:
 			if _waiting_cost_needs_refresh(generator, automation):
 				_cache_waiting_cost(generator, automation)
 
-			var waiting_resource_id: String = str(
-				automation["waiting_resource_id"]
-			)
-			var waiting_cost: float = float(
-				automation["waiting_cost"]
-			)
-			var current_amount: float = state.get_resource_amount(
-				waiting_resource_id
-			)
-
+			var waiting_resource_id: String = str(automation["waiting_resource_id"])
+			var waiting_cost: float = float(automation["waiting_cost"])
+			var current_amount: float = state.get_resource_amount(waiting_resource_id)
 			if current_amount >= waiting_cost:
-				# Run the normal full validation before buying. The cached
-				# threshold only avoids recalculating affordability every tick.
 				if simulation.can_buy_generator(generator_id):
 					_attempt_purchase(generator_id, simulation, true)
 				else:
-					# The real cost/conditions may have changed; refresh the
-					# cache so the next tick uses the current requirement.
 					_cache_waiting_cost(generator, automation)
 
 			if simulation.profiling_enabled:
@@ -210,34 +189,41 @@ func update(delta: float, simulation: Simulation) -> void:
 				)
 			continue
 
-		# Otherwise, wait for the cooldown to expire.
-		automation["remaining_cooldown"] = max(
-			0.0,
-			float(automation["remaining_cooldown"]) - delta
-		)
+		# Carry any time left after a cooldown expires into the next cooldown.
+		# This allows multiple elapsed cooldowns to be handled in one large step.
+		var remaining_delta: float = maxf(delta, 0.0)
+		while true:
+			var cooldown: float = maxf(
+				float(automation["remaining_cooldown"]),
+				0.0
+			)
+			if cooldown > remaining_delta:
+				automation["remaining_cooldown"] = cooldown - remaining_delta
+				break
 
-		if automation["remaining_cooldown"] > 0.0:
+			remaining_delta = maxf(remaining_delta - cooldown, 0.0)
+			automation["remaining_cooldown"] = 0.0
 			if simulation.profiling_enabled:
 				simulation._record_profile_time(
 					"generator_automation_loop_checks",
 					profile_start_usec
 				)
-			continue
+			var purchase_start_usec: int = 0
+			if simulation.profiling_enabled:
+				purchase_start_usec = Time.get_ticks_usec()
+			_attempt_purchase(generator_id, simulation)
+			if simulation.profiling_enabled:
+				simulation._record_profile_time(
+					"generator_automation_purchase_attempts",
+					purchase_start_usec
+				)
 
-		if simulation.profiling_enabled:
-			simulation._record_profile_time(
-				"generator_automation_loop_checks",
-				profile_start_usec
-			)
-		var purchase_start_usec: int = 0
-		if simulation.profiling_enabled:
-			purchase_start_usec = Time.get_ticks_usec()
-		_attempt_purchase(generator_id, simulation)
-		if simulation.profiling_enabled:
-			simulation._record_profile_time(
-				"generator_automation_purchase_attempts",
-				purchase_start_usec
-			)
+			# An unaffordable generator enters resource-waiting mode. Do not
+			# burn the remaining time retrying it; the next update checks resources.
+			if automation["waiting_for_resources"]:
+				break
+			if remaining_delta <= 0.0:
+				break
 
 
 func _attempt_purchase(
