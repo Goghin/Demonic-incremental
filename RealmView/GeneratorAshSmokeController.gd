@@ -31,14 +31,14 @@ const ASH_OUTPUT_TARGET_BY_GENERATOR: Dictionary = {
 # Offsets are normalized to each machine's visual size. Tune these per sprite.
 const EMITTER_OFFSETS_BY_GENERATOR: Dictionary = {
 	"molecular_agitation": [
-		Vector2(-0.32, -0.22),
-		Vector2(0.0, -0.34),
-		Vector2(0.32, -0.22)
+		Vector2(-0.12, -0.10),
+		Vector2(0.0, -0.18),
+		Vector2(0.12, -0.10)
 	],
 	"thermal_furnace": [
-		Vector2(-0.32, -0.22),
-		Vector2(0.0, -0.34),
-		Vector2(0.32, -0.22)
+		Vector2(-0.12, -0.10),
+		Vector2(0.0, -0.18),
+		Vector2(0.12, -0.10)
 	],
 	"matter_furnace": [
 		Vector2(-0.32, -0.22),
