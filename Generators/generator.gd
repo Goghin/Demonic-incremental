@@ -45,6 +45,7 @@ func reset() -> void:
 	unlocked = initial_unlocked
 	manually_paused = false
 	operating = false
+	use_base_input_rates = false
 
 	cycle_active = false
 	cycle_progress = 0.0
