@@ -234,7 +234,31 @@ func _draw() -> void:
 		sin(flame_time * 10.7 + glow_phase_offset * 1.4) * 0.008
 	)
 	var glow_radius: float = lerpf(12.0, 32.0, stat_strength)
-	var glow_center: Vector2 = Vector2(0.0, -8.0)
+	var glow_center: Vector2 = Vector2.ZERO
+	var glow_center_weight: float = 0.0
+
+	# Center the glow on the currently visible flame artwork, not the brazier origin.
+	for flame_sprite in flame_sprites:
+		if not flame_sprite.visible or flame_sprite.modulate.a <= 0.001:
+			continue
+
+		var frame_texture: Texture2D = flame_sprite.sprite_frames.get_frame_texture(
+			flame_sprite.animation,
+			flame_sprite.frame
+		)
+		if frame_texture == null:
+			continue
+
+		var frame_size: Vector2 = frame_texture.get_size()
+		var sprite_center: Vector2 = flame_sprite.position + frame_size * flame_sprite.scale * 0.5
+		glow_center += sprite_center * flame_sprite.modulate.a
+		glow_center_weight += flame_sprite.modulate.a
+
+	if glow_center_weight > 0.0:
+		glow_center /= glow_center_weight
+	else:
+		glow_center = Vector2(0.0, FLAME_ANCHOR_OFFSET.y - 12.0)
+
 	var glow_alpha: float = clampf(
 		lerpf(0.018, 0.055, stat_strength) + flicker,
 		0.008,
