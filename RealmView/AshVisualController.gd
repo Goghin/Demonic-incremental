@@ -78,9 +78,9 @@ func update_piles(
 		var pile_base_offset: float = texture_height * pile.scale.y * 0.18
 		emitter.position = pile.position + Vector2(0.0, pile_base_offset)
 
-		# Bigger piles produce a larger, more visible column.
+		# Scale columns down overall while retaining their relationship to pile growth.
 		var pile_growth: float = clampf(pile.scale.x / max_pile_scale, 0.0, 1.0)
-		var smoke_size: float = lerpf(0.45, 0.95, pile_growth)
+		var smoke_size: float = lerpf(0.32, 0.68, pile_growth)
 		var smoke_opacity: float = lerpf(0.30, 0.68, pile_growth)
 		emitter.configure(
 			smoke_size,
