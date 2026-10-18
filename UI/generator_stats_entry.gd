@@ -142,6 +142,14 @@ func update_header(
 	) -> void:
 	
 	generator_name_label.text = generator.definition.display_name
+	if generator.definition.id == "lava_mite_colony" and generator.is_throttled:
+		generator_name_label.text += "  [THROTTLED]"
+		generator_name_label.add_theme_color_override(
+			"font_color",
+			Color(0.95, 0.62, 0.39)
+		)
+	else:
+		generator_name_label.remove_theme_color_override("font_color")
 	
 	level_label.text = "Level %d" % stats_data["level"]
 	
