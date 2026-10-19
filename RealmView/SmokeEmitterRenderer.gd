@@ -10,6 +10,7 @@ var emitter_size: float = 1.0
 var emission_rate: float = 1.0
 var smoke_opacity: float = 0.7
 var smoke_style: String = "puff"
+var visual_effect_quality: int = 2
 var column_variant: int = 1
 
 var _spawn_accumulator: float = 0.0
@@ -23,6 +24,14 @@ func _ready() -> void:
 	# Soften this effect without changing filtering for the rest of the game.
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	_load_column_frames()
+
+
+func set_visual_effect_quality(quality: int) -> void:
+	var normalized_quality: int = clampi(quality, 0, 3)
+	if visual_effect_quality == normalized_quality:
+		return
+	visual_effect_quality = normalized_quality
+	queue_redraw()
 
 
 func configure(
@@ -67,7 +76,10 @@ func _process(delta: float) -> void:
 	if smoke_style == "column":
 		if _column_frames.is_empty():
 			return
-		_column_frame_accumulator += delta
+		var animation_speed_multiplier: float = [0.0, 0.75, 1.0, 1.25][visual_effect_quality]
+		if animation_speed_multiplier <= 0.0:
+			return
+		_column_frame_accumulator += delta * animation_speed_multiplier
 		while _column_frame_accumulator >= COLUMN_FRAME_DURATION:
 			_column_frame_accumulator -= COLUMN_FRAME_DURATION
 			_column_frame_index = (_column_frame_index + 1) % _column_frames.size()
@@ -140,7 +152,8 @@ func _draw_animated_column() -> void:
 	var frame_size: Vector2 = Vector2(frame.get_size()) * emitter_size
 	# Keep smoke columns slightly slimmer without shortening their height.
 	frame_size.x *= 0.82
-	var alpha: float = smoke_opacity
+	var opacity_multiplier: float = [0.0, 0.78, 1.0, 1.08][visual_effect_quality]
+	var alpha: float = smoke_opacity * opacity_multiplier
 	var tint := Color(1.0, 1.0, 1.0, alpha)
 	draw_texture_rect(
 		frame,
