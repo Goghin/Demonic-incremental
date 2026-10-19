@@ -34,12 +34,8 @@ func update(
 		1.0 + max(generator.level - 1, 0) * 0.05
 	)
 
-	for extra_sprite in [extra_sprite_a, extra_sprite_b]:
-		extra_sprite.texture = sprite.texture
-		extra_sprite.visible = true
-		extra_sprite.position = sprite.position
-		extra_sprite.scale = sprite.scale
-		extra_sprite.modulate = Color(1.0, 1.0, 1.0, 0.8)
+	_update_extra_sprite(extra_sprite_a, sprite)
+	_update_extra_sprite(extra_sprite_b, sprite)
 
 	# Positive rotation is clockwise in Godot's 2D coordinate system.
 	extra_sprite_a.rotation += (
@@ -57,7 +53,21 @@ func update(
 
 
 func hide() -> void:
-	if extra_sprite_a != null:
+	if extra_sprite_a != null and extra_sprite_a.visible:
 		extra_sprite_a.visible = false
-	if extra_sprite_b != null:
+	if extra_sprite_b != null and extra_sprite_b.visible:
 		extra_sprite_b.visible = false
+
+
+func _update_extra_sprite(extra_sprite: Sprite2D, source_sprite: Sprite2D) -> void:
+	if extra_sprite.texture != source_sprite.texture:
+		extra_sprite.texture = source_sprite.texture
+	if not extra_sprite.visible:
+		extra_sprite.visible = true
+	if extra_sprite.position != source_sprite.position:
+		extra_sprite.position = source_sprite.position
+	if extra_sprite.scale != source_sprite.scale:
+		extra_sprite.scale = source_sprite.scale
+	var target_modulate: Color = Color(1.0, 1.0, 1.0, 0.8)
+	if extra_sprite.modulate != target_modulate:
+		extra_sprite.modulate = target_modulate
