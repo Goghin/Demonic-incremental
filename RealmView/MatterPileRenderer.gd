@@ -45,6 +45,11 @@ const CUBE_SLOTS: Array[Vector3] = [
 
 var _last_geometry_width: float = -1.0
 var _last_growth_stage: int = -1
+var _last_total_cube_count: int = -1
+var _last_magnitude_scale: float = -1.0
+var _last_island_rect: Rect2 = Rect2(-1.0, -1.0, -1.0, -1.0)
+var _last_layout_positions: PackedVector2Array = PackedVector2Array()
+var _has_cached_visual_state: bool = false
 
 
 func setup(
@@ -58,6 +63,11 @@ func setup(
 	old_piles.clear()
 	_last_geometry_width = -1.0
 	_last_growth_stage = -1
+	_last_total_cube_count = -1
+	_last_magnitude_scale = -1.0
+	_last_island_rect = Rect2(-1.0, -1.0, -1.0, -1.0)
+	_last_layout_positions = PackedVector2Array()
+	_has_cached_visual_state = false
 
 	if layout == null:
 		return old_piles
@@ -101,6 +111,17 @@ func update(
 	cube_width *= magnitude_scale
 	var cube_height: float = cube_width * CUBE_HEIGHT_RATIO
 	var growth_stage: int = _get_growth_stage(matter)
+	var visual_state_unchanged: bool = (
+		_has_cached_visual_state
+		and total_cubes == _last_total_cube_count
+		and is_equal_approx(magnitude_scale, _last_magnitude_scale)
+		and growth_stage == _last_growth_stage
+		and island_rect == _last_island_rect
+		and layout_positions == _last_layout_positions
+	)
+	if visual_state_unchanged:
+		return
+
 	var geometry_changed: bool = (
 		not is_equal_approx(cube_width, _last_geometry_width)
 		or growth_stage != _last_growth_stage
@@ -146,6 +167,12 @@ func update(
 	if geometry_changed:
 		_last_geometry_width = cube_width
 		_last_growth_stage = growth_stage
+
+	_last_total_cube_count = total_cubes
+	_last_magnitude_scale = magnitude_scale
+	_last_island_rect = island_rect
+	_last_layout_positions = layout_positions.duplicate()
+	_has_cached_visual_state = true
 
 
 func _get_total_cube_count(matter: float, pile_count: int) -> int:
