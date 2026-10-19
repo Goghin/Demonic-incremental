@@ -186,6 +186,7 @@ class LavaFlowSparkOverlay extends Node2D:
 @onready var rim: Line2D = $Rim
 @onready var channel: Polygon2D = $Channel
 var edge_glow: Line2D
+var edge_glow_width_curve: Curve
 
 const FLOW_SHADER = preload("res://RealmView/lava_flow_direction_test.gdshader")
 const LAVA_TEXTURE = preload("res://RealmView/lava1.png")
@@ -315,6 +316,8 @@ func _ensure_edge_glow() -> void:
 	edge_glow.width = 4.0
 	edge_glow.default_color = Color(1.0, 0.10, 0.008, 0.16)
 	edge_glow.antialiased = false
+	edge_glow_width_curve = Curve.new()
+	edge_glow.width_curve = edge_glow_width_curve
 	add_child(edge_glow)
 
 
@@ -578,7 +581,28 @@ func _update_surface() -> void:
 	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.10, 0.008, 1.0))
 	glow_color.a = 0.16
 	edge_glow.default_color = glow_color
-	edge_glow.width = maxf(active_widths[0] * 1.12 + 3.0, 4.0)
+
+	# Scale the glow along the path using each sample's actual flow width.
+	# A zero-width sample therefore has zero glow thickness instead of
+	# inheriting the width of the first point in the flow.
+	var max_flow_width: float = 0.0
+	for flow_width in active_widths:
+		max_flow_width = maxf(max_flow_width, flow_width)
+	edge_glow.width = maxf(max_flow_width * 1.12 + 3.0, 4.0)
+	edge_glow_width_curve.clear_points()
+	var active_distance_span: float = maxf(end_distance - start_distance, 0.001)
+	for i in range(active_widths.size()):
+		var curve_offset: float = clampf(
+			(active_distances[i] - start_distance) / active_distance_span,
+			0.0,
+			1.0
+		)
+		var width_ratio: float = (
+			active_widths[i] / max_flow_width
+			if max_flow_width > 0.0
+			else 0.0
+		)
+		edge_glow_width_curve.add_point(Vector2(curve_offset, width_ratio))
 
 	_ensure_spark_overlay()
 	spark_overlay.set_flow_shape(active_points, active_widths)
