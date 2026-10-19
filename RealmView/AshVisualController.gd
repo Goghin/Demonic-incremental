@@ -89,6 +89,7 @@ func update_piles(
 			"column",
 			(i % 5) + 1
 		)
+		emitter.set_visual_effect_quality(realm_view.visual_effect_quality)
 		emitter.visible = true
 		emitter.set_process(true)
 
