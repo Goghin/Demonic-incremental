@@ -182,10 +182,18 @@ offset_bottom = 510.0
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="VisualEffectsCheckBox" type="CheckBox" parent="OptionsPanel/OptionsContent" unique_id=1682017618]
+[node name="VisualEffectsQualityOption" type="OptionButton" parent="OptionsPanel/OptionsContent" unique_id=1682017618]
 layout_mode = 2
-button_pressed = true
-text = "ANIMATED VISUAL EFFECTS"
+item_count = 4
+selected = 2
+popup/item_0/text = "OFF"
+popup/item_0/id = 0
+popup/item_1/text = "LOW"
+popup/item_1/id = 1
+popup/item_2/text = "MEDIUM"
+popup/item_2/id = 2
+popup/item_3/text = "HIGH"
+popup/item_3/id = 3
 
 [node name="UISoundsCheckBox" type="CheckBox" parent="OptionsPanel/OptionsContent" unique_id=1682017619]
 layout_mode = 2
@@ -332,7 +340,7 @@ layout_mode = 1
 layout_mode = 1
 
 [connection signal="pressed" from="OptionsButton" to="." method="_on_options_button_pressed"]
-[connection signal="toggled" from="OptionsPanel/OptionsContent/VisualEffectsCheckBox" to="." method="_on_visual_effects_toggled"]
+[connection signal="item_selected" from="OptionsPanel/OptionsContent/VisualEffectsQualityOption" to="." method="_on_visual_effect_quality_selected"]
 [connection signal="toggled" from="OptionsPanel/OptionsContent/UISoundsCheckBox" to="." method="_on_ui_sounds_toggled"]
 [connection signal="toggled" from="OptionsPanel/OptionsContent/AmbientAudioCheckBox" to="." method="_on_ambient_audio_toggled"]
 [connection signal="value_changed" from="OptionsPanel/OptionsContent/MasterVolumeSlider" to="." method="_on_master_volume_changed"]
