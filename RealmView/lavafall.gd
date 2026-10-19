@@ -104,8 +104,7 @@ func set_filled(filled: bool) -> void:
 		if fall_state == FallState.FULL or fall_state == FallState.FILLING:
 			return
 
-		# Reverse a drain in place so a reactivated flow doesn't leave a gap.
-		# progress represents the moving edge in either direction.
+		# Reverse a drain from its current edge position.
 		if fall_state == FallState.EMPTY:
 			progress = 0.0
 
@@ -116,10 +115,10 @@ func set_filled(filled: bool) -> void:
 		if fall_state == FallState.EMPTY or fall_state == FallState.DRAINING:
 			return
 
-		# Let the trailing edge continue down the fall from its current position.
-		# This also reverses an interrupted fill without snapping the edge.
+		# Drain back toward the top, keeping the remaining upper section visible.
+		# Reversing an interrupted fill also starts from the current edge.
 		fall_state = FallState.DRAINING
-		target_progress = 1.0
+		target_progress = 0.0
 		set_process(true)
 
 func _process(delta: float) -> void:
@@ -139,15 +138,14 @@ func _process(delta: float) -> void:
 
 	_update_surface()
 
-	if progress >= 1.0:
+	if fall_state == FallState.FILLING and progress >= 1.0:
 		progress = 1.0
-
-		if fall_state == FallState.FILLING:
-			fall_state = FallState.FULL
-
-		elif fall_state == FallState.DRAINING:
-			fall_state = FallState.EMPTY
-
+		fall_state = FallState.FULL
+		_update_surface()
+		set_process(false)
+	elif fall_state == FallState.DRAINING and progress <= 0.0:
+		progress = 0.0
+		fall_state = FallState.EMPTY
 		_update_surface()
 		set_process(false)
 func _update_polygon() -> void:
@@ -194,28 +192,19 @@ func _update_surface() -> void:
 	var left := PackedVector2Array()
 	var right := PackedVector2Array()
 
-	if fall_state == FallState.FILLING:
-		left.append(Vector2(-width * 0.5, 0.0))
-		right.append(Vector2(width * 0.5, 0.0))
+	# Both filling and draining keep the section between the top and the
+	# moving edge visible. Filling moves the edge down; draining moves it up.
+	left.append(Vector2(-width * 0.5, 0.0))
+	right.append(Vector2(width * 0.5, 0.0))
 
-		for i in range(1, points.size()):
-			if points[i].y < edge_y:
-				var half_width := width * width_factors[i] * 0.5
-				left.append(Vector2(-half_width, points[i].y))
-				right.append(Vector2(half_width, points[i].y))
+	for i in range(1, points.size()):
+		if points[i].y < edge_y:
+			var half_width := width * width_factors[i] * 0.5
+			left.append(Vector2(-half_width, points[i].y))
+			right.append(Vector2(half_width, points[i].y))
 
-		left.append(Vector2(-edge_half_width, edge_y))
-		right.append(Vector2(edge_half_width, edge_y))
-
-	else:
-		left.append(Vector2(-edge_half_width, edge_y))
-		right.append(Vector2(edge_half_width, edge_y))
-
-		for i in range(1, points.size()):
-			if points[i].y > edge_y:
-				var half_width := width * width_factors[i] * 0.5
-				left.append(Vector2(-half_width, points[i].y))
-				right.append(Vector2(half_width, points[i].y))
+	left.append(Vector2(-edge_half_width, edge_y))
+	right.append(Vector2(edge_half_width, edge_y))
 
 	_set_surface_polygon(left, right)
 
