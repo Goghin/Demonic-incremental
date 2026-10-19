@@ -543,6 +543,9 @@ func reposition(island_rect: Rect2) -> void:
 
 
 func set_heat(current_heat: float, current_threshold: float) -> void:
+	if heat == current_heat and heat_threshold == current_threshold:
+		return
+
 	heat = current_heat
 	heat_threshold = current_threshold
 
@@ -559,5 +562,9 @@ func set_heat(current_heat: float, current_threshold: float) -> void:
 
 
 func set_fill(new_fill: float) -> void:
-	fill = clamp(new_fill, 0.01, 1.1)
+	var clamped_fill: float = clamp(new_fill, 0.01, 1.1)
+	if fill == clamped_fill:
+		return
+
+	fill = clamped_fill
 	_update_visuals()
