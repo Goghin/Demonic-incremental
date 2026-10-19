@@ -4,6 +4,7 @@ extends Node2D
 var time: float = 0.0
 var active: bool = false
 var speed_multiplier: float = 1.0
+var effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 
 
 func _process(delta: float) -> void:
@@ -19,13 +20,19 @@ func _draw() -> void:
 		return
 
 	var center := Vector2.ZERO
+	var orb_count: int = 5
+	match effect_quality:
+		RealmView.VISUAL_EFFECT_LOW:
+			orb_count = 3
+		RealmView.VISUAL_EFFECT_HIGH:
+			orb_count = 7
 
-	for i in range(5):
+	for i in range(orb_count):
 		var phase: float = (
 			time *
 			(1.4 + i * 0.18) *
 			speed_multiplier +
-			i * TAU / 5.0
+			i * TAU / float(orb_count)
 		)
 
 		var cycle: float = fmod(
