@@ -6,6 +6,7 @@ var effect_center: Vector2 = Vector2.ZERO
 var realm_width: float = 0.0
 var ash_amount: float = 0.0
 var elapsed_time: float = 0.0
+var active: bool = true
 
 var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 var airborne_particles: Array[Dictionary] = []
@@ -22,6 +23,9 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if not active:
+		return
+
 	if ash_amount <= 0.0:
 		if not airborne_particles.is_empty():
 			airborne_particles.clear()
@@ -30,7 +34,6 @@ func _process(delta: float) -> void:
 
 	elapsed_time += delta
 
-	
 	var target_count: int = _get_target_particle_count()
 
 	while airborne_particles.size() < target_count:
@@ -56,7 +59,19 @@ func update_visuals(
 	effect_center = center
 	realm_width = max(width, 1.0)
 	ash_amount = max(ash, 0.0)
-	queue_redraw()
+	if active:
+		queue_redraw()
+
+
+func set_effect_active(enabled: bool) -> void:
+	if active == enabled:
+		return
+
+	active = enabled
+	visible = enabled
+	set_process(enabled)
+	if enabled:
+		queue_redraw()
 
 
 func _get_ash_factor() -> float:
@@ -80,7 +95,7 @@ func _create_particle() -> Dictionary:
 
 
 func _draw() -> void:
-	if ash_amount <= 0.0:
+	if not active or ash_amount <= 0.0:
 		return
 
 	var ash_factor: float = _get_ash_factor()
@@ -97,7 +112,6 @@ func _draw() -> void:
 			cos(angle) * swirl_radius,
 			sin(angle) * swirl_radius * 0.38 + vertical_offset + sin(phase * 0.7) * 5.0
 		)
-
 
 		var particle_size: float = float(particle["size"]) * particle_scale
 		var particle_alpha: float = float(particle["alpha"]) * (0.65 + ash_factor * 0.55)
