@@ -10,7 +10,8 @@ func play_crystallization_event(
 	crystal_values: Array[float],
 	total_flames: float,
 	crystal_renderer: CrystalRenderer,
-	is_critical: bool = false
+	is_critical: bool = false,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 ) -> void:
 	if crystals_created <= 0.0:
 		return
@@ -23,9 +24,12 @@ func play_crystallization_event(
 		total_flames
 	)
 
+	if effect_quality == RealmView.VISUAL_EFFECT_OFF:
+		return
+
 	# A completion always releases a short radial burst from the forge,
 	# even when the visible crystal count is already at its cap.
-	play_burst(owner, forge_position, is_critical)
+	play_burst(owner, forge_position, is_critical, effect_quality)
 
 	var new_count: int = crystals.size()
 	if new_count > old_count:
@@ -36,7 +40,8 @@ func play_crystallization_event(
 				forge_position,
 				crystal.base_position,
 				crystal,
-				CrystalRenderer.CRYSTAL_BASE_SCALE
+				CrystalRenderer.CRYSTAL_BASE_SCALE,
+				effect_quality
 			)
 		return
 
@@ -59,7 +64,8 @@ func play_crystallization_event(
 			owner,
 			forge_position,
 			crystal.base_position,
-			crystal
+			crystal,
+			effect_quality
 		)
 
 
@@ -68,14 +74,16 @@ func play(
 	from_position: Vector2,
 	target_position: Vector2,
 	crystal: CrystallizedFlame,
-	crystal_base_scale: float
+	crystal_base_scale: float,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 ) -> void:
 	var stream := CrystallizationStream.new()
 
 	stream.setup(
 		from_position,
 		target_position,
-		true
+		true,
+		effect_quality
 	)
 
 	stream.z_index = 20
@@ -134,7 +142,12 @@ func play(
 
 
 
-func play_burst(owner: Node, position: Vector2, is_critical: bool = false) -> void:
+func play_burst(
+	owner: Node,
+	position: Vector2,
+	is_critical: bool = false,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
+) -> void:
 	var delay := owner.create_tween()
 	delay.tween_interval(0.6)
 	delay.tween_callback(func() -> void:
@@ -142,7 +155,7 @@ func play_burst(owner: Node, position: Vector2, is_critical: bool = false) -> vo
 			return
 
 		var burst := CrystallizationStream.new()
-		burst.setup_burst(position, is_critical)
+		burst.setup_burst(position, is_critical, effect_quality)
 		burst.z_index = 22
 		owner.add_child(burst)
 	)
@@ -152,10 +165,11 @@ func play_growth_stream(
 	owner: Node,
 	from_position: Vector2,
 	target_position: Vector2,
-	crystal: CrystallizedFlame
+	crystal: CrystallizedFlame,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 ) -> void:
 	var stream := CrystallizationStream.new()
-	stream.setup(from_position, target_position, true)
+	stream.setup(from_position, target_position, true, effect_quality)
 	stream.z_index = 20
 	owner.add_child(stream)
 
