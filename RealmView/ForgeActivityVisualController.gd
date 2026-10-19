@@ -13,6 +13,11 @@ var spark_overlay: ForgeSparkOverlay
 
 
 func advance(delta: float) -> void:
+	# The pulse is only visible while the forge overlays are visible.
+	# Avoid advancing an unused animation timer when effects are hidden.
+	if glow_overlay == null or not glow_overlay.visible:
+		return
+
 	glow_time += delta
 
 
