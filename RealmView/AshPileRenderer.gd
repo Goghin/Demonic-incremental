@@ -9,6 +9,11 @@ const ASH_PER_PILE_MAGNITUDE: float = 100.0
 const GROWTH_CURVE_POWER: float = 0.68
 
 
+var _last_island_rect: Rect2 = Rect2(-1.0, -1.0, -1.0, -1.0)
+var _last_layout_positions: PackedVector2Array = PackedVector2Array()
+var _has_cached_positions: bool = false
+
+
 func setup(
 	view: Control,
 	old_piles: Array[Sprite2D],
@@ -18,6 +23,9 @@ func setup(
 		if is_instance_valid(pile):
 			pile.queue_free()
 	old_piles.clear()
+	_has_cached_positions = false
+	_last_layout_positions = PackedVector2Array()
+	_last_island_rect = Rect2(-1.0, -1.0, -1.0, -1.0)
 
 	if layout == null:
 		return old_piles
@@ -46,6 +54,11 @@ func update(
 
 	var texture_width: float = max(ASH_PILE_TEXTURE.get_size().x, 1.0)
 	var total_progress: float = _get_total_pile_progress(ash)
+	var positions_unchanged: bool = (
+		_has_cached_positions
+		and island_rect == _last_island_rect
+		and layout_positions == _last_layout_positions
+	)
 
 	for i in range(piles.size()):
 		var pile: Sprite2D = piles[i]
@@ -55,11 +68,12 @@ func update(
 			pile.visible = false
 			continue
 
-		var normalized_position: Vector2 = layout_positions[i]
-		pile.position = island_rect.position + Vector2(
-			island_rect.size.x * normalized_position.x,
-			island_rect.size.y * normalized_position.y
-		)
+		if not positions_unchanged:
+			var normalized_position: Vector2 = layout_positions[i]
+			pile.position = island_rect.position + Vector2(
+				island_rect.size.x * normalized_position.x,
+				island_rect.size.y * normalized_position.y
+			)
 
 		var individual_progress: float = clamp(total_progress - float(i), 0.0, 1.0)
 		pile.visible = individual_progress > 0.0
@@ -76,6 +90,10 @@ func update(
 		var target_width: float = island_rect.size.x * width_ratio * pile_variation
 		var uniform_scale: float = target_width / texture_width
 		pile.scale = Vector2.ONE * uniform_scale
+
+	_last_island_rect = island_rect
+	_last_layout_positions = layout_positions.duplicate()
+	_has_cached_positions = true
 
 
 func _get_total_pile_progress(ash: float) -> float:
