@@ -11,6 +11,10 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 	# Generator nodes and hitboxes must be current before dependent visuals.
 	owner._draw_generators(island_rect)
 
+	# Keep transient lava effects synchronized with the graphics setting,
+	# including immediately after a realm layout is rebuilt.
+	owner.lava_realm_visual_controller.set_visual_effect_quality(owner.visual_effect_quality)
+
 	# Lake fill must update before flow activation is evaluated.
 	owner.lava_realm_visual_controller.update_dynamic_states(state, realm_layout)
 
