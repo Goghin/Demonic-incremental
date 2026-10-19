@@ -65,7 +65,8 @@ func _update_forge_visuals(owner: RealmView, island_rect: Rect2) -> void:
 		owner.forge_activity_visual_controller.update(
 			owner,
 			owner.state.generators.get("infernal_forge"),
-			forge_position
+			forge_position,
+			owner.visual_effect_quality
 		)
 	else:
 		owner.forge_activity_visual_controller.hide()
