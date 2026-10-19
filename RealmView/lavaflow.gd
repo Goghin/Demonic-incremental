@@ -79,7 +79,7 @@ class LavaFlowSparkOverlay extends Node2D:
 				var burst_scale: float = float(particle.get("burst_scale", 1.0))
 				node.scale = Vector2(lerp(0.45, 1.0, ratio), lerp(0.85, 1.15, ratio)) * burst_scale
 				particles[i] = particle
-		set_process(effect_quality > 0 or not particles.is_empty())
+		set_process((effect_quality > 0 and flow_points.size() >= 2 and flow_widths.size() == flow_points.size()) or not particles.is_empty())
 
 	func _spawn_burst() -> void:
 		var distance_segments := PackedFloat32Array([0.0])
