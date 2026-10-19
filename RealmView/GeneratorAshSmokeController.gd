@@ -147,7 +147,7 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 				EMITTER_RATE_MIN[index],
 				EMITTER_RATE_MAX[index],
 				stage_progress
-			)
+			) * _get_quality_multiplier(owner.visual_effect_quality)
 			var opacity: float = lerpf(
 				EMITTER_OPACITY_MIN[index],
 				EMITTER_OPACITY_MAX[index],
@@ -209,3 +209,13 @@ func _clear_generator(generator_id: String) -> void:
 func _clear_all() -> void:
 	for generator_id in emitters_by_generator.keys():
 		_clear_generator(str(generator_id))
+
+
+func _get_quality_multiplier(quality: int) -> float:
+	match quality:
+		RealmView.VISUAL_EFFECT_LOW:
+			return 0.5
+		RealmView.VISUAL_EFFECT_HIGH:
+			return 1.5
+		_:
+			return 1.0
