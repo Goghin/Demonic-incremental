@@ -24,7 +24,8 @@ func _update_standard_sprites(
 
 		if not active_ids.has(generator_id):
 			var sprite: Sprite2D = generator_sprites[generator_id]
-			sprite.visible = false
+			if sprite.visible:
+				sprite.visible = false
 
 
 func _update_special_sprites(
@@ -55,4 +56,6 @@ func _update_special_sprite(
 		generator_sprites[generator_id] as AnimatedSprite2D
 	)
 	if sprite != null:
-		sprite.visible = active_ids.has(generator_id)
+		var should_be_visible: bool = active_ids.has(generator_id)
+		if sprite.visible != should_be_visible:
+			sprite.visible = should_be_visible
