@@ -5,6 +5,9 @@ extends Node2D
 const BASE_PARTICLE_COUNT: int = 10
 const PARTICLES_PER_LEVEL: int = 2
 const MAX_PARTICLE_COUNT: int = 120
+const QUALITY_LOW: int = 1
+const QUALITY_MEDIUM: int = 2
+const QUALITY_HIGH: int = 3
 const BASE_SPEED: float = 0.35
 const SPEED_PER_LEVEL: float = 0.08
 const BASE_STREAK_LENGTH: float = 2.8
@@ -13,6 +16,7 @@ const STREAK_LENGTH_PER_LEVEL: float = 0.025
 var time: float = 0.0
 var active: bool = false
 var generator_level: int = 1
+var effect_quality: int = QUALITY_MEDIUM
 
 
 func _process(delta: float) -> void:
@@ -28,8 +32,19 @@ func _draw() -> void:
 		return
 
 	var level: int = max(generator_level, 1)
-	var particle_count: int = min(
+	var base_particle_count: int = min(
 		BASE_PARTICLE_COUNT + (level - 1) * PARTICLES_PER_LEVEL,
+		MAX_PARTICLE_COUNT
+	)
+	var quality_multiplier: float = 1.0
+	match effect_quality:
+		QUALITY_LOW:
+			quality_multiplier = 0.5
+		QUALITY_HIGH:
+			quality_multiplier = 1.5
+	var particle_count: int = clampi(
+		roundi(float(base_particle_count) * quality_multiplier),
+		1,
 		MAX_PARTICLE_COUNT
 	)
 	var speed_multiplier: float = 1.0 + (level - 1) * SPEED_PER_LEVEL
