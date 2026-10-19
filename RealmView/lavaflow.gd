@@ -387,6 +387,17 @@ func _set_front_controller_active(active: bool) -> void:
 	if active:
 		var layer := LavaFlow.new()
 		layer.name = "LavaFlowFront"
+		# Runtime-created fronts do not inherit the child nodes from the
+		# authored LavaFlow scene, so build the nodes expected by @onready.
+		var layer_surface := Node2D.new()
+		layer_surface.name = "Surface"
+		layer.add_child(layer_surface)
+		var layer_rim := Line2D.new()
+		layer_rim.name = "Rim"
+		layer.add_child(layer_rim)
+		var layer_channel := Polygon2D.new()
+		layer_channel.name = "Channel"
+		layer.add_child(layer_channel)
 		layer._is_front_layer = true
 		layer.fill_speed_multiplier = fill_speed_multiplier
 		layer.drain_speed_multiplier = drain_speed_multiplier
