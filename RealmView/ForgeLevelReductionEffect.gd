@@ -7,13 +7,15 @@ const CYAN: Color = Color(0.26, 0.91, 0.96, 1.0)
 const TEAL: Color = Color(0.20, 0.84, 0.70, 1.0)
 
 var elapsed: float = 0.0
+var effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 var particles: Array[Dictionary] = []
 
 
 func _ready() -> void:
 	z_index = 24
-	for i in range(14):
-		var angle := TAU * float(i) / 14.0 + randf_range(-0.16, 0.16)
+	var particle_count: int = 7 if effect_quality == RealmView.VISUAL_EFFECT_LOW else 21 if effect_quality == RealmView.VISUAL_EFFECT_HIGH else 14
+	for i in range(particle_count):
+		var angle := TAU * float(i) / float(particle_count) + randf_range(-0.16, 0.16)
 		particles.append({
 			"direction": Vector2(cos(angle), sin(angle)),
 			"speed": randf_range(34.0, 82.0),
@@ -43,7 +45,7 @@ func _draw() -> void:
 		ring_radius,
 		0.0,
 		TAU,
-		48,
+		_get_quality_arc_segments(),
 		Color(TEAL.r, TEAL.g, TEAL.b, 0.20 * fade),
 		7.0 * fade + 1.0,
 		true
@@ -53,7 +55,7 @@ func _draw() -> void:
 		ring_radius,
 		0.0,
 		TAU,
-		48,
+		_get_quality_arc_segments(),
 		Color(CYAN.r, CYAN.g, CYAN.b, 0.92 * fade),
 		2.0,
 		true
@@ -95,3 +97,11 @@ func _draw() -> void:
 			size,
 			Color(CYAN.r, CYAN.g, CYAN.b, 0.95 * fade)
 		)
+
+
+func _get_quality_arc_segments() -> int:
+	if effect_quality == RealmView.VISUAL_EFFECT_LOW:
+		return 24
+	if effect_quality == RealmView.VISUAL_EFFECT_HIGH:
+		return 72
+	return 48
