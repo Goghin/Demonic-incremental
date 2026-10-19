@@ -7,6 +7,7 @@ class LavaBurstOverlay extends Node2D:
 	var burst_timer: float = 0.8
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var lake_area_factor: float = 1.0
+	var effect_quality: int = 2
 	var particles: Array[Dictionary] = []
 	var outer_spark_color: Color = Color(0.72, 0.045, 0.008, 0.92)
 	var core_spark_color: Color = Color(1.0, 0.24, 0.035, 0.95)
@@ -26,20 +27,32 @@ class LavaBurstOverlay extends Node2D:
 			if core != null:
 				core.color = core_spark_color
 
+	func set_visual_effect_quality(quality: int) -> void:
+		effect_quality = clampi(quality, 0, 3)
+		if effect_quality == 0:
+			for particle in particles:
+				var node: Node2D = particle["node"]
+				if is_instance_valid(node):
+					node.queue_free()
+			particles.clear()
+		set_process(effect_quality > 0 or not particles.is_empty())
+
 	func set_surface_points(points: PackedVector2Array) -> void:
 		# The points are in LavaLake-local coordinates. This overlay is a
 		# child of LavaLake, so particle child nodes use those same coordinates.
 		surface_points = points
 		lake_area_factor = _calculate_area_factor(surface_points)
-		if surface_points.size() >= 3 and particles.is_empty():
+		if effect_quality > 0 and surface_points.size() >= 3 and particles.is_empty():
 			_spawn_burst()
+		set_process(effect_quality > 0 or not particles.is_empty())
 
 	func _process(delta: float) -> void:
-		burst_timer -= delta
-
-		if burst_timer <= 0.0 and surface_points.size() >= 3:
-			_spawn_burst()
-			burst_timer = randomizer.randf_range(0.9, 1.5) / lake_area_factor
+		if effect_quality > 0:
+			burst_timer -= delta
+			if burst_timer <= 0.0 and surface_points.size() >= 3:
+				_spawn_burst()
+				var rate_multiplier: float = [0.0, 0.5, 1.0, 1.5][effect_quality]
+				burst_timer = randomizer.randf_range(0.9, 1.5) / (lake_area_factor * rate_multiplier)
 
 		for i in range(particles.size() - 1, -1, -1):
 			var particle: Dictionary = particles[i]
@@ -62,6 +75,7 @@ class LavaBurstOverlay extends Node2D:
 				var burst_scale: float = float(particle.get("burst_scale", 1.0))
 				particle_node.scale = Vector2(lerp(0.45, 1.0, life_ratio), lerp(0.9, 1.35, life_ratio)) * burst_scale
 				particles[i] = particle
+		set_process(effect_quality > 0 or not particles.is_empty())
 
 	func _spawn_burst() -> void:
 		var center: Vector2 = Vector2.ZERO
@@ -85,8 +99,9 @@ class LavaBurstOverlay extends Node2D:
 			burst_scale = 3.0
 
 		var base_particle_count: int = randomizer.randi_range(3, 6)
+		var quality_multiplier: float = [0.0, 0.5, 1.0, 1.5][effect_quality]
 		var burst_count_multiplier: float = 1.0 if burst_scale == 1.0 else (1.25 if burst_scale < 3.0 else 1.5)
-		var particle_count: int = maxi(1, roundi(float(base_particle_count) * lake_area_factor * burst_count_multiplier))
+		var particle_count: int = maxi(1, roundi(float(base_particle_count) * lake_area_factor * burst_count_multiplier * quality_multiplier))
 		for i in range(particle_count):
 			var particle_node := Node2D.new()
 			particle_node.name = "LavaBurstParticle"
@@ -166,6 +181,7 @@ var lava_burst_overlay: LavaBurstOverlay
 var edge_glow: Line2D
 var edge_glow_gradient: Gradient
 var lava_palette: Dictionary = {}
+var visual_effect_quality: int = 2
 
 func setup(
 	normalized_points: PackedVector2Array,
@@ -180,7 +196,13 @@ func setup(
 	_update_fill()
 	_ensure_edge_glow()
 	_ensure_lava_burst_overlay()
+	lava_burst_overlay.set_visual_effect_quality(visual_effect_quality)
 	_update_visuals()
+
+func set_visual_effect_quality(quality: int) -> void:
+	visual_effect_quality = clampi(quality, 0, 3)
+	if is_instance_valid(lava_burst_overlay):
+		lava_burst_overlay.set_visual_effect_quality(visual_effect_quality)
 
 func set_lava_palette(palette: Dictionary) -> void:
 	lava_palette = palette.duplicate(true)
@@ -253,7 +275,7 @@ func _ensure_lava_burst_overlay() -> void:
 	lava_burst_overlay.name = "LavaBurstOverlay"
 	lava_burst_overlay.z_index = 4
 	lava_burst_overlay.visible = true
-	lava_burst_overlay.set_process(true)
+	lava_burst_overlay.set_visual_effect_quality(visual_effect_quality)
 	add_child(lava_burst_overlay)
 	if not lava_palette.is_empty():
 		lava_burst_overlay.set_lava_spark_colors(lava_palette.get("red", Color(0.72, 0.045, 0.008, 0.92)), lava_palette.get("bright", Color(1.0, 0.24, 0.035, 0.95)))
@@ -271,7 +293,8 @@ func _reposition(island_rect: Rect2) -> void:
 		)
 		
 func _process(delta: float) -> void:
-	animation_time += delta
+	if visual_effect_quality > 0:
+		animation_time += delta
 
 	visual_fill = move_toward(
 		visual_fill,
@@ -418,7 +441,7 @@ func _update_visuals() -> void:
 	edge_glow.points = rim_points
 	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.12, 0.01, 1.0))
 	var glow_alphas: Array[float] = [0.13, 0.22, 0.15, 0.25, 0.16, 0.23, 0.14, 0.13]
-	var glow_pulse: float = 0.5 + 0.5 * sin(animation_time * 0.72)
+	var glow_pulse: float = 0.5 + 0.5 * sin(animation_time * 0.72) if visual_effect_quality > 0 else 0.5
 	var glow_intensity: float = lerp(0.88, 1.12, glow_pulse)
 	for i in range(glow_alphas.size()):
 		edge_glow_gradient.set_color(i, Color(
