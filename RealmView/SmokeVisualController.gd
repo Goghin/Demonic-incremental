@@ -30,7 +30,9 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 			continue
 
 		var normalized_position: Vector2 = definition.get("position", Vector2(0.5, 0.5))
-		emitter.position = island_rect.position + island_rect.size * normalized_position
+		var target_position: Vector2 = island_rect.position + island_rect.size * normalized_position
+		if emitter.position != target_position:
+			emitter.position = target_position
 		var quality_multiplier: float = _get_quality_multiplier(owner.visual_effect_quality)
 		emitter.configure(
 			float(definition.get("size", 1.0)),
@@ -40,8 +42,10 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 			int(definition.get("variant", 1))
 		)
 		emitter.set_visual_effect_quality(owner.visual_effect_quality)
-		emitter.visible = owner.visual_effects_enabled
-		emitter.set_process(owner.visual_effects_enabled)
+		if emitter.visible != owner.visual_effects_enabled:
+			emitter.visible = owner.visual_effects_enabled
+		if emitter.is_processing() != owner.visual_effects_enabled:
+			emitter.set_process(owner.visual_effects_enabled)
 
 
 func _clear_emitters() -> void:
