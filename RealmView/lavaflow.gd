@@ -409,7 +409,6 @@ func _set_front_controller_active(active: bool) -> void:
 func _process_front_controller(delta: float) -> void:
 	var any_front: bool = false
 	var any_fully_flowing: bool = false
-	var endpoint_covered: bool = false
 
 	for i in range(_front_layers.size() - 1, -1, -1):
 		var layer: LavaFlow = _front_layers[i]
@@ -424,9 +423,6 @@ func _process_front_controller(delta: float) -> void:
 		any_front = true
 		if layer.flow_state == FlowState.FLOWING:
 			any_fully_flowing = true
-		if layer.active_length >= 1.0 and layer.cooling_length < 1.0:
-			endpoint_covered = true
-
 	# Keep the legacy aggregate state available to dependencies and UI code.
 	if target_active:
 		flow_state = FlowState.FLOWING if any_fully_flowing else FlowState.STARTING
@@ -487,11 +483,6 @@ func reposition_from_points(
 	if shape_unchanged:
 		return
 
-	if not _is_front_layer:
-		for layer in _front_layers:
-			if is_instance_valid(layer):
-				layer.reposition_from_points(flow_points, flow_widths)
-
 	if flow_widths.size() == flow_points.size():
 		widths = flow_widths.duplicate()
 
@@ -502,7 +493,15 @@ func reposition_from_points(
 	for point in flow_points:
 		points.append(point - position)
 
-	_update_surface()
+	if _is_front_layer:
+		_update_surface()
+	else:
+		# The controller node itself is invisible; keep each live front aligned
+		# to the newly updated path in the controller's local coordinate space.
+		for layer in _front_layers:
+			if is_instance_valid(layer):
+				layer.reposition_from_points(points, widths)
+		_clear_flow_polygons()
 
 
 func set_lava_palette(palette: Dictionary) -> void:
