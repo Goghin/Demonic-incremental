@@ -165,8 +165,11 @@ func set_stat(stat: String) -> void:
 
 
 func set_stat_value(value: int) -> void:
-	stat_value = max(value, 0)
+	var clamped_value: int = max(value, 0)
+	if stat_value == clamped_value:
+		return
 
+	stat_value = clamped_value
 	target_stat_strength = clamp(
 		float(stat_value) / 100.0,
 		0.0,
