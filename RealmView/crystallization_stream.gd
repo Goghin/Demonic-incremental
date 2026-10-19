@@ -129,12 +129,12 @@ func _get_stream_position(progress: float) -> Vector2:
 		progress * PI
 	)
 
-	position += perpendicular * (
+	s_position += perpendicular * (
 		curve *
 		curve_strength
 	)
 
-	return position
+	return s_position
 
 
 func _draw() -> void:
