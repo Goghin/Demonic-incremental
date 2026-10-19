@@ -13,14 +13,8 @@ func update(
 	sprite: Sprite2D,
 	delta: float
 ) -> void:
-	if not sprite.visible:
-		if inner_sprite != null:
-			inner_sprite.visible = false
-		return
-
-	if not generator.is_operating():
-		if inner_sprite != null:
-			inner_sprite.visible = false
+	if not sprite.visible or not generator.is_operating():
+		_hide_inner_sprite()
 		return
 
 	var level_speed_multiplier: float = (
@@ -41,16 +35,17 @@ func update(
 		inner_sprite.z_index = 11
 		parent.add_child(inner_sprite)
 
-	inner_sprite.texture = sprite.texture
-	inner_sprite.visible = true
-	inner_sprite.position = sprite.position
-	inner_sprite.scale = sprite.scale
-	inner_sprite.modulate = Color(
-		1.0,
-		1.0,
-		1.0,
-		0.75
-	)
+	if inner_sprite.texture != sprite.texture:
+		inner_sprite.texture = sprite.texture
+	if not inner_sprite.visible:
+		inner_sprite.visible = true
+	if inner_sprite.position != sprite.position:
+		inner_sprite.position = sprite.position
+	if inner_sprite.scale != sprite.scale:
+		inner_sprite.scale = sprite.scale
+	var target_modulate: Color = Color(1.0, 1.0, 1.0, 0.75)
+	if inner_sprite.modulate != target_modulate:
+		inner_sprite.modulate = target_modulate
 
 	# Same-size secondary layer, rotating a little faster.
 	inner_sprite.rotation += rotation_speed * 1.2 * delta
@@ -60,5 +55,11 @@ func reset() -> void:
 	if inner_sprite == null:
 		return
 
-	inner_sprite.visible = false
-	inner_sprite.rotation = 0.0
+	_hide_inner_sprite()
+	if inner_sprite.rotation != 0.0:
+		inner_sprite.rotation = 0.0
+
+
+func _hide_inner_sprite() -> void:
+	if inner_sprite != null and inner_sprite.visible:
+		inner_sprite.visible = false
