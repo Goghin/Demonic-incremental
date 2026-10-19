@@ -8,7 +8,8 @@ var overlay: MolecularAgitationParticleOverlay
 func ensure_overlay(
 	parent: Node,
 	generator: Generator,
-	overlay_position: Vector2
+	overlay_position: Vector2,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 ) -> void:
 	if overlay == null or not is_instance_valid(overlay):
 		overlay = MolecularAgitationParticleOverlay.new()
@@ -39,6 +40,7 @@ func update(
 	overlay.visible = should_be_active
 	overlay.active = should_be_active
 	overlay.generator_level = generator.level
+	overlay.effect_quality = effect_quality
 
 	if should_be_active:
 		overlay.position = overlay_position
