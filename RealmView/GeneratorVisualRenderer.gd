@@ -150,29 +150,40 @@ func update_animated_sprite(
 	is_operating: bool,
 	operating_alpha: float = 0.75
 ) -> bool:
-	sprite.position = generator_position
-	sprite.scale = Vector2(texture_scale, texture_scale)
-	sprite.z_index = 0
+	if sprite.position != generator_position:
+		sprite.position = generator_position
+	var target_scale: Vector2 = Vector2(texture_scale, texture_scale)
+	if sprite.scale != target_scale:
+		sprite.scale = target_scale
+	if sprite.z_index != 0:
+		sprite.z_index = 0
 
 	if sprite.sprite_frames == null:
-		sprite.visible = false
+		if sprite.visible:
+			sprite.visible = false
 		return false
 
 	var animation_name: StringName = &"default"
 	if not sprite.sprite_frames.has_animation(animation_name):
-		sprite.visible = false
+		if sprite.visible:
+			sprite.visible = false
 		return false
 
-	sprite.animation = animation_name
-	sprite.visible = true
+	if sprite.animation != animation_name:
+		sprite.animation = animation_name
+	if not sprite.visible:
+		sprite.visible = true
 
+	var target_modulate: Color
 	if is_operating:
-		sprite.modulate = Color(1.0, 1.0, 1.0, operating_alpha)
+		target_modulate = Color(1.0, 1.0, 1.0, operating_alpha)
 		if not sprite.is_playing():
 			sprite.play()
 	else:
-		sprite.modulate = Color(0.70, 0.70, 0.70, 1.0)
+		target_modulate = Color(0.70, 0.70, 0.70, 1.0)
 		if sprite.is_playing():
 			sprite.pause()
+	if sprite.modulate != target_modulate:
+		sprite.modulate = target_modulate
 
 	return true
