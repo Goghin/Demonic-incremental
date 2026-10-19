@@ -388,6 +388,23 @@ func _style_options_panel() -> void:
 		)
 		checkbox.add_theme_constant_override("h_separation", 7)
 
+	$OptionsPanel/OptionsContent/VisualEffectsQualityLabel.add_theme_font_size_override(
+		"font_size", 10
+	)
+	$OptionsPanel/OptionsContent/VisualEffectsQualityLabel.add_theme_color_override(
+		"font_color", Color(1.0, 0.84, 0.68)
+	)
+	var quality_picker: OptionButton = $OptionsPanel/OptionsContent/VisualEffectsQualityOption
+	quality_picker.add_theme_font_size_override("font_size", 10)
+	quality_picker.add_theme_color_override("font_color", Color(0.88, 0.80, 0.75))
+	quality_picker.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.73))
+	quality_picker.add_theme_stylebox_override("normal", _create_options_button_style(
+		Color(0.095, 0.065, 0.065, 1.0), Color(0.34, 0.23, 0.20, 1.0)
+	))
+	quality_picker.add_theme_stylebox_override("hover", _create_options_button_style(
+		Color(0.17, 0.095, 0.07, 1.0), Color(0.78, 0.39, 0.20, 1.0)
+	))
+
 	$OptionsPanel/OptionsContent/MasterVolumeLabel.add_theme_font_size_override(
 		"font_size", 10
 	)
