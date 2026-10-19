@@ -28,7 +28,10 @@ class LavaBurstOverlay extends Node2D:
 				core.color = core_spark_color
 
 	func set_visual_effect_quality(quality: int) -> void:
-		effect_quality = clampi(quality, 0, 3)
+		var normalized_quality: int = clampi(quality, 0, 3)
+		if effect_quality == normalized_quality:
+			return
+		effect_quality = normalized_quality
 		if effect_quality == 0:
 			for particle in particles:
 				var node: Node2D = particle["node"]
@@ -200,7 +203,10 @@ func setup(
 	_update_visuals()
 
 func set_visual_effect_quality(quality: int) -> void:
-	visual_effect_quality = clampi(quality, 0, 3)
+	var normalized_quality: int = clampi(quality, 0, 3)
+	if visual_effect_quality == normalized_quality:
+		return
+	visual_effect_quality = normalized_quality
 	if is_instance_valid(lava_burst_overlay):
 		lava_burst_overlay.set_visual_effect_quality(visual_effect_quality)
 
