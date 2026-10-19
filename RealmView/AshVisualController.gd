@@ -7,6 +7,7 @@ var pile_smoke_emitters: Array[SmokeEmitterRenderer] = []
 var realm_view: RealmView
 var pile_renderer: AshPileRenderer = AshPileRenderer.new()
 var contamination_renderer: AshContaminationRenderer
+var _pile_smoke_enabled: Array[bool] = []
 
 
 func setup(
@@ -26,8 +27,11 @@ func setup(
 		var emitter := SmokeEmitterRenderer.new()
 		emitter.name = "AshPileSmoke_%02d" % (i + 1)
 		emitter.z_index = 20
+		emitter.visible = false
+		emitter.set_process(false)
 		owner.add_child(emitter)
 		pile_smoke_emitters.append(emitter)
+		_pile_smoke_enabled.append(false)
 
 
 func update_piles(
@@ -61,8 +65,7 @@ func update_piles(
 		if not is_instance_valid(emitter):
 			continue
 		if i >= piles.size() or not is_instance_valid(piles[i]):
-			emitter.visible = false
-			emitter.set_process(false)
+			_set_pile_smoke_enabled(i, emitter, false)
 			continue
 
 		var pile: Sprite2D = piles[i]
@@ -70,8 +73,7 @@ func update_piles(
 		var effects_enabled: bool = realm_view != null and realm_view.visual_effects_enabled
 		var enabled: bool = pile_has_position and pile.visible and effects_enabled
 		if not enabled:
-			emitter.visible = false
-			emitter.set_process(false)
+			_set_pile_smoke_enabled(i, emitter, false)
 			continue
 
 		# Anchor the column deeper inside the Ash pile so it emerges from lower down.
@@ -90,15 +92,28 @@ func update_piles(
 			(i % 5) + 1
 		)
 		emitter.set_visual_effect_quality(realm_view.visual_effect_quality)
-		emitter.visible = true
-		emitter.set_process(true)
+		_set_pile_smoke_enabled(i, emitter, true)
+
+
+func _set_pile_smoke_enabled(
+	index: int,
+	emitter: SmokeEmitterRenderer,
+	enabled: bool
+) -> void:
+	if index < 0 or index >= _pile_smoke_enabled.size():
+		return
+	if _pile_smoke_enabled[index] == enabled:
+		return
+	_pile_smoke_enabled[index] = enabled
+	emitter.visible = enabled
+	emitter.set_process(enabled)
 
 
 func _hide_pile_smoke_emitters() -> void:
-	for emitter in pile_smoke_emitters:
+	for i in range(pile_smoke_emitters.size()):
+		var emitter: SmokeEmitterRenderer = pile_smoke_emitters[i]
 		if is_instance_valid(emitter):
-			emitter.visible = false
-			emitter.set_process(false)
+			_set_pile_smoke_enabled(i, emitter, false)
 
 
 func _clear_pile_smoke_emitters() -> void:
@@ -106,6 +121,7 @@ func _clear_pile_smoke_emitters() -> void:
 		if is_instance_valid(emitter):
 			emitter.queue_free()
 	pile_smoke_emitters.clear()
+	_pile_smoke_enabled.clear()
 
 
 func update_contamination(
