@@ -7,6 +7,7 @@ class LavaFlowSparkOverlay extends Node2D:
 	var flow_widths: PackedFloat32Array = PackedFloat32Array()
 	var burst_timer: float = 0.25
 	var activity_factor: float = 1.0
+	var effect_quality: int = 2
 	var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
 	var particles: Array[Dictionary] = []
 	var outer_spark_color: Color = Color(0.72, 0.045, 0.008, 0.9)
@@ -27,6 +28,16 @@ class LavaFlowSparkOverlay extends Node2D:
 			if core != null:
 				core.color = core_spark_color
 
+	func set_visual_effect_quality(quality: int) -> void:
+		effect_quality = clampi(quality, 0, 3)
+		if effect_quality == 0:
+			for particle in particles:
+				var node: Node2D = particle["node"]
+				if is_instance_valid(node):
+					node.queue_free()
+			particles.clear()
+		set_process(effect_quality > 0 or not particles.is_empty())
+
 	func set_flow_shape(new_points: PackedVector2Array, new_widths: PackedFloat32Array) -> void:
 		flow_points = new_points
 		flow_widths = new_widths
@@ -34,13 +45,15 @@ class LavaFlowSparkOverlay extends Node2D:
 		for i in range(1, flow_points.size()):
 			total_length += flow_points[i].distance_to(flow_points[i - 1])
 		activity_factor = clamp(total_length / 180.0, 0.15, 1.0)
+		set_process(effect_quality > 0 or not particles.is_empty())
 
 	func _process(delta: float) -> void:
-		if flow_points.size() >= 2 and flow_widths.size() == flow_points.size():
+		if effect_quality > 0 and flow_points.size() >= 2 and flow_widths.size() == flow_points.size():
 			burst_timer -= delta
 			if burst_timer <= 0.0:
 				_spawn_burst()
-				burst_timer = randomizer.randf_range(0.55, 1.05) / activity_factor
+				var rate_multiplier: float = [0.0, 0.5, 1.0, 1.5][effect_quality]
+				burst_timer = randomizer.randf_range(0.55, 1.05) / (activity_factor * rate_multiplier)
 
 		for i in range(particles.size() - 1, -1, -1):
 			var particle: Dictionary = particles[i]
@@ -63,6 +76,7 @@ class LavaFlowSparkOverlay extends Node2D:
 				var burst_scale: float = float(particle.get("burst_scale", 1.0))
 				node.scale = Vector2(lerp(0.45, 1.0, ratio), lerp(0.85, 1.15, ratio)) * burst_scale
 				particles[i] = particle
+		set_process(effect_quality > 0 or not particles.is_empty())
 
 	func _spawn_burst() -> void:
 		var distance_segments := PackedFloat32Array([0.0])
@@ -108,7 +122,8 @@ class LavaFlowSparkOverlay extends Node2D:
 		else:
 			burst_scale = 3.0
 		var count_multiplier: float = 1.0 if burst_scale == 1.0 else (1.25 if burst_scale < 3.0 else 1.5)
-		var count: int = maxi(1, roundi(randomizer.randi_range(3, 5) * activity_factor * count_multiplier))
+		var quality_multiplier: float = [0.0, 0.5, 1.0, 1.5][effect_quality]
+		var count: int = maxi(1, roundi(randomizer.randi_range(3, 5) * activity_factor * count_multiplier * quality_multiplier))
 		for j in range(count):
 			var spread_distance: float = randomizer.randf_range(-14.0, 14.0)
 			var particle_distance: float = clamp(target_distance + spread_distance, 0.0, total_length)
@@ -209,6 +224,7 @@ var segment_materials: Array[ShaderMaterial] = []
 var surface_material: ShaderMaterial
 var spark_overlay: LavaFlowSparkOverlay
 var lava_palette: Dictionary = {}
+var visual_effect_quality: int = 2
 
 
 func setup(
@@ -250,6 +266,17 @@ func setup(
 	_clear_flow_polygons()
 	_ensure_edge_glow()
 	_ensure_spark_overlay()
+	spark_overlay.set_visual_effect_quality(visual_effect_quality)
+
+
+func set_visual_effect_quality(quality: int) -> void:
+	visual_effect_quality = clampi(quality, 0, 3)
+	if is_instance_valid(spark_overlay):
+		spark_overlay.set_visual_effect_quality(visual_effect_quality)
+	if visual_effect_quality == 0 and is_instance_valid(edge_glow):
+		var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.10, 0.008, 1.0))
+		glow_color.a = 0.16
+		edge_glow.default_color = glow_color
 
 
 func _ensure_edge_glow() -> void:
@@ -272,6 +299,7 @@ func _ensure_spark_overlay() -> void:
 	spark_overlay.name = "LavaFlowSparkOverlay"
 	spark_overlay.z_index = 3
 	add_child(spark_overlay)
+	spark_overlay.set_visual_effect_quality(visual_effect_quality)
 	if not lava_palette.is_empty():
 		spark_overlay.set_lava_spark_colors(lava_palette.get("red", Color(0.72, 0.045, 0.008, 0.9)), lava_palette.get("bright", Color(1.0, 0.24, 0.035, 0.92)))
 
@@ -355,8 +383,9 @@ func _setup_material() -> void:
 
 
 func _process(delta: float) -> void:
-	glow_animation_time += delta
-	_update_edge_glow_pulse()
+	if visual_effect_quality > 0:
+		glow_animation_time += delta
+		_update_edge_glow_pulse()
 
 	match flow_state:
 		FlowState.STARTING:
@@ -396,6 +425,8 @@ func _process(delta: float) -> void:
 			_update_surface()
 
 func _update_edge_glow_pulse() -> void:
+	if visual_effect_quality == 0:
+		return
 	if not is_instance_valid(edge_glow):
 		return
 	if flow_state == FlowState.INACTIVE or edge_glow.points.size() < 2:
