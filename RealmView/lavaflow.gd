@@ -357,10 +357,31 @@ func reposition_from_points(
 	if flow_points.size() < 2:
 		return
 
+	var target_position: Vector2 = flow_points[0]
+	var shape_unchanged: bool = position == target_position and points.size() == flow_points.size()
+
+	if shape_unchanged:
+		for i in range(flow_points.size()):
+			if points[i] != flow_points[i] - target_position:
+				shape_unchanged = false
+				break
+
+	if shape_unchanged and flow_widths.size() == flow_points.size():
+		if widths.size() != flow_widths.size():
+			shape_unchanged = false
+		else:
+			for i in range(flow_widths.size()):
+				if widths[i] != flow_widths[i]:
+					shape_unchanged = false
+					break
+
+	if shape_unchanged:
+		return
+
 	if flow_widths.size() == flow_points.size():
 		widths = flow_widths.duplicate()
 
-	position = flow_points[0]
+	position = target_position
 
 	points.clear()
 
