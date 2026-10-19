@@ -13,6 +13,7 @@ func update(
 	if not generator_sprite.visible:
 		if overlay != null and is_instance_valid(overlay):
 			overlay.visible = false
+			overlay.active = false
 		return
 
 	if overlay == null or not is_instance_valid(overlay):
@@ -33,3 +34,4 @@ func update(
 func reset() -> void:
 	if overlay != null and is_instance_valid(overlay):
 		overlay.visible = false
+		overlay.active = false
