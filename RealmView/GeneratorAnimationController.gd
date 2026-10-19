@@ -40,17 +40,20 @@ func update_early(
 func update_middle(
 	generator_layer: Node2D,
 	state: GameState,
-	generator_sprites: Dictionary
+	generator_sprites: Dictionary,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 ) -> void:
 	_update_furnace_swirl(
 		generator_layer,
 		state,
-		generator_sprites
+		generator_sprites,
+		effect_quality
 	)
 	_update_atomic_friction_particles(
 		generator_layer,
 		state,
-		generator_sprites
+		generator_sprites,
+		effect_quality
 	)
 
 
@@ -104,7 +107,8 @@ func _update_molecular_agitation(
 func _update_furnace_swirl(
 	generator_layer: Node2D,
 	state: GameState,
-	generator_sprites: Dictionary
+	generator_sprites: Dictionary,
+	effect_quality: int
 ) -> void:
 	if state == null or not generator_sprites.has("molecular_agitation"):
 		return
@@ -114,13 +118,14 @@ func _update_furnace_swirl(
 		return
 
 	var sprite: Sprite2D = generator_sprites["molecular_agitation"]
-	furnace_swirl.update(generator_layer, furnace, sprite)
+	furnace_swirl.update(generator_layer, furnace, sprite, effect_quality)
 
 
 func _update_atomic_friction_particles(
 	generator_layer: Node2D,
 	state: GameState,
-	generator_sprites: Dictionary
+	generator_sprites: Dictionary,
+	effect_quality: int
 ) -> void:
 	if state == null or not generator_sprites.has("atomic_friction"):
 		return
@@ -130,7 +135,7 @@ func _update_atomic_friction_particles(
 		return
 
 	var sprite: Sprite2D = generator_sprites["atomic_friction"]
-	atomic_friction_particles.update(generator_layer, generator, sprite)
+	atomic_friction_particles.update(generator_layer, generator, sprite, effect_quality)
 
 
 func _update_atomic_friction_animation(
