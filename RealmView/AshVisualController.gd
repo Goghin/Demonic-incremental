@@ -117,6 +117,8 @@ func update_contamination(
 		contamination_renderer = AshContaminationRenderer.new()
 		contamination_renderer.attach_to(owner)
 
+	var effects_enabled: bool = realm_view != null and realm_view.visual_effects_enabled
+	contamination_renderer.set_effect_active(effects_enabled)
 	contamination_renderer.update_visuals(center, width, ash)
 
 
