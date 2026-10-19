@@ -8,6 +8,9 @@ var operation_mode_id: String = "normal"
 
 
 func _process(delta: float) -> void:
+	if not active:
+		return
+
 	time += delta
 	queue_redraw()
 
