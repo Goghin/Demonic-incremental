@@ -262,7 +262,8 @@ func play_crystallization_event(
 		state,
 		crystals_created,
 		_get_generator_position("infernal_forge"),
-		false
+		false,
+		visual_effect_quality
 	)
 
 
@@ -277,6 +278,7 @@ func play_forge_level_reduction_event(
 		return
 
 	var effect := FORGE_LEVEL_REDUCTION_EFFECT.new() as Node2D
+	effect.effect_quality = visual_effect_quality
 	effect.position = _get_generator_position(generator_id)
 	add_child(effect)
 
@@ -291,7 +293,8 @@ func play_critical_crystallization_event(crystals_created: float) -> void:
 		state,
 		crystals_created,
 		_get_generator_position("infernal_forge"),
-		true
+		true,
+		visual_effect_quality
 	)
 
 
