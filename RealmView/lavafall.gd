@@ -101,31 +101,23 @@ func _setup_material() -> void:
 
 func set_filled(filled: bool) -> void:
 	if filled:
-		if fall_state == FallState.FULL:
+		if fall_state == FallState.FULL or fall_state == FallState.FILLING:
 			return
 
-		# Never interrupt a draining waterfall.
-		if fall_state == FallState.DRAINING:
-			return
-
-		if fall_state == FallState.FILLING:
-			return
-
+		# Reverse a drain in place so a reactivated flow doesn't leave a gap.
+		# progress represents the moving edge in either direction.
 		if fall_state == FallState.EMPTY:
 			progress = 0.0
 
 		fall_state = FallState.FILLING
 		target_progress = 1.0
 		set_process(true)
-
 	else:
-		if fall_state == FallState.EMPTY:
+		if fall_state == FallState.EMPTY or fall_state == FallState.DRAINING:
 			return
 
-		if fall_state == FallState.DRAINING:
-			return
-
-		progress = 0.0
+		# Let the trailing edge continue down the fall from its current position.
+		# This also reverses an interrupted fill without snapping the edge.
 		fall_state = FallState.DRAINING
 		target_progress = 1.0
 		set_process(true)
