@@ -58,6 +58,9 @@ func build_realm_visuals(
 		lakes
 	)
 	_apply_lava_palette(state.lava_palette)
+	# Rebuilt flow/lake nodes need the current quality applied even when the
+	# setting itself has not changed since the previous layout.
+	_last_applied_visual_effect_quality = -1
 	set_visual_effect_quality(visual_effect_quality)
 	update_positions(realm_layout, island_rect)
 
