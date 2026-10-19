@@ -666,10 +666,21 @@ func _create_initial_upgrade_ui() -> void:
 
 
 func _is_generator_unlock_for_main_panel(upgrade: Upgrade) -> bool:
-	return upgrade.definition.id in [
-		"lava_mite_colony_unlock",
-		"unlock_infernal_condensation"
-	]
+	return _get_generator_id_for_unlock_upgrade(upgrade) != ""
+
+
+func _get_generator_id_for_unlock_upgrade(upgrade: Upgrade) -> String:
+	# Map progression unlock upgrades to the generator they introduce.
+	# These stay in the main Upgrades grid even when their purchase is automatic.
+	var unlock_generator_ids: Dictionary = {
+		"molecular_agitation": "molecular_agitation",
+		"matter_furnace_unlock": "matter_furnace",
+		"lava_mite_colony_unlock": "lava_mite_colony",
+		"unlock_infernal_condensation": "thermal_furnace",
+		"thermal_compressor_unlock": "thermal_compressor",
+		"infernal_forge_unlock": "infernal_forge"
+	}
+	return str(unlock_generator_ids.get(upgrade.definition.id, ""))
 
 
 func _get_upgrade_tree_assigned_ids() -> Dictionary:
