@@ -299,6 +299,7 @@ func _refresh_process_state() -> void:
 	var needs_transition_update: bool = (
 		flow_state == FlowState.STARTING
 		or flow_state == FlowState.STOPPING
+		or flow_state == FlowState.FILLING_AND_DRAINING
 	)
 	var needs_glow_update: bool = (
 		flow_state == FlowState.FLOWING
