@@ -138,7 +138,7 @@ func _draw() -> void:
 		)
 
 		var particle_size: float = float(particle["size"]) * particle_scale
-		var particle_alpha: float = float(particle["alpha"]) * (0.65 + ash_factor * 0.55)
+		var particle_alpha: float = minf(float(particle["alpha"]) * (0.75 + ash_factor * 0.60), 1.0)
 		var variant: int = int(particle["variant"])
 		var shape_angle: float = float(particle["shape_angle"]) + angle * 0.15
 		var warmth: float = float(particle["warmth"])
