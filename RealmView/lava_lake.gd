@@ -38,7 +38,7 @@ class LavaBurstOverlay extends Node2D:
 				if is_instance_valid(node):
 					node.queue_free()
 			particles.clear()
-		set_process(effect_quality > 0 or not particles.is_empty())
+		set_process((effect_quality > 0 and surface_points.size() >= 3) or not particles.is_empty())
 
 	func set_surface_points(points: PackedVector2Array) -> void:
 		# The points are in LavaLake-local coordinates. This overlay is a
@@ -47,7 +47,7 @@ class LavaBurstOverlay extends Node2D:
 		lake_area_factor = _calculate_area_factor(surface_points)
 		if effect_quality > 0 and surface_points.size() >= 3 and particles.is_empty():
 			_spawn_burst()
-		set_process(effect_quality > 0 or not particles.is_empty())
+		set_process((effect_quality > 0 and surface_points.size() >= 3) or not particles.is_empty())
 
 	func _process(delta: float) -> void:
 		if effect_quality > 0:
