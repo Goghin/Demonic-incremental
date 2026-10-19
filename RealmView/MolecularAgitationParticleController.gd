@@ -38,12 +38,16 @@ func update(
 		and generator.is_operating()
 	)
 
-	overlay.visible = should_be_active
-	overlay.active = should_be_active
-	overlay.generator_level = generator.level
-	overlay.effect_quality = effect_quality
+	if overlay.visible != should_be_active:
+		overlay.visible = should_be_active
+	if overlay.active != should_be_active:
+		overlay.active = should_be_active
+	if overlay.generator_level != generator.level:
+		overlay.generator_level = generator.level
+	if overlay.effect_quality != effect_quality:
+		overlay.effect_quality = effect_quality
 
-	if should_be_active:
+	if should_be_active and overlay.position != overlay_position:
 		overlay.position = overlay_position
 
 
