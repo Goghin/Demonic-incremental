@@ -11,16 +11,23 @@ var lake_state_controller: LavaLakeStateController = LavaLakeStateController.new
 var lake_visual_controller: LavaLakeVisualController = LavaLakeVisualController.new()
 var network_controller: LavaNetworkController = LavaNetworkController.new()
 var visual_effect_quality: int = 2
+var _last_applied_visual_effect_quality: int = -1
 
 
 func set_visual_effect_quality(quality: int) -> void:
-	visual_effect_quality = clampi(quality, 0, 3)
+	var normalized_quality: int = clampi(quality, 0, 3)
+	if _last_applied_visual_effect_quality == normalized_quality:
+		return
+
+	visual_effect_quality = normalized_quality
 	for flow in flows:
 		if is_instance_valid(flow):
 			flow.set_visual_effect_quality(visual_effect_quality)
 	for lake in lakes:
 		if is_instance_valid(lake):
 			lake.set_visual_effect_quality(visual_effect_quality)
+
+	_last_applied_visual_effect_quality = normalized_quality
 
 
 func build_realm_visuals(
