@@ -534,6 +534,9 @@ func _update_visuals() -> void:
 
 
 func reposition(island_rect: Rect2) -> void:
+	if lake_rect == island_rect:
+		return
+
 	_reposition(island_rect)
 	_update_visuals()
 
