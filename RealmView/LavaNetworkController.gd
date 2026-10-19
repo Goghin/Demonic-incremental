@@ -138,10 +138,12 @@ func update_positions(
 						]
 					)
 
-					fall.position = (
+					var target_position: Vector2 = (
 						island_rect.position +
 						island_rect.size * last_normalized_point
 					)
+					if fall.position != target_position:
+						fall.position = target_position
 
 				var fall_width: float = float(definition.get("fall_width", 4.0))
 				var fall_length: float = float(definition.get("fall_length", 60.0))
