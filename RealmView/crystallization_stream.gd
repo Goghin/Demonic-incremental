@@ -18,14 +18,17 @@ var pulse_phase: float = 0.0
 var burst_mode: bool = false
 var burst_scale: float = 1.0
 var straight_mode: bool = false
+var effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 
 
 func setup(
 	from: Vector2,
 	to: Vector2,
-	straight: bool = false
+	straight: bool = false,
+	quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 	) -> void:
 
+	effect_quality = clampi(quality, RealmView.VISUAL_EFFECT_LOW, RealmView.VISUAL_EFFECT_HIGH)
 	burst_mode = false
 	straight_mode = straight
 	start_position = from
@@ -46,7 +49,9 @@ func setup(
 			35.0
 		)
 
-	for i in range(particle_count):
+	var quality_multiplier: float = _get_quality_particle_multiplier()
+	var stream_particle_count: int = maxi(1, roundi(float(particle_count) * quality_multiplier))
+	for i in range(stream_particle_count):
 		particles.append({
 			"offset": randf(),
 			"side": randf_range(-1.0, 1.0),
@@ -60,7 +65,12 @@ func setup(
 	queue_redraw()
 
 
-func setup_burst(at_position: Vector2, critical: bool = false) -> void:
+func setup_burst(
+	at_position: Vector2,
+	critical: bool = false,
+	quality: int = RealmView.VISUAL_EFFECT_MEDIUM
+) -> void:
+	effect_quality = clampi(quality, RealmView.VISUAL_EFFECT_LOW, RealmView.VISUAL_EFFECT_HIGH)
 	burst_mode = true
 	start_position = at_position
 	target_position = at_position
@@ -71,7 +81,8 @@ func setup_burst(at_position: Vector2, critical: bool = false) -> void:
 	active = true
 	particles.clear()
 
-	for i in range(42):
+	var burst_particle_count: int = roundi(42.0 * _get_quality_particle_multiplier())
+	for i in range(burst_particle_count):
 		particles.append({
 			"angle": randf_range(0.0, TAU),
 			"burst_speed": randf_range(88.0, 184.0),
@@ -154,7 +165,7 @@ func _draw() -> void:
 
 	var stream_points: PackedVector2Array = []
 
-	var point_count := 20
+	var point_count: int = _get_quality_stream_point_count()
 
 	for i in range(point_count):
 		var t := float(i) / float(point_count - 1)
@@ -384,7 +395,7 @@ func _draw_burst() -> void:
 		shockwave_radius,
 		0.0,
 		TAU,
-		64,
+		_get_quality_arc_segments(),
 		Color(1.0, 0.42, 0.08, shockwave_alpha * 0.3),
 		7.0 * fade + 1.0,
 		true
@@ -394,7 +405,7 @@ func _draw_burst() -> void:
 		shockwave_radius,
 		0.0,
 		TAU,
-		64,
+		_get_quality_arc_segments(),
 		Color(1.0, 0.82, 0.42, shockwave_alpha),
 		2.0,
 		true
@@ -427,3 +438,33 @@ func _draw_burst() -> void:
 
 	draw_circle(start_position, 12.0 * pulse * fade * burst_scale, Color(1.0, 0.28, 0.02, 0.2 * fade))
 	draw_circle(start_position, 5.0 * pulse * fade * burst_scale, Color(1.0, 0.72, 0.18, 0.8 * fade))
+
+
+func _get_quality_particle_multiplier() -> float:
+	match effect_quality:
+		RealmView.VISUAL_EFFECT_LOW:
+			return 0.5
+		RealmView.VISUAL_EFFECT_HIGH:
+			return 1.5
+		_:
+			return 1.0
+
+
+func _get_quality_stream_point_count() -> int:
+	match effect_quality:
+		RealmView.VISUAL_EFFECT_LOW:
+			return 12
+		RealmView.VISUAL_EFFECT_HIGH:
+			return 28
+		_:
+			return 20
+
+
+func _get_quality_arc_segments() -> int:
+	match effect_quality:
+		RealmView.VISUAL_EFFECT_LOW:
+			return 32
+		RealmView.VISUAL_EFFECT_HIGH:
+			return 96
+		_:
+			return 64
