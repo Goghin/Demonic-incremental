@@ -5,7 +5,15 @@ extends Control
 signal generator_selected(generator_id: String)
 
 var state: GameState
-var visual_effects_enabled: bool = true
+const VISUAL_EFFECT_OFF: int = 0
+const VISUAL_EFFECT_LOW: int = 1
+const VISUAL_EFFECT_MEDIUM: int = 2
+const VISUAL_EFFECT_HIGH: int = 3
+
+var visual_effect_quality: int = VISUAL_EFFECT_MEDIUM
+var visual_effects_enabled: bool:
+	get:
+		return visual_effect_quality > VISUAL_EFFECT_OFF
 var generator_visual_renderer: GeneratorVisualRenderer = GeneratorVisualRenderer.new()
 var generator_visibility_controller: GeneratorVisibilityController = GeneratorVisibilityController.new()
 var generator_visual_reset_controller: GeneratorVisualResetController = GeneratorVisualResetController.new()
@@ -93,12 +101,25 @@ const BRAZIER_STATS: Array[String] = [
 ]
 
 func set_visual_effects_enabled(enabled: bool) -> void:
-	if visual_effects_enabled == enabled:
+	set_visual_effect_quality(
+		VISUAL_EFFECT_MEDIUM if enabled else VISUAL_EFFECT_OFF
+	)
+
+
+func set_visual_effect_quality(quality: int) -> void:
+	var normalized_quality: int = clampi(
+		quality,
+		VISUAL_EFFECT_OFF,
+		VISUAL_EFFECT_HIGH
+	)
+	if visual_effect_quality == normalized_quality:
 		return
 
-	visual_effects_enabled = enabled
+	var was_enabled: bool = visual_effects_enabled
+	visual_effect_quality = normalized_quality
+	var is_enabled: bool = visual_effects_enabled
 
-	if not enabled:
+	if was_enabled and not is_enabled:
 		generator_animation_controller.reset()
 		molecular_agitation_particle_controller.reset()
 		forge_activity_visual_controller.reset()
