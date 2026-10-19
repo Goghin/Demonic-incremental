@@ -39,6 +39,7 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 			str(definition.get("style", "puff")),
 			int(definition.get("variant", 1))
 		)
+		emitter.set_visual_effect_quality(owner.visual_effect_quality)
 		emitter.visible = owner.visual_effects_enabled
 		emitter.set_process(owner.visual_effects_enabled)
 
