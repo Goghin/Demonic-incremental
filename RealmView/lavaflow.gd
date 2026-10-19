@@ -297,6 +297,10 @@ func set_visual_effect_quality(quality: int) -> void:
 	visual_effect_quality = normalized_quality
 	if is_instance_valid(spark_overlay):
 		spark_overlay.set_visual_effect_quality(visual_effect_quality)
+	if not _is_front_layer:
+		for layer in _front_layers:
+			if is_instance_valid(layer):
+				layer.set_visual_effect_quality(visual_effect_quality)
 	if visual_effect_quality == 0 and is_instance_valid(edge_glow):
 		var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.10, 0.008, 1.0))
 		glow_color.a = 0.16
@@ -386,7 +390,7 @@ func _set_front_controller_active(active: bool) -> void:
 		layer._is_front_layer = true
 		layer.fill_speed_multiplier = fill_speed_multiplier
 		layer.drain_speed_multiplier = drain_speed_multiplier
-		layer.visual_effect_quality = 0
+		layer.visual_effect_quality = visual_effect_quality
 		add_child(layer)
 		layer.setup(points, widths, speed, intensity, start_ratio, stop_ratio)
 		layer.position = Vector2.ZERO
