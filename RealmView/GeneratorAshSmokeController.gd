@@ -155,6 +155,7 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 			)
 
 			emitter.configure(size, rate, opacity, "puff")
+			emitter.set_visual_effect_quality(owner.visual_effect_quality)
 			emitter.visible = stage_active
 			emitter.set_process(stage_active)
 
