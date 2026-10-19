@@ -10,6 +10,17 @@ var flow_state_controller: LavaFlowStateController = LavaFlowStateController.new
 var lake_state_controller: LavaLakeStateController = LavaLakeStateController.new()
 var lake_visual_controller: LavaLakeVisualController = LavaLakeVisualController.new()
 var network_controller: LavaNetworkController = LavaNetworkController.new()
+var visual_effect_quality: int = 2
+
+
+func set_visual_effect_quality(quality: int) -> void:
+	visual_effect_quality = clampi(quality, 0, 3)
+	for flow in flows:
+		if is_instance_valid(flow):
+			flow.set_visual_effect_quality(visual_effect_quality)
+	for lake in lakes:
+		if is_instance_valid(lake):
+			lake.set_visual_effect_quality(visual_effect_quality)
 
 
 func build_realm_visuals(
@@ -40,6 +51,7 @@ func build_realm_visuals(
 		lakes
 	)
 	_apply_lava_palette(state.lava_palette)
+	set_visual_effect_quality(visual_effect_quality)
 	update_positions(realm_layout, island_rect)
 
 
