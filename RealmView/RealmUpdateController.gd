@@ -52,7 +52,8 @@ func update(owner: RealmView, delta: float) -> void:
 		animation_controller,
 		generator_layer,
 		state,
-		generator_sprites
+		generator_sprites,
+		owner.visual_effect_quality
 	)
 	_update_molecular_agitation(
 		molecular_agitation_controller,
