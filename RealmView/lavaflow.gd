@@ -394,6 +394,8 @@ func _set_front_controller_active(active: bool) -> void:
 		layer.add_child(layer_surface)
 		var layer_rim := Line2D.new()
 		layer_rim.name = "Rim"
+		# Match lavaflow.tscn: the rim is a hidden underlay, not a visible outline.
+		layer_rim.visible = false
 		layer.add_child(layer_rim)
 		var layer_channel := Polygon2D.new()
 		layer_channel.name = "Channel"
