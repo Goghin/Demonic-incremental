@@ -286,7 +286,10 @@ func _update_button(upgrade: Upgrade) -> void:
 	$UpgradeButton.text = ""
 	$UpgradeButton/Icon.texture = null
 
-	if not upgrade.definition.icon_path.is_empty():
+	var generator_unlock_texture := _get_generator_unlock_texture(upgrade)
+	if generator_unlock_texture != null:
+		$UpgradeButton/Icon.texture = generator_unlock_texture
+	elif not upgrade.definition.icon_path.is_empty():
 		var icon := load(upgrade.definition.icon_path) as Texture2D
 		if icon != null:
 			$UpgradeButton/Icon.texture = icon
@@ -332,6 +335,33 @@ func _update_button(upgrade: Upgrade) -> void:
 		return
 
 	_set_button_state("available")
+
+
+func _get_generator_unlock_texture(upgrade: Upgrade) -> Texture2D:
+	# Generator unlock buttons use the same illustration as the RealmView
+	# machine, making the newly unlocked generator immediately recognizable.
+	var generator_id := ""
+	match upgrade.definition.id:
+		"molecular_agitation":
+			generator_id = "molecular_agitation"
+		"matter_furnace_unlock":
+			generator_id = "matter_furnace"
+		"lava_mite_colony_unlock":
+			generator_id = "lava_mite_colony"
+		"unlock_infernal_condensation":
+			generator_id = "thermal_furnace"
+		"thermal_compressor_unlock":
+			generator_id = "thermal_compressor"
+		"infernal_forge_unlock":
+			generator_id = "infernal_forge"
+		_:
+			return null
+
+	var generator: Generator = state.get_generator(generator_id)
+	if generator == null or generator.definition.illustration_path.is_empty():
+		return null
+
+	return load(generator.definition.illustration_path) as Texture2D
 
 
 func get_requirement_text(requirement: Requirement) -> String:
