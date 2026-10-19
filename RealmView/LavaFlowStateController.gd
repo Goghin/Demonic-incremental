@@ -98,14 +98,9 @@ func update(
 			var fall: LavaFall = lava_falls[i]
 
 			if is_instance_valid(fall):
-				var endpoint_filled: bool = (
-					flow.flow_state == LavaFlow.FlowState.FLOWING
-				)
-
-				if flow.flow_state == LavaFlow.FlowState.STOPPING:
-					endpoint_filled = flow.cooling_length < 1.0
-
-				fall.set_filled(endpoint_filled)
+				# Multiple fronts can overlap in time. Keep the fall filled
+				# while any visible front still reaches the channel endpoint.
+				fall.set_filled(flow.is_endpoint_covered())
 
 
 func _validate_layout_thresholds(realm_layout: RealmLayout) -> void:
