@@ -108,8 +108,12 @@ func update_animation_speed(
 		var levels_after_50: float = float(level - 50)
 		animation_speed = 6.5 + 2.0 * (1.0 - exp(-levels_after_50 / 50.0))
 
-	animated_sprite.sprite_frames.set_animation_speed(
-		animation_name,
+	if not is_equal_approx(
+		animated_sprite.sprite_frames.get_animation_speed(animation_name),
 		animation_speed
-	)
+	):
+		animated_sprite.sprite_frames.set_animation_speed(
+			animation_name,
+			animation_speed
+		)
 
