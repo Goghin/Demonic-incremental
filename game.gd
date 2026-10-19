@@ -651,13 +651,14 @@ func _create_initial_upgrade_ui() -> void:
 		if generator_id != "" and tree_assigned_upgrade_ids.has(upgrade_id):
 			continue
 
+		# Keep all generator unlocks together in the dedicated section,
+		# regardless of whether the unlock is automatic or manually purchased.
+		if _is_generator_unlock_for_main_panel(upgrade):
+			add_automatic_upgrade_panel(upgrade)
+			continue
+
 		if upgrade.definition.automatic:
-			# Keep generator unlocks in the main Upgrades grid even though
-			# their effects are applied automatically when requirements are met.
-			if _is_generator_unlock_for_main_panel(upgrade):
-				add_upgrade_panel(upgrade)
-			else:
-				automatic_upgrades.append(upgrade)
+			automatic_upgrades.append(upgrade)
 			continue
 
 		add_upgrade_panel(upgrade)
@@ -904,7 +905,7 @@ func _create_effects_container() -> void:
 
 	var effects_label = Label.new()
 
-	effects_label.text = "EFFECTS"
+	effects_label.text = "GENERATOR UNLOCKS"
 
 	effects_label.custom_minimum_size = Vector2(
 		0,
@@ -948,13 +949,14 @@ func add_automatic_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
 
-	# Automatic generator upgrades also fall back here when they have
-	# no node in a generator upgrade tree.
-	if (
-		upgrade.definition.generator_id != ""
-		and not _is_unassigned_generator_upgrade(upgrade)
-	):
-		return
+	# Generator unlocks always live in the dedicated Generator Unlocks
+	# section. Other automatic generator upgrades still respect their trees.
+	if not _is_generator_unlock_for_main_panel(upgrade):
+		if (
+			upgrade.definition.generator_id != ""
+			and not _is_unassigned_generator_upgrade(upgrade)
+		):
+			return
 
 	if upgrade_panels.has(
 		upgrade.definition.id
@@ -1026,6 +1028,10 @@ func _on_generator_unlocked(
 		if not state.upgrade_system.is_upgrade_visible(upgrade):
 			continue
 
+		if _is_generator_unlock_for_main_panel(upgrade):
+			add_automatic_upgrade_panel(upgrade)
+			continue
+
 		if upgrade.definition.generator_id != generator_id:
 			continue
 
@@ -1055,14 +1061,12 @@ func _on_technology_unlocked(
 		if upgrade.definition.technology_id != technology_id:
 			continue
 		
-		if upgrade.definition.automatic:
-			add_automatic_upgrade_panel(
-				upgrade
-			)
+		if _is_generator_unlock_for_main_panel(upgrade):
+			add_automatic_upgrade_panel(upgrade)
+		elif upgrade.definition.automatic:
+			add_automatic_upgrade_panel(upgrade)
 		else:
-			add_upgrade_panel(
-				upgrade
-			)
+			add_upgrade_panel(upgrade)
 
 # ============================================================
 # MAIN LOOP
