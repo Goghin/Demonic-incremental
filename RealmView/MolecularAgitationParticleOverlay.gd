@@ -88,6 +88,7 @@ const CORE_ALPHA: float = 0.85
 var time: float = 0.0
 var active: bool = false
 var generator_level: int = 1
+var effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 
 var particle_radii: Array[float] = []
 var particle_angles: Array[float] = []
@@ -178,7 +179,14 @@ func _get_particle_count() -> int:
 		+ additional_particles
 	)
 
-	return min(count, MAX_PARTICLES)
+	var quality_multiplier: float = 1.0
+	match effect_quality:
+		RealmView.VISUAL_EFFECT_LOW:
+			quality_multiplier = 0.5
+		RealmView.VISUAL_EFFECT_HIGH:
+			quality_multiplier = 1.5
+
+	return clampi(roundi(float(min(count, MAX_PARTICLES)) * quality_multiplier), 1, MAX_PARTICLES)
 
 
 func _get_activity_multiplier() -> float:
