@@ -68,33 +68,44 @@ func update_sprite(
 	generator_position: Vector2,
 	texture_scale: float
 ) -> void:
-	sprite.z_index = 0
-	sprite.texture = texture
-	sprite.position = generator_position
+	if sprite.z_index != 0:
+		sprite.z_index = 0
+	if sprite.texture != texture:
+		sprite.texture = texture
+	if sprite.position != generator_position:
+		sprite.position = generator_position
 
 	if generator.definition.id == "atomic_friction":
 		var base_scale: Vector2 = Vector2(texture_scale, texture_scale)
-		sprite.set_meta("atomic_friction_base_scale", base_scale)
-		# The animation controller skips paused generators. Give the sprite its
-		# normal pulsing size here so a loaded, paused generator cannot remain at
-		# Sprite2D's default 1x scale. The animation controller overrides this
-		# scale while Atomic Friction is operating.
-		sprite.scale = base_scale * 0.64
+		if not sprite.has_meta("atomic_friction_base_scale") or sprite.get_meta("atomic_friction_base_scale") != base_scale:
+			sprite.set_meta("atomic_friction_base_scale", base_scale)
+		# While operating, the animation controller owns sprite.scale every
+		# frame. Only restore the dormant base scale when animation is inactive.
+		if not generator.is_operating():
+			var dormant_scale: Vector2 = base_scale * 0.64
+			if sprite.scale != dormant_scale:
+				sprite.scale = dormant_scale
 	else:
-		sprite.scale = Vector2(texture_scale, texture_scale)
+		var target_scale: Vector2 = Vector2(texture_scale, texture_scale)
+		if sprite.scale != target_scale:
+			sprite.scale = target_scale
 
-	sprite.visible = true
+	if not sprite.visible:
+		sprite.visible = true
 
+	var target_modulate: Color
 	if generator.level <= 0:
 		# Unbuilt machines should read as dormant, not as active machinery.
-		sprite.modulate = Color(0.72, 0.62, 0.50, 1.0)
+		target_modulate = Color(0.72, 0.62, 0.50, 1.0)
 	elif generator.is_operating():
 		var operating_alpha: float = 0.75
 		if generator.definition.id == "infernal_forge":
 			operating_alpha = 1.0
-		sprite.modulate = Color(1.0, 1.0, 1.0, operating_alpha)
+		target_modulate = Color(1.0, 1.0, 1.0, operating_alpha)
 	else:
-		sprite.modulate = Color(0.70, 0.70, 0.70, 1.0)
+		target_modulate = Color(0.70, 0.70, 0.70, 1.0)
+	if sprite.modulate != target_modulate:
+		sprite.modulate = target_modulate
 
 
 func get_texture(generator: Generator) -> Texture2D:
