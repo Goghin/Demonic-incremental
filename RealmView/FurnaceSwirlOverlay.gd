@@ -5,9 +5,14 @@ var time: float = 0.0
 var active: bool = false
 var speed_multiplier: float = 1.0
 
+
 func _process(delta: float) -> void:
+	if not active:
+		return
+
 	time += delta
 	queue_redraw()
+
 
 func _draw() -> void:
 	if not active:
@@ -54,4 +59,3 @@ func _draw() -> void:
 			0.8,
 			Color(1.0, 0.85, 0.3, alpha)
 		)
-
