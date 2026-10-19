@@ -8,7 +8,8 @@ var overlay: AtomicFrictionParticleOverlay
 func update(
 	parent: Node,
 	generator: Generator,
-	generator_sprite: Sprite2D
+	generator_sprite: Sprite2D,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 ) -> void:
 	if overlay == null or not is_instance_valid(overlay):
 		overlay = AtomicFrictionParticleOverlay.new()
@@ -26,6 +27,7 @@ func update(
 	overlay.active = should_be_active
 	overlay.generator_level = generator.level
 	overlay.operation_mode_id = generator.operation_mode_id
+	overlay.effect_quality = effect_quality
 
 
 func reset() -> void:
