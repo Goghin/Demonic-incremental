@@ -215,7 +215,8 @@ enum FlowState {
 	INACTIVE,
 	STARTING,
 	FLOWING,
-	STOPPING
+	STOPPING,
+	FILLING_AND_DRAINING
 }
 
 
@@ -346,7 +347,9 @@ func set_active(active: bool) -> void:
 		if flow_state == FlowState.FLOWING:
 			flow_state = FlowState.STOPPING
 		elif flow_state == FlowState.STARTING:
-			flow_state = FlowState.STOPPING
+			# Keep the leading edge moving while the trailing edge begins to drain.
+			cooling_length = 0.0
+			flow_state = FlowState.FILLING_AND_DRAINING
 	_refresh_process_state()
 
 func reposition_from_points(
@@ -453,6 +456,17 @@ func _process(delta: float) -> void:
 
 			_update_surface()
 
+		FlowState.FILLING_AND_DRAINING:
+			var transition_speed: float = delta * animation_speed * fill_speed_multiplier
+			active_length = minf(active_length + transition_speed, 1.0)
+			cooling_length = minf(cooling_length + transition_speed, 1.0)
+
+			# Once the leading edge reaches the end, continue with the normal drain.
+			if active_length >= 1.0:
+				flow_state = FlowState.STOPPING
+
+			_update_surface()
+
 		FlowState.FLOWING:
 			active_length = 1.0
 			cooling_length = 0.0
@@ -541,6 +555,10 @@ func _update_surface() -> void:
 		FlowState.STOPPING:
 			start_distance = total_distance * cooling_length
 			end_distance = total_distance
+
+		FlowState.FILLING_AND_DRAINING:
+			start_distance = total_distance * cooling_length
+			end_distance = total_distance * active_length
 
 	if end_distance <= start_distance:
 		_clear_flow_polygons()
