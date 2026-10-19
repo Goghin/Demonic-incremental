@@ -202,7 +202,7 @@ var start_ratio: float = 0.10
 var stop_ratio: float = 0.07
 
 var active_length: float = 0.0
-var animation_speed: float = 0.12
+var animation_speed: float = 0.06
 var cooling_length: float = 0.0
 
 var fill_speed_multiplier: float = 1.0
@@ -603,9 +603,11 @@ func _process(delta: float) -> void:
 			cooling_length = 0.0
 
 		FlowState.STOPPING:
-			cooling_length += (delta 
-			* animation_speed
-			* fill_speed_multiplier)
+			cooling_length += (
+				delta
+				* animation_speed
+				* drain_speed_multiplier
+			)
 
 			if cooling_length >= 1.0:
 				cooling_length = 1.0
