@@ -5,7 +5,13 @@ extends Node2D
 var effect_center: Vector2 = Vector2.ZERO
 var realm_width: float = 0.0
 var ash_amount: float = 0.0
+const QUALITY_OFF: int = 0
+const QUALITY_LOW: int = 1
+const QUALITY_MEDIUM: int = 2
+const QUALITY_HIGH: int = 3
+
 var elapsed_time: float = 0.0
+var effect_quality: int = QUALITY_MEDIUM
 var active: bool = true
 
 var randomizer: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -63,10 +69,17 @@ func update_visuals(
 		queue_redraw()
 
 
-func set_effect_active(enabled: bool) -> void:
-	if active == enabled:
+func set_effect_quality(quality: int) -> void:
+	var normalized_quality: int = clampi(
+		quality,
+		QUALITY_OFF,
+		QUALITY_HIGH
+	)
+	var enabled: bool = normalized_quality > QUALITY_OFF
+	if effect_quality == normalized_quality and active == enabled:
 		return
 
+	effect_quality = normalized_quality
 	active = enabled
 	visible = enabled
 	set_process(enabled)
@@ -166,8 +179,19 @@ func _get_target_particle_count() -> int:
 	if ash_amount <= 0.0:
 		return 0
 
+	var quality_multiplier: float = 1.0
+	match effect_quality:
+		QUALITY_LOW:
+			quality_multiplier = 0.35
+		QUALITY_MEDIUM:
+			quality_multiplier = 1.0
+		QUALITY_HIGH:
+			quality_multiplier = 1.5
+		_:
+			return 0
+
 	return int(floor(
-		280.0 * pow(
+		280.0 * quality_multiplier * pow(
 			ash_amount / (ash_amount + 3000.0),
 			0.65
 		)
