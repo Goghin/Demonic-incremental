@@ -69,8 +69,10 @@ func position_braziers(
 			]
 		)
 
-		brazier.position = (
+		var target_position: Vector2 = (
 			island_rect.position +
 			island_rect.size *
 			normalized_position
 		)
+		if brazier.position != target_position:
+			brazier.position = target_position
