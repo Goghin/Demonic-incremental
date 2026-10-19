@@ -46,6 +46,7 @@ var selected_generator_id: String = ""
 var generator_list_mode: bool = false
 
 var effects_flow: HFlowContainer
+var generator_unlocks_flow: HFlowContainer
 var prestige_animation: PrestigeAnimation
 
 var generator_upgrade_tree: GeneratorUpgradeTree
@@ -903,45 +904,36 @@ func _create_effects_container() -> void:
 	if effects_flow != null:
 		return
 
-	var effects_label = Label.new()
+	var effects_label := Label.new()
+	effects_label.text = "EFFECTS"
+	effects_label.custom_minimum_size = Vector2(0, 35)
+	effects_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(effects_label)
 
-	effects_label.text = "GENERATOR UNLOCKS"
+	effects_flow = _create_automatic_upgrade_flow("EffectsFlow")
 
-	effects_label.custom_minimum_size = Vector2(
-		0,
-		35
-	)
 
-	effects_label.vertical_alignment = (
-		VERTICAL_ALIGNMENT_CENTER
-	)
+func _create_generator_unlocks_container() -> void:
+	if generator_unlocks_flow != null:
+		return
 
-	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(
-		effects_label
-	)
+	var unlocks_label := Label.new()
+	unlocks_label.text = "GENERATOR UNLOCKS"
+	unlocks_label.custom_minimum_size = Vector2(0, 35)
+	unlocks_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(unlocks_label)
 
-	effects_flow = HFlowContainer.new()
+	generator_unlocks_flow = _create_automatic_upgrade_flow("GeneratorUnlocksFlow")
 
-	effects_flow.name = "EffectsFlow"
 
-	effects_flow.custom_minimum_size = Vector2(
-		0,
-		70
-	)
-
-	effects_flow.add_theme_constant_override(
-		"h_separation",
-		3
-	)
-
-	effects_flow.add_theme_constant_override(
-		"v_separation",
-		3
-	)
-
-	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(
-		effects_flow
-	)
+func _create_automatic_upgrade_flow(flow_name: String) -> HFlowContainer:
+	var flow := HFlowContainer.new()
+	flow.name = flow_name
+	flow.custom_minimum_size = Vector2(0, 70)
+	flow.add_theme_constant_override("h_separation", 3)
+	flow.add_theme_constant_override("v_separation", 3)
+	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(flow)
+	return flow
 
 
 
@@ -949,33 +941,32 @@ func add_automatic_upgrade_panel(
 	upgrade: Upgrade
 	) -> void:
 
-	# Generator unlocks always live in the dedicated Generator Unlocks
-	# section. Other automatic generator upgrades still respect their trees.
-	if not _is_generator_unlock_for_main_panel(upgrade):
+	var is_generator_unlock := _is_generator_unlock_for_main_panel(upgrade)
+	if not is_generator_unlock:
 		if (
 			upgrade.definition.generator_id != ""
 			and not _is_unassigned_generator_upgrade(upgrade)
 		):
 			return
 
-	if upgrade_panels.has(
-		upgrade.definition.id
-	):
+	if upgrade_panels.has(upgrade.definition.id):
 		return
 
 	if not state.upgrade_system.is_upgrade_visible(upgrade):
 		return
 
-	_create_effects_container()
+	var target_flow: HFlowContainer
+	if is_generator_unlock:
+		_create_generator_unlocks_container()
+		target_flow = generator_unlocks_flow
+	else:
+		_create_effects_container()
+		target_flow = effects_flow
 
-	var panel = (
-		upgrade_panel_scene.instantiate()
-	)
-
+	var panel = upgrade_panel_scene.instantiate()
 	panel.custom_minimum_size = Vector2(44, 44)
 	panel.size = Vector2(44, 44)
-
-	effects_flow.add_child(panel)
+	target_flow.add_child(panel)
 
 	panel.setup(
 		state,
@@ -984,13 +975,9 @@ func add_automatic_upgrade_panel(
 		upgrade.definition.id,
 		$UpgradeInfoPopup
 	)
-	panel.purchase_succeeded.connect(
-		_play_ui_purchase
-	)
+	panel.purchase_succeeded.connect(_play_ui_purchase)
 
-	upgrade_panels[
-		upgrade.definition.id
-	] = panel
+	upgrade_panels[upgrade.definition.id] = panel
 
 
 
@@ -1845,6 +1832,7 @@ func _rebuild_upgrade_ui() -> void:
 	upgrade_flows.clear()
 	upgrade_panels.clear()
 	effects_flow = null
+	generator_unlocks_flow = null
 	
 	await get_tree().process_frame
 	
