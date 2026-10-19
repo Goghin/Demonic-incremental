@@ -84,7 +84,7 @@ func update_piles(
 		var smoke_opacity: float = lerpf(0.30, 0.68, pile_growth)
 		emitter.configure(
 			smoke_size,
-			0.1,
+			0.1 * _get_quality_multiplier(realm_view.visual_effect_quality),
 			smoke_opacity,
 			"column",
 			(i % 5) + 1
@@ -141,3 +141,13 @@ func update_realm_visuals(
 		contamination_width,
 		ash
 	)
+
+
+func _get_quality_multiplier(quality: int) -> float:
+	match quality:
+		RealmView.VISUAL_EFFECT_LOW:
+			return 0.5
+		RealmView.VISUAL_EFFECT_HIGH:
+			return 1.5
+		_:
+			return 1.0
