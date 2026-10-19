@@ -22,18 +22,27 @@ func update(
 		and generator.is_operating()
 	)
 
-	overlay.position = generator_sprite.position
-	overlay.visible = should_be_active
-	overlay.active = should_be_active
-	overlay.generator_level = generator.level
-	overlay.operation_mode_id = generator.operation_mode_id
-	overlay.effect_quality = effect_quality
+	if should_be_active and overlay.position != generator_sprite.position:
+		overlay.position = generator_sprite.position
+	if overlay.visible != should_be_active:
+		overlay.visible = should_be_active
+	if overlay.active != should_be_active:
+		overlay.active = should_be_active
+	if overlay.generator_level != generator.level:
+		overlay.generator_level = generator.level
+	if overlay.operation_mode_id != generator.operation_mode_id:
+		overlay.operation_mode_id = generator.operation_mode_id
+	if overlay.effect_quality != effect_quality:
+		overlay.effect_quality = effect_quality
 
 
 func reset() -> void:
 	if overlay == null or not is_instance_valid(overlay):
 		return
 
-	overlay.active = false
-	overlay.visible = false
-	overlay.time = 0.0
+	if overlay.active:
+		overlay.active = false
+	if overlay.visible:
+		overlay.visible = false
+	if overlay.time != 0.0:
+		overlay.time = 0.0
