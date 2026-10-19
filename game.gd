@@ -3,7 +3,14 @@ extends Control
 
 
 var is_loading: bool = true
-var visual_effects_enabled: bool = true
+const VISUAL_EFFECT_OFF: int = 0
+const VISUAL_EFFECT_LOW: int = 1
+const VISUAL_EFFECT_MEDIUM: int = 2
+const VISUAL_EFFECT_HIGH: int = 3
+var visual_effect_quality: int = VISUAL_EFFECT_MEDIUM
+var visual_effects_enabled: bool:
+	get:
+		return visual_effect_quality > VISUAL_EFFECT_OFF
 var ui_sounds_enabled: bool = true
 var master_volume_percent: float = 70.0
 var ui_click_player: AudioStreamPlayer
@@ -76,7 +83,13 @@ func _ready() -> void:
 		_on_offline_results_closed
 	)
 	_load_visual_settings()
-	$OptionsPanel/OptionsContent/VisualEffectsCheckBox.set_pressed_no_signal(visual_effects_enabled)
+	var visual_quality_picker: OptionButton = $OptionsPanel/OptionsContent/VisualEffectsQualityOption
+	visual_quality_picker.clear()
+	visual_quality_picker.add_item("OFF", VISUAL_EFFECT_OFF)
+	visual_quality_picker.add_item("LOW", VISUAL_EFFECT_LOW)
+	visual_quality_picker.add_item("MEDIUM", VISUAL_EFFECT_MEDIUM)
+	visual_quality_picker.add_item("HIGH", VISUAL_EFFECT_HIGH)
+	visual_quality_picker.select(visual_effect_quality)
 	$OptionsPanel/OptionsContent/UISoundsCheckBox.set_pressed_no_signal(ui_sounds_enabled)
 	$OptionsPanel/OptionsContent/AmbientAudioCheckBox.set_pressed_no_signal(ambient_enabled)
 	$OptionsPanel/OptionsContent/MasterVolumeSlider.set_value_no_signal(master_volume_percent)
@@ -97,7 +110,7 @@ func _ready() -> void:
 	prestige_animation = $PrestigeAnimation
 	
 	_create_realm_view()
-	realm_view.set_visual_effects_enabled(visual_effects_enabled)
+	realm_view.set_visual_effect_quality(visual_effect_quality)
 	
 	
 		
@@ -348,7 +361,6 @@ func _style_options_panel() -> void:
 		))
 
 	for node_path in [
-		"OptionsPanel/OptionsContent/VisualEffectsCheckBox",
 		"OptionsPanel/OptionsContent/UISoundsCheckBox",
 		"OptionsPanel/OptionsContent/AmbientAudioCheckBox"
 	]:
@@ -1290,12 +1302,12 @@ func _on_quit_game_button_pressed() -> void:
 	get_tree().quit()
 
 
-func _on_visual_effects_toggled(enabled: bool) -> void:
-	visual_effects_enabled = enabled
+func _on_visual_effect_quality_selected(index: int) -> void:
+	visual_effect_quality = clampi(index, VISUAL_EFFECT_OFF, VISUAL_EFFECT_HIGH)
 	_save_visual_settings()
 
 	if realm_view != null:
-		realm_view.set_visual_effects_enabled(enabled)
+		realm_view.set_visual_effect_quality(visual_effect_quality)
 
 
 func _on_ui_sounds_toggled(enabled: bool) -> void:
@@ -1636,10 +1648,19 @@ func _load_visual_settings() -> void:
 	var config := ConfigFile.new()
 	var error: Error = config.load("user://settings.cfg")
 	if error == OK:
-		visual_effects_enabled = config.get_value(
+		var legacy_effects_enabled: bool = bool(config.get_value(
 			"graphics",
 			"animated_visual_effects",
 			true
+		))
+		visual_effect_quality = clampi(
+			int(config.get_value(
+				"graphics",
+				"visual_effect_quality",
+				VISUAL_EFFECT_MEDIUM if legacy_effects_enabled else VISUAL_EFFECT_OFF
+			)),
+			VISUAL_EFFECT_OFF,
+			VISUAL_EFFECT_HIGH
 		)
 		ui_sounds_enabled = config.get_value(
 			"audio",
@@ -1657,6 +1678,12 @@ func _load_visual_settings() -> void:
 func _save_visual_settings() -> void:
 	var config := ConfigFile.new()
 	config.load("user://settings.cfg")
+	config.set_value(
+		"graphics",
+		"visual_effect_quality",
+		visual_effect_quality
+	)
+	# Keep the old key for compatibility with builds that still use the toggle.
 	config.set_value(
 		"graphics",
 		"animated_visual_effects",
