@@ -92,7 +92,8 @@ func play_crystallization_event(
 	state: GameState,
 	crystals_created: float,
 	forge_position: Vector2,
-	is_critical: bool = false
+	is_critical: bool = false,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 ) -> void:
 	if state == null:
 		return
@@ -105,5 +106,6 @@ func play_crystallization_event(
 		crystal_values,
 		state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME),
 		renderer,
-		is_critical
+		is_critical,
+		effect_quality
 	)
