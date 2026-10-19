@@ -185,6 +185,9 @@ var edge_glow: Line2D
 var edge_glow_gradient: Gradient
 var lava_palette: Dictionary = {}
 var visual_effect_quality: int = 2
+var _visuals_dirty: bool = true
+var _last_rendered_visual_fill: float = -1.0
+var _last_rendered_animation_time: float = -1.0
 
 func setup(
 	normalized_points: PackedVector2Array,
@@ -212,6 +215,7 @@ func set_visual_effect_quality(quality: int) -> void:
 
 func set_lava_palette(palette: Dictionary) -> void:
 	lava_palette = palette.duplicate(true)
+	_visuals_dirty = true
 
 	var surface_node := get_node_or_null("Surface") as Polygon2D
 	if surface_node != null and surface_node.material is ShaderMaterial:
@@ -288,6 +292,7 @@ func _ensure_lava_burst_overlay() -> void:
 
 
 func _reposition(island_rect: Rect2) -> void:
+	_visuals_dirty = true
 	lake_rect = island_rect
 
 	edge_points.clear()
@@ -327,6 +332,12 @@ func _update_fill() -> void:
 	
 func _update_visuals() -> void:
 	if edge_points.is_empty():
+		return
+	if (
+		not _visuals_dirty
+		and is_equal_approx(visual_fill, _last_rendered_visual_fill)
+		and is_equal_approx(animation_time, _last_rendered_animation_time)
+	):
 		return
 
 	var center: Vector2 = Vector2.ZERO
@@ -514,9 +525,12 @@ func _update_visuals() -> void:
 	inner_edge.default_color = inner_edge_color
 
 	inner_edge.closed = true
-	
 
-	
+	_visuals_dirty = false
+	_last_rendered_visual_fill = visual_fill
+	_last_rendered_animation_time = animation_time
+
+
 func reposition(island_rect: Rect2) -> void:
 	_reposition(island_rect)
 	_update_visuals()
