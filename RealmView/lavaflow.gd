@@ -29,14 +29,17 @@ class LavaFlowSparkOverlay extends Node2D:
 				core.color = core_spark_color
 
 	func set_visual_effect_quality(quality: int) -> void:
-		effect_quality = clampi(quality, 0, 3)
+		var normalized_quality: int = clampi(quality, 0, 3)
+		if effect_quality == normalized_quality:
+			return
+		effect_quality = normalized_quality
 		if effect_quality == 0:
 			for particle in particles:
 				var node: Node2D = particle["node"]
 				if is_instance_valid(node):
 					node.queue_free()
 			particles.clear()
-		set_process(effect_quality > 0 or not particles.is_empty())
+		set_process((effect_quality > 0 and flow_points.size() >= 2 and flow_widths.size() == flow_points.size()) or not particles.is_empty())
 
 	func set_flow_shape(new_points: PackedVector2Array, new_widths: PackedFloat32Array) -> void:
 		flow_points = new_points
@@ -45,7 +48,7 @@ class LavaFlowSparkOverlay extends Node2D:
 		for i in range(1, flow_points.size()):
 			total_length += flow_points[i].distance_to(flow_points[i - 1])
 		activity_factor = clamp(total_length / 180.0, 0.15, 1.0)
-		set_process(effect_quality > 0 or not particles.is_empty())
+		set_process((effect_quality > 0 and flow_points.size() >= 2 and flow_widths.size() == flow_points.size()) or not particles.is_empty())
 
 	func _process(delta: float) -> void:
 		if effect_quality > 0 and flow_points.size() >= 2 and flow_widths.size() == flow_points.size():
@@ -270,7 +273,10 @@ func setup(
 
 
 func set_visual_effect_quality(quality: int) -> void:
-	visual_effect_quality = clampi(quality, 0, 3)
+	var normalized_quality: int = clampi(quality, 0, 3)
+	if visual_effect_quality == normalized_quality:
+		return
+	visual_effect_quality = normalized_quality
 	if is_instance_valid(spark_overlay):
 		spark_overlay.set_visual_effect_quality(visual_effect_quality)
 	if visual_effect_quality == 0 and is_instance_valid(edge_glow):
