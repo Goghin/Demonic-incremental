@@ -5,6 +5,7 @@ var time: float = 0.0
 var active: bool = false
 var generator_level: int = 1
 var operation_mode_id: String = "normal"
+var effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 
 
 func _process(delta: float) -> void:
@@ -22,8 +23,19 @@ func _draw() -> void:
 	var level: float = float(max(generator_level, 1))
 
 	# Particle count increases with level, with diminishing returns.
-	var particle_count: int = int(
+	var base_particle_count: int = int(
 		2.0 + min(max(level - 1.0, 0.0) * 14.0 / 99.0, 14.0)
+	)
+	var quality_multiplier: float = 1.0
+	match effect_quality:
+		RealmView.VISUAL_EFFECT_LOW:
+			quality_multiplier = 0.5
+		RealmView.VISUAL_EFFECT_HIGH:
+			quality_multiplier = 1.5
+	var particle_count: int = clampi(
+		roundi(float(base_particle_count) * quality_multiplier),
+		1,
+		16
 	)
 
 	# Higher levels make particles launch faster and travel farther.
