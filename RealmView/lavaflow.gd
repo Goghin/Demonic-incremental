@@ -228,6 +228,7 @@ var surface_material: ShaderMaterial
 var spark_overlay: LavaFlowSparkOverlay
 var lava_palette: Dictionary = {}
 var visual_effect_quality: int = 2
+var _surface_geometry_cleared: bool = false
 
 
 func setup(
@@ -449,6 +450,11 @@ func _update_edge_glow_pulse() -> void:
 
 func _update_surface() -> void:
 	if not is_instance_valid(surface):
+		return
+
+	# Once an inactive flow has been cleared, avoid rebuilding distances and
+	# clearing the same polygons on every frame.
+	if flow_state == FlowState.INACTIVE and _surface_geometry_cleared:
 		return
 
 	if points.size() < 2:
@@ -706,6 +712,7 @@ func _update_surface() -> void:
 		active_widths[0] *
 		RIM_WIDTH_MULTIPLIER
 	)
+	_surface_geometry_cleared = false
 
 	rim.default_color = Color(
 		1.0,
@@ -796,6 +803,7 @@ func _create_corner_polygon(
 
 
 func _clear_flow_polygons() -> void:
+	_surface_geometry_cleared = true
 	for polygon in surface_segments:
 		polygon.visible = false
 		polygon.polygon = PackedVector2Array()
