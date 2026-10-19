@@ -57,7 +57,8 @@ func update(owner: RealmView, delta: float) -> void:
 	_update_molecular_agitation(
 		molecular_agitation_controller,
 		state,
-		thermal_furnace_position
+		thermal_furnace_position,
+		owner.visual_effect_quality
 	)
 	_update_late_animations(
 		animation_controller,
@@ -102,23 +103,27 @@ func _update_middle_animations(
 	animation_controller: GeneratorAnimationController,
 	generator_layer: Node2D,
 	state: GameState,
-	generator_sprites: Dictionary
+	generator_sprites: Dictionary,
+	effect_quality: int
 ) -> void:
 	animation_controller.update_middle(
 		generator_layer,
 		state,
-		generator_sprites
+		generator_sprites,
+		effect_quality
 	)
 
 
 func _update_molecular_agitation(
 	particle_controller: MolecularAgitationParticleController,
 	state: GameState,
-	generator_position: Vector2
+	generator_position: Vector2,
+	effect_quality: int
 ) -> void:
 	particle_controller.update(
 		state.generators.get("thermal_furnace"),
-		generator_position
+		generator_position,
+		effect_quality
 	)
 
 
