@@ -62,10 +62,21 @@ func update_visuals(
 	width: float,
 	ash: float
 ) -> void:
+	var normalized_width: float = max(width, 1.0)
+	var normalized_ash: float = max(ash, 0.0)
+	if (
+		effect_center == center
+		and is_equal_approx(realm_width, normalized_width)
+		and is_equal_approx(ash_amount, normalized_ash)
+	):
+		return
+
 	effect_center = center
-	realm_width = max(width, 1.0)
-	ash_amount = max(ash, 0.0)
-	if active:
+	realm_width = normalized_width
+	ash_amount = normalized_ash
+	# While active with Ash present, _process() already redraws every frame.
+	# Only request an immediate redraw here when empty Ash needs to clear the effect.
+	if active and ash_amount <= 0.0:
 		queue_redraw()
 
 
