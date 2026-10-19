@@ -122,10 +122,12 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 				continue
 
 			var offset: Vector2 = offsets[index]
-			emitter.position = generator_position + Vector2(
+			var target_position: Vector2 = generator_position + Vector2(
 				offset.x * machine_size,
 				offset.y * machine_size
 			)
+			if emitter.position != target_position:
+				emitter.position = target_position
 
 			# Activate the middle plume first, then the left, then the right.
 			# Every active emitter keeps growing as total Ash output rises;
@@ -156,8 +158,10 @@ func update(owner: RealmView, island_rect: Rect2) -> void:
 
 			emitter.configure(size, rate, opacity, "puff")
 			emitter.set_visual_effect_quality(owner.visual_effect_quality)
-			emitter.visible = stage_active
-			emitter.set_process(stage_active)
+			if emitter.visible != stage_active:
+				emitter.visible = stage_active
+			if emitter.is_processing() != stage_active:
+				emitter.set_process(stage_active)
 
 
 func _get_ash_output_rate(generator: Generator, state: GameState) -> float:
