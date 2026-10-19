@@ -223,6 +223,11 @@ enum FlowState {
 var flow_state: FlowState = FlowState.INACTIVE
 var target_active: bool = false
 
+# The main flow node controls activation. Each activation edge creates a
+# separate legacy renderer node, allowing old and new fronts to coexist.
+var _is_front_layer: bool = false
+var _front_layers: Array[LavaFlow] = []
+
 var surface_segments: Array[Polygon2D] = []
 var surface_corners: Array[Polygon2D] = []
 var segment_materials: Array[ShaderMaterial] = []
@@ -273,6 +278,12 @@ func setup(
 	active_length = 0.0
 	cooling_length = 0.0
 
+	if not _is_front_layer:
+		for layer in _front_layers:
+			if is_instance_valid(layer):
+				layer.queue_free()
+		_front_layers.clear()
+
 	_clear_flow_polygons()
 	_ensure_edge_glow()
 	_ensure_spark_overlay()
@@ -294,8 +305,12 @@ func set_visual_effect_quality(quality: int) -> void:
 
 
 func _refresh_process_state() -> void:
-	# Inactive flows have no simulation work. A fully flowing channel also
-	# needs no per-frame update when its animated glow is disabled.
+	if not _is_front_layer:
+		set_process(target_active or not _front_layers.is_empty())
+		return
+
+	# Inactive front layers have no simulation work. A fully flowing channel
+	# also needs no per-frame update when its animated glow is disabled.
 	var needs_transition_update: bool = (
 		flow_state == FlowState.STARTING
 		or flow_state == FlowState.STOPPING
@@ -336,6 +351,10 @@ func _ensure_spark_overlay() -> void:
 
 
 func set_active(active: bool) -> void:
+	if not _is_front_layer:
+		_set_front_controller_active(active)
+		return
+
 	target_active = active
 
 	if active:
@@ -352,6 +371,92 @@ func set_active(active: bool) -> void:
 			cooling_length = 0.0
 			flow_state = FlowState.FILLING_AND_DRAINING
 	_refresh_process_state()
+
+
+func _set_front_controller_active(active: bool) -> void:
+	# Only activation edges create fronts. The controller may call set_active
+	# every frame, so repeated identical requests must be harmless.
+	if active == target_active:
+		return
+
+	target_active = active
+	if active:
+		var layer := LavaFlow.new()
+		layer.name = "LavaFlowFront"
+		layer._is_front_layer = true
+		layer.fill_speed_multiplier = fill_speed_multiplier
+		layer.drain_speed_multiplier = drain_speed_multiplier
+		layer.visual_effect_quality = 0
+		add_child(layer)
+		layer.setup(points, widths, speed, intensity, start_ratio, stop_ratio)
+		layer.position = Vector2.ZERO
+		layer._is_front_layer = true
+		layer.fill_speed_multiplier = fill_speed_multiplier
+		layer.drain_speed_multiplier = drain_speed_multiplier
+		layer.set_lava_palette(lava_palette)
+		layer.set_active(true)
+		_front_layers.append(layer)
+	else:
+		# Existing fronts continue their current fill/drain transitions.
+		for layer in _front_layers:
+			if is_instance_valid(layer):
+				layer.set_active(false)
+
+	flow_state = FlowState.STARTING if active else FlowState.STOPPING
+	_refresh_process_state()
+
+
+func _process_front_controller(delta: float) -> void:
+	var any_front: bool = false
+	var any_fully_flowing: bool = false
+	var endpoint_covered: bool = false
+
+	for i in range(_front_layers.size() - 1, -1, -1):
+		var layer: LavaFlow = _front_layers[i]
+		if not is_instance_valid(layer):
+			_front_layers.remove_at(i)
+			continue
+		if layer.flow_state == FlowState.INACTIVE:
+			layer.queue_free()
+			_front_layers.remove_at(i)
+			continue
+
+		any_front = true
+		if layer.flow_state == FlowState.FLOWING:
+			any_fully_flowing = true
+		if layer.active_length >= 1.0 and layer.cooling_length < 1.0:
+			endpoint_covered = true
+
+	# Keep the legacy aggregate state available to dependencies and UI code.
+	if target_active:
+		flow_state = FlowState.FLOWING if any_fully_flowing else FlowState.STARTING
+	elif any_front:
+		flow_state = FlowState.STOPPING
+	else:
+		flow_state = FlowState.INACTIVE
+
+	if not _front_layers.is_empty():
+		var latest: LavaFlow = _front_layers[-1]
+		active_length = latest.active_length
+		cooling_length = latest.cooling_length
+	else:
+		active_length = 0.0
+		cooling_length = 0.0
+
+	# The controller itself owns no visible surface; child front layers render.
+	_clear_flow_polygons()
+	if is_instance_valid(spark_overlay):
+		spark_overlay.set_flow_shape(PackedVector2Array(), PackedFloat32Array())
+	_refresh_process_state()
+
+
+func is_endpoint_covered() -> bool:
+	if _is_front_layer:
+		return active_length >= 1.0 and cooling_length < 1.0
+	for layer in _front_layers:
+		if is_instance_valid(layer) and layer.is_endpoint_covered():
+			return true
+	return false
 
 func reposition_from_points(
 	flow_points: PackedVector2Array,
@@ -381,6 +486,11 @@ func reposition_from_points(
 
 	if shape_unchanged:
 		return
+
+	if not _is_front_layer:
+		for layer in _front_layers:
+			if is_instance_valid(layer):
+				layer.reposition_from_points(flow_points, flow_widths)
 
 	if flow_widths.size() == flow_points.size():
 		widths = flow_widths.duplicate()
@@ -438,6 +548,10 @@ func _setup_material() -> void:
 
 
 func _process(delta: float) -> void:
+	if not _is_front_layer:
+		_process_front_controller(delta)
+		return
+
 	if visual_effect_quality > 0:
 		glow_animation_time += delta
 		_update_edge_glow_pulse()
