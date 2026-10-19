@@ -905,7 +905,7 @@ func _create_effects_container() -> void:
 		return
 
 	var effects_label := Label.new()
-	effects_label.text = "EFFECTS"
+	effects_label.text = "Effects"
 	effects_label.custom_minimum_size = Vector2(0, 35)
 	effects_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(effects_label)
@@ -918,7 +918,7 @@ func _create_generator_unlocks_container() -> void:
 		return
 
 	var unlocks_label := Label.new()
-	unlocks_label.text = "GENERATOR UNLOCKS"
+	unlocks_label.text = "Generator Unlocks"
 	unlocks_label.custom_minimum_size = Vector2(0, 35)
 	unlocks_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(unlocks_label)
@@ -929,7 +929,7 @@ func _create_generator_unlocks_container() -> void:
 func _create_automatic_upgrade_flow(flow_name: String) -> HFlowContainer:
 	var flow := HFlowContainer.new()
 	flow.name = flow_name
-	flow.custom_minimum_size = Vector2(0, 70)
+	flow.custom_minimum_size = Vector2(0, 0)
 	flow.add_theme_constant_override("h_separation", 3)
 	flow.add_theme_constant_override("v_separation", 3)
 	$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer.add_child(flow)
