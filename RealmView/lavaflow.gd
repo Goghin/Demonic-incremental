@@ -231,6 +231,10 @@ var visual_effect_quality: int = 2
 var _surface_geometry_cleared: bool = false
 
 
+func _ready() -> void:
+	_refresh_process_state()
+
+
 func setup(
 	flow_points: PackedVector2Array,
 	flow_widths: PackedFloat32Array,
@@ -284,6 +288,21 @@ func set_visual_effect_quality(quality: int) -> void:
 		var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.10, 0.008, 1.0))
 		glow_color.a = 0.16
 		edge_glow.default_color = glow_color
+	_refresh_process_state()
+
+
+func _refresh_process_state() -> void:
+	# Inactive flows have no simulation work. A fully flowing channel also
+	# needs no per-frame update when its animated glow is disabled.
+	var needs_transition_update: bool = (
+		flow_state == FlowState.STARTING
+		or flow_state == FlowState.STOPPING
+	)
+	var needs_glow_update: bool = (
+		flow_state == FlowState.FLOWING
+		and visual_effect_quality > 0
+	)
+	set_process(needs_transition_update or needs_glow_update)
 
 
 func _ensure_edge_glow() -> void:
@@ -325,6 +344,7 @@ func set_active(active: bool) -> void:
 			flow_state = FlowState.STOPPING
 		elif flow_state == FlowState.STARTING:
 			flow_state = FlowState.STOPPING
+	_refresh_process_state()
 
 func reposition_from_points(
 	flow_points: PackedVector2Array,
@@ -430,6 +450,9 @@ func _process(delta: float) -> void:
 			active_length = 0.0
 			cooling_length = 0.0
 			_update_surface()
+
+	_refresh_process_state()
+
 
 func _update_edge_glow_pulse() -> void:
 	if visual_effect_quality == 0:
