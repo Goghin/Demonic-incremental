@@ -3,6 +3,9 @@ extends RefCounted
 
 
 var _validated_layout_instance_id: int = 0
+# Tracks the logical activation decision separately from the animation state.
+# This lets threshold hysteresis remain stable while a visual transition runs.
+var _desired_flow_states: Dictionary = {}
 
 
 func update(
@@ -15,6 +18,9 @@ func update(
 	if state == null or realm_layout == null:
 		return
 
+	var layout_instance_id: int = realm_layout.get_instance_id()
+	if layout_instance_id != _validated_layout_instance_id:
+		_desired_flow_states.clear()
 	_validate_layout_thresholds(realm_layout)
 
 	if lava_lakes.is_empty():
@@ -68,16 +74,24 @@ func update(
 						LavaFlow.FlowState.FLOWING
 					)
 
-		var should_flow: bool = false
+		var was_desired_active: bool = bool(
+			_desired_flow_states.get(
+				i,
+				flow.flow_state == LavaFlow.FlowState.FLOWING
+			)
+		)
+		var should_flow: bool
 
-		if flow.flow_state == LavaFlow.FlowState.FLOWING:
+		if was_desired_active:
+			# Preserve hysteresis even while the visual animation is starting
+			# or stopping: an active flow uses the lower stop threshold.
 			should_flow = lake_fill >= stop_fill
 		else:
-			should_flow = (
-				lake_fill >= start_fill
-				and dependency_ready
-			)
+			# A new activation still waits for its configured start threshold
+			# and any required upstream flow to become fully established.
+			should_flow = lake_fill >= start_fill and dependency_ready
 
+		_desired_flow_states[i] = should_flow
 		flow.set_active(should_flow)
 
 		if i < lava_falls.size():
