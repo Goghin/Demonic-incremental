@@ -182,6 +182,10 @@ offset_bottom = 510.0
 layout_mode = 2
 theme_override_constants/separation = 12
 
+[node name="VisualEffectsQualityLabel" type="Label" parent="OptionsPanel/OptionsContent" unique_id=1682017624]
+layout_mode = 2
+text = "VISUAL EFFECTS QUALITY"
+
 [node name="VisualEffectsQualityOption" type="OptionButton" parent="OptionsPanel/OptionsContent" unique_id=1682017618]
 layout_mode = 2
 item_count = 4
