@@ -17,12 +17,13 @@ func ensure_overlay(
 		overlay.z_index = 11
 		parent.add_child(overlay)
 
-	update(generator, overlay_position)
+	update(generator, overlay_position, effect_quality)
 
 
 func update(
 	generator: Generator,
-	overlay_position: Vector2
+	overlay_position: Vector2,
+	effect_quality: int = RealmView.VISUAL_EFFECT_MEDIUM
 ) -> void:
 	if generator == null:
 		hide()
