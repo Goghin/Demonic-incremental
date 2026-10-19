@@ -178,6 +178,9 @@ var fill: float = 0.02
 var visual_fill: float = 0.02
 
 const FILL_SMOOTH_SPEED: float = .1
+const GLOW_ALPHAS: Array[float] = [
+	0.13, 0.22, 0.15, 0.25, 0.16, 0.23, 0.14, 0.13
+]
 
 var animation_time: float = 0.0
 var lava_burst_overlay: LavaBurstOverlay
@@ -457,15 +460,14 @@ func _update_visuals() -> void:
 	_ensure_edge_glow()
 	edge_glow.points = rim_points
 	var glow_color: Color = lava_palette.get("orange", Color(1.0, 0.12, 0.01, 1.0))
-	var glow_alphas: Array[float] = [0.13, 0.22, 0.15, 0.25, 0.16, 0.23, 0.14, 0.13]
 	var glow_pulse: float = 0.5 + 0.5 * sin(animation_time * 0.72) if visual_effect_quality > 0 else 0.5
 	var glow_intensity: float = lerp(0.88, 1.12, glow_pulse)
-	for i in range(glow_alphas.size()):
+	for i in range(GLOW_ALPHAS.size()):
 		edge_glow_gradient.set_color(i, Color(
 			glow_color.r,
 			glow_color.g,
 			glow_color.b,
-			glow_alphas[i] * glow_intensity
+			GLOW_ALPHAS[i] * glow_intensity
 		))
 	edge_glow.width = 5.2 + glow_pulse * 0.6
 
