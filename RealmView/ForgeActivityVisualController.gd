@@ -19,7 +19,8 @@ func advance(delta: float) -> void:
 func update(
 	parent: Node,
 	forge: Generator,
-	forge_position: Vector2
+	forge_position: Vector2,
+	effect_quality: int = ForgeSparkOverlay.QUALITY_MEDIUM
 ) -> void:
 
 	if forge == null or not forge.unlocked or not forge.operating:
@@ -39,17 +40,24 @@ func update(
 		parent.add_child(spark_overlay)
 
 	var pulse: float = 0.5 + 0.5 * sin(glow_time * PULSE_SPEED)
+	var glow_multiplier: float = 1.0
+	match effect_quality:
+		ForgeSparkOverlay.QUALITY_LOW:
+			glow_multiplier = 0.85
+		ForgeSparkOverlay.QUALITY_HIGH:
+			glow_multiplier = 1.1
 
 	glow_overlay.position = forge_position + Vector2(0, 5)
 	glow_overlay.visible = true
-	glow_overlay.glow_radius = GLOW_RADIUS + pulse * 5.0
-	glow_overlay.glow_alpha = GLOW_ALPHA + pulse * 0.08
+	glow_overlay.glow_radius = (GLOW_RADIUS + pulse * 5.0) * glow_multiplier
+	glow_overlay.glow_alpha = (GLOW_ALPHA + pulse * 0.08) * glow_multiplier
 	glow_overlay.pulse = pulse
 	glow_overlay.core_alpha = CORE_ALPHA
 	glow_overlay.queue_redraw()
 
 	spark_overlay.position = forge_position + Vector2(0, 5)
 	spark_overlay.generator_level = max(forge.level, 1)
+	spark_overlay.effect_quality = effect_quality
 	spark_overlay.visible = true
 	spark_overlay.active = true
 	spark_overlay.queue_redraw()
