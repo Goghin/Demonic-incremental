@@ -96,6 +96,7 @@ func setup(
 func update(
 	piles: Array[Node2D],
 	layout_positions: PackedVector2Array,
+	layout_rotations: PackedFloat32Array,
 	island_rect: Rect2,
 	matter: float
 ) -> void:
@@ -140,6 +141,11 @@ func update(
 			island_rect.size.x * normalized_position.x,
 			island_rect.size.y * normalized_position.y
 		)
+		pile.rotation_degrees = (
+			layout_rotations[pile_index]
+			if pile_index < layout_rotations.size()
+			else 0.0
+		)
 
 		# Grow piles in rounds: add one low fragment to each pile before
 		# starting the next round, keeping their sizes visually balanced.
@@ -179,11 +185,9 @@ func _get_total_cube_count(matter: float, pile_count: int) -> int:
 	if matter <= 0.0 or pile_count <= 0:
 		return 0
 	# About two orders of magnitude fills one pile; later piles then begin in order.
-	return clamp(
-		int(ceil(log(1.0 + matter) / log(10.0) * 9.0)),
-		1,
-		MAX_CUBES_PER_PILE * pile_count
-	)
+	var log_matter: float = log(1.0 + matter) / log(10.0)
+	var cube_count: int = roundi(1.0 + 0.85 * log_matter * log_matter)
+	return clamp(cube_count, 1, MAX_CUBES_PER_PILE * pile_count)
 
 
 func _get_growth_stage(matter: float) -> int:
