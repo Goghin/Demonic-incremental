@@ -45,5 +45,9 @@ extends Resource
 # Normalized positions of fixed Matter stockpiles on this layout's artwork.
 @export var matter_pile_layout_positions: PackedVector2Array = PackedVector2Array()
 
+# Per-pile rotation in degrees, aligned by index with matter_pile_layout_positions.
+# Missing entries default to 0 degrees for existing layouts.
+@export var matter_pile_layout_rotations: PackedFloat32Array = PackedFloat32Array()
+
 # Placeable smoke emitters. Each definition stores normalized position and visual settings.
 @export var smoke_emitter_definitions: Array[Dictionary] = []
