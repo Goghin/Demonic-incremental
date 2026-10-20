@@ -20,7 +20,7 @@ func calculate_eternal_flame_gain(state: GameState) -> float:
 
 # Completes the irreversible Smash without initializing the next realm.
 func smash(state: GameState, run_duration: float = 0.0) -> float:
-	if not state.realm_stabilized or state.prestige_planning:
+	if state.prestige_planning:
 		return 0.0
 	var eternal_flame_gain: float = calculate_eternal_flame_gain(state)
 	if eternal_flame_gain <= 0.0:
@@ -63,8 +63,11 @@ func smash(state: GameState, run_duration: float = 0.0) -> float:
 	# The old realm is gone. Preserve its data only until the player chooses
 	# to continue, while pausing simulation in the planning state.
 	state.prestige_planning = true
-	state.realm_stabilized = false
+	# Every Smash starts a fresh allocation phase. Flames are re-assigned
+	# after the irreversible reset, not carried over from the previous realm.
+	state.realm_configuration.reset()
 	state.realm_configuration.unlock()
+	state.realm_stabilized = true
 	state.realm_effects.rebuild(
 		state.realm_configuration,
 		state.eternal_flame_state,
@@ -85,8 +88,8 @@ func begin_next_realm(state: GameState) -> bool:
 
 	var realm_configuration: RealmConfiguration = state.realm_configuration
 	state.reset_current_run()
-	state.realm_stabilized = false
-	realm_configuration.unlock()
+	realm_configuration.lock()
+	state.realm_stabilized = true
 	state.realm_effects.rebuild(
 		realm_configuration,
 		state.eternal_flame_state,
