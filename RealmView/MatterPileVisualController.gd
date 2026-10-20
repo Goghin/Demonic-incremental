@@ -21,6 +21,7 @@ func update_piles(
 	pile_renderer.update(
 		piles,
 		realm_layout.matter_pile_layout_positions,
+		realm_layout.matter_pile_layout_rotations,
 		island_rect,
 		matter
 	)
