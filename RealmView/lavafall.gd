@@ -192,19 +192,35 @@ func _update_surface() -> void:
 	var left := PackedVector2Array()
 	var right := PackedVector2Array()
 
-	# Both filling and draining keep the section between the top and the
-	# moving edge visible. Filling moves the edge down; draining moves it up.
-	left.append(Vector2(-width * 0.5, 0.0))
-	right.append(Vector2(width * 0.5, 0.0))
+	if fall_state == FallState.FILLING:
+		# Filling reveals lava from the top down to the moving leading edge.
+		left.append(Vector2(-width * 0.5, 0.0))
+		right.append(Vector2(width * 0.5, 0.0))
 
-	for i in range(1, points.size()):
-		if points[i].y < edge_y:
-			var half_width := width * width_factors[i] * 0.5
-			left.append(Vector2(-half_width, points[i].y))
-			right.append(Vector2(half_width, points[i].y))
+		for i in range(1, points.size()):
+			if points[i].y < edge_y:
+				var half_width := width * width_factors[i] * 0.5
+				left.append(Vector2(-half_width, points[i].y))
+				right.append(Vector2(half_width, points[i].y))
 
-	left.append(Vector2(-edge_half_width, edge_y))
-	right.append(Vector2(edge_half_width, edge_y))
+		left.append(Vector2(-edge_half_width, edge_y))
+		right.append(Vector2(edge_half_width, edge_y))
+	else:
+		# Draining removes lava from the top down. The section below the
+		# moving trailing edge remains visible until the edge reaches the bottom.
+		left.append(Vector2(-edge_half_width, edge_y))
+		right.append(Vector2(edge_half_width, edge_y))
+
+		for i in range(1, points.size()):
+			if points[i].y > edge_y:
+				var half_width := width * width_factors[i] * 0.5
+				left.append(Vector2(-half_width, points[i].y))
+				right.append(Vector2(half_width, points[i].y))
+
+		if edge_y < length:
+			var bottom_half_width: float = width * width_factors[width_factors.size() - 1] * 0.5
+			left.append(Vector2(-bottom_half_width, length))
+			right.append(Vector2(bottom_half_width, length))
 
 	_set_surface_polygon(left, right)
 
