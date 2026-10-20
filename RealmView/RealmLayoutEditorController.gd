@@ -237,11 +237,11 @@ func _add_matter_pile_at_cursor(owner: RealmView) -> void:
 		owner.get_local_mouse_position(),
 		island_rect
 	)
+	_ensure_matter_pile_rotations(layout)
 	layout.matter_pile_layout_positions.append(Vector2(
 		clampf(normalized_position.x, 0.0, 1.0),
 		clampf(normalized_position.y, 0.0, 1.0)
 	))
-	_ensure_matter_pile_rotations(layout)
 	layout.matter_pile_layout_rotations.append(0.0)
 	owner.matter_pile_visual_controller.setup(owner, layout)
 	owner.matter_pile_visual_controller.update_piles(
