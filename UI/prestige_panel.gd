@@ -44,6 +44,14 @@ var stabilize_button: Button
 
 var realm_rows: Dictionary = {}
 
+const BRAZIER_TECHNOLOGY_BY_STAT: Dictionary = {
+	"stability": "brazier_stability",
+	"density": "brazier_density",
+	"integrity": "brazier_integrity",
+	"intensity": "brazier_intensity",
+	"resonance": "brazier_resonance"
+}
+
 
 # ----------------------------------------------------------------
 # Eternal Flame Shop
@@ -103,10 +111,6 @@ func setup(
 	_create_planning_ui()
 	_apply_compact_style()
 	_show_prestige_panel()
-
-	# Offline simulation can finish a stabilization countdown
-	# before this panel exists.
-	_check_stabilization_completion()
 
 	refresh()
 
@@ -255,7 +259,6 @@ func _on_begin_next_realm_pressed() -> void:
 		return
 	time_manager.reset_prestige_time()
 	time_manager.cancel_stabilization_countdown()
-	time_manager.start_stabilization_countdown()
 	refresh()
 	run_reset.emit()
 	save_manager.save_game(state, time_manager)
@@ -634,6 +637,7 @@ func _create_realm_ui() -> void:
 	realm_container.add_child(
 		stabilize_button
 	)
+	stabilize_button.hide()
 
 	_create_realm_stat_row(
 		"stability",
@@ -789,6 +793,7 @@ func _create_realm_stat_row(
 	)
 
 	realm_rows[stat_name] = {
+		"card": row_card,
 		"value_label": value_label,
 		"minus_button": minus_button,
 		"plus_button": plus_button,
@@ -881,7 +886,9 @@ func _show_shop_panel() -> void:
 
 
 func _show_distribution_panel() -> void:
-	if distribution_panel == null:
+	if distribution_panel == null or state == null:
+		return
+	if not state.prestige_planning or not _is_brazier_unlocked("stability"):
 		return
 
 	prestige_panel.visible = false
@@ -973,7 +980,7 @@ func _on_realm_plus_pressed(
 	if state == null:
 		return
 
-	if state.realm_stabilized:
+	if not state.prestige_planning or not _is_brazier_unlocked(stat_name):
 		return
 
 	if state.get_unassigned_eternal_flames() <= 0:
@@ -1005,7 +1012,7 @@ func _on_realm_minus_pressed(
 	if state == null:
 		return
 
-	if state.realm_stabilized:
+	if not state.prestige_planning or not _is_brazier_unlocked(stat_name):
 		return
 
 	if state.realm_configuration.remove_flame(
@@ -1036,7 +1043,7 @@ func _on_realm_batch_pressed(
 	if state == null:
 		return
 
-	if state.realm_stabilized:
+	if not state.prestige_planning or not _is_brazier_unlocked(stat_name):
 		return
 
 	if amount == 0:
@@ -1140,40 +1147,19 @@ func refresh() -> void:
 		% eternal_flame_gain
 	)
 
-	smash_button.disabled = (
-		eternal_flame_gain <= 0.0
-		or not state.realm_stabilized
-	)
+	smash_button.disabled = eternal_flame_gain <= 0.0 or state.prestige_planning
 
-	# The permanent shop is introduced after the first successful prestige.
+	# The shop unlocks after the first Smash; distribution unlocks with Brazier I.
 	shop_button.visible = state.eternal_flame_state.prestige_count > 0
+	distribution_button.visible = _is_brazier_unlocked("stability")
+	distribution_button.disabled = not state.prestige_planning or distribution_panel.visible
 
 	_update_overflow_bonus_ui()
 	_refresh_realm_ui()
 	_refresh_eternal_flame_upgrade_ui()
 
 	if stabilize_button != null:
-		if state.prestige_planning:
-			stabilize_button.visible = false
-		elif state.realm_stabilized:
-			stabilize_button.visible = true
-			stabilize_button.disabled = true
-			stabilize_button.text = "REALM STABILIZED"
-		elif time_manager != null and (
-			time_manager.is_stabilization_countdown_active()
-		):
-			stabilize_button.visible = true
-			stabilize_button.disabled = true
-			stabilize_button.text = (
-				"STABILIZING  %s"
-				% _format_stabilization_time(
-					time_manager.get_stabilization_remaining()
-				)
-			)
-		else:
-			stabilize_button.visible = true
-			stabilize_button.disabled = false
-			stabilize_button.text = "STABILIZE REALM"
+		stabilize_button.hide()
 
 
 
@@ -1234,6 +1220,14 @@ func _update_overflow_bonus_ui() -> void:
 		next_overflow_multiplier
 	]
 
+func _is_brazier_unlocked(stat_name: String) -> bool:
+	if state == null or not BRAZIER_TECHNOLOGY_BY_STAT.has(stat_name):
+		return false
+	return state.eternal_flame_state.is_technology_unlocked(
+		str(BRAZIER_TECHNOLOGY_BY_STAT[stat_name])
+	)
+
+
 func _refresh_realm_ui() -> void:
 	if realm_container == null:
 		return
@@ -1284,27 +1278,15 @@ func _refresh_realm_ui() -> void:
 			_get_realm_effect_text(stat_name)
 		)
 
-		var locked: bool = state.realm_stabilized
+		var unlocked: bool = _is_brazier_unlocked(stat_name)
+		var can_edit: bool = state.prestige_planning and unlocked
+		row["card"].visible = unlocked
 
-		row["minus_button"].disabled = (
-			locked
-			or value <= 0
-		)
+		row["minus_button"].disabled = not can_edit or value <= 0
+		row["plus_button"].disabled = not can_edit or available <= 0
+		row["minus_10_button"].disabled = not can_edit or value <= 0
+		row["plus_10_button"].disabled = not can_edit or available <= 0
 
-		row["plus_button"].disabled = (
-			locked
-			or available <= 0
-		)
-
-		row["minus_10_button"].disabled = (
-			locked
-			or value <= 0
-		)
-
-		row["plus_10_button"].disabled = (
-			locked
-			or available <= 0
-		)
 
 
 func _get_realm_effect_text(
@@ -1501,11 +1483,6 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 func _process(_delta: float) -> void:
 	if state == null or time_manager == null or state.prestige_planning:
 		return
-
-	# This must run even when the Prestige panel is hidden.
-	# Offline simulation or normal gameplay can finish the countdown
-	# while the panel is not visible.
-	_check_stabilization_completion()
 
 	if not visible:
 		return
