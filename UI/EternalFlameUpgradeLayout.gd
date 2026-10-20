@@ -23,7 +23,7 @@ func _init() -> void:
 	add_node("brazier_density", 1, 8)
 	add_node("brazier_integrity", 2, 8)
 	add_node("brazier_intensity", 3, 8)
-	add_node("brazier_resonance", 4, 8)
+	add_node("brazier_resonance", 3, 9)
 
 	# Starting generator levels form a compact progression on the left.
 	add_node("accelerated_friction", 0, 1)
