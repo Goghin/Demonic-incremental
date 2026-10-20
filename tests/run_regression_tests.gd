@@ -48,6 +48,7 @@ func _run_tests() -> void:
 	_run_test("Interval statistics are returned and cleared", _test_interval_statistics)
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
 	_run_test("Prestige enters planning before resetting the next realm", _test_prestige_planning_transition)
+	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
@@ -268,6 +269,34 @@ func _test_prestige_planning_transition() -> void:
 	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), 0.0, "Next realm did not reset Heat.")
 	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Next realm did not reset Matter.")
 	_expect(not prestige.begin_next_realm(state), "Next realm could be initialized twice.")
+
+
+func _test_brazier_upgrade_unlocks() -> void:
+	var state := _new_test_state()
+	state.eternal_flame_state.eternal_flame = 100.0
+	var manager: EternalFlameUpgradeManager = state.eternal_flame_upgrade_manager
+	var progression: Array[Dictionary] = [
+		{"upgrade": "brazier_stability", "technology": "brazier_stability", "cost": 1},
+		{"upgrade": "brazier_density", "technology": "brazier_density", "cost": 5},
+		{"upgrade": "brazier_integrity", "technology": "brazier_integrity", "cost": 15},
+		{"upgrade": "brazier_intensity", "technology": "brazier_intensity", "cost": 30},
+		{"upgrade": "brazier_resonance", "technology": "brazier_resonance", "cost": 60}
+	]
+	for entry in progression:
+		var upgrade_id: String = str(entry["upgrade"])
+		var technology_id: String = str(entry["technology"])
+		_expect(
+			manager.purchase(upgrade_id, state.eternal_flame_state, state.realm_configuration),
+			"Could not purchase " + upgrade_id + "."
+		)
+		_expect(
+			state.eternal_flame_state.is_technology_unlocked(technology_id),
+			"Purchase did not permanently unlock " + technology_id + "."
+		)
+		_expect(
+			state.eternal_flame_state.get_upgrade_level(upgrade_id) == 1,
+			"Purchase did not set the permanent upgrade level for " + upgrade_id + "."
+		)
 
 
 func _test_modifier_operation_mode_targeting() -> void:
