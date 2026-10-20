@@ -187,6 +187,13 @@ func _ready() -> void:
 		state,
 		time_manager
 	)
+	if loaded:
+		# Stabilization is no longer part of the realm loop. Migrate any
+		# saved countdown away and preserve the current allocation until Smash.
+		time_manager.cancel_stabilization_countdown()
+		if not state.prestige_planning:
+			state.realm_stabilized = true
+			state.realm_configuration.lock()
 	state.achievement_manager.update(state)
 	realm_view.rebuild_realm(
 		state.realm_layout
