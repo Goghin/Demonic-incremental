@@ -211,6 +211,7 @@ func _refresh_planning_ui() -> void:
 	planning_container.visible = planning
 	smash_button.visible = not planning
 	if not planning:
+		begin_next_realm_button.disabled = false
 		return
 
 	var report: Dictionary = state.last_prestige_report

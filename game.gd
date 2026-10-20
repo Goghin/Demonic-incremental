@@ -192,9 +192,10 @@ func _ready() -> void:
 		state.realm_layout
 	)
 
-	if loaded and not state.prestige_planning:
+	if loaded:
 		simulation.rebuild_upgrade_effects()
 
+	if loaded and not state.prestige_planning:
 		loading_screen.set_status(
 			"Simulating time lost to the void..."
 		)
@@ -1865,6 +1866,10 @@ func _on_prestige_button_pressed() -> void:
 
 
 func _on_run_reset() -> void:
+	generator_list_mode = false
+	_clear_generator_focus()
+	$GeneratorsButton.text = "GENERATORS"
+
 	# ------------------------------------------------------------
 	# Rebuild the physical realm
 	# ------------------------------------------------------------
