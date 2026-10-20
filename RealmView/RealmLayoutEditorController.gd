@@ -178,6 +178,11 @@ func handle_owner_input(event: InputEvent, owner: RealmView) -> void:
 			_toggle_selected_waterfall(owner)
 			return
 
+		if drag_controller.selected_object.begins_with("matter_pile:") and event.keycode in [KEY_PLUS, KEY_EQUAL, KEY_KP_ADD, KEY_MINUS, KEY_KP_SUBTRACT]:
+			var rotation_delta: float = 5.0 if event.keycode in [KEY_PLUS, KEY_EQUAL, KEY_KP_ADD] else -5.0
+			_rotate_selected_matter_pile(owner, rotation_delta)
+			return
+
 		var width_change: float = 0.0
 		if event.keycode in [KEY_PLUS, KEY_EQUAL, KEY_KP_ADD]:
 			width_change = 0.5
@@ -236,6 +241,8 @@ func _add_matter_pile_at_cursor(owner: RealmView) -> void:
 		clampf(normalized_position.x, 0.0, 1.0),
 		clampf(normalized_position.y, 0.0, 1.0)
 	))
+	_ensure_matter_pile_rotations(layout)
+	layout.matter_pile_layout_rotations.append(0.0)
 	owner.matter_pile_visual_controller.setup(owner, layout)
 	owner.matter_pile_visual_controller.update_piles(
 		layout,
@@ -246,6 +253,33 @@ func _add_matter_pile_at_cursor(owner: RealmView) -> void:
 	drag_controller.selected_object = "matter_pile:%d" % pile_index
 	owner.queue_redraw()
 	print("Added Matter pile ", pile_index + 1, ". Drag it to position it.")
+
+
+func _ensure_matter_pile_rotations(layout: RealmLayout) -> void:
+	while layout.matter_pile_layout_rotations.size() < layout.matter_pile_layout_positions.size():
+		layout.matter_pile_layout_rotations.append(0.0)
+
+
+func _rotate_selected_matter_pile(owner: RealmView, amount: float) -> void:
+	var layout: RealmLayout = owner.realm_layout
+	if layout == null or not drag_controller.selected_object.begins_with("matter_pile:"):
+		return
+	var pile_index: int = int(drag_controller.selected_object.substr(12))
+	if pile_index < 0 or pile_index >= layout.matter_pile_layout_positions.size():
+		return
+	_ensure_matter_pile_rotations(layout)
+	layout.matter_pile_layout_rotations[pile_index] = wrapf(
+		layout.matter_pile_layout_rotations[pile_index] + amount,
+		-180.0,
+		180.0
+	)
+	owner.matter_pile_visual_controller.update_piles(
+		layout,
+		owner._get_island_rect(),
+		owner.state.get_resource_amount(ResourceIds.MATTER)
+	)
+	owner.queue_redraw()
+	print("Matter pile ", pile_index + 1, " rotation: ", layout.matter_pile_layout_rotations[pile_index], " degrees")
 
 
 func _add_smoke_emitter_at_cursor(owner: RealmView, animated_column: bool = false) -> void:
@@ -372,6 +406,8 @@ func _remove_selected_flow(owner: RealmView) -> void:
 		if pile_index < 0 or pile_index >= layout.matter_pile_layout_positions.size():
 			return
 		layout.matter_pile_layout_positions.remove_at(pile_index)
+		if pile_index < layout.matter_pile_layout_rotations.size():
+			layout.matter_pile_layout_rotations.remove_at(pile_index)
 		drag_controller.cancel_drag()
 		drag_controller.selected_object = ""
 		owner.matter_pile_visual_controller.setup(owner, layout)
