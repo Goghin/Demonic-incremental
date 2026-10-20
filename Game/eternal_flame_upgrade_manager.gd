@@ -12,6 +12,81 @@ func _init() -> void:
 func _initialize_upgrades() -> void:
 	upgrades.clear()
 	
+	# Realm braziers unlock one flame stat each, in a permanent progression.
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"brazier_stability",
+			"Brazier I: Stability",
+			"Unlocks the first brazier and the Stability flame stat for prestige planning.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			1,
+			1.0,
+			"brazier_stability"
+		)
+	)
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"brazier_density",
+			"Brazier II: Density",
+			"Unlocks the second brazier and the Density flame stat.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			5,
+			1.0,
+			"brazier_density",
+			"brazier_stability",
+			1
+		)
+	)
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"brazier_integrity",
+			"Brazier III: Integrity",
+			"Unlocks the third brazier and the Integrity flame stat.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			15,
+			1.0,
+			"brazier_integrity",
+			"brazier_density",
+			1
+		)
+	)
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"brazier_intensity",
+			"Brazier IV: Intensity",
+			"Unlocks the fourth brazier and the Intensity flame stat.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			30,
+			1.0,
+			"brazier_intensity",
+			"brazier_integrity",
+			1
+		)
+	)
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"brazier_resonance",
+			"Brazier V: Resonance",
+			"Unlocks the fifth brazier and the Resonance flame stat.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			60,
+			1.0,
+			"brazier_resonance",
+			"brazier_intensity",
+			1
+		)
+	)
+
 	_add_upgrade(
 		EternalFlameUpgrade.new(
 			"eternal_furnace",
