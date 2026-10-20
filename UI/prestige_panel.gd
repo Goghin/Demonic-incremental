@@ -217,6 +217,9 @@ func _refresh_planning_ui() -> void:
 	var report: Dictionary = state.last_prestige_report
 	var generators: Array = report.get("generators_reached", [])
 	var generators_text: String = ", ".join(PackedStringArray(generators)) if not generators.is_empty() else "None"
+	var first_prestige_bonus_text: String = ""
+	if int(report.get("prestige_count", 0)) == 1:
+		first_prestige_bonus_text = "\nFirst-prestige bonuses: Eternal Furnace and Accelerated Friction (free)."
 	planning_report_label.text = (
 		"Eternal Flames earned: +%d\n" % int(report.get("eternal_flames_gained", 0.0))
 		+ "Survival time: %s\n" % _format_report_duration(float(report.get("survival_seconds", 0.0)))
@@ -229,6 +232,7 @@ func _refresh_planning_ui() -> void:
 			float(report.get("total_overflow", 0.0))
 		]
 		+ "Generators reached: " + generators_text
+		+ first_prestige_bonus_text
 	)
 
 
@@ -1149,7 +1153,9 @@ func refresh() -> void:
 	_refresh_eternal_flame_upgrade_ui()
 
 	if stabilize_button != null:
-		if state.realm_stabilized:
+		if state.prestige_planning:
+			stabilize_button.visible = false
+		elif state.realm_stabilized:
 			stabilize_button.visible = true
 			stabilize_button.disabled = true
 			stabilize_button.text = "REALM STABILIZED"

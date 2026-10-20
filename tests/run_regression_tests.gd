@@ -249,6 +249,17 @@ func _test_prestige_planning_transition() -> void:
 	_expect(state.eternal_flame_state.get_upgrade_level("eternal_furnace") == 1, "First-prestige Eternal Furnace bonus was lost.")
 	_expect(state.eternal_flame_state.get_upgrade_level("accelerated_friction") == 1, "First-prestige acceleration bonus was lost.")
 
+	var save_manager := SaveManager.new()
+	var save_data: Dictionary = save_manager.state_to_dictionary(state)
+	var restored_state := _new_test_state()
+	_expect(save_manager.dictionary_to_state(restored_state, save_data, 6), "Could not restore a saved planning state.")
+	_expect(restored_state.prestige_planning, "Planning state was not persisted.")
+	_expect_approx(
+		float(restored_state.last_prestige_report.get("eternal_flames_gained", 0.0)),
+		1.0,
+		"Prestige report was not persisted."
+	)
+
 	_expect_approx(prestige.smash(state, 42.0), 0.0, "Repeated Smash awarded Eternal Flames during planning.")
 	var began_next_realm: bool = prestige.begin_next_realm(state)
 	_expect(began_next_realm, "Could not begin the next realm from planning.")
