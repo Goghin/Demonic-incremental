@@ -196,6 +196,7 @@ func _draw_editor_help(
 		"M: add Matter pile at cursor",
 		"A: add smoke puffs; Shift+A: animated column",
 		"Smoke selected: +/- size; V cycles column variant",
+		"Matter pile selected: +/- rotates by 5 degrees",
 		"Delete removes selected smoke emitter",
 		"N: add a new flow at the cursor; drag its endpoints",
 		"Ctrl + Delete: remove selected flow or Matter pile",
