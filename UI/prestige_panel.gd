@@ -6,6 +6,7 @@ extends Control
 signal technology_unlocked(technology_id: String)
 signal run_reset
 signal prestige_requested
+signal planning_started
 
 var state: GameState
 var prestige_system: PrestigeSystem
@@ -27,6 +28,9 @@ var distribution_button: Button
 var prestige_panel: VBoxContainer
 var distribution_panel: VBoxContainer
 var shop_panel: VBoxContainer
+var planning_container: VBoxContainer
+var planning_report_label: Label
+var begin_next_realm_button: Button
 
 
 # ----------------------------------------------------------------
@@ -96,6 +100,7 @@ func setup(
 	_add_crystallized_flame_icon()
 	_create_distribution_ui()
 	_create_shop_ui()
+	_create_planning_ui()
 	_apply_compact_style()
 	_show_prestige_panel()
 
@@ -167,6 +172,88 @@ func _create_main_ui() -> void:
 	_create_tab_ui()
 	_create_prestige_stats_panel()
 	_create_overflow_bonus_label()
+
+
+func _create_planning_ui() -> void:
+	if planning_container != null:
+		return
+	planning_container = VBoxContainer.new()
+	planning_container.name = "PrestigePlanningContainer"
+	planning_container.add_theme_constant_override("separation", 5)
+	content_container.add_child(planning_container)
+	content_container.move_child(planning_container, 0)
+
+	var title := Label.new()
+	title.text = "REALM SMASHED"
+	title.add_theme_font_size_override("font_size", 14)
+	title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
+	planning_container.add_child(title)
+
+	planning_report_label = Label.new()
+	planning_report_label.name = "PrestigeReportLabel"
+	planning_report_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	planning_report_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	planning_container.add_child(planning_report_label)
+
+	begin_next_realm_button = Button.new()
+	begin_next_realm_button.name = "BeginNextRealmButton"
+	begin_next_realm_button.text = "BEGIN NEXT REALM"
+	begin_next_realm_button.custom_minimum_size = Vector2(0, 32)
+	begin_next_realm_button.pressed.connect(_on_begin_next_realm_pressed)
+	planning_container.add_child(begin_next_realm_button)
+	planning_container.hide()
+
+
+func _refresh_planning_ui() -> void:
+	if planning_container == null or state == null:
+		return
+	var planning: bool = state.prestige_planning
+	planning_container.visible = planning
+	smash_button.visible = not planning
+	if not planning:
+		return
+
+	var report: Dictionary = state.last_prestige_report
+	var generators: Array = report.get("generators_reached", [])
+	var generators_text: String = ", ".join(PackedStringArray(generators)) if not generators.is_empty() else "None"
+	planning_report_label.text = (
+		"Eternal Flames earned: +%d\n" % int(report.get("eternal_flames_gained", 0.0))
+		+ "Survival time: %s\n" % _format_report_duration(float(report.get("survival_seconds", 0.0)))
+		+ "Peak Heat: %.0f   |   Peak Matter: %.0f\n" % [
+			float(report.get("peak_heat", 0.0)),
+			float(report.get("peak_matter", 0.0))
+		]
+		+ "Crystallized Flame: %.0f   |   Overflow: %.0f\n" % [
+			float(report.get("crystallized_flame", 0.0)),
+			float(report.get("total_overflow", 0.0))
+		]
+		+ "Generators reached: " + generators_text
+	)
+
+
+func _format_report_duration(seconds: float) -> String:
+	var total_seconds: int = maxi(0, int(seconds))
+	var hours: int = total_seconds / 3600
+	var minutes: int = (total_seconds % 3600) / 60
+	var remainder: int = total_seconds % 60
+	if hours > 0:
+		return "%dh %02dm %02ds" % [hours, minutes, remainder]
+	return "%dm %02ds" % [minutes, remainder]
+
+
+func _on_begin_next_realm_pressed() -> void:
+	if state == null or time_manager == null or not state.prestige_planning:
+		return
+	begin_next_realm_button.disabled = true
+	if not prestige_system.begin_next_realm(state):
+		begin_next_realm_button.disabled = false
+		return
+	time_manager.reset_prestige_time()
+	time_manager.cancel_stabilization_countdown()
+	time_manager.start_stabilization_countdown()
+	refresh()
+	run_reset.emit()
+	save_manager.save_game(state, time_manager)
 
 
 func _apply_compact_style() -> void:
@@ -806,7 +893,7 @@ func _show_distribution_panel() -> void:
 # ----------------------------------------------------------------
 
 func _on_stabilize_realm_pressed() -> void:
-	if state == null or time_manager == null:
+	if state == null or time_manager == null or state.prestige_planning:
 		return
 
 	if state.realm_stabilized:
@@ -1014,6 +1101,8 @@ func _on_realm_batch_pressed(
 func refresh() -> void:
 	if state == null:
 		return
+
+	_refresh_planning_ui()
 
 	var crystallized_flame = (
 		state.get_resource_amount(
@@ -1323,35 +1412,16 @@ func _on_smash_button_pressed() -> void:
 
 
 func perform_smash() -> void:
-	if state == null:
+	if state == null or time_manager == null or state.prestige_planning:
 		return
-
-	var eternal_flame_gain = (
-		prestige_system.smash(
-			state
-		)
-	)
-
+	var eternal_flame_gain: float = prestige_system.smash(state, time_manager.prestige_time)
 	if eternal_flame_gain <= 0.0:
 		return
-
-	print(
-		"Smash! Gained ",
-		eternal_flame_gain,
-		" Eternal Flame."
-	)
-
-	time_manager.reset_prestige_time()
-	time_manager.start_stabilization_countdown()
-
+	print("Smash! Gained ", eternal_flame_gain, " Eternal Flame.")
+	time_manager.cancel_stabilization_countdown()
 	refresh()
-
-	run_reset.emit()
-
-	save_manager.save_game(
-		state,
-		time_manager
-	)
+	planning_started.emit()
+	save_manager.save_game(state, time_manager)
 
 
 # ----------------------------------------------------------------
@@ -1422,7 +1492,7 @@ func _refresh_eternal_flame_upgrade_ui() -> void:
 # ----------------------------------------------------------------
 
 func _process(_delta: float) -> void:
-	if state == null or time_manager == null:
+	if state == null or time_manager == null or state.prestige_planning:
 		return
 
 	# This must run even when the Prestige panel is hidden.

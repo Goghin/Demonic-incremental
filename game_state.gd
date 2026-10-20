@@ -47,6 +47,10 @@ var upgrade_automation_manager: UpgradeAutomationManager
 
 var realm_stabilized: bool = true
 
+# True after Smash until the player explicitly starts the next realm.
+var prestige_planning: bool = false
+var last_prestige_report: Dictionary = {}
+
 var lava_mite_dormancy_penalty: float = 0.0
 
 var heat_leak_threshold: float = 1000.0

@@ -8,6 +8,7 @@ signal animation_finished
 
 
 var is_playing: bool = false
+var stop_after_destruction: bool = false
 
 var realm_view: RealmView
 var realm_original_position: Vector2 = Vector2.ZERO
@@ -51,6 +52,7 @@ func play() -> void:
 	if is_playing:
 		return
 
+	stop_after_destruction = false
 	is_playing = true
 	visible = true
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -130,6 +132,13 @@ func play() -> void:
 
 	await get_tree().create_timer(1.4).timeout
 
+	if stop_after_destruction:
+		visible = false
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		is_playing = false
+		animation_finished.emit()
+		return
+
 	# --------------------------------
 	# Rebirth
 	# --------------------------------
@@ -170,6 +179,10 @@ func play() -> void:
 	is_playing = false
 
 	animation_finished.emit()
+
+
+func finish_in_void() -> void:
+	stop_after_destruction = true
 
 
 func _shake_realm(value: float) -> void:

@@ -192,7 +192,7 @@ func _ready() -> void:
 		state.realm_layout
 	)
 
-	if loaded:
+	if loaded and not state.prestige_planning:
 		simulation.rebuild_upgrade_effects()
 
 		loading_screen.set_status(
@@ -268,6 +268,9 @@ func _ready() -> void:
 	$PrestigePanel.run_reset.connect(
 		_on_run_reset
 	)
+	$PrestigePanel.planning_started.connect(
+		_enter_prestige_planning_mode
+	)
 	print(
 		"Timestamp: ",
 		time_manager.last_real_timestamp
@@ -320,6 +323,8 @@ func _ready() -> void:
 
 	is_loading = false
 	loading_screen.visible = false
+	if state.prestige_planning:
+		_enter_prestige_planning_mode()
 	if pending_offline_achievement_ids.size() > 0 and not $OfflineResultsPanel.visible:
 		_show_pending_offline_achievements()
 	_start_ambient_audio()
@@ -1094,6 +1099,10 @@ func _process(
 
 	if is_loading:
 		return
+	if state != null and state.prestige_planning:
+		_update_navigation_title_visibility()
+		_update_ambient_audio(delta)
+		return
 
 	time_manager.update(
 		delta
@@ -1812,9 +1821,31 @@ func _on_prestige_requested() -> void:
 
 func _on_prestige_destruction_complete() -> void:
 	$PrestigePanel.perform_smash()
-
-	$GeneratorScroll.show()
 	
+func _enter_prestige_planning_mode() -> void:
+	if state == null or not state.prestige_planning:
+		return
+	if prestige_animation != null and prestige_animation.is_playing:
+		prestige_animation.finish_in_void()
+	if realm_view != null:
+		realm_view.hide()
+	$ResourcePanel.hide()
+	$GeneratorScroll.hide()
+	$UpgradeScroll.hide()
+	$StatsPanel.hide()
+	$OptionsPanel.hide()
+	$AchievementPanel.hide()
+	$PrestigePanel.show()
+	generator_list_mode = false
+	selected_upgrade_generator_id = ""
+	$NavigationTitlePanel/NavigationTitle.text = "REALM"
+	_update_navigation_buttons("PrestigeButton")
+	for button_name in ["GeneratorsButton", "UpgradesButton", "StatsButton", "AchievementButton", "OptionsButton"]:
+		var button := get_node_or_null(button_name) as Button
+		if button != null:
+			button.disabled = true
+
+
 func _on_prestige_button_pressed() -> void:
 	$NavigationTitlePanel/NavigationTitle.text = "REALM"
 	var should_open: bool = not $PrestigePanel.visible
@@ -1842,6 +1873,16 @@ func _on_run_reset() -> void:
 		realm_view.rebuild_realm(
 			state.realm_layout
 		)
+		realm_view.show()
+	$ResourcePanel.show()
+	$PrestigePanel.hide()
+	for button_name in ["GeneratorsButton", "UpgradesButton", "StatsButton", "AchievementButton", "OptionsButton"]:
+		var button := get_node_or_null(button_name) as Button
+		if button != null:
+			button.disabled = false
+	$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
+	_update_navigation_buttons("GeneratorsButton")
+	$GeneratorScroll.show()
 
 	# ------------------------------------------------------------
 	# Rebuild UI
