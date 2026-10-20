@@ -49,6 +49,7 @@ var _last_total_cube_count: int = -1
 var _last_magnitude_scale: float = -1.0
 var _last_island_rect: Rect2 = Rect2(-1.0, -1.0, -1.0, -1.0)
 var _last_layout_positions: PackedVector2Array = PackedVector2Array()
+var _last_layout_rotations: PackedFloat32Array = PackedFloat32Array()
 var _has_cached_visual_state: bool = false
 
 
@@ -67,6 +68,7 @@ func setup(
 	_last_magnitude_scale = -1.0
 	_last_island_rect = Rect2(-1.0, -1.0, -1.0, -1.0)
 	_last_layout_positions = PackedVector2Array()
+	_last_layout_rotations = PackedFloat32Array()
 	_has_cached_visual_state = false
 
 	if layout == null:
@@ -119,6 +121,7 @@ func update(
 		and growth_stage == _last_growth_stage
 		and island_rect == _last_island_rect
 		and layout_positions == _last_layout_positions
+		and layout_rotations == _last_layout_rotations
 	)
 	if visual_state_unchanged:
 		return
@@ -178,6 +181,7 @@ func update(
 	_last_magnitude_scale = magnitude_scale
 	_last_island_rect = island_rect
 	_last_layout_positions = layout_positions.duplicate()
+	_last_layout_rotations = layout_rotations.duplicate()
 	_has_cached_visual_state = true
 
 
