@@ -38,9 +38,10 @@ func set_lava_palette(palette: Dictionary) -> void:
 	lava_palette = palette.duplicate(true)
 	if surface.material is ShaderMaterial:
 		_apply_palette_to_material(surface.material as ShaderMaterial)
-	# Falls should have no bright outline; keep the rim geometry hidden
-	# so the animated lava surface meets the surrounding rock cleanly.
+	# Falls should have no bright outline; keep the rim geometry hidden.
 	rim.color = Color.TRANSPARENT
+	for layer in _front_layers:
+		layer.set_lava_palette(palette)
 
 func _apply_palette_to_material(s_material: ShaderMaterial) -> void:
 	for key in ["dark", "red", "orange", "bright", "glow"]:
