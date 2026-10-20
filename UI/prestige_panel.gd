@@ -625,19 +625,6 @@ func _create_realm_ui() -> void:
 		realm_assigned_label
 	)
 
-	stabilize_button = Button.new()
-	stabilize_button.name = "StabilizeRealmButton"
-	stabilize_button.text = "STABILIZE REALM"
-	stabilize_button.custom_minimum_size = Vector2(0, 40)
-
-	stabilize_button.pressed.connect(
-		_on_stabilize_realm_pressed
-	)
-
-	realm_container.add_child(
-		stabilize_button
-	)
-	stabilize_button.hide()
 
 	_create_realm_stat_row(
 		"stability",
@@ -898,75 +885,6 @@ func _show_distribution_panel() -> void:
 	prestige_button.disabled = false
 	shop_button.disabled = false
 	distribution_button.disabled = true
-
-
-# ----------------------------------------------------------------
-# Realm Stabilization
-# ----------------------------------------------------------------
-
-func _on_stabilize_realm_pressed() -> void:
-	if state == null or time_manager == null or state.prestige_planning:
-		return
-
-	if state.realm_stabilized:
-		return
-
-	if time_manager.is_stabilization_countdown_active():
-		return
-
-	if time_manager.start_stabilization_countdown():
-		save_manager.save_game(
-			state,
-			time_manager
-		)
-
-		refresh()
-
-
-func _check_stabilization_completion() -> void:
-	if state == null or time_manager == null:
-		return
-
-	if not time_manager.is_stabilization_countdown_active():
-		return
-
-	if time_manager.get_stabilization_remaining() > 0.0:
-		return
-
-	if state.realm_stabilized:
-		time_manager.cancel_stabilization_countdown()
-		return
-
-	if state.stabilize_realm():
-		time_manager.cancel_stabilization_countdown()
-
-		save_manager.save_game(
-			state,
-			time_manager
-		)
-
-
-func _format_stabilization_time(
-	seconds: float
-	) -> String:
-
-	var remaining = max(
-		0,
-		int(ceil(seconds))
-	)
-
-	var minutes = int(
-		remaining / 60
-	)
-
-	var seconds_part = int(
-		remaining % 60
-	)
-
-	return "%02d:%02d" % [
-		minutes,
-		seconds_part
-	]
 
 
 # ----------------------------------------------------------------
