@@ -31,8 +31,12 @@ const TUTORIALS := {
 		"message": "Your Heat has crossed its leakage threshold, and excess Heat is now escaping over time. The threshold is shown in the Stats panel and can be raised with threshold upgrades and Stability. More production is not always the same as more Heat kept: watch the leak rate as your reserves grow."
 	},
 	"first_realm_smash": {
-		"title": "BEFORE YOU SMASH",
-		"message": "A Realm Smash ends this run and resets its ordinary resources, generators, and run upgrades. In return, you earn Eternal Flames based on your run's progress and overflow. Eternal Flames and permanent upgrades carry your progress forward, while the next realm begins fresh. Check the displayed reward and your Flame Shop choices before committing. You can dismiss this lesson, then press Smash again when you're ready."
+		"title": "UH... ARE YOU SURE ABOUT THAT?",
+		"message": "Erm... I'm not sure you should be doing that. We can't be completely sure what will happen when you smash a realm! I mean, the big scary button says Smash, so... probably something dramatic? You'll lose this run's ordinary resources, generators, and run upgrades, but you should earn Eternal Flames to carry your progress forward. Check the reward first. And if anything goes horribly wrong, I was never here."
+	},
+	"first_crystallized_flame": {
+		"title": "THAT THING ISN'T ORDINARY FIRE",
+		"message": "You made a Crystallized Flame! Nasty little things, aren't they? The Infernal Forge creates them by processing Matter, and they are important for Realm Smashes: your Crystallized Flames help determine how many Eternal Flames you earn. They also affect the realm's heat behavior, so keep an eye on your Stats. Try not to swallow one. I did that once."
 	},
 	"matter_decay_started": {
 		"title": "MATTER ISN'T FOREVER",
@@ -84,6 +88,8 @@ func notify_event(event_id: String) -> void:
 			tutorial_id = "heat_leak_started"
 		"first_realm_smash":
 			tutorial_id = "first_realm_smash"
+		"first_crystallized_flame":
+			tutorial_id = "first_crystallized_flame"
 		"matter_decay_started":
 			tutorial_id = "matter_decay_started"
 		"first_generator_purchase":
