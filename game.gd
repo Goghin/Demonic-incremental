@@ -587,15 +587,8 @@ func _create_generator_panel(
 # ============================================================
 
 func _initialize_generator_selection() -> void:
-	if selected_generator_id != "":
-		_set_selected_generator(selected_generator_id)
-		return
-
-	for generator in state.generators.values():
-		if generator.unlocked:
-			_set_selected_generator(generator.definition.id)
-			return
-
+	# Start with no generator focused. The player chooses a machine
+	# explicitly after starting, loading, or rebuilding a realm.
 	_set_selected_generator("")
 
 
