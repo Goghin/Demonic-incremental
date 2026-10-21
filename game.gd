@@ -1157,6 +1157,8 @@ func _process(
 	)
 	if tutorial_manager != null and state.get_heat_leak_per_second() > 0.0:
 		tutorial_manager.notify_event("heat_leak_started")
+	if tutorial_manager != null and state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME) > 0.0:
+		tutorial_manager.notify_event("first_crystallized_flame")
 	if tutorial_manager != null and state.get_matter_decay_per_second() > 0.0:
 		tutorial_manager.notify_event("matter_decay_started")
 	state.achievement_manager.update(state)
