@@ -9,6 +9,30 @@ const TUTORIALS := {
 	"first_generator_purchase": {
 		"title": "A WORD FROM YOUR INFERNAL INTERN",
 		"message": "Excellent! You have made the machinery obey. Generators produce resources over time, and each new level improves their output. Keep an eye on the cost before buying more. I would explain the finer points, but I have a very small attention span."
+	},
+	"unlock_molecular_agitation": {
+		"title": "MOLECULAR AGITATION",
+		"message": "The atoms are getting restless. Molecular Agitation is now available! Inspect its panel to see what it produces and what each level costs. More machinery means more production, but the price of obedience rises with every purchase."
+	},
+	"unlock_lava_mite_colony": {
+		"title": "A COLONY OF TINY MENACES",
+		"message": "Lava mites! Horrible little workers, excellent employees. Your Lava Mite Colony is ready. Check its panel for its output and costs, and keep an eye on its condition as your realm develops. I would supervise them, but they bite."
+	},
+	"unlock_thermal_furnace": {
+		"title": "INFERNAL CONDENSATION",
+		"message": "A furnace that makes the realm's processes a little less primitive. Infernal Condensation is unlocked. Review its panel before investing: each machine has its own costs and production, so choose where your resources will do the most good."
+	},
+	"unlock_matter_furnace": {
+		"title": "THE MATTER FURNACE",
+		"message": "Now we're cooking with... matter. The Matter Furnace is available. Take a look at its panel to understand its role in your production chain, and remember: spending resources here means you have less available for other machines and upgrades."
+	},
+	"unlock_thermal_compressor": {
+		"title": "SQUEEZE THE REALM",
+		"message": "Behold, the Thermal Compressor! Compression adds another tool to your industrial nightmare. Check its panel and available upgrades to learn what it can do in your current setup. Please don't ask me to demonstrate; I have delicate bones."
+	},
+	"unlock_infernal_forge": {
+		"title": "THE INFERNAL FORGE",
+		"message": "At last, a proper forge. The Infernal Forge processes Matter into Ash and Crystallized Flames over time. Its cycle takes patience, and Ash contamination can interfere with its operation. Feed it wisely, and don't stand too close when it finishes."
 	}
 }
 
@@ -26,6 +50,18 @@ func notify_event(event_id: String) -> void:
 	match event_id:
 		"first_generator_purchase":
 			tutorial_id = "first_generator_purchase"
+		"generator_unlocked:molecular_agitation":
+			tutorial_id = "unlock_molecular_agitation"
+		"generator_unlocked:lava_mite_colony":
+			tutorial_id = "unlock_lava_mite_colony"
+		"generator_unlocked:thermal_furnace":
+			tutorial_id = "unlock_thermal_furnace"
+		"generator_unlocked:matter_furnace":
+			tutorial_id = "unlock_matter_furnace"
+		"generator_unlocked:thermal_compressor":
+			tutorial_id = "unlock_thermal_compressor"
+		"generator_unlocked:infernal_forge":
+			tutorial_id = "unlock_infernal_forge"
 		_:
 			return
 
