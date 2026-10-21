@@ -361,7 +361,9 @@ func _add_tutorial_archive_button() -> void:
 	var archive_button := Button.new()
 	archive_button.name = "TutorialArchiveButton"
 	archive_button.text = "TUTORIAL ARCHIVE"
-	archive_button.custom_minimum_size = Vector2(0, 30)
+	archive_button.icon = load("res://Assets/UI/infernal_notes_book.svg") as Texture2D
+	archive_button.custom_minimum_size = Vector2(0, 38)
+	archive_button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	archive_button.pressed.connect(_on_tutorial_archive_button_pressed)
 	options_content.add_child(archive_button)
 
