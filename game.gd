@@ -3,6 +3,9 @@ extends Control
 
 
 var is_loading: bool = true
+var is_new_save: bool = false
+var is_intro_playing: bool = false
+const INTRO_STARTING_HEAT: float = 15.0
 const VISUAL_EFFECT_OFF: int = 0
 const VISUAL_EFFECT_LOW: int = 1
 const VISUAL_EFFECT_MEDIUM: int = 2
@@ -201,10 +204,19 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 
+	# Only a genuinely absent save gets the opening sequence. Existing or invalid
+	# save files must never receive the new-game starting gift.
+	is_new_save = not FileAccess.file_exists("user://savegame.json")
 	var loaded = save_manager.load_game(
 		state,
 		time_manager
 	)
+	if is_new_save and not loaded:
+		var starting_generator = state.get_generator("atomic_friction")
+		if starting_generator != null:
+			starting_generator.level = 0
+			starting_generator.unlocked = true
+		state.set_resource_amount(ResourceIds.HEAT, 0.0)
 	if loaded:
 		# Stabilization is no longer part of the realm loop. Migrate any
 		# saved countdown away and preserve the current allocation until Smash.
@@ -349,11 +361,109 @@ func _ready() -> void:
 
 	is_loading = false
 	loading_screen.visible = false
+	if is_new_save:
+		await _play_new_game_intro()
 	if state.prestige_planning:
 		_enter_prestige_planning_mode()
 	if pending_offline_achievement_ids.size() > 0 and not $OfflineResultsPanel.visible:
 		_show_pending_offline_achievements()
 	_start_ambient_audio()
+
+
+
+func _play_new_game_intro() -> void:
+	is_intro_playing = true
+	_update_navigation_title_visibility()
+
+	var overlay := ColorRect.new()
+	overlay.name = "NewGameIntroOverlay"
+	overlay.color = Color(0.008, 0.006, 0.012, 1.0)
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 1000
+	add_child(overlay)
+
+	var text_label := Label.new()
+	text_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	text_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_label.add_theme_font_size_override("font_size", 30)
+	text_label.add_theme_color_override("font_color", Color(0.92, 0.84, 0.77))
+	text_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	text_label.position = Vector2(-420, -55)
+	text_label.size = Vector2(840, 110)
+	text_label.modulate.a = 0.0
+	overlay.add_child(text_label)
+
+	var intro_tween := create_tween()
+	intro_tween.tween_interval(0.8)
+	intro_tween.tween_property(text_label, "modulate:a", 1.0, 1.4)
+	text_label.text = "There is only the dark void."
+	await intro_tween.finished
+	await get_tree().create_timer(1.4).timeout
+
+	var second_tween := create_tween()
+	second_tween.tween_property(text_label, "modulate:a", 0.0, 0.8)
+	await second_tween.finished
+	text_label.text = "But something new is awakening."
+	var third_tween := create_tween()
+	third_tween.tween_property(text_label, "modulate:a", 1.0, 1.2)
+	await third_tween.finished
+	await get_tree().create_timer(1.5).timeout
+
+	var fourth_tween := create_tween()
+	fourth_tween.tween_property(text_label, "modulate:a", 0.0, 0.8)
+	await fourth_tween.finished
+	text_label.text = "A spark becomes a flame. A flame becomes a world."
+	var fifth_tween := create_tween()
+	fifth_tween.tween_property(text_label, "modulate:a", 1.0, 1.2)
+	await fifth_tween.finished
+	await get_tree().create_timer(1.7).timeout
+
+	var final_text_tween := create_tween()
+	final_text_tween.tween_property(text_label, "modulate:a", 0.0, 0.8)
+	await final_text_tween.finished
+	text_label.text = "Oh! You're awake. That's... unexpected."
+	var imp_texture := load("res://Assets/UI/infernal_intern_face.svg") as Texture2D
+	if imp_texture != null:
+		var imp_portrait := TextureRect.new()
+		imp_portrait.texture = imp_texture
+		imp_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		imp_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		imp_portrait.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+		imp_portrait.position = Vector2(-90, -205)
+		imp_portrait.size = Vector2(180, 140)
+		imp_portrait.modulate.a = 0.0
+		overlay.add_child(imp_portrait)
+		var portrait_tween := create_tween()
+		portrait_tween.tween_property(imp_portrait, "modulate:a", 1.0, 0.8)
+		await portrait_tween.finished
+
+	var imp_line_tween := create_tween()
+	imp_line_tween.tween_property(text_label, "modulate:a", 1.0, 1.0)
+	await imp_line_tween.finished
+	await get_tree().create_timer(1.2).timeout
+
+	var gift_tween := create_tween()
+	gift_tween.tween_property(text_label, "modulate:a", 0.0, 0.6)
+	await gift_tween.finished
+	text_label.text = "Here. A little Heat. Don't ask where I got it."
+	var reveal_tween := create_tween()
+	reveal_tween.tween_property(text_label, "modulate:a", 1.0, 0.9)
+	await reveal_tween.finished
+	await get_tree().create_timer(1.7).timeout
+
+	var fade_tween := create_tween()
+	fade_tween.tween_property(overlay, "modulate:a", 0.0, 2.0)
+	await fade_tween.finished
+	overlay.queue_free()
+
+	# Give exactly enough Heat for Atomic Friction's first purchase (15 Heat).
+	state.set_resource_amount(ResourceIds.HEAT, INTRO_STARTING_HEAT)
+	if save_manager != null and time_manager != null:
+		save_manager.save_game(state, time_manager)
+	is_new_save = false
+	is_intro_playing = false
 
 
 func _add_tutorial_archive_button() -> void:
@@ -1147,7 +1257,7 @@ func _process(
 	delta: float
 	) -> void:
 
-	if is_loading:
+	if is_loading or is_intro_playing:
 		return
 	if state != null and state.prestige_planning:
 		_update_navigation_title_visibility()
