@@ -1257,6 +1257,8 @@ func _update_navigation_buttons(active_button_name: String = "GeneratorsButton")
 func _on_generators_button_pressed() -> void:
 	$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
 	generator_list_mode = not generator_list_mode
+	if generator_list_mode and tutorial_manager != null:
+		tutorial_manager.notify_event("navigation_generators")
 
 	# Keep the current selection when opening the list so it can be brought
 	# into view. The same selection is focused again when the list is closed.
@@ -1320,6 +1322,8 @@ func _on_achievements_button_pressed() -> void:
 		$UpgradeScroll.hide()
 		$PrestigePanel.hide()
 		$GeneratorScroll.hide()
+		if tutorial_manager != null:
+			tutorial_manager.notify_event("navigation_achievements")
 	else:
 		$GeneratorScroll.show()
 		_refresh_generator_panel_visibility()
@@ -1809,6 +1813,8 @@ func _on_stats_button_pressed() -> void:
 		$PrestigePanel.hide()
 		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
+		if tutorial_manager != null:
+			tutorial_manager.notify_event("navigation_stats")
 
 	_update_navigation_buttons("StatsButton" if should_open else "GeneratorsButton")
 
@@ -1836,6 +1842,8 @@ func _on_upgrades_button_pressed() -> void:
 		_update_navigation_buttons("GeneratorsButton")
 		return
 
+	if tutorial_manager != null:
+		tutorial_manager.notify_event("navigation_upgrades")
 	$UpgradeScroll.show()
 	$UpgradeScroll.offset_left = 12.0
 	$UpgradeScroll.offset_top = 112.0
@@ -1896,6 +1904,8 @@ func _on_prestige_button_pressed() -> void:
 		$UpgradeScroll.hide()
 		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
+		if tutorial_manager != null:
+			tutorial_manager.notify_event("navigation_realm")
 	_update_navigation_buttons("PrestigeButton" if should_open else "GeneratorsButton")
 
 
