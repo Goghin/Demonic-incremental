@@ -1155,6 +1155,8 @@ func _process(
 	time_manager.update(
 		delta
 	)
+	if tutorial_manager != null and state.get_heat_leak_per_second() > 0.0:
+		tutorial_manager.notify_event("heat_leak_started")
 	if tutorial_manager != null and state.get_matter_decay_per_second() > 0.0:
 		tutorial_manager.notify_event("matter_decay_started")
 	state.achievement_manager.update(state)
@@ -1867,6 +1869,10 @@ func _on_upgrades_button_pressed() -> void:
 	_update_navigation_buttons("UpgradesButton")
 
 func _on_prestige_requested() -> void:
+	if tutorial_manager != null and not tutorial_manager.has_completed_tutorial("first_realm_smash"):
+		$PrestigePanel.smash_button.disabled = false
+		tutorial_manager.notify_event("first_realm_smash")
+		return
 	$StatsPanel.hide()
 	$UpgradeScroll.hide()
 	if generator_upgrade_tree != null:
