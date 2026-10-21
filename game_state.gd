@@ -21,6 +21,7 @@ var track_gameplay_interval_statistics: bool = true
 var gameplay_realm_run_index: int = 0
 
 var resources: Dictionary = {}
+var resource_thresholds: Dictionary = {}
 var generators: Dictionary = {}
 var upgrades: Dictionary = {}
 var upgrade_groups: Dictionary = {}
@@ -405,44 +406,51 @@ func get_upgrade_group(
 
 
 func _initialize_threshold_upgrades() -> void:
-	# Each realm starts with level 1 of the first line for both resources.
-	for upgrade_id in [
-		HEAT_THRESHOLD_LINE_1_ID,
-		MATTER_THRESHOLD_LINE_1_ID
-	]:
-		var upgrade: Upgrade = get_upgrade(upgrade_id)
-		if upgrade != null:
-			upgrade.level = 1
+	# Apply configured starting levels generically, without resource-specific branches.
+	var threshold_definitions: Dictionary = ResourceThresholdRegistry.get_definitions()
+	for resource_id in threshold_definitions:
+		var threshold_data: Dictionary = threshold_definitions[resource_id]
+		var starting_levels: Dictionary = threshold_data.get("starting_levels", {})
+		for upgrade_id in starting_levels:
+			var upgrade: Upgrade = get_upgrade(str(upgrade_id))
+			if upgrade != null:
+				upgrade.level = int(starting_levels[upgrade_id])
 	_refresh_base_thresholds()
 
 
 func _refresh_base_thresholds() -> void:
-	var heat_line_1: Upgrade = get_upgrade(HEAT_THRESHOLD_LINE_1_ID)
-	var heat_line_2: Upgrade = get_upgrade(HEAT_THRESHOLD_LINE_2_ID)
-	var matter_line_1: Upgrade = get_upgrade(MATTER_THRESHOLD_LINE_1_ID)
-	var matter_line_2: Upgrade = get_upgrade(MATTER_THRESHOLD_LINE_2_ID)
-	var heat_base: float = 0.0
-	if heat_line_1 != null:
-		heat_base += float(heat_line_1.level) * 1000.0
-	if heat_line_2 != null:
-		heat_base += float(heat_line_2.level) * 10000.0
-	var matter_base: float = 0.0
-	if matter_line_1 != null:
-		matter_base += float(matter_line_1.level) * 100.0
-	if matter_line_2 != null:
-		matter_base += float(matter_line_2.level) * 1000.0
-	# Keep base thresholds positive even if every upgrade level is zero.
-	heat_leak_threshold = maxf(heat_base, 1.0)
-	matter_decay_threshold = maxf(matter_base, 1.0)
+	resource_thresholds.clear()
+	var threshold_definitions: Dictionary = ResourceThresholdRegistry.get_definitions()
+	for resource_id in threshold_definitions:
+		var threshold_data: Dictionary = threshold_definitions[resource_id]
+		var threshold: float = float(threshold_data.get("base_threshold", 0.0))
+		for upgrade_data in threshold_data.get("upgrades", []):
+			var upgrade: Upgrade = get_upgrade(str(upgrade_data["id"]))
+			if upgrade != null:
+				threshold += float(upgrade.level) * float(upgrade_data["increment"])
+		resource_thresholds[resource_id] = maxf(threshold, 1.0)
+
+	# Keep the existing fields consumed by RealmEffects while the underlying
+	# threshold calculation is now shared and data-driven.
+	heat_leak_threshold = get_resource_threshold(ResourceIds.HEAT)
+	matter_decay_threshold = get_resource_threshold(ResourceIds.MATTER)
+
+
+func get_resource_threshold(
+	resource_id: String,
+	fallback_threshold: float = 1.0
+	) -> float:
+	return float(resource_thresholds.get(resource_id, fallback_threshold))
 
 
 func is_threshold_upgrade(upgrade_id: String) -> bool:
-	return upgrade_id in [
-		HEAT_THRESHOLD_LINE_1_ID,
-		HEAT_THRESHOLD_LINE_2_ID,
-		MATTER_THRESHOLD_LINE_1_ID,
-		MATTER_THRESHOLD_LINE_2_ID
-	]
+	var threshold_definitions: Dictionary = ResourceThresholdRegistry.get_definitions()
+	for resource_id in threshold_definitions:
+		var threshold_data: Dictionary = threshold_definitions[resource_id]
+		for upgrade_data in threshold_data.get("upgrades", []):
+			if str(upgrade_data["id"]) == upgrade_id:
+				return true
+	return false
 
 
 func rebuild_realm_effects() -> void:
