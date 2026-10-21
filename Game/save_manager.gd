@@ -3,7 +3,7 @@ extends RefCounted
 
 
 const SAVE_PATH := "user://savegame.json"
-const SAVE_VERSION := 5
+const SAVE_VERSION := 6
 
 
 func save_game(
@@ -179,6 +179,8 @@ func state_to_dictionary(
 		"realm_layout_id": state.realm_layout_id,
 		"lava_palette": state.get_lava_palette_save_data(),
 		"realm_stabilized": state.realm_stabilized,
+		"prestige_planning": state.prestige_planning,
+		"last_prestige_report": state.last_prestige_report,
 		"total_overflow_this_prestige": state.total_overflow_this_prestige,
 		"overflow_bonus_from_last_realm": state.overflow_bonus_from_last_realm,
 		"generator_automation": (
@@ -391,6 +393,10 @@ func dictionary_to_state(
 		state.realm_stabilized = bool(
 			data["realm_stabilized"]
 		)
+
+	state.prestige_planning = bool(data.get("prestige_planning", false))
+	var report_data = data.get("last_prestige_report", {})
+	state.last_prestige_report = report_data.duplicate(true) if report_data is Dictionary else {}
 		# --------------------------------------------------------
 	# REALM LAYOUT
 	# --------------------------------------------------------

@@ -19,6 +19,11 @@ func _init() -> void:
 	add_node("infernal_foundation", 2, 0)
 	add_node("essence_extraction", 3, 0)
 	add_node("thermal_compressor_technology", 1, 5)
+	add_node("brazier_stability", 0, 8)
+	add_node("brazier_density", 1, 8)
+	add_node("brazier_integrity", 2, 8)
+	add_node("brazier_intensity", 3, 8)
+	add_node("brazier_resonance", 3, 9)
 
 	# Starting generator levels form a compact progression on the left.
 	add_node("accelerated_friction", 0, 1)
@@ -58,6 +63,10 @@ func _init() -> void:
 	add_connection("unlock_generator_automation_thermal_compressor", "generator_automation_cooldown_thermal_compressor")
 	add_connection("unlock_generator_automation_lava_mite_colony", "generator_automation_cooldown_lava_mite_colony")
 	add_connection("unlock_generator_automation_matter_furnace", "generator_automation_cooldown_matter_furnace")
+	add_connection("brazier_stability", "brazier_density")
+	add_connection("brazier_density", "brazier_integrity")
+	add_connection("brazier_integrity", "brazier_intensity")
+	add_connection("brazier_intensity", "brazier_resonance")
 
 
 func add_node(upgrade_id: String, column: int, row: int) -> void:

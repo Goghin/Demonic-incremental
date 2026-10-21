@@ -3,6 +3,9 @@ extends Control
 
 
 var is_loading: bool = true
+var is_new_save: bool = false
+var is_intro_playing: bool = false
+const INTRO_STARTING_HEAT: float = 15.0
 const VISUAL_EFFECT_OFF: int = 0
 const VISUAL_EFFECT_LOW: int = 1
 const VISUAL_EFFECT_MEDIUM: int = 2
@@ -42,6 +45,8 @@ var simulation: Simulation
 var time_manager: TimeManager
 var input_handler: InputHandler
 var save_manager: SaveManager
+var tutorial_manager: TutorialManager
+var assistant_popup: AssistantPopup
 var pending_offline_achievement_ids: Array[String] = []
 
 var upgrade_group_containers: Dictionary = {}
@@ -79,6 +84,7 @@ var realm_view: RealmView
 func _ready() -> void:
 	_update_navigation_buttons("GeneratorsButton")
 	_style_options_panel()
+	_add_tutorial_archive_button()
 	$OfflineResultsPanel.results_closed.connect(
 		_on_offline_results_closed
 	)
@@ -170,6 +176,21 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	save_manager = SaveManager.new()
+
+	# Tutorial progress is stored separately so it survives realm resets.
+	tutorial_manager = TutorialManager.new()
+	add_child(tutorial_manager)
+	assistant_popup = AssistantPopup.new()
+	add_child(assistant_popup)
+	tutorial_manager.tutorial_requested.connect(
+		assistant_popup.show_tutorial
+	)
+	assistant_popup.tutorial_dismissed.connect(
+		tutorial_manager.complete_tutorial
+	)
+	assistant_popup.tutorial_replay_requested.connect(
+		tutorial_manager.replay_tutorial
+	)
 	input_handler = InputHandler.new(
 		simulation
 	)
@@ -183,10 +204,26 @@ func _ready() -> void:
 
 	await get_tree().process_frame
 
+	# Only a genuinely absent save gets the opening sequence. Existing or invalid
+	# save files must never receive the new-game starting gift.
+	is_new_save = not FileAccess.file_exists("user://savegame.json")
 	var loaded = save_manager.load_game(
 		state,
 		time_manager
 	)
+	if is_new_save and not loaded:
+		var starting_generator = state.get_generator("atomic_friction")
+		if starting_generator != null:
+			starting_generator.level = 0
+			starting_generator.unlocked = true
+		state.set_resource_amount(ResourceIds.HEAT, 0.0)
+	if loaded:
+		# Stabilization is no longer part of the realm loop. Migrate any
+		# saved countdown away and preserve the current allocation until Smash.
+		time_manager.cancel_stabilization_countdown()
+		if not state.prestige_planning:
+			state.realm_stabilized = true
+			state.realm_configuration.lock()
 	state.achievement_manager.update(state)
 	realm_view.rebuild_realm(
 		state.realm_layout
@@ -195,6 +232,7 @@ func _ready() -> void:
 	if loaded:
 		simulation.rebuild_upgrade_effects()
 
+	if loaded and not state.prestige_planning:
 		loading_screen.set_status(
 			"Simulating time lost to the void..."
 		)
@@ -268,6 +306,9 @@ func _ready() -> void:
 	$PrestigePanel.run_reset.connect(
 		_on_run_reset
 	)
+	$PrestigePanel.planning_started.connect(
+		_enter_prestige_planning_mode
+	)
 	print(
 		"Timestamp: ",
 		time_manager.last_real_timestamp
@@ -320,9 +361,127 @@ func _ready() -> void:
 
 	is_loading = false
 	loading_screen.visible = false
+	if is_new_save:
+		await _play_new_game_intro()
+	if state.prestige_planning:
+		_enter_prestige_planning_mode()
 	if pending_offline_achievement_ids.size() > 0 and not $OfflineResultsPanel.visible:
 		_show_pending_offline_achievements()
 	_start_ambient_audio()
+
+
+
+func _play_new_game_intro() -> void:
+	is_intro_playing = true
+	_update_navigation_title_visibility()
+
+	var overlay := ColorRect.new()
+	overlay.name = "NewGameIntroOverlay"
+	overlay.color = Color(0.008, 0.006, 0.012, 1.0)
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.z_index = 1000
+	add_child(overlay)
+
+	var text_label := Label.new()
+	text_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	text_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	text_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	text_label.add_theme_font_size_override("font_size", 30)
+	text_label.add_theme_color_override("font_color", Color(0.92, 0.84, 0.77))
+	text_label.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	text_label.position = Vector2(-420, -55)
+	text_label.size = Vector2(840, 110)
+	text_label.modulate.a = 0.0
+	overlay.add_child(text_label)
+
+	var intro_tween := create_tween()
+	intro_tween.tween_interval(0.8)
+	intro_tween.tween_property(text_label, "modulate:a", 1.0, 1.4)
+	text_label.text = "There is only the dark void."
+	await intro_tween.finished
+	await get_tree().create_timer(1.4).timeout
+
+	var second_tween := create_tween()
+	second_tween.tween_property(text_label, "modulate:a", 0.0, 0.8)
+	await second_tween.finished
+	text_label.text = "But something new is awakening."
+	var third_tween := create_tween()
+	third_tween.tween_property(text_label, "modulate:a", 1.0, 1.2)
+	await third_tween.finished
+	await get_tree().create_timer(1.5).timeout
+
+	var fourth_tween := create_tween()
+	fourth_tween.tween_property(text_label, "modulate:a", 0.0, 0.8)
+	await fourth_tween.finished
+	text_label.text = "A spark becomes a flame. A flame becomes a world."
+	var fifth_tween := create_tween()
+	fifth_tween.tween_property(text_label, "modulate:a", 1.0, 1.2)
+	await fifth_tween.finished
+	await get_tree().create_timer(1.7).timeout
+
+	var final_text_tween := create_tween()
+	final_text_tween.tween_property(text_label, "modulate:a", 0.0, 0.8)
+	await final_text_tween.finished
+	text_label.text = "Oh! You're awake. That's... unexpected."
+	var imp_texture := load("res://Assets/UI/infernal_intern_face.svg") as Texture2D
+	if imp_texture != null:
+		var imp_portrait := TextureRect.new()
+		imp_portrait.texture = imp_texture
+		imp_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		imp_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		imp_portrait.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+		imp_portrait.position = Vector2(-90, -205)
+		imp_portrait.size = Vector2(180, 140)
+		imp_portrait.modulate.a = 0.0
+		overlay.add_child(imp_portrait)
+		var portrait_tween := create_tween()
+		portrait_tween.tween_property(imp_portrait, "modulate:a", 1.0, 0.8)
+		await portrait_tween.finished
+
+	var imp_line_tween := create_tween()
+	imp_line_tween.tween_property(text_label, "modulate:a", 1.0, 1.0)
+	await imp_line_tween.finished
+	await get_tree().create_timer(1.2).timeout
+
+	var gift_tween := create_tween()
+	gift_tween.tween_property(text_label, "modulate:a", 0.0, 0.6)
+	await gift_tween.finished
+	text_label.text = "Here. A little Heat. Don't ask where I got it."
+	var reveal_tween := create_tween()
+	reveal_tween.tween_property(text_label, "modulate:a", 1.0, 0.9)
+	await reveal_tween.finished
+	await get_tree().create_timer(1.7).timeout
+
+	var fade_tween := create_tween()
+	fade_tween.tween_property(overlay, "modulate:a", 0.0, 2.0)
+	await fade_tween.finished
+	overlay.queue_free()
+
+	# Give exactly enough Heat for Atomic Friction's first purchase (15 Heat).
+	state.set_resource_amount(ResourceIds.HEAT, INTRO_STARTING_HEAT)
+	if save_manager != null and time_manager != null:
+		save_manager.save_game(state, time_manager)
+	is_new_save = false
+	is_intro_playing = false
+
+
+func _add_tutorial_archive_button() -> void:
+	var options_content := $OptionsPanel/OptionsContent as VBoxContainer
+	var archive_button := Button.new()
+	archive_button.name = "TutorialArchiveButton"
+	archive_button.text = "TUTORIAL ARCHIVE"
+	archive_button.icon = load("res://Assets/UI/infernal_notes_book.svg") as Texture2D
+	archive_button.custom_minimum_size = Vector2(0, 38)
+	archive_button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	archive_button.pressed.connect(_on_tutorial_archive_button_pressed)
+	options_content.add_child(archive_button)
+
+
+func _on_tutorial_archive_button_pressed() -> void:
+	if tutorial_manager == null or assistant_popup == null:
+		return
+	assistant_popup.show_archive(tutorial_manager.get_archive_entries())
 
 
 func _style_options_panel() -> void:
@@ -476,6 +635,11 @@ func _create_initial_generator_panels() -> void:
 		)
 
 
+func _on_generator_purchased() -> void:
+	if tutorial_manager != null:
+		tutorial_manager.notify_event("first_generator_purchase")
+
+
 func _create_generator_panel(
 	generator_id: String
 	) -> void:
@@ -516,6 +680,9 @@ func _create_generator_panel(
 	generator_panel.upgrades_requested.connect(
 		_on_generator_upgrades_requested
 	)
+	generator_panel.generator_purchased.connect(
+		_on_generator_purchased
+	)
 	generator_panel.selection_requested.connect(
 		_on_generator_panel_selection_requested
 	)
@@ -552,15 +719,8 @@ func _create_generator_panel(
 # ============================================================
 
 func _initialize_generator_selection() -> void:
-	if selected_generator_id != "":
-		_set_selected_generator(selected_generator_id)
-		return
-
-	for generator in state.generators.values():
-		if generator.unlocked:
-			_set_selected_generator(generator.definition.id)
-			return
-
+	# Start with no generator focused. The player chooses a machine
+	# explicitly after starting, loading, or rebuilding a realm.
 	_set_selected_generator("")
 
 
@@ -1029,6 +1189,11 @@ func _on_generator_unlocked(
 			"A new machine is ready to build. Select it on the island or in Generators to buy its first level."
 		)
 
+	# Show the contextual tutorial for this newly unlocked generator.
+	# TutorialManager queues it if another tutorial is already open.
+	if tutorial_manager != null:
+		tutorial_manager.notify_event("generator_unlocked:" + generator_id)
+
 	# Add the newly unlocked generator without changing the current selection.
 	_create_generator_panel(
 		generator_id
@@ -1092,12 +1257,26 @@ func _process(
 	delta: float
 	) -> void:
 
-	if is_loading:
+	if is_loading or is_intro_playing:
+		return
+	if state != null and state.prestige_planning:
+		_update_navigation_title_visibility()
+		_update_ambient_audio(delta)
 		return
 
 	time_manager.update(
 		delta
 	)
+	if tutorial_manager != null and state.get_heat_leak_per_second() > 0.0:
+		tutorial_manager.notify_event("heat_leak_started")
+	if tutorial_manager != null and state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME) > 0.0:
+		tutorial_manager.notify_event("first_crystallized_flame")
+	if tutorial_manager != null and state.get_resource_amount(ResourceIds.ASH) > 0.0:
+		tutorial_manager.notify_event("first_ash")
+	if tutorial_manager != null and state.get_resource_amount(ResourceIds.ESSENCE) > 0.0:
+		tutorial_manager.notify_event("first_essence")
+	if tutorial_manager != null and state.get_matter_decay_per_second() > 0.0:
+		tutorial_manager.notify_event("matter_decay_started")
 	state.achievement_manager.update(state)
 	if $AchievementPanel.visible:
 		$AchievementPanel.refresh()
@@ -1213,6 +1392,8 @@ func _update_navigation_buttons(active_button_name: String = "GeneratorsButton")
 func _on_generators_button_pressed() -> void:
 	$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
 	generator_list_mode = not generator_list_mode
+	if generator_list_mode and tutorial_manager != null:
+		tutorial_manager.notify_event("navigation_generators")
 
 	# Keep the current selection when opening the list so it can be brought
 	# into view. The same selection is focused again when the list is closed.
@@ -1276,6 +1457,8 @@ func _on_achievements_button_pressed() -> void:
 		$UpgradeScroll.hide()
 		$PrestigePanel.hide()
 		$GeneratorScroll.hide()
+		if tutorial_manager != null:
+			tutorial_manager.notify_event("navigation_achievements")
 	else:
 		$GeneratorScroll.show()
 		_refresh_generator_panel_visibility()
@@ -1765,6 +1948,8 @@ func _on_stats_button_pressed() -> void:
 		$PrestigePanel.hide()
 		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
+		if tutorial_manager != null:
+			tutorial_manager.notify_event("navigation_stats")
 
 	_update_navigation_buttons("StatsButton" if should_open else "GeneratorsButton")
 
@@ -1792,6 +1977,8 @@ func _on_upgrades_button_pressed() -> void:
 		_update_navigation_buttons("GeneratorsButton")
 		return
 
+	if tutorial_manager != null:
+		tutorial_manager.notify_event("navigation_upgrades")
 	$UpgradeScroll.show()
 	$UpgradeScroll.offset_left = 12.0
 	$UpgradeScroll.offset_top = 112.0
@@ -1800,6 +1987,10 @@ func _on_upgrades_button_pressed() -> void:
 	_update_navigation_buttons("UpgradesButton")
 
 func _on_prestige_requested() -> void:
+	if tutorial_manager != null and not tutorial_manager.has_completed_tutorial("first_realm_smash"):
+		$PrestigePanel.smash_button.disabled = false
+		tutorial_manager.notify_event("first_realm_smash")
+		return
 	$StatsPanel.hide()
 	$UpgradeScroll.hide()
 	if generator_upgrade_tree != null:
@@ -1812,9 +2003,31 @@ func _on_prestige_requested() -> void:
 
 func _on_prestige_destruction_complete() -> void:
 	$PrestigePanel.perform_smash()
-
-	$GeneratorScroll.show()
 	
+func _enter_prestige_planning_mode() -> void:
+	if state == null or not state.prestige_planning:
+		return
+	if prestige_animation != null and prestige_animation.is_playing:
+		prestige_animation.finish_in_void()
+	if realm_view != null:
+		realm_view.hide()
+	$ResourcePanel.hide()
+	$GeneratorScroll.hide()
+	$UpgradeScroll.hide()
+	$StatsPanel.hide()
+	$OptionsPanel.hide()
+	$AchievementPanel.hide()
+	$PrestigePanel.show()
+	generator_list_mode = false
+	selected_upgrade_generator_id = ""
+	$NavigationTitlePanel/NavigationTitle.text = "REALM"
+	_update_navigation_buttons("PrestigeButton")
+	for button_name in ["GeneratorsButton", "UpgradesButton", "StatsButton", "AchievementButton", "OptionsButton"]:
+		var button := get_node_or_null(button_name) as Button
+		if button != null:
+			button.disabled = true
+
+
 func _on_prestige_button_pressed() -> void:
 	$NavigationTitlePanel/NavigationTitle.text = "REALM"
 	var should_open: bool = not $PrestigePanel.visible
@@ -1830,10 +2043,16 @@ func _on_prestige_button_pressed() -> void:
 		$UpgradeScroll.hide()
 		$AchievementPanel.hide()
 		$GeneratorScroll.hide()
+		if tutorial_manager != null:
+			tutorial_manager.notify_event("navigation_realm")
 	_update_navigation_buttons("PrestigeButton" if should_open else "GeneratorsButton")
 
 
 func _on_run_reset() -> void:
+	generator_list_mode = false
+	_clear_generator_focus()
+	$GeneratorsButton.text = "GENERATORS"
+
 	# ------------------------------------------------------------
 	# Rebuild the physical realm
 	# ------------------------------------------------------------
@@ -1842,6 +2061,20 @@ func _on_run_reset() -> void:
 		realm_view.rebuild_realm(
 			state.realm_layout
 		)
+		realm_view.show()
+	# Resume the rebirth animation only after the player commits to
+	# starting the next realm, not while they are in the Flame Shop.
+	if prestige_animation != null:
+		prestige_animation.play_rebirth()
+	$ResourcePanel.show()
+	$PrestigePanel.hide()
+	for button_name in ["GeneratorsButton", "UpgradesButton", "StatsButton", "AchievementButton", "OptionsButton"]:
+		var button := get_node_or_null(button_name) as Button
+		if button != null:
+			button.disabled = false
+	$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
+	_update_navigation_buttons("GeneratorsButton")
+	$GeneratorScroll.show()
 
 	# ------------------------------------------------------------
 	# Rebuild UI

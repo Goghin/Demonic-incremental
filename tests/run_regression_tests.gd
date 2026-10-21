@@ -47,6 +47,8 @@ func _run_tests() -> void:
 	_run_test("Generator production increases Heat and records statistics", _test_generator_production)
 	_run_test("Interval statistics are returned and cleared", _test_interval_statistics)
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
+	_run_test("Prestige enters planning before resetting the next realm", _test_prestige_planning_transition)
+	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
@@ -219,6 +221,90 @@ func _test_realm_reset() -> void:
 	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), 0.0, "Heat was not reset.")
 	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Matter was not reset.")
 	_expect(state.gameplay_interval_produced.is_empty(), "Interval statistics survived the realm reset.")
+
+
+func _test_prestige_planning_transition() -> void:
+	var state := _new_test_state()
+	var prestige := PrestigeSystem.new()
+	var forge: Generator = state.get_generator("infernal_forge")
+	if forge == null:
+		_expect(false, "Infernal Forge is missing.")
+		return
+	forge.level = 1
+	state.realm_stabilized = false
+	state.realm_configuration.assign_flame("stability")
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
+	state.set_resource_amount(ResourceIds.HEAT, 1234.0)
+	state.set_resource_amount(ResourceIds.MATTER, 56.0)
+	state.current_run_statistics.update_highest(ResourceIds.HEAT, 1234.0)
+	state.current_run_statistics.update_highest(ResourceIds.MATTER, 56.0)
+	var previous_run_index: int = state.gameplay_realm_run_index
+
+	var gain: float = prestige.smash(state, 42.0)
+	_expect_approx(gain, 1.0, "Smash did not award the expected Eternal Flame.")
+	_expect(state.prestige_planning, "Smash did not enter prestige planning.")
+	_expect(state.realm_configuration.get_assigned_flames() == 0, "Smash did not clear the previous realm allocation.")
+	_expect(not state.realm_configuration.locked, "Realm configuration should be editable during planning.")
+	_expect(state.eternal_flame_state.prestige_count == 1, "Prestige count did not increment.")
+	_expect(state.gameplay_realm_run_index == previous_run_index, "Smash reset the run before planning.")
+	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), 1234.0, "Old run resources were reset during planning.")
+	_expect_approx(float(state.last_prestige_report.get("survival_seconds", 0.0)), 42.0, "Report did not capture survival time.")
+	_expect_approx(float(state.last_prestige_report.get("peak_heat", 0.0)), 1234.0, "Report did not capture peak Heat.")
+	_expect(state.eternal_flame_state.get_upgrade_level("eternal_furnace") == 1, "First-prestige Eternal Furnace bonus was lost.")
+	_expect(state.eternal_flame_state.get_upgrade_level("accelerated_friction") == 1, "First-prestige acceleration bonus was lost.")
+
+	var save_manager := SaveManager.new()
+	var save_data: Dictionary = save_manager.state_to_dictionary(state)
+	var restored_state := _new_test_state()
+	_expect(save_manager.dictionary_to_state(restored_state, save_data, 6), "Could not restore a saved planning state.")
+	_expect(restored_state.prestige_planning, "Planning state was not persisted.")
+	_expect_approx(
+		float(restored_state.last_prestige_report.get("eternal_flames_gained", 0.0)),
+		1.0,
+		"Prestige report was not persisted."
+	)
+
+	_expect_approx(prestige.smash(state, 42.0), 0.0, "Repeated Smash awarded Eternal Flames during planning.")
+	var began_next_realm: bool = prestige.begin_next_realm(state)
+	_expect(began_next_realm, "Could not begin the next realm from planning.")
+	_expect(not state.prestige_planning, "Next realm remained in planning state.")
+	_expect(state.realm_configuration.locked, "Flame allocation was not locked after planning ended.")
+	_expect(state.gameplay_realm_run_index == previous_run_index + 1, "Next realm did not reset exactly once.")
+	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), 0.0, "Next realm did not reset Heat.")
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Next realm did not reset Matter.")
+	_expect(not prestige.begin_next_realm(state), "Next realm could be initialized twice.")
+
+
+func _test_brazier_upgrade_unlocks() -> void:
+	var state := _new_test_state()
+	state.eternal_flame_state.eternal_flame = 200.0
+	var manager: EternalFlameUpgradeManager = state.eternal_flame_upgrade_manager
+	var progression: Array[Dictionary] = [
+		{"upgrade": "brazier_stability", "technology": "brazier_stability", "cost": 1},
+		{"upgrade": "brazier_density", "technology": "brazier_density", "cost": 5},
+		{"upgrade": "brazier_integrity", "technology": "brazier_integrity", "cost": 15},
+		{"upgrade": "brazier_intensity", "technology": "brazier_intensity", "cost": 30},
+		{"upgrade": "brazier_resonance", "technology": "brazier_resonance", "cost": 60}
+	]
+	for entry in progression:
+		var upgrade_id: String = str(entry["upgrade"])
+		var technology_id: String = str(entry["technology"])
+		_expect(
+			manager.get_upgrade_cost(upgrade_id, state.eternal_flame_state) == int(entry["cost"]),
+			"Unexpected Eternal Flame cost for " + upgrade_id + "."
+		)
+		_expect(
+			manager.purchase(upgrade_id, state.eternal_flame_state, state.realm_configuration),
+			"Could not purchase " + upgrade_id + "."
+		)
+		_expect(
+			state.eternal_flame_state.is_technology_unlocked(technology_id),
+			"Purchase did not permanently unlock " + technology_id + "."
+		)
+		_expect(
+			state.eternal_flame_state.get_upgrade_level(upgrade_id) == 1,
+			"Purchase did not set the permanent upgrade level for " + upgrade_id + "."
+		)
 
 
 func _test_modifier_operation_mode_targeting() -> void:

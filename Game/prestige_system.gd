@@ -2,133 +2,94 @@ class_name PrestigeSystem
 extends RefCounted
 
 
-func _get_new_realm_layout_id(
-	prestige_count: int
-	) -> String:
-
+func _get_new_realm_layout_id(prestige_count: int) -> String:
 	var layout_ids: Array[String] = RealmLayoutRegistry.get_layout_ids()
-
 	if layout_ids.is_empty():
 		return "default"
-
-	# prestige_count is incremented before this is called. Starting at index
-	# zero makes the first completed prestige use the first registered layout.
-	var layout_index: int = posmod(
-		prestige_count - 1,
-		layout_ids.size()
-	)
-
-	return layout_ids[layout_index]
+	return layout_ids[posmod(prestige_count - 1, layout_ids.size())]
 
 
-func calculate_eternal_flame_gain(
-	state: GameState
-	) -> float:
-
-	var crystallized_flame: float = (
-		state.get_resource_amount(
-			ResourceIds.CRYSTALLIZED_FLAME
-		)
-	)
-
-	var infernal_forge = state.get_generator(
-		"infernal_forge"
-	)
-
-	if infernal_forge == null:
+func calculate_eternal_flame_gain(state: GameState) -> float:
+	var crystallized_flame: float = state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)
+	var infernal_forge = state.get_generator("infernal_forge")
+	if infernal_forge == null or crystallized_flame <= 0.0 or infernal_forge.level <= 0:
 		return 0.0
+	var forge_multiplier: float = sqrt(float(infernal_forge.level))
+	return float(floori(crystallized_flame * forge_multiplier * state.get_overflow_bonus()))
 
-	if crystallized_flame <= 0.0:
+
+# Completes the irreversible Smash without initializing the next realm.
+func smash(state: GameState, run_duration: float = 0.0) -> float:
+	if state.prestige_planning:
 		return 0.0
-
-	if infernal_forge.level <= 0:
-		return 0.0
-
-	var forge_multiplier: float = sqrt(
-		float(infernal_forge.level)
-	)
-
-	var overflow_multiplier: float = (
-		state.get_overflow_bonus()
-	)
-
-	var gain: float = (
-		crystallized_flame
-		* forge_multiplier
-		* overflow_multiplier
-	)
-
-	return float(floori(gain))
-
-
-func smash(
-	state: GameState
-	) -> float:
-
-	if not state.realm_stabilized:
-		return 0.0
-
-	var eternal_flame_gain = calculate_eternal_flame_gain(
-		state
-	)
-
+	var eternal_flame_gain: float = calculate_eternal_flame_gain(state)
 	if eternal_flame_gain <= 0.0:
 		return 0.0
 
-	state.gameplay_log.record_event(
-		"prestige",
-		"realm_smashed",
-		{
-			"eternal_flame_gained": eternal_flame_gain,
-			"prestige_count": state.eternal_flame_state.prestige_count + 1,
-			"crystallized_flame": state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME),
-			"overflow": state.total_overflow_this_prestige,
-			"overflow_bonus_used": state.get_overflow_bonus(),
-			"layout_before_smash": state.realm_layout_id
-		}
-	)
+	var next_prestige_count: int = state.eternal_flame_state.prestige_count + 1
+	var crystallized_flame: float = state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)
+	state.gameplay_log.record_event("prestige", "realm_smashed", {
+		"eternal_flame_gained": eternal_flame_gain,
+		"prestige_count": next_prestige_count,
+		"crystallized_flame": crystallized_flame,
+		"overflow": state.total_overflow_this_prestige,
+		"overflow_bonus_used": state.get_overflow_bonus(),
+		"layout_before_smash": state.realm_layout_id
+	})
 
-	state.eternal_flame_state.eternal_flame += (
-		eternal_flame_gain
-	)
+	var generators_reached: Array[String] = []
+	for generator in state.generators.values():
+		if generator.unlocked:
+			generators_reached.append(generator.definition.display_name)
+	state.last_prestige_report = {
+		"survival_seconds": maxf(0.0, run_duration),
+		"peak_heat": state.current_run_statistics.get_highest_amount(ResourceIds.HEAT),
+		"peak_matter": state.current_run_statistics.get_highest_amount(ResourceIds.MATTER),
+		"generators_reached": generators_reached,
+		"crystallized_flame": crystallized_flame,
+		"eternal_flames_gained": eternal_flame_gain,
+		"prestige_count": next_prestige_count,
+		"total_overflow": state.total_overflow_this_prestige
+	}
 
-	state.eternal_flame_state.prestige_count += 1
-
-	# The first prestige grants the two foundational shop upgrades for free.
-	# Apply these before resetting the run so Atomic Friction starts at its
-	# upgraded level in the new realm.
-	if state.eternal_flame_state.prestige_count == 1:
+	state.eternal_flame_state.eternal_flame += eternal_flame_gain
+	state.eternal_flame_state.prestige_count = next_prestige_count
+	if next_prestige_count == 1:
 		for upgrade_id in ["eternal_furnace", "accelerated_friction"]:
 			if state.eternal_flame_state.get_upgrade_level(upgrade_id) < 1:
 				state.eternal_flame_state.set_upgrade_level(upgrade_id, 1)
+	state.eternal_flame_state.total_crystallized_flame += crystallized_flame
 
-	# Select the physical layout for the new realm.
-	state.realm_layout_id = _get_new_realm_layout_id(
-		state.eternal_flame_state.prestige_count
+	# The old realm is gone. Preserve its data only until the player chooses
+	# to continue, while pausing simulation in the planning state.
+	state.prestige_planning = true
+	# Every Smash starts a fresh allocation phase. Flames are re-assigned
+	# after the irreversible reset, not carried over from the previous realm.
+	state.realm_configuration.reset()
+	state.realm_configuration.unlock()
+	state.realm_stabilized = true
+	state.realm_effects.rebuild(
+		state.realm_configuration,
+		state.eternal_flame_state,
+		state.eternal_flame_upgrade_manager,
+		state.heat_leak_threshold,
+		state.matter_decay_threshold
 	)
+	return eternal_flame_gain
 
-	state.realm_layout = RealmLayoutRegistry.create_layout(
-		state.realm_layout_id
-	)
-	# Palette changes only when a new realm is created by Smash.
+
+func begin_next_realm(state: GameState) -> bool:
+	if not state.prestige_planning:
+		return false
+
+	state.realm_layout_id = _get_new_realm_layout_id(state.eternal_flame_state.prestige_count)
+	state.realm_layout = RealmLayoutRegistry.create_layout(state.realm_layout_id)
 	state._generate_lava_palette()
 
-	state.eternal_flame_state.total_crystallized_flame += (
-		state.get_resource_amount(
-			ResourceIds.CRYSTALLIZED_FLAME
-		)
-	)
-
-	# Preserve the current realm flame assignment.
-	var realm_configuration = state.realm_configuration
-
+	var realm_configuration: RealmConfiguration = state.realm_configuration
 	state.reset_current_run()
-
-	# A new realm begins immediately after the smash.
-	# Keep assigned flames, but make the configuration editable.
-	state.realm_stabilized = false
-	realm_configuration.unlock()
-
+	realm_configuration.lock()
+	state.realm_stabilized = true
 	state.realm_effects.rebuild(
 		realm_configuration,
 		state.eternal_flame_state,
@@ -136,5 +97,5 @@ func smash(
 		state.heat_leak_threshold,
 		state.matter_decay_threshold
 	)
-
-	return eternal_flame_gain
+	state.prestige_planning = false
+	return true
