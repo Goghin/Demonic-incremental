@@ -147,7 +147,13 @@ func get_multiplier(state: GameState) -> float:
 			dynamic_resource_id
 		)
 	
-		var threshold = 100.0
+		# Use the configured threshold for this resource when one exists.
+		# dynamic_threshold remains the fallback for unconfigured resources.
+		var threshold: float = state.get_resource_threshold(
+			dynamic_resource_id,
+			dynamic_threshold
+		)
+		threshold = maxf(threshold, 0.0)
 	
 		if resource_amount <= threshold:
 			return 1.0
