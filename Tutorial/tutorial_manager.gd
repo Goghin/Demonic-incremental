@@ -38,6 +38,14 @@ const TUTORIALS := {
 		"title": "THAT THING ISN'T ORDINARY FIRE",
 		"message": "You made a Crystallized Flame! Nasty little things, aren't they? The Infernal Forge creates them by processing Matter, and they are important for Realm Smashes: your Crystallized Flames help determine how many Eternal Flames you earn. They also affect the realm's heat behavior, so keep an eye on your Stats. Try not to swallow one. I did that once."
 	},
+	"first_ash": {
+		"title": "OH DEAR. THAT'S ASH.",
+		"message": "So the Infernal Forge is making Ash as well as Crystallized Flames. Ash is a by-product of processing Matter, and it isn't entirely harmless: too much Ash contamination slows the Forge's cycle. Keep an eye on your Ash reserves and the Forge's performance. We could sweep it up, but I seem to have misplaced the broom. Again."
+	},
+	"first_essence": {
+		"title": "ESSENCE! DON'T SPILL IT.",
+		"message": "That's Essence — useful stuff, and not something we should waste. It can strengthen your realm's resistance to certain harmful effects, including the heat penalty from Crystallized Flames. Check your Stats to see what it's doing for you, and look for ways to gather more. Carefully, though. Last time I touched it, my eyebrows came back in a different order."
+	},
 	"matter_decay_started": {
 		"title": "MATTER ISN'T FOREVER",
 		"message": "Your Matter has crossed its decay threshold, so some of it is now being lost over time. The threshold is shown in your realm's mechanics and can be raised by upgrades and Density. Check the Stats panel to see how much Matter you're losing, and consider whether more production or a higher threshold would help."
@@ -90,6 +98,10 @@ func notify_event(event_id: String) -> void:
 			tutorial_id = "first_realm_smash"
 		"first_crystallized_flame":
 			tutorial_id = "first_crystallized_flame"
+		"first_ash":
+			tutorial_id = "first_ash"
+		"first_essence":
+			tutorial_id = "first_essence"
 		"matter_decay_started":
 			tutorial_id = "matter_decay_started"
 		"first_generator_purchase":
