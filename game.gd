@@ -1152,7 +1152,7 @@ func _process(
 		_update_ambient_audio(delta)
 		return
 
- 	time_manager.update(
+	time_manager.update(
 		delta
 	)
 	if tutorial_manager != null and state.get_matter_decay_per_second() > 0.0:
