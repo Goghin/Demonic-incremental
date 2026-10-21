@@ -81,6 +81,7 @@ var realm_view: RealmView
 func _ready() -> void:
 	_update_navigation_buttons("GeneratorsButton")
 	_style_options_panel()
+	_add_tutorial_archive_button()
 	$OfflineResultsPanel.results_closed.connect(
 		_on_offline_results_closed
 	)
@@ -183,6 +184,9 @@ func _ready() -> void:
 	)
 	assistant_popup.tutorial_dismissed.connect(
 		tutorial_manager.complete_tutorial
+	)
+	assistant_popup.tutorial_replay_requested.connect(
+		tutorial_manager.replay_tutorial
 	)
 	input_handler = InputHandler.new(
 		simulation
@@ -350,6 +354,22 @@ func _ready() -> void:
 	if pending_offline_achievement_ids.size() > 0 and not $OfflineResultsPanel.visible:
 		_show_pending_offline_achievements()
 	_start_ambient_audio()
+
+
+func _add_tutorial_archive_button() -> void:
+	var options_content := $OptionsPanel/OptionsContent as VBoxContainer
+	var archive_button := Button.new()
+	archive_button.name = "TutorialArchiveButton"
+	archive_button.text = "TUTORIAL ARCHIVE"
+	archive_button.custom_minimum_size = Vector2(0, 30)
+	archive_button.pressed.connect(_on_tutorial_archive_button_pressed)
+	options_content.add_child(archive_button)
+
+
+func _on_tutorial_archive_button_pressed() -> void:
+	if tutorial_manager == null or assistant_popup == null:
+		return
+	assistant_popup.show_archive(tutorial_manager.get_archive_entries())
 
 
 func _style_options_panel() -> void:
@@ -1132,9 +1152,11 @@ func _process(
 		_update_ambient_audio(delta)
 		return
 
-	time_manager.update(
+ 	time_manager.update(
 		delta
 	)
+	if tutorial_manager != null and state.get_matter_decay_per_second() > 0.0:
+		tutorial_manager.notify_event("matter_decay_started")
 	state.achievement_manager.update(state)
 	if $AchievementPanel.visible:
 		$AchievementPanel.refresh()
