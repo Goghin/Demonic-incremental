@@ -16,8 +16,8 @@ var realm_original_scale: Vector2 = Vector2.ONE
 var realm_original_pivot_offset: Vector2 = Vector2.ZERO
 
 const REBIRTH_ZOOM_START_SCALE: float = 0.015
-const REBIRTH_ZOOM_DURATION: float = 6.0
-const REBIRTH_FADE_DURATION: float = 2.0
+const REBIRTH_ZOOM_DURATION: float = 8.0
+const REBIRTH_FADE_DURATION: float = 3.0
 
 
 @onready var flash: ColorRect = $Flash
