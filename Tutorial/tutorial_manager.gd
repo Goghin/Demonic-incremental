@@ -26,6 +26,10 @@ const TUTORIALS := {
 		"title": "PROOF OF YOUR DEPRAVITY",
 		"message": "Achievements record milestones you've reached and give you goals to pursue. Check back as your realm grows; some accomplishments will happen naturally, while others reward deliberate planning."
 	},
+	"matter_decay_started": {
+		"title": "MATTER ISN'T FOREVER",
+		"message": "Your Matter has crossed its decay threshold, so some of it is now being lost over time. The threshold is shown in your realm's mechanics and can be raised by upgrades and Density. Check the Stats panel to see how much Matter you're losing, and consider whether more production or a higher threshold would help."
+	},
 	"first_generator_purchase": {
 		"title": "A WORD FROM YOUR INFERNAL INTERN",
 		"message": "Excellent! You have made the machinery obey. Generators produce resources over time, and each new level improves their output. Keep an eye on the cost before buying more. I would explain the finer points, but I have a very small attention span."
@@ -68,6 +72,8 @@ func _ready() -> void:
 func notify_event(event_id: String) -> void:
 	var tutorial_id := ""
 	match event_id:
+ 		"matter_decay_started":
+			tutorial_id = "matter_decay_started"
 		"first_generator_purchase":
 			tutorial_id = "first_generator_purchase"
 		"navigation_generators":
@@ -162,3 +168,33 @@ func _save_progress() -> void:
 		"completed_tutorials": completed_tutorials
 	}))
 	file.close()
+
+func get_archive_entries() -> Array[Dictionary]:
+	var entries: Array[Dictionary] = []
+	for tutorial_id in TUTORIALS:
+		if not completed_tutorials.get(tutorial_id, false):
+			continue
+		var tutorial: Dictionary = TUTORIALS[tutorial_id]
+		entries.append({
+			"id": tutorial_id,
+			"title": str(tutorial.get("title", "INFERNAL INTERN")),
+			"message": str(tutorial.get("message", ""))
+		})
+	return entries
+
+
+func replay_tutorial(tutorial_id: String) -> void:
+	if not completed_tutorials.get(tutorial_id, false):
+		return
+	var tutorial: Dictionary = TUTORIALS.get(tutorial_id, {})
+	if tutorial.is_empty():
+		return
+	if active_tutorial_id != "":
+		return
+	active_tutorial_id = tutorial_id
+	tutorial_requested.emit(
+		tutorial_id,
+		str(tutorial.get("title", "INFERNAL INTERN")),
+		str(tutorial.get("message", ""))
+	)
+
