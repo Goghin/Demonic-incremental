@@ -6,6 +6,26 @@ signal tutorial_requested(tutorial_id: String, title: String, message: String)
 const SAVE_PATH := "user://tutorial_progress.json"
 
 const TUTORIALS := {
+	"navigation_generators": {
+		"title": "THE MACHINERY",
+		"message": "This is the heart of your operation. Select machines, buy levels, and unlock new generators to increase production. Every machine has its own costs and role in the realm."
+	},
+	"navigation_upgrades": {
+		"title": "MAKE THE MACHINERY BETTER",
+		"message": "Upgrades improve your production and can unlock new mechanics. Some affect your whole realm, while others specialize a particular generator. Check their effects before spending your hard-earned resources."
+	},
+	"navigation_stats": {
+		"title": "WHAT THE NUMBERS MEAN",
+		"message": "The Stats panel shows how your realm is performing, including production, multipliers, and resource losses. When something changes unexpectedly, this is a good place to investigate."
+	},
+	"navigation_realm": {
+		"title": "THE CYCLE OF REALMS",
+		"message": "The Realm panel is where you prepare for and perform a Smash, spend your prestige rewards, and plan the next realm. A reset costs your current run's progress, so check the rewards and your choices before committing."
+	},
+	"navigation_achievements": {
+		"title": "PROOF OF YOUR DEPRAVITY",
+		"message": "Achievements record milestones you've reached and give you goals to pursue. Check back as your realm grows; some accomplishments will happen naturally, while others reward deliberate planning."
+	},
 	"first_generator_purchase": {
 		"title": "A WORD FROM YOUR INFERNAL INTERN",
 		"message": "Excellent! You have made the machinery obey. Generators produce resources over time, and each new level improves their output. Keep an eye on the cost before buying more. I would explain the finer points, but I have a very small attention span."
@@ -50,6 +70,16 @@ func notify_event(event_id: String) -> void:
 	match event_id:
 		"first_generator_purchase":
 			tutorial_id = "first_generator_purchase"
+		"navigation_generators":
+			tutorial_id = "navigation_generators"
+		"navigation_upgrades":
+			tutorial_id = "navigation_upgrades"
+		"navigation_stats":
+			tutorial_id = "navigation_stats"
+		"navigation_realm":
+			tutorial_id = "navigation_realm"
+		"navigation_achievements":
+			tutorial_id = "navigation_achievements"
 		"generator_unlocked:molecular_agitation":
 			tutorial_id = "unlock_molecular_agitation"
 		"generator_unlocked:lava_mite_colony":
