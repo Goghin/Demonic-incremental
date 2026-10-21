@@ -42,6 +42,8 @@ var simulation: Simulation
 var time_manager: TimeManager
 var input_handler: InputHandler
 var save_manager: SaveManager
+var tutorial_manager: TutorialManager
+var assistant_popup: AssistantPopup
 var pending_offline_achievement_ids: Array[String] = []
 
 var upgrade_group_containers: Dictionary = {}
@@ -170,6 +172,18 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	save_manager = SaveManager.new()
+
+	# Tutorial progress is stored separately so it survives realm resets.
+	tutorial_manager = TutorialManager.new()
+	add_child(tutorial_manager)
+	assistant_popup = AssistantPopup.new()
+	add_child(assistant_popup)
+	tutorial_manager.tutorial_requested.connect(
+		assistant_popup.show_tutorial
+	)
+	assistant_popup.tutorial_dismissed.connect(
+		tutorial_manager.complete_tutorial
+	)
 	input_handler = InputHandler.new(
 		simulation
 	)
@@ -489,6 +503,11 @@ func _create_initial_generator_panels() -> void:
 		)
 
 
+func _on_generator_purchased() -> void:
+	if tutorial_manager != null:
+		tutorial_manager.notify_event("first_generator_purchase")
+
+
 func _create_generator_panel(
 	generator_id: String
 	) -> void:
@@ -528,6 +547,9 @@ func _create_generator_panel(
 	)
 	generator_panel.upgrades_requested.connect(
 		_on_generator_upgrades_requested
+	)
+	generator_panel.generator_purchased.connect(
+		_on_generator_purchased
 	)
 	generator_panel.selection_requested.connect(
 		_on_generator_panel_selection_requested
