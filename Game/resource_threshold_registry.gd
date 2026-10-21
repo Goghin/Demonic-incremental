@@ -65,6 +65,7 @@ static func get_definitions() -> Dictionary:
 			"upgrades": [
 				{
 					"id": "ash_threshold_line_1",
+					"cost_resource_id": ResourceIds.MATTER,
 					"display_name": "Ash Filtration I",
 					"description": "Raises the Ash contamination threshold by 9 per level.",
 					"increment": 9.0,
@@ -74,6 +75,7 @@ static func get_definitions() -> Dictionary:
 				},
 				{
 					"id": "ash_threshold_line_2",
+					"cost_resource_id": ResourceIds.MATTER,
 					"display_name": "Ash Filtration II",
 					"description": "Raises the Ash contamination threshold by 40 per level.",
 					"increment": 40.0,
