@@ -164,13 +164,17 @@ func _build_ui() -> void:
 	imp_badge.add_theme_stylebox_override("panel", _make_badge_style())
 	header.add_child(imp_badge)
 
-	var imp_label := Label.new()
-	imp_label.text = "IMP"
-	imp_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	imp_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	imp_label.add_theme_color_override("font_color", Color(1.0, 0.56, 0.23))
-	imp_label.add_theme_font_size_override("font_size", 18)
-	imp_badge.add_child(imp_label)
+	var imp_portrait := TextureRect.new()
+	imp_portrait.name = "ImpPortrait"
+	imp_portrait.texture = load("res://Assets/UI/infernal_intern_face.svg") as Texture2D
+	imp_portrait.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	imp_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	imp_portrait.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	imp_portrait.offset_left = 3
+	imp_portrait.offset_top = 3
+	imp_portrait.offset_right = -3
+	imp_portrait.offset_bottom = -3
+	imp_badge.add_child(imp_portrait)
 
 	_title_label = Label.new()
 	_title_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
