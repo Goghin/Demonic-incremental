@@ -133,11 +133,27 @@ func play() -> void:
 	await get_tree().create_timer(1.4).timeout
 
 	if stop_after_destruction:
+		# Keep the void overlay at full opacity, but hide the animation
+		# so the player can see and use the Flame Shop during planning.
+		# The rebirth sequence resumes when the new realm is started.
 		visible = false
 		mouse_filter = Control.MOUSE_FILTER_IGNORE
 		is_playing = false
-		animation_finished.emit()
 		return
+
+	await play_rebirth()
+
+
+func play_rebirth() -> void:
+	if is_playing:
+		return
+
+	stop_after_destruction = false
+	is_playing = true
+	visible = true
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	flash.color.a = 0.0
+	void_overlay.color.a = 1.0
 
 	# --------------------------------
 	# Rebirth
@@ -149,6 +165,7 @@ func play() -> void:
 	# Reveal the realm while it grows from a distant speck
 	# to its normal size over six seconds.
 	if realm_view != null:
+		realm_view.show()
 		realm_view.pivot_offset = realm_view.size * 0.5
 		realm_view.scale = Vector2.ONE * REBIRTH_ZOOM_START_SCALE
 
