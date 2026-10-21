@@ -5,14 +5,18 @@ extends RefCounted
 static func create_upgrades() -> Dictionary:
 	var upgrades: Dictionary = {}
 
-	# Realm threshold upgrades
-	_register(upgrades, _create_heat_threshold_line_1())
-	_register(upgrades, _create_heat_threshold_line_2())
+	# Resource threshold upgrades are generated from one shared configuration.
+	var threshold_definitions: Dictionary = ResourceThresholdRegistry.get_definitions()
+	for resource_id in threshold_definitions:
+		var threshold_data: Dictionary = threshold_definitions[resource_id]
+		for upgrade_data in threshold_data["upgrades"]:
+			_register(
+				upgrades,
+				_create_resource_threshold_upgrade(resource_id, upgrade_data)
+			)
+	
 	_register(upgrades, _create_heat_loss_coefficient_refinement())
 	_register(upgrades, _create_heat_loss_exponent_refinement())
-	
-	_register(upgrades, _create_matter_threshold_line_1())
-	_register(upgrades, _create_matter_threshold_line_2())
 	_register(upgrades, _create_loss_coefficient_refinement())
 	_register(upgrades, _create_loss_exponent_refinement())
 
@@ -1194,7 +1198,7 @@ static func _create_ashen_contamination() -> Upgrade:
 				Modifier.DYNAMIC_RESOURCE_SQRT_INVERSE,
 				"ashen_contamination",
 				"",
-				1000.0,
+				1.0,
 				0.35,
 				"ashen_contamination_multiplier",
 				true
@@ -1207,7 +1211,7 @@ static func _create_ashen_contamination() -> Upgrade:
 				Modifier.DYNAMIC_RESOURCE_SQRT_INVERSE,
 				"ashen_contamination_cycle_speed",
 				"",
-				1000.0,
+				1.0,
 				0.35,
 				"ashen_contamination_multiplier",
 				true
@@ -2518,76 +2522,26 @@ static func _create_infernal_forge_refinement() -> Upgrade:
 # Realm threshold upgrades
 # -------------------------------------------------------------------
 
-static func _create_heat_threshold_line_1() -> Upgrade:
+static func _create_resource_threshold_upgrade(
+	resource_id: String,
+	upgrade_data: Dictionary
+	) -> Upgrade:
 	var definition = UpgradeDefinition.new(
-		"heat_threshold_line_1",
-		"Heat Retention I",
-		"Increases the base Heat leak threshold by 1,000 per level.",
-		ResourceIds.HEAT,
-		600.0,
+		str(upgrade_data["id"]),
+		str(upgrade_data["display_name"]),
+		str(upgrade_data["description"]),
+		resource_id,
+		float(upgrade_data["cost"]),
 		[],
 		[],
 		false,
 		"",
 		"realm_thresholds",
-		10,
-		1.5
+		int(upgrade_data["max_level"]),
+		float(upgrade_data["cost_multiplier"])
 	)
 	return Upgrade.new(definition)
 
-
-static func _create_heat_threshold_line_2() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"heat_threshold_line_2",
-		"Heat Retention II",
-		"Increases the base Heat leak threshold by 10,000 per level.",
-		ResourceIds.HEAT,
-		30000.0,
-		[],
-		[],
-		false,
-		"",
-		"realm_thresholds",
-		10,
-		1.5
-	)
-	return Upgrade.new(definition)
-
-
-static func _create_matter_threshold_line_1() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"matter_threshold_line_1",
-		"Matter Preservation I",
-		"Increases the base Matter decay threshold by 100 per level.",
-		ResourceIds.MATTER,
-		50.0,
-		[],
-		[],
-		false,
-		"",
-		"realm_thresholds",
-		10,
-		1.4
-	)
-	return Upgrade.new(definition)
-
-
-static func _create_matter_threshold_line_2() -> Upgrade:
-	var definition = UpgradeDefinition.new(
-		"matter_threshold_line_2",
-		"Matter Preservation II",
-		"Increases the base Matter decay threshold by 1,000 per level.",
-		ResourceIds.MATTER,
-		1500.0,
-		[],
-		[],
-		false,
-		"",
-		"realm_thresholds",
-		10,
-		1.5
-	)
-	return Upgrade.new(definition)
 
 static func _create_loss_coefficient_refinement() -> Upgrade:
 	var definition = UpgradeDefinition.new(
