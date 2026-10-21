@@ -1886,6 +1886,10 @@ func _on_run_reset() -> void:
 			state.realm_layout
 		)
 		realm_view.show()
+	# Resume the rebirth animation only after the player commits to
+	# starting the next realm, not while they are in the Flame Shop.
+	if prestige_animation != null:
+		prestige_animation.play_rebirth()
 	$ResourcePanel.show()
 	$PrestigePanel.hide()
 	for button_name in ["GeneratorsButton", "UpgradesButton", "StatsButton", "AchievementButton", "OptionsButton"]:
