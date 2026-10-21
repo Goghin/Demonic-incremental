@@ -72,7 +72,7 @@ func _ready() -> void:
 func notify_event(event_id: String) -> void:
 	var tutorial_id := ""
 	match event_id:
- 		"matter_decay_started":
+		"matter_decay_started":
 			tutorial_id = "matter_decay_started"
 		"first_generator_purchase":
 			tutorial_id = "first_generator_purchase"
