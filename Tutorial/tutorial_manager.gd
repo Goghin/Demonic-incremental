@@ -26,6 +26,14 @@ const TUTORIALS := {
 		"title": "PROOF OF YOUR DEPRAVITY",
 		"message": "Achievements record milestones you've reached and give you goals to pursue. Check back as your realm grows; some accomplishments will happen naturally, while others reward deliberate planning."
 	},
+	"heat_leak_started": {
+		"title": "THE REALM IS BLEEDING HEAT",
+		"message": "Your Heat has crossed its leakage threshold, and excess Heat is now escaping over time. The threshold is shown in the Stats panel and can be raised with threshold upgrades and Stability. More production is not always the same as more Heat kept: watch the leak rate as your reserves grow."
+	},
+	"first_realm_smash": {
+		"title": "BEFORE YOU SMASH",
+		"message": "A Realm Smash ends this run and resets its ordinary resources, generators, and run upgrades. In return, you earn Eternal Flames based on your run's progress and overflow. Eternal Flames and permanent upgrades carry your progress forward, while the next realm begins fresh. Check the displayed reward and your Flame Shop choices before committing. You can dismiss this lesson, then press Smash again when you're ready."
+	},
 	"matter_decay_started": {
 		"title": "MATTER ISN'T FOREVER",
 		"message": "Your Matter has crossed its decay threshold, so some of it is now being lost over time. The threshold is shown in your realm's mechanics and can be raised by upgrades and Density. Check the Stats panel to see how much Matter you're losing, and consider whether more production or a higher threshold would help."
@@ -72,6 +80,10 @@ func _ready() -> void:
 func notify_event(event_id: String) -> void:
 	var tutorial_id := ""
 	match event_id:
+		"heat_leak_started":
+			tutorial_id = "heat_leak_started"
+		"first_realm_smash":
+			tutorial_id = "first_realm_smash"
 		"matter_decay_started":
 			tutorial_id = "matter_decay_started"
 		"first_generator_purchase":
@@ -108,6 +120,10 @@ func notify_event(event_id: String) -> void:
 
 	pending_tutorials.append(tutorial_id)
 	_show_next_tutorial()
+
+
+func has_completed_tutorial(tutorial_id: String) -> bool:
+	return bool(completed_tutorials.get(tutorial_id, false))
 
 
 func complete_tutorial(tutorial_id: String) -> void:
