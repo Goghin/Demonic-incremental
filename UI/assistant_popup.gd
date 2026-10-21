@@ -37,7 +37,7 @@ func show_archive(entries: Array[Dictionary]) -> void:
 	_active_tutorial_id = ""
 	if _archive_panel == null:
 		_build_archive_ui()
-	var list: VBoxContainer = _archive_panel.get_node("ArchiveContent/ArchiveScroll/ArchiveEntries")
+	var list := _archive_panel.get_node("ArchiveContent/ArchiveScroll/ArchiveEntries") as VBoxContainer
 	for child in list.get_children():
 		child.queue_free()
 	await get_tree().process_frame
@@ -115,6 +115,7 @@ func _build_archive_ui() -> void:
 	close_button.custom_minimum_size = Vector2(110, 36)
 	close_button.pressed.connect(_on_archive_close_pressed)
 	footer.add_child(close_button)
+	_archive_panel.hide()
 
 
 func _on_archive_entry_pressed(tutorial_id: String) -> void:
