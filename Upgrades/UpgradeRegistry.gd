@@ -2530,7 +2530,7 @@ static func _create_resource_threshold_upgrade(
 		str(upgrade_data["id"]),
 		str(upgrade_data["display_name"]),
 		str(upgrade_data["description"]),
-		resource_id,
+		str(upgrade_data.get("cost_resource_id", resource_id)),
 		float(upgrade_data["cost"]),
 		[],
 		[],
