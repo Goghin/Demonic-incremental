@@ -1064,6 +1064,11 @@ func _on_generator_unlocked(
 			"A new machine is ready to build. Select it on the island or in Generators to buy its first level."
 		)
 
+	# Show the contextual tutorial for this newly unlocked generator.
+	# TutorialManager queues it if another tutorial is already open.
+	if tutorial_manager != null:
+		tutorial_manager.notify_event("generator_unlocked:" + generator_id)
+
 	# Add the newly unlocked generator without changing the current selection.
 	_create_generator_panel(
 		generator_id
