@@ -1113,9 +1113,6 @@ func refresh() -> void:
 
 	# The shop unlocks after the first Smash; distribution unlocks with Brazier I.
 	shop_button.visible = state.eternal_flame_state.prestige_count > 0
-	reliquary_button.visible = state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state)
-	if not reliquary_button.visible and reliquary_panel.visible:
-		_show_prestige_panel()
 	distribution_button.visible = _is_brazier_unlocked("stability")
 	distribution_button.disabled = not state.prestige_planning or distribution_panel.visible
 
