@@ -1271,8 +1271,16 @@ func _process(
 		tutorial_manager.notify_event("heat_leak_started")
 	if tutorial_manager != null and state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME) > 0.0:
 		tutorial_manager.notify_event("first_crystallized_flame")
-	if tutorial_manager != null and state.get_resource_amount(ResourceIds.ASH) > 0.0:
+	if (
+		tutorial_manager != null
+		and state.resource_statistics.get_total_produced(ResourceIds.ASH) >= 10.0
+	):
 		tutorial_manager.notify_event("first_ash")
+	if (
+		tutorial_manager != null
+		and state.resource_statistics.get_total_produced(ResourceIds.MATTER) >= 10.0
+	):
+		tutorial_manager.notify_event("first_matter")
 	if tutorial_manager != null and state.get_resource_amount(ResourceIds.ESSENCE) > 0.0:
 		tutorial_manager.notify_event("first_essence")
 	if tutorial_manager != null and state.get_matter_decay_per_second() > 0.0:
