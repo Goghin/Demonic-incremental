@@ -204,7 +204,7 @@ func _process(_delta: float) -> void:
 			break
 
 		var contamination_upgrade = state.upgrades.get("ashen_contamination")
-		var show_contamination_status := (
+		var show_contamination_status: bool = (
 			contamination_upgrade != null
 			and contamination_upgrade.is_purchased()
 			and has_ash_speed_modifier
