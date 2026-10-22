@@ -1221,7 +1221,7 @@ static func _create_ashen_contamination() -> Upgrade:
 			Requirement.new(
 				RequirementTypes.RESOURCE,
 				ResourceIds.ASH,
-				100.0
+				1.0
 			)
 		],
 		true,
