@@ -50,7 +50,8 @@ func _update_braziers(owner: RealmView, island_rect: Rect2) -> void:
 	owner.brazier_visual_controller.update_stat_values(
 		owner.braziers,
 		owner.BRAZIER_STATS,
-		owner.state.realm_configuration
+		owner.state.realm_configuration,
+		owner.state.eternal_flame_state
 	)
 	owner.brazier_visual_controller.position_braziers(
 		owner.braziers,
