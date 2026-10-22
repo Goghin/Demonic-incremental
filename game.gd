@@ -1485,6 +1485,13 @@ func _on_reliquary_button_pressed() -> void:
 	if not state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state):
 		return
 
+	# Pressing the active Reliquary button closes it without opening another panel.
+	if reliquary_window.visible:
+		reliquary_window.hide()
+		_update_navigation_buttons("")
+		_update_navigation_title_visibility()
+		return
+
 	_clear_generator_focus()
 	generator_list_mode = false
 	# Keep the main resource cards visible while managing relics.
@@ -1500,6 +1507,7 @@ func _on_reliquary_button_pressed() -> void:
 	reliquary_panel.refresh()
 	$NavigationTitlePanel/NavigationTitle.text = "RELIQUARY"
 	_update_navigation_buttons("ReliquaryButton")
+	_update_navigation_title_visibility()
 
 
 func _update_navigation_buttons(active_button_name: String = "GeneratorsButton") -> void:
