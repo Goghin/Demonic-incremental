@@ -7,7 +7,8 @@ const AUTOMATABLE_GENERATOR_IDS: Array[String] = [
 	"molecular_agitation",
 	"thermal_furnace",
 	"lava_mite_colony",
-	"matter_furnace"
+	"matter_furnace",
+	"thermal_compressor"
 ]
 
 const BASE_COOLDOWN: float = 10.0
