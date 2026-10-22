@@ -189,33 +189,39 @@ func _process(_delta: float) -> void:
 	var contamination_label: Label = $HBoxContainer/VBoxContainer/ContaminationLabel
 	contamination_label.visible = false
 	if generator_id == "infernal_forge":
-		var speed_multiplier := 1.0
-		var show_contamination_status := false
+		# Match Simulation's cycle progression by using the effective CYCLE_SPEED
+		# modifiers instead of maintaining a second copy of their formulas here.
+		var speed_multiplier := get_effective_cycle_speed_multiplier(state, generator)
+		var ash_speed_multiplier := 1.0
+		var has_ash_speed_modifier := false
+		for modifier in generator.modifiers:
+			if modifier.id != "ashen_contamination_cycle_speed":
+				continue
+			if not modifier.applies_to(ModifierTypes.CYCLE_SPEED):
+				continue
+			ash_speed_multiplier = modifier.get_effective_multiplier(state, generator)
+			has_ash_speed_modifier = true
+			break
+
 		var contamination_upgrade = state.upgrades.get("ashen_contamination")
-		var ash_amount := state.get_resource_amount(ResourceIds.ASH)
-		if (
+		var show_contamination_status := (
 			contamination_upgrade != null
 			and contamination_upgrade.is_purchased()
-			and ash_amount > 100.0
-		):
-			var raw_multiplier := 1.0 / (1.0 + (0.05 / state.realm_effects.ashen_contamination_multiplier) * (sqrt(ash_amount) - 10.0))
-			var sensitivity := generator.get_modifier_sensitivity("ashen_contamination_cycle_speed", state)
-			speed_multiplier = 1.0 + (raw_multiplier - 1.0) * sensitivity
-			show_contamination_status = true
-
+			and has_ash_speed_modifier
+		)
 		var remaining_progress := maxf(generator.get_cycle_duration() - generator.cycle_progress, 0.0)
 		var remaining_seconds := remaining_progress / maxf(speed_multiplier, 0.0001)
 		var remaining_time_text := _format_duration(remaining_seconds)
 		var cycle_time_suffix := " left" if generator.is_operating() else ""
 		contamination_label.text = "Cycle: ~%s%s" % [remaining_time_text, cycle_time_suffix]
 		if show_contamination_status:
-			if speed_multiplier < 0.9999:
+			if ash_speed_multiplier < 0.9999:
 				contamination_label.text += " · Ash: -%s%% speed (x%s)" % [
-					NumberFormatter.format((1.0 - speed_multiplier) * 100.0),
-					NumberFormatter.format(speed_multiplier),
+					NumberFormatter.format((1.0 - ash_speed_multiplier) * 100.0),
+					NumberFormatter.format(ash_speed_multiplier),
 				]
 			else:
-				contamination_label.text += " · Ash: no slowdown (x%s)" % NumberFormatter.format(speed_multiplier)
+				contamination_label.text += " · Ash: no slowdown (x%s)" % NumberFormatter.format(ash_speed_multiplier)
 		contamination_label.visible = true
 
 	var operating = generator.is_operating()
@@ -260,6 +266,18 @@ func _process(_delta: float) -> void:
 		)
 	)
 
+
+
+static func get_effective_cycle_speed_multiplier(
+	game_state: GameState,
+	generator: Generator
+) -> float:
+	var multiplier := 1.0
+	for modifier in generator.modifiers:
+		if not modifier.applies_to(ModifierTypes.CYCLE_SPEED):
+			continue
+		multiplier *= modifier.get_effective_multiplier(game_state, generator)
+	return maxf(multiplier, 0.0)
 
 
 static func _format_duration(seconds: float) -> String:
