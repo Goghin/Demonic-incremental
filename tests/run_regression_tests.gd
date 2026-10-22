@@ -470,6 +470,21 @@ func _test_ashen_contamination_cycle_speed_modifier() -> void:
 		"Forge cycle slowdown did not respect the upgraded Ash threshold."
 	)
 
+	# The panel must use the same effective modifiers as simulation, including
+	# penalties below the old hardcoded 100-Ash display cutoff.
+	state.set_resource_amount(ResourceIds.ASH, 25.0)
+	var simulation_speed_at_25_ash := simulation._get_cycle_speed_multiplier(forge)
+	var panel_speed_at_25_ash := GeneratorPanel.get_effective_cycle_speed_multiplier(state, forge)
+	_expect(
+		simulation_speed_at_25_ash < 1.0,
+		"Ash at 25 should slow the Forge when its configured threshold is 10."
+	)
+	_expect_approx(
+		panel_speed_at_25_ash,
+		simulation_speed_at_25_ash,
+		"Forge panel cycle estimate did not use the same effective speed modifiers as simulation."
+	)
+
 	var contamination_modifier: Modifier = null
 	for modifier in friction.modifiers:
 		if modifier.id == "ashen_contamination":
