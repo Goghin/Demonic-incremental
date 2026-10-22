@@ -15,8 +15,13 @@ var inventory_title: Label
 var status_label: Label
 var generator_list: GridContainer
 var generator_list_scroll: ScrollContainer
+var generator_navigation: HBoxContainer
+var generators_button: Button
+var crafting_button: Button
+var crafting_section: VBoxContainer
 var inventory_section: VBoxContainer
 var generator_section: VBoxContainer
+var right_view: String = "generators"
 var _last_equipment_signature: String = ""
 
 
@@ -82,10 +87,26 @@ func setup(
 	generator_section.add_theme_constant_override("separation", 6)
 	sections.add_child(generator_section)
 
-	var generator_title := Label.new()
-	generator_title.text = "GENERATORS"
-	generator_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
-	generator_section.add_child(generator_title)
+	generator_navigation = HBoxContainer.new()
+	generator_navigation.name = "ReliquaryNavigation"
+	generator_navigation.add_theme_constant_override("separation", 6)
+	generator_section.add_child(generator_navigation)
+
+	generators_button = Button.new()
+	generators_button.name = "GeneratorsButton"
+	generators_button.text = "GENERATORS"
+	generators_button.toggle_mode = true
+	generators_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	generators_button.pressed.connect(_on_generators_button_pressed)
+	generator_navigation.add_child(generators_button)
+
+	crafting_button = Button.new()
+	crafting_button.name = "CraftingButton"
+	crafting_button.text = "CRAFTING"
+	crafting_button.toggle_mode = true
+	crafting_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	crafting_button.pressed.connect(_on_crafting_button_pressed)
+	generator_navigation.add_child(crafting_button)
 
 	generator_list_scroll = ScrollContainer.new()
 	generator_list_scroll.name = "GeneratorEquipmentScroll"
@@ -101,6 +122,30 @@ func setup(
 	generator_list.add_theme_constant_override("v_separation", 8)
 	generator_list_scroll.add_child(generator_list)
 
+	crafting_section = VBoxContainer.new()
+	crafting_section.name = "ReliquaryCraftingSection"
+	crafting_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	crafting_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	crafting_section.add_theme_constant_override("separation", 8)
+	generator_section.add_child(crafting_section)
+
+	var crafting_title := Label.new()
+	crafting_title.text = "RELIC CRAFTING"
+	crafting_title.add_theme_font_size_override("font_size", 13)
+	crafting_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
+	crafting_section.add_child(crafting_title)
+
+	var crafting_description := Label.new()
+	crafting_description.text = "The Reliquary can reshape and combine relics here. Crafting has not been unlocked yet."
+	crafting_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	crafting_description.add_theme_color_override("font_color", Color(0.72, 0.67, 0.65))
+	crafting_section.add_child(crafting_description)
+
+	var crafting_spacer := Control.new()
+	crafting_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	crafting_section.add_child(crafting_spacer)
+
+	_set_right_view("generators")
 	_apply_display_mode()
 	refresh()
 
@@ -117,6 +162,39 @@ func _apply_display_mode() -> void:
 		inventory_section.visible = display_mode != DISPLAY_GENERATOR_ONLY
 	if generator_section != null:
 		generator_section.visible = display_mode != DISPLAY_INVENTORY_ONLY
+	_update_right_view_visibility()
+
+
+func _on_generators_button_pressed() -> void:
+	_set_right_view("generators")
+
+
+func _on_crafting_button_pressed() -> void:
+	_set_right_view("crafting")
+
+
+func _set_right_view(view_name: String) -> void:
+	right_view = "crafting" if view_name == "crafting" else "generators"
+	if generator_list_scroll != null:
+		generator_list_scroll.visible = right_view == "generators"
+	if crafting_section != null:
+		crafting_section.visible = right_view == "crafting"
+	_update_navigation_button_styles()
+
+
+func _update_right_view_visibility() -> void:
+	if generator_list_scroll != null:
+		generator_list_scroll.visible = right_view == "generators"
+	if crafting_section != null:
+		crafting_section.visible = right_view == "crafting"
+	_update_navigation_button_styles()
+
+
+func _update_navigation_button_styles() -> void:
+	if generators_button != null:
+		generators_button.button_pressed = right_view == "generators"
+	if crafting_button != null:
+		crafting_button.button_pressed = right_view == "crafting"
 
 
 func _process(_delta: float) -> void:
