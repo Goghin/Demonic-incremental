@@ -665,6 +665,8 @@ func _test_cycle_event_operation_mode_targeting() -> void:
 
 	forge.unlocked = true
 	forge.level = 1
+	# Forge cycle upgrades require the Forge unlock upgrade to be owned.
+	state.get_upgrade("infernal_forge_unlock").level = 1
 	state.set_resource_amount(ResourceIds.MATTER, 1000000000.0)
 	_expect(simulation.buy_upgrade("infernal_forge_critical_chance"), "Could not buy Critical Chance upgrade.")
 	_expect(simulation.buy_upgrade("infernal_forge_critical_production"), "Could not buy Critical Production upgrade.")
