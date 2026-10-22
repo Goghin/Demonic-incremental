@@ -15,15 +15,13 @@ const ORIGIN := Vector2(16, 16)
 func _init() -> void:
 	# Independent realm upgrades occupy the top row.
 	add_node("eternal_furnace", 0, 0)
-	add_node("realm_attunement", 1, 0)
-	add_node("infernal_foundation", 2, 0)
-	add_node("essence_extraction", 3, 0)
-	add_node("thermal_compressor_technology", 1, 5)
-	add_node("brazier_stability", 0, 8)
-	add_node("brazier_density", 1, 8)
-	add_node("brazier_integrity", 2, 8)
-	add_node("brazier_intensity", 3, 8)
-	add_node("brazier_resonance", 3, 9)
+	add_node("essence_extraction", 1, 0)
+	add_node("thermal_compressor_technology", 2, 0)
+	add_node("brazier_intensity", 0, 8)
+	add_node("brazier_stability", 1, 8)
+	add_node("brazier_density", 2, 8)
+	add_node("brazier_integrity", 3, 8)
+	add_node("brazier_resonance", 4, 8)
 
 	
 	# Relic progression is a separate branch below the existing shop nodes.
@@ -57,12 +55,13 @@ func _init() -> void:
 	add_node("unlock_generator_automation_matter_furnace", 0, 4)
 	add_node("generator_automation_cooldown_matter_furnace", 0, 5)
 
-	# Upgrade autobuyers are independent permanent unlocks.
-	add_node("unlock_upgrade_automation_atomic_friction", 0, 6)
-	add_node("unlock_upgrade_automation_molecular_agitation", 1, 6)
-	add_node("unlock_upgrade_automation_thermal_furnace", 2, 6)
-	add_node("unlock_upgrade_automation_lava_mite_colony", 3, 6)
-	add_node("unlock_upgrade_automation_matter_furnace", 0, 7)
+	# Upgrade autobuyers sit below their matching level autobuyers.
+	add_node("unlock_upgrade_automation_atomic_friction", 1, 5)
+	add_node("unlock_upgrade_automation_molecular_agitation", 2, 5)
+	add_node("unlock_upgrade_automation_thermal_furnace", 3, 5)
+	add_node("unlock_upgrade_automation_lava_mite_colony", 4, 5)
+	add_node("unlock_upgrade_automation_matter_furnace", 5, 5)
+	add_node("unlock_upgrade_automation_thermal_compressor", 2, 6)
 
 	add_connection("accelerated_friction", "accelerated_agitation")
 	add_connection("accelerated_agitation", "established_colony")
@@ -73,10 +72,10 @@ func _init() -> void:
 	add_connection("unlock_generator_automation_thermal_compressor", "generator_automation_cooldown_thermal_compressor")
 	add_connection("unlock_generator_automation_lava_mite_colony", "generator_automation_cooldown_lava_mite_colony")
 	add_connection("unlock_generator_automation_matter_furnace", "generator_automation_cooldown_matter_furnace")
+	add_connection("brazier_intensity", "brazier_stability")
 	add_connection("brazier_stability", "brazier_density")
 	add_connection("brazier_density", "brazier_integrity")
-	add_connection("brazier_integrity", "brazier_intensity")
-	add_connection("brazier_intensity", "brazier_resonance")
+	add_connection("brazier_integrity", "brazier_resonance")
 
 	add_connection("reliquary", "attunement_molecular_agitation")
 	add_connection("attunement_molecular_agitation", "attunement_lava_mite_colony")
