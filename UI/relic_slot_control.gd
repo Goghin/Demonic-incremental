@@ -151,9 +151,23 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	elif slot_kind == "generator":
 		if dragged_instance_id == "":
 			return
-		# equip_relic moves a relic out of its previous generator and replaces
-		# any relic in this slot, returning the displaced relic to inventory.
-		if not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state):
+		var target_relic_id := state.relic_manager.get_equipped_relic_id(generator_id)
+		var is_cross_generator_move := (
+			source_kind == "generator"
+			and source_generator_id != ""
+			and source_generator_id != generator_id
+		)
+		if is_cross_generator_move and target_relic_id != "":
+			# Swap the two equipped relics when both slots are occupied.
+			state.relic_manager.unequip_relic(source_generator_id)
+			state.relic_manager.unequip_relic(generator_id)
+			if not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state):
+				return
+			if not state.relic_manager.equip_relic(source_generator_id, target_relic_id, state):
+				state.relic_manager.unequip_relic(generator_id)
+				state.relic_manager.equip_relic(source_generator_id, dragged_instance_id, state)
+				return
+		elif not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state):
 			return
 
 	state.rebuild_relic_modifiers()
