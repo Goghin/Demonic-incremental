@@ -110,7 +110,6 @@ func setup(
 	_add_crystallized_flame_icon()
 	_create_distribution_ui()
 	_create_shop_ui()
-	_create_reliquary_ui()
 	_create_planning_ui()
 	_apply_compact_style()
 	_show_prestige_panel()
@@ -561,14 +560,6 @@ func _create_tab_ui() -> void:
 	distribution_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tab_container.add_child(distribution_button)
 	distribution_button.pressed.connect(_show_distribution_panel)
-
-	reliquary_button = Button.new()
-	reliquary_button.name = "ReliquaryButton"
-	reliquary_button.text = "RELIQUARY"
-	reliquary_button.custom_minimum_size = Vector2(0, 40)
-	reliquary_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	tab_container.add_child(reliquary_button)
-	reliquary_button.pressed.connect(_show_reliquary_panel)
 
 
 # ----------------------------------------------------------------
