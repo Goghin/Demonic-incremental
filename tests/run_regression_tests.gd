@@ -51,6 +51,7 @@ func _run_tests() -> void:
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
+	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
@@ -344,6 +345,57 @@ func _test_relic_inventory_equipment_and_save() -> void:
 		if modifier.id.begins_with("relic:"):
 			reset_modifier_found = true
 	_expect(reset_modifier_found, "Equipped relic modifier was not restored after realm reset.")
+
+
+func _test_multiple_relic_slots_and_legacy_migration() -> void:
+	var state := _new_test_state()
+	state.eternal_flame_state.eternal_flame = 100.0
+	_expect(
+		state.eternal_flame_upgrade_manager.purchase(
+			"reliquary",
+			state.eternal_flame_state,
+			state.realm_configuration
+		),
+		"Reliquary purchase failed in multi-slot test."
+	)
+	var reliquary_upgrade: EternalFlameUpgrade = state.eternal_flame_upgrade_manager.upgrades.get("reliquary")
+	reliquary_upgrade.effect_per_level = 2.0
+	state.relic_manager.ensure_starter_relic()
+	var first_relic_id := str(state.relic_manager.inventory[0].get("instance_id", ""))
+	var second_relic_id := state.relic_manager.add_relic("clockwork_ember")
+	_expect(
+		state.relic_manager.equip_relic("atomic_friction", first_relic_id, state, 0),
+		"First relic slot could not be equipped."
+	)
+	_expect(
+		state.relic_manager.equip_relic("atomic_friction", second_relic_id, state, 1),
+		"Second relic slot could not be equipped independently."
+	)
+	_expect(
+		state.relic_manager.get_equipped_relic_id("atomic_friction", 0) == first_relic_id,
+		"Equipping the second slot overwrote the first slot."
+	)
+	_expect(
+		state.relic_manager.get_equipped_relic_id("atomic_friction", 1) == second_relic_id,
+		"Second slot did not retain its own relic."
+	)
+	state.rebuild_relic_modifiers()
+	var relic_modifier_count := 0
+	for modifier in state.get_generator("atomic_friction").modifiers:
+		if modifier.id.begins_with("relic:"):
+			relic_modifier_count += 1
+	_expect(relic_modifier_count == 2, "Both equipped relics were not applied as modifiers.")
+
+	var legacy_manager := RelicManager.new()
+	legacy_manager.load_save_data({
+		"inventory": [{"instance_id": "relic_1", "definition_id": "cinder_shard"}],
+		"equipped": {"atomic_friction": "relic_1"},
+		"next_instance_number": 2
+	})
+	_expect(
+		legacy_manager.get_equipped_relic_id("atomic_friction", 0) == "relic_1",
+		"Legacy one-relic-per-generator save was not migrated to slot zero."
+	)
 
 
 func _test_reliquary_slot_progression() -> void:
