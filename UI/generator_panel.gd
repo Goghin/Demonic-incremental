@@ -17,6 +17,7 @@ var _illustration: TextureRect
 var _relic_slots_container: HBoxContainer
 var _relic_slot_controls: Array[RelicSlotControl] = []
 var _relic_slot_count: int = -1
+var _last_relic_slot_signature: String = ""
 
 signal upgrades_requested(generator_id: String)
 signal selection_requested(generator_id: String)
@@ -452,6 +453,11 @@ func _update_relic_slots_ui() -> void:
 		state.eternal_flame_state
 	)
 	_relic_slots_container.visible = unlocked_slots > 0
+	var equipped_id := state.relic_manager.get_equipped_relic_id(generator_id)
+	var signature := "%d:%s" % [unlocked_slots, equipped_id]
+	if signature == _last_relic_slot_signature:
+		return
+	_last_relic_slot_signature = signature
 
 	if unlocked_slots != _relic_slot_count:
 		for child in _relic_slots_container.get_children():
