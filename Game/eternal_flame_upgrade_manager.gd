@@ -168,6 +168,7 @@ func _initialize_upgrades() -> void:
 	_add_upgrade_automation_upgrade("lava_mite_colony", "Lava Mite Colony", 55, "unlock_generator_automation_lava_mite_colony")
 	_add_upgrade_automation_upgrade("matter_furnace", "Matter Furnace", 75, "unlock_generator_automation_matter_furnace")
 	_add_upgrade_automation_upgrade("thermal_compressor", "Thermal Compressor", 95, "unlock_generator_automation_thermal_compressor")
+	_add_general_upgrade_automation_upgrade()
 
 
 func _add_upgrade(
@@ -535,5 +536,22 @@ func _add_upgrade_automation_upgrade(
 			technology_id,
 			level_automation_upgrade_id,
 			1
+		)
+	)
+
+
+
+func _add_general_upgrade_automation_upgrade() -> void:
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"unlock_upgrade_automation_general",
+			"General Upgrade Automation",
+			"Permanently unlocks automatic purchasing for general upgrades. It buys one eligible upgrade every 10 seconds, following the existing upgrade requirements and costs.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			50,
+			1.0,
+			"upgrade_automation_general"
 		)
 	)
