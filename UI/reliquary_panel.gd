@@ -13,7 +13,7 @@ var focused_generator_id: String = ""
 var inventory_grid: GridContainer
 var inventory_title: Label
 var status_label: Label
-var generator_list: VBoxContainer
+var generator_list: GridContainer
 var generator_list_scroll: ScrollContainer
 var inventory_section: VBoxContainer
 var generator_section: VBoxContainer
@@ -83,7 +83,7 @@ func setup(
 	sections.add_child(generator_section)
 
 	var generator_title := Label.new()
-	generator_title.text = "GENERATOR SLOTS"
+	generator_title.text = "GENERATORS"
 	generator_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	generator_section.add_child(generator_title)
 
@@ -93,10 +93,12 @@ func setup(
 	generator_list_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	generator_section.add_child(generator_list_scroll)
 
-	generator_list = VBoxContainer.new()
+	generator_list = GridContainer.new()
 	generator_list.name = "GeneratorEquipmentList"
+	generator_list.columns = 2
 	generator_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	generator_list.add_theme_constant_override("separation", 8)
+	generator_list.add_theme_constant_override("h_separation", 8)
+	generator_list.add_theme_constant_override("v_separation", 8)
 	generator_list_scroll.add_child(generator_list)
 
 	_apply_display_mode()
@@ -211,38 +213,61 @@ func _refresh_generator_list() -> void:
 		if generator == null or not generator.unlocked:
 			continue
 
-		var row := VBoxContainer.new()
-		row.name = "Generator_" + generator_id
-		row.add_theme_constant_override("separation", 3)
-		generator_list.add_child(row)
+		var card := PanelContainer.new()
+		card.name = "Generator_" + generator_id
+		card.custom_minimum_size = Vector2(190.0, 124.0)
+		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+		var card_style := StyleBoxFlat.new()
+		card_style.bg_color = Color(0.075, 0.065, 0.075, 0.96)
+		card_style.border_color = Color(0.29, 0.21, 0.20, 1.0)
+		card_style.set_border_width_all(1)
+		card_style.set_corner_radius_all(4)
+		card_style.content_margin_left = 7.0
+		card_style.content_margin_top = 6.0
+		card_style.content_margin_right = 7.0
+		card_style.content_margin_bottom = 7.0
+		card.add_theme_stylebox_override("panel", card_style)
+		generator_list.add_child(card)
+
+		var card_content := VBoxContainer.new()
+		card_content.add_theme_constant_override("separation", 4)
+		card.add_child(card_content)
 
 		var name_label := Label.new()
 		name_label.text = str(generator.definition.display_name)
-		name_label.add_theme_color_override("font_color", Color(0.88, 0.82, 0.77))
-		row.add_child(name_label)
+		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		name_label.add_theme_color_override("font_color", Color(0.88, 0.76, 0.68))
+		name_label.add_theme_font_size_override("font_size", 12)
+		card_content.add_child(name_label)
+
+		var illustration := TextureRect.new()
+		illustration.name = "GeneratorIllustration"
+		illustration.custom_minimum_size = Vector2(0.0, 64.0)
+		illustration.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		illustration.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		illustration.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		var illustration_path := str(generator.definition.illustration_path)
+		if illustration_path != "":
+			var texture = load(illustration_path)
+			if texture is Texture2D:
+				illustration.texture = texture
+		card_content.add_child(illustration)
 
 		var slot_count: int = state.eternal_flame_upgrade_manager.get_relic_slot_count(
 			generator_id,
 			state.eternal_flame_state
 		)
-		if slot_count <= 0:
-			var locked_label := Label.new()
-			locked_label.text = "No relic slots unlocked"
-			locked_label.add_theme_color_override("font_color", Color(0.55, 0.51, 0.50))
-			row.add_child(locked_label)
-		else:
+		if slot_count > 0:
 			var slots_row := HBoxContainer.new()
+			slots_row.alignment = BoxContainer.ALIGNMENT_CENTER
 			slots_row.add_theme_constant_override("separation", 3)
-			row.add_child(slots_row)
+			card_content.add_child(slots_row)
 			for slot_index in range(slot_count):
 				var slot := RelicSlotControl.new()
 				slot.configure(state, "generator", "", generator_id, slot_index)
 				slot.equipment_changed.connect(_on_equipment_changed)
 				slots_row.add_child(slot)
-
-		var separator := HSeparator.new()
-		separator.add_theme_constant_override("separation", 2)
-		row.add_child(separator)
 
 
 func _on_equipment_changed() -> void:
