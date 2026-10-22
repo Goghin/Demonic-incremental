@@ -465,10 +465,14 @@ func _add_relic_progression_upgrades() -> void:
 			"The Reliquary",
 			"Unlocks relic storage and equipment. Includes one relic slot for Atomic Friction.",
 			EternalFlameUpgrade.EFFECT_UNLOCK_RELIQUARY,
-			0.0,
+			1.0,
 			1,
 			5,
-			1.0
+			1.0,
+			"",
+			"",
+			0,
+			"atomic_friction"
 		)
 	)
 
@@ -549,15 +553,16 @@ func get_relic_slot_count(
 	if not is_reliquary_unlocked(state):
 		return 0
 
-	var slot_count: int = 1 if generator_id == "atomic_friction" else 0
-	for upgrade in upgrades.values():
-		if upgrade.effect_type != EternalFlameUpgrade.EFFECT_UNLOCK_RELIC_SLOTS:
+	var slot_count: int = 0
+	for upgrade_id in upgrades:
+		var upgrade: EternalFlameUpgrade = upgrades[upgrade_id]
+		if upgrade.effect_type != EternalFlameUpgrade.EFFECT_UNLOCK_RELIC_SLOTS \
+		and upgrade.effect_type != EternalFlameUpgrade.EFFECT_UNLOCK_RELIQUARY:
 			continue
 		if upgrade.target_generator_id != generator_id:
 			continue
-		slot_count += (
-			state.get_upgrade_level(upgrade.id)
-			* int(upgrade.effect_per_level)
+		slot_count += int(
+			state.get_upgrade_level(upgrade.id) * upgrade.effect_per_level
 		)
 	return slot_count
 
