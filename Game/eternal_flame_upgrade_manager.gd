@@ -219,6 +219,8 @@ func _initialize_upgrades() -> void:
 			"thermal_furnace"
 		)
 	)
+	_add_relic_progression_upgrades()
+
 	# --------------------------------------------------------
 	# GENERATOR AUTOMATION
 	# --------------------------------------------------------
@@ -454,6 +456,112 @@ func get_effective_multiplier(
 		upgrade_id,
 		state
 	)
+func _add_relic_progression_upgrades() -> void:
+	# The Reliquary includes Atomic Friction's first slot, making the
+	# relic system usable immediately after its initial purchase.
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"reliquary",
+			"The Reliquary",
+			"Unlocks relic storage and equipment. Includes one relic slot for Atomic Friction.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_RELIQUARY,
+			0.0,
+			1,
+			5,
+			1.0
+		)
+	)
+
+	# Slot unlocks are configured as data. Each upgrade adds one slot to
+	# one generator and is gated behind the previous progression milestone.
+	var slot_upgrades: Array[Dictionary] = [
+		{
+			"id": "attunement_molecular_agitation",
+			"name": "Molecular Agitation Attunement",
+			"generator_id": "molecular_agitation",
+			"cost": 3,
+			"prerequisite_id": "reliquary"
+		},
+		{
+			"id": "attunement_lava_mite_colony",
+			"name": "Lava Mite Colony Attunement",
+			"generator_id": "lava_mite_colony",
+			"cost": 5,
+			"prerequisite_id": "attunement_molecular_agitation"
+		},
+		{
+			"id": "attunement_thermal_furnace",
+			"name": "Infernal Condensation Attunement",
+			"generator_id": "thermal_furnace",
+			"cost": 8,
+			"prerequisite_id": "attunement_lava_mite_colony"
+		},
+		{
+			"id": "attunement_matter_furnace",
+			"name": "Matter Furnace Attunement",
+			"generator_id": "matter_furnace",
+			"cost": 12,
+			"prerequisite_id": "attunement_thermal_furnace"
+		},
+		{
+			"id": "attunement_thermal_compressor",
+			"name": "Arcane Compressor Attunement",
+			"generator_id": "thermal_compressor",
+			"cost": 18,
+			"prerequisite_id": "attunement_matter_furnace"
+		},
+		{
+			"id": "attunement_infernal_forge",
+			"name": "Infernal Forge Attunement",
+			"generator_id": "infernal_forge",
+			"cost": 25,
+			"prerequisite_id": "attunement_thermal_compressor"
+		}
+	]
+
+	for slot_data in slot_upgrades:
+		_add_upgrade(
+			EternalFlameUpgrade.new(
+				str(slot_data["id"]),
+				str(slot_data["name"]),
+				"Unlocks one relic slot for this generator.",
+				EternalFlameUpgrade.EFFECT_UNLOCK_RELIC_SLOTS,
+				1.0,
+				1,
+				int(slot_data["cost"]),
+				1.0,
+				"",
+				str(slot_data["prerequisite_id"]),
+				1,
+				str(slot_data["generator_id"])
+			)
+		)
+
+
+func is_reliquary_unlocked(state: EternalFlameState) -> bool:
+	return state.get_upgrade_level("reliquary") > 0
+
+
+func get_relic_slot_count(
+	generator_id: String,
+	state: EternalFlameState
+	) -> int:
+	if not is_reliquary_unlocked(state):
+		return 0
+
+	var slot_count: int = 1 if generator_id == "atomic_friction" else 0
+	for upgrade in upgrades.values():
+		if upgrade.effect_type != EternalFlameUpgrade.EFFECT_UNLOCK_RELIC_SLOTS:
+			continue
+		if upgrade.target_generator_id != generator_id:
+			continue
+		slot_count += (
+			state.get_upgrade_level(upgrade.id)
+			* int(upgrade.effect_per_level)
+		)
+	return slot_count
+
+
 func _add_generator_automation_upgrades(
 	generator_id: String,
 	generator_name: String,
