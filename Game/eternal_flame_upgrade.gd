@@ -10,6 +10,8 @@ const EFFECT_UNASSIGNED_FLAME = "unassigned_flame"
 const EFFECT_UNLOCK_TECHNOLOGY = "unlock_technology"
 const EFFECT_STARTING_GENERATOR_LEVEL = "starting_generator_level"
 const EFFECT_AUTOMATION_COOLDOWN = "automation_cooldown"
+const EFFECT_UNLOCK_RELIQUARY = "unlock_reliquary"
+const EFFECT_UNLOCK_RELIC_SLOTS = "unlock_relic_slots"
 
 var id: String = ""
 var display_name: String = ""
