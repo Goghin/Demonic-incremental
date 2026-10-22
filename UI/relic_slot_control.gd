@@ -41,6 +41,11 @@ func _update_appearance() -> void:
 	if state == null:
 		return
 
+	# Inventory slots are positional, so resolve their current relic from the slot index.
+	# configure() intentionally does not receive a relic ID for these fixed squares.
+	if slot_kind == "inventory":
+		instance_id = state.relic_manager.get_inventory_relic_id_at_slot(slot_index)
+
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.12, 0.095, 0.11, 1.0)
 	style.border_color = Color(0.34, 0.25, 0.27, 1.0)
