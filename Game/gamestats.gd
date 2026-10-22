@@ -9,6 +9,18 @@ func _init(game_state: GameState) -> void:
 	state = game_state
 
 
+# Returns the current configured threshold for a resource, including
+# increments from all purchased threshold upgrades.
+func get_resource_threshold(
+	resource_id: String,
+	fallback_threshold: float = 1.0
+	) -> float:
+	return state.get_resource_threshold(
+		resource_id,
+		fallback_threshold
+	)
+
+
 # ------------------------------------------------------------
 # RESOURCE RATES
 # ------------------------------------------------------------
