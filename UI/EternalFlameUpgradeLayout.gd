@@ -56,6 +56,7 @@ func _init() -> void:
 	add_node("generator_automation_cooldown_matter_furnace", 0, 5)
 
 	# Upgrade autobuyers sit below their matching level autobuyers.
+	add_node("unlock_upgrade_automation_general", 5, 7)
 	add_node("unlock_upgrade_automation_atomic_friction", 1, 5)
 	add_node("unlock_upgrade_automation_molecular_agitation", 2, 5)
 	add_node("unlock_upgrade_automation_thermal_furnace", 3, 5)
