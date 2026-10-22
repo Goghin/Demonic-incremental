@@ -60,6 +60,8 @@ var generator_list_mode: bool = false
 var effects_flow: HFlowContainer
 var generator_unlocks_flow: HFlowContainer
 var prestige_animation: PrestigeAnimation
+var reliquary_window: PanelContainer
+var reliquary_panel: ReliquaryPanel
 
 var generator_upgrade_tree: GeneratorUpgradeTree
 
@@ -302,6 +304,8 @@ func _ready() -> void:
 		save_manager,
 		time_manager
 	)
+	_create_reliquary_window()
+	_update_navigation_buttons("GeneratorsButton")
 	$PrestigePanel.technology_unlocked.connect(
 		_on_technology_unlocked
 	)
@@ -756,6 +760,7 @@ func _create_generator_panel(
 	generator_panel.generator_purchased.connect(
 		_play_ui_purchase
 	)
+	generator_panel.relics_changed.connect(_on_generator_relics_changed)
 	# Preserve the original generator order.
 	var target_index := 0
 
@@ -789,6 +794,8 @@ func _initialize_generator_selection() -> void:
 
 
 func _on_generator_panel_selection_requested(generator_id: String) -> void:
+	if reliquary_window != null:
+		reliquary_window.hide()
 	# In focused mode, clicking the current panel opens the full list
 	# without losing the current generator selection.
 	if generator_id == selected_generator_id:
@@ -1420,12 +1427,76 @@ func _scroll_generator_list_to_selected() -> void:
 		$GeneratorScroll.ensure_control_visible(selected_panel)
 
 
+func _create_reliquary_window() -> void:
+	if reliquary_window != null:
+		return
+
+	reliquary_window = PanelContainer.new()
+	reliquary_window.name = "ReliquaryWindow"
+	reliquary_window.visible = false
+	reliquary_window.z_index = 50
+	reliquary_window.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	reliquary_window.offset_left = 12.0
+	reliquary_window.offset_top = 112.0
+	reliquary_window.offset_right = 655.0
+	reliquary_window.offset_bottom = 575.0
+	add_child(reliquary_window)
+
+	reliquary_panel = ReliquaryPanel.new()
+	reliquary_panel.name = "ReliquaryInventory"
+	reliquary_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	reliquary_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	reliquary_window.add_child(reliquary_panel)
+	reliquary_panel.setup(state)
+	reliquary_panel.relics_changed.connect(_on_reliquary_relics_changed)
+
+
+func _on_reliquary_relics_changed() -> void:
+	if state == null:
+		return
+	state.rebuild_relic_modifiers()
+	save_manager.save_game(state, time_manager)
+
+
+func _on_generator_relics_changed() -> void:
+	if state == null:
+		return
+	state.rebuild_relic_modifiers()
+	if reliquary_panel != null:
+		reliquary_panel.refresh()
+	save_manager.save_game(state, time_manager)
+
+
+func _on_reliquary_button_pressed() -> void:
+	if state == null or reliquary_window == null:
+		return
+	if not state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state):
+		return
+
+	_clear_generator_focus()
+	generator_list_mode = false
+	$ResourcePanel.hide()
+	$GeneratorScroll.hide()
+	$UpgradeScroll.hide()
+	$StatsPanel.hide()
+	$OptionsPanel.hide()
+	$AchievementPanel.hide()
+	$PrestigePanel.hide()
+	if realm_view != null:
+		realm_view.hide()
+	reliquary_window.show()
+	reliquary_panel.refresh()
+	$NavigationTitlePanel/NavigationTitle.text = "RELIQUARY"
+	_update_navigation_buttons("ReliquaryButton")
+
+
 func _update_navigation_buttons(active_button_name: String = "GeneratorsButton") -> void:
 	var navigation: Array[Dictionary] = [
 		{"name": "GeneratorsButton", "label": "GENERATORS", "icon_path": "res://Assets/UI/Navigation/generators.svg"},
 		{"name": "UpgradesButton", "label": "UPGRADES", "icon_path": "res://Assets/UI/Navigation/upgrades.svg"},
 		{"name": "StatsButton", "label": "STATS", "icon_path": "res://Assets/UI/Navigation/stats.svg"},
 		{"name": "PrestigeButton", "label": "REALM", "icon_path": "res://Assets/UI/Navigation/realm.svg"},
+		{"name": "ReliquaryButton", "label": "RELIQUARY", "icon_path": "res://Assets/UI/Navigation/realm.svg"},
 		{"name": "AchievementButton", "label": "ACHIEVEMENTS", "icon_path": "res://Assets/UI/Navigation/achievements.svg"},
 		{"name": "OptionsButton", "label": "OPTIONS", "icon_path": "res://Assets/UI/Navigation/options.svg"},
 	]
@@ -1433,6 +1504,11 @@ func _update_navigation_buttons(active_button_name: String = "GeneratorsButton")
 		var button := get_node_or_null(str(entry.name)) as Button
 		if button == null:
 			continue
+		if str(entry.name) == "ReliquaryButton":
+			button.visible = (
+				state != null
+				and state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state)
+			)
 		button.text = str(entry.label)
 		button.icon = load(str(entry.icon_path)) as Texture2D
 		button.expand_icon = false
@@ -1462,6 +1538,8 @@ func _update_navigation_buttons(active_button_name: String = "GeneratorsButton")
 
 
 func _on_generators_button_pressed() -> void:
+	if reliquary_window != null:
+		reliquary_window.hide()
 	$NavigationTitlePanel/NavigationTitle.text = "GENERATORS"
 	generator_list_mode = not generator_list_mode
 	if generator_list_mode and tutorial_manager != null:
@@ -1516,6 +1594,8 @@ func _on_achievement_unlocked(achievement_id: String) -> void:
 
 
 func _on_achievements_button_pressed() -> void:
+	if reliquary_window != null:
+		reliquary_window.hide()
 	$NavigationTitlePanel/NavigationTitle.text = "ACHIEVEMENTS"
 	var should_open: bool = not $AchievementPanel.visible
 	generator_list_mode = false
@@ -1538,6 +1618,8 @@ func _on_achievements_button_pressed() -> void:
 
 
 func _on_options_button_pressed() -> void:
+	if reliquary_window != null:
+		reliquary_window.hide()
 	$NavigationTitlePanel/NavigationTitle.text = "OPTIONS"
 	var should_open: bool = not $OptionsPanel.visible
 	generator_list_mode = false
@@ -2006,6 +2088,8 @@ func _on_rub_button_pressed() -> void:
 
 
 func _on_stats_button_pressed() -> void:
+	if reliquary_window != null:
+		reliquary_window.hide()
 	$NavigationTitlePanel/NavigationTitle.text = "STATISTICS"
 	var should_open: bool = not $StatsPanel.visible
 	generator_list_mode = false
@@ -2027,6 +2111,8 @@ func _on_stats_button_pressed() -> void:
 
 
 func _on_upgrades_button_pressed() -> void:
+	if reliquary_window != null:
+		reliquary_window.hide()
 	$NavigationTitlePanel/NavigationTitle.text = "UPGRADES"
 	var general_upgrades_are_open: bool = (
 		$UpgradeScroll.visible
@@ -2101,6 +2187,8 @@ func _enter_prestige_planning_mode() -> void:
 
 
 func _on_prestige_button_pressed() -> void:
+	if reliquary_window != null:
+		reliquary_window.hide()
 	$NavigationTitlePanel/NavigationTitle.text = "REALM"
 	var should_open: bool = not $PrestigePanel.visible
 	generator_list_mode = false
@@ -2121,6 +2209,8 @@ func _on_prestige_button_pressed() -> void:
 
 
 func _on_run_reset() -> void:
+	if reliquary_window != null:
+		reliquary_window.hide()
 	generator_list_mode = false
 	_clear_generator_focus()
 	$GeneratorsButton.text = "GENERATORS"
