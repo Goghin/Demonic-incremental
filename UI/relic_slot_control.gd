@@ -159,12 +159,10 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 		return false
 	if slot_kind == "inventory":
 		var source_kind := str(data.get("source_kind", ""))
-		var dragged_instance_id := str(data.get("instance_id", ""))
 		if source_kind == "inventory":
 			return true
 		if source_kind == "generator":
-			var target_instance_id := state.relic_manager.get_inventory_relic_id_at_slot(slot_index)
-			return target_instance_id == "" or int(state.relic_manager.inventory_positions.get(dragged_instance_id, -1)) >= 0
+			return state.relic_manager.get_inventory_relic_id_at_slot(slot_index) == ""
 		return false
 	return (
 		state.get_generator(generator_id) != null
