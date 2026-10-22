@@ -13,11 +13,16 @@ var _has_upgrade_automation_style: bool = false
 var _resource_icon_cache: Dictionary = {}
 var _event_effects_button: Button
 var _event_effects_popup: AcceptDialog
+var _illustration: TextureRect
+var _relic_slots_container: HBoxContainer
+var _relic_slot_controls: Array[RelicSlotControl] = []
+var _relic_slot_count: int = -1
 
 signal upgrades_requested(generator_id: String)
 signal selection_requested(generator_id: String)
 signal upgrade_automation_changed
 signal generator_purchased
+signal relics_changed
 
 
 var _normal_panel_style: StyleBox
@@ -43,6 +48,7 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
 	_setup_event_effects_ui()
+	_setup_relic_slots_ui()
 
 
 func set_selected(is_selected: bool) -> void:
@@ -137,6 +143,7 @@ func _process(_delta: float) -> void:
 			_last_automation_style_enabled = auto_enabled
 			_has_automation_style = true
 	update_illustration(generator)
+	_update_relic_slots_ui()
 	update_operation_mode_ui(generator)
 	_update_event_effects_ui(generator)
 
@@ -406,11 +413,79 @@ func _on_pause_button_pressed() -> void:
 func _on_upgrades_button_pressed() -> void:
 	upgrades_requested.emit(generator_id)
 
+
+func _setup_relic_slots_ui() -> void:
+	var illustration_panel: PanelContainer = $HBoxContainer/IllustrationPanel
+	_illustration = illustration_panel.get_node_or_null("Illustration") as TextureRect
+	if _illustration == null:
+		return
+
+	illustration_panel.custom_minimum_size.x = 78.0
+	illustration_panel.remove_child(_illustration)
+
+	var content := VBoxContainer.new()
+	content.name = "IllustrationContent"
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("separation", 3)
+	illustration_panel.add_child(content)
+
+	_illustration.custom_minimum_size = Vector2(0.0, 48.0)
+	_illustration.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_illustration.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(_illustration)
+
+	_relic_slots_container = HBoxContainer.new()
+	_relic_slots_container.name = "RelicSlots"
+	_relic_slots_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	_relic_slots_container.add_theme_constant_override("separation", 2)
+	content.add_child(_relic_slots_container)
+	_relic_slots_container.hide()
+
+
+func _update_relic_slots_ui() -> void:
+	if state == null or _relic_slots_container == null:
+		return
+
+	var unlocked_slots: int = state.eternal_flame_upgrade_manager.get_relic_slot_count(
+		generator_id,
+		state.eternal_flame_state
+	)
+	_relic_slots_container.visible = unlocked_slots > 0
+
+	if unlocked_slots != _relic_slot_count:
+		for child in _relic_slots_container.get_children():
+			_relic_slots_container.remove_child(child)
+			child.queue_free()
+		_relic_slot_controls.clear()
+		_relic_slot_count = unlocked_slots
+
+		for _slot_index in range(unlocked_slots):
+			var slot := RelicSlotControl.new()
+			slot.configure(state, "generator", "", generator_id)
+			slot.equipment_changed.connect(_on_relic_slot_equipment_changed)
+			_relic_slots_container.add_child(slot)
+			_relic_slot_controls.append(slot)
+
+	for slot in _relic_slot_controls:
+		slot.refresh_slot()
+
+
+func _on_relic_slot_equipment_changed() -> void:
+	if state == null:
+		return
+	state.rebuild_relic_modifiers()
+	_update_relic_slots_ui()
+	relics_changed.emit()
+
+
 func update_illustration(
 	generator: Generator
 	) -> void:
 	
-	var illustration = $HBoxContainer/IllustrationPanel/Illustration
+	var illustration: TextureRect = _illustration
+	if illustration == null:
+		illustration = $HBoxContainer/IllustrationPanel/Illustration as TextureRect
 	var illustration_path = generator.definition.illustration_path
 	
 	if illustration_path == current_illustration_path:
