@@ -40,7 +40,7 @@ const TUTORIALS := {
 	},
 	"first_ash": {
 		"title": "OH DEAR. THAT'S ASH.",
-		"message": "So the Infernal Forge is making Ash as well as Crystallized Flames. Ash is a by-product of processing Matter, and it isn't entirely harmless: too much Ash contamination slows the Forge's cycle. Keep an eye on your Ash reserves and the Forge's performance. We could sweep it up, but I seem to have misplaced the broom. Again."
+		"message": "So your realm is producing Ash. Ash is a by-product of many machines, and it isn't entirely harmless: too much Ash contamination everytning to a crawl. Keep an eye on your Ash amount. We could sweep it up, but I seem to have misplaced the broom. Again."
 	},
 	"first_essence": {
 		"title": "ESSENCE! DON'T SPILL IT.",
@@ -48,7 +48,7 @@ const TUTORIALS := {
 	},
 	"matter_decay_started": {
 		"title": "MATTER ISN'T FOREVER",
-		"message": "Your Matter has crossed its decay threshold, so some of it is now being lost over time. The threshold is shown in your realm's mechanics and can be raised by upgrades and Density. Check the Stats panel to see how much Matter you're losing, and consider whether more production or a higher threshold would help."
+		"message": "Your Matter has crossed its decay threshold, so some of it is now decaying over time. The threshold is shown in your realm's mechanics and can be raised by upgrades and Density. Check the Stats panel to see how much Matter you're losing, and consider whether more production or a higher threshold would help."
 	},
 	"first_generator_purchase": {
 		"title": "A WORD FROM YOUR INFERNAL INTERN",
@@ -60,11 +60,11 @@ const TUTORIALS := {
 	},
 	"unlock_lava_mite_colony": {
 		"title": "A COLONY OF TINY MENACES",
-		"message": "Lava mites! Horrible little workers, excellent employees. Your Lava Mite Colony is ready. Check its panel for its output and costs, and keep an eye on its condition as your realm develops. I would supervise them, but they bite."
+		"message": "Lava mites! Horrible little bug but they actually like ash!. They thrive when Ash is high but also consume Heat. Your Lava Mite Colony is ready. Check its panel for its output and costs, and keep an eye on its condition as your realm develops. I would supervise them, but they bite."
 	},
 	"unlock_thermal_furnace": {
 		"title": "INFERNAL CONDENSATION",
-		"message": "A furnace that makes the realm's processes a little less primitive. Infernal Condensation is unlocked. Review its panel before investing: each machine has its own costs and production, so choose where your resources will do the most good."
+		"message": "With this we can finally begin to make Matter. That will probably be useful. Infernal Condensation is unlocked. Review its panel before investing: each machine has its own costs and production, so choose where your resources will do the most good."
 	},
 	"unlock_matter_furnace": {
 		"title": "THE MATTER FURNACE",
@@ -76,7 +76,7 @@ const TUTORIALS := {
 	},
 	"unlock_infernal_forge": {
 		"title": "THE INFERNAL FORGE",
-		"message": "At last, a proper forge. The Infernal Forge processes Matter into Ash and Crystallized Flames over time. Its cycle takes patience, and Ash contamination can interfere with its operation. Feed it wisely, and don't stand too close when it finishes."
+		"message": "At last, a proper forge. The Infernal Forge processes Matter and Heat into Crystallized Flames over time. Its cycle takes patience, and Ash contamination can interfere with its operation. Feed it wisely, and don't stand too close when it finishes."
 	}
 }
 
@@ -231,4 +231,3 @@ func replay_tutorial(tutorial_id: String) -> void:
 		str(tutorial.get("title", "INFERNAL INTERN")),
 		str(tutorial.get("message", ""))
 	)
-
