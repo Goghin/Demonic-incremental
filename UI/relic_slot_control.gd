@@ -55,7 +55,7 @@ func _update_appearance() -> void:
 		)
 		text = _get_relic_glyph(str(definition.get("family", ""))) if not relic.is_empty() else ""
 		tooltip_text = str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", "")) if not relic.is_empty() else "Empty inventory slot"
-		disabled = relic.is_empty()
+		disabled = false
 		style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if not relic.is_empty() else Color(0.08, 0.07, 0.08, 1.0)
 		style.border_color = Color(0.78, 0.38, 0.18, 1.0) if not relic.is_empty() else Color(0.28, 0.23, 0.25, 1.0)
 	else:
