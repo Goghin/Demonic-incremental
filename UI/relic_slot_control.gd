@@ -8,6 +8,7 @@ const SLOT_SIZE := Vector2(34.0, 34.0)
 var state: GameState
 var slot_kind: String = "inventory"
 var generator_id: String = ""
+var slot_index: int = 0
 var instance_id: String = ""
 
 
@@ -15,12 +16,14 @@ func configure(
 	game_state: GameState,
 	kind: String,
 	relic_instance_id: String = "",
-	target_generator_id: String = ""
+	target_generator_id: String = "",
+	target_slot_index: int = 0
 ) -> void:
 	state = game_state
 	slot_kind = kind
 	instance_id = relic_instance_id
 	generator_id = target_generator_id
+	slot_index = target_slot_index
 	custom_minimum_size = SLOT_SIZE
 	size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	size_flags_vertical = Control.SIZE_SHRINK_BEGIN
@@ -54,20 +57,25 @@ func _update_appearance() -> void:
 			str(relic.get("definition_id", ""))
 		)
 		text = _get_relic_glyph(str(definition.get("family", ""))) if not relic.is_empty() else ""
-		tooltip_text = str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", "")) if not relic.is_empty() else "Empty inventory slot"
-		disabled = false
+		tooltip_text = (
+			str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", ""))
+			if not relic.is_empty()
+			else "Empty inventory slot"
+		)
 		style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if not relic.is_empty() else Color(0.08, 0.07, 0.08, 1.0)
 		style.border_color = Color(0.78, 0.38, 0.18, 1.0) if not relic.is_empty() else Color(0.28, 0.23, 0.25, 1.0)
 	else:
-		var equipped_id := state.relic_manager.get_equipped_relic_id(generator_id)
-		var relic: Dictionary = state.relic_manager.get_relic(equipped_id)
+		instance_id = state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
+		var relic: Dictionary = state.relic_manager.get_relic(instance_id)
 		var definition: Dictionary = state.relic_manager.get_definition(
 			str(relic.get("definition_id", ""))
 		)
-		instance_id = equipped_id
 		text = _get_relic_glyph(str(definition.get("family", ""))) if not relic.is_empty() else "+"
-		tooltip_text = str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", "")) if not relic.is_empty() else "Drop a relic here"
-		disabled = false
+		tooltip_text = (
+			str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", ""))
+			if not relic.is_empty()
+			else "Drop a relic here"
+		)
 		style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if not relic.is_empty() else Color(0.08, 0.07, 0.08, 1.0)
 		style.border_color = Color(0.78, 0.38, 0.18, 1.0) if not relic.is_empty() else Color(0.38, 0.29, 0.30, 1.0)
 
@@ -96,7 +104,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 
 	var dragged_instance_id := instance_id
 	if slot_kind == "generator":
-		dragged_instance_id = state.relic_manager.get_equipped_relic_id(generator_id)
+		dragged_instance_id = state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
 	if dragged_instance_id == "":
 		return null
 
@@ -117,7 +125,8 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 		"type": "relic",
 		"instance_id": dragged_instance_id,
 		"source_kind": slot_kind,
-		"source_generator_id": generator_id
+		"source_generator_id": generator_id,
+		"source_slot_index": slot_index
 	}
 
 
@@ -131,10 +140,13 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 		return false
 	if slot_kind == "inventory":
 		return true
-	return state.eternal_flame_upgrade_manager.get_relic_slot_count(
-		generator_id,
-		state.eternal_flame_state
-	) > 0
+	return (
+		state.get_generator(generator_id) != null
+		and slot_index < state.eternal_flame_upgrade_manager.get_relic_slot_count(
+			generator_id,
+			state.eternal_flame_state
+		)
+	)
 
 
 func _drop_data(_at_position: Vector2, data: Variant) -> void:
@@ -144,30 +156,31 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	var dragged_instance_id := str(data.get("instance_id", ""))
 	var source_kind := str(data.get("source_kind", ""))
 	var source_generator_id := str(data.get("source_generator_id", ""))
+	var source_slot_index := int(data.get("source_slot_index", 0))
 
 	if slot_kind == "inventory":
 		if source_kind == "generator" and source_generator_id != "":
-			state.relic_manager.unequip_relic(source_generator_id)
+			state.relic_manager.unequip_relic(source_generator_id, source_slot_index)
 	elif slot_kind == "generator":
 		if dragged_instance_id == "":
 			return
-		var target_relic_id := state.relic_manager.get_equipped_relic_id(generator_id)
-		var is_cross_generator_move := (
-			source_kind == "generator"
-			and source_generator_id != ""
-			and source_generator_id != generator_id
-		)
-		if is_cross_generator_move and target_relic_id != "":
-			# Swap the two equipped relics when both slots are occupied.
-			state.relic_manager.unequip_relic(source_generator_id)
-			state.relic_manager.unequip_relic(generator_id)
-			if not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state):
+		if source_kind == "generator" and source_generator_id == generator_id and source_slot_index == slot_index:
+			return
+
+		var target_relic_id := state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
+		var is_generator_move := source_kind == "generator" and source_generator_id != ""
+		if is_generator_move and target_relic_id != "":
+			# Swapping occupied slots is supported both within and across generators.
+			state.relic_manager.unequip_relic(source_generator_id, source_slot_index)
+			state.relic_manager.unequip_relic(generator_id, slot_index)
+			if not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state, slot_index):
+				state.relic_manager.equip_relic(source_generator_id, dragged_instance_id, state, source_slot_index)
 				return
-			if not state.relic_manager.equip_relic(source_generator_id, target_relic_id, state):
-				state.relic_manager.unequip_relic(generator_id)
-				state.relic_manager.equip_relic(source_generator_id, dragged_instance_id, state)
+			if not state.relic_manager.equip_relic(source_generator_id, target_relic_id, state, source_slot_index):
+				state.relic_manager.unequip_relic(generator_id, slot_index)
+				state.relic_manager.equip_relic(source_generator_id, dragged_instance_id, state, source_slot_index)
 				return
-		elif not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state):
+		elif not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state, slot_index):
 			return
 
 	state.rebuild_relic_modifiers()
