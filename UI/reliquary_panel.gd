@@ -171,32 +171,27 @@ func _refresh_inventory() -> void:
 		for instance_id in state.relic_manager.get_equipped_relic_ids(str(generator_id_variant)):
 			equipped_ids[instance_id] = true
 
-	var available_relics: Array[Dictionary] = []
+	var available_relic_count := 0
 	for relic in state.relic_manager.get_inventory_options():
 		var instance_id := str(relic.get("instance_id", ""))
-		if instance_id == "" or equipped_ids.has(instance_id):
-			continue
-		available_relics.append(relic)
+		if instance_id != "" and not equipped_ids.has(instance_id):
+			available_relic_count += 1
 
-	inventory_title.text = "RELIC INVENTORY · %d available" % available_relics.size()
-	for relic in available_relics:
+	inventory_title.text = "RELIC INVENTORY · %d available" % available_relic_count
+	var visible_slot_count: int = maxi(
+		RelicManager.INVENTORY_SLOT_COUNT,
+		state.relic_manager.get_inventory_slot_count()
+	)
+	for slot_index in range(visible_slot_count):
 		var slot := RelicSlotControl.new()
-		slot.configure(state, "inventory", str(relic.get("instance_id", "")))
+		slot.configure(state, "inventory", "", "", slot_index)
 		slot.equipment_changed.connect(_on_equipment_changed)
 		inventory_grid.add_child(slot)
 
-	# Keep empty square slots visible and usable as drop targets.
-	var visible_slot_count := maxi(8, int(ceil(float(available_relics.size()) / 6.0)) * 6)
-	while inventory_grid.get_child_count() < visible_slot_count:
-		var empty_slot := RelicSlotControl.new()
-		empty_slot.configure(state, "inventory", "")
-		empty_slot.equipment_changed.connect(_on_equipment_changed)
-		inventory_grid.add_child(empty_slot)
-
 	status_label.text = (
-		"Drag an item to equip it. Drop an equipped item into an empty inventory square to unequip it."
-		if not available_relics.is_empty()
-		else "No unequipped relics. Empty squares can receive relics dragged from generator slots."
+		"Drag relics to generator slots. Inventory items stay in their square; drag between squares to rearrange."
+		if available_relic_count > 0
+		else "No unequipped relics. Drop an equipped relic into an inventory square to return it there."
 	)
 
 
