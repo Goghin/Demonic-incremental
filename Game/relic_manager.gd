@@ -144,6 +144,9 @@ func equip_relic(
 	if slot_index >= unlocked_slots or get_relic(instance_id).is_empty():
 		return false
 
+	# Equipped relics no longer occupy a visible inventory square.
+	inventory_positions.erase(instance_id)
+
 	# A relic instance can occupy only one slot across all generators.
 	for equipped_generator_variant in equipped.keys():
 		var generator_slots: Variant = equipped[equipped_generator_variant]
@@ -267,6 +270,10 @@ func load_save_data(data: Dictionary) -> void:
 				claimed_instances[instance_id] = true
 			if not normalized_slots.is_empty():
 				equipped[generator_id] = normalized_slots
+	for generator_id_variant in equipped.keys():
+		for instance_id in get_equipped_relic_ids(str(generator_id_variant)):
+			inventory_positions.erase(instance_id)
+
 	for relic in inventory:
 		var instance_id := str(relic.get("instance_id", ""))
 		if instance_id.begins_with("relic_"):
