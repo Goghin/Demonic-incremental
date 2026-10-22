@@ -75,7 +75,9 @@ var generator_upgrade_tree_scene = preload(
 )
 
 const realm_view_scene: PackedScene = preload("res://RealmView/RealmView.tscn")
+const space_background_script: Script = preload("res://RealmView/SpaceBackground.gd")
 
+var space_background: TextureRect
 var realm_view: RealmView
 
 @onready var loading_screen: Control = $LoadingScreen
@@ -375,9 +377,20 @@ func _play_new_game_intro() -> void:
 	is_intro_playing = true
 	_update_navigation_title_visibility()
 
+	# Keep the intro cinematic: hide the regular interface without losing its
+	# existing visibility state, while leaving the moving space background visible.
+	var previous_visibility: Dictionary = {}
+	for child in get_children():
+		if child is Control and child != realm_view and child != space_background:
+			previous_visibility[child] = child.visible
+			child.hide()
+
+	var realm_previous_visibility := realm_view.visible
+	realm_view.hide()
+
 	var overlay := ColorRect.new()
 	overlay.name = "NewGameIntroOverlay"
-	overlay.color = Color(0.008, 0.006, 0.012, 1.0)
+	overlay.color = Color(0.008, 0.006, 0.012, 0.35)
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	overlay.z_index = 1000
@@ -424,9 +437,11 @@ func _play_new_game_intro() -> void:
 	final_text_tween.tween_property(text_label, "modulate:a", 0.0, 0.8)
 	await final_text_tween.finished
 	text_label.text = "Oh! You're awake. That's... unexpected."
+
+	var imp_portrait: TextureRect
 	var imp_texture := load("res://Assets/UI/infernal_intern_face.svg") as Texture2D
 	if imp_texture != null:
-		var imp_portrait := TextureRect.new()
+		imp_portrait = TextureRect.new()
 		imp_portrait.texture = imp_texture
 		imp_portrait.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 		imp_portrait.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
@@ -444,19 +459,57 @@ func _play_new_game_intro() -> void:
 	await imp_line_tween.finished
 	await get_tree().create_timer(1.2).timeout
 
-	var gift_tween := create_tween()
-	gift_tween.tween_property(text_label, "modulate:a", 0.0, 0.6)
-	await gift_tween.finished
+	# The imp leaves the scene so the newly forming realm gets the spotlight.
+	var imp_departure_tween := create_tween()
+	imp_departure_tween.set_parallel(true)
+	imp_departure_tween.tween_property(text_label, "modulate:a", 0.0, 0.7)
+	if imp_portrait != null:
+		imp_departure_tween.tween_property(imp_portrait, "modulate:a", 0.0, 0.7)
+	await imp_departure_tween.finished
+
+	# Reveal the realm from a distant point and grow it into its normal scale.
+	realm_view.pivot_offset = realm_view.size * 0.5
+	realm_view.scale = Vector2(0.035, 0.035)
+	realm_view.modulate.a = 0.0
+	realm_view.show()
+	var realm_reveal_tween := create_tween()
+	realm_reveal_tween.set_parallel(true)
+	realm_reveal_tween.tween_property(
+		realm_view,
+		"scale",
+		Vector2.ONE,
+		2.8
+	).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	realm_reveal_tween.tween_property(
+		realm_view,
+		"modulate:a",
+		1.0,
+		2.2
+	)
+	await realm_reveal_tween.finished
+
+	# Let the player take in the formed realm before the imp returns.
+	await get_tree().create_timer(7.0).timeout
+
 	text_label.text = "Here. A little Heat. Don't ask where I got it."
-	var reveal_tween := create_tween()
-	reveal_tween.tween_property(text_label, "modulate:a", 1.0, 0.9)
-	await reveal_tween.finished
+	var gift_tween := create_tween()
+	gift_tween.set_parallel(true)
+	gift_tween.tween_property(text_label, "modulate:a", 1.0, 0.9)
+	if imp_portrait != null:
+		gift_tween.tween_property(imp_portrait, "modulate:a", 1.0, 0.8)
+	await gift_tween.finished
 	await get_tree().create_timer(1.7).timeout
 
 	var fade_tween := create_tween()
 	fade_tween.tween_property(overlay, "modulate:a", 0.0, 2.0)
 	await fade_tween.finished
 	overlay.queue_free()
+
+	realm_view.scale = Vector2.ONE
+	realm_view.modulate = Color.WHITE
+	realm_view.visible = true if realm_previous_visibility else false
+	for child in previous_visibility:
+		child.visible = previous_visibility[child]
 
 	# Give exactly enough Heat for Atomic Friction's first purchase (15 Heat).
 	state.set_resource_amount(ResourceIds.HEAT, INTRO_STARTING_HEAT)
@@ -607,6 +660,17 @@ func _create_options_button_style(
 
 
 func _create_realm_view() -> void:
+	space_background = TextureRect.new()
+	space_background.name = "SpaceBackground"
+	space_background.set_script(space_background_script)
+	space_background.set_anchors_and_offsets_preset(
+		Control.PRESET_FULL_RECT
+	)
+	space_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	space_background.z_index = -20
+	space_background.modulate = Color(1.0, 1.0, 1.0, 0.58)
+	add_child(space_background)
+
 	realm_view = realm_view_scene.instantiate()
 	realm_view.name = "RealmView"
 	realm_view.set_anchors_and_offsets_preset(
@@ -2065,6 +2129,8 @@ func _on_run_reset() -> void:
 	# Rebuild the physical realm
 	# ------------------------------------------------------------
 
+	if space_background != null:
+		space_background.call("choose_random_background")
 	if realm_view != null:
 		realm_view.rebuild_realm(
 			state.realm_layout
