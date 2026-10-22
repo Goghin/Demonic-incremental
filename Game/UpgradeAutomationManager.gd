@@ -11,6 +11,9 @@ const AUTOMATABLE_GENERATOR_IDS: Array[String] = [
 	"thermal_compressor"
 ]
 
+# Automation scopes are data-driven so future general-upgrade trees can use
+# the same manager without changing the purchase loop.
+const GENERAL_TREE_ID: String = "general"
 const BASE_COOLDOWN: float = 10.0
 
 
@@ -36,10 +39,14 @@ func _init(game_state: GameState) -> void:
 			"enabled": false,
 			"remaining_cooldown": 0.0
 		}
+	automation_states[GENERAL_TREE_ID] = {
+		"enabled": false,
+		"remaining_cooldown": 0.0
+	}
 
 
-func get_automation_technology_id(generator_id: String) -> String:
-	return "upgrade_automation_" + generator_id
+func get_automation_technology_id(tree_id: String) -> String:
+	return "upgrade_automation_" + tree_id
 
 
 func is_automation_unlocked(generator_id: String) -> bool:
@@ -100,17 +107,21 @@ func is_exclusive_preference_selected(upgrade_id: String) -> bool:
 
 
 func update(delta: float, simulation: Simulation) -> void:
-	for generator_id in AUTOMATABLE_GENERATOR_IDS:
-		if not is_enabled(generator_id):
+	var tree_ids: Array[String] = AUTOMATABLE_GENERATOR_IDS.duplicate()
+	tree_ids.append(GENERAL_TREE_ID)
+
+	for tree_id in tree_ids:
+		if not is_enabled(tree_id):
 			continue
-		if not is_automation_unlocked(generator_id):
+		if not is_automation_unlocked(tree_id):
 			continue
 
-		var generator = state.get_generator(generator_id)
-		if generator == null or not generator.unlocked:
-			continue
+		if tree_id != GENERAL_TREE_ID:
+			var generator = state.get_generator(tree_id)
+			if generator == null or not generator.unlocked:
+				continue
 
-		var automation: Dictionary = automation_states[generator_id]
+		var automation: Dictionary = automation_states[tree_id]
 		var remaining_delta: float = maxf(delta, 0.0)
 
 		# Preserve cooldown overshoot so the result does not depend as heavily
@@ -126,7 +137,7 @@ func update(delta: float, simulation: Simulation) -> void:
 
 			remaining_delta = maxf(remaining_delta - cooldown, 0.0)
 			automation["remaining_cooldown"] = 0.0
-			if not _attempt_purchase(generator_id, simulation):
+			if not _attempt_purchase(tree_id, simulation):
 				# No upgrade is affordable. The failed check still starts the
 				# normal cooldown; account for the unused part of this step.
 				var elapsed_after_failed_check: float = fmod(
@@ -141,12 +152,12 @@ func update(delta: float, simulation: Simulation) -> void:
 				break
 
 
-func _attempt_purchase(generator_id: String, simulation: Simulation) -> bool:
+func _attempt_purchase(tree_id: String, simulation: Simulation) -> bool:
 	for upgrade_value in state.upgrades.values():
 		var upgrade: Upgrade = upgrade_value
 		var definition: UpgradeDefinition = upgrade.definition
 
-		if definition.generator_id != generator_id:
+		if not _upgrade_belongs_to_tree(definition, tree_id):
 			continue
 		if upgrade.is_maxed():
 			continue
@@ -157,18 +168,36 @@ func _attempt_purchase(generator_id: String, simulation: Simulation) -> bool:
 			continue
 
 		if simulation.buy_upgrade(definition.id, "upgrade_autobuyer"):
-			automation_states[generator_id]["remaining_cooldown"] = BASE_COOLDOWN
+			automation_states[tree_id]["remaining_cooldown"] = BASE_COOLDOWN
 			return true
 
 	# Avoid checking every frame when no eligible upgrade is affordable.
-	automation_states[generator_id]["remaining_cooldown"] = BASE_COOLDOWN
+	automation_states[tree_id]["remaining_cooldown"] = BASE_COOLDOWN
 	return false
 
 
+func _upgrade_belongs_to_tree(
+	definition: UpgradeDefinition,
+	tree_id: String
+) -> bool:
+	if tree_id == GENERAL_TREE_ID:
+		# General automation targets persistent global upgrades, not the
+		# separate generator-unlock/effect strip or automatic effects.
+		return (
+			definition.generator_id == ""
+			and not definition.automatic
+			and definition.upgrade_group_id != "infernal_forge"
+		)
+
+	return definition.generator_id == tree_id
+
+
 func reset_for_new_run() -> void:
-	for generator_id in AUTOMATABLE_GENERATOR_IDS:
-		var automation: Dictionary = automation_states[generator_id]
-		if automation["enabled"] and is_automation_unlocked(generator_id):
+	var tree_ids: Array[String] = AUTOMATABLE_GENERATOR_IDS.duplicate()
+	tree_ids.append(GENERAL_TREE_ID)
+	for tree_id in tree_ids:
+		var automation: Dictionary = automation_states[tree_id]
+		if automation["enabled"] and is_automation_unlocked(tree_id):
 			automation["remaining_cooldown"] = BASE_COOLDOWN
 		else:
 			automation["enabled"] = false
@@ -181,6 +210,9 @@ func get_save_data() -> Dictionary:
 		saved_states[generator_id] = {
 			"enabled": automation_states[generator_id]["enabled"]
 		}
+	saved_states[GENERAL_TREE_ID] = {
+		"enabled": automation_states[GENERAL_TREE_ID]["enabled"]
+	}
 
 	return {
 		"trees": saved_states,
@@ -194,17 +226,19 @@ func load_save_data(data: Dictionary) -> void:
 		# Accept an empty/new save without changing the default-off state.
 		tree_data = {}
 
-	for generator_id in AUTOMATABLE_GENERATOR_IDS:
-		var saved_state = tree_data.get(generator_id, {})
+	var tree_ids: Array[String] = AUTOMATABLE_GENERATOR_IDS.duplicate()
+	tree_ids.append(GENERAL_TREE_ID)
+	for tree_id in tree_ids:
+		var saved_state = tree_data.get(tree_id, {})
 		if not saved_state is Dictionary:
 			continue
 
 		var should_enable: bool = (
 			bool(saved_state.get("enabled", false))
-			and is_automation_unlocked(generator_id)
+			and is_automation_unlocked(tree_id)
 		)
-		automation_states[generator_id]["enabled"] = should_enable
-		automation_states[generator_id]["remaining_cooldown"] = (
+		automation_states[tree_id]["enabled"] = should_enable
+		automation_states[tree_id]["remaining_cooldown"] = (
 			BASE_COOLDOWN if should_enable else 0.0
 		)
 
