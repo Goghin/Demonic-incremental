@@ -241,10 +241,14 @@ func _refresh_generator_list() -> void:
 		name_label.add_theme_font_size_override("font_size", 12)
 		card_content.add_child(name_label)
 
+		var illustration_container := CenterContainer.new()
+		illustration_container.name = "GeneratorIllustrationContainer"
+		illustration_container.custom_minimum_size = Vector2(0.0, 48.0)
+		card_content.add_child(illustration_container)
+
 		var illustration := TextureRect.new()
 		illustration.name = "GeneratorIllustration"
-		illustration.custom_minimum_size = Vector2(0.0, 64.0)
-		illustration.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		illustration.custom_minimum_size = Vector2(78.0, 48.0)
 		illustration.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		illustration.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		var illustration_path := str(generator.definition.illustration_path)
@@ -252,7 +256,7 @@ func _refresh_generator_list() -> void:
 			var texture = load(illustration_path)
 			if texture is Texture2D:
 				illustration.texture = texture
-		card_content.add_child(illustration)
+		illustration_container.add_child(illustration)
 
 		var slot_count: int = state.eternal_flame_upgrade_manager.get_relic_slot_count(
 			generator_id,
