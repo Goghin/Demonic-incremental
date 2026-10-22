@@ -556,8 +556,10 @@ func get_relic_slot_count(
 	var slot_count: int = 0
 	for upgrade_id in upgrades:
 		var upgrade: EternalFlameUpgrade = upgrades[upgrade_id]
-		if upgrade.effect_type != EternalFlameUpgrade.EFFECT_UNLOCK_RELIC_SLOTS \
-		and upgrade.effect_type != EternalFlameUpgrade.EFFECT_UNLOCK_RELIQUARY:
+		if (
+			upgrade.effect_type != EternalFlameUpgrade.EFFECT_UNLOCK_RELIC_SLOTS
+			and upgrade.effect_type != EternalFlameUpgrade.EFFECT_UNLOCK_RELIQUARY
+		):
 			continue
 		if upgrade.target_generator_id != generator_id:
 			continue
