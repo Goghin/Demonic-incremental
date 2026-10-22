@@ -60,17 +60,14 @@ func get_equipped_relic_id(generator_id: String, slot_index: int = 0) -> String:
 
 func get_equipped_relic_ids(generator_id: String) -> Array[String]:
 	var result: Array[String] = []
-	var slot_count: int = 0
 	var generator_slots: Variant = equipped.get(generator_id, {})
 	if generator_slots is Dictionary:
-		slot_count = generator_slots.size()
+		for slot_key in generator_slots.keys():
+			var instance_id := str(generator_slots[slot_key])
+			if instance_id != "":
+				result.append(instance_id)
 	elif generator_slots is String and str(generator_slots) != "":
 		result.append(str(generator_slots))
-		return result
-	for slot_index in range(slot_count):
-		var instance_id := get_equipped_relic_id(generator_id, slot_index)
-		if instance_id != "":
-			result.append(instance_id)
 	return result
 
 
@@ -91,7 +88,6 @@ func equip_relic(
 
 	# A relic instance can occupy only one slot across all generators.
 	for equipped_generator_variant in equipped.keys():
-		var equipped_generator_id := str(equipped_generator_variant)
 		var generator_slots: Variant = equipped[equipped_generator_variant]
 		if generator_slots is String:
 			if str(generator_slots) == instance_id:
@@ -107,9 +103,12 @@ func equip_relic(
 			if not equipped.has(equipped_generator_variant):
 				continue
 
-	var slots: Dictionary = equipped.get(generator_id, {})
-	if not slots is Dictionary:
-		slots = {"0": str(slots)} if str(slots) != "" else {}
+	var existing_slots: Variant = equipped.get(generator_id, {})
+	var slots: Dictionary = {}
+	if existing_slots is Dictionary:
+		slots = existing_slots.duplicate()
+	elif existing_slots is String and str(existing_slots) != "":
+		slots["0"] = str(existing_slots)
 	slots[str(slot_index)] = instance_id
 	equipped[generator_id] = slots
 	return true
