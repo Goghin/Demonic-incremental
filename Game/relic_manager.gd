@@ -176,10 +176,10 @@ func load_save_data(data: Dictionary) -> void:
 					normalized_slots[str(slot_key)] = str(saved_slots[slot_key])
 			for slot_key in normalized_slots.keys():
 				var instance_id := str(normalized_slots[slot_key])
-				if get_relic(instance_id).is_empty() or claimed_instances.has(instance_id):
+				if not str(slot_key).is_valid_int() or int(slot_key) < 0:
 					normalized_slots.erase(slot_key)
 					continue
-				if not str(slot_key).is_valid_int() or int(slot_key) < 0:
+				if get_relic(instance_id).is_empty() or claimed_instances.has(instance_id):
 					normalized_slots.erase(slot_key)
 					continue
 				claimed_instances[instance_id] = true
