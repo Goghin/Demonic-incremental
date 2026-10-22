@@ -42,6 +42,10 @@ const TUTORIALS := {
 		"title": "OH DEAR. THAT'S ASH.",
 		"message": "So your realm is producing Ash. Ash is a by-product of many machines, and it isn't entirely harmless: too much Ash contamination everytning to a crawl. Keep an eye on your Ash amount. We could sweep it up, but I seem to have misplaced the broom. Again."
 	},
+	"first_matter": {
+		"title": "A LITTLE MATTER OF MATTER",
+		"message": "Ah, Matter! At last, something solid to build with. Some generators create it, while others consume it to fuel more advanced machinery. Keep an eye on your reserves before spending it all. I once tried to build a throne out of the stuff. It melted. Don't ask."
+	},
 	"first_essence": {
 		"title": "ESSENCE! DON'T SPILL IT.",
 		"message": "That's Essence — useful stuff, and not something we should waste. It can strengthen your realm's resistance to certain harmful effects, including the heat penalty from Crystallized Flames. Check your Stats to see what it's doing for you, and look for ways to gather more. Carefully, though. Last time I touched it, my eyebrows came back in a different order."
@@ -100,6 +104,8 @@ func notify_event(event_id: String) -> void:
 			tutorial_id = "first_crystallized_flame"
 		"first_ash":
 			tutorial_id = "first_ash"
+		"first_matter":
+			tutorial_id = "first_matter"
 		"first_essence":
 			tutorial_id = "first_essence"
 		"matter_decay_started":
