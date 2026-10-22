@@ -25,6 +25,16 @@ func _init() -> void:
 	add_node("brazier_intensity", 3, 8)
 	add_node("brazier_resonance", 3, 9)
 
+	
+	# Relic progression is a separate branch below the existing shop nodes.
+	add_node("reliquary", 0, 10)
+	add_node("attunement_molecular_agitation", 1, 10)
+	add_node("attunement_lava_mite_colony", 2, 10)
+	add_node("attunement_thermal_furnace", 3, 10)
+	add_node("attunement_matter_furnace", 0, 11)
+	add_node("attunement_thermal_compressor", 1, 11)
+	add_node("attunement_infernal_forge", 2, 11)
+
 	# Starting generator levels form a compact progression on the left.
 	add_node("accelerated_friction", 0, 1)
 	add_node("accelerated_agitation", 0, 2)
@@ -67,6 +77,13 @@ func _init() -> void:
 	add_connection("brazier_density", "brazier_integrity")
 	add_connection("brazier_integrity", "brazier_intensity")
 	add_connection("brazier_intensity", "brazier_resonance")
+
+	add_connection("reliquary", "attunement_molecular_agitation")
+	add_connection("attunement_molecular_agitation", "attunement_lava_mite_colony")
+	add_connection("attunement_lava_mite_colony", "attunement_thermal_furnace")
+	add_connection("attunement_thermal_furnace", "attunement_matter_furnace")
+	add_connection("attunement_matter_furnace", "attunement_thermal_compressor")
+	add_connection("attunement_thermal_compressor", "attunement_infernal_forge")
 
 
 func add_node(upgrade_id: String, column: int, row: int) -> void:
