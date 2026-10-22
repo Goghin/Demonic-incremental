@@ -120,13 +120,13 @@ func unequip_relic(generator_id: String, slot_index: int = 0) -> void:
 	if slots is String:
 		if slot_index == 0:
 			equipped.erase(generator_id)
-			return
-		elif slots is Dictionary:
-			slots.erase(str(slot_index))
-			if slots.is_empty():
-				equipped.erase(generator_id)
-			else:
-				equipped[generator_id] = slots
+		return
+	if slots is Dictionary:
+		slots.erase(str(slot_index))
+		if slots.is_empty():
+			equipped.erase(generator_id)
+		else:
+			equipped[generator_id] = slots
 
 func get_effect_status(definition_id: String, generator_id: String, state: GameState) -> String:
 	var definition := get_definition(definition_id)
