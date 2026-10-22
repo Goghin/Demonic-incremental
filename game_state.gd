@@ -680,33 +680,40 @@ func rebuild_relic_modifiers() -> void:
 			if modifier.id.begins_with("relic:"):
 				generator.modifiers.erase(modifier)
 		generator.invalidate_production_modifier_cache()
-	for generator_id in relic_manager.equipped:
-		var instance_id := str(relic_manager.equipped[generator_id])
-		var generator: Generator = get_generator(str(generator_id))
+
+	for generator_id_variant in relic_manager.equipped.keys():
+		var generator_id := str(generator_id_variant)
+		var generator: Generator = get_generator(generator_id)
 		if generator == null:
 			continue
-		if eternal_flame_upgrade_manager.get_relic_slot_count(str(generator_id), eternal_flame_state) <= 0:
-			continue
-		var relic: Dictionary = relic_manager.get_relic(instance_id)
-		if relic.is_empty():
-			continue
-		var definition: Dictionary = relic_manager.get_definition(str(relic.get("definition_id", "")))
-		if definition.is_empty():
-			continue
-		var modifier_type := ""
-		match str(definition.get("family", "")):
-			"production":
-				modifier_type = ModifierTypes.PRODUCTION
-			"cycle_speed":
-				modifier_type = ModifierTypes.CYCLE_SPEED
-			"input_efficiency":
-				modifier_type = ModifierTypes.INPUT_DRAW
-		if modifier_type == "":
-			continue
-		var modifier := Modifier.new(modifier_type, "", float(definition.get("multiplier", 1.0)))
-		modifier.id = "relic:" + instance_id
-		generator.modifiers.append(modifier)
-		generator.invalidate_production_modifier_cache()
+		var unlocked_slots: int = eternal_flame_upgrade_manager.get_relic_slot_count(
+			generator_id,
+			eternal_flame_state
+		)
+		for slot_index in range(unlocked_slots):
+			var instance_id := relic_manager.get_equipped_relic_id(generator_id, slot_index)
+			if instance_id == "":
+				continue
+			var relic: Dictionary = relic_manager.get_relic(instance_id)
+			if relic.is_empty():
+				continue
+			var definition: Dictionary = relic_manager.get_definition(str(relic.get("definition_id", "")))
+			if definition.is_empty():
+				continue
+			var modifier_type := ""
+			match str(definition.get("family", "")):
+				"production":
+					modifier_type = ModifierTypes.PRODUCTION
+				"cycle_speed":
+					modifier_type = ModifierTypes.CYCLE_SPEED
+				"input_efficiency":
+					modifier_type = ModifierTypes.INPUT_DRAW
+			if modifier_type == "":
+				continue
+			var modifier := Modifier.new(modifier_type, "", float(definition.get("multiplier", 1.0)))
+			modifier.id = "relic:" + instance_id
+			generator.modifiers.append(modifier)
+			generator.invalidate_production_modifier_cache()
 
 
 func get_unassigned_eternal_flames() -> int:
