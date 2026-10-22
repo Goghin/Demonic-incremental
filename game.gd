@@ -1450,8 +1450,8 @@ func _create_reliquary_window() -> void:
 	reliquary_window.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	reliquary_window.offset_left = 12.0
 	reliquary_window.offset_top = 112.0
-	reliquary_window.offset_right = 655.0
-	reliquary_window.offset_bottom = 575.0
+	reliquary_window.offset_right = 820.0
+	reliquary_window.offset_bottom = 610.0
 	add_child(reliquary_window)
 
 	reliquary_panel = ReliquaryPanel.new()
