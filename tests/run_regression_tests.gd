@@ -484,6 +484,7 @@ func _test_ashen_contamination_cycle_speed_modifier() -> void:
 		simulation_speed_at_25_ash,
 		"Forge panel cycle estimate did not use the same effective speed modifiers as simulation."
 	)
+	state.set_resource_amount(ResourceIds.ASH, upgraded_threshold)
 
 	var contamination_modifier: Modifier = null
 	for modifier in friction.modifiers:
