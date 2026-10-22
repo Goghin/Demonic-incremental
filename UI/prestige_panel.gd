@@ -875,7 +875,6 @@ func _show_prestige_panel() -> void:
 	prestige_button.disabled = true
 	shop_button.disabled = false
 	distribution_button.disabled = false
-	reliquary_button.disabled = false
 
 
 func _show_shop_panel() -> void:
@@ -894,7 +893,6 @@ func _show_shop_panel() -> void:
 	prestige_button.disabled = false
 	shop_button.disabled = true
 	distribution_button.disabled = false
-	reliquary_button.disabled = false
 
 	_refresh_eternal_flame_upgrade_ui()
 
@@ -914,7 +912,6 @@ func _show_distribution_panel() -> void:
 	prestige_button.disabled = false
 	shop_button.disabled = false
 	distribution_button.disabled = true
-	reliquary_button.disabled = false
 
 
 func _show_reliquary_panel() -> void:
@@ -929,7 +926,6 @@ func _show_reliquary_panel() -> void:
 	prestige_button.disabled = false
 	shop_button.disabled = false
 	distribution_button.disabled = false
-	reliquary_button.disabled = true
 	reliquary_panel.refresh()
 
 
