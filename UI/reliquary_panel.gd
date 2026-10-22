@@ -246,9 +246,22 @@ func _refresh_generator_list() -> void:
 		illustration_container.custom_minimum_size = Vector2(0.0, 48.0)
 		card_content.add_child(illustration_container)
 
+		# Match the fixed-width illustration panel on the normal generator card.
+		var illustration_panel := PanelContainer.new()
+		illustration_panel.name = "IllustrationPanel"
+		illustration_panel.custom_minimum_size = Vector2(78.0, 48.0)
+		var illustration_style := StyleBoxFlat.new()
+		illustration_style.bg_color = Color(0.09, 0.065, 0.075, 1.0)
+		illustration_style.border_color = Color(0.22, 0.15, 0.15, 1.0)
+		illustration_style.set_border_width_all(1)
+		illustration_style.set_corner_radius_all(3)
+		illustration_panel.add_theme_stylebox_override("panel", illustration_style)
+		illustration_container.add_child(illustration_panel)
+
 		var illustration := TextureRect.new()
 		illustration.name = "GeneratorIllustration"
-		illustration.custom_minimum_size = Vector2(78.0, 48.0)
+		illustration.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		illustration.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		illustration.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		illustration.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		var illustration_path := str(generator.definition.illustration_path)
@@ -256,7 +269,7 @@ func _refresh_generator_list() -> void:
 			var texture = load(illustration_path)
 			if texture is Texture2D:
 				illustration.texture = texture
-		illustration_container.add_child(illustration)
+		illustration_panel.add_child(illustration)
 
 		var slot_count: int = state.eternal_flame_upgrade_manager.get_relic_slot_count(
 			generator_id,
