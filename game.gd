@@ -1494,8 +1494,8 @@ func _on_reliquary_button_pressed() -> void:
 	$OptionsPanel.hide()
 	$AchievementPanel.hide()
 	$PrestigePanel.hide()
-	if realm_view != null:
-		realm_view.hide()
+	# RealmView is the persistent scene backdrop for normal navigation.
+	# Hiding it here left it hidden after leaving the Reliquary.
 	reliquary_window.show()
 	reliquary_panel.refresh()
 	$NavigationTitlePanel/NavigationTitle.text = "RELIQUARY"
