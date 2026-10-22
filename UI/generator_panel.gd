@@ -453,8 +453,8 @@ func _update_relic_slots_ui() -> void:
 		state.eternal_flame_state
 	)
 	_relic_slots_container.visible = unlocked_slots > 0
-	var equipped_id := state.relic_manager.get_equipped_relic_id(generator_id)
-	var signature := "%d:%s" % [unlocked_slots, equipped_id]
+	var equipped_ids := state.relic_manager.get_equipped_relic_ids(generator_id)
+	var signature := "%d:%s" % [unlocked_slots, JSON.stringify(equipped_ids)]
 	if signature == _last_relic_slot_signature:
 		return
 	_last_relic_slot_signature = signature
@@ -466,9 +466,9 @@ func _update_relic_slots_ui() -> void:
 		_relic_slot_controls.clear()
 		_relic_slot_count = unlocked_slots
 
-		for _slot_index in range(unlocked_slots):
+		for slot_index in range(unlocked_slots):
 			var slot := RelicSlotControl.new()
-			slot.configure(state, "generator", "", generator_id)
+			slot.configure(state, "generator", "", generator_id, slot_index)
 			slot.equipment_changed.connect(_on_relic_slot_equipment_changed)
 			_relic_slots_container.add_child(slot)
 			_relic_slot_controls.append(slot)
