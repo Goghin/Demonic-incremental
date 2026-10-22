@@ -207,10 +207,16 @@ func _get_base_mechanics_text() -> String:
 				ModifierTypes.PRODUCTION,
 				""
 			)
+			var ash_threshold := stats.get_resource_threshold(
+				ResourceIds.ASH
+			)
 			return (
-				"Ashen Contamination starts above 100 Ash.\n"
+				"Ashen Contamination starts above %s Ash.\n"
 				+ "Current Ashen Contamination: ×%s"
-				% NumberFormatter.format(contamination_multiplier)
+				% [
+					NumberFormatter.format(ash_threshold),
+					NumberFormatter.format(contamination_multiplier)
+				]
 			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			var modifier_data := stats.get_crystallization_modifier_data()
