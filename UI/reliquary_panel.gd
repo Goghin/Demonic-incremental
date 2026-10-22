@@ -215,8 +215,10 @@ func _refresh_generator_list() -> void:
 
 		var card := PanelContainer.new()
 		card.name = "Generator_" + generator_id
-		card.custom_minimum_size = Vector2(190.0, 124.0)
-		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		# Keep each destination card compact in the two-column grid instead of
+		# expanding its background across the available scroll area.
+		card.custom_minimum_size = Vector2(120.0, 124.0)
+		card.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 
 		var card_style := StyleBoxFlat.new()
 		card_style.bg_color = Color(0.075, 0.065, 0.075, 0.96)
