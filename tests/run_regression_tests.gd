@@ -437,7 +437,8 @@ func _test_ashen_contamination_cycle_speed_modifier() -> void:
 		_expect(false, "Required generators are missing.")
 		return
 
-	state.set_resource_amount(ResourceIds.ASH, 100.0)
+	var base_threshold: float = state.get_resource_threshold(ResourceIds.ASH)
+	state.set_resource_amount(ResourceIds.ASH, base_threshold)
 	simulation.update_automatic_upgrades()
 	_expect(
 		state.get_upgrade("ashen_contamination").is_purchased(),
@@ -446,20 +447,58 @@ func _test_ashen_contamination_cycle_speed_modifier() -> void:
 	_expect_approx(
 		simulation._get_cycle_speed_multiplier(forge),
 		1.0,
-		"Ash at the contamination threshold should not slow cycle speed."
+		"Ash at the configured contamination threshold should not slow cycle speed."
 	)
+
+	# Threshold upgrades must affect both contamination effects through the same
+	# shared resource threshold, rather than a Forge-specific fixed value.
+	state.set_resource_amount(ResourceIds.MATTER, 25.0)
+	_expect(
+		simulation.buy_upgrade("ash_threshold_line_1"),
+		"Could not buy the first Ash Filtration threshold upgrade."
+	)
+	var upgraded_threshold: float = state.get_resource_threshold(ResourceIds.ASH)
+	_expect_approx(
+		upgraded_threshold,
+		base_threshold + 9.0,
+		"Ash Filtration I did not raise the shared Ash threshold."
+	)
+	state.set_resource_amount(ResourceIds.ASH, upgraded_threshold)
+	_expect_approx(
+		simulation._get_cycle_speed_multiplier(forge),
+		1.0,
+		"Forge cycle slowdown did not respect the upgraded Ash threshold."
+	)
+
+	var contamination_modifier: Modifier = null
+	for modifier in friction.modifiers:
+		if modifier.id == "ashen_contamination":
+			contamination_modifier = modifier
+			break
+	_expect(contamination_modifier != null, "General Ash contamination modifier was not registered.")
+	if contamination_modifier != null:
+		_expect_approx(
+			contamination_modifier.get_effective_multiplier(state, friction),
+			1.0,
+			"General production penalty did not respect the upgraded Ash threshold."
+		)
 
 	state.set_resource_amount(ResourceIds.ASH, 1000.0)
 	var contaminated_speed: float = simulation._get_cycle_speed_multiplier(forge)
 	_expect(
 		contaminated_speed < 1.0,
-		"Ash contamination did not slow Infernal Forge cycle speed."
+		"Ash contamination did not slow Infernal Forge cycle speed above the configured threshold."
 	)
 	_expect_approx(
 		simulation._get_cycle_speed_multiplier(friction),
 		1.0,
 		"Cycle-speed contamination should not affect continuous generators."
 	)
+	if contamination_modifier != null:
+		_expect(
+			contamination_modifier.get_effective_multiplier(state, friction) < 1.0,
+			"General Ash contamination did not penalize production above the configured threshold."
+		)
 
 	forge.modifier_sensitivities.append(
 		ModifierSensitivity.new(
@@ -484,6 +523,9 @@ func _test_forge_immunity_ash_sensitivity() -> void:
 		return
 
 	forge.level = 1
+	forge.unlocked = true
+	# The automatic immunity upgrade requires the Forge unlock upgrade to be owned.
+	state.get_upgrade("infernal_forge_unlock").level = 1
 	state.set_resource_amount(ResourceIds.ASH, 1000.0)
 	simulation.update_automatic_upgrades()
 
@@ -573,6 +615,8 @@ func _test_cycle_completion_event_effects() -> void:
 
 	forge.unlocked = true
 	forge.level = 1
+	# Forge cycle upgrades require the Forge unlock upgrade to be owned.
+	state.get_upgrade("infernal_forge_unlock").level = 1
 	state.set_resource_amount(ResourceIds.MATTER, 1000000000.0)
 	_expect(simulation.buy_upgrade("infernal_forge_critical_chance"), "Could not buy Critical Chance upgrade.")
 	_expect(simulation.buy_upgrade("infernal_forge_critical_production"), "Could not buy Critical Production upgrade.")
