@@ -95,7 +95,7 @@ func setup(
 
 	generator_list = GridContainer.new()
 	generator_list.name = "GeneratorEquipmentList"
-	generator_list.columns = 2
+	generator_list.columns = 3
 	generator_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	generator_list.add_theme_constant_override("h_separation", 8)
 	generator_list.add_theme_constant_override("v_separation", 8)
@@ -215,9 +215,8 @@ func _refresh_generator_list() -> void:
 
 		var card := PanelContainer.new()
 		card.name = "Generator_" + generator_id
-		# Keep each destination card compact in the two-column grid instead of
-		# expanding its background across the available scroll area.
-		card.custom_minimum_size = Vector2(120.0, 124.0)
+		# Three compact cards fit across the generator area without stretching.
+		card.custom_minimum_size = Vector2(100.0, 112.0)
 		card.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 
 		var card_style := StyleBoxFlat.new()
@@ -240,7 +239,7 @@ func _refresh_generator_list() -> void:
 		name_label.text = str(generator.definition.display_name)
 		name_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		name_label.add_theme_color_override("font_color", Color(0.88, 0.76, 0.68))
-		name_label.add_theme_font_size_override("font_size", 12)
+		name_label.add_theme_font_size_override("font_size", 10)
 		card_content.add_child(name_label)
 
 		var illustration_container := CenterContainer.new()
@@ -248,10 +247,10 @@ func _refresh_generator_list() -> void:
 		illustration_container.custom_minimum_size = Vector2(0.0, 48.0)
 		card_content.add_child(illustration_container)
 
-		# Match the fixed-width illustration panel on the normal generator card.
+		# Use a compact 48 px square image area for the denser Reliquary grid.
 		var illustration_panel := PanelContainer.new()
 		illustration_panel.name = "IllustrationPanel"
-		illustration_panel.custom_minimum_size = Vector2(78.0, 48.0)
+		illustration_panel.custom_minimum_size = Vector2(48.0, 48.0)
 		var illustration_style := StyleBoxFlat.new()
 		illustration_style.bg_color = Color(0.09, 0.065, 0.075, 1.0)
 		illustration_style.border_color = Color(0.22, 0.15, 0.15, 1.0)
