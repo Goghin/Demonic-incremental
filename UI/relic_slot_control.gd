@@ -103,7 +103,9 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 		return null
 
 	var dragged_instance_id := instance_id
-	if slot_kind == "generator":
+	if slot_kind == "inventory":
+		dragged_instance_id = state.relic_manager.get_inventory_relic_id_at_slot(slot_index)
+	elif slot_kind == "generator":
 		dragged_instance_id = state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
 	if dragged_instance_id == "":
 		return null
@@ -156,7 +158,12 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if state.relic_manager.get_relic(dragged_instance_id).is_empty():
 		return false
 	if slot_kind == "inventory":
-		return true
+		var source_kind := str(data.get("source_kind", ""))
+		if source_kind == "inventory":
+			return true
+		if source_kind == "generator":
+			return state.relic_manager.get_inventory_relic_id_at_slot(slot_index) == ""
+		return false
 	return (
 		state.get_generator(generator_id) != null
 		and slot_index < state.eternal_flame_upgrade_manager.get_relic_slot_count(
@@ -177,7 +184,12 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 
 	if slot_kind == "inventory":
 		if source_kind == "generator" and source_generator_id != "":
+			if not state.relic_manager.move_relic_to_inventory(dragged_instance_id, slot_index):
+				return
 			state.relic_manager.unequip_relic(source_generator_id, source_slot_index)
+		elif source_kind == "inventory":
+			if not state.relic_manager.move_relic_to_inventory(dragged_instance_id, slot_index):
+				return
 	elif slot_kind == "generator":
 		if dragged_instance_id == "":
 			return

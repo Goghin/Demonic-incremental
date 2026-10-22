@@ -15,8 +15,13 @@ var inventory_title: Label
 var status_label: Label
 var generator_list: GridContainer
 var generator_list_scroll: ScrollContainer
+var generator_navigation: HBoxContainer
+var generators_button: Button
+var crafting_button: Button
+var crafting_section: VBoxContainer
 var inventory_section: VBoxContainer
 var generator_section: VBoxContainer
+var right_view: String = "generators"
 var _last_equipment_signature: String = ""
 
 
@@ -82,10 +87,26 @@ func setup(
 	generator_section.add_theme_constant_override("separation", 6)
 	sections.add_child(generator_section)
 
-	var generator_title := Label.new()
-	generator_title.text = "GENERATORS"
-	generator_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
-	generator_section.add_child(generator_title)
+	generator_navigation = HBoxContainer.new()
+	generator_navigation.name = "ReliquaryNavigation"
+	generator_navigation.add_theme_constant_override("separation", 6)
+	generator_section.add_child(generator_navigation)
+
+	generators_button = Button.new()
+	generators_button.name = "GeneratorsButton"
+	generators_button.text = "GENERATORS"
+	generators_button.toggle_mode = true
+	generators_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	generators_button.pressed.connect(_on_generators_button_pressed)
+	generator_navigation.add_child(generators_button)
+
+	crafting_button = Button.new()
+	crafting_button.name = "CraftingButton"
+	crafting_button.text = "CRAFTING"
+	crafting_button.toggle_mode = true
+	crafting_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	crafting_button.pressed.connect(_on_crafting_button_pressed)
+	generator_navigation.add_child(crafting_button)
 
 	generator_list_scroll = ScrollContainer.new()
 	generator_list_scroll.name = "GeneratorEquipmentScroll"
@@ -101,6 +122,30 @@ func setup(
 	generator_list.add_theme_constant_override("v_separation", 8)
 	generator_list_scroll.add_child(generator_list)
 
+	crafting_section = VBoxContainer.new()
+	crafting_section.name = "ReliquaryCraftingSection"
+	crafting_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	crafting_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	crafting_section.add_theme_constant_override("separation", 8)
+	generator_section.add_child(crafting_section)
+
+	var crafting_title := Label.new()
+	crafting_title.text = "RELIC CRAFTING"
+	crafting_title.add_theme_font_size_override("font_size", 13)
+	crafting_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
+	crafting_section.add_child(crafting_title)
+
+	var crafting_description := Label.new()
+	crafting_description.text = "The Reliquary can reshape and combine relics here. Crafting has not been unlocked yet."
+	crafting_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	crafting_description.add_theme_color_override("font_color", Color(0.72, 0.67, 0.65))
+	crafting_section.add_child(crafting_description)
+
+	var crafting_spacer := Control.new()
+	crafting_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	crafting_section.add_child(crafting_spacer)
+
+	_set_right_view("generators")
 	_apply_display_mode()
 	refresh()
 
@@ -117,6 +162,39 @@ func _apply_display_mode() -> void:
 		inventory_section.visible = display_mode != DISPLAY_GENERATOR_ONLY
 	if generator_section != null:
 		generator_section.visible = display_mode != DISPLAY_INVENTORY_ONLY
+	_update_right_view_visibility()
+
+
+func _on_generators_button_pressed() -> void:
+	_set_right_view("generators")
+
+
+func _on_crafting_button_pressed() -> void:
+	_set_right_view("crafting")
+
+
+func _set_right_view(view_name: String) -> void:
+	right_view = "crafting" if view_name == "crafting" else "generators"
+	if generator_list_scroll != null:
+		generator_list_scroll.visible = right_view == "generators"
+	if crafting_section != null:
+		crafting_section.visible = right_view == "crafting"
+	_update_navigation_button_styles()
+
+
+func _update_right_view_visibility() -> void:
+	if generator_list_scroll != null:
+		generator_list_scroll.visible = right_view == "generators"
+	if crafting_section != null:
+		crafting_section.visible = right_view == "crafting"
+	_update_navigation_button_styles()
+
+
+func _update_navigation_button_styles() -> void:
+	if generators_button != null:
+		generators_button.button_pressed = right_view == "generators"
+	if crafting_button != null:
+		crafting_button.button_pressed = right_view == "crafting"
 
 
 func _process(_delta: float) -> void:
@@ -171,32 +249,27 @@ func _refresh_inventory() -> void:
 		for instance_id in state.relic_manager.get_equipped_relic_ids(str(generator_id_variant)):
 			equipped_ids[instance_id] = true
 
-	var available_relics: Array[Dictionary] = []
+	var available_relic_count := 0
 	for relic in state.relic_manager.get_inventory_options():
 		var instance_id := str(relic.get("instance_id", ""))
-		if instance_id == "" or equipped_ids.has(instance_id):
-			continue
-		available_relics.append(relic)
+		if instance_id != "" and not equipped_ids.has(instance_id):
+			available_relic_count += 1
 
-	inventory_title.text = "RELIC INVENTORY · %d available" % available_relics.size()
-	for relic in available_relics:
+	inventory_title.text = "RELIC INVENTORY · %d available" % available_relic_count
+	var visible_slot_count: int = maxi(
+		RelicManager.INVENTORY_SLOT_COUNT,
+		state.relic_manager.get_inventory_slot_count()
+	)
+	for slot_index in range(visible_slot_count):
 		var slot := RelicSlotControl.new()
-		slot.configure(state, "inventory", str(relic.get("instance_id", "")))
+		slot.configure(state, "inventory", "", "", slot_index)
 		slot.equipment_changed.connect(_on_equipment_changed)
 		inventory_grid.add_child(slot)
 
-	# Keep empty square slots visible and usable as drop targets.
-	var visible_slot_count := maxi(8, int(ceil(float(available_relics.size()) / 6.0)) * 6)
-	while inventory_grid.get_child_count() < visible_slot_count:
-		var empty_slot := RelicSlotControl.new()
-		empty_slot.configure(state, "inventory", "")
-		empty_slot.equipment_changed.connect(_on_equipment_changed)
-		inventory_grid.add_child(empty_slot)
-
 	status_label.text = (
-		"Drag an item to equip it. Drop an equipped item into an empty inventory square to unequip it."
-		if not available_relics.is_empty()
-		else "No unequipped relics. Empty squares can receive relics dragged from generator slots."
+		"Drag relics to generator slots. Inventory items stay in their square; drag between squares to rearrange."
+		if available_relic_count > 0
+		else "No unequipped relics. Drop an equipped relic into an inventory square to return it there."
 	)
 
 

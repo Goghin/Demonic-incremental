@@ -7,7 +7,10 @@ const RELIC_DEFINITIONS: Dictionary = {
 	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Reduces resource input consumption by 10%."}
 }
 
+const INVENTORY_SLOT_COUNT := 24
+
 var inventory: Array[Dictionary] = []
+var inventory_positions: Dictionary = {}
 var equipped: Dictionary = {}
 var _next_instance_number: int = 1
 
@@ -23,7 +26,61 @@ func add_relic(definition_id: String) -> String:
 	var instance_id := "relic_%d" % _next_instance_number
 	_next_instance_number += 1
 	inventory.append({"instance_id": instance_id, "definition_id": definition_id})
+	inventory_positions[instance_id] = _find_first_available_inventory_slot()
 	return instance_id
+
+func _find_first_available_inventory_slot() -> int:
+	var occupied: Dictionary = {}
+	for position_variant in inventory_positions.values():
+		occupied[int(position_variant)] = true
+	var slot_index := 0
+	while occupied.has(slot_index):
+		slot_index += 1
+	return slot_index
+
+
+func get_inventory_relic_id_at_slot(slot_index: int) -> String:
+	if slot_index < 0:
+		return ""
+	for relic in inventory:
+		var instance_id := str(relic.get("instance_id", ""))
+		if int(inventory_positions.get(instance_id, -1)) != slot_index:
+			continue
+		if _is_relic_equipped(instance_id):
+			continue
+		return instance_id
+	return ""
+
+
+func get_inventory_slot_count() -> int:
+	var highest_slot := INVENTORY_SLOT_COUNT - 1
+	for position_variant in inventory_positions.values():
+		highest_slot = maxi(highest_slot, int(position_variant))
+	return highest_slot + 1
+
+
+func _is_relic_equipped(instance_id: String) -> bool:
+	for generator_id_variant in equipped.keys():
+		if get_equipped_relic_ids(str(generator_id_variant)).has(instance_id):
+			return true
+	return false
+
+
+func move_relic_to_inventory(instance_id: String, target_slot_index: int) -> bool:
+	if target_slot_index < 0 or get_relic(instance_id).is_empty():
+		return false
+	var previous_slot := int(inventory_positions.get(instance_id, -1))
+	var target_instance_id := get_inventory_relic_id_at_slot(target_slot_index)
+	if target_instance_id == instance_id:
+		return true
+	if target_instance_id != "":
+		if previous_slot >= 0:
+			inventory_positions[target_instance_id] = previous_slot
+		else:
+			return false
+	inventory_positions[instance_id] = target_slot_index
+	return true
+
 
 func get_relic(instance_id: String) -> Dictionary:
 	for relic in inventory:
@@ -44,7 +101,8 @@ func get_inventory_options() -> Array[Dictionary]:
 			"instance_id": str(relic.get("instance_id", "")),
 			"display_name": str(definition.get("display_name", "Unknown Relic")),
 			"description": str(definition.get("description", "")),
-			"family": str(definition.get("family", ""))
+			"family": str(definition.get("family", "")),
+			"slot_index": int(inventory_positions.get(str(relic.get("instance_id", "")), 0))
 		})
 	return result
 
@@ -85,6 +143,9 @@ func equip_relic(
 	)
 	if slot_index >= unlocked_slots or get_relic(instance_id).is_empty():
 		return false
+
+	# Equipped relics no longer occupy a visible inventory square.
+	inventory_positions.erase(instance_id)
 
 	# A relic instance can occupy only one slot across all generators.
 	for equipped_generator_variant in equipped.keys():
@@ -144,10 +205,16 @@ func get_effect_status(definition_id: String, generator_id: String, state: GameS
 	return "Inactive"
 
 func get_save_data() -> Dictionary:
-	return {"inventory": inventory.duplicate(true), "equipped": equipped.duplicate(true), "next_instance_number": _next_instance_number}
+	return {
+		"inventory": inventory.duplicate(true),
+		"inventory_positions": inventory_positions.duplicate(true),
+		"equipped": equipped.duplicate(true),
+		"next_instance_number": _next_instance_number
+	}
 
 func load_save_data(data: Dictionary) -> void:
 	inventory.clear()
+	inventory_positions.clear()
 	equipped.clear()
 	_next_instance_number = maxi(1, int(data.get("next_instance_number", 1)))
 	var inventory_data: Variant = data.get("inventory", [])
@@ -160,6 +227,24 @@ func load_save_data(data: Dictionary) -> void:
 			if instance_id == "" or not RELIC_DEFINITIONS.has(definition_id):
 				continue
 			inventory.append({"instance_id": instance_id, "definition_id": definition_id})
+	# Restore saved inventory squares. Older saves fall back to the relic's saved array order.
+	var saved_positions: Variant = data.get("inventory_positions", {})
+	var claimed_inventory_slots: Dictionary = {}
+	if saved_positions is Dictionary:
+		for instance_id_variant in saved_positions.keys():
+			var instance_id := str(instance_id_variant)
+			var slot_index := int(saved_positions[instance_id_variant])
+			if get_relic(instance_id).is_empty() or slot_index < 0 or claimed_inventory_slots.has(slot_index):
+				continue
+			inventory_positions[instance_id] = slot_index
+			claimed_inventory_slots[slot_index] = true
+	for relic_index in range(inventory.size()):
+		var instance_id := str(inventory[relic_index].get("instance_id", ""))
+		if not inventory_positions.has(instance_id):
+			var slot_index := _find_first_available_inventory_slot()
+			inventory_positions[instance_id] = slot_index
+			claimed_inventory_slots[slot_index] = true
+
 	var equipped_data: Variant = data.get("equipped", {})
 	if equipped_data is Dictionary:
 		var claimed_instances: Dictionary = {}
@@ -185,6 +270,10 @@ func load_save_data(data: Dictionary) -> void:
 				claimed_instances[instance_id] = true
 			if not normalized_slots.is_empty():
 				equipped[generator_id] = normalized_slots
+	for generator_id_variant in equipped.keys():
+		for instance_id in get_equipped_relic_ids(str(generator_id_variant)):
+			inventory_positions.erase(instance_id)
+
 	for relic in inventory:
 		var instance_id := str(relic.get("instance_id", ""))
 		if instance_id.begins_with("relic_"):
