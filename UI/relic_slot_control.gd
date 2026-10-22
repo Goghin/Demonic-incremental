@@ -112,13 +112,30 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	if relic.is_empty():
 		return null
 
-	var preview := Label.new()
-	preview.text = text
-	preview.add_theme_font_size_override("font_size", 22)
-	preview.add_theme_color_override("font_color", Color(1.0, 0.68, 0.36))
-	preview.add_theme_color_override("font_shadow_color", Color(0.0, 0.0, 0.0, 0.8))
-	preview.add_theme_constant_override("shadow_offset_x", 1)
-	preview.add_theme_constant_override("shadow_offset_y", 1)
+	var preview := PanelContainer.new()
+	preview.custom_minimum_size = Vector2(42.0, 42.0)
+	preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	preview.z_index = RenderingServer.CANVAS_ITEM_Z_MAX
+	preview.top_level = true
+
+	var preview_style := StyleBoxFlat.new()
+	preview_style.bg_color = Color(0.22, 0.12, 0.08, 0.96)
+	preview_style.border_color = Color(1.0, 0.58, 0.25, 1.0)
+	preview_style.set_border_width_all(2)
+	preview_style.set_corner_radius_all(4)
+	preview_style.shadow_color = Color(0.0, 0.0, 0.0, 0.85)
+	preview_style.shadow_size = 6
+	preview.add_theme_stylebox_override("panel", preview_style)
+
+	var preview_glyph := Label.new()
+	preview_glyph.text = _get_relic_glyph(str(state.relic_manager.get_definition(
+		str(relic.get("definition_id", ""))
+	).get("family", ""))
+	preview_glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	preview_glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	preview_glyph.add_theme_font_size_override("font_size", 23)
+	preview_glyph.add_theme_color_override("font_color", Color(1.0, 0.76, 0.43))
+	preview.add_child(preview_glyph)
 	set_drag_preview(preview)
 
 	return {
