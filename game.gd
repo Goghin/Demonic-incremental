@@ -1487,7 +1487,7 @@ func _on_reliquary_button_pressed() -> void:
 
 	_clear_generator_focus()
 	generator_list_mode = false
-	$ResourcePanel.hide()
+	# Keep the main resource cards visible while managing relics.
 	$GeneratorScroll.hide()
 	$UpgradeScroll.hide()
 	$StatsPanel.hide()
