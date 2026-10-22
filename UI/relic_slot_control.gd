@@ -130,7 +130,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	var preview_glyph := Label.new()
 	preview_glyph.text = _get_relic_glyph(str(state.relic_manager.get_definition(
 		str(relic.get("definition_id", ""))
-	).get("family", ""))
+	).get("family", "")))
 	preview_glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	preview_glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	preview_glyph.add_theme_font_size_override("font_size", 23)
