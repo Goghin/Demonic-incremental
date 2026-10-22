@@ -24,10 +24,12 @@ var tab_container: HBoxContainer
 var prestige_button: Button
 var shop_button: Button
 var distribution_button: Button
+var reliquary_button: Button
 
 var prestige_panel: VBoxContainer
 var distribution_panel: VBoxContainer
 var shop_panel: VBoxContainer
+var reliquary_panel: ReliquaryPanel
 var planning_container: VBoxContainer
 var planning_report_label: Label
 var begin_next_realm_button: Button
@@ -108,6 +110,7 @@ func setup(
 	_add_crystallized_flame_icon()
 	_create_distribution_ui()
 	_create_shop_ui()
+	_create_reliquary_ui()
 	_create_planning_ui()
 	_apply_compact_style()
 	_show_prestige_panel()
@@ -559,6 +562,14 @@ func _create_tab_ui() -> void:
 	tab_container.add_child(distribution_button)
 	distribution_button.pressed.connect(_show_distribution_panel)
 
+	reliquary_button = Button.new()
+	reliquary_button.name = "ReliquaryButton"
+	reliquary_button.text = "RELIQUARY"
+	reliquary_button.custom_minimum_size = Vector2(0, 40)
+	reliquary_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tab_container.add_child(reliquary_button)
+	reliquary_button.pressed.connect(_show_reliquary_panel)
+
 
 # ----------------------------------------------------------------
 # Distribution Panel
@@ -837,6 +848,25 @@ func _create_shop_ui() -> void:
 	eternal_flame_upgrade_container.setup(state)
 
 
+func _create_reliquary_ui() -> void:
+	if reliquary_panel != null:
+		return
+	reliquary_panel = ReliquaryPanel.new()
+	reliquary_panel.name = "ReliquaryPanel"
+	reliquary_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content_container.add_child(reliquary_panel)
+	reliquary_panel.setup(state)
+	reliquary_panel.relics_changed.connect(_on_relics_changed)
+	reliquary_panel.hide()
+
+
+func _on_relics_changed() -> void:
+	state.rebuild_relic_modifiers()
+	refresh()
+	save_manager.save_game(state, time_manager)
+
+
+
 # ----------------------------------------------------------------
 # Panel Switching
 # ----------------------------------------------------------------
@@ -848,6 +878,8 @@ func _show_prestige_panel() -> void:
 	prestige_panel.visible = true
 	shop_panel.visible = false
 	distribution_panel.visible = false
+	if reliquary_panel != null:
+		reliquary_panel.visible = false
 
 	prestige_button.disabled = true
 	shop_button.disabled = false
@@ -864,6 +896,8 @@ func _show_shop_panel() -> void:
 	prestige_panel.visible = false
 	shop_panel.visible = true
 	distribution_panel.visible = false
+	if reliquary_panel != null:
+		reliquary_panel.visible = false
 
 	prestige_button.disabled = false
 	shop_button.disabled = true
@@ -881,10 +915,30 @@ func _show_distribution_panel() -> void:
 	prestige_panel.visible = false
 	shop_panel.visible = false
 	distribution_panel.visible = true
+	if reliquary_panel != null:
+		reliquary_panel.visible = false
 
 	prestige_button.disabled = false
 	shop_button.disabled = false
 	distribution_button.disabled = true
+
+
+func _show_reliquary_panel() -> void:
+	if reliquary_panel == null or state == null:
+		return
+	if not state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state):
+		return
+	prestige_panel.visible = false
+	shop_panel.visible = false
+	distribution_panel.visible = false
+	reliquary_panel.visible = true
+	prestige_button.disabled = false
+	shop_button.disabled = false
+	distribution_button.disabled = false
+	reliquary_button.disabled = true
+	reliquary_panel.refresh()
+
+
 
 
 # ----------------------------------------------------------------
@@ -1069,12 +1123,17 @@ func refresh() -> void:
 
 	# The shop unlocks after the first Smash; distribution unlocks with Brazier I.
 	shop_button.visible = state.eternal_flame_state.prestige_count > 0
+	reliquary_button.visible = state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state)
+	if not reliquary_button.visible and reliquary_panel.visible:
+		_show_prestige_panel()
 	distribution_button.visible = _is_brazier_unlocked("stability")
 	distribution_button.disabled = not state.prestige_planning or distribution_panel.visible
 
 	_update_overflow_bonus_ui()
 	_refresh_realm_ui()
 	_refresh_eternal_flame_upgrade_ui()
+	if reliquary_panel != null and reliquary_panel.visible:
+		reliquary_panel.refresh()
 
 	if stabilize_button != null:
 		stabilize_button.hide()
@@ -1365,6 +1424,10 @@ func _on_eternal_flame_upgrade_pressed(
 		state.heat_leak_threshold,
 		state.matter_decay_threshold
 	)
+
+	if upgrade.effect_type == EternalFlameUpgrade.EFFECT_UNLOCK_RELIQUARY:
+		state.relic_manager.ensure_starter_relic()
+		state.rebuild_relic_modifiers()
 
 	if upgrade.effect_type == (
 		EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY

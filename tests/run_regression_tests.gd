@@ -50,6 +50,7 @@ func _run_tests() -> void:
 	_run_test("Prestige enters planning before resetting the next realm", _test_prestige_planning_transition)
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
+	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
@@ -306,6 +307,43 @@ func _test_brazier_upgrade_unlocks() -> void:
 			state.eternal_flame_state.get_upgrade_level(upgrade_id) == 1,
 			"Purchase did not set the permanent upgrade level for " + upgrade_id + "."
 		)
+
+
+func _test_relic_inventory_equipment_and_save() -> void:
+	var state := _new_test_state()
+	state.eternal_flame_state.eternal_flame = 100.0
+	var purchased := state.eternal_flame_upgrade_manager.purchase("reliquary", state.eternal_flame_state, state.realm_configuration)
+	_expect(purchased, "Reliquary purchase failed.")
+	state.relic_manager.ensure_starter_relic()
+	_expect(state.relic_manager.inventory.size() == 1, "Reliquary did not grant exactly one starter relic.")
+	var relic_id := str(state.relic_manager.inventory[0].get("instance_id", ""))
+	_expect(state.relic_manager.equip_relic("atomic_friction", relic_id, state), "Starter relic could not be equipped.")
+	state.rebuild_relic_modifiers()
+	var generator: Generator = state.get_generator("atomic_friction")
+	var relic_modifier_found := false
+	for modifier in generator.modifiers:
+		if modifier.id == "relic:" + relic_id:
+			relic_modifier_found = true
+	_expect(relic_modifier_found, "Equipping a relic did not add its modifier to the generator.")
+	var before_save: Dictionary = SaveManager.new().state_to_dictionary(state)
+	var loaded_state := _new_test_state()
+	var save_manager := SaveManager.new()
+	var loaded := save_manager.dictionary_to_state(loaded_state, before_save, 7)
+	_expect(loaded, "Relic save data could not be loaded.")
+	_expect(loaded_state.relic_manager.inventory.size() == 1, "Relic inventory did not survive a save/load round trip.")
+	_expect(loaded_state.relic_manager.get_equipped_relic_id("atomic_friction") != "", "Equipped relic did not survive a save/load round trip.")
+	var loaded_modifier_found := false
+	for modifier in loaded_state.get_generator("atomic_friction").modifiers:
+		if modifier.id.begins_with("relic:"):
+			loaded_modifier_found = true
+	_expect(loaded_modifier_found, "Relic modifier was not rebuilt after loading.")
+	loaded_state.reset_current_run()
+	_expect(loaded_state.relic_manager.get_equipped_relic_id("atomic_friction") != "", "Realm reset incorrectly removed equipped relics.")
+	var reset_modifier_found := false
+	for modifier in loaded_state.get_generator("atomic_friction").modifiers:
+		if modifier.id.begins_with("relic:"):
+			reset_modifier_found = true
+	_expect(reset_modifier_found, "Equipped relic modifier was not restored after realm reset.")
 
 
 func _test_reliquary_slot_progression() -> void:
