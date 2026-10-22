@@ -1360,8 +1360,19 @@ func _process(
 	if $AchievementPanel.visible:
 		$AchievementPanel.refresh()
 
+	_update_reliquary_navigation_visibility()
 	_update_navigation_title_visibility()
 	_update_ambient_audio(delta)
+
+
+func _update_reliquary_navigation_visibility() -> void:
+	var button := get_node_or_null("ReliquaryButton") as Button
+	if button == null:
+		return
+	button.visible = (
+		state != null
+		and state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state)
+	)
 
 
 func _update_navigation_title_visibility() -> void:
@@ -1375,6 +1386,7 @@ func _update_navigation_title_visibility() -> void:
 		or $PrestigePanel.visible
 		or $OptionsPanel.visible
 		or $AchievementPanel.visible
+		or (reliquary_window != null and reliquary_window.visible)
 	)
 
 
