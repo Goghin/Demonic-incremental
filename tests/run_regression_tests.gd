@@ -49,6 +49,7 @@ func _run_tests() -> void:
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
 	_run_test("Prestige enters planning before resetting the next realm", _test_prestige_planning_transition)
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
+	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
@@ -305,6 +306,59 @@ func _test_brazier_upgrade_unlocks() -> void:
 			state.eternal_flame_state.get_upgrade_level(upgrade_id) == 1,
 			"Purchase did not set the permanent upgrade level for " + upgrade_id + "."
 		)
+
+
+func _test_reliquary_slot_progression() -> void:
+	var state := _new_test_state()
+	var manager: EternalFlameUpgradeManager = state.eternal_flame_upgrade_manager
+	var flame_state: EternalFlameState = state.eternal_flame_state
+
+	_expect(
+		manager.get_relic_slot_count("atomic_friction", flame_state) == 0,
+		"Atomic Friction should not have a relic slot before the Reliquary is unlocked."
+	)
+	_expect(
+		manager.get_relic_slot_count("molecular_agitation", flame_state) == 0,
+		"Other generators should not have relic slots before the Reliquary is unlocked."
+	)
+
+	flame_state.eternal_flame = 100.0
+	_expect(
+		manager.purchase("reliquary", flame_state, state.realm_configuration),
+		"The Reliquary should be purchasable with enough Eternal Flame."
+	)
+	_expect(
+		manager.get_relic_slot_count("atomic_friction", flame_state) == 1,
+		"The Reliquary should include one Atomic Friction slot."
+	)
+	_expect(
+		manager.get_relic_slot_count("molecular_agitation", flame_state) == 0,
+		"Unlocking the Reliquary should not unlock other generator slots."
+	)
+	_expect(
+		not manager.can_purchase(
+			"attunement_lava_mite_colony",
+			flame_state,
+			state.realm_configuration
+		),
+		"Lava Mite Colony attunement should remain locked until the previous slot upgrade is purchased."
+	)
+	_expect(
+		manager.purchase(
+			"attunement_molecular_agitation",
+			flame_state,
+			state.realm_configuration
+		),
+		"Molecular Agitation's slot upgrade should be purchasable after the Reliquary."
+	)
+	_expect(
+		manager.get_relic_slot_count("molecular_agitation", flame_state) == 1,
+		"Molecular Agitation's slot upgrade should grant exactly one slot."
+	)
+	_expect(
+		manager.get_relic_slot_count("atomic_friction", flame_state) == 1,
+		"Purchasing another generator's slot should not alter Atomic Friction's slot count."
+	)
 
 
 func _test_modifier_operation_mode_targeting() -> void:
