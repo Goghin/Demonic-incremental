@@ -158,9 +158,9 @@ grow_vertical = 1
 
 [node name="OptionsButton" type="Button" parent="." unique_id=1682017612]
 layout_mode = 0
-offset_left = 512.0
+offset_left = 540.0
 offset_top = 601.0
-offset_right = 608.0
+offset_right = 624.0
 offset_bottom = 644.0
 theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
@@ -232,9 +232,9 @@ text = "QUIT GAME"
 
 [node name="UpgradesButton" type="Button" parent="." unique_id=876049299]
 layout_mode = 0
-offset_left = 112.0
+offset_left = 100.0
 offset_top = 601.0
-offset_right = 208.0
+offset_right = 184.0
 offset_bottom = 644.0
 theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
@@ -245,9 +245,9 @@ text = "UPGRADES"
 
 [node name="StatsButton" type="Button" parent="." unique_id=1142714595]
 layout_mode = 0
-offset_left = 212.0
+offset_left = 188.0
 offset_top = 601.0
-offset_right = 308.0
+offset_right = 272.0
 offset_bottom = 644.0
 theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
@@ -287,9 +287,9 @@ grow_vertical = 1
 
 [node name="PrestigeButton" type="Button" parent="." unique_id=123456789]
 layout_mode = 0
-offset_left = 312.0
+offset_left = 276.0
 offset_top = 601.0
-offset_right = 408.0
+offset_right = 360.0
 offset_bottom = 644.0
 theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
@@ -298,11 +298,24 @@ theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
 theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
 text = "REALM"
 
+[node name="ReliquaryButton" type="Button" parent="." unique_id=123456792]
+layout_mode = 0
+offset_left = 364.0
+offset_top = 601.0
+offset_right = 448.0
+offset_bottom = 644.0
+theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
+theme_override_font_sizes/font_size = 9
+theme_override_styles/normal = SubResource("StyleBox_NavButton")
+theme_override_styles/pressed = SubResource("StyleBox_NavButtonPressed")
+theme_override_styles/hover = SubResource("StyleBox_NavButtonHover")
+text = "RELIQUARY"
+
 [node name="AchievementButton" type="Button" parent="." unique_id=123456791]
 layout_mode = 0
-offset_left = 412.0
+offset_left = 452.0
 offset_top = 601.0
-offset_right = 508.0
+offset_right = 536.0
 offset_bottom = 644.0
 theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 9
@@ -315,7 +328,7 @@ text = "ACHIEVEMENTS"
 layout_mode = 0
 offset_left = 12.0
 offset_top = 601.0
-offset_right = 108.0
+offset_right = 96.0
 offset_bottom = 644.0
 theme_override_colors/font_color = Color(0.86, 0.78, 0.73, 1)
 theme_override_font_sizes/font_size = 10
@@ -354,5 +367,6 @@ layout_mode = 1
 [connection signal="pressed" from="UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="StatsButton" to="." method="_on_stats_button_pressed"]
 [connection signal="pressed" from="PrestigeButton" to="." method="_on_prestige_button_pressed"]
+[connection signal="pressed" from="ReliquaryButton" to="." method="_on_reliquary_button_pressed"]
 [connection signal="pressed" from="AchievementButton" to="." method="_on_achievements_button_pressed"]
 [connection signal="pressed" from="GeneratorsButton" to="." method="_on_generators_button_pressed"]
