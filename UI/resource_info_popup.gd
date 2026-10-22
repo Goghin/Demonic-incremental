@@ -211,8 +211,10 @@ func _get_base_mechanics_text() -> String:
 				ResourceIds.ASH
 			)
 			return (
-				"Ashen Contamination starts above %s Ash.\n"
-				+ "Current Ashen Contamination: ×%s"
+				(
+					"Ashen Contamination starts above %s Ash.\n"
+					+ "Current Ashen Contamination: ×%s"
+				)
 				% [
 					NumberFormatter.format(ash_threshold),
 					NumberFormatter.format(contamination_multiplier)
