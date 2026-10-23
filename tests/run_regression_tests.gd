@@ -53,6 +53,7 @@ func _run_tests() -> void:
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
 	_run_test("Machine crafting slots preserve, consume, and return ingredients", _test_machine_crafting_slots)
+	_run_test("Crafting recipes are validated and consumed when a cycle starts", _test_crafting_cycle_start)
 	_run_test("Relic Shard Extractor consumes Matter and grants a shard after one minute", _test_relic_shard_extractor_cycle)
 	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
@@ -518,6 +519,38 @@ func _test_machine_crafting_slots() -> void:
 	_expect(
 		loaded_manager.get_relic(relic_id).is_empty(),
 		"A recycled relic was not removed from inventory ownership."
+	)
+
+
+func _test_crafting_cycle_start() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	var recipe: Array[Dictionary] = [{
+		"item_type": "stackable",
+		"item_id": "relic_shard",
+		"quantity": 3
+	}]
+	var crafting_mode := GeneratorOperationMode.new(
+		"crafting_test", "Crafting Test", "Regression-only recipe mode",
+		1.0, 1.0, 1.0, 60.0, [], [], [], false, [], recipe
+	)
+	extractor.definition.operation_modes.append(crafting_mode)
+	_expect(extractor.set_operation_mode("crafting_test"), "Test crafting operation mode could not be selected.")
+	state.relic_manager.add_stackable_item("relic_shard", 10)
+	var shard_entry := state.relic_manager.get_inventory_entry_at_slot(0)
+	var shard_id := str(shard_entry.get("instance_id", ""))
+	_expect(
+		state.relic_manager.move_inventory_entry_to_machine_slot(shard_id, "relic_shard_extractor", 0),
+		"Test ingredients could not be loaded into the extractor."
+	)
+	state.set_resource_amount(ResourceIds.MATTER, 10.0)
+	_expect(simulation.can_buy_generator("relic_shard_extractor"), "A valid crafting recipe did not enable cycle start.")
+	_expect(simulation.buy_generator("relic_shard_extractor"), "A valid crafting cycle could not start.")
+	_expect(extractor.cycle_active, "Crafting cycle did not become active after purchase.")
+	_expect(
+		int(state.relic_manager.get_machine_entry_at_slot("relic_shard_extractor", 0).get("quantity", 0)) == 7,
+		"Cycle start did not consume exactly the required shard quantity."
 	)
 
 
