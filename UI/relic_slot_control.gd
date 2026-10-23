@@ -308,8 +308,30 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 				state.relic_manager.unequip_relic(generator_id, slot_index)
 				state.relic_manager.equip_relic(source_generator_id, dragged_instance_id, state, source_slot_index)
 				return
-		elif not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state, slot_index):
-			return
+		else:
+			# If the incoming relic is in a crafting slot, first give it an inventory
+			# square. The displaced equipped relic can then take that exact square.
+			if source_kind == "crafting":
+				if not state.relic_manager.move_machine_entry_to_inventory(source_generator_id, source_slot_index):
+					return
+
+			var incoming_inventory_slot := int(
+				state.relic_manager.inventory_positions.get(dragged_instance_id, -1)
+			)
+			if target_relic_id != "":
+				# Do not overwrite an occupied slot: unequip first, equip the incoming
+				# relic, then return the displaced relic to the incoming relic's square.
+				if incoming_inventory_slot < 0:
+					return
+				state.relic_manager.unequip_relic(generator_id, slot_index)
+
+			if not state.relic_manager.equip_relic(generator_id, dragged_instance_id, state, slot_index):
+				if target_relic_id != "":
+					state.relic_manager.equip_relic(generator_id, target_relic_id, state, slot_index)
+				return
+
+			if target_relic_id != "":
+				state.relic_manager.inventory_positions[target_relic_id] = incoming_inventory_slot
 
 	state.rebuild_relic_modifiers()
 	equipment_changed.emit()
