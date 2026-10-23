@@ -724,6 +724,20 @@ func rebuild_relic_modifiers() -> void:
 			var modifier_value := relic_manager.get_relic_modifier_value(relic)
 			var modifier := Modifier.new(modifier_type, target_id, modifier_value)
 			modifier.id = "relic:" + instance_id
+			modifier.dynamic = bool(definition.get("dynamic", false))
+			modifier.dynamic_formula = str(definition.get("dynamic_formula", ""))
+			modifier.dynamic_resource_id = str(definition.get("dynamic_resource_id", ""))
+			modifier.dynamic_generator_id = str(definition.get("dynamic_generator_id", ""))
+			modifier.dynamic_threshold = float(definition.get("dynamic_threshold", 1000.0))
+			modifier.dynamic_exponent = float(definition.get("dynamic_exponent", 0.35))
+			modifier.dynamic_realm_effect_id = str(definition.get("dynamic_realm_effect_id", ""))
+			modifier.dynamic_realm_effect_is_divisor = bool(
+				definition.get("dynamic_realm_effect_is_divisor", false)
+			)
+			var mode_ids: Variant = definition.get("operation_mode_ids", [])
+			if mode_ids is Array:
+				for mode_id_variant in mode_ids:
+					modifier.operation_mode_ids.append(str(mode_id_variant))
 			generator.modifiers.append(modifier)
 			generator.invalidate_production_modifier_cache()
 
