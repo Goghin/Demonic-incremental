@@ -47,6 +47,9 @@ func _update_appearance() -> void:
 	if slot_kind == "inventory":
 		inventory_entry = state.relic_manager.get_inventory_entry_at_slot(slot_index)
 		instance_id = str(inventory_entry.get("instance_id", ""))
+	elif slot_kind == "crafting":
+		inventory_entry = state.relic_manager.get_machine_entry_at_slot(generator_id, slot_index)
+		instance_id = str(inventory_entry.get("instance_id", ""))
 
 	var slot_font_size := 17
 	var style := StyleBoxFlat.new()
@@ -59,7 +62,7 @@ func _update_appearance() -> void:
 	style.content_margin_right = 2.0
 	style.content_margin_bottom = 2.0
 
-	if slot_kind == "inventory":
+	if slot_kind == "inventory" or slot_kind == "crafting":
 		var entry_type := state.relic_manager.get_inventory_entry_type(inventory_entry)
 		if entry_type == "relic":
 			var definition: Dictionary = state.relic_manager.get_definition(
@@ -84,6 +87,8 @@ func _update_appearance() -> void:
 			text = ""
 			tooltip_text = "Empty inventory slot"
 		var occupied := entry_type != ""
+		if slot_kind == "crafting":
+			tooltip_text = ("Crafting input: " + tooltip_text) if occupied else "Drop an ingredient here"
 		style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if occupied else Color(0.08, 0.07, 0.08, 1.0)
 		style.border_color = Color(0.78, 0.38, 0.18, 1.0) if occupied else Color(0.28, 0.23, 0.25, 1.0)
 	else:
@@ -128,6 +133,9 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	var dragged_entry: Dictionary = {}
 	if slot_kind == "inventory":
 		dragged_entry = state.relic_manager.get_inventory_entry_at_slot(slot_index)
+		dragged_instance_id = str(dragged_entry.get("instance_id", ""))
+	elif slot_kind == "crafting":
+		dragged_entry = state.relic_manager.get_machine_entry_at_slot(generator_id, slot_index)
 		dragged_instance_id = str(dragged_entry.get("instance_id", ""))
 	elif slot_kind == "generator":
 		dragged_instance_id = state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
@@ -193,12 +201,20 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 		var source_kind := str(data.get("source_kind", ""))
 		if source_kind == "inventory":
 			return true
+		if source_kind == "crafting":
+			return true
 		if source_kind == "generator":
 			return (
 				item_type == "relic"
 				and state.relic_manager.get_inventory_entry_at_slot(slot_index).is_empty()
 			)
 		return false
+	if slot_kind == "crafting":
+		return (
+			state.get_generator(generator_id) != null
+			and state.relic_manager.get_inventory_entry_by_instance_id(dragged_instance_id).size() > 0
+			and str(data.get("source_kind", "")) != "generator"
+		)
 	if item_type != "relic":
 		return false
 	return (
@@ -220,13 +236,28 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 	var source_slot_index := int(data.get("source_slot_index", 0))
 
 	if slot_kind == "inventory":
-		if source_kind == "generator" and source_generator_id != "":
+		if source_kind == "crafting" and source_generator_id != "":
+			if not state.relic_manager.move_machine_entry_to_inventory(source_generator_id, source_slot_index):
+				return
+			if not state.relic_manager.move_inventory_entry_to_slot(dragged_instance_id, slot_index):
+				return
+		elif source_kind == "generator" and source_generator_id != "":
 			if not state.relic_manager.move_relic_to_inventory(dragged_instance_id, slot_index):
 				return
 			state.relic_manager.unequip_relic(source_generator_id, source_slot_index)
 		elif source_kind == "inventory":
 			if not state.relic_manager.move_inventory_entry_to_slot(dragged_instance_id, slot_index):
 				return
+	elif slot_kind == "crafting":
+		if dragged_instance_id == "":
+			return
+		if source_kind == "crafting":
+			if source_generator_id == generator_id and source_slot_index == slot_index:
+				return
+			if not state.relic_manager.move_machine_entry_to_inventory(source_generator_id, source_slot_index):
+				return
+		if not state.relic_manager.move_inventory_entry_to_machine_slot(dragged_instance_id, generator_id, slot_index):
+			return
 	elif slot_kind == "generator":
 		if dragged_instance_id == "":
 			return
