@@ -52,6 +52,7 @@ func _run_tests() -> void:
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
+	_run_test("Relic Shard Extractor consumes Matter and grants a shard after one minute", _test_relic_shard_extractor_cycle)
 	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
@@ -347,6 +348,44 @@ func _test_relic_inventory_equipment_and_save() -> void:
 			reset_modifier_found = true
 	_expect(reset_modifier_found, "Equipped relic modifier was not restored after realm reset.")
 
+
+
+func _test_relic_shard_extractor_cycle() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	_expect(extractor != null, "Relic Shard Extractor was not registered.")
+	if extractor == null:
+		return
+
+	_expect(extractor.unlocked, "Relic Shard Extractor should be unlocked for testing.")
+	_expect(extractor.definition.cycle_based, "Relic Shard Extractor should use the cycle system.")
+	_expect_approx(extractor.get_cycle_duration(), 60.0, "Relic Shard Extractor cycle should last 60 seconds.")
+
+	state.set_resource_amount(ResourceIds.MATTER, 110.0)
+	_expect(simulation.buy_generator("relic_shard_extractor"), "Could not purchase the test extractor.")
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 100.0, "Extractor purchase cost should be 10 Matter.")
+	_expect(state.relic_manager.get_inventory_entry_at_slot(0).is_empty(), "Extractor should not grant a shard before its cycle completes.")
+
+	simulation.update(30.0)
+	_expect_approx(extractor.cycle_progress, 30.0, "Extractor did not advance halfway through its cycle.")
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 50.0, "Extractor did not consume half its 100 Matter cycle cost.")
+	_expect(state.relic_manager.get_inventory_entry_at_slot(0).is_empty(), "Extractor granted a shard before the 60-second cycle completed.")
+
+	simulation.update(30.0)
+	_expect(not extractor.cycle_active, "Extractor cycle remained active after completing.")
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Extractor did not consume 100 Matter over the full cycle.")
+	var shard_entry := state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(str(shard_entry.get("item_id", "")) == "relic_shard", "Extractor did not grant a Relic Shard inventory item.")
+	_expect(int(shard_entry.get("quantity", 0)) == 1, "Extractor should grant exactly one Relic Shard per completed cycle.")
+
+	state.reset_current_run()
+	var persistent_shard := state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(
+		str(persistent_shard.get("item_id", "")) == "relic_shard"
+		and int(persistent_shard.get("quantity", 0)) == 1,
+		"Relic Shard Extractor reward did not persist through Smash/reset."
+	)
 
 
 func _test_relic_shard_stacks() -> void:
