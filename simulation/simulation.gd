@@ -903,6 +903,14 @@ func can_buy_generator(
 	if generator.definition.cycle_based:
 		if generator.cycle_active:
 			return false
+
+	var operation_mode := generator.get_operation_mode()
+	if operation_mode != null and not operation_mode.crafting_input_requirements.is_empty():
+		if state.relic_manager == null or not state.relic_manager.can_satisfy_crafting_recipe(
+			generator_id,
+			operation_mode.crafting_input_requirements
+		):
+			return false
 	
 	var current_resource = state.get_resource_amount(
 		generator.definition.cost_resource_id
