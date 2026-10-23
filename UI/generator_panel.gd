@@ -252,13 +252,17 @@ func _process(_delta: float) -> void:
 				var item_definition := state.relic_manager.get_stackable_item_definition(item_id)
 				if item_definition.is_empty():
 					continue
-				var reward_quantity := maxi(0, int(item_output.get("quantity", 0))) * maxi(generator.level, 1)
+				var reward_quantity := maxi(0, int(item_output.get("quantity", 0)))
+				if bool(item_output.get("scale_with_generator_level", true)):
+					reward_quantity *= maxi(generator.level, 1)
 				if reward_quantity <= 0:
 					continue
 				reward_summary += " · +%s %s" % [
 					NumberFormatter.format(reward_quantity),
 					str(item_definition.get("display_name", item_id))
 				]
+		if operation_mode != null and operation_mode.completion_random_relic_tier > 0:
+			reward_summary += " · +1 random Tier %d Relic" % operation_mode.completion_random_relic_tier
 		contamination_label.text = "Cycle: ~%s%s%s" % [
 			_format_duration(remaining_seconds),
 			cycle_time_suffix,
