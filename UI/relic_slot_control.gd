@@ -122,7 +122,16 @@ func _update_appearance() -> void:
 	add_theme_stylebox_override("normal", style)
 	add_theme_stylebox_override("hover", style)
 	add_theme_stylebox_override("pressed", style)
-	add_theme_color_override("font_color", Color(1.0, 0.68, 0.36))
+	var rarity := "common"
+	if slot_kind == "inventory" or slot_kind == "crafting":
+		rarity = str(state.relic_manager.get_definition(str(inventory_entry.get("definition_id", ""))).get("rarity", ""))
+	else:
+		var equipped_entry := state.relic_manager.get_relic(instance_id)
+		rarity = str(state.relic_manager.get_definition(str(equipped_entry.get("definition_id", ""))).get("rarity", ""))
+	var rarity_color := Color(0.38, 0.85, 0.48) if rarity == "common" else Color(0.38, 0.70, 1.0) if rarity == "uncommon" else Color(1.0, 0.68, 0.36)
+	if rarity != "":
+		style.border_color = rarity_color if (slot_kind == "inventory" or slot_kind == "crafting") and not inventory_entry.is_empty() else style.border_color
+	add_theme_color_override("font_color", rarity_color if rarity != "" else Color(1.0, 0.68, 0.36))
 	add_theme_color_override("font_hover_color", Color(1.0, 0.86, 0.64))
 	add_theme_font_size_override("font_size", slot_font_size)
 
@@ -137,6 +146,8 @@ func _get_relic_glyph(family: String) -> String:
 			return "◇"
 		"event_chance":
 			return "✦"
+		"sensitivity":
+			return "◉"
 	return "✦"
 
 
