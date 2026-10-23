@@ -33,7 +33,8 @@ func _init(
 	mode_inputs: Array[GeneratorIO] = [],
 	mode_outputs: Array[GeneratorIO] = [],
 	mode_completion_outputs: Array[GeneratorIO] = [],
-	mode_is_resource_transfer: bool = false
+	mode_is_resource_transfer: bool = false,
+	mode_completion_item_outputs: Array[Dictionary] = []
 	) -> void:
 	
 	id = mode_id
