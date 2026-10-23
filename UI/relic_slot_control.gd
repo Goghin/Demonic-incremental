@@ -195,16 +195,16 @@ func _update_appearance() -> void:
 	add_theme_stylebox_override("hover", style)
 	add_theme_stylebox_override("pressed", style)
 	var rarity := ""
+	var rarity_definition: Dictionary = {}
 	var relic_for_rarity: Dictionary = inventory_entry
 	if slot_kind != "inventory" and slot_kind != "crafting":
 		relic_for_rarity = state.relic_manager.get_relic(instance_id)
 	if not relic_for_rarity.is_empty():
-		var rarity_definition: Dictionary = state.relic_manager.get_relic_definition(relic_for_rarity)
+		rarity_definition = state.relic_manager.get_relic_definition(relic_for_rarity)
 		var rarity_tier := int(rarity_definition.get("tier", 0))
 		rarity = str(rarity_definition.get("rarity_name", "common" if rarity_tier == 1 else "uncommon" if rarity_tier >= 2 else "")).to_lower()
 	var rarity_color := Color(1.0, 0.68, 0.36)
-	if not relic_for_rarity.is_empty():
-		var rarity_definition: Dictionary = state.relic_manager.get_relic_definition(relic_for_rarity)
+	if not rarity_definition.is_empty():
 		rarity_color = Color.from_string(str(rarity_definition.get("rarity_color", "")), _get_rarity_color(int(rarity_definition.get("tier", 0))))
 	if rarity != "" and not relic_for_rarity.is_empty():
 		style.border_color = rarity_color
