@@ -366,7 +366,7 @@ func load_save_data(data: Dictionary) -> void:
 		for instance_id_variant in saved_positions.keys():
 			var instance_id := str(instance_id_variant)
 			var slot_index := int(saved_positions[instance_id_variant])
-			if get_relic(instance_id).is_empty() or slot_index < 0 or claimed_inventory_slots.has(slot_index):
+			if get_inventory_entry_by_instance_id(instance_id).is_empty() or slot_index < 0 or claimed_inventory_slots.has(slot_index):
 				continue
 			inventory_positions[instance_id] = slot_index
 			claimed_inventory_slots[slot_index] = true
