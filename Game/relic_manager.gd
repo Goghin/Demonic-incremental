@@ -11,10 +11,6 @@ const UNCOMMON_SECONDARY_STAT_POOL: Array[Dictionary] = [
 ]
 
 const RELIC_DEFINITIONS: Dictionary = {
-	# Generated instances keep their rolled definition on the instance. These stable
-	# IDs make them recognizable as relics while keeping tier checks save-compatible.
-	"generated_relic_tier_1": {"display_name": "Generated Relic", "family": "generated", "tier": 1},
-	"generated_relic_tier_2": {"display_name": "Generated Relic", "family": "generated", "tier": 2},
 	# Tier 1 relics roll their strength once when the instance is created.
 	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Heat output by 5–15%.", "tier": 1},
 	"ashbane_fragment": {"display_name": "Ashbane Fragment", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.ASH, "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Ash production by 5–15%.", "tier": 1},
@@ -266,7 +262,7 @@ func get_inventory_entry_by_instance_id(instance_id: String) -> Dictionary:
 
 func get_inventory_entry_type(entry: Dictionary) -> String:
 	var definition_id := str(entry.get("definition_id", ""))
-	if RELIC_DEFINITIONS.has(definition_id):
+	if _is_relic_definition_id(definition_id):
 		return "relic"
 	if STACKABLE_ITEM_DEFINITIONS.has(str(entry.get("item_id", ""))):
 		return "stackable"
@@ -562,13 +558,28 @@ func get_relic(instance_id: String) -> Dictionary:
 	for entry in inventory:
 		if (
 			str(entry.get("instance_id", "")) == instance_id
-			and RELIC_DEFINITIONS.has(str(entry.get("definition_id", "")))
+			and _is_relic_definition_id(str(entry.get("definition_id", "")))
 		):
 			return entry
 	return {}
 
 func get_definition(definition_id: String) -> Dictionary:
-	return RELIC_DEFINITIONS.get(definition_id, {})
+	if RELIC_DEFINITIONS.has(definition_id):
+		return RELIC_DEFINITIONS[definition_id]
+	if definition_id.begins_with("generated_relic_tier_"):
+		var tier_text := definition_id.trim_prefix("generated_relic_tier_")
+		if tier_text.is_valid_int() and int(tier_text) > 0:
+			return {"display_name": "Generated Relic", "family": "generated", "tier": int(tier_text)}
+	return {}
+
+
+func _is_relic_definition_id(definition_id: String) -> bool:
+	if RELIC_DEFINITIONS.has(definition_id):
+		return true
+	if not definition_id.begins_with("generated_relic_tier_"):
+		return false
+	var tier_text := definition_id.trim_prefix("generated_relic_tier_")
+	return tier_text.is_valid_int() and int(tier_text) > 0
 
 
 func add_random_relic_for_tier(tier: int, critical_chance: float = 0.0) -> String:
@@ -577,8 +588,6 @@ func add_random_relic_for_tier(tier: int, critical_chance: float = 0.0) -> Strin
 		return ""
 	var final_tier := int(generated.get("tier", tier))
 	var definition_id := "generated_relic_tier_%d" % final_tier
-	if not RELIC_DEFINITIONS.has(definition_id):
-		return ""
 	var instance_id := "relic_%d" % _next_instance_number
 	_next_instance_number += 1
 	var entry: Dictionary = {
@@ -778,7 +787,7 @@ func load_save_data(data: Dictionary) -> void:
 				continue
 			var definition_id := str(entry.get("definition_id", ""))
 			var item_id := str(entry.get("item_id", ""))
-			if RELIC_DEFINITIONS.has(definition_id):
+			if _is_relic_definition_id(definition_id):
 				var relic_entry: Dictionary = {
 					"instance_id": instance_id,
 					"definition_id": definition_id
