@@ -7,11 +7,13 @@ extends RefCounted
 const TIER_DEFINITIONS: Dictionary = {
 	1: {
 		"display_name": "Common",
+		"display_color": "#61d97a",
 		"weight": 100.0,
 		"secondary_effect_count": 0
 	},
 	2: {
 		"display_name": "Uncommon",
+		"display_color": "#61b3ff",
 		"weight": 35.0,
 		"secondary_effect_count": 1
 	}
@@ -139,6 +141,10 @@ func get_available_tiers() -> Array[int]:
 	return tiers
 
 
+func get_tier_definition(tier: int) -> Dictionary:
+	return TIER_DEFINITIONS.get(tier, {}).duplicate(true)
+
+
 func get_highest_tier() -> int:
 	var tiers := get_available_tiers()
 	return tiers.back() if not tiers.is_empty() else 0
@@ -171,6 +177,9 @@ func generate_relic(requested_tier: int, critical_chance: float = 0.0) -> Dictio
 
 	var generated_definition := primary_effect.duplicate(true)
 	generated_definition["tier"] = final_tier
+	var tier_data: Dictionary = TIER_DEFINITIONS.get(final_tier, {})
+	generated_definition["rarity_name"] = str(tier_data.get("display_name", "Tier %d" % final_tier))
+	generated_definition["rarity_color"] = str(tier_data.get("display_color", "#ffffff"))
 	generated_definition["display_name"] = _make_display_name(primary_effect)
 	generated_definition["family"] = _get_family_for_stat_group(str(primary_effect.get("stat_group", "")))
 	generated_definition["generated"] = true
@@ -184,7 +193,6 @@ func generate_relic(requested_tier: int, critical_chance: float = 0.0) -> Dictio
 		"rolled_value": float(primary_effect.get("rolled_value", 1.0))
 	}
 
-	var tier_data: Dictionary = TIER_DEFINITIONS.get(final_tier, {})
 	var secondary_count := maxi(0, int(tier_data.get("secondary_effect_count", 0)))
 	var secondary_stats: Array[Dictionary] = []
 	var excluded_group := str(primary_effect.get("stat_group", ""))
