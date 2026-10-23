@@ -19,6 +19,8 @@ var generator_navigation: HBoxContainer
 var generators_button: Button
 var crafting_button: Button
 var crafting_section: VBoxContainer
+var crafting_generator_panel: GeneratorPanel
+var input_handler: InputHandler
 var inventory_section: VBoxContainer
 var generator_section: VBoxContainer
 var right_view: String = "generators"
@@ -28,9 +30,11 @@ var _last_equipment_signature: String = ""
 func setup(
 	game_state: GameState,
 	requested_display_mode: String = DISPLAY_INVENTORY_AND_GENERATORS,
-	target_generator_id: String = ""
+	target_generator_id: String = "",
+	game_input_handler: InputHandler = null
 ) -> void:
 	state = game_state
+	input_handler = game_input_handler
 	display_mode = requested_display_mode
 	focused_generator_id = target_generator_id
 	add_theme_constant_override("separation", 8)
@@ -135,15 +139,24 @@ func setup(
 	crafting_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	crafting_section.add_child(crafting_title)
 
-	var crafting_description := Label.new()
-	crafting_description.text = "The Reliquary can reshape and combine relics here. Crafting has not been unlocked yet."
-	crafting_description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	crafting_description.add_theme_color_override("font_color", Color(0.72, 0.67, 0.65))
-	crafting_section.add_child(crafting_description)
+	crafting_generator_panel = preload("res://UI/generator_panel.tscn").instantiate() as GeneratorPanel
+	crafting_generator_panel.name = "RelicShardExtractorPanel"
+	crafting_generator_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	crafting_generator_panel.custom_minimum_size.x = 0.0
+	crafting_generator_panel.setup(state, input_handler, "relic_shard_extractor")
+	crafting_section.add_child(crafting_generator_panel)
 
-	var crafting_spacer := Control.new()
-	crafting_spacer.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	crafting_section.add_child(crafting_spacer)
+	# Crafting uses the shared generator state, but its purchase and upgrade
+	# navigation controls belong in the main generator interface.
+	var buy_buttons := crafting_generator_panel.get_node_or_null("HBoxContainer/VBoxContainer/BuyButtons")
+	if buy_buttons != null:
+		buy_buttons.hide()
+	var bottom_buttons := crafting_generator_panel.get_node_or_null("HBoxContainer/VBoxContainer/BottomButtons")
+	if bottom_buttons != null:
+		bottom_buttons.hide()
+	var cost_label := crafting_generator_panel.get_node_or_null("HBoxContainer/VBoxContainer/CostLabel")
+	if cost_label != null:
+		cost_label.hide()
 
 	_set_right_view("generators")
 	_apply_display_mode()
@@ -212,6 +225,7 @@ func _get_equipment_signature() -> String:
 		"inventory": state.relic_manager.inventory,
 		"equipped": state.relic_manager.equipped,
 		"slots": _get_slot_counts(),
+		"machine_slots": state.relic_manager.machine_slots,
 		"mode": display_mode,
 		"focused": focused_generator_id
 	})
