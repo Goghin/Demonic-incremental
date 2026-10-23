@@ -50,3 +50,4 @@ func _init(
 	outputs = mode_outputs
 	completion_outputs = mode_completion_outputs
 	is_resource_transfer = mode_is_resource_transfer
+	completion_item_outputs = mode_completion_item_outputs
