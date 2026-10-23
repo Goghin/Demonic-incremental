@@ -131,8 +131,6 @@ func _roll_secondary_stat(definition: Dictionary) -> Dictionary:
 		if not candidate_variant is Dictionary:
 			continue
 		var candidate: Dictionary = candidate_variant
-		if str(candidate.get("stat_type", "modifier")) != primary_type:
-			continue
 		if primary_type == "sensitivity":
 			var candidate_targets: Array = candidate.get("sensitivity_targets", [])
 			var overlaps := false
