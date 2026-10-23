@@ -637,16 +637,9 @@ func get_modifier_description(
 	) -> String:
 	
 	var multiplier = modifier.get_multiplier(state)
-	
-	var source_name = "Base"
-	
-	if modifier.source_upgrade_id != "":
-		var upgrade = state.get_upgrade(
-			modifier.source_upgrade_id
-		)
-		
-		if upgrade != null:
-			source_name = upgrade.definition.display_name
+	var source_name := get_modifier_source_name({
+		"source_upgrade_id": modifier.source_upgrade_id
+	})
 	
 	return "×%.2f — %s" % [
 		multiplier,
@@ -936,18 +929,24 @@ func get_modifier_source_name(
 	modifier_data: Dictionary
 	) -> String:
 	
-	var upgrade_id = modifier_data.get(
-		"source_upgrade_id",
-		""
-	)
+	var source_id := str(modifier_data.get("source_upgrade_id", ""))
 	
-	if upgrade_id == "":
+	if source_id == "":
 		return "Base"
 	
-	var upgrade = state.get_upgrade(
-		upgrade_id
-	)
+	# Relic modifiers use their unique instance ID as the source key,
+	# allowing separate relics to remain separate entries in the breakdown.
+	if source_id.begins_with("relic:"):
+		var instance_id := source_id.trim_prefix("relic:")
+		var relic: Dictionary = state.relic_manager.get_relic(instance_id)
+		if relic.is_empty():
+			return "Unknown Relic"
+		var definition: Dictionary = state.relic_manager.get_definition(
+			str(relic.get("definition_id", ""))
+		)
+		return str(definition.get("display_name", "Unknown Relic"))
 	
+	var upgrade = state.get_upgrade(source_id)
 	if upgrade == null:
 		return "Unknown"
 	
