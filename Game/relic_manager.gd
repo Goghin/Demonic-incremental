@@ -1,6 +1,15 @@
 class_name RelicManager
 extends RefCounted
 
+const UNCOMMON_SECONDARY_STAT_POOL: Array[Dictionary] = [
+	{"stat_type": "modifier", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.03, "roll_max": 1.08, "description": "Heat production"},
+	{"stat_type": "modifier", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.MATTER, "roll_min": 1.03, "roll_max": 1.08, "description": "Matter production"},
+	{"stat_type": "modifier", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.92, "roll_max": 0.97, "description": "Heat draw reduction"},
+	{"stat_type": "modifier", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.92, "roll_max": 0.97, "description": "Matter draw reduction"},
+	{"stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.92, "roll_max": 0.97, "description": "Ash Contamination sensitivity reduction"},
+	{"stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.03, "roll_max": 1.08, "description": "Thermic Mass sensitivity increase"}
+]
+
 const RELIC_DEFINITIONS: Dictionary = {
 	# Tier 1 relics roll their strength once when the instance is created.
 	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Heat output by 5–15%.", "tier": 1},
@@ -16,7 +25,7 @@ const RELIC_DEFINITIONS: Dictionary = {
 	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "Legacy relic: reduces resource input consumption by 20%.", "tier": 0},
 	"refined_emberheart_core": {"display_name": "Refined Emberheart Core", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Heat output by 15–25%.", "tier": 2},
 	"perfected_chronal_spring": {"display_name": "Perfected Chronal Spring", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.15, "roll_max": 1.25, "description": "Increases cycle speed by 15–25%.", "tier": 2},
-	"abyssal_mite_core": {"display_name": "Abyssal Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()},
+	"abyssal_mite_core": {"display_name": "Abyssal Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
 	# Common stat-specialist relics.
 	"ashveil_charm": {"display_name": "Ashveil Charm", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Ash Contamination sensitivity by 5–15%.", "tier": 1},
 	"thermic_resonator": {"display_name": "Thermic Resonator", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Thermic Mass sensitivity by 5–15%.", "tier": 1},
@@ -30,16 +39,6 @@ const RELIC_DEFINITIONS: Dictionary = {
 	"azure_heat_siphon_valve": {"display_name": "Azure Heat Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.75, "roll_max": 0.90, "description": "Greatly reduces Heat draw.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()},
 	"azure_matter_siphon_valve": {"display_name": "Azure Matter Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.75, "roll_max": 0.90, "description": "Greatly reduces Matter draw.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()}
 }
-
-static func _get_uncommon_secondary_stats() -> Array[Dictionary]:
-	return [
-		{"stat_type": "modifier", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.03, "roll_max": 1.08, "description": "Heat production"},
-		{"stat_type": "modifier", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.MATTER, "roll_min": 1.03, "roll_max": 1.08, "description": "Matter production"},
-		{"stat_type": "modifier", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.92, "roll_max": 0.97, "description": "Heat draw reduction"},
-		{"stat_type": "modifier", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.92, "roll_max": 0.97, "description": "Matter draw reduction"},
-		{"stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.92, "roll_max": 0.97, "description": "Ash Contamination sensitivity reduction"},
-		{"stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.03, "roll_max": 1.08, "description": "Thermic Mass sensitivity increase"}
-]
 
 const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
 	"relic_shard": {
