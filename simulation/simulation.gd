@@ -609,7 +609,7 @@ func complete_cycle(
 	if operation_mode != null and state.relic_manager != null:
 		for item_output in operation_mode.completion_item_outputs:
 			var item_id := str(item_output.get("item_id", ""))
-			var quantity := maxi(0, int(item_output.get("quantity", 0))) * generator.level
+			var quantity := maxi(0, int(item_output.get("quantity", 0)))
 			if item_id != "" and quantity > 0:
 				if bool(item_output.get("scale_with_generator_level", true)):
 					quantity *= generator.level
