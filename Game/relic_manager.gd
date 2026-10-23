@@ -23,8 +23,8 @@ const RELIC_DEFINITIONS: Dictionary = {
 	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "multiplier": 1.30, "description": "Legacy relic: increases a generator's output by 30%.", "tier": 0},
 	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "multiplier": 1.20, "description": "Legacy relic: increases cycle speed by 20%.", "tier": 0},
 	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "Legacy relic: reduces resource input consumption by 20%.", "tier": 0},
-	"refined_emberheart_core": {"display_name": "Refined Emberheart Core", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Heat output by 15–25%.", "tier": 2},
-	"perfected_chronal_spring": {"display_name": "Perfected Chronal Spring", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.15, "roll_max": 1.25, "description": "Increases cycle speed by 15–25%.", "tier": 2},
+	"refined_emberheart_core": {"display_name": "Refined Emberheart Core", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Heat output by 15–25%.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
+	"perfected_chronal_spring": {"display_name": "Perfected Chronal Spring", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.15, "roll_max": 1.25, "description": "Increases cycle speed by 15–25%.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
 	"abyssal_mite_core": {"display_name": "Abyssal Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
 	# Common stat-specialist relics.
 	"ashveil_charm": {"display_name": "Ashveil Charm", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Ash Contamination sensitivity by 5–15%.", "tier": 1},
@@ -129,45 +129,35 @@ func get_relic_description(relic: Dictionary) -> String:
 	var definition := get_definition(str(relic.get("definition_id", "")))
 	if definition.is_empty():
 		return ""
-	var base_description := str(definition.get("description", ""))
+	var description := str(definition.get("description", ""))
 	var value := get_relic_modifier_value(relic)
 	var modifier_type := str(definition.get("modifier_type", ""))
-	if not definition.has("roll_min"):
-		return base_description
-	if str(definition.get("stat_type", "")) == "sensitivity":
-		var sensitivity_name := "Ash Contamination" if str(definition.get("sensitivity_targets", [""])[0]) == "ashen_contamination" else "Thermic Mass"
-		var direction := "−" if value < 1.0 else "+"
-		base_description += "\\nRolled: %s%.1f%% sensitivity to %s" % [direction, absf(value - 1.0) * 100.0, sensitivity_name]
-	elif bool(definition.get("dynamic", false)):
-		return "%s\nRolled coefficient: %.4f (effective strength changes with game state)" % [
-			base_description,
-			value
-		]
-	match modifier_type:
-		ModifierTypes.PRODUCTION:
-			if value < 1.0:
-				return "%s\nRolled: −%.1f%%" % [base_description, (1.0 - value) * 100.0]
-			return "%s\nRolled: +%.1f%%" % [base_description, (value - 1.0) * 100.0]
-		ModifierTypes.INPUT_DRAW, ModifierTypes.CYCLE_SPEED:
-			return "%s\nRolled: +%.1f%%" % [base_description, (value - 1.0) * 100.0]
-		ModifierTypes.EVENT_CHANCE:
+	if definition.has("roll_min"):
+		if str(definition.get("stat_type", "")) == "sensitivity":
+			var sensitivity_targets: Array = definition.get("sensitivity_targets", [])
+			var sensitivity_name := "Ash Contamination" if not sensitivity_targets.is_empty() and str(sensitivity_targets[0]) == "ashen_contamination" else "Thermic Mass"
+			var direction := "−" if value < 1.0 else "+"
+			description += "\nRolled: %s%.1f%% sensitivity to %s" % [direction, absf(value - 1.0) * 100.0, sensitivity_name]
+		elif bool(definition.get("dynamic", false)):
+			description += "\nRolled coefficient: %.4f (effective strength changes with game state)" % value
+		elif modifier_type == ModifierTypes.EVENT_CHANCE:
 			var stat_name := "Critical chance" if str(definition.get("target_id", "")) == "critical_chance" else "Downleveling chance"
-			return "%s\nRolled: +%.1f percentage points to %s" % [base_description, value * 100.0, stat_name]
+			description += "\nRolled: +%.1f percentage points to %s" % [value * 100.0, stat_name]
+		else:
+			var percent := absf(value - 1.0) * 100.0
+			var direction := "−" if value < 1.0 else "+"
+			description += "\nRolled: %s%.1f%%" % [direction, percent]
 	var secondary: Variant = relic.get("secondary_stat", {})
 	if secondary is Dictionary and not secondary.is_empty():
 		var secondary_value := float(secondary.get("rolled_value", 1.0))
 		var secondary_type := str(secondary.get("stat_type", "modifier"))
 		var secondary_description := str(secondary.get("description", "Additional stat"))
+		var secondary_direction := "−" if secondary_value < 1.0 else "+"
 		if secondary_type == "sensitivity":
-			var secondary_target: String = str(secondary.get("sensitivity_targets", [""])[0])
-			var secondary_name := "Ash Contamination" if secondary_target == "ashen_contamination" else "Thermic Mass"
-			var secondary_direction := "−" if secondary_value < 1.0 else "+"
-			base_description += "\\nBonus: %s %s%.1f%%" % [secondary_description, secondary_direction, absf(secondary_value - 1.0) * 100.0]
+			description += "\nBonus: %s %s%.1f%%" % [secondary_description, secondary_direction, absf(secondary_value - 1.0) * 100.0]
 		else:
-			var secondary_percent := absf(secondary_value - 1.0) * 100.0
-			var secondary_direction := "−" if secondary_value < 1.0 else "+"
-			base_description += "\\nBonus: %s %s%.1f%%" % [secondary_description, secondary_direction, secondary_percent]
-	return base_description
+			description += "\nBonus: %s %s%.1f%%" % [secondary_description, secondary_direction, absf(secondary_value - 1.0) * 100.0]
+	return description
 
 func _find_first_available_inventory_slot() -> int:
 	var occupied: Dictionary = {}
