@@ -544,15 +544,42 @@ func get_effect_status(definition_id: String, generator_id: String, state: GameS
 	var generator: Generator = state.get_generator(generator_id)
 	if definition.is_empty() or generator == null:
 		return "Inactive"
-	match str(definition.get("family", "")):
-		"production":
+
+	var modifier_type := str(definition.get("modifier_type", ""))
+	var target_id := str(definition.get("target_id", ""))
+	if modifier_type == "":
+		match str(definition.get("family", "")):
+			"production":
+				modifier_type = ModifierTypes.PRODUCTION
+			"cycle_speed":
+				modifier_type = ModifierTypes.CYCLE_SPEED
+			"input_efficiency":
+				modifier_type = ModifierTypes.INPUT_DRAW
+
+	match modifier_type:
+		ModifierTypes.PRODUCTION:
 			if generator.get_operation_mode() != null and generator.get_operation_mode().is_resource_transfer:
 				return "Inactive in resource-transfer mode"
-			return "Active"
-		"cycle_speed":
+			for output in generator.get_active_outputs():
+				if output.unlocked and (target_id == "" or output.resource_id == target_id):
+					return "Active"
+			return "Inactive: no matching output"
+		ModifierTypes.INPUT_DRAW:
+			for input in generator.get_active_inputs():
+				if target_id == "" or input.resource_id == target_id:
+					return "Active"
+			return "Inactive: no matching input"
+		ModifierTypes.CYCLE_SPEED:
 			return "Active" if generator.definition.cycle_based else "Inactive: no cycle"
-		"input_efficiency":
-			return "Active" if not generator.get_active_inputs().is_empty() else "Inactive: no inputs"
+		ModifierTypes.EVENT_CHANCE:
+			if not generator.definition.cycle_based:
+				return "Inactive: no cycle"
+			for effect in generator.event_effects:
+				if target_id == "critical_chance" and effect.event_id == "forge_critical":
+					return "Active"
+				if target_id == "downlevel_chance" and effect.event_action == UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
+					return "Active"
+			return "Inactive: no matching event"
 	return "Inactive"
 
 func get_save_data() -> Dictionary:
