@@ -616,7 +616,8 @@ func complete_cycle(
 				state.relic_manager.add_stackable_item(item_id, quantity)
 		if operation_mode.completion_random_relic_tier > 0:
 			state.relic_manager.add_random_relic_for_tier(
-				operation_mode.completion_random_relic_tier
+				operation_mode.completion_random_relic_tier,
+				operation_mode.completion_critical_chance
 			)
 
 	_apply_cycle_completion_consequences(generator, triggered_events)
