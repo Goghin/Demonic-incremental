@@ -603,6 +603,16 @@ func complete_cycle(
 				state.record_resource_lost(ResourceIds.HEAT, current_heat)
 				state.set_resource_amount(ResourceIds.HEAT, 0.0)
 	
+	# Grant stackable inventory rewards only when the cycle completes. Keep this
+	# separate from resource outputs so persistent items never enter run resources.
+	var operation_mode := generator.get_operation_mode()
+	if operation_mode != null and state.relic_manager != null:
+		for item_output in operation_mode.completion_item_outputs:
+			var item_id := str(item_output.get("item_id", ""))
+			var quantity := maxi(0, int(item_output.get("quantity", 0))) * generator.level
+			if item_id != "" and quantity > 0:
+				state.relic_manager.add_stackable_item(item_id, quantity)
+
 	_apply_cycle_completion_consequences(generator, triggered_events)
 	generator.cycle_active = false
 	generator.operating = false
