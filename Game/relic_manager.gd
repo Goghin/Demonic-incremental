@@ -82,7 +82,7 @@ func add_relic(definition_id: String) -> String:
 	entry["rolled_value"] = _roll_relic_value(definition)
 	var secondary_rolls: Variant = definition.get("secondary_rolls", [])
 	if secondary_rolls is Array and not secondary_rolls.is_empty():
-		var secondary: Dictionary = secondary_rolls[randi_range(0, secondary_rolls.size() - 1)].duplicate(true)
+		var secondary: Dictionary = _roll_secondary_stat(definition)
 		secondary["rolled_value"] = _roll_relic_value(secondary)
 		entry["secondary_stat"] = secondary
 	inventory.append(entry)
@@ -118,6 +118,43 @@ func _roll_relic_value(definition: Dictionary) -> float:
 	return float(definition.get("multiplier", 1.0))
 
 
+func _roll_secondary_stat(definition: Dictionary) -> Dictionary:
+	var secondary_rolls: Variant = definition.get("secondary_rolls", [])
+	if not secondary_rolls is Array:
+		return {}
+	var primary_type := str(definition.get("stat_type", "modifier"))
+	var primary_modifier_type := str(definition.get("modifier_type", ""))
+	var primary_target := str(definition.get("target_id", ""))
+	var primary_sensitivity_targets: Array = definition.get("sensitivity_targets", [])
+	var candidates: Array[Dictionary] = []
+	for candidate_variant in secondary_rolls:
+		if not candidate_variant is Dictionary:
+			continue
+		var candidate: Dictionary = candidate_variant
+		if str(candidate.get("stat_type", "modifier")) != primary_type:
+			continue
+		if primary_type == "sensitivity":
+			var candidate_targets: Array = candidate.get("sensitivity_targets", [])
+			var overlaps := false
+			for target in candidate_targets:
+				if primary_sensitivity_targets.has(target):
+					overlaps = true
+					break
+			if overlaps:
+				continue
+		elif (
+			str(candidate.get("modifier_type", "")) == primary_modifier_type
+			and str(candidate.get("target_id", "")) == primary_target
+		):
+			continue
+		candidates.append(candidate.duplicate(true))
+	if candidates.is_empty():
+		return {}
+	var result: Dictionary = candidates[randi_range(0, candidates.size() - 1)]
+	result["rolled_value"] = _roll_relic_value(result)
+	return result
+
+
 func get_relic_modifier_value(relic: Dictionary) -> float:
 	var definition := get_definition(str(relic.get("definition_id", "")))
 	if definition.is_empty():
@@ -130,6 +167,11 @@ func get_relic_description(relic: Dictionary) -> String:
 	if definition.is_empty():
 		return ""
 	var description := str(definition.get("description", ""))
+	var tier := int(definition.get("tier", 0))
+	if tier == 1:
+		description = "Common\\n" + description
+	elif tier >= 2:
+		description = "Uncommon\\n" + description
 	var value := get_relic_modifier_value(relic)
 	var modifier_type := str(definition.get("modifier_type", ""))
 	if definition.has("roll_min"):
@@ -689,10 +731,8 @@ func load_save_data(data: Dictionary) -> void:
 				if saved_secondary is Dictionary and not saved_secondary.is_empty():
 					relic_entry["secondary_stat"] = saved_secondary.duplicate(true)
 				elif RELIC_DEFINITIONS[definition_id].has("secondary_rolls"):
-					var secondary_rolls: Array = RELIC_DEFINITIONS[definition_id]["secondary_rolls"]
-					if not secondary_rolls.is_empty():
-						var secondary: Dictionary = secondary_rolls[randi_range(0, secondary_rolls.size() - 1)].duplicate(true)
-						secondary["rolled_value"] = _roll_relic_value(secondary)
+					var secondary: Dictionary = _roll_secondary_stat(RELIC_DEFINITIONS[definition_id])
+					if not secondary.is_empty():
 						relic_entry["secondary_stat"] = secondary
 				inventory.append(relic_entry)
 			elif STACKABLE_ITEM_DEFINITIONS.has(item_id):
