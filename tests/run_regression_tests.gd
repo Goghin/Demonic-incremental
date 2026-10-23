@@ -434,6 +434,12 @@ func _test_data_driven_relic_generation_and_critical_promotion() -> void:
 	_expect(not critical_relic.get("secondary_stat", {}).is_empty(), "Promoted tier did not generate its configured secondary effect.")
 	_expect(manager.get_relic_description(critical_relic).contains("Bonus:"), "Generated secondary effect was not described.")
 
+	var highest_tier_id := manager.add_random_relic_for_tier(2, 1.0)
+	var highest_tier_relic: Dictionary = manager.get_relic(highest_tier_id)
+	var highest_tier_definition: Dictionary = manager.get_relic_definition(highest_tier_relic)
+	_expect(int(highest_tier_definition.get("tier", 0)) == 2, "Critical crafting changed the tier when no higher tier exists.")
+	_expect(not bool(highest_tier_relic.get("critical_craft", false)), "A non-promoting top-tier craft was incorrectly marked as promoted.")
+
 	var saved_data := manager.get_save_data()
 	var loaded_manager := RelicManager.new()
 	loaded_manager.load_save_data(saved_data)
