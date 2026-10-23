@@ -611,7 +611,13 @@ func complete_cycle(
 			var item_id := str(item_output.get("item_id", ""))
 			var quantity := maxi(0, int(item_output.get("quantity", 0))) * generator.level
 			if item_id != "" and quantity > 0:
+				if bool(item_output.get("scale_with_generator_level", true)):
+					quantity *= generator.level
 				state.relic_manager.add_stackable_item(item_id, quantity)
+		if operation_mode.completion_random_relic_tier > 0:
+			state.relic_manager.add_random_relic_for_tier(
+				operation_mode.completion_random_relic_tier
+			)
 
 	_apply_cycle_completion_consequences(generator, triggered_events)
 	generator.cycle_active = false
