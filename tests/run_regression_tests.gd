@@ -58,6 +58,7 @@ func _run_tests() -> void:
 	_run_test("Machine crafting slots preserve, consume, and return ingredients", _test_machine_crafting_slots)
 	_run_test("Crafting recipes are validated and consumed when a cycle starts", _test_crafting_cycle_start)
 	_run_test("Relic Shard Extractor exposes five crafting modes and tiered rewards", _test_relic_shard_extractor_modes)
+	_run_test("Data-driven relic generation persists rolls and promotes critical crafts", _test_data_driven_relic_generation_and_critical_promotion)
 	_run_test("Relic Shard Extractor consumes Matter and grants a shard after one minute", _test_relic_shard_extractor_cycle)
 	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
@@ -411,6 +412,64 @@ func _test_relic_shard_extractor_modes() -> void:
 	var before_count := state.relic_manager.inventory.size()
 	simulation.complete_cycle(generator)
 	_expect(state.relic_manager.inventory.size() == before_count + 1, "Forging should grant exactly one relic, not one per generator level.")
+
+
+func _test_data_driven_relic_generation_and_critical_promotion() -> void:
+	var manager := RelicManager.new()
+	var normal_id := manager.add_random_relic_for_tier(1)
+	var normal_relic: Dictionary = manager.get_relic(normal_id)
+	var normal_definition: Dictionary = manager.get_relic_definition(normal_relic)
+	_expect(not normal_id.is_empty(), "Tier 1 generation did not create a relic.")
+	_expect(int(normal_definition.get("tier", 0)) == 1, "Normal crafting changed the requested tier.")
+	_expect(bool(normal_definition.get("generated", false)), "Crafted relic did not store its generated definition.")
+	_expect(str(normal_definition.get("display_name", "")) != "", "Generated relic name was empty.")
+	_expect(manager.get_relic_description(normal_relic).contains("Rolled:"), "Generated relic description omitted its primary roll.")
+
+	var critical_id := manager.add_random_relic_for_tier(1, 1.0)
+	var critical_relic: Dictionary = manager.get_relic(critical_id)
+	var critical_definition: Dictionary = manager.get_relic_definition(critical_relic)
+	_expect(not critical_id.is_empty(), "Guaranteed critical crafting failed to create a relic.")
+	_expect(int(critical_definition.get("tier", 0)) == 2, "Critical crafting did not promote tier 1 to tier 2.")
+	_expect(bool(critical_relic.get("critical_craft", false)), "Promoted relic did not record its critical craft.")
+	_expect(not critical_relic.get("secondary_stat", {}).is_empty(), "Promoted tier did not generate its configured secondary effect.")
+	_expect(manager.get_relic_description(critical_relic).contains("Bonus:"), "Generated secondary effect was not described.")
+
+	var saved_data := manager.get_save_data()
+	var loaded_manager := RelicManager.new()
+	loaded_manager.load_save_data(saved_data)
+	var loaded_critical: Dictionary = loaded_manager.get_relic(critical_id)
+	_expect(
+		loaded_manager.get_relic_definition(loaded_critical) == critical_definition,
+		"Generated definition changed during save/load."
+	)
+	_expect(
+		loaded_critical.get("secondary_stat", {}) == critical_relic.get("secondary_stat", {}),
+		"Generated secondary roll changed during save/load."
+	)
+
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	state.relic_manager.add_stackable_item("relic_shard", 10)
+	var shard_entry := state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(
+		state.relic_manager.move_inventory_entry_to_machine_slot(
+			str(shard_entry.get("instance_id", "")),
+			"relic_shard_extractor",
+			0
+		),
+		"Could not load ingredients for the critical crafting cycle."
+	)
+	state.set_resource_amount(ResourceIds.MATTER, 10.0)
+	extractor.set_operation_mode("forge_relic")
+	extractor.get_operation_mode().completion_critical_chance = 1.0
+	_expect(simulation.buy_generator("relic_shard_extractor"), "Could not start guaranteed critical crafting.")
+	var before_count := state.relic_manager.inventory.size()
+	simulation.complete_cycle(extractor)
+	_expect(state.relic_manager.inventory.size() == before_count + 1, "Critical craft did not award exactly one relic.")
+	var crafted_relic: Dictionary = state.relic_manager.inventory.back()
+	var crafted_definition: Dictionary = state.relic_manager.get_relic_definition(crafted_relic)
+	_expect(int(crafted_definition.get("tier", 0)) == 2, "Crafting cycle did not use the configured critical chance to promote its reward.")
 
 
 func _test_relic_shard_extractor_cycle() -> void:
