@@ -15,6 +15,11 @@ var _event_effects_button: Button
 var _event_effects_popup: AcceptDialog
 var _illustration: TextureRect
 var _relic_slots_container: HBoxContainer
+var _crafting_slots_container: HBoxContainer
+var _crafting_slots_label: Label
+var _crafting_slot_controls: Array[RelicSlotControl] = []
+var _crafting_slot_count: int = -1
+var _last_crafting_signature: String = ""
 var _relic_slot_controls: Array[RelicSlotControl] = []
 var _relic_slot_count: int = -1
 var _last_relic_slot_signature: String = ""
@@ -145,6 +150,7 @@ func _process(_delta: float) -> void:
 			_has_automation_style = true
 	update_illustration(generator)
 	_update_relic_slots_ui()
+	_update_crafting_slots_ui(generator)
 	update_operation_mode_ui(generator)
 	_update_event_effects_ui(generator)
 
@@ -420,7 +426,55 @@ func _on_operation_mode_option_button_item_selected(
 		return
 	
 	var mode_id = str(option_button.get_item_metadata(index))
-	generator.set_operation_mode(mode_id)
+	if not generator.set_operation_mode(mode_id):
+		return
+	var selected_mode := generator.get_operation_mode()
+	var visible_slots := selected_mode.crafting_input_requirements.size() if selected_mode != null else 0
+	state.relic_manager.resize_machine_slots(generator_id, visible_slots)
+	_last_crafting_signature = ""
+	_update_crafting_slots_ui(generator)
+	relics_changed.emit()
+
+
+func _update_crafting_slots_ui(generator: Generator) -> void:
+	if state == null or _crafting_slots_container == null:
+		return
+	var mode := generator.get_operation_mode()
+	var requirements: Array[Dictionary] = mode.crafting_input_requirements if mode != null else []
+	var slot_count := requirements.size()
+	_crafting_slots_label.visible = slot_count > 0
+	_crafting_slots_container.visible = slot_count > 0
+	var slots: Dictionary = state.relic_manager.machine_slots.get(generator_id, {})
+	var signature := "%s:%s" % [generator.operation_mode_id, JSON.stringify(slots)]
+	if signature == _last_crafting_signature and slot_count == _crafting_slot_count:
+		for slot in _crafting_slot_controls:
+			slot.refresh_slot()
+		return
+	_last_crafting_signature = signature
+	if slot_count != _crafting_slot_count:
+		for child in _crafting_slots_container.get_children():
+			_crafting_slots_container.remove_child(child)
+			child.queue_free()
+		_crafting_slot_controls.clear()
+		_crafting_slot_count = slot_count
+		for slot_index in range(slot_count):
+			var slot := RelicSlotControl.new()
+			slot.configure(state, "crafting", "", generator_id, slot_index)
+			slot.equipment_changed.connect(_on_crafting_slot_changed)
+			_crafting_slots_container.add_child(slot)
+			_crafting_slot_controls.append(slot)
+	for slot in _crafting_slot_controls:
+		slot.refresh_slot()
+
+
+func _on_crafting_slot_changed() -> void:
+	_last_crafting_signature = ""
+	if state != null:
+		var generator: Generator = state.get_generator(generator_id)
+		if generator != null:
+			_update_crafting_slots_ui(generator)
+		_update_relic_slots_ui()
+		relics_changed.emit()
 
 
 func _on_buy_button_pressed() -> void:
@@ -470,6 +524,20 @@ func _setup_relic_slots_ui() -> void:
 	_relic_slots_container.add_theme_constant_override("separation", 2)
 	content.add_child(_relic_slots_container)
 	_relic_slots_container.hide()
+
+	_crafting_slots_label = Label.new()
+	_crafting_slots_label.name = "CraftingInputsLabel"
+	_crafting_slots_label.text = "Ingredients"
+	_crafting_slots_label.add_theme_font_size_override("font_size", 10)
+	_crafting_slots_label.add_theme_color_override("font_color", Color(0.72, 0.61, 0.56))
+	content.add_child(_crafting_slots_label)
+	_crafting_slots_container = HBoxContainer.new()
+	_crafting_slots_container.name = "CraftingInputSlots"
+	_crafting_slots_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	_crafting_slots_container.add_theme_constant_override("separation", 2)
+	content.add_child(_crafting_slots_container)
+	_crafting_slots_label.hide()
+	_crafting_slots_container.hide()
 
 
 func _update_relic_slots_ui() -> void:
