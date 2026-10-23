@@ -10,6 +10,7 @@ var slot_kind: String = "inventory"
 var generator_id: String = ""
 var slot_index: int = 0
 var instance_id: String = ""
+var crafting_requirement: Dictionary = {}
 
 
 func configure(
@@ -89,6 +90,18 @@ func _update_appearance() -> void:
 		var occupied := entry_type != ""
 		if slot_kind == "crafting":
 			tooltip_text = ("Crafting input: " + tooltip_text) if occupied else "Drop an ingredient here"
+			var required_item_id := str(crafting_requirement.get("item_id", ""))
+			var required_type := str(crafting_requirement.get("item_type", ""))
+			var required_name := "Relic" if required_type == "relic" else "Ingredient"
+			if required_item_id != "":
+				var stack_definition := state.relic_manager.get_stackable_item_definition(required_item_id)
+				var relic_definition := state.relic_manager.get_definition(required_item_id)
+				if not stack_definition.is_empty():
+					required_name = str(stack_definition.get("display_name", required_item_id))
+				elif not relic_definition.is_empty():
+					required_name = str(relic_definition.get("display_name", required_item_id))
+			var required_quantity := maxi(1, int(crafting_requirement.get("quantity", 1)))
+			tooltip_text += "\nRecipe: %s ×%d" % [required_name, required_quantity]
 		style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if occupied else Color(0.08, 0.07, 0.08, 1.0)
 		style.border_color = Color(0.78, 0.38, 0.18, 1.0) if occupied else Color(0.28, 0.23, 0.25, 1.0)
 	else:
