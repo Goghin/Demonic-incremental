@@ -146,11 +146,9 @@ func setup(
 	crafting_generator_panel.setup(state, input_handler, "relic_shard_extractor")
 	crafting_section.add_child(crafting_generator_panel)
 
-	# Crafting uses the shared generator state, but its purchase and upgrade
-	# navigation controls belong in the main generator interface.
-	var buy_buttons := crafting_generator_panel.get_node_or_null("HBoxContainer/VBoxContainer/BuyButtons")
-	if buy_buttons != null:
-		buy_buttons.hide()
+	# Crafting uses shared generator state. Keep purchase controls so the
+	# player can buy the first level here; hide unrelated upgrade navigation.
+	crafting_generator_panel.relics_changed.connect(_on_crafting_panel_changed)
 	var bottom_buttons := crafting_generator_panel.get_node_or_null("HBoxContainer/VBoxContainer/BottomButtons")
 	if bottom_buttons != null:
 		bottom_buttons.hide()
@@ -385,6 +383,15 @@ func _refresh_generator_list() -> void:
 
 
 func _on_equipment_changed() -> void:
+	if state == null:
+		return
+	state.rebuild_relic_modifiers()
+	_last_equipment_signature = ""
+	refresh()
+	relics_changed.emit()
+
+
+func _on_crafting_panel_changed() -> void:
 	if state == null:
 		return
 	state.rebuild_relic_modifiers()
