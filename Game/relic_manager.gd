@@ -7,12 +7,22 @@ const RELIC_DEFINITIONS: Dictionary = {
 	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Reduces resource input consumption by 10%."}
 }
 
+const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
+	"relic_shard": {
+		"display_name": "Relic Shard",
+		"description": "A fragment of reliquary essence, used in future relic crafting.",
+		"glyph": "♦",
+		"max_stack": 1000
+	}
+}
+
 const INVENTORY_SLOT_COUNT := 24
 
 var inventory: Array[Dictionary] = []
 var inventory_positions: Dictionary = {}
 var equipped: Dictionary = {}
 var _next_instance_number: int = 1
+var _next_item_instance_number: int = 1
 
 func ensure_starter_relic() -> void:
 	for relic in inventory:
@@ -39,17 +49,77 @@ func _find_first_available_inventory_slot() -> int:
 	return slot_index
 
 
-func get_inventory_relic_id_at_slot(slot_index: int) -> String:
+func get_stackable_item_definition(item_id: String) -> Dictionary:
+	return STACKABLE_ITEM_DEFINITIONS.get(item_id, {})
+
+
+func get_inventory_entry_by_instance_id(instance_id: String) -> Dictionary:
+	for entry in inventory:
+		if str(entry.get("instance_id", "")) == instance_id:
+			return entry
+	return {}
+
+
+func get_inventory_entry_type(entry: Dictionary) -> String:
+	if not entry.get("definition_id", "").is_empty():
+		return "relic" if RELIC_DEFINITIONS.has(str(entry.get("definition_id", ""))) else ""
+	if STACKABLE_ITEM_DEFINITIONS.has(str(entry.get("item_id", ""))):
+		return "stackable"
+	return ""
+
+
+func get_inventory_entry_at_slot(slot_index: int) -> Dictionary:
 	if slot_index < 0:
-		return ""
-	for relic in inventory:
-		var instance_id := str(relic.get("instance_id", ""))
+		return {}
+	for entry in inventory:
+		var instance_id := str(entry.get("instance_id", ""))
 		if int(inventory_positions.get(instance_id, -1)) != slot_index:
 			continue
-		if _is_relic_equipped(instance_id):
+		if get_inventory_entry_type(entry) == "relic" and _is_relic_equipped(instance_id):
 			continue
-		return instance_id
-	return ""
+		return entry.duplicate(true)
+	return {}
+
+
+func get_inventory_relic_id_at_slot(slot_index: int) -> String:
+	var entry := get_inventory_entry_at_slot(slot_index)
+	if get_inventory_entry_type(entry) != "relic":
+		return ""
+	return str(entry.get("instance_id", ""))
+
+
+func add_stackable_item(item_id: String, quantity: int) -> int:
+	var definition := get_stackable_item_definition(item_id)
+	if definition.is_empty() or quantity <= 0:
+		return 0
+
+	var remaining := quantity
+	var max_stack := maxi(1, int(definition.get("max_stack", 1000)))
+	for entry in inventory:
+		if str(entry.get("item_id", "")) != item_id:
+			continue
+		var current_quantity := int(entry.get("quantity", 0))
+		var added := mini(remaining, max_stack - current_quantity)
+		if added <= 0:
+			continue
+		entry["quantity"] = current_quantity + added
+		remaining -= added
+		if remaining <= 0:
+			break
+
+	while remaining > 0:
+		var stack_quantity := mini(remaining, max_stack)
+		var instance_id := "item_%d" % _next_item_instance_number
+		_next_item_instance_number += 1
+		inventory.append({
+			"instance_id": instance_id,
+			"item_id": item_id,
+			"quantity": stack_quantity
+		})
+		inventory_positions[instance_id] = _find_first_available_inventory_slot()
+		remaining -= stack_quantity
+
+	return quantity
 
 
 func get_inventory_slot_count() -> int:
@@ -67,25 +137,70 @@ func _is_relic_equipped(instance_id: String) -> bool:
 
 
 func move_relic_to_inventory(instance_id: String, target_slot_index: int) -> bool:
-	if target_slot_index < 0 or get_relic(instance_id).is_empty():
+	if get_relic(instance_id).is_empty():
 		return false
+	return move_inventory_entry_to_slot(instance_id, target_slot_index)
+
+
+func move_inventory_entry_to_slot(instance_id: String, target_slot_index: int) -> bool:
+	if target_slot_index < 0:
+		return false
+	var source_entry := get_inventory_entry_by_instance_id(instance_id)
+	if source_entry.is_empty():
+		return false
+
 	var previous_slot := int(inventory_positions.get(instance_id, -1))
-	var target_instance_id := get_inventory_relic_id_at_slot(target_slot_index)
+	var target_entry := get_inventory_entry_at_slot(target_slot_index)
+	var target_instance_id := str(target_entry.get("instance_id", ""))
 	if target_instance_id == instance_id:
 		return true
-	if target_instance_id != "":
-		if previous_slot >= 0:
-			inventory_positions[target_instance_id] = previous_slot
-		else:
+
+	# Compatible stacks merge up to their configured capacity. Any remainder
+	# stays in its original stack and therefore keeps its inventory position.
+	if (
+		get_inventory_entry_type(source_entry) == "stackable"
+		and get_inventory_entry_type(target_entry) == "stackable"
+		and str(source_entry.get("item_id", "")) == str(target_entry.get("item_id", ""))
+	):
+		var definition := get_stackable_item_definition(str(source_entry.get("item_id", "")))
+		var max_stack := maxi(1, int(definition.get("max_stack", 1000)))
+		var target_quantity := int(target_entry.get("quantity", 0))
+		var source_quantity := int(source_entry.get("quantity", 0))
+		var transferred := mini(source_quantity, maxi(0, max_stack - target_quantity))
+		if transferred <= 0:
 			return false
+		for entry in inventory:
+			if str(entry.get("instance_id", "")) == target_instance_id:
+				entry["quantity"] = target_quantity + transferred
+			if str(entry.get("instance_id", "")) == instance_id:
+				entry["quantity"] = source_quantity - transferred
+		if source_quantity == transferred:
+			_remove_inventory_entry(instance_id)
+		return true
+
+	if target_instance_id != "":
+		if previous_slot < 0:
+			return false
+		inventory_positions[target_instance_id] = previous_slot
 	inventory_positions[instance_id] = target_slot_index
 	return true
 
 
+func _remove_inventory_entry(instance_id: String) -> void:
+	for index in range(inventory.size() - 1, -1, -1):
+		if str(inventory[index].get("instance_id", "")) == instance_id:
+			inventory.remove_at(index)
+			break
+	inventory_positions.erase(instance_id)
+
+
 func get_relic(instance_id: String) -> Dictionary:
-	for relic in inventory:
-		if str(relic.get("instance_id", "")) == instance_id:
-			return relic
+	for entry in inventory:
+		if (
+			str(entry.get("instance_id", "")) == instance_id
+			and RELIC_DEFINITIONS.has(str(entry.get("definition_id", "")))
+		):
+			return entry
 	return {}
 
 func get_definition(definition_id: String) -> Dictionary:
@@ -209,7 +324,8 @@ func get_save_data() -> Dictionary:
 		"inventory": inventory.duplicate(true),
 		"inventory_positions": inventory_positions.duplicate(true),
 		"equipped": equipped.duplicate(true),
-		"next_instance_number": _next_instance_number
+		"next_instance_number": _next_instance_number,
+		"next_item_instance_number": _next_item_instance_number
 	}
 
 func load_save_data(data: Dictionary) -> void:
@@ -217,16 +333,32 @@ func load_save_data(data: Dictionary) -> void:
 	inventory_positions.clear()
 	equipped.clear()
 	_next_instance_number = maxi(1, int(data.get("next_instance_number", 1)))
+	_next_item_instance_number = maxi(1, int(data.get("next_item_instance_number", 1)))
 	var inventory_data: Variant = data.get("inventory", [])
 	if inventory_data is Array:
 		for entry in inventory_data:
 			if not entry is Dictionary:
 				continue
 			var instance_id := str(entry.get("instance_id", ""))
-			var definition_id := str(entry.get("definition_id", ""))
-			if instance_id == "" or not RELIC_DEFINITIONS.has(definition_id):
+			if instance_id == "":
 				continue
-			inventory.append({"instance_id": instance_id, "definition_id": definition_id})
+			var definition_id := str(entry.get("definition_id", ""))
+			var item_id := str(entry.get("item_id", ""))
+			if RELIC_DEFINITIONS.has(definition_id):
+				inventory.append({
+					"instance_id": instance_id,
+					"definition_id": definition_id
+				})
+			elif STACKABLE_ITEM_DEFINITIONS.has(item_id):
+				var quantity := int(entry.get("quantity", 0))
+				if quantity <= 0:
+					continue
+				var max_stack := maxi(1, int(STACKABLE_ITEM_DEFINITIONS[item_id].get("max_stack", 1000)))
+				inventory.append({
+					"instance_id": instance_id,
+					"item_id": item_id,
+					"quantity": mini(quantity, max_stack)
+				})
 	# Restore saved inventory squares. Older saves fall back to the relic's saved array order.
 	var saved_positions: Variant = data.get("inventory_positions", {})
 	var claimed_inventory_slots: Dictionary = {}
@@ -274,7 +406,12 @@ func load_save_data(data: Dictionary) -> void:
 		for instance_id in get_equipped_relic_ids(str(generator_id_variant)):
 			inventory_positions.erase(instance_id)
 
-	for relic in inventory:
-		var instance_id := str(relic.get("instance_id", ""))
+	for entry in inventory:
+		var instance_id := str(entry.get("instance_id", ""))
 		if instance_id.begins_with("relic_"):
 			_next_instance_number = maxi(_next_instance_number, int(instance_id.trim_prefix("relic_")) + 1)
+		elif instance_id.begins_with("item_"):
+			_next_item_instance_number = maxi(
+				_next_item_instance_number,
+				int(instance_id.trim_prefix("item_")) + 1
+			)
