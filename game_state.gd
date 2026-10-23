@@ -43,6 +43,7 @@ var eternal_flame_state: EternalFlameState
 var realm_configuration: RealmConfiguration
 var realm_effects: RealmEffects
 var eternal_flame_upgrade_manager: EternalFlameUpgradeManager
+var relic_manager: RelicManager
 var generator_automation_manager: GeneratorAutomationManager
 var upgrade_automation_manager: UpgradeAutomationManager
 
@@ -87,6 +88,7 @@ func _init() -> void:
 	
 	eternal_flame_state = EternalFlameState.new()
 	eternal_flame_upgrade_manager = EternalFlameUpgradeManager.new()
+	relic_manager = RelicManager.new()
 	
 	generator_automation_manager = GeneratorAutomationManager.new(self)
 	upgrade_automation_manager = UpgradeAutomationManager.new(self)
@@ -186,6 +188,11 @@ func _initialize_generators() -> void:
 	
 	_register_generator(
 		InfernalForge.create()
+	)
+
+	# Temporary, low-cost cycle generator used to test persistent shard rewards.
+	_register_generator(
+		RelicShardExtractor.create()
 	)
 
 # -------------------------------------------------------------------
@@ -661,6 +668,7 @@ func reset_current_run() -> void:
 	current_run_statistics.reset()
 	achievement_manager.reset_current_run_tracking()
 	_apply_permanent_starting_generator_levels()
+	rebuild_relic_modifiers()
 	
 		
 	overflow_bonus_from_last_realm = next_overflow_bonus()
@@ -668,6 +676,50 @@ func reset_current_run() -> void:
 	
 	_apply_permanent_technology_unlocks()
 	rebuild_realm_effects()
+
+func rebuild_relic_modifiers() -> void:
+	if relic_manager == null:
+		return
+	for generator in generators.values():
+		for modifier in generator.modifiers.duplicate():
+			if modifier.id.begins_with("relic:"):
+				generator.modifiers.erase(modifier)
+		generator.invalidate_production_modifier_cache()
+
+	for generator_id_variant in relic_manager.equipped.keys():
+		var generator_id := str(generator_id_variant)
+		var generator: Generator = get_generator(generator_id)
+		if generator == null:
+			continue
+		var unlocked_slots: int = eternal_flame_upgrade_manager.get_relic_slot_count(
+			generator_id,
+			eternal_flame_state
+		)
+		for slot_index in range(unlocked_slots):
+			var instance_id := relic_manager.get_equipped_relic_id(generator_id, slot_index)
+			if instance_id == "":
+				continue
+			var relic: Dictionary = relic_manager.get_relic(instance_id)
+			if relic.is_empty():
+				continue
+			var definition: Dictionary = relic_manager.get_definition(str(relic.get("definition_id", "")))
+			if definition.is_empty():
+				continue
+			var modifier_type := ""
+			match str(definition.get("family", "")):
+				"production":
+					modifier_type = ModifierTypes.PRODUCTION
+				"cycle_speed":
+					modifier_type = ModifierTypes.CYCLE_SPEED
+				"input_efficiency":
+					modifier_type = ModifierTypes.INPUT_DRAW
+			if modifier_type == "":
+				continue
+			var modifier := Modifier.new(modifier_type, "", float(definition.get("multiplier", 1.0)))
+			modifier.id = "relic:" + instance_id
+			generator.modifiers.append(modifier)
+			generator.invalidate_production_modifier_cache()
+
 
 func get_unassigned_eternal_flames() -> int:
 	return eternal_flame_state.get_unassigned_flames(

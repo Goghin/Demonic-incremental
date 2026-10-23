@@ -49,6 +49,14 @@ func _run_tests() -> void:
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
 	_run_test("Prestige enters planning before resetting the next realm", _test_prestige_planning_transition)
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
+	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
+	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
+	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
+	_run_test("Machine crafting slots preserve, consume, and return ingredients", _test_machine_crafting_slots)
+	_run_test("Crafting recipes are validated and consumed when a cycle starts", _test_crafting_cycle_start)
+	_run_test("Relic Shard Extractor exposes five crafting modes and tiered rewards", _test_relic_shard_extractor_modes)
+	_run_test("Relic Shard Extractor consumes Matter and grants a shard after one minute", _test_relic_shard_extractor_cycle)
+	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
 	_run_test("Forge Immunity blocks Ash production penalty but preserves cycle slowdown", _test_forge_immunity_ash_sensitivity)
@@ -280,11 +288,11 @@ func _test_brazier_upgrade_unlocks() -> void:
 	state.eternal_flame_state.eternal_flame = 200.0
 	var manager: EternalFlameUpgradeManager = state.eternal_flame_upgrade_manager
 	var progression: Array[Dictionary] = [
-		{"upgrade": "brazier_stability", "technology": "brazier_stability", "cost": 1},
-		{"upgrade": "brazier_density", "technology": "brazier_density", "cost": 5},
-		{"upgrade": "brazier_integrity", "technology": "brazier_integrity", "cost": 15},
-		{"upgrade": "brazier_intensity", "technology": "brazier_intensity", "cost": 30},
-		{"upgrade": "brazier_resonance", "technology": "brazier_resonance", "cost": 60}
+		{"upgrade": "brazier_intensity", "technology": "brazier_intensity", "cost": 1},
+		{"upgrade": "brazier_stability", "technology": "brazier_stability", "cost": 4},
+		{"upgrade": "brazier_density", "technology": "brazier_density", "cost": 10},
+		{"upgrade": "brazier_integrity", "technology": "brazier_integrity", "cost": 20},
+		{"upgrade": "brazier_resonance", "technology": "brazier_resonance", "cost": 35}
 	]
 	for entry in progression:
 		var upgrade_id: String = str(entry["upgrade"])
@@ -305,6 +313,407 @@ func _test_brazier_upgrade_unlocks() -> void:
 			state.eternal_flame_state.get_upgrade_level(upgrade_id) == 1,
 			"Purchase did not set the permanent upgrade level for " + upgrade_id + "."
 		)
+
+
+func _test_relic_inventory_equipment_and_save() -> void:
+	var state := _new_test_state()
+	state.eternal_flame_state.eternal_flame = 100.0
+	var purchased := state.eternal_flame_upgrade_manager.purchase("reliquary", state.eternal_flame_state, state.realm_configuration)
+	_expect(purchased, "Reliquary purchase failed.")
+	state.relic_manager.ensure_starter_relic()
+	_expect(state.relic_manager.inventory.size() == 1, "Reliquary did not grant exactly one starter relic.")
+	var relic_id := str(state.relic_manager.inventory[0].get("instance_id", ""))
+	_expect(state.relic_manager.equip_relic("atomic_friction", relic_id, state), "Starter relic could not be equipped.")
+	state.rebuild_relic_modifiers()
+	var generator: Generator = state.get_generator("atomic_friction")
+	var relic_modifier_found := false
+	for modifier in generator.modifiers:
+		if modifier.id == "relic:" + relic_id:
+			relic_modifier_found = true
+	_expect(relic_modifier_found, "Equipping a relic did not add its modifier to the generator.")
+	var before_save: Dictionary = SaveManager.new().state_to_dictionary(state)
+	var loaded_state := _new_test_state()
+	var save_manager := SaveManager.new()
+	var loaded := save_manager.dictionary_to_state(loaded_state, before_save, 7)
+	_expect(loaded, "Relic save data could not be loaded.")
+	_expect(loaded_state.relic_manager.inventory.size() == 1, "Relic inventory did not survive a save/load round trip.")
+	_expect(loaded_state.relic_manager.get_equipped_relic_id("atomic_friction") != "", "Equipped relic did not survive a save/load round trip.")
+	var loaded_modifier_found := false
+	for modifier in loaded_state.get_generator("atomic_friction").modifiers:
+		if modifier.id.begins_with("relic:"):
+			loaded_modifier_found = true
+	_expect(loaded_modifier_found, "Relic modifier was not rebuilt after loading.")
+	loaded_state.reset_current_run()
+	_expect(loaded_state.relic_manager.get_equipped_relic_id("atomic_friction") != "", "Realm reset incorrectly removed equipped relics.")
+	var reset_modifier_found := false
+	for modifier in loaded_state.get_generator("atomic_friction").modifiers:
+		if modifier.id.begins_with("relic:"):
+			reset_modifier_found = true
+	_expect(reset_modifier_found, "Equipped relic modifier was not restored after realm reset.")
+
+
+
+
+func _test_relic_shard_extractor_modes() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var generator: Generator = state.get_generator("relic_shard_extractor")
+	_expect(generator != null, "Relic Shard Extractor was not registered.")
+	if generator == null:
+		return
+	_expect(generator.definition.operation_modes.size() == 5, "Extractor should expose exactly five operation modes.")
+	var expected_modes := ["normal", "recycle_relic", "combine_shards", "forge_relic", "forge_greater_relic"]
+	for index in range(expected_modes.size()):
+		_expect(
+			generator.definition.operation_modes[index].id == expected_modes[index],
+			"Extractor mode order or ID was incorrect at index %d." % index
+		)
+	var standard_mode: GeneratorOperationMode = generator.definition.operation_modes[3]
+	var greater_mode: GeneratorOperationMode = generator.definition.operation_modes[4]
+	_expect(standard_mode.completion_random_relic_tier == 1, "Standard forge should produce tier 1 relics.")
+	_expect(greater_mode.completion_random_relic_tier == 2, "Greater forge should produce tier 2 relics.")
+	_expect(state.relic_manager.get_stackable_item_definition("greater_relic_shard").size() > 0, "Greater Relic Shard item is missing.")
+	_expect(standard_mode.crafting_input_requirements.size() == 1, "Standard forging should require one ingredient stack.")
+	_expect(greater_mode.crafting_input_requirements[0].get("item_id", "") == "greater_relic_shard", "Higher-tier forging should require Greater Relic Shards.")
+
+	# Recycling consumes the explicitly loaded relic and returns a fixed shard amount.
+	generator.set_operation_mode("recycle_relic")
+	var recycled_relic_id := state.relic_manager.add_relic("clockwork_ember")
+	_expect(recycled_relic_id != "", "Could not create a relic for the recycling test.")
+	_expect(
+		state.relic_manager.move_inventory_entry_to_machine_slot(recycled_relic_id, "relic_shard_extractor", 0),
+		"Could not load the selected relic into the extractor."
+	)
+	state.set_resource_amount(ResourceIds.MATTER, 100.0)
+	_expect(simulation.buy_generator("relic_shard_extractor"), "Recycling cycle did not start with a valid relic.")
+	_expect(state.relic_manager.get_inventory_entry_by_instance_id(recycled_relic_id).is_empty(), "Recycled relic was not consumed at cycle start.")
+	var shards_before := 0
+	for entry in state.relic_manager.inventory:
+		if str(entry.get("item_id", "")) == "relic_shard":
+			shards_before += int(entry.get("quantity", 0))
+	simulation.complete_cycle(generator)
+	var shards_after := 0
+	for entry in state.relic_manager.inventory:
+		if str(entry.get("item_id", "")) == "relic_shard":
+			shards_after += int(entry.get("quantity", 0))
+	_expect(shards_after - shards_before == 3, "Recycling should produce exactly 3 shards regardless of generator level.")
+
+	_expect(state.relic_manager.add_random_relic_for_tier(2) != "", "Tier 2 random relic generation failed.")
+	var produced_relic: Dictionary = state.relic_manager.inventory.back()
+	var produced_definition := state.relic_manager.get_definition(str(produced_relic.get("definition_id", "")))
+	_expect(int(produced_definition.get("tier", 0)) == 2, "Random tier 2 reward came from the wrong tier.")
+	# Completion grants one random relic independently of extractor level.
+	generator.level = 4
+	generator.set_operation_mode("forge_relic")
+	var before_count := state.relic_manager.inventory.size()
+	simulation.complete_cycle(generator)
+	_expect(state.relic_manager.inventory.size() == before_count + 1, "Forging should grant exactly one relic, not one per generator level.")
+
+
+func _test_relic_shard_extractor_cycle() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	_expect(extractor != null, "Relic Shard Extractor was not registered.")
+	if extractor == null:
+		return
+
+	_expect(extractor.unlocked, "Relic Shard Extractor should be unlocked for testing.")
+	_expect(extractor.definition.cycle_based, "Relic Shard Extractor should use the cycle system.")
+	_expect_approx(extractor.get_cycle_duration(), 60.0, "Relic Shard Extractor cycle should last 60 seconds.")
+
+	state.set_resource_amount(ResourceIds.MATTER, 110.0)
+	_expect(simulation.buy_generator("relic_shard_extractor"), "Could not purchase the test extractor.")
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 100.0, "Extractor purchase cost should be 10 Matter.")
+	_expect(state.relic_manager.get_inventory_entry_at_slot(0).is_empty(), "Extractor should not grant a shard before its cycle completes.")
+
+	simulation.update(30.0)
+	_expect_approx(extractor.cycle_progress, 30.0, "Extractor did not advance halfway through its cycle.")
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 50.0, "Extractor did not consume half its 100 Matter cycle cost.")
+	_expect(state.relic_manager.get_inventory_entry_at_slot(0).is_empty(), "Extractor granted a shard before the 60-second cycle completed.")
+
+	simulation.update(30.0)
+	_expect(not extractor.cycle_active, "Extractor cycle remained active after completing.")
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Extractor did not consume 100 Matter over the full cycle.")
+	var shard_entry := state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(str(shard_entry.get("item_id", "")) == "relic_shard", "Extractor did not grant a Relic Shard inventory item.")
+	_expect(int(shard_entry.get("quantity", 0)) == 1, "Extractor should grant exactly one Relic Shard per completed cycle.")
+
+	state.reset_current_run()
+	var persistent_shard := state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(
+		str(persistent_shard.get("item_id", "")) == "relic_shard"
+		and int(persistent_shard.get("quantity", 0)) == 1,
+		"Relic Shard Extractor reward did not persist through Smash/reset."
+	)
+
+
+func _test_relic_shard_stacks() -> void:
+	var manager := RelicManager.new()
+	_expect(
+		manager.add_stackable_item("relic_shard", 1250) == 1250,
+		"Relic Shard stack creation did not accept the full quantity."
+	)
+	_expect(manager.inventory.size() == 2, "1,250 shards should occupy two stacks.")
+	var first_stack: Dictionary = manager.get_inventory_entry_at_slot(0)
+	var second_stack: Dictionary = manager.get_inventory_entry_at_slot(1)
+	_expect(
+		int(first_stack.get("quantity", 0)) == 1000,
+		"First Relic Shard stack did not respect the 1,000-item cap."
+	)
+	_expect(
+		int(second_stack.get("quantity", 0)) == 250,
+		"Overflow Relic Shards were not placed into a second stack."
+	)
+
+	# Simulate spending some shards, then merge the second stack into the first.
+	var first_id := str(first_stack.get("instance_id", ""))
+	var second_id := str(second_stack.get("instance_id", ""))
+	for entry in manager.inventory:
+		if str(entry.get("instance_id", "")) == first_id:
+			entry["quantity"] = 900
+	_expect(
+		manager.move_inventory_entry_to_slot(second_id, 0),
+		"Moving a compatible stack onto another stack failed."
+	)
+	_expect(
+		int(manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 1000,
+		"Stack merge did not fill the target stack to its 1,000 cap."
+	)
+	_expect(
+		int(manager.get_inventory_entry_at_slot(1).get("quantity", 0)) == 150,
+		"Stack merge did not leave the unmerged remainder in the source square."
+	)
+
+	var saved_data := manager.get_save_data()
+	var loaded_manager := RelicManager.new()
+	loaded_manager.load_save_data(saved_data)
+	_expect(
+		int(loaded_manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 1000,
+		"Saved Relic Shard stack quantity did not survive loading."
+	)
+	_expect(
+		int(loaded_manager.get_inventory_entry_at_slot(1).get("quantity", 0)) == 150,
+		"Saved Relic Shard inventory position or remainder did not survive loading."
+	)
+
+	var state := _new_test_state()
+	state.relic_manager.add_stackable_item("relic_shard", 10)
+	var shard_entry := state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(
+		not state.relic_manager.equip_relic(
+			"atomic_friction",
+			str(shard_entry.get("instance_id", "")),
+			state
+		),
+		"Stackable Relic Shards should not be equippable as relics."
+	)
+	state.reset_current_run()
+	_expect(
+		int(state.relic_manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 10,
+		"Relic Shards did not survive the realm Smash/reset."
+	)
+
+
+func _test_machine_crafting_slots() -> void:
+	var manager := RelicManager.new()
+	manager.add_stackable_item("relic_shard", 10)
+	var shard_entry := manager.get_inventory_entry_at_slot(0)
+	var shard_instance_id := str(shard_entry.get("instance_id", ""))
+	_expect(
+		manager.move_inventory_entry_to_machine_slot(shard_instance_id, "relic_shard_extractor", 0),
+		"Relic Shards could not be moved into a machine input slot."
+	)
+	_expect(
+		manager.get_inventory_entry_at_slot(0).is_empty(),
+		"An item in a machine input slot still occupied a Reliquary square."
+	)
+	var recipe: Array[Dictionary] = [{
+		"item_type": "stackable",
+		"item_id": "relic_shard",
+		"quantity": 3
+	}]
+	_expect(
+		manager.can_satisfy_crafting_recipe("relic_shard_extractor", recipe),
+		"A valid stackable crafting recipe was rejected."
+	)
+	_expect(
+		manager.consume_crafting_recipe("relic_shard_extractor", recipe),
+		"A valid crafting recipe could not consume its ingredients."
+	)
+	_expect(
+		int(manager.get_machine_entry_at_slot("relic_shard_extractor", 0).get("quantity", 0)) == 7,
+		"Crafting did not preserve the excess quantity in a shard stack."
+	)
+
+	var saved_data := manager.get_save_data()
+	var loaded_manager := RelicManager.new()
+	loaded_manager.load_save_data(saved_data)
+	_expect(
+		int(loaded_manager.get_machine_entry_at_slot("relic_shard_extractor", 0).get("quantity", 0)) == 7,
+		"Machine input contents did not survive save/load."
+	)
+	_expect(
+		loaded_manager.resize_machine_slots("relic_shard_extractor", 0),
+		"Machine could not return contents when a recipe no longer needed the slot."
+	)
+	_expect(
+		int(loaded_manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 7,
+		"Hidden machine-slot contents were not returned to the Reliquary."
+	)
+
+	var relic_id := loaded_manager.add_relic("cinder_shard")
+	var relic_slot := int(loaded_manager.inventory_positions.get(relic_id, -1))
+	_expect(relic_slot >= 0, "Test relic did not receive an inventory square.")
+	_expect(
+		loaded_manager.move_inventory_entry_to_machine_slot(relic_id, "relic_shard_extractor", 0),
+		"A relic could not be placed into a machine input slot."
+	)
+	var relic_recipe: Array[Dictionary] = [{"item_type": "relic", "quantity": 1}]
+	_expect(
+		loaded_manager.consume_crafting_recipe("relic_shard_extractor", relic_recipe),
+		"A valid relic recycling recipe could not consume its selected relic."
+	)
+	_expect(
+		loaded_manager.get_relic(relic_id).is_empty(),
+		"A recycled relic was not removed from inventory ownership."
+	)
+
+
+func _test_crafting_cycle_start() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	var recipe: Array[Dictionary] = [{
+		"item_type": "stackable",
+		"item_id": "relic_shard",
+		"quantity": 3
+	}]
+	var crafting_mode := GeneratorOperationMode.new(
+		"crafting_test", "Crafting Test", "Regression-only recipe mode",
+		1.0, 1.0, 1.0, 60.0, [], [], [], false, [], recipe
+	)
+	extractor.definition.operation_modes.append(crafting_mode)
+	_expect(extractor.set_operation_mode("crafting_test"), "Test crafting operation mode could not be selected.")
+	state.relic_manager.add_stackable_item("relic_shard", 10)
+	var shard_entry := state.relic_manager.get_inventory_entry_at_slot(0)
+	var shard_id := str(shard_entry.get("instance_id", ""))
+	_expect(
+		state.relic_manager.move_inventory_entry_to_machine_slot(shard_id, "relic_shard_extractor", 0),
+		"Test ingredients could not be loaded into the extractor."
+	)
+	state.set_resource_amount(ResourceIds.MATTER, 10.0)
+	_expect(simulation.can_buy_generator("relic_shard_extractor"), "A valid crafting recipe did not enable cycle start.")
+	_expect(simulation.buy_generator("relic_shard_extractor"), "A valid crafting cycle could not start.")
+	_expect(extractor.cycle_active, "Crafting cycle did not become active after purchase.")
+	_expect(
+		int(state.relic_manager.get_machine_entry_at_slot("relic_shard_extractor", 0).get("quantity", 0)) == 7,
+		"Cycle start did not consume exactly the required shard quantity."
+	)
+
+
+func _test_multiple_relic_slots_and_legacy_migration() -> void:
+	var state := _new_test_state()
+	state.eternal_flame_state.eternal_flame = 100.0
+	_expect(
+		state.eternal_flame_upgrade_manager.purchase(
+			"reliquary",
+			state.eternal_flame_state,
+			state.realm_configuration
+		),
+		"Reliquary purchase failed in multi-slot test."
+	)
+	var reliquary_upgrade: EternalFlameUpgrade = state.eternal_flame_upgrade_manager.upgrades.get("reliquary")
+	reliquary_upgrade.effect_per_level = 2.0
+	state.relic_manager.ensure_starter_relic()
+	var first_relic_id := str(state.relic_manager.inventory[0].get("instance_id", ""))
+	var second_relic_id := state.relic_manager.add_relic("clockwork_ember")
+	_expect(
+		state.relic_manager.equip_relic("atomic_friction", first_relic_id, state, 0),
+		"First relic slot could not be equipped."
+	)
+	_expect(
+		state.relic_manager.equip_relic("atomic_friction", second_relic_id, state, 1),
+		"Second relic slot could not be equipped independently."
+	)
+	_expect(
+		state.relic_manager.get_equipped_relic_id("atomic_friction", 0) == first_relic_id,
+		"Equipping the second slot overwrote the first slot."
+	)
+	_expect(
+		state.relic_manager.get_equipped_relic_id("atomic_friction", 1) == second_relic_id,
+		"Second slot did not retain its own relic."
+	)
+	state.rebuild_relic_modifiers()
+	var relic_modifier_count := 0
+	for modifier in state.get_generator("atomic_friction").modifiers:
+		if modifier.id.begins_with("relic:"):
+			relic_modifier_count += 1
+	_expect(relic_modifier_count == 2, "Both equipped relics were not applied as modifiers.")
+
+	var legacy_manager := RelicManager.new()
+	legacy_manager.load_save_data({
+		"inventory": [{"instance_id": "relic_1", "definition_id": "cinder_shard"}],
+		"equipped": {"atomic_friction": "relic_1"},
+		"next_instance_number": 2
+	})
+	_expect(
+		legacy_manager.get_equipped_relic_id("atomic_friction", 0) == "relic_1",
+		"Legacy one-relic-per-generator save was not migrated to slot zero."
+	)
+
+
+func _test_reliquary_slot_progression() -> void:
+	var state := _new_test_state()
+	var manager: EternalFlameUpgradeManager = state.eternal_flame_upgrade_manager
+	var flame_state: EternalFlameState = state.eternal_flame_state
+
+	_expect(
+		manager.get_relic_slot_count("atomic_friction", flame_state) == 0,
+		"Atomic Friction should not have a relic slot before the Reliquary is unlocked."
+	)
+	_expect(
+		manager.get_relic_slot_count("molecular_agitation", flame_state) == 0,
+		"Other generators should not have relic slots before the Reliquary is unlocked."
+	)
+
+	flame_state.eternal_flame = 100.0
+	_expect(
+		manager.purchase("reliquary", flame_state, state.realm_configuration),
+		"The Reliquary should be purchasable with enough Eternal Flame."
+	)
+	_expect(
+		manager.get_relic_slot_count("atomic_friction", flame_state) == 1,
+		"The Reliquary should include one Atomic Friction slot."
+	)
+	_expect(
+		manager.get_relic_slot_count("molecular_agitation", flame_state) == 0,
+		"Unlocking the Reliquary should not unlock other generator slots."
+	)
+	_expect(
+		not manager.can_purchase(
+			"attunement_lava_mite_colony",
+			flame_state,
+			state.realm_configuration
+		),
+		"Lava Mite Colony attunement should remain locked until the previous slot upgrade is purchased."
+	)
+	_expect(
+		manager.purchase(
+			"attunement_molecular_agitation",
+			flame_state,
+			state.realm_configuration
+		),
+		"Molecular Agitation's slot upgrade should be purchasable after the Reliquary."
+	)
+	_expect(
+		manager.get_relic_slot_count("molecular_agitation", flame_state) == 1,
+		"Molecular Agitation's slot upgrade should grant exactly one slot."
+	)
+	_expect(
+		manager.get_relic_slot_count("atomic_friction", flame_state) == 1,
+		"Purchasing another generator's slot should not alter Atomic Friction's slot count."
+	)
 
 
 func _test_modifier_operation_mode_targeting() -> void:
@@ -345,7 +754,8 @@ func _test_ashen_contamination_cycle_speed_modifier() -> void:
 		_expect(false, "Required generators are missing.")
 		return
 
-	state.set_resource_amount(ResourceIds.ASH, 100.0)
+	var base_threshold: float = state.get_resource_threshold(ResourceIds.ASH)
+	state.set_resource_amount(ResourceIds.ASH, base_threshold)
 	simulation.update_automatic_upgrades()
 	_expect(
 		state.get_upgrade("ashen_contamination").is_purchased(),
@@ -354,20 +764,74 @@ func _test_ashen_contamination_cycle_speed_modifier() -> void:
 	_expect_approx(
 		simulation._get_cycle_speed_multiplier(forge),
 		1.0,
-		"Ash at the contamination threshold should not slow cycle speed."
+		"Ash at the configured contamination threshold should not slow cycle speed."
 	)
+
+	# Threshold upgrades must affect both contamination effects through the same
+	# shared resource threshold, rather than a Forge-specific fixed value.
+	state.set_resource_amount(ResourceIds.MATTER, 25.0)
+	_expect(
+		simulation.buy_upgrade("ash_threshold_line_1"),
+		"Could not buy the first Ash Filtration threshold upgrade."
+	)
+	var upgraded_threshold: float = state.get_resource_threshold(ResourceIds.ASH)
+	_expect_approx(
+		upgraded_threshold,
+		base_threshold + 9.0,
+		"Ash Filtration I did not raise the shared Ash threshold."
+	)
+	state.set_resource_amount(ResourceIds.ASH, upgraded_threshold)
+	_expect_approx(
+		simulation._get_cycle_speed_multiplier(forge),
+		1.0,
+		"Forge cycle slowdown did not respect the upgraded Ash threshold."
+	)
+
+	# The panel must use the same effective modifiers as simulation, including
+	# penalties below the old hardcoded 100-Ash display cutoff.
+	state.set_resource_amount(ResourceIds.ASH, 25.0)
+	var simulation_speed_at_25_ash := simulation._get_cycle_speed_multiplier(forge)
+	var panel_speed_at_25_ash := GeneratorPanel.get_effective_cycle_speed_multiplier(state, forge)
+	_expect(
+		simulation_speed_at_25_ash < 1.0,
+		"Ash at 25 should slow the Forge when its configured threshold is 10."
+	)
+	_expect_approx(
+		panel_speed_at_25_ash,
+		simulation_speed_at_25_ash,
+		"Forge panel cycle estimate did not use the same effective speed modifiers as simulation."
+	)
+	state.set_resource_amount(ResourceIds.ASH, upgraded_threshold)
+
+	var contamination_modifier: Modifier = null
+	for modifier in friction.modifiers:
+		if modifier.id == "ashen_contamination":
+			contamination_modifier = modifier
+			break
+	_expect(contamination_modifier != null, "General Ash contamination modifier was not registered.")
+	if contamination_modifier != null:
+		_expect_approx(
+			contamination_modifier.get_effective_multiplier(state, friction),
+			1.0,
+			"General production penalty did not respect the upgraded Ash threshold."
+		)
 
 	state.set_resource_amount(ResourceIds.ASH, 1000.0)
 	var contaminated_speed: float = simulation._get_cycle_speed_multiplier(forge)
 	_expect(
 		contaminated_speed < 1.0,
-		"Ash contamination did not slow Infernal Forge cycle speed."
+		"Ash contamination did not slow Infernal Forge cycle speed above the configured threshold."
 	)
 	_expect_approx(
 		simulation._get_cycle_speed_multiplier(friction),
 		1.0,
 		"Cycle-speed contamination should not affect continuous generators."
 	)
+	if contamination_modifier != null:
+		_expect(
+			contamination_modifier.get_effective_multiplier(state, friction) < 1.0,
+			"General Ash contamination did not penalize production above the configured threshold."
+		)
 
 	forge.modifier_sensitivities.append(
 		ModifierSensitivity.new(
@@ -392,6 +856,9 @@ func _test_forge_immunity_ash_sensitivity() -> void:
 		return
 
 	forge.level = 1
+	forge.unlocked = true
+	# The automatic immunity upgrade requires the Forge unlock upgrade to be owned.
+	state.get_upgrade("infernal_forge_unlock").level = 1
 	state.set_resource_amount(ResourceIds.ASH, 1000.0)
 	simulation.update_automatic_upgrades()
 
@@ -481,6 +948,8 @@ func _test_cycle_completion_event_effects() -> void:
 
 	forge.unlocked = true
 	forge.level = 1
+	# Forge cycle upgrades require the Forge unlock upgrade to be owned.
+	state.get_upgrade("infernal_forge_unlock").level = 1
 	state.set_resource_amount(ResourceIds.MATTER, 1000000000.0)
 	_expect(simulation.buy_upgrade("infernal_forge_critical_chance"), "Could not buy Critical Chance upgrade.")
 	_expect(simulation.buy_upgrade("infernal_forge_critical_production"), "Could not buy Critical Production upgrade.")
@@ -529,6 +998,8 @@ func _test_cycle_event_operation_mode_targeting() -> void:
 
 	forge.unlocked = true
 	forge.level = 1
+	# Forge cycle upgrades require the Forge unlock upgrade to be owned.
+	state.get_upgrade("infernal_forge_unlock").level = 1
 	state.set_resource_amount(ResourceIds.MATTER, 1000000000.0)
 	_expect(simulation.buy_upgrade("infernal_forge_critical_chance"), "Could not buy Critical Chance upgrade.")
 	_expect(simulation.buy_upgrade("infernal_forge_critical_production"), "Could not buy Critical Production upgrade.")
