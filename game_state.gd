@@ -705,7 +705,7 @@ func rebuild_relic_modifiers() -> void:
 			var relic: Dictionary = relic_manager.get_relic(instance_id)
 			if relic.is_empty():
 				continue
-			var definition: Dictionary = relic_manager.get_definition(str(relic.get("definition_id", "")))
+			var definition: Dictionary = relic_manager.get_relic_definition(relic)
 			if definition.is_empty():
 				continue
 
@@ -715,6 +715,12 @@ func rebuild_relic_modifiers() -> void:
 			var secondary_stat: Variant = relic.get("secondary_stat", {})
 			if secondary_stat is Dictionary and not secondary_stat.is_empty():
 				_apply_relic_stat(generator, instance_id + ":secondary", secondary_stat)
+			var additional_stats: Variant = relic.get("additional_secondary_stats", [])
+			if additional_stats is Array:
+				for stat_index in range(additional_stats.size()):
+					var additional_stat: Variant = additional_stats[stat_index]
+					if additional_stat is Dictionary and not additional_stat.is_empty():
+						_apply_relic_stat(generator, instance_id + ":secondary:%d" % stat_index, additional_stat)
 			generator.invalidate_production_modifier_cache()
 
 
@@ -726,9 +732,23 @@ func _apply_relic_stat(generator: Generator, relic_source_id: String, stat: Dict
 		var sensitivity_targets: Variant = stat.get("sensitivity_targets", [])
 		if not sensitivity_targets is Array:
 			return
-		for target_variant in sensitivity_targets:
-			var sensitivity := ModifierSensitivity.new(str(target_variant), value, source_id)
-			generator.modifier_sensitivities.append(sensitivity)
+		if sensitivity_targets.has("*"):
+			# Apply to registered modifier sensitivities only. This keeps the
+			# effect universal without changing ordinary modifiers or allowing
+			# relics to recursively modify one another.
+			var supported_targets: Dictionary = {}
+			for existing_sensitivity in generator.modifier_sensitivities:
+				if str(existing_sensitivity.source_upgrade_id).begins_with("relic:"):
+					continue
+				supported_targets[str(existing_sensitivity.modifier_id)] = true
+			for target_id in supported_targets.keys():
+				generator.modifier_sensitivities.append(
+					ModifierSensitivity.new(str(target_id), value, source_id)
+				)
+		else:
+			for target_variant in sensitivity_targets:
+				var sensitivity := ModifierSensitivity.new(str(target_variant), value, source_id)
+				generator.modifier_sensitivities.append(sensitivity)
 		return
 	var modifier_type := str(stat.get("modifier_type", ""))
 	if modifier_type == "":
