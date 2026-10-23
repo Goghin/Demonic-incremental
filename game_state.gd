@@ -190,6 +190,11 @@ func _initialize_generators() -> void:
 		InfernalForge.create()
 	)
 
+	# Temporary, low-cost cycle generator used to test persistent shard rewards.
+	_register_generator(
+		RelicShardExtractor.create()
+	)
+
 # -------------------------------------------------------------------
 # Resource registration / access
 # -------------------------------------------------------------------
