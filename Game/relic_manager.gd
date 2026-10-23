@@ -800,8 +800,9 @@ func load_save_data(data: Dictionary) -> void:
 					"instance_id": instance_id,
 					"definition_id": definition_id
 				}
-				if entry.get("generated_definition", {}) is Dictionary and not entry.get("generated_definition", {}).is_empty():
-					relic_entry["generated_definition"] = entry["generated_definition"].duplicate(true)
+				var saved_generated_definition: Variant = entry.get("generated_definition", {})
+				if saved_generated_definition is Dictionary and not saved_generated_definition.is_empty():
+					relic_entry["generated_definition"] = saved_generated_definition.duplicate(true)
 				if entry.get("critical_craft", false):
 					relic_entry["critical_craft"] = true
 				relic_entry["rolled_value"] = float(
