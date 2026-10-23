@@ -11,6 +11,7 @@ var state: GameState
 var display_mode: String = DISPLAY_INVENTORY_AND_GENERATORS
 var focused_generator_id: String = ""
 var inventory_grid: GridContainer
+var inventory_scroll: ScrollContainer
 var inventory_title: Label
 var status_label: Label
 var generator_list: GridContainer
@@ -69,13 +70,20 @@ func setup(
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	inventory_section.add_child(description)
 
+	inventory_scroll = ScrollContainer.new()
+	inventory_scroll.name = "RelicInventoryScroll"
+	inventory_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inventory_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	inventory_scroll.custom_minimum_size.y = 0.0
+	inventory_section.add_child(inventory_scroll)
+
 	inventory_grid = GridContainer.new()
 	inventory_grid.name = "RelicInventoryGrid"
 	inventory_grid.columns = 5
 	inventory_grid.add_theme_constant_override("h_separation", 5)
 	inventory_grid.add_theme_constant_override("v_separation", 5)
 	inventory_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	inventory_section.add_child(inventory_grid)
+	inventory_scroll.add_child(inventory_grid)
 
 	status_label = Label.new()
 	status_label.name = "RelicInventoryStatus"
