@@ -49,7 +49,7 @@ func setup(
 	sections.name = "ReliquarySections"
 	sections.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sections.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	sections.add_theme_constant_override("separation", 14)
+	sections.add_theme_constant_override("separation", 6)
 	add_child(sections)
 
 	inventory_section = VBoxContainer.new()
@@ -87,7 +87,7 @@ func setup(
 	generator_section.name = "GeneratorEquipmentSection"
 	generator_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	generator_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	generator_section.custom_minimum_size.x = 260.0
+	generator_section.custom_minimum_size.x = 430.0
 	generator_section.add_theme_constant_override("separation", 6)
 	sections.add_child(generator_section)
 
@@ -141,6 +141,7 @@ func setup(
 
 	crafting_generator_panel = preload("res://UI/generator_panel.tscn").instantiate() as GeneratorPanel
 	crafting_generator_panel.name = "RelicShardExtractorPanel"
+	crafting_generator_panel.reliquary_compact_mode = true
 	crafting_generator_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	crafting_generator_panel.custom_minimum_size.x = 0.0
 	crafting_generator_panel.setup(state, input_handler, "relic_shard_extractor")
@@ -202,10 +203,31 @@ func _update_right_view_visibility() -> void:
 
 
 func _update_navigation_button_styles() -> void:
-	if generators_button != null:
-		generators_button.button_pressed = right_view == "generators"
-	if crafting_button != null:
-		crafting_button.button_pressed = right_view == "crafting"
+	_style_reliquary_tab(generators_button, right_view == "generators")
+	_style_reliquary_tab(crafting_button, right_view == "crafting")
+
+
+func _style_reliquary_tab(button: Button, selected: bool) -> void:
+	if button == null:
+		return
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.20, 0.12, 0.105, 1.0) if selected else Color(0.12, 0.085, 0.095, 1.0)
+	normal.border_color = Color(0.82, 0.40, 0.22, 1.0) if selected else Color(0.32, 0.22, 0.20, 0.95)
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(4)
+	normal.content_margin_left = 6.0
+	normal.content_margin_right = 6.0
+	normal.content_margin_top = 4.0
+	normal.content_margin_bottom = 4.0
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_color_override("font_color", Color(1.0, 0.82, 0.67) if selected else Color(0.88, 0.80, 0.70))
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color(0.24, 0.13, 0.10, 1.0)
+	hover.border_color = Color(0.62, 0.34, 0.22, 1.0)
+	button.add_theme_stylebox_override("hover", hover)
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color(0.28, 0.14, 0.095, 1.0)
+	button.add_theme_stylebox_override("pressed", pressed)
 
 
 func _process(_delta: float) -> void:
