@@ -70,7 +70,7 @@ func _update_appearance() -> void:
 				str(inventory_entry.get("definition_id", ""))
 			)
 			text = _get_relic_glyph(str(definition.get("family", "")))
-			tooltip_text = str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", ""))
+			tooltip_text = str(definition.get("display_name", "Relic")) + "\n" + state.relic_manager.get_relic_description(inventory_entry)
 		elif entry_type == "stackable":
 			var item_definition: Dictionary = state.relic_manager.get_stackable_item_definition(
 				str(inventory_entry.get("item_id", ""))
@@ -112,7 +112,7 @@ func _update_appearance() -> void:
 		)
 		text = _get_relic_glyph(str(definition.get("family", ""))) if not relic.is_empty() else "+"
 		tooltip_text = (
-			str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", ""))
+			str(definition.get("display_name", "Relic")) + "\n" + state.relic_manager.get_relic_description(relic)
 			if not relic.is_empty()
 			else "Drop a relic here"
 		)
@@ -135,6 +135,8 @@ func _get_relic_glyph(family: String) -> String:
 			return "◈"
 		"input_efficiency":
 			return "◇"
+		"event_chance":
+			return "✦"
 	return "✦"
 
 
