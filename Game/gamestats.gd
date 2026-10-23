@@ -937,7 +937,7 @@ func get_modifier_source_name(
 	# Relic modifiers use their unique instance ID as the source key,
 	# allowing separate relics to remain separate entries in the breakdown.
 	if source_id.begins_with("relic:"):
-		var instance_id := source_id.trim_prefix("relic:")
+		var instance_id := source_id.trim_prefix("relic:").trim_suffix(":secondary")
 		var relic: Dictionary = state.relic_manager.get_relic(instance_id)
 		if relic.is_empty():
 			return "Unknown Relic"
