@@ -51,6 +51,8 @@ func _run_tests() -> void:
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
+	_run_test("Relic instances roll targeted stats and preserve rolls in saves", _test_rolled_relic_stats)
+	_run_test("Relics modify cycle critical and downlevel chances additively", _test_relic_event_chance_modifiers)
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
 	_run_test("Machine crafting slots preserve, consume, and return ingredients", _test_machine_crafting_slots)
 	_run_test("Crafting recipes are validated and consumed when a cycle starts", _test_crafting_cycle_start)
@@ -445,6 +447,73 @@ func _test_relic_shard_extractor_cycle() -> void:
 		str(persistent_shard.get("item_id", "")) == "relic_shard"
 		and int(persistent_shard.get("quantity", 0)) == 1,
 		"Relic Shard Extractor reward did not persist through Smash/reset."
+	)
+
+
+func _test_rolled_relic_stats() -> void:
+	var state := _new_test_state()
+	var relic_id := state.relic_manager.add_relic("cinder_shard")
+	var relic: Dictionary = state.relic_manager.get_relic(relic_id)
+	var rolled_value := float(relic.get("rolled_value", 0.0))
+	_expect(rolled_value >= 1.05 and rolled_value <= 1.15, "Cinder Shard roll fell outside its configured range.")
+	_expect(state.relic_manager.get_relic_description(relic).contains("Rolled:"), "Relic tooltip does not expose the instance's rolled stat.")
+
+	state.eternal_flame_state.eternal_flame = 100.0
+	_expect(state.eternal_flame_upgrade_manager.purchase("reliquary", state.eternal_flame_state, state.realm_configuration), "Could not unlock Reliquary for rolled-stat test.")
+	_expect(state.relic_manager.equip_relic("atomic_friction", relic_id, state), "Could not equip rolled Cinder Shard.")
+	state.rebuild_relic_modifiers()
+	var found_targeted_modifier := false
+	for modifier in state.get_generator("atomic_friction").modifiers:
+		if modifier.id != "relic:" + relic_id:
+			continue
+		found_targeted_modifier = true
+		_expect(modifier.type == ModifierTypes.PRODUCTION, "Cinder Shard did not use the production modifier type.")
+		_expect(modifier.target_id == ResourceIds.HEAT, "Cinder Shard did not target Heat specifically.")
+		_expect_approx(modifier.multiplier, rolled_value, "Equipped modifier did not use the instance's rolled value.")
+	_expect(found_targeted_modifier, "Cinder Shard modifier was not rebuilt.")
+
+	var save_data: Dictionary = SaveManager.new().state_to_dictionary(state)
+	var loaded_state := _new_test_state()
+	_expect(SaveManager.new().dictionary_to_state(loaded_state, save_data, 7), "Rolled relic save could not be loaded.")
+	var loaded_relic: Dictionary = loaded_state.relic_manager.get_relic(relic_id)
+	_expect_approx(float(loaded_relic.get("rolled_value", 0.0)), rolled_value, "Relic stat rerolled during save/load.")
+
+
+func _test_relic_event_chance_modifiers() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var forge: Generator = state.get_generator("infernal_forge")
+	var relic := Modifier.new(ModifierTypes.EVENT_CHANCE, "downlevel_chance", 0.12)
+	relic.id = "relic:test_downlevel_chance"
+	forge.modifiers.append(relic)
+	var downlevel_effect := UpgradeEffect.generator_event(
+		"infernal_forge",
+		UpgradeEffectTypes.EVENT_CYCLE_COMPLETED,
+		UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL,
+		"",
+		0.05,
+		1.0
+	)
+	_expect_approx(
+		simulation._get_effective_event_chance(forge, downlevel_effect, 0.05),
+		0.17,
+		"Downlevel chance relic should add percentage points to the beneficial downlevel chance."
+	)
+	var critical_relic := Modifier.new(ModifierTypes.EVENT_CHANCE, "critical_chance", 0.03)
+	critical_relic.id = "relic:test_critical_chance"
+	forge.modifiers.append(critical_relic)
+	var critical_effect := UpgradeEffect.generator_event(
+		"infernal_forge",
+		UpgradeEffectTypes.EVENT_CYCLE_COMPLETED,
+		UpgradeEffectTypes.EVENT_ACTION_TRIGGER,
+		"forge_critical",
+		0.10,
+		0.0
+	)
+	_expect_approx(
+		simulation._get_effective_event_chance(forge, critical_effect, 0.10),
+		0.13,
+		"Critical chance relic should add percentage points to the critical chance."
 	)
 
 
