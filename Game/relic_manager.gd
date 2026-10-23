@@ -202,7 +202,7 @@ func get_relic_description(relic: Dictionary) -> String:
 		var secondary_percent := absf(secondary_value - 1.0) * 100.0
 		var secondary_description := str(secondary.get("description", "Additional stat"))
 		lines.append("%s %s%.1f%%" % [secondary_description, secondary_direction, secondary_percent])
-	return "\\n".join(lines)
+	return "\n".join(lines)
 
 
 func _get_resource_display_name(resource_id: String) -> String:
