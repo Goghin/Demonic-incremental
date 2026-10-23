@@ -550,10 +550,9 @@ func get_inventory_options() -> Array[Dictionary]:
 		result.append({
 			"instance_id": str(relic.get("instance_id", "")),
 			"display_name": str(definition.get("display_name", "Unknown Relic")),
-			"description": str(definition.get("description", "")),
+			"description": get_relic_description(relic),
 			"family": str(definition.get("family", "")),
 			"rolled_value": get_relic_modifier_value(relic),
-			"description": get_relic_description(relic),
 			"slot_index": int(inventory_positions.get(str(relic.get("instance_id", "")), 0))
 		})
 	return result
