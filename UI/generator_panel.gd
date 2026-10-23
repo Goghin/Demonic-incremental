@@ -463,8 +463,9 @@ func _update_crafting_slots_ui(generator: Generator) -> void:
 			slot.equipment_changed.connect(_on_crafting_slot_changed)
 			_crafting_slots_container.add_child(slot)
 			_crafting_slot_controls.append(slot)
-	for slot in _crafting_slot_controls:
-		slot.refresh_slot()
+	for slot_index in range(_crafting_slot_controls.size()):
+		_crafting_slot_controls[slot_index].crafting_requirement = requirements[slot_index]
+		_crafting_slot_controls[slot_index].refresh_slot()
 
 
 func _on_crafting_slot_changed() -> void:
@@ -530,12 +531,13 @@ func _setup_relic_slots_ui() -> void:
 	_crafting_slots_label.text = "Ingredients"
 	_crafting_slots_label.add_theme_font_size_override("font_size", 10)
 	_crafting_slots_label.add_theme_color_override("font_color", Color(0.72, 0.61, 0.56))
-	content.add_child(_crafting_slots_label)
+	var generator_content: VBoxContainer = $HBoxContainer/VBoxContainer
+	generator_content.add_child(_crafting_slots_label)
 	_crafting_slots_container = HBoxContainer.new()
 	_crafting_slots_container.name = "CraftingInputSlots"
 	_crafting_slots_container.alignment = BoxContainer.ALIGNMENT_CENTER
 	_crafting_slots_container.add_theme_constant_override("separation", 2)
-	content.add_child(_crafting_slots_container)
+	generator_content.add_child(_crafting_slots_container)
 	_crafting_slots_label.hide()
 	_crafting_slots_container.hide()
 
