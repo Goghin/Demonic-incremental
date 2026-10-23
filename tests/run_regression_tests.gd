@@ -398,6 +398,23 @@ func _test_relic_shard_stacks() -> void:
 		"Saved Relic Shard inventory position or remainder did not survive loading."
 	)
 
+	var state := _new_test_state()
+	state.relic_manager.add_stackable_item("relic_shard", 10)
+	var shard_entry := state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(
+		not state.relic_manager.equip_relic(
+			"atomic_friction",
+			str(shard_entry.get("instance_id", "")),
+			state
+		),
+		"Stackable Relic Shards should not be equippable as relics."
+	)
+	state.reset_current_run()
+	_expect(
+		int(state.relic_manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 10,
+		"Relic Shards did not survive the realm Smash/reset."
+	)
+
 
 func _test_multiple_relic_slots_and_legacy_migration() -> void:
 	var state := _new_test_state()
