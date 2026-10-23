@@ -11,9 +11,12 @@ const RELIC_DEFINITIONS: Dictionary = {
 	"fracture_sigil": {"display_name": "Fracture Sigil", "family": "event_chance", "modifier_type": ModifierTypes.EVENT_CHANCE, "target_id": "downlevel_chance", "roll_min": 0.05, "roll_max": 0.15, "description": "Adds 5–15 percentage points to downleveling chance.", "tier": 1},
 	# Retired definitions remain loadable for old saves, but are not rolled in new crafting.
 	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Legacy relic: reduces resource input consumption by 10%.", "tier": 0},
-	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Heat output by 15–25%.", "tier": 2},
-	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.15, "roll_max": 1.25, "description": "Increases cycle speed by 15–25%.", "tier": 2},
-	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2}
+	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "multiplier": 1.30, "description": "Legacy relic: increases a generator's output by 30%.", "tier": 0},
+	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "multiplier": 1.20, "description": "Legacy relic: increases cycle speed by 20%.", "tier": 0},
+	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "Legacy relic: reduces resource input consumption by 20%.", "tier": 0},
+	"refined_emberheart_core": {"display_name": "Refined Emberheart Core", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Heat output by 15–25%.", "tier": 2},
+	"perfected_chronal_spring": {"display_name": "Perfected Chronal Spring", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.15, "roll_max": 1.25, "description": "Increases cycle speed by 15–25%.", "tier": 2},
+	"abyssal_mite_core": {"display_name": "Abyssal Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2}
 }
 
 const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
@@ -59,6 +62,25 @@ func add_relic(definition_id: String) -> String:
 	inventory.append(entry)
 	inventory_positions[instance_id] = _find_first_available_inventory_slot()
 	return instance_id
+
+
+func _get_legacy_relic_value(definition_id: String) -> float:
+	# Preserve fixed strengths from saves created before per-instance rolls.
+	match definition_id:
+		"cinder_shard":
+			return 1.15
+		"clockwork_ember":
+			return 1.10
+		"void_lining":
+			return 0.90
+		"emberheart_core":
+			return 1.30
+		"chronal_spring":
+			return 1.20
+		"abyssal_lining":
+			return 0.80
+	var definition: Dictionary = RELIC_DEFINITIONS.get(definition_id, {})
+	return _roll_relic_value(definition)
 
 
 func _roll_relic_value(definition: Dictionary) -> float:
@@ -615,7 +637,7 @@ func load_save_data(data: Dictionary) -> void:
 					"definition_id": definition_id
 				}
 				relic_entry["rolled_value"] = float(
-					entry.get("rolled_value", _roll_relic_value(RELIC_DEFINITIONS[definition_id]))
+					entry.get("rolled_value", _get_legacy_relic_value(definition_id))
 				)
 				inventory.append(relic_entry)
 			elif STACKABLE_ITEM_DEFINITIONS.has(item_id):
