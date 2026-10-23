@@ -108,6 +108,11 @@ func get_relic_description(relic: Dictionary) -> String:
 	var modifier_type := str(definition.get("modifier_type", ""))
 	if not definition.has("roll_min"):
 		return base_description
+	if bool(definition.get("dynamic", false)):
+		return "%s\nRolled coefficient: %.4f (effective strength changes with game state)" % [
+			base_description,
+			value
+		]
 	match modifier_type:
 		ModifierTypes.PRODUCTION:
 			if value < 1.0:
