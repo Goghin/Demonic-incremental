@@ -2,12 +2,18 @@ class_name RelicManager
 extends RefCounted
 
 const RELIC_DEFINITIONS: Dictionary = {
-	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "multiplier": 1.15, "description": "Increases a generator's output by 15%.", "tier": 1},
-	"clockwork_ember": {"display_name": "Clockwork Ember", "family": "cycle_speed", "multiplier": 1.10, "description": "Increases cycle speed by 10%.", "tier": 1},
-	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Reduces resource input consumption by 10%.", "tier": 1},
-	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "multiplier": 1.30, "description": "A refined core that increases a generator's output by 30%.", "tier": 2},
-	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "multiplier": 1.20, "description": "A perfected mechanism that increases cycle speed by 20%.", "tier": 2},
-	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "A void-forged lining that reduces resource input consumption by 20%.", "tier": 2}
+	# Tier 1 relics roll their strength once when the instance is created.
+	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Heat output by 5–15%.", "tier": 1},
+	"ashbane_fragment": {"display_name": "Ashbane Fragment", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.ASH, "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Ash production by 5–15%.", "tier": 1},
+	"mite_core": {"display_name": "Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Ash draw by 5–15%.", "tier": 1},
+	"clockwork_ember": {"display_name": "Clockwork Ember", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.05, "roll_max": 1.15, "description": "Increases cycle speed by 5–15%.", "tier": 1},
+	"ruinheart": {"display_name": "Ruinheart", "family": "event_chance", "modifier_type": ModifierTypes.EVENT_CHANCE, "target_id": "critical_chance", "roll_min": 0.01, "roll_max": 0.05, "description": "Adds 1–5 percentage points to critical chance.", "tier": 1},
+	"fracture_sigil": {"display_name": "Fracture Sigil", "family": "event_chance", "modifier_type": ModifierTypes.EVENT_CHANCE, "target_id": "downlevel_chance", "roll_min": 0.05, "roll_max": 0.15, "description": "Adds 5–15 percentage points to downleveling chance.", "tier": 1},
+	# Retired definitions remain loadable for old saves, but are not rolled in new crafting.
+	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Legacy relic: reduces resource input consumption by 10%.", "tier": 0},
+	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "multiplier": 1.30, "description": "Legacy relic: increases a generator's output by 30%.", "tier": 0},
+	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "multiplier": 1.20, "description": "Legacy relic: increases cycle speed by 20%.", "tier": 0},
+	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "Legacy relic: reduces resource input consumption by 20%.", "tier": 0}
 }
 
 const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
@@ -45,11 +51,52 @@ func ensure_starter_relic() -> void:
 func add_relic(definition_id: String) -> String:
 	if not RELIC_DEFINITIONS.has(definition_id):
 		return ""
+	var definition: Dictionary = RELIC_DEFINITIONS[definition_id]
 	var instance_id := "relic_%d" % _next_instance_number
 	_next_instance_number += 1
-	inventory.append({"instance_id": instance_id, "definition_id": definition_id})
+	var entry: Dictionary = {"instance_id": instance_id, "definition_id": definition_id}
+	entry["rolled_value"] = _roll_relic_value(definition)
+	inventory.append(entry)
 	inventory_positions[instance_id] = _find_first_available_inventory_slot()
 	return instance_id
+
+
+func _roll_relic_value(definition: Dictionary) -> float:
+	if definition.has("roll_min") and definition.has("roll_max"):
+		return randf_range(
+			float(definition["roll_min"]),
+			float(definition["roll_max"])
+		)
+	return float(definition.get("multiplier", 1.0))
+
+
+func get_relic_modifier_value(relic: Dictionary) -> float:
+	var definition := get_definition(str(relic.get("definition_id", "")))
+	if definition.is_empty():
+		return 1.0
+	return float(relic.get("rolled_value", definition.get("multiplier", 1.0)))
+
+
+func get_relic_description(relic: Dictionary) -> String:
+	var definition := get_definition(str(relic.get("definition_id", "")))
+	if definition.is_empty():
+		return ""
+	var base_description := str(definition.get("description", ""))
+	var value := get_relic_modifier_value(relic)
+	var modifier_type := str(definition.get("modifier_type", ""))
+	if not definition.has("roll_min"):
+		return base_description
+	match modifier_type:
+		ModifierTypes.PRODUCTION:
+			if value < 1.0:
+				return "%s\nRolled: −%.1f%%" % [base_description, (1.0 - value) * 100.0]
+			return "%s\nRolled: +%.1f%%" % [base_description, (value - 1.0) * 100.0]
+		ModifierTypes.INPUT_DRAW, ModifierTypes.CYCLE_SPEED:
+			return "%s\nRolled: +%.1f%%" % [base_description, (value - 1.0) * 100.0]
+		ModifierTypes.EVENT_CHANCE:
+			var stat_name := "Critical chance" if str(definition.get("target_id", "")) == "critical_chance" else "Downleveling chance"
+			return "%s\nRolled: +%.1f percentage points to %s" % [base_description, value * 100.0, stat_name]
+	return base_description
 
 func _find_first_available_inventory_slot() -> int:
 	var occupied: Dictionary = {}
@@ -404,6 +451,8 @@ func get_inventory_options() -> Array[Dictionary]:
 			"display_name": str(definition.get("display_name", "Unknown Relic")),
 			"description": str(definition.get("description", "")),
 			"family": str(definition.get("family", "")),
+			"rolled_value": get_relic_modifier_value(relic),
+			"description": get_relic_description(relic),
 			"slot_index": int(inventory_positions.get(str(relic.get("instance_id", "")), 0))
 		})
 	return result
@@ -534,10 +583,14 @@ func load_save_data(data: Dictionary) -> void:
 			var definition_id := str(entry.get("definition_id", ""))
 			var item_id := str(entry.get("item_id", ""))
 			if RELIC_DEFINITIONS.has(definition_id):
-				inventory.append({
+				var relic_entry: Dictionary = {
 					"instance_id": instance_id,
 					"definition_id": definition_id
-				})
+				}
+				relic_entry["rolled_value"] = float(
+					entry.get("rolled_value", _roll_relic_value(RELIC_DEFINITIONS[definition_id]))
+				)
+				inventory.append(relic_entry)
 			elif STACKABLE_ITEM_DEFINITIONS.has(item_id):
 				var quantity := int(entry.get("quantity", 0))
 				if quantity <= 0:
