@@ -231,6 +231,18 @@ func _process(_delta: float) -> void:
 			else:
 				contamination_label.text += " · Ash: no slowdown (x%s)" % NumberFormatter.format(ash_speed_multiplier)
 		contamination_label.visible = true
+	elif generator.definition.cycle_based:
+		# All cycle generators show their duration, even when idle. Only show
+		# "left" while the generator is actively processing its current cycle.
+		var speed_multiplier := get_effective_cycle_speed_multiplier(state, generator)
+		var remaining_progress := maxf(generator.get_cycle_duration() - generator.cycle_progress, 0.0)
+		var remaining_seconds := remaining_progress / maxf(speed_multiplier, 0.0001)
+		var cycle_time_suffix := " left" if generator.is_operating() else ""
+		contamination_label.text = "Cycle: ~%s%s" % [
+			_format_duration(remaining_seconds),
+			cycle_time_suffix
+		]
+		contamination_label.visible = true
 
 	var operating = generator.is_operating()
 	
