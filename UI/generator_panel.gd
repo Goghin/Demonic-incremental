@@ -66,8 +66,8 @@ func _apply_reliquary_compact_layout() -> void:
 	var content: VBoxContainer = $HBoxContainer/VBoxContainer
 	content.add_theme_constant_override("separation", 3)
 	$HBoxContainer.add_theme_constant_override("separation", 6)
-	$HBoxContainer/IllustrationPanel.custom_minimum_size.x = 58.0
-	_illustration.custom_minimum_size.y = 34.0
+	$HBoxContainer/IllustrationPanel.custom_minimum_size = Vector2(44.0, 0.0)
+	_illustration.custom_minimum_size = Vector2(0.0, 30.0)
 	$HBoxContainer/VBoxContainer/Header/GeneratorLabel.add_theme_font_size_override("font_size", 12)
 	$HBoxContainer/VBoxContainer/Header/LevelLabel.add_theme_font_size_override("font_size", 10)
 	$HBoxContainer/VBoxContainer/OperationModeOptionButton.custom_minimum_size.y = 0.0
@@ -76,8 +76,10 @@ func _apply_reliquary_compact_layout() -> void:
 	$HBoxContainer/VBoxContainer/BuyButtons.add_theme_constant_override("separation", 4)
 	$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.add_theme_font_size_override("font_size", 10)
 	$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.add_theme_font_size_override("font_size", 10)
-	$HBoxContainer/VBoxContainer/ProgressBar.custom_minimum_size.y = 8.0
-	$HBoxContainer/VBoxContainer/ContaminationLabel.add_theme_font_size_override("font_size", 10)
+	$HBoxContainer/VBoxContainer/ProgressBar.custom_minimum_size.y = 6.0
+	$HBoxContainer/VBoxContainer/ContaminationLabel.add_theme_font_size_override("font_size", 9)
+	$HBoxContainer/VBoxContainer/BottomButtons.hide()
+	$HBoxContainer/VBoxContainer/CostLabel.hide()
 
 
 func set_selected(is_selected: bool) -> void:
