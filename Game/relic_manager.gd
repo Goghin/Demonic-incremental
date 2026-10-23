@@ -20,6 +20,9 @@ const INVENTORY_SLOT_COUNT := 24
 
 var inventory: Array[Dictionary] = []
 var inventory_positions: Dictionary = {}
+# Items in machine-owned crafting slots remain in inventory as owned instances,
+# but do not occupy a Reliquary square while stored in a machine.
+var machine_slots: Dictionary = {}
 var equipped: Dictionary = {}
 var _next_instance_number: int = 1
 var _next_item_instance_number: int = 1
@@ -197,6 +200,129 @@ func _remove_inventory_entry(instance_id: String) -> void:
 	inventory_positions.erase(instance_id)
 
 
+
+func get_machine_entry_at_slot(generator_id: String, slot_index: int) -> Dictionary:
+	if slot_index < 0:
+		return {}
+	var slots: Variant = machine_slots.get(generator_id, {})
+	if not slots is Dictionary:
+		return {}
+	var instance_id := str(slots.get(str(slot_index), ""))
+	if instance_id == "":
+		return {}
+	return get_inventory_entry_by_instance_id(instance_id).duplicate(true)
+
+
+func move_inventory_entry_to_machine_slot(
+	instance_id: String,
+	generator_id: String,
+	slot_index: int
+) -> bool:
+	if generator_id == "" or slot_index < 0:
+		return false
+	var entry := get_inventory_entry_by_instance_id(instance_id)
+	if entry.is_empty() or not inventory_positions.has(instance_id):
+		return false
+	if get_inventory_entry_type(entry) == "relic" and _is_relic_equipped(instance_id):
+		return false
+
+	var slots: Dictionary = machine_slots.get(generator_id, {}).duplicate()
+	var previous_instance_id := str(slots.get(str(slot_index), ""))
+	if previous_instance_id == instance_id:
+		return true
+	# Returning a displaced item to the Reliquary cannot fail: inventory squares
+	# expand to accommodate owned items, so mode changes never destroy contents.
+	if previous_instance_id != "":
+		inventory_positions[previous_instance_id] = _find_first_available_inventory_slot()
+	slots[str(slot_index)] = instance_id
+	machine_slots[generator_id] = slots
+	inventory_positions.erase(instance_id)
+	return true
+
+
+func move_machine_entry_to_inventory(generator_id: String, slot_index: int) -> bool:
+	if slot_index < 0:
+		return false
+	var slots: Variant = machine_slots.get(generator_id, {})
+	if not slots is Dictionary:
+		return false
+	var instance_id := str(slots.get(str(slot_index), ""))
+	if instance_id == "":
+		return true
+	if get_inventory_entry_by_instance_id(instance_id).is_empty():
+		slots.erase(str(slot_index))
+		if slots.is_empty():
+			machine_slots.erase(generator_id)
+		return false
+	slots.erase(str(slot_index))
+	if slots.is_empty():
+		machine_slots.erase(generator_id)
+	else:
+		machine_slots[generator_id] = slots
+	inventory_positions[instance_id] = _find_first_available_inventory_slot()
+	return true
+
+
+func resize_machine_slots(generator_id: String, visible_slot_count: int) -> bool:
+	if generator_id == "" or visible_slot_count < 0:
+		return false
+	var slots: Variant = machine_slots.get(generator_id, {})
+	if not slots is Dictionary:
+		return true
+	var indices: Array[int] = []
+	for slot_key in slots.keys():
+		if not str(slot_key).is_valid_int():
+			continue
+		var slot_index := int(slot_key)
+		if slot_index >= visible_slot_count:
+			indices.append(slot_index)
+	indices.sort()
+	for slot_index in indices:
+		if not move_machine_entry_to_inventory(generator_id, slot_index):
+			return false
+	return true
+
+
+func consume_machine_entry(
+	generator_id: String,
+	slot_index: int,
+	quantity: int = 0
+) -> bool:
+	var entry := get_machine_entry_at_slot(generator_id, slot_index)
+	if entry.is_empty():
+		return false
+	var instance_id := str(entry.get("instance_id", ""))
+	if get_inventory_entry_type(entry) == "stackable":
+		var current_quantity := int(entry.get("quantity", 0))
+		var amount_to_consume := current_quantity if quantity <= 0 else quantity
+		if amount_to_consume <= 0 or amount_to_consume > current_quantity:
+			return false
+		for inventory_entry in inventory:
+			if str(inventory_entry.get("instance_id", "")) != instance_id:
+				continue
+			var remaining := current_quantity - amount_to_consume
+			if remaining <= 0:
+				_remove_inventory_entry(instance_id)
+				var slots: Dictionary = machine_slots.get(generator_id, {}).duplicate()
+				slots.erase(str(slot_index))
+				if slots.is_empty():
+					machine_slots.erase(generator_id)
+				else:
+					machine_slots[generator_id] = slots
+			else:
+				inventory_entry["quantity"] = remaining
+			return true
+		return false
+	_remove_inventory_entry(instance_id)
+	var relic_slots: Dictionary = machine_slots.get(generator_id, {}).duplicate()
+	relic_slots.erase(str(slot_index))
+	if relic_slots.is_empty():
+		machine_slots.erase(generator_id)
+	else:
+		machine_slots[generator_id] = relic_slots
+	return true
+
+
 func get_relic(instance_id: String) -> Dictionary:
 	for entry in inventory:
 		if (
@@ -326,6 +452,7 @@ func get_save_data() -> Dictionary:
 	return {
 		"inventory": inventory.duplicate(true),
 		"inventory_positions": inventory_positions.duplicate(true),
+		"machine_slots": machine_slots.duplicate(true),
 		"equipped": equipped.duplicate(true),
 		"next_instance_number": _next_instance_number,
 		"next_item_instance_number": _next_item_instance_number
@@ -334,6 +461,7 @@ func get_save_data() -> Dictionary:
 func load_save_data(data: Dictionary) -> void:
 	inventory.clear()
 	inventory_positions.clear()
+	machine_slots.clear()
 	equipped.clear()
 	_next_instance_number = maxi(1, int(data.get("next_instance_number", 1)))
 	_next_item_instance_number = maxi(1, int(data.get("next_item_instance_number", 1)))
@@ -380,6 +508,32 @@ func load_save_data(data: Dictionary) -> void:
 			inventory_positions[instance_id] = slot_index
 			claimed_inventory_slots[slot_index] = true
 
+	# Restore machine crafting slots after inventory instances have been validated.
+	var saved_machine_slots: Variant = data.get("machine_slots", {})
+	if saved_machine_slots is Dictionary:
+		var claimed_machine_instances: Dictionary = {}
+		for generator_variant in saved_machine_slots.keys():
+			var generator_id := str(generator_variant)
+			var saved_slots: Variant = saved_machine_slots[generator_variant]
+			if not saved_slots is Dictionary:
+				continue
+			var normalized_slots: Dictionary = {}
+			for slot_key in saved_slots.keys():
+				var slot_index_text := str(slot_key)
+				var instance_id := str(saved_slots[slot_key])
+				if (
+					not slot_index_text.is_valid_int()
+					or int(slot_index_text) < 0
+					or get_inventory_entry_by_instance_id(instance_id).is_empty()
+					or claimed_machine_instances.has(instance_id)
+				):
+					continue
+				normalized_slots[slot_index_text] = instance_id
+				claimed_machine_instances[instance_id] = true
+				inventory_positions.erase(instance_id)
+			if not normalized_slots.is_empty():
+				machine_slots[generator_id] = normalized_slots
+
 	var equipped_data: Variant = data.get("equipped", {})
 	if equipped_data is Dictionary:
 		var claimed_instances: Dictionary = {}
@@ -408,6 +562,10 @@ func load_save_data(data: Dictionary) -> void:
 	for generator_id_variant in equipped.keys():
 		for instance_id in get_equipped_relic_ids(str(generator_id_variant)):
 			inventory_positions.erase(instance_id)
+	for generator_variant in machine_slots.keys():
+		var slots: Dictionary = machine_slots[generator_variant]
+		for instance_variant in slots.values():
+			inventory_positions.erase(str(instance_variant))
 
 	for entry in inventory:
 		var instance_id := str(entry.get("instance_id", ""))
