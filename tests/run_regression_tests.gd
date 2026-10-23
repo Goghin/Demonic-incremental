@@ -52,6 +52,7 @@ func _run_tests() -> void:
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
 	_run_test("Relic instances roll targeted stats and preserve rolls in saves", _test_rolled_relic_stats)
+	_run_test("Relics support sensitivity stats and saved uncommon bonus stats", _test_relic_sensitivity_and_secondary_stats)
 	_run_test("Relics modify cycle critical and downlevel chances additively", _test_relic_event_chance_modifiers)
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
 	_run_test("Machine crafting slots preserve, consume, and return ingredients", _test_machine_crafting_slots)
@@ -477,6 +478,38 @@ func _test_rolled_relic_stats() -> void:
 	_expect(SaveManager.new().dictionary_to_state(loaded_state, save_data, 7), "Rolled relic save could not be loaded.")
 	var loaded_relic: Dictionary = loaded_state.relic_manager.get_relic(relic_id)
 	_expect_approx(float(loaded_relic.get("rolled_value", 0.0)), rolled_value, "Relic stat rerolled during save/load.")
+
+
+func _test_relic_sensitivity_and_secondary_stats() -> void:
+	var state := _new_test_state()
+	var generator: Generator = state.get_generator("infernal_forge")
+	var sensitivity_relic_id := state.relic_manager.add_relic("ashveil_charm")
+	var sensitivity_relic: Dictionary = state.relic_manager.get_relic(sensitivity_relic_id)
+	var sensitivity_value := float(sensitivity_relic.get("rolled_value", 1.0))
+	state._apply_relic_stat(generator, sensitivity_relic_id, {
+		"stat_type": "sensitivity",
+		"sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"],
+		"rolled_value": sensitivity_value
+	})
+	var matched_sensitivities := 0
+	for sensitivity in generator.modifier_sensitivities:
+		if sensitivity.source_upgrade_id != "relic:" + sensitivity_relic_id:
+			continue
+		if sensitivity.modifier_id in ["ashen_contamination", "ashen_contamination_cycle_speed"]:
+			matched_sensitivities += 1
+			_expect_approx(sensitivity.multiplier, sensitivity_value, "Ash sensitivity relic did not preserve its rolled multiplier.")
+	_expect(matched_sensitivities == 2, "Ash sensitivity relic should affect both general contamination and forge cycle slowdown.")
+
+	var uncommon_id := state.relic_manager.add_relic("refined_matterheart")
+	var uncommon_relic: Dictionary = state.relic_manager.get_relic(uncommon_id)
+	var secondary: Variant = uncommon_relic.get("secondary_stat", {})
+	_expect(secondary is Dictionary and not secondary.is_empty(), "Uncommon relic did not roll a secondary stat.")
+	_expect(state.relic_manager.get_relic_description(uncommon_relic).contains("Bonus:"), "Uncommon relic tooltip did not describe its secondary stat.")
+	var saved_data: Dictionary = state.relic_manager.get_save_data()
+	var loaded_manager := RelicManager.new()
+	loaded_manager.load_save_data(saved_data)
+	var loaded_relic: Dictionary = loaded_manager.get_relic(uncommon_id)
+	_expect(loaded_relic.get("secondary_stat", {}) == secondary, "Uncommon relic secondary stat changed during save/load.")
 
 
 func _test_relic_event_chance_modifiers() -> void:
