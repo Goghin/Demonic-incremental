@@ -92,6 +92,23 @@ func get_effective_multiplier(
 	) * sensitivity
 
 
+# Event chance modifiers are additive percentage-point values rather than
+# multipliers. Dynamic formulas still return a multiplier, so convert their
+# result back to a delta before applying it to the base event chance.
+func get_effective_additive(
+	state: GameState,
+	generator: Generator
+) -> float:
+	if not operation_mode_ids.is_empty() and not operation_mode_ids.has(generator.operation_mode_id):
+		return 0.0
+
+	var additive_value := multiplier
+	if dynamic:
+		additive_value = get_multiplier(state) - 1.0
+
+	return additive_value * generator.get_modifier_sensitivity(id, state)
+
+
 func get_multiplier(state: GameState) -> float:
 	if not dynamic:
 		return multiplier
