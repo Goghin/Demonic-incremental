@@ -238,9 +238,25 @@ func _process(_delta: float) -> void:
 		var remaining_progress := maxf(generator.get_cycle_duration() - generator.cycle_progress, 0.0)
 		var remaining_seconds := remaining_progress / maxf(speed_multiplier, 0.0001)
 		var cycle_time_suffix := " left" if generator.is_operating() else ""
-		contamination_label.text = "Cycle: ~%s%s" % [
+		var reward_summary := ""
+		var operation_mode := generator.get_operation_mode()
+		if operation_mode != null and state.relic_manager != null:
+			for item_output in operation_mode.completion_item_outputs:
+				var item_id := str(item_output.get("item_id", ""))
+				var item_definition := state.relic_manager.get_stackable_item_definition(item_id)
+				if item_definition.is_empty():
+					continue
+				var reward_quantity := maxi(0, int(item_output.get("quantity", 0))) * maxi(generator.level, 1)
+				if reward_quantity <= 0:
+					continue
+				reward_summary += " · +%s %s" % [
+					NumberFormatter.format(reward_quantity),
+					str(item_definition.get("display_name", item_id))
+				]
+		contamination_label.text = "Cycle: ~%s%s%s" % [
 			_format_duration(remaining_seconds),
-			cycle_time_suffix
+			cycle_time_suffix,
+			reward_summary
 		]
 		contamination_label.visible = true
 
