@@ -56,7 +56,7 @@ func setup(
 	inventory_section = VBoxContainer.new()
 	inventory_section.name = "InventorySection"
 	inventory_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	inventory_section.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	inventory_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	inventory_section.custom_minimum_size.x = 220.0
 	inventory_section.add_theme_constant_override("separation", 3)
 	sections.add_child(inventory_section)
