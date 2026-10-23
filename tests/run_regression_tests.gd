@@ -52,6 +52,7 @@ func _run_tests() -> void:
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
+	_run_test("Machine crafting slots preserve, consume, and return ingredients", _test_machine_crafting_slots)
 	_run_test("Relic Shard Extractor consumes Matter and grants a shard after one minute", _test_relic_shard_extractor_cycle)
 	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
@@ -452,6 +453,71 @@ func _test_relic_shard_stacks() -> void:
 	_expect(
 		int(state.relic_manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 10,
 		"Relic Shards did not survive the realm Smash/reset."
+	)
+
+
+func _test_machine_crafting_slots() -> void:
+	var manager := RelicManager.new()
+	manager.add_stackable_item("relic_shard", 10)
+	var shard_entry := manager.get_inventory_entry_at_slot(0)
+	var shard_instance_id := str(shard_entry.get("instance_id", ""))
+	_expect(
+		manager.move_inventory_entry_to_machine_slot(shard_instance_id, "relic_shard_extractor", 0),
+		"Relic Shards could not be moved into a machine input slot."
+	)
+	_expect(
+		manager.get_inventory_entry_at_slot(0).is_empty(),
+		"An item in a machine input slot still occupied a Reliquary square."
+	)
+	var recipe: Array[Dictionary] = [{
+		"item_type": "stackable",
+		"item_id": "relic_shard",
+		"quantity": 3
+	}]
+	_expect(
+		manager.can_satisfy_crafting_recipe("relic_shard_extractor", recipe),
+		"A valid stackable crafting recipe was rejected."
+	)
+	_expect(
+		manager.consume_crafting_recipe("relic_shard_extractor", recipe),
+		"A valid crafting recipe could not consume its ingredients."
+	)
+	_expect(
+		int(manager.get_machine_entry_at_slot("relic_shard_extractor", 0).get("quantity", 0)) == 7,
+		"Crafting did not preserve the excess quantity in a shard stack."
+	)
+
+	var saved_data := manager.get_save_data()
+	var loaded_manager := RelicManager.new()
+	loaded_manager.load_save_data(saved_data)
+	_expect(
+		int(loaded_manager.get_machine_entry_at_slot("relic_shard_extractor", 0).get("quantity", 0)) == 7,
+		"Machine input contents did not survive save/load."
+	)
+	_expect(
+		loaded_manager.resize_machine_slots("relic_shard_extractor", 0),
+		"Machine could not return contents when a recipe no longer needed the slot."
+	)
+	_expect(
+		int(loaded_manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 7,
+		"Hidden machine-slot contents were not returned to the Reliquary."
+	)
+
+	var relic_id := loaded_manager.add_relic("cinder_shard")
+	var relic_slot := int(loaded_manager.inventory_positions.get(relic_id, -1))
+	_expect(relic_slot >= 0, "Test relic did not receive an inventory square.")
+	_expect(
+		loaded_manager.move_inventory_entry_to_machine_slot(relic_id, "relic_shard_extractor", 0),
+		"A relic could not be placed into a machine input slot."
+	)
+	var relic_recipe: Array[Dictionary] = [{"item_type": "relic", "quantity": 1}]
+	_expect(
+		loaded_manager.consume_crafting_recipe("relic_shard_extractor", relic_recipe),
+		"A valid relic recycling recipe could not consume its selected relic."
+	)
+	_expect(
+		loaded_manager.get_relic(relic_id).is_empty(),
+		"A recycled relic was not removed from inventory ownership."
 	)
 
 
