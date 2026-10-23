@@ -250,12 +250,21 @@ func _refresh_inventory() -> void:
 			equipped_ids[instance_id] = true
 
 	var available_relic_count := 0
+	var relic_shard_count := 0
+	var stack_count := 0
 	for relic in state.relic_manager.get_inventory_options():
 		var instance_id := str(relic.get("instance_id", ""))
 		if instance_id != "" and not equipped_ids.has(instance_id):
 			available_relic_count += 1
+	for entry in state.relic_manager.inventory:
+		if str(entry.get("item_id", "")) == "relic_shard":
+			relic_shard_count += int(entry.get("quantity", 0))
+			stack_count += 1
 
-	inventory_title.text = "RELIC INVENTORY · %d available" % available_relic_count
+	inventory_title.text = "RELIQUARY · %d relics · %d shards" % [
+		available_relic_count,
+		relic_shard_count
+	]
 	var visible_slot_count: int = maxi(
 		RelicManager.INVENTORY_SLOT_COUNT,
 		state.relic_manager.get_inventory_slot_count()
@@ -267,9 +276,9 @@ func _refresh_inventory() -> void:
 		inventory_grid.add_child(slot)
 
 	status_label.text = (
-		"Drag relics to generator slots. Inventory items stay in their square; drag between squares to rearrange."
-		if available_relic_count > 0
-		else "No unequipped relics. Drop an equipped relic into an inventory square to return it there."
+		"Drag relics to generator slots. Drag items between squares to rearrange; matching shard stacks merge up to 1,000."
+		if available_relic_count > 0 or stack_count > 0
+		else "No unequipped relics or materials. Drop an equipped relic into an inventory square to return it there."
 	)
 
 
