@@ -164,40 +164,58 @@ func get_relic_description(relic: Dictionary) -> String:
 	var definition := get_definition(str(relic.get("definition_id", "")))
 	if definition.is_empty():
 		return ""
-	var description := str(definition.get("description", ""))
-	var tier := int(definition.get("tier", 0))
-	if tier == 1:
-		description = "Common\\n" + description
-	elif tier >= 2:
-		description = "Uncommon\\n" + description
+	var lines: Array[String] = []
 	var value := get_relic_modifier_value(relic)
 	var modifier_type := str(definition.get("modifier_type", ""))
-	if definition.has("roll_min"):
-		if str(definition.get("stat_type", "")) == "sensitivity":
-			var sensitivity_targets: Array = definition.get("sensitivity_targets", [])
-			var sensitivity_name := "Ash Contamination" if not sensitivity_targets.is_empty() and str(sensitivity_targets[0]) == "ashen_contamination" else "Thermic Mass"
-			var direction := "−" if value < 1.0 else "+"
-			description += "\nRolled: %s%.1f%% sensitivity to %s" % [direction, absf(value - 1.0) * 100.0, sensitivity_name]
-		elif bool(definition.get("dynamic", false)):
-			description += "\nRolled coefficient: %.4f (effective strength changes with game state)" % value
-		elif modifier_type == ModifierTypes.EVENT_CHANCE:
-			var stat_name := "Critical chance" if str(definition.get("target_id", "")) == "critical_chance" else "Downleveling chance"
-			description += "\nRolled: +%.1f percentage points to %s" % [value * 100.0, stat_name]
-		else:
-			var percent := absf(value - 1.0) * 100.0
-			var direction := "−" if value < 1.0 else "+"
-			description += "\nRolled: %s%.1f%%" % [direction, percent]
+	var target_id := str(definition.get("target_id", ""))
+	var stat_type := str(definition.get("stat_type", "modifier"))
+	var direction := "−" if value < 1.0 else "+"
+	var percent := absf(value - 1.0) * 100.0
+
+	if stat_type == "sensitivity":
+		var sensitivity_targets: Array = definition.get("sensitivity_targets", [])
+		var sensitivity_name := "Ash Contamination"
+		if sensitivity_targets.is_empty() or str(sensitivity_targets[0]) == "thermic_mass":
+			sensitivity_name = "Thermic Mass"
+		lines.append("%s sensitivity %s%.1f%%" % [sensitivity_name, direction, percent])
+	elif bool(definition.get("dynamic", false)):
+		lines.append("Effect coefficient ×%.4f" % value)
+	elif modifier_type == ModifierTypes.EVENT_CHANCE:
+		var stat_name := "Critical chance" if target_id == "critical_chance" else "Downleveling chance"
+		lines.append("%s +%.1f percentage points" % [stat_name, value * 100.0])
+	elif modifier_type == ModifierTypes.CYCLE_SPEED:
+		lines.append("Cycle speed %s%.1f%%" % [direction, percent])
+	elif modifier_type == ModifierTypes.INPUT_DRAW:
+		var resource_name := _get_resource_display_name(target_id)
+		var draw_direction := "reduction" if value < 1.0 else "increase"
+		lines.append("%s draw %s %.1f%%" % [resource_name, draw_direction, percent])
+	elif modifier_type == ModifierTypes.PRODUCTION:
+		var resource_name := _get_resource_display_name(target_id)
+		lines.append("%s production %s%.1f%%" % [resource_name, direction, percent])
+	else:
+		lines.append(str(definition.get("description", "Relic effect")))
+
 	var secondary: Variant = relic.get("secondary_stat", {})
 	if secondary is Dictionary and not secondary.is_empty():
 		var secondary_value := float(secondary.get("rolled_value", 1.0))
-		var secondary_type := str(secondary.get("stat_type", "modifier"))
-		var secondary_description := str(secondary.get("description", "Additional stat"))
 		var secondary_direction := "−" if secondary_value < 1.0 else "+"
-		if secondary_type == "sensitivity":
-			description += "\nBonus: %s %s%.1f%%" % [secondary_description, secondary_direction, absf(secondary_value - 1.0) * 100.0]
-		else:
-			description += "\nBonus: %s %s%.1f%%" % [secondary_description, secondary_direction, absf(secondary_value - 1.0) * 100.0]
-	return description
+		var secondary_percent := absf(secondary_value - 1.0) * 100.0
+		var secondary_description := str(secondary.get("description", "Additional stat"))
+		lines.append("%s %s%.1f%%" % [secondary_description, secondary_direction, secondary_percent])
+	return "\\n".join(lines)
+
+
+func _get_resource_display_name(resource_id: String) -> String:
+	match resource_id:
+		ResourceIds.HEAT:
+			return "Heat"
+		ResourceIds.MATTER:
+			return "Matter"
+		ResourceIds.ASH:
+			return "Ash"
+		_:
+			return resource_id.capitalize()
+
 
 func _find_first_available_inventory_slot() -> int:
 	var occupied: Dictionary = {}
