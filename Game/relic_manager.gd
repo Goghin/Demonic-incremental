@@ -602,7 +602,7 @@ func add_random_relic_for_tier(tier: int, critical_chance: float = 0.0) -> Strin
 func get_inventory_options() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for relic in inventory:
-		var definition := get_definition(str(relic.get("definition_id", "")))
+		var definition := get_relic_definition(relic)
 		if definition.is_empty():
 			continue
 		result.append({
@@ -699,7 +699,10 @@ func unequip_relic(generator_id: String, slot_index: int = 0) -> void:
 			equipped[generator_id] = slots
 
 func get_effect_status(definition_id: String, generator_id: String, state: GameState) -> String:
-	var definition := get_definition(definition_id)
+	# Accept either a stable definition ID or an instance ID so generated relics
+	# can report status from their saved, rolled definition.
+	var relic := get_relic(definition_id)
+	var definition := get_relic_definition(relic) if not relic.is_empty() else get_definition(definition_id)
 	var generator: Generator = state.get_generator(generator_id)
 	if definition.is_empty() or generator == null:
 		return "Inactive"
@@ -710,7 +713,7 @@ func get_effect_status(definition_id: String, generator_id: String, state: GameS
 		var sensitivity_targets: Variant = definition.get("sensitivity_targets", [])
 		if sensitivity_targets is Array:
 			for sensitivity in generator.modifier_sensitivities:
-				if sensitivity.source_upgrade_id.begins_with("relic:") and sensitivity_targets.has(sensitivity.modifier_id):
+				if sensitivity.source_upgrade_id.begins_with("relic:") and (sensitivity_targets.has("*") or sensitivity_targets.has(sensitivity.modifier_id)):
 					return "Active"
 		return "Inactive: no matching sensitivity target"
 	if modifier_type == "":
@@ -778,7 +781,7 @@ func load_save_data(data: Dictionary) -> void:
 			if RELIC_DEFINITIONS.has(definition_id):
 				var relic_entry: Dictionary = {
 					"instance_id": instance_id,
-						"definition_id": definition_id
+					"definition_id": definition_id
 				}
 				if entry.get("generated_definition", {}) is Dictionary and not entry.get("generated_definition", {}).is_empty():
 					relic_entry["generated_definition"] = entry["generated_definition"].duplicate(true)
