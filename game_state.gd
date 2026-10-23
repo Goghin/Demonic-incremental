@@ -705,17 +705,24 @@ func rebuild_relic_modifiers() -> void:
 			var definition: Dictionary = relic_manager.get_definition(str(relic.get("definition_id", "")))
 			if definition.is_empty():
 				continue
-			var modifier_type := ""
-			match str(definition.get("family", "")):
-				"production":
-					modifier_type = ModifierTypes.PRODUCTION
-				"cycle_speed":
-					modifier_type = ModifierTypes.CYCLE_SPEED
-				"input_efficiency":
-					modifier_type = ModifierTypes.INPUT_DRAW
+
+			var modifier_type := str(definition.get("modifier_type", ""))
+			var target_id := str(definition.get("target_id", ""))
+			if modifier_type == "":
+				# Compatibility for relics created before definitions declared
+				# explicit modifier types and targets.
+				match str(definition.get("family", "")):
+					"production":
+						modifier_type = ModifierTypes.PRODUCTION
+					"cycle_speed":
+						modifier_type = ModifierTypes.CYCLE_SPEED
+					"input_efficiency":
+						modifier_type = ModifierTypes.INPUT_DRAW
 			if modifier_type == "":
 				continue
-			var modifier := Modifier.new(modifier_type, "", float(definition.get("multiplier", 1.0)))
+
+			var modifier_value := relic_manager.get_relic_modifier_value(relic)
+			var modifier := Modifier.new(modifier_type, target_id, modifier_value)
 			modifier.id = "relic:" + instance_id
 			generator.modifiers.append(modifier)
 			generator.invalidate_production_modifier_cache()
