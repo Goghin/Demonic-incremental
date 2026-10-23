@@ -33,6 +33,7 @@ signal relics_changed
 
 var _normal_panel_style: StyleBox
 var is_new_unlock: bool = false
+var reliquary_compact_mode: bool = false
 
 
 func mark_new_unlock() -> void:
@@ -55,6 +56,26 @@ func _ready() -> void:
 	_style_operation_mode_dropdown()
 	_setup_event_effects_ui()
 	_setup_relic_slots_ui()
+	if reliquary_compact_mode:
+		_apply_reliquary_compact_layout()
+
+
+func _apply_reliquary_compact_layout() -> void:
+	var content: VBoxContainer = $HBoxContainer/VBoxContainer
+	content.add_theme_constant_override("separation", 3)
+	$HBoxContainer.add_theme_constant_override("separation", 6)
+	$HBoxContainer/IllustrationPanel.custom_minimum_size.x = 58.0
+	_illustration.custom_minimum_size.y = 34.0
+	$HBoxContainer/VBoxContainer/Header/GeneratorLabel.add_theme_font_size_override("font_size", 12)
+	$HBoxContainer/VBoxContainer/Header/LevelLabel.add_theme_font_size_override("font_size", 10)
+	$HBoxContainer/VBoxContainer/OperationModeOptionButton.custom_minimum_size.y = 0.0
+	$HBoxContainer/VBoxContainer/InputLabel.hide()
+	$HBoxContainer/VBoxContainer/ProductionLabel.hide()
+	$HBoxContainer/VBoxContainer/BuyButtons.add_theme_constant_override("separation", 4)
+	$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.add_theme_font_size_override("font_size", 10)
+	$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.add_theme_font_size_override("font_size", 10)
+	$HBoxContainer/VBoxContainer/ProgressBar.custom_minimum_size.y = 8.0
+	$HBoxContainer/VBoxContainer/ContaminationLabel.add_theme_font_size_override("font_size", 10)
 
 
 func set_selected(is_selected: bool) -> void:
