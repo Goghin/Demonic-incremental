@@ -38,6 +38,82 @@ func refresh_slot() -> void:
 	_update_appearance()
 
 
+func _make_custom_tooltip(for_text: String) -> Object:
+	if state == null:
+		return null
+	var relic: Dictionary = {}
+	if slot_kind == "inventory":
+		relic = state.relic_manager.get_inventory_entry_at_slot(slot_index)
+	elif slot_kind == "crafting":
+		relic = state.relic_manager.get_machine_entry_at_slot(generator_id, slot_index)
+	elif slot_kind == "generator":
+		relic = state.relic_manager.get_relic(
+			state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
+		)
+	if state.relic_manager.get_inventory_entry_type(relic) != "relic":
+		return null
+
+	var definition: Dictionary = state.relic_manager.get_definition(str(relic.get("definition_id", "")))
+	if definition.is_empty():
+		return null
+	var tier := int(definition.get("tier", 0))
+	var rarity_name := "Uncommon" if tier >= 2 else "Common" if tier == 1 else "Legacy"
+	var rarity_color := _get_rarity_color(tier)
+
+	var panel := PanelContainer.new()
+	panel.name = "RelicTooltip"
+	panel.custom_minimum_size = Vector2(220.0, 0.0)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.055, 0.045, 0.06, 0.98)
+	panel_style.border_color = rarity_color.darkened(0.2)
+	panel_style.set_border_width_all(1)
+	panel_style.set_corner_radius_all(5)
+	panel_style.content_margin_left = 10.0
+	panel_style.content_margin_right = 10.0
+	panel_style.content_margin_top = 8.0
+	panel_style.content_margin_bottom = 8.0
+	panel_style.shadow_color = Color(0.0, 0.0, 0.0, 0.65)
+	panel_style.shadow_size = 5
+	panel.add_theme_stylebox_override("panel", panel_style)
+
+	var content := VBoxContainer.new()
+	content.add_theme_constant_override("separation", 4)
+	panel.add_child(content)
+
+	var rarity_label := Label.new()
+	rarity_label.text = rarity_name.to_upper()
+	rarity_label.add_theme_font_size_override("font_size", 9)
+	rarity_label.add_theme_color_override("font_color", rarity_color)
+	content.add_child(rarity_label)
+
+	var title_label := Label.new()
+	title_label.text = str(definition.get("display_name", "Relic"))
+	title_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title_label.add_theme_font_size_override("font_size", 14)
+	title_label.add_theme_color_override("font_color", rarity_color)
+	content.add_child(title_label)
+
+	var separator := HSeparator.new()
+	content.add_child(separator)
+
+	var description_label := Label.new()
+	description_label.text = state.relic_manager.get_relic_description(relic)
+	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description_label.add_theme_font_size_override("font_size", 11)
+	description_label.add_theme_color_override("font_color", Color(0.86, 0.82, 0.78))
+	content.add_child(description_label)
+	return panel
+
+
+func _get_rarity_color(tier: int) -> Color:
+	if tier >= 2:
+		return Color(0.38, 0.70, 1.0)
+	if tier == 1:
+		return Color(0.38, 0.85, 0.48)
+	return Color(1.0, 0.68, 0.36)
+
+
 func _update_appearance() -> void:
 	if state == null:
 		return
