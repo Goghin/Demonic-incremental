@@ -53,7 +53,7 @@ func _make_custom_tooltip(for_text: String) -> Object:
 	if state.relic_manager.get_inventory_entry_type(relic) != "relic":
 		return null
 
-	var definition: Dictionary = state.relic_manager.get_definition(str(relic.get("definition_id", "")))
+	var definition: Dictionary = state.relic_manager.get_relic_definition(relic)
 	if definition.is_empty():
 		return null
 	var tier := int(definition.get("tier", 0))
@@ -142,9 +142,7 @@ func _update_appearance() -> void:
 	if slot_kind == "inventory" or slot_kind == "crafting":
 		var entry_type := state.relic_manager.get_inventory_entry_type(inventory_entry)
 		if entry_type == "relic":
-			var definition: Dictionary = state.relic_manager.get_definition(
-				str(inventory_entry.get("definition_id", ""))
-			)
+			var definition: Dictionary = state.relic_manager.get_relic_definition(inventory_entry)
 			text = _get_relic_glyph(str(definition.get("family", "")))
 			tooltip_text = str(definition.get("display_name", "Relic")) + "\n" + state.relic_manager.get_relic_description(inventory_entry)
 		elif entry_type == "stackable":
@@ -183,9 +181,7 @@ func _update_appearance() -> void:
 	else:
 		instance_id = state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
 		var relic: Dictionary = state.relic_manager.get_relic(instance_id)
-		var definition: Dictionary = state.relic_manager.get_definition(
-			str(relic.get("definition_id", ""))
-		)
+		var definition: Dictionary = state.relic_manager.get_relic_definition(relic)
 		text = _get_relic_glyph(str(definition.get("family", ""))) if not relic.is_empty() else "+"
 		tooltip_text = (
 			str(definition.get("display_name", "Relic")) + "\n" + state.relic_manager.get_relic_description(relic)
@@ -203,7 +199,7 @@ func _update_appearance() -> void:
 	if slot_kind != "inventory" and slot_kind != "crafting":
 		relic_for_rarity = state.relic_manager.get_relic(instance_id)
 	if not relic_for_rarity.is_empty():
-		var rarity_definition: Dictionary = state.relic_manager.get_definition(str(relic_for_rarity.get("definition_id", "")))
+		var rarity_definition: Dictionary = state.relic_manager.get_relic_definition(relic_for_rarity)
 		var rarity_tier := int(rarity_definition.get("tier", 0))
 		rarity = "common" if rarity_tier == 1 else "uncommon" if rarity_tier >= 2 else ""
 	var rarity_color := Color(0.38, 0.85, 0.48) if rarity == "common" else Color(0.38, 0.70, 1.0) if rarity == "uncommon" else Color(1.0, 0.68, 0.36)
@@ -275,9 +271,7 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 			str(dragged_entry.get("item_id", ""))
 		).get("glyph", "◆"))
 	else:
-		preview_glyph.text = _get_relic_glyph(str(state.relic_manager.get_definition(
-			str(dragged_entry.get("definition_id", ""))
-		).get("family", "")))
+		preview_glyph.text = _get_relic_glyph(str(state.relic_manager.get_relic_definition(dragged_entry).get("family", "")))
 	preview_glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	preview_glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	preview_glyph.add_theme_font_size_override("font_size", 23)
