@@ -1542,10 +1542,20 @@ func _create_reliquary_window() -> void:
 	reliquary_window.visible = false
 	reliquary_window.z_index = 50
 	reliquary_window.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
-	reliquary_window.offset_left = 12.0
-	reliquary_window.offset_top = 112.0
-	reliquary_window.offset_right = 1060.0
-	reliquary_window.offset_bottom = 680.0
+	reliquary_window.offset_left = 150.0
+	reliquary_window.offset_top = 150.0
+	reliquary_window.offset_right = 1110.0
+	reliquary_window.offset_bottom = 635.0
+	var reliquary_style := StyleBoxFlat.new()
+	reliquary_style.bg_color = Color(0.055, 0.045, 0.055, 0.98)
+	reliquary_style.border_color = Color(0.32, 0.22, 0.20, 0.95)
+	reliquary_style.set_border_width_all(1)
+	reliquary_style.set_corner_radius_all(4)
+	reliquary_style.content_margin_left = 10.0
+	reliquary_style.content_margin_top = 8.0
+	reliquary_style.content_margin_right = 10.0
+	reliquary_style.content_margin_bottom = 8.0
+	reliquary_window.add_theme_stylebox_override("panel", reliquary_style)
 	add_child(reliquary_window)
 
 	reliquary_panel = ReliquaryPanel.new()
