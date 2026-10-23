@@ -608,6 +608,13 @@ func get_effect_status(definition_id: String, generator_id: String, state: GameS
 
 	var modifier_type := str(definition.get("modifier_type", ""))
 	var target_id := str(definition.get("target_id", ""))
+	if str(definition.get("stat_type", "")) == "sensitivity":
+		var sensitivity_targets: Variant = definition.get("sensitivity_targets", [])
+		if sensitivity_targets is Array:
+			for sensitivity in generator.modifier_sensitivities:
+				if sensitivity.source_upgrade_id.begins_with("relic:") and sensitivity_targets.has(sensitivity.modifier_id):
+					return "Active"
+		return "Inactive: no matching sensitivity target"
 	if modifier_type == "":
 		match str(definition.get("family", "")):
 			"production":
