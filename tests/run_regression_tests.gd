@@ -284,11 +284,11 @@ func _test_brazier_upgrade_unlocks() -> void:
 	state.eternal_flame_state.eternal_flame = 200.0
 	var manager: EternalFlameUpgradeManager = state.eternal_flame_upgrade_manager
 	var progression: Array[Dictionary] = [
-		{"upgrade": "brazier_stability", "technology": "brazier_stability", "cost": 1},
-		{"upgrade": "brazier_density", "technology": "brazier_density", "cost": 5},
-		{"upgrade": "brazier_integrity", "technology": "brazier_integrity", "cost": 15},
-		{"upgrade": "brazier_intensity", "technology": "brazier_intensity", "cost": 30},
-		{"upgrade": "brazier_resonance", "technology": "brazier_resonance", "cost": 60}
+		{"upgrade": "brazier_intensity", "technology": "brazier_intensity", "cost": 1},
+		{"upgrade": "brazier_stability", "technology": "brazier_stability", "cost": 4},
+		{"upgrade": "brazier_density", "technology": "brazier_density", "cost": 10},
+		{"upgrade": "brazier_integrity", "technology": "brazier_integrity", "cost": 20},
+		{"upgrade": "brazier_resonance", "technology": "brazier_resonance", "cost": 35}
 	]
 	for entry in progression:
 		var upgrade_id: String = str(entry["upgrade"])
