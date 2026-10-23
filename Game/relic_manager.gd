@@ -2,9 +2,12 @@ class_name RelicManager
 extends RefCounted
 
 const RELIC_DEFINITIONS: Dictionary = {
-	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "multiplier": 1.15, "description": "Increases a generator's output by 15%."},
-	"clockwork_ember": {"display_name": "Clockwork Ember", "family": "cycle_speed", "multiplier": 1.10, "description": "Increases cycle speed by 10%."},
-	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Reduces resource input consumption by 10%."}
+	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "multiplier": 1.15, "description": "Increases a generator's output by 15%.", "tier": 1},
+	"clockwork_ember": {"display_name": "Clockwork Ember", "family": "cycle_speed", "multiplier": 1.10, "description": "Increases cycle speed by 10%.", "tier": 1},
+	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Reduces resource input consumption by 10%.", "tier": 1},
+	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "multiplier": 1.30, "description": "A refined core that increases a generator's output by 30%.", "tier": 2},
+	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "multiplier": 1.20, "description": "A perfected mechanism that increases cycle speed by 20%.", "tier": 2},
+	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "A void-forged lining that reduces resource input consumption by 20%.", "tier": 2}
 }
 
 const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
@@ -12,6 +15,12 @@ const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
 		"display_name": "Relic Shard",
 		"description": "A fragment of reliquary essence, used in future relic crafting.",
 		"glyph": "♦",
+		"max_stack": 1000
+	},
+	"greater_relic_shard": {
+		"display_name": "Greater Relic Shard",
+		"description": "A condensed shard used to forge higher-tier relics.",
+		"glyph": "✦",
 		"max_stack": 1000
 	}
 }
@@ -368,6 +377,21 @@ func get_relic(instance_id: String) -> Dictionary:
 
 func get_definition(definition_id: String) -> Dictionary:
 	return RELIC_DEFINITIONS.get(definition_id, {})
+
+
+func add_random_relic_for_tier(tier: int) -> String:
+	if tier <= 0:
+		return ""
+	var candidates: Array[String] = []
+	for definition_id_variant in RELIC_DEFINITIONS.keys():
+		var definition_id := str(definition_id_variant)
+		var definition: Dictionary = RELIC_DEFINITIONS[definition_id]
+		if int(definition.get("tier", 1)) == tier:
+			candidates.append(definition_id)
+	if candidates.is_empty():
+		return ""
+	candidates.sort()
+	return add_relic(candidates[randi_range(0, candidates.size() - 1)])
 
 func get_inventory_options() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
