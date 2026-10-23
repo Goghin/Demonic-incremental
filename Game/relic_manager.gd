@@ -569,7 +569,15 @@ func get_definition(definition_id: String) -> Dictionary:
 	if definition_id.begins_with("generated_relic_tier_"):
 		var tier_text := definition_id.trim_prefix("generated_relic_tier_")
 		if tier_text.is_valid_int() and int(tier_text) > 0:
-			return {"display_name": "Generated Relic", "family": "generated", "tier": int(tier_text)}
+			var tier := int(tier_text)
+			var tier_data: Dictionary = generation_manager.get_tier_definition(tier)
+			return {
+				"display_name": "Generated Relic",
+				"family": "generated",
+				"tier": tier,
+				"rarity_name": str(tier_data.get("display_name", "Tier %d" % tier)),
+				"rarity_color": str(tier_data.get("display_color", "#ffffff"))
+			}
 	return {}
 
 
