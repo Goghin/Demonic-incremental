@@ -172,6 +172,7 @@ func generate_relic(requested_tier: int, critical_chance: float = 0.0) -> Dictio
 	var generated_definition := primary_effect.duplicate(true)
 	generated_definition["tier"] = final_tier
 	generated_definition["display_name"] = _make_display_name(primary_effect)
+	generated_definition["family"] = _get_family_for_stat_group(str(primary_effect.get("stat_group", "")))
 	generated_definition["generated"] = true
 	generated_definition["effect_id"] = str(primary_effect.get("effect_id", ""))
 
@@ -246,6 +247,16 @@ func _weighted_pick(candidates: Array[Dictionary], weight_key: String) -> Dictio
 		if roll < 0.0:
 			return candidate.duplicate(true)
 	return candidates.back().duplicate(true)
+
+
+func _get_family_for_stat_group(stat_group: String) -> String:
+	match stat_group:
+		"output":
+			return "production"
+		"input_draw":
+			return "input_efficiency"
+		_:
+			return stat_group
 
 
 func _make_display_name(effect: Dictionary) -> String:
