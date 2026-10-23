@@ -11,6 +11,10 @@ const UNCOMMON_SECONDARY_STAT_POOL: Array[Dictionary] = [
 ]
 
 const RELIC_DEFINITIONS: Dictionary = {
+	# Generated instances keep their rolled definition on the instance. These stable
+	# IDs make them recognizable as relics while keeping tier checks save-compatible.
+	"generated_relic_tier_1": {"display_name": "Generated Relic", "family": "generated", "tier": 1},
+	"generated_relic_tier_2": {"display_name": "Generated Relic", "family": "generated", "tier": 2},
 	# Tier 1 relics roll their strength once when the instance is created.
 	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Heat output by 5–15%.", "tier": 1},
 	"ashbane_fragment": {"display_name": "Ashbane Fragment", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.ASH, "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Ash production by 5–15%.", "tier": 1},
@@ -64,6 +68,7 @@ var inventory_positions: Dictionary = {}
 var machine_slots: Dictionary = {}
 var equipped: Dictionary = {}
 var _next_instance_number: int = 1
+var generation_manager = preload("res://Game/relic_generation_manager.gd").new()
 var _next_item_instance_number: int = 1
 
 func ensure_starter_relic() -> void:
@@ -153,56 +158,77 @@ func _roll_secondary_stat(definition: Dictionary) -> Dictionary:
 	return result
 
 
+func get_relic_definition(relic: Dictionary) -> Dictionary:
+	var generated_definition: Variant = relic.get("generated_definition", {})
+	if generated_definition is Dictionary and not generated_definition.is_empty():
+		return generated_definition
+	return get_definition(str(relic.get("definition_id", "")))
+
+
 func get_relic_modifier_value(relic: Dictionary) -> float:
-	var definition := get_definition(str(relic.get("definition_id", "")))
+	var definition := get_relic_definition(relic)
 	if definition.is_empty():
 		return 1.0
 	return float(relic.get("rolled_value", definition.get("multiplier", 1.0)))
 
 
 func get_relic_description(relic: Dictionary) -> String:
-	var definition := get_definition(str(relic.get("definition_id", "")))
+	var definition := get_relic_definition(relic)
 	if definition.is_empty():
 		return ""
 	var lines: Array[String] = []
 	var value := get_relic_modifier_value(relic)
-	var modifier_type := str(definition.get("modifier_type", ""))
-	var target_id := str(definition.get("target_id", ""))
-	var stat_type := str(definition.get("stat_type", "modifier"))
+	lines.append(_describe_relic_stat(definition, value, "Rolled: "))
+	var secondary: Variant = relic.get("secondary_stat", {})
+	if secondary is Dictionary and not secondary.is_empty():
+		lines.append(_describe_relic_stat(secondary, float(secondary.get("rolled_value", 1.0)), "Bonus: "))
+	var additional_stats: Variant = relic.get("additional_secondary_stats", [])
+	if additional_stats is Array:
+		for stat_variant in additional_stats:
+			if stat_variant is Dictionary and not stat_variant.is_empty():
+				lines.append(_describe_relic_stat(stat_variant, float(stat_variant.get("rolled_value", 1.0)), "Bonus: "))
+	return "\n".join(lines)
+
+
+func _describe_relic_stat(stat: Dictionary, value: float, label_prefix: String) -> String:
+	var description_label := str(stat.get("description_label", ""))
+	var description_mode := str(stat.get("description_mode", ""))
 	var direction := "−" if value < 1.0 else "+"
 	var percent := absf(value - 1.0) * 100.0
+	if description_label != "":
+		if description_mode == "percentage_points":
+			return "%s%s +%.1f percentage points" % [label_prefix, description_label, value * 100.0]
+		if description_label == "All input draw":
+			var draw_description := "reduction" if value < 1.0 else "increase"
+			return "%s%s %s %.1f%%" % [label_prefix, description_label, draw_description, percent]
+		return "%s%s %s%.1f%%" % [label_prefix, description_label, direction, percent]
 
+	var modifier_type := str(stat.get("modifier_type", ""))
+	var target_id := str(stat.get("target_id", ""))
+	var stat_type := str(stat.get("stat_type", "modifier"))
 	if stat_type == "sensitivity":
-		var sensitivity_targets: Array = definition.get("sensitivity_targets", [])
+		var sensitivity_targets: Array = stat.get("sensitivity_targets", [])
 		var sensitivity_name := "Ash Contamination"
 		if sensitivity_targets.is_empty() or str(sensitivity_targets[0]) == "thermic_mass":
 			sensitivity_name = "Thermic Mass"
-		lines.append("%s sensitivity %s%.1f%%" % [sensitivity_name, direction, percent])
-	elif bool(definition.get("dynamic", false)):
-		lines.append("Effect coefficient ×%.4f" % value)
-	elif modifier_type == ModifierTypes.EVENT_CHANCE:
+		elif str(sensitivity_targets[0]) == "*":
+			sensitivity_name = "All supported"
+		return "%s%s sensitivity %s%.1f%%" % [label_prefix, sensitivity_name, direction, percent]
+	if bool(stat.get("dynamic", false)):
+		return "%sEffect coefficient ×%.4f" % [label_prefix, value]
+	if modifier_type == ModifierTypes.EVENT_CHANCE:
 		var stat_name := "Critical chance" if target_id == "critical_chance" else "Downleveling chance"
-		lines.append("%s +%.1f percentage points" % [stat_name, value * 100.0])
-	elif modifier_type == ModifierTypes.CYCLE_SPEED:
-		lines.append("Cycle speed %s%.1f%%" % [direction, percent])
-	elif modifier_type == ModifierTypes.INPUT_DRAW:
+		return "%s%s +%.1f percentage points" % [label_prefix, stat_name, value * 100.0]
+	if modifier_type == ModifierTypes.CYCLE_SPEED:
+		return "%sCycle speed %s%.1f%%" % [label_prefix, direction, percent]
+	if modifier_type == ModifierTypes.INPUT_DRAW:
 		var resource_name := _get_resource_display_name(target_id)
 		var draw_direction := "reduction" if value < 1.0 else "increase"
-		lines.append("%s draw %s %.1f%%" % [resource_name, draw_direction, percent])
-	elif modifier_type == ModifierTypes.PRODUCTION:
-		var resource_name := _get_resource_display_name(target_id)
-		lines.append("%s production %s%.1f%%" % [resource_name, direction, percent])
-	else:
-		lines.append(str(definition.get("description", "Relic effect")))
-
-	var secondary: Variant = relic.get("secondary_stat", {})
-	if secondary is Dictionary and not secondary.is_empty():
-		var secondary_value := float(secondary.get("rolled_value", 1.0))
-		var secondary_direction := "−" if secondary_value < 1.0 else "+"
-		var secondary_percent := absf(secondary_value - 1.0) * 100.0
-		var secondary_description := str(secondary.get("description", "Additional stat"))
-		lines.append("%s %s%.1f%%" % [secondary_description, secondary_direction, secondary_percent])
-	return "\n".join(lines)
+		return "%s%s draw %s %.1f%%" % [label_prefix, resource_name, draw_direction, percent]
+	if modifier_type == ModifierTypes.PRODUCTION:
+		var resource_name := "all resources" if target_id == "" else _get_resource_display_name(target_id)
+		return "%s%s production %s%.1f%%" % [label_prefix, resource_name, direction, percent]
+	return label_prefix + str(stat.get("description", "Relic effect"))
 
 
 func _get_resource_display_name(resource_id: String) -> String:
@@ -545,19 +571,33 @@ func get_definition(definition_id: String) -> Dictionary:
 	return RELIC_DEFINITIONS.get(definition_id, {})
 
 
-func add_random_relic_for_tier(tier: int) -> String:
-	if tier <= 0:
+func add_random_relic_for_tier(tier: int, critical_chance: float = 0.0) -> String:
+	var generated: Dictionary = generation_manager.generate_relic(tier, clampf(critical_chance, 0.0, 1.0))
+	if generated.is_empty():
 		return ""
-	var candidates: Array[String] = []
-	for definition_id_variant in RELIC_DEFINITIONS.keys():
-		var definition_id := str(definition_id_variant)
-		var definition: Dictionary = RELIC_DEFINITIONS[definition_id]
-		if int(definition.get("tier", 1)) == tier:
-			candidates.append(definition_id)
-	if candidates.is_empty():
+	var final_tier := int(generated.get("tier", tier))
+	var definition_id := "generated_relic_tier_%d" % final_tier
+	if not RELIC_DEFINITIONS.has(definition_id):
 		return ""
-	candidates.sort()
-	return add_relic(candidates[randi_range(0, candidates.size() - 1)])
+	var instance_id := "relic_%d" % _next_instance_number
+	_next_instance_number += 1
+	var entry: Dictionary = {
+		"instance_id": instance_id,
+		"definition_id": definition_id,
+		"generated_definition": generated.get("generated_definition", {}).duplicate(true),
+		"rolled_value": float(generated.get("rolled_value", 1.0))
+	}
+	if generated.get("secondary_stat", {}) is Dictionary and not generated.get("secondary_stat", {}).is_empty():
+		entry["secondary_stat"] = generated["secondary_stat"].duplicate(true)
+	if generated.get("additional_secondary_stats", []) is Array and not generated.get("additional_secondary_stats", []).is_empty():
+		entry["additional_secondary_stats"] = generated["additional_secondary_stats"].duplicate(true)
+	if bool(generated.get("critical_craft", false)):
+		entry["critical_craft"] = true
+		entry["requested_tier"] = int(generated.get("requested_tier", tier))
+	inventory.append(entry)
+	inventory_positions[instance_id] = _find_first_available_inventory_slot()
+	return instance_id
+
 
 func get_inventory_options() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
@@ -570,6 +610,7 @@ func get_inventory_options() -> Array[Dictionary]:
 			"display_name": str(definition.get("display_name", "Unknown Relic")),
 			"description": get_relic_description(relic),
 			"family": str(definition.get("family", "")),
+			"tier": int(definition.get("tier", 1)),
 			"rolled_value": get_relic_modifier_value(relic),
 			"slot_index": int(inventory_positions.get(str(relic.get("instance_id", "")), 0))
 		})
@@ -737,14 +778,21 @@ func load_save_data(data: Dictionary) -> void:
 			if RELIC_DEFINITIONS.has(definition_id):
 				var relic_entry: Dictionary = {
 					"instance_id": instance_id,
-					"definition_id": definition_id
+						"definition_id": definition_id
 				}
+				if entry.get("generated_definition", {}) is Dictionary and not entry.get("generated_definition", {}).is_empty():
+					relic_entry["generated_definition"] = entry["generated_definition"].duplicate(true)
+				if entry.get("critical_craft", false):
+					relic_entry["critical_craft"] = true
 				relic_entry["rolled_value"] = float(
 					entry.get("rolled_value", _get_legacy_relic_value(definition_id))
 				)
 				var saved_secondary: Variant = entry.get("secondary_stat", {})
 				if saved_secondary is Dictionary and not saved_secondary.is_empty():
 					relic_entry["secondary_stat"] = saved_secondary.duplicate(true)
+				var saved_additional_stats: Variant = entry.get("additional_secondary_stats", [])
+				if saved_additional_stats is Array and not saved_additional_stats.is_empty():
+					relic_entry["additional_secondary_stats"] = saved_additional_stats.duplicate(true)
 				elif RELIC_DEFINITIONS[definition_id].has("secondary_rolls"):
 					var secondary: Dictionary = _roll_secondary_stat(RELIC_DEFINITIONS[definition_id])
 					if not secondary.is_empty():
