@@ -133,6 +133,9 @@ func _update_appearance() -> void:
 	var rarity_color := Color(0.38, 0.85, 0.48) if rarity == "common" else Color(0.38, 0.70, 1.0) if rarity == "uncommon" else Color(1.0, 0.68, 0.36)
 	if rarity != "" and not relic_for_rarity.is_empty():
 		style.border_color = rarity_color
+		add_theme_stylebox_override("normal", style)
+		add_theme_stylebox_override("hover", style)
+		add_theme_stylebox_override("pressed", style)
 	add_theme_color_override("font_color", rarity_color if rarity != "" else Color(1.0, 0.68, 0.36))
 	add_theme_color_override("font_hover_color", Color(1.0, 0.86, 0.64))
 	add_theme_font_size_override("font_size", slot_font_size)
