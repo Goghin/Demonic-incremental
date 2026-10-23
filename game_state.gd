@@ -724,6 +724,9 @@ func rebuild_relic_modifiers() -> void:
 			var modifier_value := relic_manager.get_relic_modifier_value(relic)
 			var modifier := Modifier.new(modifier_type, target_id, modifier_value)
 			modifier.id = "relic:" + instance_id
+			# Preserve the source identity so StatsPanel can attribute this effect
+			# to the specific relic instance instead of displaying it as Base.
+			modifier.source_upgrade_id = modifier.id
 			modifier.dynamic = bool(definition.get("dynamic", false))
 			modifier.dynamic_formula = str(definition.get("dynamic_formula", ""))
 			modifier.dynamic_resource_id = str(definition.get("dynamic_resource_id", ""))
