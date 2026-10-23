@@ -323,6 +323,40 @@ func consume_machine_entry(
 	return true
 
 
+
+func can_satisfy_crafting_recipe(generator_id: String, requirements: Array[Dictionary]) -> bool:
+	for slot_index in range(requirements.size()):
+		var requirement: Dictionary = requirements[slot_index]
+		var entry := get_machine_entry_at_slot(generator_id, slot_index)
+		if entry.is_empty():
+			return false
+		var entry_type := get_inventory_entry_type(entry)
+		var required_type := str(requirement.get("item_type", ""))
+		if required_type != "" and entry_type != required_type:
+			return false
+		var required_item_id := str(requirement.get("item_id", ""))
+		if required_item_id != "":
+			var actual_item_id := str(entry.get("item_id", entry.get("definition_id", "")))
+			if actual_item_id != required_item_id:
+				return false
+		var required_quantity := maxi(1, int(requirement.get("quantity", 1)))
+		if entry_type == "stackable" and int(entry.get("quantity", 0)) < required_quantity:
+			return false
+		if entry_type == "relic" and required_quantity != 1:
+			return false
+	return true
+
+
+func consume_crafting_recipe(generator_id: String, requirements: Array[Dictionary]) -> bool:
+	if not can_satisfy_crafting_recipe(generator_id, requirements):
+		return false
+	for slot_index in range(requirements.size()):
+		var requirement: Dictionary = requirements[slot_index]
+		var quantity := maxi(1, int(requirement.get("quantity", 1)))
+		if not consume_machine_entry(generator_id, slot_index, quantity):
+			return false
+	return true
+
 func get_relic(instance_id: String) -> Dictionary:
 	for entry in inventory:
 		if (
