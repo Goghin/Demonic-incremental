@@ -188,7 +188,7 @@ func generate_relic(requested_tier: int, critical_chance: float = 0.0) -> Dictio
 	var secondary_stats: Array[Dictionary] = []
 	var excluded_group := str(primary_effect.get("stat_group", ""))
 	for _index in range(secondary_count):
-		var secondary := _roll_effect_for_tier(final_tier, excluded_group)
+		var secondary := _roll_effect_for_tier(final_tier, excluded_group, "secondary_weight")
 		if secondary.is_empty():
 			continue
 		secondary_stats.append(secondary)
@@ -202,7 +202,7 @@ func generate_relic(requested_tier: int, critical_chance: float = 0.0) -> Dictio
 	return result
 
 
-func _roll_effect_for_tier(tier: int, excluded_group: String) -> Dictionary:
+func _roll_effect_for_tier(tier: int, excluded_group: String, weight_key: String = "weight") -> Dictionary:
 	var candidates: Array[Dictionary] = []
 	for effect_id_variant in EFFECT_DEFINITIONS.keys():
 		var effect_id := str(effect_id_variant)
@@ -211,13 +211,15 @@ func _roll_effect_for_tier(tier: int, excluded_group: String) -> Dictionary:
 			continue
 		if excluded_group != "" and str(effect.get("stat_group", "")) == excluded_group:
 			continue
+		if float(effect.get(weight_key, 0.0)) <= 0.0:
+			continue
 		var candidate := effect.duplicate(true)
 		candidate["effect_id"] = effect_id
 		candidates.append(candidate)
 	if candidates.is_empty():
 		return {}
 
-	var selected := _weighted_pick(candidates, "weight")
+	var selected := _weighted_pick(candidates, weight_key)
 	if selected.is_empty():
 		return {}
 	var roll_ranges: Dictionary = selected.get("roll_ranges", {})
