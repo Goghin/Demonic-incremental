@@ -340,7 +340,7 @@ func _refresh_generator_list() -> void:
 		var card := PanelContainer.new()
 		card.name = "Generator_" + generator_id
 		# Three compact cards fit across the generator area without stretching.
-		card.custom_minimum_size = Vector2(100.0, 112.0)
+		card.custom_minimum_size = Vector2(95.0, 112.0)
 		card.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 
 		var card_style := StyleBoxFlat.new()
@@ -348,9 +348,9 @@ func _refresh_generator_list() -> void:
 		card_style.border_color = Color(0.29, 0.21, 0.20, 1.0)
 		card_style.set_border_width_all(1)
 		card_style.set_corner_radius_all(4)
-		card_style.content_margin_left = 7.0
+		card_style.content_margin_left = 5.0
 		card_style.content_margin_top = 6.0
-		card_style.content_margin_right = 7.0
+		card_style.content_margin_right = 5.0
 		card_style.content_margin_bottom = 7.0
 		card.add_theme_stylebox_override("panel", card_style)
 		generator_list.add_child(card)
@@ -374,7 +374,7 @@ func _refresh_generator_list() -> void:
 		# Use a compact 48 px square image area for the denser Reliquary grid.
 		var illustration_panel := PanelContainer.new()
 		illustration_panel.name = "IllustrationPanel"
-		illustration_panel.custom_minimum_size = Vector2(48.0, 48.0)
+		illustration_panel.custom_minimum_size = Vector2(44.0, 44.0)
 		var illustration_style := StyleBoxFlat.new()
 		illustration_style.bg_color = Color(0.09, 0.065, 0.075, 1.0)
 		illustration_style.border_color = Color(0.22, 0.15, 0.15, 1.0)
@@ -403,7 +403,7 @@ func _refresh_generator_list() -> void:
 		if slot_count > 0:
 			var slots_row := HBoxContainer.new()
 			slots_row.alignment = BoxContainer.ALIGNMENT_CENTER
-			slots_row.add_theme_constant_override("separation", 3)
+			slots_row.add_theme_constant_override("separation", 2)
 			card_content.add_child(slots_row)
 			for slot_index in range(slot_count):
 				var slot := RelicSlotControl.new()
