@@ -14,6 +14,8 @@ var cycle_duration: float
 var inputs: Array[GeneratorIO]
 var outputs: Array[GeneratorIO]
 var completion_outputs: Array[GeneratorIO]
+# Non-resource inventory rewards granted once when a cycle completes.
+var completion_item_outputs: Array[Dictionary]
 
 var initially_unlocked: bool = true
 var unlocked: bool = true
