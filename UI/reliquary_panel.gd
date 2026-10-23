@@ -37,11 +37,11 @@ func setup(
 	input_handler = game_input_handler
 	display_mode = requested_display_mode
 	focused_generator_id = target_generator_id
-	add_theme_constant_override("separation", 8)
+	add_theme_constant_override("separation", 4)
 
 	var title := Label.new()
 	title.text = "THE RELIQUARY"
-	title.add_theme_font_size_override("font_size", 14)
+	title.add_theme_font_size_override("font_size", 13)
 	title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	add_child(title)
 
@@ -49,15 +49,15 @@ func setup(
 	sections.name = "ReliquarySections"
 	sections.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sections.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	sections.add_theme_constant_override("separation", 6)
+	sections.add_theme_constant_override("separation", 4)
 	add_child(sections)
 
 	inventory_section = VBoxContainer.new()
 	inventory_section.name = "InventorySection"
 	inventory_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	inventory_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	inventory_section.custom_minimum_size.x = 250.0
-	inventory_section.add_theme_constant_override("separation", 6)
+	inventory_section.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	inventory_section.custom_minimum_size.x = 220.0
+	inventory_section.add_theme_constant_override("separation", 3)
 	sections.add_child(inventory_section)
 
 	inventory_title = Label.new()
@@ -71,7 +71,7 @@ func setup(
 
 	inventory_grid = GridContainer.new()
 	inventory_grid.name = "RelicInventoryGrid"
-	inventory_grid.columns = 6
+	inventory_grid.columns = 5
 	inventory_grid.add_theme_constant_override("h_separation", 5)
 	inventory_grid.add_theme_constant_override("v_separation", 5)
 	inventory_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -87,13 +87,13 @@ func setup(
 	generator_section.name = "GeneratorEquipmentSection"
 	generator_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	generator_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	generator_section.custom_minimum_size.x = 430.0
-	generator_section.add_theme_constant_override("separation", 6)
+	generator_section.custom_minimum_size.x = 0.0
+	generator_section.add_theme_constant_override("separation", 4)
 	sections.add_child(generator_section)
 
 	generator_navigation = HBoxContainer.new()
 	generator_navigation.name = "ReliquaryNavigation"
-	generator_navigation.add_theme_constant_override("separation", 6)
+	generator_navigation.add_theme_constant_override("separation", 4)
 	generator_section.add_child(generator_navigation)
 
 	generators_button = Button.new()
@@ -122,20 +122,20 @@ func setup(
 	generator_list.name = "GeneratorEquipmentList"
 	generator_list.columns = 3
 	generator_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	generator_list.add_theme_constant_override("h_separation", 8)
-	generator_list.add_theme_constant_override("v_separation", 8)
+	generator_list.add_theme_constant_override("h_separation", 5)
+	generator_list.add_theme_constant_override("v_separation", 5)
 	generator_list_scroll.add_child(generator_list)
 
 	crafting_section = VBoxContainer.new()
 	crafting_section.name = "ReliquaryCraftingSection"
 	crafting_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	crafting_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	crafting_section.add_theme_constant_override("separation", 8)
+	crafting_section.add_theme_constant_override("separation", 3)
 	generator_section.add_child(crafting_section)
 
 	var crafting_title := Label.new()
 	crafting_title.text = "RELIC CRAFTING"
-	crafting_title.add_theme_font_size_override("font_size", 13)
+	crafting_title.add_theme_font_size_override("font_size", 11)
 	crafting_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	crafting_section.add_child(crafting_title)
 
@@ -211,14 +211,14 @@ func _style_reliquary_tab(button: Button, selected: bool) -> void:
 	if button == null:
 		return
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color(0.20, 0.12, 0.105, 1.0) if selected else Color(0.12, 0.085, 0.095, 1.0)
-	normal.border_color = Color(0.82, 0.40, 0.22, 1.0) if selected else Color(0.32, 0.22, 0.20, 0.95)
+	normal.bg_color = Color(0.22, 0.12, 0.085, 1.0) if selected else Color(0.075, 0.06, 0.075, 0.98)
+	normal.border_color = Color(0.85, 0.43, 0.2, 1.0) if selected else Color(0.28, 0.2, 0.19, 1.0)
 	normal.set_border_width_all(1)
 	normal.set_corner_radius_all(4)
 	normal.content_margin_left = 6.0
 	normal.content_margin_right = 6.0
-	normal.content_margin_top = 4.0
-	normal.content_margin_bottom = 4.0
+	normal.content_margin_top = 3.0
+	normal.content_margin_bottom = 3.0
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_color_override("font_color", Color(1.0, 0.82, 0.67) if selected else Color(0.88, 0.80, 0.70))
 	var hover := normal.duplicate() as StyleBoxFlat
