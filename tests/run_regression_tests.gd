@@ -399,7 +399,7 @@ func _test_relic_shard_extractor_modes() -> void:
 	_expect(shards_after - shards_before == 3, "Recycling should produce exactly 3 shards regardless of generator level.")
 
 	_expect(state.relic_manager.add_random_relic_for_tier(2) != "", "Tier 2 random relic generation failed.")
-	var produced_relic := state.relic_manager.inventory.back()
+	var produced_relic: Dictionary = state.relic_manager.inventory.back()
 	var produced_definition := state.relic_manager.get_definition(str(produced_relic.get("definition_id", "")))
 	_expect(int(produced_definition.get("tier", 0)) == 2, "Random tier 2 reward came from the wrong tier.")
 	# Completion grants one random relic independently of extractor level.
