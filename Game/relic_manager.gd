@@ -11,9 +11,9 @@ const RELIC_DEFINITIONS: Dictionary = {
 	"fracture_sigil": {"display_name": "Fracture Sigil", "family": "event_chance", "modifier_type": ModifierTypes.EVENT_CHANCE, "target_id": "downlevel_chance", "roll_min": 0.05, "roll_max": 0.15, "description": "Adds 5–15 percentage points to downleveling chance.", "tier": 1},
 	# Retired definitions remain loadable for old saves, but are not rolled in new crafting.
 	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Legacy relic: reduces resource input consumption by 10%.", "tier": 0},
-	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "multiplier": 1.30, "description": "Legacy relic: increases a generator's output by 30%.", "tier": 0},
-	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "multiplier": 1.20, "description": "Legacy relic: increases cycle speed by 20%.", "tier": 0},
-	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "Legacy relic: reduces resource input consumption by 20%.", "tier": 0}
+	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Heat output by 15–25%.", "tier": 2},
+	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.15, "roll_max": 1.25, "description": "Increases cycle speed by 15–25%.", "tier": 2},
+	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2}
 }
 
 const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
