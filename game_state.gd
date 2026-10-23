@@ -715,7 +715,7 @@ func rebuild_relic_modifiers() -> void:
 			var secondary_stat: Variant = relic.get("secondary_stat", {})
 			if secondary_stat is Dictionary and not secondary_stat.is_empty():
 				_apply_relic_stat(generator, instance_id + ":secondary", secondary_stat)
-			generator.invalidate_production_modifier_cache()r.invalidate_production_modifier_cache()
+			generator.invalidate_production_modifier_cache()
 
 
 func _apply_relic_stat(generator: Generator, relic_source_id: String, stat: Dictionary) -> void:
