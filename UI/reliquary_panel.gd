@@ -261,7 +261,7 @@ func _refresh_inventory() -> void:
 			relic_shard_count += int(entry.get("quantity", 0))
 			stack_count += 1
 
-	inventory_title.text = "RELIQUARY · %d relics · %d shards" % [
+	inventory_title.text = "RELIQUARY · %d available relics · %d shards" % [
 		available_relic_count,
 		relic_shard_count
 	]
