@@ -1544,8 +1544,8 @@ func _create_reliquary_window() -> void:
 	reliquary_window.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
 	reliquary_window.offset_left = 12.0
 	reliquary_window.offset_top = 112.0
-	reliquary_window.offset_right = 820.0
-	reliquary_window.offset_bottom = 610.0
+	reliquary_window.offset_right = 1060.0
+	reliquary_window.offset_bottom = 680.0
 	add_child(reliquary_window)
 
 	reliquary_panel = ReliquaryPanel.new()
@@ -1553,7 +1553,12 @@ func _create_reliquary_window() -> void:
 	reliquary_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	reliquary_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	reliquary_window.add_child(reliquary_panel)
-	reliquary_panel.setup(state)
+	reliquary_panel.setup(
+		state,
+		ReliquaryPanel.DISPLAY_INVENTORY_AND_GENERATORS,
+		"",
+		input_handler
+	)
 	reliquary_panel.relics_changed.connect(_on_reliquary_relics_changed)
 
 
