@@ -54,6 +54,7 @@ func _run_tests() -> void:
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
 	_run_test("Machine crafting slots preserve, consume, and return ingredients", _test_machine_crafting_slots)
 	_run_test("Crafting recipes are validated and consumed when a cycle starts", _test_crafting_cycle_start)
+	_run_test("Relic Shard Extractor exposes five crafting modes and tiered rewards", _test_relic_shard_extractor_modes)
 	_run_test("Relic Shard Extractor consumes Matter and grants a shard after one minute", _test_relic_shard_extractor_cycle)
 	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
@@ -350,6 +351,38 @@ func _test_relic_inventory_equipment_and_save() -> void:
 			reset_modifier_found = true
 	_expect(reset_modifier_found, "Equipped relic modifier was not restored after realm reset.")
 
+
+
+
+func _test_relic_shard_extractor_modes() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var generator: Generator = state.get_generator("relic_shard_extractor")
+	_expect(generator != null, "Relic Shard Extractor was not registered.")
+	if generator == null:
+		return
+	_expect(generator.definition.operation_modes.size() == 5, "Extractor should expose exactly five operation modes.")
+	var expected_modes := ["normal", "recycle_relic", "combine_shards", "forge_relic", "forge_greater_relic"]
+	for index in range(expected_modes.size()):
+		_expect(
+			generator.definition.operation_modes[index].id == expected_modes[index],
+			"Extractor mode order or ID was incorrect at index %d." % index
+		)
+	var standard_mode: GeneratorOperationMode = generator.definition.operation_modes[3]
+	var greater_mode: GeneratorOperationMode = generator.definition.operation_modes[4]
+	_expect(standard_mode.completion_random_relic_tier == 1, "Standard forge should produce tier 1 relics.")
+	_expect(greater_mode.completion_random_relic_tier == 2, "Greater forge should produce tier 2 relics.")
+	_expect(state.relic_manager.get_stackable_item_definition("greater_relic_shard").size() > 0, "Greater Relic Shard item is missing.")
+	_expect(state.relic_manager.add_random_relic_for_tier(2) != "", "Tier 2 random relic generation failed.")
+	var produced_relic := state.relic_manager.inventory.back()
+	var produced_definition := state.relic_manager.get_definition(str(produced_relic.get("definition_id", "")))
+	_expect(int(produced_definition.get("tier", 0)) == 2, "Random tier 2 reward came from the wrong tier.")
+	# Completion grants one random relic independently of extractor level.
+	generator.level = 4
+	generator.operation_mode_id = "forge_relic"
+	var before_count := state.relic_manager.inventory.size()
+	simulation.complete_cycle(generator)
+	_expect(state.relic_manager.inventory.size() == before_count + 1, "Forging should grant exactly one relic, not one per generator level.")
 
 
 func _test_relic_shard_extractor_cycle() -> void:
