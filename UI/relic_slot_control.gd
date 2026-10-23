@@ -57,8 +57,8 @@ func _make_custom_tooltip(for_text: String) -> Object:
 	if definition.is_empty():
 		return null
 	var tier := int(definition.get("tier", 0))
-	var rarity_name := "Uncommon" if tier >= 2 else "Common" if tier == 1 else "Legacy"
-	var rarity_color := _get_rarity_color(tier)
+	var rarity_name := str(definition.get("rarity_name", "Uncommon" if tier >= 2 else "Common" if tier == 1 else "Legacy"))
+	var rarity_color := Color.from_string(str(definition.get("rarity_color", "")), _get_rarity_color(tier))
 
 	var panel := PanelContainer.new()
 	panel.name = "RelicTooltip"
@@ -201,8 +201,11 @@ func _update_appearance() -> void:
 	if not relic_for_rarity.is_empty():
 		var rarity_definition: Dictionary = state.relic_manager.get_relic_definition(relic_for_rarity)
 		var rarity_tier := int(rarity_definition.get("tier", 0))
-		rarity = "common" if rarity_tier == 1 else "uncommon" if rarity_tier >= 2 else ""
-	var rarity_color := Color(0.38, 0.85, 0.48) if rarity == "common" else Color(0.38, 0.70, 1.0) if rarity == "uncommon" else Color(1.0, 0.68, 0.36)
+		rarity = str(rarity_definition.get("rarity_name", "common" if rarity_tier == 1 else "uncommon" if rarity_tier >= 2 else "")).to_lower()
+	var rarity_color := Color(1.0, 0.68, 0.36)
+	if not relic_for_rarity.is_empty():
+		var rarity_definition: Dictionary = state.relic_manager.get_relic_definition(relic_for_rarity)
+		rarity_color = Color.from_string(str(rarity_definition.get("rarity_color", "")), _get_rarity_color(int(rarity_definition.get("tier", 0))))
 	if rarity != "" and not relic_for_rarity.is_empty():
 		style.border_color = rarity_color
 		add_theme_stylebox_override("normal", style)
