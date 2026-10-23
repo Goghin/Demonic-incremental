@@ -61,6 +61,8 @@ func _ready() -> void:
 
 
 func _apply_reliquary_compact_layout() -> void:
+	custom_minimum_size = Vector2.ZERO
+	size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	var content: VBoxContainer = $HBoxContainer/VBoxContainer
 	content.add_theme_constant_override("separation", 3)
 	$HBoxContainer.add_theme_constant_override("separation", 6)
