@@ -50,6 +50,8 @@ static func create() -> Generator:
 		[]
 	)
 	forge_standard_mode.completion_random_relic_tier = 1
+	forge_standard_mode.completion_critical_chance = 0.05
+	forge_standard_mode.description = "Consumes 10 Relic Shards to forge a random standard-tier relic. 5% critical chance to promote the result."
 
 	var forge_greater_mode := _make_crafting_mode(
 		"forge_greater_relic",
@@ -60,6 +62,8 @@ static func create() -> Generator:
 		[]
 	)
 	forge_greater_mode.completion_random_relic_tier = 2
+	forge_greater_mode.completion_critical_chance = 0.05
+	forge_greater_mode.description = "Consumes 5 Greater Relic Shards to forge a random higher-tier relic. 5% critical chance to promote the result."
 
 	var modes: Array[GeneratorOperationMode] = [
 		extraction_mode,
