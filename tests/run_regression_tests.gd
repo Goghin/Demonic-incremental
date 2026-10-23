@@ -373,13 +373,38 @@ func _test_relic_shard_extractor_modes() -> void:
 	_expect(standard_mode.completion_random_relic_tier == 1, "Standard forge should produce tier 1 relics.")
 	_expect(greater_mode.completion_random_relic_tier == 2, "Greater forge should produce tier 2 relics.")
 	_expect(state.relic_manager.get_stackable_item_definition("greater_relic_shard").size() > 0, "Greater Relic Shard item is missing.")
+	_expect(standard_mode.crafting_input_requirements.size() == 1, "Standard forging should require one ingredient stack.")
+	_expect(greater_mode.crafting_input_requirements[0].get("item_id", "") == "greater_relic_shard", "Higher-tier forging should require Greater Relic Shards.")
+
+	# Recycling consumes the explicitly loaded relic and returns a fixed shard amount.
+	generator.set_operation_mode("recycle_relic")
+	var recycled_relic_id := state.relic_manager.add_relic("clockwork_ember")
+	_expect(recycled_relic_id != "", "Could not create a relic for the recycling test.")
+	_expect(
+		state.relic_manager.move_inventory_entry_to_machine_slot(recycled_relic_id, "relic_shard_extractor", 0),
+		"Could not load the selected relic into the extractor."
+	)
+	state.set_resource_amount(ResourceIds.MATTER, 100.0)
+	_expect(simulation.buy_generator("relic_shard_extractor"), "Recycling cycle did not start with a valid relic.")
+	_expect(state.relic_manager.get_inventory_entry_by_instance_id(recycled_relic_id).is_empty(), "Recycled relic was not consumed at cycle start.")
+	var shards_before := 0
+	for entry in state.relic_manager.inventory:
+		if str(entry.get("item_id", "")) == "relic_shard":
+			shards_before += int(entry.get("quantity", 0))
+	simulation.complete_cycle(generator)
+	var shards_after := 0
+	for entry in state.relic_manager.inventory:
+		if str(entry.get("item_id", "")) == "relic_shard":
+			shards_after += int(entry.get("quantity", 0))
+	_expect(shards_after - shards_before == 3, "Recycling should produce exactly 3 shards regardless of generator level.")
+
 	_expect(state.relic_manager.add_random_relic_for_tier(2) != "", "Tier 2 random relic generation failed.")
 	var produced_relic := state.relic_manager.inventory.back()
 	var produced_definition := state.relic_manager.get_definition(str(produced_relic.get("definition_id", "")))
 	_expect(int(produced_definition.get("tier", 0)) == 2, "Random tier 2 reward came from the wrong tier.")
 	# Completion grants one random relic independently of extractor level.
 	generator.level = 4
-	generator.operation_mode_id = "forge_relic"
+	generator.set_operation_mode("forge_relic")
 	var before_count := state.relic_manager.inventory.size()
 	simulation.complete_cycle(generator)
 	_expect(state.relic_manager.inventory.size() == before_count + 1, "Forging should grant exactly one relic, not one per generator level.")
