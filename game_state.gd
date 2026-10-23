@@ -684,6 +684,9 @@ func rebuild_relic_modifiers() -> void:
 		for modifier in generator.modifiers.duplicate():
 			if modifier.id.begins_with("relic:"):
 				generator.modifiers.erase(modifier)
+		for sensitivity in generator.modifier_sensitivities.duplicate():
+			if str(sensitivity.source_upgrade_id).begins_with("relic:"):
+				generator.modifier_sensitivities.erase(sensitivity)
 		generator.invalidate_production_modifier_cache()
 
 	for generator_id_variant in relic_manager.equipped.keys():
@@ -706,43 +709,54 @@ func rebuild_relic_modifiers() -> void:
 			if definition.is_empty():
 				continue
 
-			var modifier_type := str(definition.get("modifier_type", ""))
-			var target_id := str(definition.get("target_id", ""))
-			if modifier_type == "":
-				# Compatibility for relics created before definitions declared
-				# explicit modifier types and targets.
-				match str(definition.get("family", "")):
-					"production":
-						modifier_type = ModifierTypes.PRODUCTION
-					"cycle_speed":
-						modifier_type = ModifierTypes.CYCLE_SPEED
-					"input_efficiency":
-						modifier_type = ModifierTypes.INPUT_DRAW
-			if modifier_type == "":
-				continue
+			var primary_stat: Dictionary = definition.duplicate(true)
+			primary_stat["rolled_value"] = relic_manager.get_relic_modifier_value(relic)
+			_apply_relic_stat(generator, instance_id, primary_stat)
+			var secondary_stat: Variant = relic.get("secondary_stat", {})
+			if secondary_stat is Dictionary and not secondary_stat.is_empty():
+				_apply_relic_stat(generator, instance_id + ":secondary", secondary_stat)
+			generator.invalidate_production_modifier_cache()r.invalidate_production_modifier_cache()
 
-			var modifier_value := relic_manager.get_relic_modifier_value(relic)
-			var modifier := Modifier.new(modifier_type, target_id, modifier_value)
-			modifier.id = "relic:" + instance_id
-			# Preserve the source identity so StatsPanel can attribute this effect
-			# to the specific relic instance instead of displaying it as Base.
-			modifier.source_upgrade_id = modifier.id
-			modifier.dynamic = bool(definition.get("dynamic", false))
-			modifier.dynamic_formula = str(definition.get("dynamic_formula", ""))
-			modifier.dynamic_resource_id = str(definition.get("dynamic_resource_id", ""))
-			modifier.dynamic_generator_id = str(definition.get("dynamic_generator_id", ""))
-			modifier.dynamic_threshold = float(definition.get("dynamic_threshold", 1000.0))
-			modifier.dynamic_exponent = float(definition.get("dynamic_exponent", 0.35))
-			modifier.dynamic_realm_effect_id = str(definition.get("dynamic_realm_effect_id", ""))
-			modifier.dynamic_realm_effect_is_divisor = bool(
-				definition.get("dynamic_realm_effect_is_divisor", false)
-			)
-			var mode_ids: Variant = definition.get("operation_mode_ids", [])
-			if mode_ids is Array:
-				for mode_id_variant in mode_ids:
-					modifier.operation_mode_ids.append(str(mode_id_variant))
-			generator.modifiers.append(modifier)
-			generator.invalidate_production_modifier_cache()
+
+func _apply_relic_stat(generator: Generator, relic_source_id: String, stat: Dictionary) -> void:
+	var source_id := "relic:" + relic_source_id
+	var stat_type := str(stat.get("stat_type", "modifier"))
+	var value := float(stat.get("rolled_value", stat.get("multiplier", 1.0)))
+	if stat_type == "sensitivity":
+		var sensitivity_targets: Variant = stat.get("sensitivity_targets", [])
+		if not sensitivity_targets is Array:
+			return
+		for target_variant in sensitivity_targets:
+			var sensitivity := ModifierSensitivity.new(str(target_variant), value, source_id)
+			generator.modifier_sensitivities.append(sensitivity)
+		return
+	var modifier_type := str(stat.get("modifier_type", ""))
+	if modifier_type == "":
+		match str(stat.get("family", "")):
+			"production":
+				modifier_type = ModifierTypes.PRODUCTION
+			"cycle_speed":
+				modifier_type = ModifierTypes.CYCLE_SPEED
+			"input_efficiency":
+				modifier_type = ModifierTypes.INPUT_DRAW
+	if modifier_type == "":
+		return
+	var modifier := Modifier.new(modifier_type, str(stat.get("target_id", "")), value)
+	modifier.id = source_id
+	modifier.source_upgrade_id = source_id
+	modifier.dynamic = bool(stat.get("dynamic", false))
+	modifier.dynamic_formula = str(stat.get("dynamic_formula", ""))
+	modifier.dynamic_resource_id = str(stat.get("dynamic_resource_id", ""))
+	modifier.dynamic_generator_id = str(stat.get("dynamic_generator_id", ""))
+	modifier.dynamic_threshold = float(stat.get("dynamic_threshold", 1000.0))
+	modifier.dynamic_exponent = float(stat.get("dynamic_exponent", 0.35))
+	modifier.dynamic_realm_effect_id = str(stat.get("dynamic_realm_effect_id", ""))
+	modifier.dynamic_realm_effect_is_divisor = bool(stat.get("dynamic_realm_effect_is_divisor", false))
+	var mode_ids: Variant = stat.get("operation_mode_ids", [])
+	if mode_ids is Array:
+		for mode_id_variant in mode_ids:
+			modifier.operation_mode_ids.append(str(mode_id_variant))
+	generator.modifiers.append(modifier)
 
 
 func get_unassigned_eternal_flames() -> int:
