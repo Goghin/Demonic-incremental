@@ -48,6 +48,7 @@ func _update_appearance() -> void:
 		inventory_entry = state.relic_manager.get_inventory_entry_at_slot(slot_index)
 		instance_id = str(inventory_entry.get("instance_id", ""))
 
+	var slot_font_size := 17
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.12, 0.095, 0.11, 1.0)
 	style.border_color = Color(0.34, 0.25, 0.27, 1.0)
@@ -71,6 +72,7 @@ func _update_appearance() -> void:
 				str(inventory_entry.get("item_id", ""))
 			)
 			text = str(item_definition.get("glyph", "◆")) + "\n" + str(inventory_entry.get("quantity", 0))
+			slot_font_size = 10
 			tooltip_text = (
 				str(item_definition.get("display_name", "Item"))
 				+ " ×"
@@ -104,7 +106,7 @@ func _update_appearance() -> void:
 	add_theme_stylebox_override("pressed", style)
 	add_theme_color_override("font_color", Color(1.0, 0.68, 0.36))
 	add_theme_color_override("font_hover_color", Color(1.0, 0.86, 0.64))
-	add_theme_font_size_override("font_size", 17)
+	add_theme_font_size_override("font_size", slot_font_size)
 
 
 func _get_relic_glyph(family: String) -> String:
