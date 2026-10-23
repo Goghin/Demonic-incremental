@@ -604,10 +604,12 @@ func add_random_relic_for_tier(tier: int, critical_chance: float = 0.0) -> Strin
 		"generated_definition": generated.get("generated_definition", {}).duplicate(true),
 		"rolled_value": float(generated.get("rolled_value", 1.0))
 	}
-	if generated.get("secondary_stat", {}) is Dictionary and not generated.get("secondary_stat", {}).is_empty():
-		entry["secondary_stat"] = generated["secondary_stat"].duplicate(true)
-	if generated.get("additional_secondary_stats", []) is Array and not generated.get("additional_secondary_stats", []).is_empty():
-		entry["additional_secondary_stats"] = generated["additional_secondary_stats"].duplicate(true)
+	var generated_secondary: Variant = generated.get("secondary_stat", {})
+	if generated_secondary is Dictionary and not generated_secondary.is_empty():
+		entry["secondary_stat"] = generated_secondary.duplicate(true)
+	var generated_additional_stats: Variant = generated.get("additional_secondary_stats", [])
+	if generated_additional_stats is Array and not generated_additional_stats.is_empty():
+		entry["additional_secondary_stats"] = generated_additional_stats.duplicate(true)
 	if bool(generated.get("critical_craft", false)):
 		entry["critical_craft"] = true
 		entry["requested_tier"] = int(generated.get("requested_tier", tier))
