@@ -43,8 +43,10 @@ func _update_appearance() -> void:
 
 	# Inventory slots are positional, so resolve their current relic from the slot index.
 	# configure() intentionally does not receive a relic ID for these fixed squares.
+	var inventory_entry: Dictionary = {}
 	if slot_kind == "inventory":
-		instance_id = state.relic_manager.get_inventory_relic_id_at_slot(slot_index)
+		inventory_entry = state.relic_manager.get_inventory_entry_at_slot(slot_index)
+		instance_id = str(inventory_entry.get("instance_id", ""))
 
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color(0.12, 0.095, 0.11, 1.0)
@@ -57,18 +59,31 @@ func _update_appearance() -> void:
 	style.content_margin_bottom = 2.0
 
 	if slot_kind == "inventory":
-		var relic: Dictionary = state.relic_manager.get_relic(instance_id)
-		var definition: Dictionary = state.relic_manager.get_definition(
-			str(relic.get("definition_id", ""))
-		)
-		text = _get_relic_glyph(str(definition.get("family", ""))) if not relic.is_empty() else ""
-		tooltip_text = (
-			str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", ""))
-			if not relic.is_empty()
-			else "Empty inventory slot"
-		)
-		style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if not relic.is_empty() else Color(0.08, 0.07, 0.08, 1.0)
-		style.border_color = Color(0.78, 0.38, 0.18, 1.0) if not relic.is_empty() else Color(0.28, 0.23, 0.25, 1.0)
+		var entry_type := state.relic_manager.get_inventory_entry_type(inventory_entry)
+		if entry_type == "relic":
+			var definition: Dictionary = state.relic_manager.get_definition(
+				str(inventory_entry.get("definition_id", ""))
+			)
+			text = _get_relic_glyph(str(definition.get("family", "")))
+			tooltip_text = str(definition.get("display_name", "Relic")) + "\n" + str(definition.get("description", ""))
+		elif entry_type == "stackable":
+			var item_definition: Dictionary = state.relic_manager.get_stackable_item_definition(
+				str(inventory_entry.get("item_id", ""))
+			)
+			text = str(item_definition.get("glyph", "◆")) + "\n" + str(inventory_entry.get("quantity", 0))
+			tooltip_text = (
+				str(item_definition.get("display_name", "Item"))
+				+ " ×"
+				+ str(inventory_entry.get("quantity", 0))
+				+ "\n"
+				+ str(item_definition.get("description", ""))
+			)
+		else:
+			text = ""
+			tooltip_text = "Empty inventory slot"
+		var occupied := entry_type != ""
+		style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if occupied else Color(0.08, 0.07, 0.08, 1.0)
+		style.border_color = Color(0.78, 0.38, 0.18, 1.0) if occupied else Color(0.28, 0.23, 0.25, 1.0)
 	else:
 		instance_id = state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
 		var relic: Dictionary = state.relic_manager.get_relic(instance_id)
@@ -108,16 +123,19 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 		return null
 
 	var dragged_instance_id := instance_id
+	var dragged_entry: Dictionary = {}
 	if slot_kind == "inventory":
-		dragged_instance_id = state.relic_manager.get_inventory_relic_id_at_slot(slot_index)
+		dragged_entry = state.relic_manager.get_inventory_entry_at_slot(slot_index)
+		dragged_instance_id = str(dragged_entry.get("instance_id", ""))
 	elif slot_kind == "generator":
 		dragged_instance_id = state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
-	if dragged_instance_id == "":
+		dragged_entry = state.relic_manager.get_relic(dragged_instance_id)
+	if dragged_instance_id == "" or dragged_entry.is_empty():
 		return null
 
-	var relic: Dictionary = state.relic_manager.get_relic(dragged_instance_id)
-	if relic.is_empty():
-		return null
+	var entry_type := state.relic_manager.get_inventory_entry_type(dragged_entry)
+	if slot_kind == "generator":
+		entry_type = "relic"
 
 	var preview := PanelContainer.new()
 	preview.custom_minimum_size = Vector2(42.0, 42.0)
@@ -135,9 +153,14 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	preview.add_theme_stylebox_override("panel", preview_style)
 
 	var preview_glyph := Label.new()
-	preview_glyph.text = _get_relic_glyph(str(state.relic_manager.get_definition(
-		str(relic.get("definition_id", ""))
-	).get("family", "")))
+	if entry_type == "stackable":
+		preview_glyph.text = str(state.relic_manager.get_stackable_item_definition(
+			str(dragged_entry.get("item_id", ""))
+		).get("glyph", "◆"))
+	else:
+		preview_glyph.text = _get_relic_glyph(str(state.relic_manager.get_definition(
+			str(dragged_entry.get("definition_id", ""))
+		).get("family", "")))
 	preview_glyph.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	preview_glyph.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	preview_glyph.add_theme_font_size_override("font_size", 23)
@@ -146,7 +169,8 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 	set_drag_preview(preview)
 
 	return {
-		"type": "relic",
+		"type": "reliquary_item",
+		"item_type": entry_type,
 		"instance_id": dragged_instance_id,
 		"source_kind": slot_kind,
 		"source_generator_id": generator_id,
@@ -157,17 +181,23 @@ func _get_drag_data(_at_position: Vector2) -> Variant:
 func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 	if state == null or not data is Dictionary:
 		return false
-	if str(data.get("type", "")) != "relic":
+	if str(data.get("type", "")) != "reliquary_item":
 		return false
 	var dragged_instance_id := str(data.get("instance_id", ""))
-	if state.relic_manager.get_relic(dragged_instance_id).is_empty():
+	var item_type := str(data.get("item_type", ""))
+	if state.relic_manager.get_inventory_entry_by_instance_id(dragged_instance_id).is_empty():
 		return false
 	if slot_kind == "inventory":
 		var source_kind := str(data.get("source_kind", ""))
 		if source_kind == "inventory":
 			return true
 		if source_kind == "generator":
-			return state.relic_manager.get_inventory_relic_id_at_slot(slot_index) == ""
+			return (
+				item_type == "relic"
+				and state.relic_manager.get_inventory_entry_at_slot(slot_index).is_empty()
+			)
+		return false
+	if item_type != "relic":
 		return false
 	return (
 		state.get_generator(generator_id) != null
@@ -193,7 +223,7 @@ func _drop_data(_at_position: Vector2, data: Variant) -> void:
 				return
 			state.relic_manager.unequip_relic(source_generator_id, source_slot_index)
 		elif source_kind == "inventory":
-			if not state.relic_manager.move_relic_to_inventory(dragged_instance_id, slot_index):
+			if not state.relic_manager.move_inventory_entry_to_slot(dragged_instance_id, slot_index):
 				return
 	elif slot_kind == "generator":
 		if dragged_instance_id == "":
