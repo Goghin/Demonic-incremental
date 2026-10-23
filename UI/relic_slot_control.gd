@@ -122,15 +122,17 @@ func _update_appearance() -> void:
 	add_theme_stylebox_override("normal", style)
 	add_theme_stylebox_override("hover", style)
 	add_theme_stylebox_override("pressed", style)
-	var rarity := "common"
-	if slot_kind == "inventory" or slot_kind == "crafting":
-		rarity = str(state.relic_manager.get_definition(str(inventory_entry.get("definition_id", ""))).get("rarity", ""))
-	else:
-		var equipped_entry := state.relic_manager.get_relic(instance_id)
-		rarity = str(state.relic_manager.get_definition(str(equipped_entry.get("definition_id", ""))).get("rarity", ""))
+	var rarity := ""
+	var relic_for_rarity: Dictionary = inventory_entry
+	if slot_kind != "inventory" and slot_kind != "crafting":
+		relic_for_rarity = state.relic_manager.get_relic(instance_id)
+	if not relic_for_rarity.is_empty():
+		var rarity_definition: Dictionary = state.relic_manager.get_definition(str(relic_for_rarity.get("definition_id", "")))
+		var rarity_tier := int(rarity_definition.get("tier", 0))
+		rarity = "common" if rarity_tier == 1 else "uncommon" if rarity_tier >= 2 else ""
 	var rarity_color := Color(0.38, 0.85, 0.48) if rarity == "common" else Color(0.38, 0.70, 1.0) if rarity == "uncommon" else Color(1.0, 0.68, 0.36)
-	if rarity != "":
-		style.border_color = rarity_color if (slot_kind == "inventory" or slot_kind == "crafting") and not inventory_entry.is_empty() else style.border_color
+	if rarity != "" and not relic_for_rarity.is_empty():
+		style.border_color = rarity_color
 	add_theme_color_override("font_color", rarity_color if rarity != "" else Color(1.0, 0.68, 0.36))
 	add_theme_color_override("font_hover_color", Color(1.0, 0.86, 0.64))
 	add_theme_font_size_override("font_size", slot_font_size)
