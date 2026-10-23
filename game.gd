@@ -52,6 +52,9 @@ var pending_offline_achievement_ids: Array[String] = []
 var upgrade_group_containers: Dictionary = {}
 var upgrade_flows: Dictionary = {}
 var upgrade_panels: Dictionary = {}
+var general_upgrade_automation_button: Button
+var _last_general_upgrade_automation_enabled: bool = false
+var _has_general_upgrade_automation_style: bool = false
 
 var selected_upgrade_generator_id: String = ""
 var selected_generator_id: String = ""
@@ -925,6 +928,96 @@ func _create_initial_upgrade_ui() -> void:
 		add_upgrade_panel(upgrade)
 
 	_create_initial_effects_ui(automatic_upgrades)
+	_create_general_upgrade_automation_toggle()
+
+
+func _create_general_upgrade_automation_toggle() -> void:
+	var general_container: VBoxContainer = (
+		$UpgradeScroll/UpgradeContent/GeneralUpgradeContainer
+	)
+	if general_upgrade_automation_button != null:
+		return
+
+	general_upgrade_automation_button = Button.new()
+	general_upgrade_automation_button.name = "GeneralUpgradeAutomationToggle"
+	general_upgrade_automation_button.custom_minimum_size = Vector2(220.0, 28.0)
+	general_upgrade_automation_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	general_upgrade_automation_button.add_theme_font_size_override("font_size", 11)
+	general_upgrade_automation_button.focus_mode = Control.FOCUS_NONE
+	general_upgrade_automation_button.tooltip_text = (
+		"Automatically buys eligible general upgrades every 10 seconds. "
+		+ "Purchases follow their normal requirements and resource costs."
+	)
+	general_upgrade_automation_button.pressed.connect(
+		_on_general_upgrade_automation_button_pressed
+	)
+	general_container.add_child(general_upgrade_automation_button)
+	general_container.move_child(general_upgrade_automation_button, 0)
+	_update_general_upgrade_automation_button()
+
+
+func _update_general_upgrade_automation_button() -> void:
+	if state == null or general_upgrade_automation_button == null:
+		return
+
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	var unlocked: bool = manager.is_automation_unlocked("general")
+	general_upgrade_automation_button.visible = unlocked
+	if not unlocked:
+		return
+
+	var enabled: bool = manager.is_enabled("general")
+	general_upgrade_automation_button.text = (
+		"GENERAL UPGRADE AUTO: ON"
+		if enabled
+		else "GENERAL UPGRADE AUTO: OFF"
+	)
+	if _has_general_upgrade_automation_style and enabled == _last_general_upgrade_automation_enabled:
+		return
+
+	var background: Color = (
+		Color(0.18, 0.36, 0.22, 1.0)
+		if enabled
+		else Color(0.25, 0.20, 0.20, 1.0)
+	)
+	var border: Color = (
+		Color(0.55, 0.90, 0.52, 1.0)
+		if enabled
+		else Color(0.90, 0.52, 0.42, 1.0)
+	)
+	var style := StyleBoxFlat.new()
+	style.bg_color = background
+	style.border_color = border
+	style.set_border_width_all(2)
+	style.set_corner_radius_all(4)
+	style.content_margin_left = 8.0
+	style.content_margin_right = 8.0
+	style.content_margin_top = 4.0
+	style.content_margin_bottom = 4.0
+	general_upgrade_automation_button.add_theme_stylebox_override("normal", style)
+	var hover_style := style.duplicate() as StyleBoxFlat
+	hover_style.bg_color = background.lightened(0.12)
+	hover_style.border_color = border.lightened(0.12)
+	general_upgrade_automation_button.add_theme_stylebox_override("hover", hover_style)
+	var pressed_style := style.duplicate() as StyleBoxFlat
+	pressed_style.bg_color = background.darkened(0.10)
+	general_upgrade_automation_button.add_theme_stylebox_override("pressed", pressed_style)
+	general_upgrade_automation_button.add_theme_color_override(
+		"font_color",
+		Color(0.68, 0.83, 0.67) if enabled else Color(0.88, 0.80, 0.70)
+	)
+	_last_general_upgrade_automation_enabled = enabled
+	_has_general_upgrade_automation_style = true
+
+
+func _on_general_upgrade_automation_button_pressed() -> void:
+	if state == null:
+		return
+
+	var manager: UpgradeAutomationManager = state.upgrade_automation_manager
+	if manager.set_enabled("general", not manager.is_enabled("general")):
+		_update_general_upgrade_automation_button()
+		save_manager.save_game(state, time_manager)
 
 
 func _is_generator_unlock_for_main_panel(upgrade: Upgrade) -> bool:
@@ -1330,6 +1423,7 @@ func _process(
 
 	if is_loading or is_intro_playing:
 		return
+	_update_general_upgrade_automation_button()
 	if state != null and state.prestige_planning:
 		_update_navigation_title_visibility()
 		_update_ambient_audio(delta)

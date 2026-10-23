@@ -32,13 +32,25 @@ func setup(
 func update_stat_values(
 	braziers: Dictionary,
 	brazier_stats: Array[String],
-	realm_configuration: RealmConfiguration
+	realm_configuration: RealmConfiguration,
+	eternal_flame_state: EternalFlameState
 ) -> void:
 	for stat_name in brazier_stats:
 		if not braziers.has(stat_name):
 			continue
 
 		var brazier: Brazier = braziers[stat_name]
+		var technology_id: String = "brazier_" + stat_name
+		var unlocked: bool = eternal_flame_state.is_technology_unlocked(
+			technology_id
+		)
+
+		# Keep all brazier nodes available for layout editing, but only show
+		# them in the realm after their matching permanent shop technology is bought.
+		brazier.visible = unlocked
+		if not unlocked:
+			continue
+
 		brazier.set_stat_value(
 			realm_configuration.get_stat_value(stat_name)
 		)
