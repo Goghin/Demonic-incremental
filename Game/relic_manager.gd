@@ -61,8 +61,9 @@ func get_inventory_entry_by_instance_id(instance_id: String) -> Dictionary:
 
 
 func get_inventory_entry_type(entry: Dictionary) -> String:
-	if not entry.get("definition_id", "").is_empty():
-		return "relic" if RELIC_DEFINITIONS.has(str(entry.get("definition_id", ""))) else ""
+	var definition_id := str(entry.get("definition_id", ""))
+	if RELIC_DEFINITIONS.has(definition_id):
+		return "relic"
 	if STACKABLE_ITEM_DEFINITIONS.has(str(entry.get("item_id", ""))):
 		return "stackable"
 	return ""
@@ -168,15 +169,17 @@ func move_inventory_entry_to_slot(instance_id: String, target_slot_index: int) -
 		var source_quantity := int(source_entry.get("quantity", 0))
 		var transferred := mini(source_quantity, maxi(0, max_stack - target_quantity))
 		if transferred <= 0:
-			return false
-		for entry in inventory:
-			if str(entry.get("instance_id", "")) == target_instance_id:
-				entry["quantity"] = target_quantity + transferred
-			if str(entry.get("instance_id", "")) == instance_id:
-				entry["quantity"] = source_quantity - transferred
-		if source_quantity == transferred:
-			_remove_inventory_entry(instance_id)
-		return true
+			# Full stacks can still be rearranged like any other inventory items.
+			pass
+		else:
+			for entry in inventory:
+				if str(entry.get("instance_id", "")) == target_instance_id:
+					entry["quantity"] = target_quantity + transferred
+				if str(entry.get("instance_id", "")) == instance_id:
+					entry["quantity"] = source_quantity - transferred
+			if source_quantity == transferred:
+				_remove_inventory_entry(instance_id)
+			return true
 
 	if target_instance_id != "":
 		if previous_slot < 0:
