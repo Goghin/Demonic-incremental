@@ -51,6 +51,7 @@ func _run_tests() -> void:
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
+	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
 	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
 	_run_test("Ash contamination uses generic cycle-speed modifiers and sensitivities", _test_ashen_contamination_cycle_speed_modifier)
@@ -345,6 +346,57 @@ func _test_relic_inventory_equipment_and_save() -> void:
 		if modifier.id.begins_with("relic:"):
 			reset_modifier_found = true
 	_expect(reset_modifier_found, "Equipped relic modifier was not restored after realm reset.")
+
+
+
+func _test_relic_shard_stacks() -> void:
+	var manager := RelicManager.new()
+	_expect(
+		manager.add_stackable_item("relic_shard", 1250) == 1250,
+		"Relic Shard stack creation did not accept the full quantity."
+	)
+	_expect(manager.inventory.size() == 2, "1,250 shards should occupy two stacks.")
+	var first_stack: Dictionary = manager.get_inventory_entry_at_slot(0)
+	var second_stack: Dictionary = manager.get_inventory_entry_at_slot(1)
+	_expect(
+		int(first_stack.get("quantity", 0)) == 1000,
+		"First Relic Shard stack did not respect the 1,000-item cap."
+	)
+	_expect(
+		int(second_stack.get("quantity", 0)) == 250,
+		"Overflow Relic Shards were not placed into a second stack."
+	)
+
+	# Simulate spending some shards, then merge the second stack into the first.
+	var first_id := str(first_stack.get("instance_id", ""))
+	var second_id := str(second_stack.get("instance_id", ""))
+	for entry in manager.inventory:
+		if str(entry.get("instance_id", "")) == first_id:
+			entry["quantity"] = 900
+	_expect(
+		manager.move_inventory_entry_to_slot(second_id, 0),
+		"Moving a compatible stack onto another stack failed."
+	)
+	_expect(
+		int(manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 1000,
+		"Stack merge did not fill the target stack to its 1,000 cap."
+	)
+	_expect(
+		int(manager.get_inventory_entry_at_slot(1).get("quantity", 0)) == 150,
+		"Stack merge did not leave the unmerged remainder in the source square."
+	)
+
+	var saved_data := manager.get_save_data()
+	var loaded_manager := RelicManager.new()
+	loaded_manager.load_save_data(saved_data)
+	_expect(
+		int(loaded_manager.get_inventory_entry_at_slot(0).get("quantity", 0)) == 1000,
+		"Saved Relic Shard stack quantity did not survive loading."
+	)
+	_expect(
+		int(loaded_manager.get_inventory_entry_at_slot(1).get("quantity", 0)) == 150,
+		"Saved Relic Shard inventory position or remainder did not survive loading."
+	)
 
 
 func _test_multiple_relic_slots_and_legacy_migration() -> void:
