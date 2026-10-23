@@ -802,13 +802,13 @@ func load_save_data(data: Dictionary) -> void:
 				var saved_secondary: Variant = entry.get("secondary_stat", {})
 				if saved_secondary is Dictionary and not saved_secondary.is_empty():
 					relic_entry["secondary_stat"] = saved_secondary.duplicate(true)
-				var saved_additional_stats: Variant = entry.get("additional_secondary_stats", [])
-				if saved_additional_stats is Array and not saved_additional_stats.is_empty():
-					relic_entry["additional_secondary_stats"] = saved_additional_stats.duplicate(true)
-				elif RELIC_DEFINITIONS[definition_id].has("secondary_rolls"):
+				elif RELIC_DEFINITIONS.has(definition_id) and RELIC_DEFINITIONS[definition_id].has("secondary_rolls"):
 					var secondary: Dictionary = _roll_secondary_stat(RELIC_DEFINITIONS[definition_id])
 					if not secondary.is_empty():
 						relic_entry["secondary_stat"] = secondary
+				var saved_additional_stats: Variant = entry.get("additional_secondary_stats", [])
+				if saved_additional_stats is Array and not saved_additional_stats.is_empty():
+					relic_entry["additional_secondary_stats"] = saved_additional_stats.duplicate(true)
 				inventory.append(relic_entry)
 			elif STACKABLE_ITEM_DEFINITIONS.has(item_id):
 				var quantity := int(entry.get("quantity", 0))
