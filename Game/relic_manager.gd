@@ -16,8 +16,30 @@ const RELIC_DEFINITIONS: Dictionary = {
 	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "Legacy relic: reduces resource input consumption by 20%.", "tier": 0},
 	"refined_emberheart_core": {"display_name": "Refined Emberheart Core", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Heat output by 15–25%.", "tier": 2},
 	"perfected_chronal_spring": {"display_name": "Perfected Chronal Spring", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.15, "roll_max": 1.25, "description": "Increases cycle speed by 15–25%.", "tier": 2},
-	"abyssal_mite_core": {"display_name": "Abyssal Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2}
+	"abyssal_mite_core": {"display_name": "Abyssal Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()},
+	# Common stat-specialist relics.
+	"ashveil_charm": {"display_name": "Ashveil Charm", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Ash Contamination sensitivity by 5–15%.", "tier": 1},
+	"thermic_resonator": {"display_name": "Thermic Resonator", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Thermic Mass sensitivity by 5–15%.", "tier": 1},
+	"matterheart": {"display_name": "Matterheart", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.MATTER, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Matter production by 5–15%.", "tier": 1},
+	"heat_siphon_valve": {"display_name": "Heat Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Heat draw by 5–15%.", "tier": 1},
+	"matter_siphon_valve": {"display_name": "Matter Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Matter draw by 5–15%.", "tier": 1},
+	# Uncommon variants roll a stronger primary stat and one additional stat.
+	"azure_ashveil_charm": {"display_name": "Azure Ashveil Charm", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.75, "roll_max": 0.90, "description": "Greatly reduces Ash Contamination sensitivity.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()},
+	"azure_thermic_resonator": {"display_name": "Azure Thermic Resonator", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.10, "roll_max": 1.25, "description": "Greatly increases Thermic Mass sensitivity.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()},
+	"refined_matterheart": {"display_name": "Refined Matterheart", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.MATTER, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Matter production by 15–25%.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()},
+	"azure_heat_siphon_valve": {"display_name": "Azure Heat Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.75, "roll_max": 0.90, "description": "Greatly reduces Heat draw.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()},
+	"azure_matter_siphon_valve": {"display_name": "Azure Matter Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.75, "roll_max": 0.90, "description": "Greatly reduces Matter draw.", "tier": 2, "secondary_rolls": _get_uncommon_secondary_stats()}
 }
+
+static func _get_uncommon_secondary_stats() -> Array[Dictionary]:
+	return [
+		{"stat_type": "modifier", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.03, "roll_max": 1.08, "description": "Heat production"},
+		{"stat_type": "modifier", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.MATTER, "roll_min": 1.03, "roll_max": 1.08, "description": "Matter production"},
+		{"stat_type": "modifier", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.92, "roll_max": 0.97, "description": "Heat draw reduction"},
+		{"stat_type": "modifier", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.92, "roll_max": 0.97, "description": "Matter draw reduction"},
+		{"stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.92, "roll_max": 0.97, "description": "Ash Contamination sensitivity reduction"},
+		{"stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.03, "roll_max": 1.08, "description": "Thermic Mass sensitivity increase"}
+]
 
 const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
 	"relic_shard": {
@@ -59,6 +81,11 @@ func add_relic(definition_id: String) -> String:
 	_next_instance_number += 1
 	var entry: Dictionary = {"instance_id": instance_id, "definition_id": definition_id}
 	entry["rolled_value"] = _roll_relic_value(definition)
+	var secondary_rolls: Variant = definition.get("secondary_rolls", [])
+	if secondary_rolls is Array and not secondary_rolls.is_empty():
+		var secondary: Dictionary = secondary_rolls[randi_range(0, secondary_rolls.size() - 1)].duplicate(true)
+		secondary["rolled_value"] = _roll_relic_value(secondary)
+		entry["secondary_stat"] = secondary
 	inventory.append(entry)
 	inventory_positions[instance_id] = _find_first_available_inventory_slot()
 	return instance_id
@@ -108,7 +135,11 @@ func get_relic_description(relic: Dictionary) -> String:
 	var modifier_type := str(definition.get("modifier_type", ""))
 	if not definition.has("roll_min"):
 		return base_description
-	if bool(definition.get("dynamic", false)):
+	if str(definition.get("stat_type", "")) == "sensitivity":
+		var sensitivity_name := "Ash Contamination" if str(definition.get("sensitivity_targets", [""])[0]) == "ashen_contamination" else "Thermic Mass"
+		var direction := "−" if value < 1.0 else "+"
+		base_description += "\\nRolled: %s%.1f%% sensitivity to %s" % [direction, absf(value - 1.0) * 100.0, sensitivity_name]
+	elif bool(definition.get("dynamic", false)):
 		return "%s\nRolled coefficient: %.4f (effective strength changes with game state)" % [
 			base_description,
 			value
@@ -123,6 +154,20 @@ func get_relic_description(relic: Dictionary) -> String:
 		ModifierTypes.EVENT_CHANCE:
 			var stat_name := "Critical chance" if str(definition.get("target_id", "")) == "critical_chance" else "Downleveling chance"
 			return "%s\nRolled: +%.1f percentage points to %s" % [base_description, value * 100.0, stat_name]
+	var secondary: Variant = relic.get("secondary_stat", {})
+	if secondary is Dictionary and not secondary.is_empty():
+		var secondary_value := float(secondary.get("rolled_value", 1.0))
+		var secondary_type := str(secondary.get("stat_type", "modifier"))
+		var secondary_description := str(secondary.get("description", "Additional stat"))
+		if secondary_type == "sensitivity":
+			var secondary_target: String = str(secondary.get("sensitivity_targets", [""])[0])
+			var secondary_name := "Ash Contamination" if secondary_target == "ashen_contamination" else "Thermic Mass"
+			var secondary_direction := "−" if secondary_value < 1.0 else "+"
+			base_description += "\\nBonus: %s %s%.1f%%" % [secondary_description, secondary_direction, absf(secondary_value - 1.0) * 100.0]
+		else:
+			var secondary_percent := absf(secondary_value - 1.0) * 100.0
+			var secondary_direction := "−" if secondary_value < 1.0 else "+"
+			base_description += "\\nBonus: %s %s%.1f%%" % [secondary_description, secondary_direction, secondary_percent]
 	return base_description
 
 func _find_first_available_inventory_slot() -> int:
@@ -644,6 +689,15 @@ func load_save_data(data: Dictionary) -> void:
 				relic_entry["rolled_value"] = float(
 					entry.get("rolled_value", _get_legacy_relic_value(definition_id))
 				)
+				var saved_secondary: Variant = entry.get("secondary_stat", {})
+				if saved_secondary is Dictionary and not saved_secondary.is_empty():
+					relic_entry["secondary_stat"] = saved_secondary.duplicate(true)
+				elif RELIC_DEFINITIONS[definition_id].has("secondary_rolls"):
+					var secondary_rolls: Array = RELIC_DEFINITIONS[definition_id]["secondary_rolls"]
+					if not secondary_rolls.is_empty():
+						var secondary: Dictionary = secondary_rolls[randi_range(0, secondary_rolls.size() - 1)].duplicate(true)
+						secondary["rolled_value"] = _roll_relic_value(secondary)
+						relic_entry["secondary_stat"] = secondary
 				inventory.append(relic_entry)
 			elif STACKABLE_ITEM_DEFINITIONS.has(item_id):
 				var quantity := int(entry.get("quantity", 0))
