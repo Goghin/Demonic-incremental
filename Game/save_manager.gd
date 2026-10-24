@@ -184,7 +184,6 @@ func state_to_dictionary(
 		"last_prestige_report": state.last_prestige_report,
 		"total_overflow_this_prestige": state.total_overflow_this_prestige,
 		"total_matter_decayed_this_prestige": state.total_matter_decayed_this_prestige,
-		"overflow_bonus_from_last_realm": state.overflow_bonus_from_last_realm,
 		"generator_automation": (
 			state.generator_automation_manager.get_save_data()
 		),
