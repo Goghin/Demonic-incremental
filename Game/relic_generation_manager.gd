@@ -97,28 +97,56 @@ const EFFECT_DEFINITIONS: Dictionary = {
 		"description_label": "All input draw",
 		"description_mode": "multiplier"
 	},
-	"sensitivity_reduction": {
+	# Ash Contamination is one relic target, but it deliberately applies to
+	# both independent modifiers: the general production penalty and Forge slowdown.
+	"ash_contamination_sensitivity_reduction": {
 		"stat_group": "sensitivity",
 		"stat_type": "sensitivity",
-		"sensitivity_targets": ["*"],
+		"sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"],
 		"weight": 45.0,
 		"secondary_weight": 16.0,
-		"roll_ranges": {1: [0.90, 0.97], 2: [0.75, 0.90]},
+		"roll_ranges": {1: [0.96, 0.98], 2: [0.93, 0.96]},
 		"affix_position": "prefix",
-		"affix_text": "Resistant",
-		"description_label": "All supported sensitivities",
+		"affix_text": "Ashveil",
+		"description_label": "Ash Contamination",
 		"description_mode": "multiplier"
 	},
-	"sensitivity_increase": {
+	"thermic_mass_sensitivity_reduction": {
 		"stat_group": "sensitivity",
 		"stat_type": "sensitivity",
-		"sensitivity_targets": ["*"],
+		"sensitivity_targets": ["thermic_mass"],
+		"weight": 18.0,
+		"secondary_weight": 6.0,
+		"roll_ranges": {1: [0.96, 0.98], 2: [0.93, 0.96]},
+		"affix_position": "prefix",
+		"affix_text": "Grounded",
+		"description_label": "Thermic Mass",
+		"description_mode": "multiplier"
+	},
+	"thermic_mass_sensitivity_increase": {
+		"stat_group": "sensitivity",
+		"stat_type": "sensitivity",
+		"sensitivity_targets": ["thermic_mass"],
 		"weight": 25.0,
 		"secondary_weight": 8.0,
-		"roll_ranges": {1: [1.05, 1.12], 2: [1.10, 1.25]},
+		"roll_ranges": {1: [1.02, 1.04], 2: [1.04, 1.07]},
 		"affix_position": "prefix",
 		"affix_text": "Volatile",
-		"description_label": "All supported sensitivities",
+		"description_label": "Thermic Mass",
+		"description_mode": "multiplier"
+	},
+	"crystallization_sensitivity_reduction": {
+		"stat_group": "sensitivity",
+		"stat_type": "sensitivity",
+		"sensitivity_targets": ["crystallization"],
+		# Crystallization sensitivity is especially powerful because it changes
+		# the effective exponent, so keep it rarer and weaker than other targets.
+		"weight": 8.0,
+		"secondary_weight": 2.0,
+		"roll_ranges": {1: [0.985, 0.995], 2: [0.975, 0.99]},
+		"affix_position": "prefix",
+		"affix_text": "Essence-Touched",
+		"description_label": "Crystallization",
 		"description_mode": "multiplier"
 	},
 	"cycle_speed_increase": {
