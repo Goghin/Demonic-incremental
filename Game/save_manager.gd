@@ -183,6 +183,7 @@ func state_to_dictionary(
 		"prestige_planning": state.prestige_planning,
 		"last_prestige_report": state.last_prestige_report,
 		"total_overflow_this_prestige": state.total_overflow_this_prestige,
+		"total_matter_decayed_this_prestige": state.total_matter_decayed_this_prestige,
 		"overflow_bonus_from_last_realm": state.overflow_bonus_from_last_realm,
 		"generator_automation": (
 			state.generator_automation_manager.get_save_data()
@@ -292,6 +293,10 @@ func dictionary_to_state(
 	state.total_overflow_this_prestige = max(
 		0.0,
 		float(data.get("total_overflow_this_prestige", 0.0))
+	)
+	state.total_matter_decayed_this_prestige = max(
+		0.0,
+		float(data.get("total_matter_decayed_this_prestige", 0.0))
 	)
 
 	state.overflow_bonus_from_last_realm = max(
