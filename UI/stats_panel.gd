@@ -616,6 +616,7 @@ func _setup_pressure_rows() -> void:
 	_add_effect_section(container, "MATTER")
 	_add_effect_row(container, "matter_threshold", "Decay Threshold: 0 Matter", ResourceIds.MATTER)
 	_add_effect_row(container, "matter_decay", "Decay Rate: 0 Matter/s → 0 Heat/s", ResourceIds.MATTER)
+	_add_effect_row(container, "matter_decayed_this_realm", "Decayed This Realm: 0 Matter", ResourceIds.MATTER)
 	
 	_add_effect_section(container, "ASH CONTAMINATION")
 	_add_effect_row(container, "ash_contamination", "Ash Contamination: ×1", ResourceIds.ASH)
@@ -623,7 +624,7 @@ func _setup_pressure_rows() -> void:
 	_add_effect_section(container, "CRYSTALLIZED FLAME")
 	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 	_add_effect_row(container, "flame_penalty", "Heat Production Penalty: 0%", ResourceIds.CRYSTALLIZED_FLAME)
-	_add_effect_row(container, "overflow_bonus", "Overflow Bonus Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
+	_add_effect_row(container, "overflow_bonus", "Overflow Counting Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 
 	_add_effect_section(container, "ESSENCE")
 	_add_effect_row(container, "essence_hunger", "Lava Mite Hunger: ×1", ResourceIds.ESSENCE)
@@ -693,7 +694,7 @@ func update_pressure_stats() -> void:
 	)
 	pressure_labels["overflow_this_realm"].text = (
 		"Overflow This Realm: %s"
-		% NumberFormatter.format(state.current_run_statistics.get_total_overflow())
+		% NumberFormatter.format(state.total_overflow_this_prestige)
 	)
 	pressure_labels["matter_threshold"].text = (
 		"Decay Threshold: %s Matter"
@@ -705,6 +706,10 @@ func update_pressure_stats() -> void:
 			NumberFormatter.format(matter_decay),
 			NumberFormatter.format(matter_decay)
 		]
+	)
+	pressure_labels["matter_decayed_this_realm"].text = (
+		"Decayed This Realm: %s Matter"
+		% NumberFormatter.format(state.total_matter_decayed_this_prestige)
 	)
 	pressure_labels["ash_contamination"].text = (
 		"Ash Contamination: ×%s"
@@ -727,7 +732,7 @@ func update_pressure_stats() -> void:
 		% NumberFormatter.format(raw_flame_penalty_percent)
 	)
 	pressure_labels["overflow_bonus"].text = (
-		"Overflow Bonus Multiplier: ×%s"
+		"Overflow Counting Multiplier: ×%s"
 		% NumberFormatter.format(pow(1.25, state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)))
 	)
 	pressure_labels["essence_hunger"].text = (
