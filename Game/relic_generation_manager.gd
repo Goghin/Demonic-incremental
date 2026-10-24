@@ -281,7 +281,7 @@ func _apply_target_option(effect: Dictionary) -> void:
 	if candidates.is_empty():
 		return
 	var selected_option := candidates[randi_range(0, candidates.size() - 1)]
-	effect["target_id"] = str(selected_option.get("target_id", ""))
+	effect["target_id"] = selected_option.get("target_id", "")
 	# A blank target is universal. Resource-specific descriptions are generated
 	# from the chosen target by RelicManager, avoiding stale "all resources" text.
 	if selected_option.has("description_label"):
