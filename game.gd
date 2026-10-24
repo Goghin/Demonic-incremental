@@ -766,6 +766,9 @@ func _create_generator_panel(
 	generator_panel.selection_requested.connect(
 		_on_generator_panel_selection_requested
 	)
+	generator_panel.stats_requested.connect(
+		_on_generator_stats_requested
+	)
 	generator_panel.upgrade_automation_changed.connect(
 		_on_upgrade_automation_settings_changed
 	)
@@ -2256,6 +2259,25 @@ func _on_rub_button_pressed() -> void:
 	print(
 		"Game Saved."
 	)
+
+
+func _on_generator_stats_requested(generator_id: String) -> void:
+	if state == null or state.get_generator(generator_id) == null:
+		return
+	if reliquary_window != null:
+		reliquary_window.hide()
+	generator_list_mode = false
+	_clear_generator_focus()
+	$NavigationTitlePanel/NavigationTitle.text = "STATISTICS"
+	$StatsPanel.show()
+	$GeneratorScroll.hide()
+	$UpgradeScroll.hide()
+	$OptionsPanel.hide()
+	$PrestigePanel.hide()
+	$AchievementPanel.hide()
+	_update_navigation_buttons("StatsButton")
+	$StatsPanel.open_generator_stats(generator_id)
+	_update_navigation_title_visibility()
 
 
 func _on_stats_button_pressed() -> void:
