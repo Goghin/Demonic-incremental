@@ -1009,6 +1009,22 @@ func _test_multiple_relic_slots_and_legacy_migration() -> void:
 		state.relic_manager.get_equipped_relic_id("atomic_friction", 1) == second_relic_id,
 		"Second slot did not retain its own relic."
 	)
+
+	var infernal_forge: Generator = state.get_generator("infernal_forge")
+	_expect(infernal_forge != null, "Infernal Forge was unavailable for the cycle-lock test.")
+	if infernal_forge != null:
+		_expect(infernal_forge.definition.cycle_based, "Infernal Forge should use cycle-based operation.")
+		infernal_forge.cycle_active = true
+		_expect(
+			not state.relic_manager.equip_relic("infernal_forge", first_relic_id, state, 0),
+			"A relic could be equipped while Infernal Forge cycle was active."
+		)
+		_expect(
+			state.relic_manager.get_equipped_relic_id("atomic_friction", 0) == first_relic_id,
+			"Rejected cycle-locked equipment change altered the original slot."
+		)
+		infernal_forge.cycle_active = false
+
 	state.rebuild_relic_modifiers()
 	var relic_modifier_count := 0
 	for modifier in state.get_generator("atomic_friction").modifiers:
