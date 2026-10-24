@@ -4,6 +4,7 @@ extends RefCounted
 signal generator_unlocked(generator_id: String)
 signal crystallization_completed(crystals_created: float)
 signal critical_crystallization_completed(crystals_created: float)
+signal relic_crafting_completed(relic_name: String, quantity: int, is_critical: bool)
 signal generator_level_reduced(generator_id: String, previous_level: int, new_level: int)
 
 const GAMEPLAY_SNAPSHOT_INTERVAL: float = 30.0
@@ -615,9 +616,22 @@ func complete_cycle(
 					quantity *= generator.level
 				state.relic_manager.add_stackable_item(item_id, quantity)
 		if operation_mode.completion_random_relic_tier > 0:
-			state.relic_manager.add_random_relic_for_tier(
+			var relic_instance_id := state.relic_manager.add_random_relic_for_tier(
 				operation_mode.completion_random_relic_tier
 			)
+			if relic_instance_id != "":
+				var relic_entry := state.relic_manager.get_inventory_entry_by_instance_id(
+					relic_instance_id
+				)
+				var relic_definition := state.relic_manager.get_definition(
+					str(relic_entry.get("definition_id", ""))
+				)
+				if not relic_definition.is_empty():
+					relic_crafting_completed.emit(
+						str(relic_definition.get("display_name", "Unknown Relic")),
+						1,
+						bool(triggered_events.get("relic_critical", triggered_events.get("forge_critical", false)))
+					)
 
 	_apply_cycle_completion_consequences(generator, triggered_events)
 	generator.cycle_active = false
