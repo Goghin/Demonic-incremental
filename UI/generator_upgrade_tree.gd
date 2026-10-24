@@ -151,6 +151,7 @@ func _create_stats_view(target_generator_id: String) -> void:
 	stats_entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	$StatsScroll/StatsContent.add_child(stats_entry)
 	stats_entry.setup(state, stats, target_generator_id)
+	stats_entry.expanded = true
 
 
 func _clear_stats_view() -> void:
