@@ -116,8 +116,15 @@ func _update_appearance() -> void:
 			if not relic.is_empty()
 			else "Drop a relic here"
 		)
-		style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if not relic.is_empty() else Color(0.08, 0.07, 0.08, 1.0)
-		style.border_color = Color(0.78, 0.38, 0.18, 1.0) if not relic.is_empty() else Color(0.38, 0.29, 0.30, 1.0)
+		var equipment_locked := _is_generator_equipment_locked()
+		if equipment_locked:
+			text = "×" if relic.is_empty() else text
+			tooltip_text = "Relic equipment is locked until this cycle completes.\n" + tooltip_text
+			style.bg_color = Color(0.10, 0.085, 0.09, 1.0)
+			style.border_color = Color(0.32, 0.27, 0.29, 1.0)
+		else:
+			style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if not relic.is_empty() else Color(0.08, 0.07, 0.08, 1.0)
+			style.border_color = Color(0.78, 0.38, 0.18, 1.0) if not relic.is_empty() else Color(0.38, 0.29, 0.30, 1.0)
 
 	add_theme_stylebox_override("normal", style)
 	add_theme_stylebox_override("hover", style)
@@ -125,6 +132,13 @@ func _update_appearance() -> void:
 	add_theme_color_override("font_color", Color(1.0, 0.68, 0.36))
 	add_theme_color_override("font_hover_color", Color(1.0, 0.86, 0.64))
 	add_theme_font_size_override("font_size", slot_font_size)
+
+
+func _is_generator_equipment_locked() -> bool:
+	if state == null or slot_kind != "generator":
+		return false
+	var generator: Generator = state.get_generator(generator_id)
+	return generator != null and generator.definition.cycle_based and generator.cycle_active
 
 
 func _get_relic_glyph(family: String) -> String:
@@ -140,6 +154,8 @@ func _get_relic_glyph(family: String) -> String:
 
 func _get_drag_data(_at_position: Vector2) -> Variant:
 	if state == null:
+		return null
+	if slot_kind == "generator" and _is_generator_equipment_locked():
 		return null
 
 	var dragged_instance_id := instance_id
@@ -206,6 +222,12 @@ func _can_drop_data(_at_position: Vector2, data: Variant) -> bool:
 		return false
 	if str(data.get("type", "")) != "reliquary_item":
 		return false
+	if slot_kind == "generator" and _is_generator_equipment_locked():
+		return false
+	if str(data.get("source_kind", "")) == "generator":
+		var source_generator: Generator = state.get_generator(str(data.get("source_generator_id", "")))
+		if source_generator != null and source_generator.definition.cycle_based and source_generator.cycle_active:
+			return false
 	var dragged_instance_id := str(data.get("instance_id", ""))
 	var item_type := str(data.get("item_type", ""))
 	if state.relic_manager.get_inventory_entry_by_instance_id(dragged_instance_id).is_empty():
