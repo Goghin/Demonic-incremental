@@ -455,10 +455,36 @@ func _test_data_driven_relic_generation_and_critical_promotion() -> void:
 	_expect(critical_secondary is Dictionary and not critical_secondary.is_empty(), "Promoted tier did not generate its configured secondary effect.")
 	_expect(manager.get_relic_description(critical_relic).contains("Bonus:"), "Generated secondary effect was not described.")
 
-	var highest_tier_id := manager.add_random_relic_for_tier(2, 1.0)
+	var tier_three_critical_id := manager.add_random_relic_for_tier(2, 1.0)
+	var tier_three_critical_relic: Dictionary = manager.get_relic(tier_three_critical_id)
+	var tier_three_critical_definition: Dictionary = manager.get_relic_definition(tier_three_critical_relic)
+	_expect(int(tier_three_critical_definition.get("tier", 0)) == 3, "Critical Tier 2 crafting did not promote to Tier 3.")
+	_expect(bool(tier_three_critical_relic.get("critical_craft", false)), "Tier 2-to-3 promotion was not recorded as critical.")
+	var tier_three_secondaries: Array[Dictionary] = []
+	var first_tier_three_secondary: Variant = tier_three_critical_relic.get("secondary_stat", {})
+	if first_tier_three_secondary is Dictionary and not first_tier_three_secondary.is_empty():
+		tier_three_secondaries.append(first_tier_three_secondary)
+	var additional_tier_three_secondaries: Variant = tier_three_critical_relic.get("additional_secondary_stats", [])
+	if additional_tier_three_secondaries is Array:
+		for secondary_variant in additional_tier_three_secondaries:
+			if secondary_variant is Dictionary and not secondary_variant.is_empty():
+				tier_three_secondaries.append(secondary_variant)
+	_expect(tier_three_secondaries.size() == 2, "Tier 3 relic should roll exactly two secondary effects.")
+
+	var direct_tier_three_id := manager.add_random_relic_for_tier(3)
+	var direct_tier_three_relic: Dictionary = manager.get_relic(direct_tier_three_id)
+	var direct_tier_three_definition: Dictionary = manager.get_relic_definition(direct_tier_three_relic)
+	_expect(int(direct_tier_three_definition.get("tier", 0)) == 3, "Direct Tier 3 generation failed.")
+	_expect(str(direct_tier_three_definition.get("rarity_name", "")) == "Rare", "Tier 3 rarity name should be Rare.")
+	_expect(
+		manager.get_relic_description(direct_tier_three_relic).count("Bonus:") == 2,
+		"Tier 3 relic description should include both secondary effects."
+	)
+
+	var highest_tier_id := manager.add_random_relic_for_tier(3, 1.0)
 	var highest_tier_relic: Dictionary = manager.get_relic(highest_tier_id)
 	var highest_tier_definition: Dictionary = manager.get_relic_definition(highest_tier_relic)
-	_expect(int(highest_tier_definition.get("tier", 0)) == 2, "Critical crafting changed the tier when no higher tier exists.")
+	_expect(int(highest_tier_definition.get("tier", 0)) == 3, "Critical crafting changed the tier when no higher tier exists.")
 	_expect(not bool(highest_tier_relic.get("critical_craft", false)), "A non-promoting top-tier craft was incorrectly marked as promoted.")
 
 	var saved_data := manager.get_save_data()
