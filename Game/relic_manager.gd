@@ -192,6 +192,9 @@ func _describe_relic_stat(stat: Dictionary, value: float, label_prefix: String) 
 	var direction := "−" if value < 1.0 else "+"
 	var percent := absf(value - 1.0) * 100.0
 	if description_label != "":
+		if description_mode == "inverse_resource_boost":
+			var resource_name := _get_resource_display_name(str(stat.get("dynamic_resource_id", stat.get("target_id", ""))))
+			return "%s%s starts at +%.1f%% and fades as %s accumulates" % [label_prefix, description_label, value * 100.0, resource_name]
 		if description_mode == "percentage_points":
 			return "%s%s +%.1f percentage points" % [label_prefix, description_label, value * 100.0]
 		if description_label == "All input draw":
