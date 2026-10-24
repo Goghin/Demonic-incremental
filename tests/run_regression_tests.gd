@@ -48,6 +48,7 @@ func _run_tests() -> void:
 	_run_test("Interval statistics are returned and cleared", _test_interval_statistics)
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
 	_run_test("Prestige enters planning before resetting the next realm", _test_prestige_planning_transition)
+	_run_test("Current realm Heat overflow and Matter decay compound for Smash", _test_current_realm_environmental_bonuses)
 	_run_test("Prestige and lifetime Eternal Flame milestones grant starting levels and automation", _test_automatic_progression_rewards)
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
@@ -282,6 +283,50 @@ func _test_prestige_planning_transition() -> void:
 	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), 0.0, "Next realm did not reset Heat.")
 	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Next realm did not reset Matter.")
 	_expect(not prestige.begin_next_realm(state), "Next realm could be initialized twice.")
+
+
+func _test_current_realm_environmental_bonuses() -> void:
+	var state := _new_test_state()
+	var prestige := PrestigeSystem.new()
+	var forge: Generator = state.get_generator("infernal_forge")
+	if forge == null:
+		_expect(false, "Infernal Forge is missing for environmental reward test.")
+		return
+	forge.level = 1
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 100.0)
+
+	_expect_approx(prestige.calculate_eternal_flame_gain(state), 100.0, "Environmental bonuses should start at x1.00.")
+
+	state.total_overflow_this_prestige = 100.0
+	_expect_approx(state.get_heat_overflow_bonus(), 1.2, "Heat overflow bonus should use current realm overflow.")
+	_expect_approx(prestige.calculate_eternal_flame_gain(state), 120.0, "Heat overflow should affect the current Smash.")
+
+	state.total_matter_decayed_this_prestige = 1000.0
+	_expect_approx(state.get_matter_decay_bonus(), 1.3, "Matter decay bonus should match Heat's logarithmic strength.")
+	_expect_approx(state.get_combined_environmental_reward_multiplier(), 1.56, "Environmental bonuses should multiply together.")
+	_expect_approx(prestige.calculate_eternal_flame_gain(state), 156.0, "Combined environmental bonuses were not applied to Smash.")
+
+	var save_manager := SaveManager.new()
+	var save_data: Dictionary = save_manager.state_to_dictionary(state)
+	var restored_state := _new_test_state()
+	_expect(save_manager.dictionary_to_state(restored_state, save_data, 7), "Could not restore current-realm environmental totals.")
+	_expect_approx(restored_state.total_overflow_this_prestige, 100.0, "Heat overflow total did not persist.")
+	_expect_approx(restored_state.total_matter_decayed_this_prestige, 1000.0, "Matter decay total did not persist.")
+	_expect_approx(PrestigeSystem.new().calculate_eternal_flame_gain(restored_state), 156.0, "Restored environmental bonuses changed the Smash preview.")
+
+	var simulation := Simulation.new(state)
+	state.total_matter_decayed_this_prestige = 0.0
+	var matter_threshold: float = state.realm_effects.matter_decay_threshold
+	state.set_resource_amount(ResourceIds.MATTER, matter_threshold * 2.0)
+	var matter_before: float = state.get_resource_amount(ResourceIds.MATTER)
+	simulation.apply_matter_decay(1.0)
+	var actual_decay: float = matter_before - state.get_resource_amount(ResourceIds.MATTER)
+	_expect(actual_decay > 0.0, "Environmental Matter decay did not remove Matter in the test.")
+	_expect_approx(state.total_matter_decayed_this_prestige, actual_decay, "Matter bonus counter did not match actual Matter lost to decay.")
+
+	state.reset_current_run()
+	_expect_approx(state.total_overflow_this_prestige, 0.0, "Heat overflow total carried into the next realm.")
+	_expect_approx(state.total_matter_decayed_this_prestige, 0.0, "Matter decay total carried into the next realm.")
 
 
 func _test_automatic_progression_rewards() -> void:
