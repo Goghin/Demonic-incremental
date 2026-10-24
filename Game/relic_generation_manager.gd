@@ -149,6 +149,42 @@ const EFFECT_DEFINITIONS: Dictionary = {
 		"description_label": "Crystallization",
 		"description_mode": "multiplier"
 	},
+	# Resource-reservoir relics provide a large bonus while the matching
+	# resource is scarce, then fade toward neutral as stock accumulates.
+	"heat_reservoir_boost": {
+		"stat_group": "output",
+		"modifier_type": ModifierTypes.PRODUCTION,
+		"target_id": ResourceIds.HEAT,
+		"dynamic": true,
+		"dynamic_formula": Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST,
+		"dynamic_resource_id": ResourceIds.HEAT,
+		"dynamic_threshold": 100000.0,
+		"dynamic_exponent": 1.5,
+		"weight": 22.0,
+		"secondary_weight": 8.0,
+		"roll_ranges": {1: [0.50, 0.80], 2: [0.80, 1.20]},
+		"affix_position": "prefix",
+		"affix_text": "Heat-Hungry",
+		"description_label": "Heat production",
+		"description_mode": "inverse_resource_boost"
+	},
+	"matter_reservoir_boost": {
+		"stat_group": "output",
+		"modifier_type": ModifierTypes.PRODUCTION,
+		"target_id": ResourceIds.MATTER,
+		"dynamic": true,
+		"dynamic_formula": Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST,
+		"dynamic_resource_id": ResourceIds.MATTER,
+		"dynamic_threshold": 10000.0,
+		"dynamic_exponent": 1.5,
+		"weight": 22.0,
+		"secondary_weight": 8.0,
+		"roll_ranges": {1: [0.50, 0.80], 2: [0.80, 1.20]},
+		"affix_position": "prefix",
+		"affix_text": "Matter-Hungry",
+		"description_label": "Matter production",
+		"description_mode": "inverse_resource_boost"
+	},
 	"cycle_speed_increase": {
 		"stat_group": "cycle_speed",
 		"modifier_type": ModifierTypes.CYCLE_SPEED,
