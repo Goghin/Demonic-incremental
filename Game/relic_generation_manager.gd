@@ -27,6 +27,14 @@ const EFFECT_DEFINITIONS: Dictionary = {
 		"stat_group": "output",
 		"modifier_type": ModifierTypes.PRODUCTION,
 		"target_id": "",
+		# Each option is equally likely by default. Keep these options in data so
+		# resource targeting can be tuned without changing the roll algorithm.
+		"target_options": [
+			{"target_id": "", "description_label": "All output production"},
+			{"target_id": ResourceIds.HEAT},
+			{"target_id": ResourceIds.MATTER},
+			{"target_id": ResourceIds.ASH}
+		],
 		"weight": 60.0,
 		"secondary_weight": 20.0,
 		"roll_ranges": {1: [1.05, 1.12], 2: [1.15, 1.25]},
@@ -39,6 +47,12 @@ const EFFECT_DEFINITIONS: Dictionary = {
 		"stat_group": "output",
 		"modifier_type": ModifierTypes.PRODUCTION,
 		"target_id": "",
+		"target_options": [
+			{"target_id": "", "description_label": "All output production"},
+			{"target_id": ResourceIds.HEAT},
+			{"target_id": ResourceIds.MATTER},
+			{"target_id": ResourceIds.ASH}
+		],
 		"weight": 35.0,
 		"secondary_weight": 12.0,
 		"roll_ranges": {1: [0.88, 0.97], 2: [0.75, 0.90]},
@@ -51,6 +65,12 @@ const EFFECT_DEFINITIONS: Dictionary = {
 		"stat_group": "input_draw",
 		"modifier_type": ModifierTypes.INPUT_DRAW,
 		"target_id": "",
+		"target_options": [
+			{"target_id": "", "description_label": "All input draw"},
+			{"target_id": ResourceIds.HEAT},
+			{"target_id": ResourceIds.MATTER},
+			{"target_id": ResourceIds.ASH}
+		],
 		"weight": 55.0,
 		"secondary_weight": 20.0,
 		"roll_ranges": {1: [0.90, 0.97], 2: [0.75, 0.90]},
@@ -63,6 +83,12 @@ const EFFECT_DEFINITIONS: Dictionary = {
 		"stat_group": "input_draw",
 		"modifier_type": ModifierTypes.INPUT_DRAW,
 		"target_id": "",
+		"target_options": [
+			{"target_id": "", "description_label": "All input draw"},
+			{"target_id": ResourceIds.HEAT},
+			{"target_id": ResourceIds.MATTER},
+			{"target_id": ResourceIds.ASH}
+		],
 		"weight": 30.0,
 		"secondary_weight": 10.0,
 		"roll_ranges": {1: [1.05, 1.12], 2: [1.15, 1.25]},
@@ -236,10 +262,32 @@ func _roll_effect_for_tier(tier: int, excluded_group: String, weight_key: String
 	if range_values.size() < 2:
 		return {}
 	selected["rolled_value"] = randf_range(float(range_values[0]), float(range_values[1]))
+	_apply_target_option(selected)
 	selected.erase("roll_ranges")
+	selected.erase("target_options")
 	selected.erase("weight")
 	selected.erase("secondary_weight")
 	return selected
+
+
+func _apply_target_option(effect: Dictionary) -> void:
+	var options: Variant = effect.get("target_options", [])
+	if not options is Array or options.is_empty():
+		return
+	var candidates: Array[Dictionary] = []
+	for option_variant in options:
+		if option_variant is Dictionary:
+			candidates.append(option_variant)
+	if candidates.is_empty():
+		return
+	var selected_option := candidates[randi_range(0, candidates.size() - 1)]
+	effect["target_id"] = str(selected_option.get("target_id", ""))
+	# A blank target is universal. Resource-specific descriptions are generated
+	# from the chosen target by RelicManager, avoiding stale "all resources" text.
+	if selected_option.has("description_label"):
+		effect["description_label"] = str(selected_option["description_label"])
+	else:
+		effect["description_label"] = ""
 
 
 func _weighted_pick(candidates: Array[Dictionary], weight_key: String) -> Dictionary:
