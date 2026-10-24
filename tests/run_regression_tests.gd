@@ -52,6 +52,7 @@ func _run_tests() -> void:
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
 	_run_test("Relic instances roll targeted stats and preserve rolls in saves", _test_rolled_relic_stats)
+	_run_test("Generated relic sensitivity targets are specific and Ash Contamination is grouped", _test_generated_relic_sensitivity_targets)
 	_run_test("Relics support sensitivity stats and saved uncommon bonus stats", _test_relic_sensitivity_and_secondary_stats)
 	_run_test("Relics modify cycle critical and downlevel chances additively", _test_relic_event_chance_modifiers)
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
@@ -544,6 +545,50 @@ func _test_rolled_relic_stats() -> void:
 	_expect(SaveManager.new().dictionary_to_state(loaded_state, save_data, 7), "Rolled relic save could not be loaded.")
 	var loaded_relic: Dictionary = loaded_state.relic_manager.get_relic(relic_id)
 	_expect_approx(float(loaded_relic.get("rolled_value", 0.0)), rolled_value, "Relic stat rerolled during save/load.")
+
+
+func _test_generated_relic_sensitivity_targets() -> void:
+	var definitions: Dictionary = RelicGenerationManager.EFFECT_DEFINITIONS
+	var ash_effect: Dictionary = definitions.get("ash_contamination_sensitivity_reduction", {})
+	var thermic_reduction: Dictionary = definitions.get("thermic_mass_sensitivity_reduction", {})
+	var thermic_increase: Dictionary = definitions.get("thermic_mass_sensitivity_increase", {})
+	var crystallization: Dictionary = definitions.get("crystallization_sensitivity_reduction", {})
+
+	_expect(
+		ash_effect.get("sensitivity_targets", []) == ["ashen_contamination", "ashen_contamination_cycle_speed"],
+		"Ash Contamination relic target should apply to both independent Ash sensitivity modifiers."
+	)
+	_expect(
+		ash_effect.get("roll_ranges", {}).get(1, []) == [0.96, 0.98]
+		and ash_effect.get("roll_ranges", {}).get(2, []) == [0.93, 0.96],
+		"Ash Contamination reduction ranges should be 2–4% for Common and 4–7% for Uncommon."
+	)
+	_expect(
+		thermic_reduction.get("sensitivity_targets", []) == ["thermic_mass"]
+		and thermic_increase.get("sensitivity_targets", []) == ["thermic_mass"],
+		"Thermic Mass sensitivity effects should only target Thermic Mass."
+	)
+	_expect(
+		crystallization.get("sensitivity_targets", []) == ["crystallization"],
+		"Crystallization sensitivity reduction should target only Crystallization."
+	)
+	_expect(
+		crystallization.get("roll_ranges", {}).get(1, []) == [0.985, 0.995]
+		and crystallization.get("roll_ranges", {}).get(2, []) == [0.975, 0.99],
+		"Crystallization reduction ranges should be 0.5–1.5% for Common and 1–2.5% for Uncommon."
+	)
+	_expect(
+		float(crystallization.get("weight", 0.0)) < float(ash_effect.get("weight", 0.0)),
+		"Crystallization sensitivity should be rarer than Ash Contamination sensitivity."
+	)
+
+	for effect_variant in definitions.keys():
+		var effect: Dictionary = definitions[effect_variant]
+		if str(effect.get("stat_type", "")) == "sensitivity":
+			_expect(
+				not effect.get("sensitivity_targets", []).has("*"),
+				"Generated sensitivity effects should not use a universal wildcard target."
+			)
 
 
 func _test_relic_sensitivity_and_secondary_stats() -> void:
