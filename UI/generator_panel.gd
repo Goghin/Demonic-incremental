@@ -26,6 +26,7 @@ var _last_relic_slot_signature: String = ""
 
 signal upgrades_requested(generator_id: String)
 signal selection_requested(generator_id: String)
+signal stats_requested(generator_id: String)
 signal upgrade_automation_changed
 signal generator_purchased
 signal relics_changed
@@ -51,6 +52,7 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/HBoxContainer/PauseButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/BuyButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradesButton)
+	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/StatsButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/AutomationButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
@@ -1003,3 +1005,9 @@ func _get_event_effect_mode_names(generator: Generator, mode_ids: Array[String])
 		if not found:
 			names.append(mode_id.replace("_", " ").capitalize())
 	return ", ".join(names)
+
+
+func _on_stats_button_pressed() -> void:
+	if generator_id.is_empty():
+		return
+	stats_requested.emit(generator_id)
