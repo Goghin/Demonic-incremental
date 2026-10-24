@@ -1,45 +1,6 @@
 class_name RelicManager
 extends RefCounted
 
-const UNCOMMON_SECONDARY_STAT_POOL: Array[Dictionary] = [
-	{"stat_type": "modifier", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.03, "roll_max": 1.08, "description": "Heat production"},
-	{"stat_type": "modifier", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.MATTER, "roll_min": 1.03, "roll_max": 1.08, "description": "Matter production"},
-	{"stat_type": "modifier", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.92, "roll_max": 0.97, "description": "Heat draw reduction"},
-	{"stat_type": "modifier", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.92, "roll_max": 0.97, "description": "Matter draw reduction"},
-	{"stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.92, "roll_max": 0.97, "description": "Ash Contamination sensitivity reduction"},
-	{"stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.03, "roll_max": 1.08, "description": "Thermic Mass sensitivity increase"}
-]
-
-const RELIC_DEFINITIONS: Dictionary = {
-	# Tier 1 relics roll their strength once when the instance is created.
-	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Heat output by 5–15%.", "tier": 1},
-	"ashbane_fragment": {"display_name": "Ashbane Fragment", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.ASH, "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Ash production by 5–15%.", "tier": 1},
-	"mite_core": {"display_name": "Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Ash draw by 5–15%.", "tier": 1},
-	"clockwork_ember": {"display_name": "Clockwork Ember", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.05, "roll_max": 1.15, "description": "Increases cycle speed by 5–15%.", "tier": 1},
-	"ruinheart": {"display_name": "Ruinheart", "family": "event_chance", "modifier_type": ModifierTypes.EVENT_CHANCE, "target_id": "critical_chance", "roll_min": 0.01, "roll_max": 0.05, "description": "Adds 1–5 percentage points to critical chance.", "tier": 1},
-	"fracture_sigil": {"display_name": "Fracture Sigil", "family": "event_chance", "modifier_type": ModifierTypes.EVENT_CHANCE, "target_id": "downlevel_chance", "roll_min": 0.05, "roll_max": 0.15, "description": "Adds 5–15 percentage points to downleveling chance.", "tier": 1},
-	# Retired definitions remain loadable for old saves, but are not rolled in new crafting.
-	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Legacy relic: reduces resource input consumption by 10%.", "tier": 0},
-	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "multiplier": 1.30, "description": "Legacy relic: increases a generator's output by 30%.", "tier": 0},
-	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "multiplier": 1.20, "description": "Legacy relic: increases cycle speed by 20%.", "tier": 0},
-	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "Legacy relic: reduces resource input consumption by 20%.", "tier": 0},
-	"refined_emberheart_core": {"display_name": "Refined Emberheart Core", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.HEAT, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Heat output by 15–25%.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
-	"perfected_chronal_spring": {"display_name": "Perfected Chronal Spring", "family": "cycle_speed", "modifier_type": ModifierTypes.CYCLE_SPEED, "target_id": "", "roll_min": 1.15, "roll_max": 1.25, "description": "Increases cycle speed by 15–25%.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
-	"abyssal_mite_core": {"display_name": "Abyssal Mite Core", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.ASH, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Ash draw by 15–25%.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
-	# Common stat-specialist relics.
-	"ashveil_charm": {"display_name": "Ashveil Charm", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Ash Contamination sensitivity by 5–15%.", "tier": 1},
-	"thermic_resonator": {"display_name": "Thermic Resonator", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Thermic Mass sensitivity by 5–15%.", "tier": 1},
-	"matterheart": {"display_name": "Matterheart", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.MATTER, "roll_min": 1.05, "roll_max": 1.15, "description": "Increases Matter production by 5–15%.", "tier": 1},
-	"heat_siphon_valve": {"display_name": "Heat Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Heat draw by 5–15%.", "tier": 1},
-	"matter_siphon_valve": {"display_name": "Matter Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.85, "roll_max": 0.95, "description": "Reduces Matter draw by 5–15%.", "tier": 1},
-	# Uncommon variants roll a stronger primary stat and one additional stat.
-	"azure_ashveil_charm": {"display_name": "Azure Ashveil Charm", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"], "roll_min": 0.75, "roll_max": 0.90, "description": "Greatly reduces Ash Contamination sensitivity.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
-	"azure_thermic_resonator": {"display_name": "Azure Thermic Resonator", "family": "sensitivity", "stat_type": "sensitivity", "sensitivity_targets": ["thermic_mass"], "roll_min": 1.10, "roll_max": 1.25, "description": "Greatly increases Thermic Mass sensitivity.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
-	"refined_matterheart": {"display_name": "Refined Matterheart", "family": "production", "modifier_type": ModifierTypes.PRODUCTION, "target_id": ResourceIds.MATTER, "roll_min": 1.15, "roll_max": 1.25, "description": "Increases Matter production by 15–25%.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
-	"azure_heat_siphon_valve": {"display_name": "Azure Heat Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.HEAT, "roll_min": 0.75, "roll_max": 0.90, "description": "Greatly reduces Heat draw.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL},
-	"azure_matter_siphon_valve": {"display_name": "Azure Matter Siphon Valve", "family": "input_efficiency", "modifier_type": ModifierTypes.INPUT_DRAW, "target_id": ResourceIds.MATTER, "roll_min": 0.75, "roll_max": 0.90, "description": "Greatly reduces Matter draw.", "tier": 2, "secondary_rolls": UNCOMMON_SECONDARY_STAT_POOL}
-}
-
 const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
 	"relic_shard": {
 		"display_name": "Relic Shard",
@@ -69,89 +30,10 @@ var _next_item_instance_number: int = 1
 
 func ensure_starter_relic() -> void:
 	for relic in inventory:
-		if str(relic.get("definition_id", "")) == "cinder_shard":
+		var generated_definition: Variant = relic.get("generated_definition", {})
+		if generated_definition is Dictionary and not generated_definition.is_empty():
 			return
-	add_relic("cinder_shard")
-
-func add_relic(definition_id: String) -> String:
-	if not RELIC_DEFINITIONS.has(definition_id):
-		return ""
-	var definition: Dictionary = RELIC_DEFINITIONS[definition_id]
-	var instance_id := "relic_%d" % _next_instance_number
-	_next_instance_number += 1
-	var entry: Dictionary = {"instance_id": instance_id, "definition_id": definition_id}
-	entry["rolled_value"] = _roll_relic_value(definition)
-	var secondary_rolls: Variant = definition.get("secondary_rolls", [])
-	if secondary_rolls is Array and not secondary_rolls.is_empty():
-		var secondary: Dictionary = _roll_secondary_stat(definition)
-		secondary["rolled_value"] = _roll_relic_value(secondary)
-		entry["secondary_stat"] = secondary
-	inventory.append(entry)
-	inventory_positions[instance_id] = _find_first_available_inventory_slot()
-	return instance_id
-
-
-func _get_legacy_relic_value(definition_id: String) -> float:
-	# Preserve fixed strengths from saves created before per-instance rolls.
-	match definition_id:
-		"cinder_shard":
-			return 1.15
-		"clockwork_ember":
-			return 1.10
-		"void_lining":
-			return 0.90
-		"emberheart_core":
-			return 1.30
-		"chronal_spring":
-			return 1.20
-		"abyssal_lining":
-			return 0.80
-	var definition: Dictionary = RELIC_DEFINITIONS.get(definition_id, {})
-	return _roll_relic_value(definition)
-
-
-func _roll_relic_value(definition: Dictionary) -> float:
-	if definition.has("roll_min") and definition.has("roll_max"):
-		return randf_range(
-			float(definition["roll_min"]),
-			float(definition["roll_max"])
-		)
-	return float(definition.get("multiplier", 1.0))
-
-
-func _roll_secondary_stat(definition: Dictionary) -> Dictionary:
-	var secondary_rolls: Variant = definition.get("secondary_rolls", [])
-	if not secondary_rolls is Array:
-		return {}
-	var primary_type := str(definition.get("stat_type", "modifier"))
-	var primary_modifier_type := str(definition.get("modifier_type", ""))
-	var primary_target := str(definition.get("target_id", ""))
-	var primary_sensitivity_targets: Array = definition.get("sensitivity_targets", [])
-	var candidates: Array[Dictionary] = []
-	for candidate_variant in secondary_rolls:
-		if not candidate_variant is Dictionary:
-			continue
-		var candidate: Dictionary = candidate_variant
-		if primary_type == "sensitivity":
-			var candidate_targets: Array = candidate.get("sensitivity_targets", [])
-			var overlaps := false
-			for target in candidate_targets:
-				if primary_sensitivity_targets.has(target):
-					overlaps = true
-					break
-			if overlaps:
-				continue
-		elif (
-			str(candidate.get("modifier_type", "")) == primary_modifier_type
-			and str(candidate.get("target_id", "")) == primary_target
-		):
-			continue
-		candidates.append(candidate.duplicate(true))
-	if candidates.is_empty():
-		return {}
-	var result: Dictionary = candidates[randi_range(0, candidates.size() - 1)]
-	result["rolled_value"] = _roll_relic_value(result)
-	return result
+	add_random_relic_for_tier(1)
 
 
 func get_relic_definition(relic: Dictionary) -> Dictionary:
@@ -567,8 +449,6 @@ func get_relic(instance_id: String) -> Dictionary:
 	return {}
 
 func get_definition(definition_id: String) -> Dictionary:
-	if RELIC_DEFINITIONS.has(definition_id):
-		return RELIC_DEFINITIONS[definition_id]
 	if definition_id.begins_with("generated_relic_tier_"):
 		var tier_text := definition_id.trim_prefix("generated_relic_tier_")
 		if tier_text.is_valid_int() and int(tier_text) > 0:
@@ -585,8 +465,6 @@ func get_definition(definition_id: String) -> Dictionary:
 
 
 func _is_relic_definition_id(definition_id: String) -> bool:
-	if RELIC_DEFINITIONS.has(definition_id):
-		return true
 	if not definition_id.begins_with("generated_relic_tier_"):
 		return false
 	var tier_text := definition_id.trim_prefix("generated_relic_tier_")
@@ -801,25 +679,22 @@ func load_save_data(data: Dictionary) -> void:
 			var definition_id := str(entry.get("definition_id", ""))
 			var item_id := str(entry.get("item_id", ""))
 			if _is_relic_definition_id(definition_id):
+				var saved_generated_definition: Variant = entry.get("generated_definition", {})
+				if not saved_generated_definition is Dictionary or saved_generated_definition.is_empty():
+					continue
 				var relic_entry: Dictionary = {
 					"instance_id": instance_id,
 					"definition_id": definition_id
 				}
-				var saved_generated_definition: Variant = entry.get("generated_definition", {})
-				if saved_generated_definition is Dictionary and not saved_generated_definition.is_empty():
-					relic_entry["generated_definition"] = saved_generated_definition.duplicate(true)
+				relic_entry["generated_definition"] = saved_generated_definition.duplicate(true)
 				if entry.get("critical_craft", false):
 					relic_entry["critical_craft"] = true
 				relic_entry["rolled_value"] = float(
-					entry.get("rolled_value", _get_legacy_relic_value(definition_id))
+					entry.get("rolled_value", 1.0)
 				)
 				var saved_secondary: Variant = entry.get("secondary_stat", {})
 				if saved_secondary is Dictionary and not saved_secondary.is_empty():
 					relic_entry["secondary_stat"] = saved_secondary.duplicate(true)
-				elif RELIC_DEFINITIONS.has(definition_id) and RELIC_DEFINITIONS[definition_id].has("secondary_rolls"):
-					var secondary: Dictionary = _roll_secondary_stat(RELIC_DEFINITIONS[definition_id])
-					if not secondary.is_empty():
-						relic_entry["secondary_stat"] = secondary
 				var saved_additional_stats: Variant = entry.get("additional_secondary_stats", [])
 				if saved_additional_stats is Array and not saved_additional_stats.is_empty():
 					relic_entry["additional_secondary_stats"] = saved_additional_stats.duplicate(true)
