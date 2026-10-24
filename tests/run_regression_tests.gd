@@ -53,6 +53,7 @@ func _run_tests() -> void:
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
 	_run_test("Relic instances roll targeted stats and preserve rolls in saves", _test_rolled_relic_stats)
 	_run_test("Generated relic sensitivity targets are specific and Ash Contamination is grouped", _test_generated_relic_sensitivity_targets)
+	_run_test("Reservoir relics boost production most at low resource amounts", _test_resource_reservoir_relics)
 	_run_test("Relics support sensitivity stats and saved uncommon bonus stats", _test_relic_sensitivity_and_secondary_stats)
 	_run_test("Relics modify cycle critical and downlevel chances additively", _test_relic_event_chance_modifiers)
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
@@ -545,6 +546,94 @@ func _test_rolled_relic_stats() -> void:
 	_expect(SaveManager.new().dictionary_to_state(loaded_state, save_data, 7), "Rolled relic save could not be loaded.")
 	var loaded_relic: Dictionary = loaded_state.relic_manager.get_relic(relic_id)
 	_expect_approx(float(loaded_relic.get("rolled_value", 0.0)), rolled_value, "Relic stat rerolled during save/load.")
+
+
+func _test_resource_reservoir_relics() -> void:
+	var definitions: Dictionary = RelicGenerationManager.EFFECT_DEFINITIONS
+	var heat_effect: Dictionary = definitions.get("heat_reservoir_boost", {})
+	var matter_effect: Dictionary = definitions.get("matter_reservoir_boost", {})
+
+	_expect(
+		str(heat_effect.get("target_id", "")) == ResourceIds.HEAT
+		and str(heat_effect.get("dynamic_resource_id", "")) == ResourceIds.HEAT,
+		"Heat reservoir relic should boost Heat production based on current Heat."
+	)
+	_expect(
+		str(matter_effect.get("target_id", "")) == ResourceIds.MATTER
+		and str(matter_effect.get("dynamic_resource_id", "")) == ResourceIds.MATTER,
+		"Matter reservoir relic should boost Matter production based on current Matter."
+	)
+	_expect(
+		str(heat_effect.get("dynamic_formula", "")) == Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST
+		and str(matter_effect.get("dynamic_formula", "")) == Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST,
+		"Both reservoir relics should use the inverse resource boost formula."
+	)
+	_expect(
+		float(heat_effect.get("dynamic_threshold", 0.0)) == 100000.0
+		and float(matter_effect.get("dynamic_threshold", 0.0)) == 10000.0,
+		"Heat and Matter reservoir relics should use their configured independent decay scales."
+	)
+
+	var state := _new_test_state()
+	var heat_generator: Generator = state.get_generator("atomic_friction")
+	state._apply_relic_stat(heat_generator, "test_heat_reservoir", {
+		"stat_type": "modifier",
+		"modifier_type": ModifierTypes.PRODUCTION,
+		"target_id": ResourceIds.HEAT,
+		"rolled_value": 0.8,
+		"dynamic": true,
+		"dynamic_formula": Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST,
+		"dynamic_resource_id": ResourceIds.HEAT,
+		"dynamic_threshold": 100000.0,
+		"dynamic_exponent": 1.5
+	})
+
+	var reservoir_modifier: Modifier = null
+	for modifier in heat_generator.modifiers:
+		if modifier.id == "relic:test_heat_reservoir":
+			reservoir_modifier = modifier
+			break
+	_expect(reservoir_modifier != null, "Heat reservoir relic did not apply a production modifier.")
+	if reservoir_modifier == null:
+		return
+
+	state.set_resource_amount(ResourceIds.HEAT, 0.0)
+	_expect_approx(
+		reservoir_modifier.get_effective_multiplier(state, heat_generator),
+		1.8,
+		"Heat reservoir relic should start at 1.8x with a 0.8 bonus roll and no Heat held."
+	)
+	state.set_resource_amount(ResourceIds.HEAT, 100000.0)
+	var at_scale := reservoir_modifier.get_effective_multiplier(state, heat_generator)
+	_expect_approx(
+		at_scale,
+		1.0 + 0.8 / pow(2.0, 1.5),
+		"Heat reservoir relic should decay smoothly at its configured scale."
+	)
+	state.set_resource_amount(ResourceIds.HEAT, 1000000.0)
+	var at_ten_scales := reservoir_modifier.get_effective_multiplier(state, heat_generator)
+	_expect(
+		at_ten_scales < at_scale and at_ten_scales > 1.0,
+		"Heat reservoir bonus should fall sharply toward neutral as Heat accumulates, without becoming a penalty."
+	)
+
+	var matter_modifier := Modifier.new(ModifierTypes.PRODUCTION, ResourceIds.MATTER, 0.8)
+	matter_modifier.dynamic = true
+	matter_modifier.dynamic_formula = Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST
+	matter_modifier.dynamic_resource_id = ResourceIds.MATTER
+	matter_modifier.dynamic_threshold = 10000.0
+	matter_modifier.dynamic_exponent = 1.5
+	state.set_resource_amount(ResourceIds.MATTER, 0.0)
+	_expect_approx(
+		matter_modifier.get_multiplier(state),
+		1.8,
+		"Matter reservoir formula should start at the same rolled bonus when Matter is empty."
+	)
+	state.set_resource_amount(ResourceIds.MATTER, 100000.0)
+	_expect(
+		matter_modifier.get_multiplier(state) < 1.1,
+		"Matter reservoir bonus should decay sharply above ten times its scale."
+	)
 
 
 func _test_generated_relic_sensitivity_targets() -> void:
