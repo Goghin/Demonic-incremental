@@ -528,6 +528,11 @@ func dictionary_to_state(
 		state.relic_manager.load_save_data(relic_manager_data)
 	if state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state):
 		state.relic_manager.ensure_starter_relic()
+	# Backfill milestone rewards for existing saves. This is idempotent and
+	# uses lifetime progress, so spending Eternal Flames cannot revoke rewards.
+	state.eternal_flame_upgrade_manager.apply_automatic_progression_rewards(
+		state.eternal_flame_state
+	)
 	state.rebuild_relic_modifiers()
 
 	state.rebuild_realm_effects()

@@ -169,6 +169,152 @@ func _initialize_upgrades() -> void:
 	_add_upgrade_automation_upgrade("matter_furnace", "Matter Furnace", 75, "unlock_generator_automation_matter_furnace")
 	_add_upgrade_automation_upgrade("thermal_compressor", "Thermal Compressor", 95, "unlock_generator_automation_thermal_compressor")
 	_add_general_upgrade_automation_upgrade()
+	_configure_automatic_progression_rewards()
+
+
+func _configure_automatic_progression_rewards() -> void:
+	# Starting levels are earned by completed prestige milestones. Each array
+	# entry is the prestige count required for that upgrade level.
+	_set_automatic_level_prestige_requirements(
+		"accelerated_friction", [1, 2, 3, 4, 5]
+	)
+	_set_automatic_level_prestige_requirements(
+		"accelerated_agitation", [2, 3, 4, 5, 6]
+	)
+	_set_automatic_level_prestige_requirements(
+		"established_colony", [3, 4, 5, 6, 7]
+	)
+	_set_automatic_level_prestige_requirements(
+		"accelerated_condensation", [4, 5, 6, 7, 8]
+	)
+
+	# Automation is earned from lifetime Eternal Flames created, not from the
+	# amount currently unspent. The early generator autobuyers also wait until
+	# their starting-level progression is complete.
+	_set_automatic_unlock_requirement(
+		"unlock_generator_automation_atomic_friction", 5, 8.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_generator_automation_molecular_agitation", 6, 15.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_generator_automation_thermal_furnace", 8, 25.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_generator_automation_lava_mite_colony", 7, 35.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_generator_automation_matter_furnace", 0, 50.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_generator_automation_thermal_compressor", 0, 65.0
+	)
+
+	# Upgrade autobuyers require their matching generator autobuyer as before.
+	_set_automatic_unlock_requirement(
+		"unlock_upgrade_automation_atomic_friction", 5, 15.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_upgrade_automation_molecular_agitation", 6, 25.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_upgrade_automation_thermal_furnace", 8, 40.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_upgrade_automation_lava_mite_colony", 7, 55.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_upgrade_automation_matter_furnace", 0, 75.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_upgrade_automation_thermal_compressor", 0, 95.0
+	)
+	_set_automatic_unlock_requirement(
+		"unlock_upgrade_automation_general", 0, 50.0
+	)
+
+
+func _set_automatic_level_prestige_requirements(
+	upgrade_id: String,
+	prestige_requirements: Array[int]
+) -> void:
+	var upgrade: EternalFlameUpgrade = get_upgrade(upgrade_id)
+	if upgrade == null:
+		push_warning("Missing Eternal Flame upgrade for automatic milestones: " + upgrade_id)
+		return
+	upgrade.automatic_level_prestige_requirements = prestige_requirements.duplicate()
+
+
+func _set_automatic_unlock_requirement(
+	upgrade_id: String,
+	minimum_prestiges: int,
+	lifetime_eternal_flames: float
+) -> void:
+	var upgrade: EternalFlameUpgrade = get_upgrade(upgrade_id)
+	if upgrade == null:
+		push_warning("Missing Eternal Flame automation upgrade for automatic milestone: " + upgrade_id)
+		return
+	upgrade.automatic_min_prestiges = minimum_prestiges
+	upgrade.automatic_total_eternal_flame_requirement = lifetime_eternal_flames
+
+
+func apply_automatic_progression_rewards(
+	state: EternalFlameState
+) -> bool:
+	if state == null:
+		return false
+
+	var any_changed: bool = false
+	var changed_this_pass: bool = true
+	while changed_this_pass:
+		changed_this_pass = false
+		for upgrade_variant in upgrades.values():
+			var upgrade: EternalFlameUpgrade = upgrade_variant
+			var target_level: int = _get_automatic_target_level(upgrade, state)
+			if target_level <= state.get_upgrade_level(upgrade.id):
+				continue
+
+			# Preserve dependency order for automatic technology unlocks, while
+			# allowing starting-level milestones to progress independently.
+			if (
+				upgrade.effect_type == EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY
+				and upgrade.prerequisite_upgrade_id != ""
+				and state.get_upgrade_level(upgrade.prerequisite_upgrade_id) < upgrade.prerequisite_level
+			):
+				continue
+
+			state.set_upgrade_level(upgrade.id, target_level)
+			if upgrade.effect_type == EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY:
+				if upgrade.technology_id != "":
+					state.unlock_technology(upgrade.technology_id)
+			changed_this_pass = true
+			any_changed = true
+
+	return any_changed
+
+
+func _get_automatic_target_level(
+	upgrade: EternalFlameUpgrade,
+	state: EternalFlameState
+) -> int:
+	if state.prestige_count < upgrade.automatic_min_prestiges:
+		return 0
+	if state.eternal_flame < upgrade.automatic_total_eternal_flame_requirement:
+		return 0
+
+	if not upgrade.automatic_level_prestige_requirements.is_empty():
+		var target_level: int = 0
+		for level_index in range(upgrade.automatic_level_prestige_requirements.size()):
+			if state.prestige_count >= upgrade.automatic_level_prestige_requirements[level_index]:
+				target_level = level_index + 1
+		return mini(target_level, upgrade.max_level)
+
+	if (
+		upgrade.automatic_min_prestiges > 0
+		or upgrade.automatic_total_eternal_flame_requirement > 0.0
+	):
+		return upgrade.max_level
+	return 0
 
 
 func _add_upgrade(
@@ -230,6 +376,41 @@ func get_upgrade_cost(
 
 
 
+func is_automatic_progression_upgrade(upgrade_id: String) -> bool:
+	var upgrade: EternalFlameUpgrade = get_upgrade(upgrade_id)
+	if upgrade == null:
+		return false
+	return (
+		not upgrade.automatic_level_prestige_requirements.is_empty()
+		or upgrade.automatic_min_prestiges > 0
+		or upgrade.automatic_total_eternal_flame_requirement > 0.0
+	)
+
+
+func get_automatic_progression_requirement_text(
+	upgrade_id: String,
+	state: EternalFlameState
+) -> String:
+	var upgrade: EternalFlameUpgrade = get_upgrade(upgrade_id)
+	if upgrade == null or state == null:
+		return ""
+
+	if not upgrade.automatic_level_prestige_requirements.is_empty():
+		var current_level: int = state.get_upgrade_level(upgrade_id)
+		if current_level >= upgrade.automatic_level_prestige_requirements.size():
+			return "All milestones reached"
+		return "Prestige %d" % upgrade.automatic_level_prestige_requirements[current_level]
+
+	var requirements: Array[String] = []
+	if upgrade.automatic_min_prestiges > 0:
+		requirements.append("Prestige %d" % upgrade.automatic_min_prestiges)
+	if upgrade.automatic_total_eternal_flame_requirement > 0.0:
+		requirements.append(
+			"%d lifetime EF" % int(upgrade.automatic_total_eternal_flame_requirement)
+		)
+	return " + ".join(requirements)
+
+
 func can_purchase(
 	upgrade_id: String,
 	state: EternalFlameState,
@@ -239,6 +420,9 @@ func can_purchase(
 	var upgrade = get_upgrade(upgrade_id)
 
 	if upgrade == null:
+		return false
+
+	if is_automatic_progression_upgrade(upgrade_id):
 		return false
 
 	var current_level = state.get_upgrade_level(
