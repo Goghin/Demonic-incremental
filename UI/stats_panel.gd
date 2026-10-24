@@ -113,9 +113,23 @@ func _set_active_section(section_id: String) -> void:
 		var button := $PanelContent/SectionNavigation.get_node(button_name) as Button
 		var button_section := button_name.trim_suffix("Button").to_lower()
 		button.button_pressed = button_section == section_id
+		var button_style := StyleBoxFlat.new()
+		button_style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if button.button_pressed else Color(0.075, 0.06, 0.075, 0.98)
+		button_style.border_color = Color(0.95, 0.48, 0.20, 1.0) if button.button_pressed else Color(0.28, 0.20, 0.19, 1.0)
+		button_style.set_border_width_all(2 if button.button_pressed else 1)
+		button_style.set_corner_radius_all(3)
+		button_style.content_margin_left = 3.0
+		button_style.content_margin_right = 3.0
+		button_style.content_margin_top = 4.0
+		button_style.content_margin_bottom = 4.0
+		button.add_theme_stylebox_override("normal", button_style)
+		var hover_style := button_style.duplicate() as StyleBoxFlat
+		hover_style.bg_color = button_style.bg_color.lightened(0.10)
+		hover_style.border_color = button_style.border_color.lightened(0.10)
+		button.add_theme_stylebox_override("hover", hover_style)
 		button.add_theme_color_override(
 			"font_color",
-			Color(1.0, 0.72, 0.42) if button.button_pressed else Color(0.82, 0.75, 0.70)
+			Color(1.0, 0.82, 0.62) if button.button_pressed else Color(0.82, 0.75, 0.70)
 		)
 	$PanelContent/ScrollContainer.scroll_vertical = 0
 
