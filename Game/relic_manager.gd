@@ -33,7 +33,7 @@ func ensure_starter_relic() -> void:
 		var generated_definition: Variant = relic.get("generated_definition", {})
 		if generated_definition is Dictionary and not generated_definition.is_empty():
 			return
-	add_random_relic_for_tier(1)
+	add_random_relic_for_tier(1, 0.0, "heat_reservoir_boost")
 
 
 func get_relic_definition(relic: Dictionary) -> Dictionary:
@@ -471,8 +471,16 @@ func _is_relic_definition_id(definition_id: String) -> bool:
 	return tier_text.is_valid_int() and int(tier_text) > 0
 
 
-func add_random_relic_for_tier(tier: int, critical_chance: float = 0.0) -> String:
-	var generated: Dictionary = generation_manager.generate_relic(tier, clampf(critical_chance, 0.0, 1.0))
+func add_random_relic_for_tier(
+	tier: int,
+	critical_chance: float = 0.0,
+	forced_primary_effect_id: String = ""
+) -> String:
+	var generated: Dictionary = generation_manager.generate_relic(
+		tier,
+		clampf(critical_chance, 0.0, 1.0),
+		forced_primary_effect_id
+	)
 	if generated.is_empty():
 		return ""
 	var final_tier := int(generated.get("tier", tier))
