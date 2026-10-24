@@ -328,7 +328,18 @@ func _test_relic_inventory_equipment_and_save() -> void:
 	_expect(purchased, "Reliquary purchase failed.")
 	state.relic_manager.ensure_starter_relic()
 	_expect(state.relic_manager.inventory.size() == 1, "Reliquary did not grant exactly one starter relic.")
-	var relic_id := str(state.relic_manager.inventory[0].get("instance_id", ""))
+	var starter_relic: Dictionary = state.relic_manager.inventory[0]
+	var starter_definition: Dictionary = state.relic_manager.get_relic_definition(starter_relic)
+	_expect(
+		str(starter_definition.get("effect_id", "")) == "heat_reservoir_boost",
+		"Starter relic should guarantee the Heat Reservoir effect."
+	)
+	var starter_roll := float(starter_relic.get("rolled_value", 0.0))
+	_expect(
+		starter_roll >= 0.50 and starter_roll <= 0.80,
+		"Starter Heat Reservoir roll should stay within the Common tier range."
+	)
+	var relic_id := str(starter_relic.get("instance_id", ""))
 	_expect(state.relic_manager.equip_relic("atomic_friction", relic_id, state), "Starter relic could not be equipped.")
 	state.rebuild_relic_modifiers()
 	var generator: Generator = state.get_generator("atomic_friction")
