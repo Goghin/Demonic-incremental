@@ -336,7 +336,10 @@ func _test_relic_inventory_equipment_and_save() -> void:
 	for modifier in generator.modifiers:
 		if modifier.id == "relic:" + relic_id:
 			relic_modifier_found = true
-	_expect(relic_modifier_found, "Equipping a relic did not add its modifier to the generator.")
+	for sensitivity in generator.modifier_sensitivities:
+		if sensitivity.source_upgrade_id == "relic:" + relic_id:
+			relic_modifier_found = true
+	_expect(relic_modifier_found, "Equipping a relic did not add its effect to the generator.")
 	var before_save: Dictionary = SaveManager.new().state_to_dictionary(state)
 	var loaded_state := _new_test_state()
 	var save_manager := SaveManager.new()
@@ -352,10 +355,14 @@ func _test_relic_inventory_equipment_and_save() -> void:
 	loaded_state.reset_current_run()
 	_expect(loaded_state.relic_manager.get_equipped_relic_id("atomic_friction") != "", "Realm reset incorrectly removed equipped relics.")
 	var reset_modifier_found := false
-	for modifier in loaded_state.get_generator("atomic_friction").modifiers:
+	var reset_generator: Generator = loaded_state.get_generator("atomic_friction")
+	for modifier in reset_generator.modifiers:
 		if modifier.id.begins_with("relic:"):
 			reset_modifier_found = true
-	_expect(reset_modifier_found, "Equipped relic modifier was not restored after realm reset.")
+	for sensitivity in reset_generator.modifier_sensitivities:
+		if sensitivity.source_upgrade_id.begins_with("relic:"):
+			reset_modifier_found = true
+	_expect(reset_modifier_found, "Equipped relic effect was not restored after realm reset.")
 
 
 
@@ -523,8 +530,17 @@ func _test_rolled_relic_stats() -> void:
 	var state := _new_test_state()
 	var relic_id := state.relic_manager.add_random_relic_for_tier(1)
 	var relic: Dictionary = state.relic_manager.get_relic(relic_id)
+	var rolled_value := 1.08
+	relic["generated_definition"] = {
+		"generated": true,
+		"effect_id": "output_increase",
+		"modifier_type": ModifierTypes.PRODUCTION,
+		"target_id": ResourceIds.HEAT,
+		"description_label": "Heat production",
+		"description_mode": "multiplier"
+	}
+	relic["rolled_value"] = rolled_value
 	var definition := state.relic_manager.get_relic_definition(relic)
-	var rolled_value := float(relic.get("rolled_value", 0.0))
 	_expect(bool(definition.get("generated", false)), "Relic did not use the data-driven definition.")
 	_expect(rolled_value > 0.0, "Generated relic did not store a rolled value.")
 	_expect(state.relic_manager.get_relic_description(relic).contains("Rolled:"), "Relic tooltip does not expose the instance's rolled stat.")
