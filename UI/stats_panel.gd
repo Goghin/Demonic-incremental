@@ -431,6 +431,11 @@ func update_resource_statistics() -> void:
 				lifetime_statistics.get_total_overflow()
 			)
 
+		if resource_id == ResourceIds.MATTER:
+			all_realms_text += "\nDecayed: %s" % NumberFormatter.format(
+				lifetime_statistics.get_total_matter_decayed()
+			)
+
 
 		row["this_realm"].text = this_realm_text
 		row["all_realms"].text = all_realms_text
