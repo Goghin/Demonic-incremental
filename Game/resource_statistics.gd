@@ -4,6 +4,7 @@ extends RefCounted
 
 var statistics: Dictionary = {}
 var total_overflow: float = 0.0
+var total_matter_decayed: float = 0.0
 
 
 func record_produced(
@@ -48,6 +49,16 @@ func record_overflow(amount: float) -> void:
 
 func get_total_overflow() -> float:
 	return total_overflow
+
+
+func record_matter_decayed(amount: float) -> void:
+	if amount <= 0.0:
+		return
+	total_matter_decayed += amount
+
+
+func get_total_matter_decayed() -> float:
+	return total_matter_decayed
 
 
 func update_highest(
@@ -101,6 +112,7 @@ func get_highest_amount(
 func to_dictionary() -> Dictionary:
 	var data = statistics.duplicate(true)
 	data["_total_overflow"] = total_overflow
+	data["_total_matter_decayed"] = total_matter_decayed
 
 	return data
 
@@ -113,6 +125,10 @@ func from_dictionary(
 	total_overflow = max(
 		0.0,
 		float(data.get("_total_overflow", 0.0))
+	)
+	total_matter_decayed = max(
+		0.0,
+		float(data.get("_total_matter_decayed", 0.0))
 	)
 
 	for resource_id in data:
@@ -143,6 +159,7 @@ func from_dictionary(
 func reset() -> void:
 	statistics.clear()
 	total_overflow = 0.0
+	total_matter_decayed = 0.0
 
 
 func _ensure_resource(
