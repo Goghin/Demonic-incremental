@@ -155,6 +155,15 @@ func _ready() -> void:
 	simulation.critical_crystallization_completed.connect(
 		realm_view.play_critical_crystallization_event
 	)
+	simulation.crystallization_completed.connect(
+		_on_crystallization_completed
+	)
+	simulation.critical_crystallization_completed.connect(
+		_on_critical_crystallization_completed
+	)
+	simulation.relic_crafting_completed.connect(
+		_on_relic_crafting_completed
+	)
 	simulation.generator_level_reduced.connect(
 		realm_view.play_forge_level_reduction_event
 	)
@@ -1332,6 +1341,39 @@ func add_automatic_upgrade_panel(
 
 	upgrade_panels[upgrade.definition.id] = panel
 
+
+
+func _on_crystallization_completed(crystals_created: float) -> void:
+	$AchievementToast.show_message(
+		"CRYSTALLIZED FLAME CRAFTED",
+		"+%s Crystallized Flame" % NumberFormatter.format(crystals_created),
+		"Standard craft"
+	)
+
+
+func _on_critical_crystallization_completed(crystals_created: float) -> void:
+	$AchievementToast.show_message(
+		"CRITICAL CRYSTALLIZATION!",
+		"+%s Crystallized Flame" % NumberFormatter.format(crystals_created),
+		"Critical craft! Bonus output gained."
+	)
+
+
+func _on_relic_crafting_completed(
+	relic_name: String,
+	quantity: int,
+	is_critical: bool
+) -> void:
+	var craft_description := "Crafted %s relic." % NumberFormatter.format(float(quantity))
+	if is_critical:
+		craft_description += " Critical craft! Relic tier promoted."
+	else:
+		craft_description += " Standard craft."
+	$AchievementToast.show_message(
+		"RELIC CRAFT COMPLETE",
+		relic_name,
+		craft_description
+	)
 
 
 # ============================================================

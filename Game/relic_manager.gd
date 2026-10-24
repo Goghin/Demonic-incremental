@@ -553,7 +553,10 @@ func equip_relic(
 	state: GameState,
 	slot_index: int = 0
 ) -> bool:
-	if state.get_generator(generator_id) == null or slot_index < 0:
+	var generator: Generator = state.get_generator(generator_id)
+	if generator == null or slot_index < 0:
+		return false
+	if generator.definition.cycle_based and generator.cycle_active:
 		return false
 	var unlocked_slots: int = state.eternal_flame_upgrade_manager.get_relic_slot_count(
 		generator_id,
