@@ -60,6 +60,8 @@ var heat_leak_scaling: float = 30.0
 var heat_leak_exponent: float = 2.5
 
 var total_overflow_this_prestige: float = 0.0
+var total_matter_decayed_this_prestige: float = 0.0
+# Legacy save field retained for compatibility; rewards now use current-realm totals.
 var overflow_bonus_from_last_realm: float = 1.0
 
 var matter_decay_threshold: float = 100.0
@@ -671,8 +673,8 @@ func reset_current_run() -> void:
 	rebuild_relic_modifiers()
 	
 		
-	overflow_bonus_from_last_realm = next_overflow_bonus()
 	total_overflow_this_prestige = 0.0
+	total_matter_decayed_this_prestige = 0.0
 	
 	_apply_permanent_technology_unlocks()
 	rebuild_realm_effects()
@@ -780,20 +782,22 @@ func _apply_permanent_technology_unlocks() -> void:
 				#if output.resource_id == ResourceIds.ESSENCE:
 					#output.unlocked = true
 
-func get_overflow_bonus() -> float:
-	# Overflow is a bonus, never a penalty. Clamp this as well as the
-	# next-run calculation so existing saves with a sub-1 multiplier
-	# cannot reduce the first Smash reward to zero.
-	return maxf(1.0, overflow_bonus_from_last_realm)
+func get_heat_overflow_bonus() -> float:
+	return _get_logarithmic_reward_bonus(total_overflow_this_prestige)
 
-func next_overflow_bonus() -> float:
-	var overflow: float = total_overflow_this_prestige
 
-	if overflow <= 0.0:
+func get_matter_decay_bonus() -> float:
+	return _get_logarithmic_reward_bonus(total_matter_decayed_this_prestige)
+
+
+func get_combined_environmental_reward_multiplier() -> float:
+	return get_heat_overflow_bonus() * get_matter_decay_bonus()
+
+
+func _get_logarithmic_reward_bonus(amount: float) -> float:
+	if amount <= 0.0:
 		return 1.0
-
-	var multiplier: float = 1.0 + (0.1 * log(overflow) / log(10.0))
-	return maxf(1.0, multiplier)
+	return maxf(1.0, 1.0 + 0.1 * log(amount) / log(10.0))
 
 func get_overflow_crystallization_multiplier() -> float:
 	var crystallized_flames: float = get_resource_amount(
