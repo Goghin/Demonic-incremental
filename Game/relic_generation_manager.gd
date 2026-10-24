@@ -247,7 +247,11 @@ func get_next_tier(tier: int) -> int:
 	return tier
 
 
-func generate_relic(requested_tier: int, critical_chance: float = 0.0) -> Dictionary:
+func generate_relic(
+	requested_tier: int,
+	critical_chance: float = 0.0,
+	forced_primary_effect_id: String = ""
+) -> Dictionary:
 	var available_tiers := get_available_tiers()
 	if available_tiers.is_empty():
 		return {}
@@ -261,7 +265,7 @@ func generate_relic(requested_tier: int, critical_chance: float = 0.0) -> Dictio
 	if is_critical:
 		final_tier = get_next_tier(requested_tier)
 
-	var primary_effect := _roll_effect_for_tier(final_tier, "")
+	var primary_effect := _roll_effect_for_tier(final_tier, "", "weight", forced_primary_effect_id)
 	if primary_effect.is_empty():
 		return {}
 
@@ -301,10 +305,17 @@ func generate_relic(requested_tier: int, critical_chance: float = 0.0) -> Dictio
 	return result
 
 
-func _roll_effect_for_tier(tier: int, excluded_group: String, weight_key: String = "weight") -> Dictionary:
+func _roll_effect_for_tier(
+	tier: int,
+	excluded_group: String,
+	weight_key: String = "weight",
+	forced_effect_id: String = ""
+) -> Dictionary:
 	var candidates: Array[Dictionary] = []
 	for effect_id_variant in EFFECT_DEFINITIONS.keys():
 		var effect_id := str(effect_id_variant)
+		if forced_effect_id != "" and effect_id != forced_effect_id:
+			continue
 		var effect: Dictionary = EFFECT_DEFINITIONS[effect_id]
 		if not effect.get("roll_ranges", {}).has(tier):
 			continue
