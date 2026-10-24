@@ -313,6 +313,9 @@ func _test_current_realm_environmental_bonuses() -> void:
 	_expect_approx(restored_state.total_overflow_this_prestige, 100.0, "Heat overflow total did not persist.")
 	_expect_approx(restored_state.total_matter_decayed_this_prestige, 1000.0, "Matter decay total did not persist.")
 	_expect_approx(PrestigeSystem.new().calculate_eternal_flame_gain(restored_state), 156.0, "Restored environmental bonuses changed the Smash preview.")
+	var actual_gain: float = PrestigeSystem.new().smash(restored_state, 1.0)
+	_expect_approx(actual_gain, 156.0, "Actual Smash reward did not match the environmental bonus preview.")
+	_expect_approx(float(restored_state.last_prestige_report.get("environmental_multiplier", 1.0)), 1.56, "Smash report omitted the combined environmental multiplier.")
 
 	var simulation := Simulation.new(state)
 	state.total_matter_decayed_this_prestige = 0.0
