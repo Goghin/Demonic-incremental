@@ -577,7 +577,9 @@ func _update_relic_slots_ui() -> void:
 	)
 	_relic_slots_container.visible = unlocked_slots > 0
 	var equipped_ids := state.relic_manager.get_equipped_relic_ids(generator_id)
-	var signature := "%d:%s" % [unlocked_slots, JSON.stringify(equipped_ids)]
+	var generator: Generator = state.get_generator(generator_id)
+	var cycle_locked := generator != null and generator.definition.cycle_based and generator.cycle_active
+	var signature := "%d:%s:%s" % [unlocked_slots, JSON.stringify(equipped_ids), str(cycle_locked)]
 	if signature == _last_relic_slot_signature:
 		return
 	_last_relic_slot_signature = signature
