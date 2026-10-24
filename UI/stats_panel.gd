@@ -42,11 +42,11 @@ func _style_stats_panel() -> void:
 	add_theme_color_override("font_pressed_color", Color(1.0, 0.84, 0.65))
 
 	for node_path in [
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/TimeTitleLabel",
-		"ScrollContainer/VBoxContainer/CurrentResourcesTitleLabel",
-		"ScrollContainer/VBoxContainer/PressureContainer/PressureTitleLabel",
-		"ScrollContainer/VBoxContainer/ResourceHistoryTitleLabel",
-		"ScrollContainer/VBoxContainer/GeneratorStatsTitleLabel"
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/TimeTitleLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/CurrentResourcesTitleLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/PressureContainer/PressureTitleLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/ResourceHistoryTitleLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/GeneratorStatsTitleLabel"
 	]:
 		var title := get_node_or_null(node_path) as Label
 		if title == null:
@@ -55,12 +55,12 @@ func _style_stats_panel() -> void:
 		title.add_theme_color_override("font_color", Color(1.0, 0.66, 0.36))
 
 	for node_path in [
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/ActiveTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/OfflineTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/GameTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/PrestigeTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/TimeScaleLabel"
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/ActiveTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/OfflineTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/GameTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/PrestigeTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/TimeScaleLabel"
 	]:
 		var value_label := get_node_or_null(node_path) as Label
 		if value_label != null:
