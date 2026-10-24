@@ -1555,6 +1555,8 @@ func apply_matter_decay(
 		ResourceIds.MATTER,
 		decayed_matter
 	)
+	# Count only Matter actually removed by environmental decay for this realm's Smash reward.
+	state.total_matter_decayed_this_prestige += decayed_matter
 	
 	var heat = state.get_resource_amount(
 		ResourceIds.HEAT
