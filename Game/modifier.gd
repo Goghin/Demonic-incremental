@@ -14,6 +14,7 @@ const DYNAMIC_NONE = ""
 const DYNAMIC_RESOURCE_LOG10 = "resource_log10"
 const DYNAMIC_RESOURCE_SQRT = "resource_sqrt"
 const DYNAMIC_RESOURCE_SQRT_INVERSE = "resource_sqrt_inverse"
+const DYNAMIC_RESOURCE_INVERSE_BOOST = "resource_inverse_boost"
 const DYNAMIC_GENERATOR_LEVEL = "generator_level"
 const DYNAMIC_RESOURCE_EXPONENT = "resource_exponent"
 const DYNAMIC_LAVA_MITE_DORMANCY = "lava_mite_dormancy"
@@ -192,6 +193,18 @@ func get_multiplier(state: GameState) -> float:
 			1.0 + scaling_multiplier * excess
 		)
 	
+	if dynamic_formula == DYNAMIC_RESOURCE_INVERSE_BOOST:
+		var resource_amount := maxf(0.0, state.get_resource_amount(dynamic_resource_id))
+		var decay_scale := maxf(dynamic_threshold, 1.0)
+		var decay_exponent := maxf(dynamic_exponent, 0.0)
+		# The rolled multiplier value represents bonus strength, not a final
+		# multiplier. The bonus is strongest at zero stock and fades smoothly
+		# toward 1.0 as the configured resource accumulates.
+		return 1.0 + maxf(multiplier, 0.0) / pow(
+			1.0 + resource_amount / decay_scale,
+			decay_exponent
+		)
+
 	if dynamic_formula == DYNAMIC_RESOURCE_EXPONENT:
 		var resource_amount = state.get_resource_amount(
 			dynamic_resource_id
