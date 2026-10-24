@@ -326,6 +326,11 @@ func _test_current_realm_environmental_bonuses() -> void:
 	var actual_decay: float = matter_before - state.get_resource_amount(ResourceIds.MATTER)
 	_expect(actual_decay > 0.0, "Environmental Matter decay did not remove Matter in the test.")
 	_expect_approx(state.total_matter_decayed_this_prestige, actual_decay, "Matter bonus counter did not match actual Matter lost to decay.")
+	_expect_approx(state.resource_statistics.get_total_matter_decayed(), actual_decay, "Lifetime Matter decay statistic did not track actual decay.")
+	var decay_save_data: Dictionary = save_manager.state_to_dictionary(state)
+	var decay_restored_state := _new_test_state()
+	_expect(save_manager.dictionary_to_state(decay_restored_state, decay_save_data, 7), "Could not restore lifetime Matter decay statistics.")
+	_expect_approx(decay_restored_state.resource_statistics.get_total_matter_decayed(), actual_decay, "Lifetime Matter decay statistic did not persist through save/load.")
 
 	state.reset_current_run()
 	_expect_approx(state.total_overflow_this_prestige, 0.0, "Heat overflow total carried into the next realm.")
