@@ -1345,7 +1345,7 @@ static func _create_essence_accumulation_penalty() -> Upgrade:
 			UpgradeEffect.dynamic_resource_modifier(
 				"",
 				ModifierTypes.PRODUCTION,
-				0.01,
+				0.09,
 				ResourceIds.ESSENCE,
 				Modifier.DYNAMIC_RESOURCE_SQRT_INVERSE,
 				"essence_accumulation_penalty",
