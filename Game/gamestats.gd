@@ -937,13 +937,13 @@ func get_modifier_source_name(
 	# Relic modifiers use their unique instance ID as the source key,
 	# allowing separate relics to remain separate entries in the breakdown.
 	if source_id.begins_with("relic:"):
-		var instance_id := source_id.trim_prefix("relic:").trim_suffix(":secondary")
+		# Secondary and additional effects append suffixes to the same relic
+		# instance key. Resolve the instance independently of effect position.
+		var instance_id := source_id.trim_prefix("relic:").get_slice(":", 0)
 		var relic: Dictionary = state.relic_manager.get_relic(instance_id)
 		if relic.is_empty():
 			return "Unknown Relic"
-		var definition: Dictionary = state.relic_manager.get_definition(
-			str(relic.get("definition_id", ""))
-		)
+		var definition: Dictionary = state.relic_manager.get_relic_definition(relic)
 		return str(definition.get("display_name", "Unknown Relic"))
 	
 	var upgrade = state.get_upgrade(source_id)
@@ -1220,4 +1220,22 @@ func get_raw_resource_modifier_multiplier(
 
 			return modifier.get_multiplier(state)
 
+	return 1.0
+
+
+# Returns the current resource modifier after applying the sensitivity upgrades
+# attached to the generator modifier. Resource modifiers are shared in value,
+# while their sensitivity is resolved by the generator using them.
+func get_effective_resource_modifier_multiplier(
+	source_upgrade_id: String,
+	modifier_type: String,
+	resource_id: String
+) -> float:
+	for generator in state.get_generators().values():
+		for modifier in generator.modifiers:
+			if modifier.source_upgrade_id != source_upgrade_id:
+				continue
+			if not modifier.applies_to(modifier_type, resource_id):
+				continue
+			return modifier.get_effective_multiplier(state, generator)
 	return 1.0
