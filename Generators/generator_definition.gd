@@ -15,6 +15,18 @@ var operation_modes: Array[GeneratorOperationMode]
 
 var illustration_path: String
 
+# Optional independent level progression for machines whose levels are upgraded
+# separately from their operating cycles.
+var starting_level: int = 0
+var scale_rates_with_level: bool = true
+var level_upgrade_enabled: bool = false
+var level_upgrade_resource_id: String = ""
+var level_upgrade_base_cost: float = 0.0
+var level_upgrade_cost_multiplier: float = 1.0
+var level_upgrade_max_level: int = 0
+var level_critical_chance_bonus: float = 0.0
+var level_critical_chance_cap: float = 1.0
+
 
 func _init(
 	generator_id: String,
