@@ -21,7 +21,7 @@ static func create() -> Generator:
 		[],
 		false,
 		[
-			{"item_id": "relic_shard", "quantity": 1}
+			{"item_id": "relic_shard", "quantity": 1, "scale_with_generator_level": false}
 		]
 	)
 
