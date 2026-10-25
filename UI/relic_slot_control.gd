@@ -135,10 +135,14 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 		258.0,
 		11
 	)
-	var description_height := ceilf(description_size.y) + 4.0
+	# Leave extra vertical room for Label's actual line spacing and smart-wrap
+	# behavior; font measurement can otherwise be a few pixels shorter than the
+	# rendered label, especially when a word wraps at the end of a line.
+	var description_height := ceilf(description_size.y) + 8.0
 	var tooltip_height := maxf(90.0, 62.0 + description_height)
-	description_label.size.y = description_height
-	tooltip.custom_minimum_size.y = tooltip_height
+	description_label.custom_minimum_size = Vector2(258.0, description_height)
+	description_label.size = Vector2(258.0, description_height)
+	tooltip.custom_minimum_size = Vector2(280.0, tooltip_height)
 	tooltip.size = tooltip.custom_minimum_size
 
 	return tooltip
