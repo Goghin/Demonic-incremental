@@ -757,7 +757,7 @@ func _create_generator_panel(
 		input_handler,
 		generator_id
 	)
-	generator_panel.upgrades_requested.connect(
+	generator_panel.details_requested.connect(
 		_on_generator_upgrades_requested
 	)
 	generator_panel.generator_purchased.connect(
@@ -766,10 +766,7 @@ func _create_generator_panel(
 	generator_panel.selection_requested.connect(
 		_on_generator_panel_selection_requested
 	)
-	generator_panel.stats_requested.connect(
-		_on_generator_stats_requested
-	)
-	generator_panel.upgrade_automation_changed.connect(
+		generator_panel.upgrade_automation_changed.connect(
 		_on_upgrade_automation_settings_changed
 	)
 	generator_panel.generator_purchased.connect(
