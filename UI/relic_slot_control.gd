@@ -119,20 +119,27 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	var description_label := Label.new()
 	description_label.text = description
 	description_label.position = Vector2(10.0, 52.0)
-	description_label.size = Vector2(258.0, maxf(30.0, tooltip.custom_minimum_size.y - 60.0))
+	description_label.size = Vector2(258.0, 30.0)
 	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	description_label.add_theme_font_size_override("font_size", 11)
 	description_label.add_theme_color_override("font_color", Color(0.86, 0.82, 0.78))
 	description_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tooltip.add_child(description_label)
 
-	# Estimate wrapped lines at the fixed text width to choose a compact height.
-	# This keeps the entire description visible without a scrollbar.
-	var estimated_lines := maxi(1, int(ceil(float(description.length()) / 38.0)))
-	var tooltip_height := clampf(62.0 + float(estimated_lines) * 15.0, 90.0, 210.0)
+	# Measure the actual wrapped text using the same font size and width as the
+	# label, instead of estimating from character count (which clipped some text).
+	var description_font := description_label.get_theme_font("font")
+	var description_size := description_font.get_multiline_string_size(
+		description,
+		HORIZONTAL_ALIGNMENT_LEFT,
+		258.0,
+		11
+	)
+	var description_height := ceilf(description_size.y) + 4.0
+	var tooltip_height := maxf(90.0, 62.0 + description_height)
+	description_label.size.y = description_height
 	tooltip.custom_minimum_size.y = tooltip_height
 	tooltip.size = tooltip.custom_minimum_size
-	description_label.size.y = tooltip_height - 60.0
 
 	return tooltip
 
