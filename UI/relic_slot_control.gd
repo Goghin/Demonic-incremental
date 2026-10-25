@@ -66,11 +66,12 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	var title := str(definition.get("display_name", "Relic"))
 	var description := state.relic_manager.get_relic_description(relic)
 
-	# Measure the text first and size the tooltip to fit it on one line.
-	# This keeps the layout simple and avoids RichTextLabel's wrapping/layout timing.
+	# Fit each explicit description line horizontally, and grow vertically
+	# for each additional line without wrapping individual lines.
 	var font: Font = ThemeDB.fallback_font
+	var description_lines := description.split("\n")
 	var description_width := 0.0
-	for line in description.split("\n"):
+	for line in description_lines:
 		description_width = maxf(
 			description_width,
 			font.get_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
@@ -79,10 +80,13 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	var rarity_width := font.get_string_size(rarity_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x
 	var inner_width := maxf(258.0, maxf(description_width, maxf(title_width, rarity_width)))
 	var tooltip_width := inner_width + 20.0
+	var description_line_height := font.get_height(11)
+	var description_height := maxf(18.0, description_line_height * description_lines.size() + 4.0)
+	var tooltip_height := 62.0 + description_height
 
 	var tooltip := Control.new()
 	tooltip.name = "RelicTooltip"
-	tooltip.custom_minimum_size = Vector2(tooltip_width, 78.0)
+	tooltip.custom_minimum_size = Vector2(tooltip_width, tooltip_height)
 	tooltip.size = tooltip.custom_minimum_size
 	tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
@@ -131,7 +135,7 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	var description_label := Label.new()
 	description_label.text = description
 	description_label.position = Vector2(10.0, 52.0)
-	description_label.size = Vector2(inner_width, 18.0)
+	description_label.size = Vector2(inner_width, description_height)
 	description_label.autowrap_mode = TextServer.AUTOWRAP_OFF
 	description_label.add_theme_font_size_override("font_size", 11)
 	description_label.add_theme_color_override("font_color", Color(0.86, 0.82, 0.78))
