@@ -25,7 +25,6 @@ var _relic_slot_controls: Array[RelicSlotControl] = []
 var _relic_slot_count: int = -1
 var _last_relic_slot_signature: String = ""
 
-signal upgrades_requested(generator_id: String)
 signal selection_requested(generator_id: String)
 signal details_requested(generator_id: String)
 signal upgrade_automation_changed
