@@ -25,6 +25,7 @@ var stats: GameStats
 var stats_entry: GeneratorStatsEntry
 var stats_view_active: bool = false
 var active_view: String = "upgrades"
+var _last_view_by_generator: Dictionary = {}
 var relics_panel: ReliquaryPanel
 var layout: GeneratorUpgradeLayout
 
@@ -89,7 +90,7 @@ func _rebuild() -> void:
 	_create_upgrade_nodes()
 	_create_stats_view(generator_id)
 	_ensure_relics_panel()
-	_set_active_view("upgrades")
+	_set_active_view(str(_last_view_by_generator.get(generator_id, "upgrades")))
 	_update_automation_button()
 
 
@@ -192,6 +193,8 @@ func _ensure_relics_panel() -> void:
 
 func _set_active_view(view_name: String) -> void:
 	active_view = view_name if view_name in ["upgrades", "stats", "relics"] else "upgrades"
+	if generator_id != "":
+		_last_view_by_generator[generator_id] = active_view
 	stats_view_active = active_view == "stats"
 	$TreeScroll.visible = active_view == "upgrades"
 	$StatsScroll.visible = active_view == "stats"
