@@ -63,14 +63,26 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	var tier := int(definition.get("tier", 0))
 	var rarity_name := str(definition.get("rarity_name", "Uncommon" if tier >= 2 else "Common" if tier == 1 else "Legacy"))
 	var rarity_color := Color.from_string(str(definition.get("rarity_color", "")), _get_rarity_color(tier))
+	var title := str(definition.get("display_name", "Relic"))
 	var description := state.relic_manager.get_relic_description(relic)
 
-	# Use a plain Control as the root so child label minimum sizes cannot
-	# force Godot's tooltip popup to expand vertically. All layout is bounded
-	# by this root; unlike the old version, there is no scroll container.
+	# Measure the text first and size the tooltip to fit it on one line.
+	# This keeps the layout simple and avoids RichTextLabel's wrapping/layout timing.
+	var font: Font = ThemeDB.fallback_font
+	var description_width := 0.0
+	for line in description.split("\n"):
+		description_width = maxf(
+			description_width,
+			font.get_string_size(line, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		)
+	var title_width := font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
+	var rarity_width := font.get_string_size(rarity_name.to_upper(), HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x
+	var inner_width := maxf(258.0, maxf(description_width, maxf(title_width, rarity_width)))
+	var tooltip_width := inner_width + 20.0
+
 	var tooltip := Control.new()
 	tooltip.name = "RelicTooltip"
-	tooltip.custom_minimum_size = Vector2(280.0, 90.0)
+	tooltip.custom_minimum_size = Vector2(tooltip_width, 78.0)
 	tooltip.size = tooltip.custom_minimum_size
 	tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
@@ -95,16 +107,16 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	var rarity_label := Label.new()
 	rarity_label.text = rarity_name.to_upper()
 	rarity_label.position = Vector2(10.0, 7.0)
-	rarity_label.size = Vector2(258.0, 13.0)
+	rarity_label.size = Vector2(inner_width, 13.0)
 	rarity_label.add_theme_font_size_override("font_size", 9)
 	rarity_label.add_theme_color_override("font_color", rarity_color)
 	rarity_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tooltip.add_child(rarity_label)
 
 	var title_label := Label.new()
-	title_label.text = str(definition.get("display_name", "Relic"))
+	title_label.text = title
 	title_label.position = Vector2(10.0, 21.0)
-	title_label.size = Vector2(258.0, 21.0)
+	title_label.size = Vector2(inner_width, 21.0)
 	title_label.add_theme_font_size_override("font_size", 14)
 	title_label.add_theme_color_override("font_color", rarity_color)
 	title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -112,36 +124,21 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 
 	var separator := HSeparator.new()
 	separator.position = Vector2(10.0, 45.0)
-	separator.size = Vector2(258.0, 2.0)
+	separator.size = Vector2(inner_width, 2.0)
 	separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tooltip.add_child(separator)
 
-	var description_label := RichTextLabel.new()
+	var description_label := Label.new()
 	description_label.text = description
 	description_label.position = Vector2(10.0, 52.0)
-	# Keep the label constrained to the tooltip's inner width. RichTextLabel's
-	# fit_content grows its height to show wrapped lines; it does not widen it.
-	description_label.custom_minimum_size = Vector2(258.0, 0.0)
-	description_label.size = Vector2(258.0, 0.0)
-	description_label.fit_content = true
-	description_label.scroll_active = false
-	description_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-	description_label.add_theme_font_size_override("normal_font_size", 11)
-	description_label.add_theme_color_override("default_color", Color(0.86, 0.82, 0.78))
-	description_label.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+	description_label.size = Vector2(inner_width, 18.0)
+	description_label.autowrap_mode = TextServer.AUTOWRAP_OFF
+	description_label.add_theme_font_size_override("font_size", 11)
+	description_label.add_theme_color_override("font_color", Color(0.86, 0.82, 0.78))
 	description_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tooltip.add_child(description_label)
 
-	# Let RichTextLabel lay out the description and use its actual content
-	# height directly. No estimated line counts or arbitrary maximum height.
-	var description_height := maxf(18.0, description_label.get_content_height() + 6.0)
-	description_label.custom_minimum_size.y = description_height
-	description_label.size.y = description_height
-	var tooltip_height := 62.0 + description_height
-	tooltip.custom_minimum_size = Vector2(280.0, tooltip_height)
-	tooltip.size = tooltip.custom_minimum_size
 	return tooltip
-
 
 func _get_rarity_color(tier: int) -> Color:
 	if tier >= 2:
