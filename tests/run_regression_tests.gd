@@ -459,6 +459,22 @@ func _test_relic_inventory_equipment_and_save() -> void:
 		if modifier.id.begins_with("relic:"):
 			loaded_modifier_found = true
 	_expect(loaded_modifier_found, "Relic modifier was not rebuilt after loading.")
+
+	# Startup rebuilds upgrade effects after loading. That pass clears all
+	# generator modifiers, so it must also restore the saved relic effects.
+	Simulation.new(loaded_state).rebuild_upgrade_effects()
+	var modifier_after_upgrade_rebuild := false
+	for modifier in loaded_state.get_generator("atomic_friction").modifiers:
+		if modifier.id.begins_with("relic:"):
+			modifier_after_upgrade_rebuild = true
+	for sensitivity in loaded_state.get_generator("atomic_friction").modifier_sensitivities:
+		if sensitivity.source_upgrade_id.begins_with("relic:"):
+			modifier_after_upgrade_rebuild = true
+	_expect(
+		modifier_after_upgrade_rebuild,
+		"Rebuilding upgrade effects removed equipped relic effects instead of restoring them."
+	)
+
 	loaded_state.reset_current_run()
 	_expect(loaded_state.relic_manager.get_equipped_relic_id("atomic_friction") != "", "Realm reset incorrectly removed equipped relics.")
 	var reset_modifier_found := false
