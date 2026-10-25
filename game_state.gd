@@ -188,27 +188,27 @@ func _initialize_generators() -> void:
 		ThermalCompressor.create()
 	)
 	
-	var infernal_forge: GeneratorDefinition = InfernalForge.create()
-	for operation_mode in infernal_forge.operation_modes:
+	var infernal_forge: Generator = InfernalForge.create()
+	for operation_mode in infernal_forge.definition.operation_modes:
 		operation_mode.increase_level_on_activation = true
 	_register_generator(infernal_forge)
 
 	# Temporary, low-cost cycle generator used to test persistent shard rewards.
 	# Its extraction mode advances the level; processing modes do not.
-	var relic_crucible: GeneratorDefinition = RelicShardExtractor.create()
-	relic_crucible.display_name = "Relic Crucible"
+	var relic_crucible: Generator = RelicShardExtractor.create()
+	relic_crucible.definition.display_name = "Relic Crucible"
 	# Crucible levels are purchased explicitly, independently of its five cycles.
 	# Its recipes retain fixed resource costs and item quantities as it levels.
-	relic_crucible.starting_level = 1
-	relic_crucible.scale_rates_with_level = false
-	relic_crucible.level_upgrade_enabled = true
-	relic_crucible.level_upgrade_resource_id = ResourceIds.MATTER
-	relic_crucible.level_upgrade_base_cost = 100.0
-	relic_crucible.level_upgrade_cost_multiplier = 1.25
-	relic_crucible.level_upgrade_max_level = 41
-	relic_crucible.level_critical_chance_bonus = 0.005
-	relic_crucible.level_critical_chance_cap = 0.25
-	for operation_mode in relic_crucible.operation_modes:
+	relic_crucible.definition.starting_level = 1
+	relic_crucible.definition.scale_rates_with_level = false
+	relic_crucible.definition.level_upgrade_enabled = true
+	relic_crucible.definition.level_upgrade_resource_id = ResourceIds.MATTER
+	relic_crucible.definition.level_upgrade_base_cost = 100.0
+	relic_crucible.definition.level_upgrade_cost_multiplier = 1.25
+	relic_crucible.definition.level_upgrade_max_level = 41
+	relic_crucible.definition.level_critical_chance_bonus = 0.005
+	relic_crucible.definition.level_critical_chance_cap = 0.25
+	for operation_mode in relic_crucible.definition.operation_modes:
 		operation_mode.increase_level_on_activation = false
 	_register_generator(relic_crucible)
 
