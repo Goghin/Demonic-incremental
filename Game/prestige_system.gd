@@ -54,11 +54,10 @@ func smash(state: GameState, run_duration: float = 0.0) -> float:
 
 	state.eternal_flame_state.eternal_flame += eternal_flame_gain
 	state.eternal_flame_state.prestige_count = next_prestige_count
-	if next_prestige_count == 1:
-		for upgrade_id in ["eternal_furnace", "accelerated_friction"]:
-			if state.eternal_flame_state.get_upgrade_level(upgrade_id) < 1:
-				state.eternal_flame_state.set_upgrade_level(upgrade_id, 1)
 	state.eternal_flame_state.total_crystallized_flame += crystallized_flame
+	state.eternal_flame_upgrade_manager.apply_automatic_progression_rewards(
+		state.eternal_flame_state
+	)
 
 	# The old realm is gone. Preserve its data only until the player chooses
 	# to continue, while pausing simulation in the planning state.

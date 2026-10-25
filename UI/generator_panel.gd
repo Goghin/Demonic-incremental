@@ -13,15 +13,27 @@ var _has_upgrade_automation_style: bool = false
 var _resource_icon_cache: Dictionary = {}
 var _event_effects_button: Button
 var _event_effects_popup: AcceptDialog
+var _illustration: TextureRect
+var _relic_slots_container: HBoxContainer
+var _crafting_slots_container: HBoxContainer
+var _crafting_slots_label: Label
+var _crafting_slot_controls: Array[RelicSlotControl] = []
+var _crafting_slot_count: int = -1
+var _last_crafting_signature: String = ""
+var _relic_slot_controls: Array[RelicSlotControl] = []
+var _relic_slot_count: int = -1
+var _last_relic_slot_signature: String = ""
 
 signal upgrades_requested(generator_id: String)
 signal selection_requested(generator_id: String)
 signal upgrade_automation_changed
 signal generator_purchased
+signal relics_changed
 
 
 var _normal_panel_style: StyleBox
 var is_new_unlock: bool = false
+var reliquary_compact_mode: bool = false
 
 
 func mark_new_unlock() -> void:
@@ -43,6 +55,27 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
 	_setup_event_effects_ui()
+	_setup_relic_slots_ui()
+	if reliquary_compact_mode:
+		_apply_reliquary_compact_layout()
+
+
+func _apply_reliquary_compact_layout() -> void:
+	var content: VBoxContainer = $HBoxContainer/VBoxContainer
+	content.add_theme_constant_override("separation", 3)
+	$HBoxContainer.add_theme_constant_override("separation", 6)
+	$HBoxContainer/IllustrationPanel.custom_minimum_size.x = 58.0
+	_illustration.custom_minimum_size.y = 34.0
+	$HBoxContainer/VBoxContainer/Header/GeneratorLabel.add_theme_font_size_override("font_size", 12)
+	$HBoxContainer/VBoxContainer/Header/LevelLabel.add_theme_font_size_override("font_size", 10)
+	$HBoxContainer/VBoxContainer/OperationModeOptionButton.custom_minimum_size.y = 0.0
+	$HBoxContainer/VBoxContainer/InputLabel.hide()
+	$HBoxContainer/VBoxContainer/ProductionLabel.hide()
+	$HBoxContainer/VBoxContainer/BuyButtons.add_theme_constant_override("separation", 4)
+	$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.add_theme_font_size_override("font_size", 10)
+	$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.add_theme_font_size_override("font_size", 10)
+	$HBoxContainer/VBoxContainer/ProgressBar.custom_minimum_size.y = 8.0
+	$HBoxContainer/VBoxContainer/ContaminationLabel.add_theme_font_size_override("font_size", 10)
 
 
 func set_selected(is_selected: bool) -> void:
@@ -137,6 +170,8 @@ func _process(_delta: float) -> void:
 			_last_automation_style_enabled = auto_enabled
 			_has_automation_style = true
 	update_illustration(generator)
+	_update_relic_slots_ui()
+	_update_crafting_slots_ui(generator)
 	update_operation_mode_ui(generator)
 	_update_event_effects_ui(generator)
 
@@ -189,33 +224,71 @@ func _process(_delta: float) -> void:
 	var contamination_label: Label = $HBoxContainer/VBoxContainer/ContaminationLabel
 	contamination_label.visible = false
 	if generator_id == "infernal_forge":
-		var speed_multiplier := 1.0
-		var show_contamination_status := false
+		# Match Simulation's cycle progression by using the effective CYCLE_SPEED
+		# modifiers instead of maintaining a second copy of their formulas here.
+		var speed_multiplier := get_effective_cycle_speed_multiplier(state, generator)
+		var ash_speed_multiplier := 1.0
+		var has_ash_speed_modifier := false
+		for modifier in generator.modifiers:
+			if modifier.id != "ashen_contamination_cycle_speed":
+				continue
+			if not modifier.applies_to(ModifierTypes.CYCLE_SPEED):
+				continue
+			ash_speed_multiplier = modifier.get_effective_multiplier(state, generator)
+			has_ash_speed_modifier = true
+			break
+
 		var contamination_upgrade = state.upgrades.get("ashen_contamination")
-		var ash_amount := state.get_resource_amount(ResourceIds.ASH)
-		if (
+		var show_contamination_status: bool = (
 			contamination_upgrade != null
 			and contamination_upgrade.is_purchased()
-			and ash_amount > 100.0
-		):
-			var raw_multiplier := 1.0 / (1.0 + (0.05 / state.realm_effects.ashen_contamination_multiplier) * (sqrt(ash_amount) - 10.0))
-			var sensitivity := generator.get_modifier_sensitivity("ashen_contamination_cycle_speed", state)
-			speed_multiplier = 1.0 + (raw_multiplier - 1.0) * sensitivity
-			show_contamination_status = true
-
+			and has_ash_speed_modifier
+		)
 		var remaining_progress := maxf(generator.get_cycle_duration() - generator.cycle_progress, 0.0)
 		var remaining_seconds := remaining_progress / maxf(speed_multiplier, 0.0001)
 		var remaining_time_text := _format_duration(remaining_seconds)
 		var cycle_time_suffix := " left" if generator.is_operating() else ""
 		contamination_label.text = "Cycle: ~%s%s" % [remaining_time_text, cycle_time_suffix]
 		if show_contamination_status:
-			if speed_multiplier < 0.9999:
+			if ash_speed_multiplier < 0.9999:
 				contamination_label.text += " · Ash: -%s%% speed (x%s)" % [
-					NumberFormatter.format((1.0 - speed_multiplier) * 100.0),
-					NumberFormatter.format(speed_multiplier),
+					NumberFormatter.format((1.0 - ash_speed_multiplier) * 100.0),
+					NumberFormatter.format(ash_speed_multiplier),
 				]
 			else:
-				contamination_label.text += " · Ash: no slowdown (x%s)" % NumberFormatter.format(speed_multiplier)
+				contamination_label.text += " · Ash: no slowdown (x%s)" % NumberFormatter.format(ash_speed_multiplier)
+		contamination_label.visible = true
+	elif generator.definition.cycle_based:
+		# All cycle generators show their duration, even when idle. Only show
+		# "left" while the generator is actively processing its current cycle.
+		var speed_multiplier := get_effective_cycle_speed_multiplier(state, generator)
+		var remaining_progress := maxf(generator.get_cycle_duration() - generator.cycle_progress, 0.0)
+		var remaining_seconds := remaining_progress / maxf(speed_multiplier, 0.0001)
+		var cycle_time_suffix := " left" if generator.is_operating() else ""
+		var reward_summary := ""
+		var operation_mode := generator.get_operation_mode()
+		if operation_mode != null and state.relic_manager != null:
+			for item_output in operation_mode.completion_item_outputs:
+				var item_id := str(item_output.get("item_id", ""))
+				var item_definition := state.relic_manager.get_stackable_item_definition(item_id)
+				if item_definition.is_empty():
+					continue
+				var reward_quantity := maxi(0, int(item_output.get("quantity", 0)))
+				if bool(item_output.get("scale_with_generator_level", true)):
+					reward_quantity *= maxi(generator.level, 1)
+				if reward_quantity <= 0:
+					continue
+				reward_summary += " · +%s %s" % [
+					NumberFormatter.format(reward_quantity),
+					str(item_definition.get("display_name", item_id))
+				]
+		if operation_mode != null and operation_mode.completion_random_relic_tier > 0:
+			reward_summary += " · +1 random Tier %d Relic" % operation_mode.completion_random_relic_tier
+		contamination_label.text = "Cycle: ~%s%s%s" % [
+			_format_duration(remaining_seconds),
+			cycle_time_suffix,
+			reward_summary
+		]
 		contamination_label.visible = true
 
 	var operating = generator.is_operating()
@@ -260,6 +333,18 @@ func _process(_delta: float) -> void:
 		)
 	)
 
+
+
+static func get_effective_cycle_speed_multiplier(
+	game_state: GameState,
+	generator: Generator
+) -> float:
+	var multiplier := 1.0
+	for modifier in generator.modifiers:
+		if not modifier.applies_to(ModifierTypes.CYCLE_SPEED):
+			continue
+		multiplier *= modifier.get_effective_multiplier(game_state, generator)
+	return maxf(multiplier, 0.0)
 
 
 static func _format_duration(seconds: float) -> String:
@@ -366,7 +451,56 @@ func _on_operation_mode_option_button_item_selected(
 		return
 	
 	var mode_id = str(option_button.get_item_metadata(index))
-	generator.set_operation_mode(mode_id)
+	if not generator.set_operation_mode(mode_id):
+		return
+	var selected_mode := generator.get_operation_mode()
+	var visible_slots := selected_mode.crafting_input_requirements.size() if selected_mode != null else 0
+	state.relic_manager.resize_machine_slots(generator_id, visible_slots)
+	_last_crafting_signature = ""
+	_update_crafting_slots_ui(generator)
+	relics_changed.emit()
+
+
+func _update_crafting_slots_ui(generator: Generator) -> void:
+	if state == null or _crafting_slots_container == null:
+		return
+	var mode := generator.get_operation_mode()
+	var requirements: Array[Dictionary] = mode.crafting_input_requirements if mode != null else []
+	var slot_count := requirements.size()
+	_crafting_slots_label.visible = slot_count > 0
+	_crafting_slots_container.visible = slot_count > 0
+	var slots: Dictionary = state.relic_manager.machine_slots.get(generator_id, {})
+	var signature := "%s:%s" % [generator.operation_mode_id, JSON.stringify(slots)]
+	if signature == _last_crafting_signature and slot_count == _crafting_slot_count:
+		for slot in _crafting_slot_controls:
+			slot.refresh_slot()
+		return
+	_last_crafting_signature = signature
+	if slot_count != _crafting_slot_count:
+		for child in _crafting_slots_container.get_children():
+			_crafting_slots_container.remove_child(child)
+			child.queue_free()
+		_crafting_slot_controls.clear()
+		_crafting_slot_count = slot_count
+		for slot_index in range(slot_count):
+			var slot := RelicSlotControl.new()
+			slot.configure(state, "crafting", "", generator_id, slot_index)
+			slot.equipment_changed.connect(_on_crafting_slot_changed)
+			_crafting_slots_container.add_child(slot)
+			_crafting_slot_controls.append(slot)
+	for slot_index in range(_crafting_slot_controls.size()):
+		_crafting_slot_controls[slot_index].crafting_requirement = requirements[slot_index]
+		_crafting_slot_controls[slot_index].refresh_slot()
+
+
+func _on_crafting_slot_changed() -> void:
+	_last_crafting_signature = ""
+	if state != null:
+		var generator: Generator = state.get_generator(generator_id)
+		if generator != null:
+			_update_crafting_slots_ui(generator)
+		_update_relic_slots_ui()
+		relics_changed.emit()
 
 
 func _on_buy_button_pressed() -> void:
@@ -388,11 +522,101 @@ func _on_pause_button_pressed() -> void:
 func _on_upgrades_button_pressed() -> void:
 	upgrades_requested.emit(generator_id)
 
+
+func _setup_relic_slots_ui() -> void:
+	var illustration_panel: PanelContainer = $HBoxContainer/IllustrationPanel
+	_illustration = illustration_panel.get_node_or_null("Illustration") as TextureRect
+	if _illustration == null:
+		return
+
+	illustration_panel.custom_minimum_size.x = 78.0
+	illustration_panel.remove_child(_illustration)
+
+	var content := VBoxContainer.new()
+	content.name = "IllustrationContent"
+	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	content.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_theme_constant_override("separation", 3)
+	illustration_panel.add_child(content)
+
+	_illustration.custom_minimum_size = Vector2(0.0, 48.0)
+	_illustration.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_illustration.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	content.add_child(_illustration)
+
+	_relic_slots_container = HBoxContainer.new()
+	_relic_slots_container.name = "RelicSlots"
+	_relic_slots_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	_relic_slots_container.add_theme_constant_override("separation", 2)
+	content.add_child(_relic_slots_container)
+	_relic_slots_container.hide()
+
+	_crafting_slots_label = Label.new()
+	_crafting_slots_label.name = "CraftingInputsLabel"
+	_crafting_slots_label.text = "Ingredients"
+	_crafting_slots_label.add_theme_font_size_override("font_size", 10)
+	_crafting_slots_label.add_theme_color_override("font_color", Color(0.72, 0.61, 0.56))
+	var generator_content: VBoxContainer = $HBoxContainer/VBoxContainer
+	generator_content.add_child(_crafting_slots_label)
+	_crafting_slots_container = HBoxContainer.new()
+	_crafting_slots_container.name = "CraftingInputSlots"
+	_crafting_slots_container.alignment = BoxContainer.ALIGNMENT_CENTER
+	_crafting_slots_container.add_theme_constant_override("separation", 2)
+	generator_content.add_child(_crafting_slots_container)
+	_crafting_slots_label.hide()
+	_crafting_slots_container.hide()
+
+
+func _update_relic_slots_ui() -> void:
+	if state == null or _relic_slots_container == null:
+		return
+
+	var unlocked_slots: int = state.eternal_flame_upgrade_manager.get_relic_slot_count(
+		generator_id,
+		state.eternal_flame_state
+	)
+	_relic_slots_container.visible = unlocked_slots > 0
+	var equipped_ids := state.relic_manager.get_equipped_relic_ids(generator_id)
+	var generator: Generator = state.get_generator(generator_id)
+	var cycle_locked := generator != null and generator.definition.cycle_based and generator.cycle_active
+	var signature := "%d:%s:%s" % [unlocked_slots, JSON.stringify(equipped_ids), str(cycle_locked)]
+	if signature == _last_relic_slot_signature:
+		return
+	_last_relic_slot_signature = signature
+
+	if unlocked_slots != _relic_slot_count:
+		for child in _relic_slots_container.get_children():
+			_relic_slots_container.remove_child(child)
+			child.queue_free()
+		_relic_slot_controls.clear()
+		_relic_slot_count = unlocked_slots
+
+		for slot_index in range(unlocked_slots):
+			var slot := RelicSlotControl.new()
+			slot.configure(state, "generator", "", generator_id, slot_index)
+			slot.equipment_changed.connect(_on_relic_slot_equipment_changed)
+			_relic_slots_container.add_child(slot)
+			_relic_slot_controls.append(slot)
+
+	for slot in _relic_slot_controls:
+		slot.refresh_slot()
+
+
+func _on_relic_slot_equipment_changed() -> void:
+	if state == null:
+		return
+	state.rebuild_relic_modifiers()
+	_update_relic_slots_ui()
+	relics_changed.emit()
+
+
 func update_illustration(
 	generator: Generator
 	) -> void:
 	
-	var illustration = $HBoxContainer/IllustrationPanel/Illustration
+	var illustration: TextureRect = _illustration
+	if illustration == null:
+		illustration = $HBoxContainer/IllustrationPanel/Illustration as TextureRect
 	var illustration_path = generator.definition.illustration_path
 	
 	if illustration_path == current_illustration_path:

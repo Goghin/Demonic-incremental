@@ -4,6 +4,7 @@ extends RefCounted
 signal generator_unlocked(generator_id: String)
 signal crystallization_completed(crystals_created: float)
 signal critical_crystallization_completed(crystals_created: float)
+signal relic_crafting_completed(relic_name: String, quantity: int, is_critical: bool)
 signal generator_level_reduced(generator_id: String, previous_level: int, new_level: int)
 
 const GAMEPLAY_SNAPSHOT_INTERVAL: float = 30.0
@@ -603,6 +604,35 @@ func complete_cycle(
 				state.record_resource_lost(ResourceIds.HEAT, current_heat)
 				state.set_resource_amount(ResourceIds.HEAT, 0.0)
 	
+	# Grant stackable inventory rewards only when the cycle completes. Keep this
+	# separate from resource outputs so persistent items never enter run resources.
+	var operation_mode := generator.get_operation_mode()
+	if operation_mode != null and state.relic_manager != null:
+		for item_output in operation_mode.completion_item_outputs:
+			var item_id := str(item_output.get("item_id", ""))
+			var quantity := maxi(0, int(item_output.get("quantity", 0)))
+			if item_id != "" and quantity > 0:
+				if bool(item_output.get("scale_with_generator_level", true)):
+					quantity *= generator.level
+				state.relic_manager.add_stackable_item(item_id, quantity)
+		if operation_mode.completion_random_relic_tier > 0:
+			var relic_instance_id := state.relic_manager.add_random_relic_for_tier(
+				operation_mode.completion_random_relic_tier
+			)
+			if relic_instance_id != "":
+				var relic_entry := state.relic_manager.get_inventory_entry_by_instance_id(
+					relic_instance_id
+				)
+				var relic_definition := state.relic_manager.get_definition(
+					str(relic_entry.get("definition_id", ""))
+				)
+				if not relic_definition.is_empty():
+					relic_crafting_completed.emit(
+						str(relic_definition.get("display_name", "Unknown Relic")),
+						1,
+						bool(triggered_events.get("relic_critical", triggered_events.get("forge_critical", false)))
+					)
+
 	_apply_cycle_completion_consequences(generator, triggered_events)
 	generator.cycle_active = false
 	generator.operating = false
@@ -810,6 +840,14 @@ func buy_generator(
 	if generator.definition.cycle_based:
 		if generator.cycle_active:
 			return false
+
+	var operation_mode := generator.get_operation_mode()
+	if operation_mode != null and not operation_mode.crafting_input_requirements.is_empty():
+		if state.relic_manager == null or not state.relic_manager.can_satisfy_crafting_recipe(
+			generator_id,
+			operation_mode.crafting_input_requirements
+		):
+			return false
 	
 	var cost = generator.get_cost(
 		state
@@ -822,6 +860,13 @@ func buy_generator(
 	
 	if current_resource < cost:
 		return false
+
+	if operation_mode != null and not operation_mode.crafting_input_requirements.is_empty():
+		if not state.relic_manager.consume_crafting_recipe(
+			generator_id,
+			operation_mode.crafting_input_requirements
+		):
+			return false
 	
 	state.set_resource_amount(
 		generator.definition.cost_resource_id,
@@ -877,6 +922,14 @@ func can_buy_generator(
 	
 	if generator.definition.cycle_based:
 		if generator.cycle_active:
+			return false
+
+	var operation_mode := generator.get_operation_mode()
+	if operation_mode != null and not operation_mode.crafting_input_requirements.is_empty():
+		if state.relic_manager == null or not state.relic_manager.can_satisfy_crafting_recipe(
+			generator_id,
+			operation_mode.crafting_input_requirements
+		):
 			return false
 	
 	var current_resource = state.get_resource_amount(

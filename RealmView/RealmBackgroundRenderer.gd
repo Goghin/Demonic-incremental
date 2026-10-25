@@ -41,14 +41,8 @@ func draw_background(owner: RealmView) -> void:
 		inverse_scale
 	)
 
-	# ------------------------------------------------------------
-	# Background
-	# ------------------------------------------------------------
-
-	owner.draw_rect(
-		Rect2(Vector2.ZERO, owner.size),
-		Color(0.04, 0.029, 0.074, 1.0)
-	)
+	# The scrolling SpaceBackground node draws the actual backdrop.
+	# Keep only transparent atmospheric effects here so they layer over it.
 
 	# ------------------------------------------------------------
 	# Ambient haze

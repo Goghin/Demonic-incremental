@@ -14,6 +14,13 @@ var cycle_duration: float
 var inputs: Array[GeneratorIO]
 var outputs: Array[GeneratorIO]
 var completion_outputs: Array[GeneratorIO]
+# Non-resource inventory rewards granted once when a cycle completes.
+var completion_item_outputs: Array[Dictionary]
+# When positive, grant one random relic from this tier on cycle completion.
+var completion_random_relic_tier: int = 0
+# Each entry describes one visible machine input slot and its accepted ingredients.
+# Supported keys can include item_id, relic, item_type, and quantity.
+var crafting_input_requirements: Array[Dictionary]
 
 var initially_unlocked: bool = true
 var unlocked: bool = true
@@ -31,7 +38,9 @@ func _init(
 	mode_inputs: Array[GeneratorIO] = [],
 	mode_outputs: Array[GeneratorIO] = [],
 	mode_completion_outputs: Array[GeneratorIO] = [],
-	mode_is_resource_transfer: bool = false
+	mode_is_resource_transfer: bool = false,
+	mode_completion_item_outputs: Array[Dictionary] = [],
+	mode_crafting_input_requirements: Array[Dictionary] = []
 	) -> void:
 	
 	id = mode_id
@@ -47,3 +56,5 @@ func _init(
 	outputs = mode_outputs
 	completion_outputs = mode_completion_outputs
 	is_resource_transfer = mode_is_resource_transfer
+	completion_item_outputs = mode_completion_item_outputs
+	crafting_input_requirements = mode_crafting_input_requirements

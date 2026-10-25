@@ -10,6 +10,8 @@ const EFFECT_UNASSIGNED_FLAME = "unassigned_flame"
 const EFFECT_UNLOCK_TECHNOLOGY = "unlock_technology"
 const EFFECT_STARTING_GENERATOR_LEVEL = "starting_generator_level"
 const EFFECT_AUTOMATION_COOLDOWN = "automation_cooldown"
+const EFFECT_UNLOCK_RELIQUARY = "unlock_reliquary"
+const EFFECT_UNLOCK_RELIC_SLOTS = "unlock_relic_slots"
 
 var id: String = ""
 var display_name: String = ""
@@ -25,6 +27,13 @@ var prerequisite_level: int = 0
 
 var prerequisite_generator_id: String = ""
 var prerequisite_generator_level: int = 0
+
+# Data-driven automatic progression rewards. Starting-level upgrades can
+# define a prestige threshold for each level; unlocks can require both a
+# minimum prestige count and lifetime Eternal Flames earned.
+var automatic_level_prestige_requirements: Array[int] = []
+var automatic_min_prestiges: int = 0
+var automatic_total_eternal_flame_requirement: float = 0.0
 
 var level: int = 0
 var max_level: int = 1

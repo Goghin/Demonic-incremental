@@ -3,7 +3,7 @@ extends RefCounted
 
 
 const SAVE_PATH := "user://savegame.json"
-const SAVE_VERSION := 6
+const SAVE_VERSION := 7
 
 
 func save_game(
@@ -160,6 +160,7 @@ func state_to_dictionary(
 		"resource_statistics": state.resource_statistics.to_dictionary(),
 		"current_run_statistics": state.current_run_statistics.to_dictionary(),
 		"achievements": state.achievement_manager.to_dictionary(),
+		"relic_manager": state.relic_manager.get_save_data(),
 		"eternal_flame_state": {
 			"eternal_flame": state.eternal_flame_state.eternal_flame,
 			"spent_flames": state.eternal_flame_state.spent_flames,
@@ -521,6 +522,18 @@ func dictionary_to_state(
 	if achievement_data is Dictionary:
 		state.achievement_manager.from_dictionary(achievement_data)
 	state.achievement_manager.update(state)
+
+	var relic_manager_data: Variant = data.get("relic_manager", {})
+	if relic_manager_data is Dictionary:
+		state.relic_manager.load_save_data(relic_manager_data)
+	if state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state):
+		state.relic_manager.ensure_starter_relic()
+	# Backfill milestone rewards for existing saves. This is idempotent and
+	# uses lifetime progress, so spending Eternal Flames cannot revoke rewards.
+	state.eternal_flame_upgrade_manager.apply_automatic_progression_rewards(
+		state.eternal_flame_state
+	)
+	state.rebuild_relic_modifiers()
 
 	state.rebuild_realm_effects()
 	state.generator_automation_manager.load_save_data(
