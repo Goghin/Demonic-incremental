@@ -251,6 +251,7 @@ func _get_equipment_signature() -> String:
 		return ""
 	return JSON.stringify({
 		"inventory": state.relic_manager.inventory,
+		"inventory_positions": state.relic_manager.inventory_positions,
 		"equipped": state.relic_manager.equipped,
 		"slots": _get_slot_counts(),
 		"machine_slots": state.relic_manager.machine_slots,
