@@ -198,12 +198,8 @@ func _initialize_generators() -> void:
 	var relic_crucible: GeneratorDefinition = RelicShardExtractor.create()
 	relic_crucible.display_name = "Relic Crucible"
 	for operation_mode in relic_crucible.operation_modes:
-		var mode_search_text: String = (
-			operation_mode.id + " " + operation_mode.display_name
-		).to_lower()
-		operation_mode.increase_level_on_activation = (
-			mode_search_text.contains("extract")
-		)
+		# The "normal" mode is the extractor's shard-extraction operation.
+		operation_mode.increase_level_on_activation = operation_mode.id == "normal"
 	_register_generator(relic_crucible)
 
 # -------------------------------------------------------------------
