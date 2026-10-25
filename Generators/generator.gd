@@ -4,6 +4,7 @@ extends RefCounted
 
 var definition: GeneratorDefinition
 var level: int = 0
+var cycle_critical_chance_snapshot: float = -1.0
 var modifiers: Array[Modifier] = []
 # Cache the production modifiers relevant to each output resource. Upgrade effects
 # can add modifiers during play, so those changes explicitly invalidate this cache.
@@ -26,6 +27,7 @@ var operation_mode_id: String = "normal"
 
 func _init(generator_definition: GeneratorDefinition) -> void:
 	definition = generator_definition
+	level = definition.starting_level
 	modifiers = []
 	production_progress = {}
 	
@@ -57,7 +59,8 @@ func invalidate_production_modifier_cache() -> void:
 
 
 func reset() -> void:
-	level = 0
+	level = definition.starting_level
+	cycle_critical_chance_snapshot = -1.0
 	modifiers.clear()
 	invalidate_production_modifier_cache()
 	event_effects.clear()
@@ -199,11 +202,11 @@ func get_production_rate(
 			return 0.0
 		return (
 			operation_mode.inputs[0].amount_per_second
-			* level
+			* (level if definition.scale_rates_with_level else 1)
 			* operation_mode.input_multiplier
 		)
 	
-	var production: float = output.amount_per_second * level
+	var production: float = output.amount_per_second * (level if definition.scale_rates_with_level else 1)
 	
 	if operation_mode != null:
 		production *= operation_mode.production_multiplier
@@ -345,7 +348,7 @@ func get_input_consumption_per_second(
 			state,
 			throttled_override
 		)
-		* level
+		* (level if definition.scale_rates_with_level else 1)
 	)
 
 
