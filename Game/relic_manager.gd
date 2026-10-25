@@ -212,6 +212,38 @@ func add_stackable_item(item_id: String, quantity: int) -> int:
 	return quantity
 
 
+func get_stackable_item_quantity(item_id: String) -> int:
+	var total := 0
+	for entry in inventory:
+		if str(entry.get("item_id", "")) == item_id:
+			total += maxi(0, int(entry.get("quantity", 0)))
+	return total
+
+
+func consume_stackable_item(item_id: String, quantity: int) -> bool:
+	if quantity <= 0 or get_stackable_item_quantity(item_id) < quantity:
+		return false
+
+	var remaining := quantity
+	for index in range(inventory.size() - 1, -1, -1):
+		var entry: Dictionary = inventory[index]
+		if str(entry.get("item_id", "")) != item_id:
+			continue
+		var instance_id := str(entry.get("instance_id", ""))
+		var current_quantity := maxi(0, int(entry.get("quantity", 0)))
+		var consumed := mini(remaining, current_quantity)
+		if consumed <= 0:
+			continue
+		remaining -= consumed
+		if consumed == current_quantity:
+			_remove_inventory_entry(instance_id)
+		else:
+			entry["quantity"] = current_quantity - consumed
+		if remaining <= 0:
+			return true
+	return remaining <= 0
+
+
 func get_inventory_slot_count() -> int:
 	var highest_slot := INVENTORY_SLOT_COUNT - 1
 	for position_variant in inventory_positions.values():
