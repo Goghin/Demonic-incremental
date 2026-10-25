@@ -941,9 +941,7 @@ func get_modifier_source_name(
 		var relic: Dictionary = state.relic_manager.get_relic(instance_id)
 		if relic.is_empty():
 			return "Unknown Relic"
-		var definition: Dictionary = state.relic_manager.get_definition(
-			str(relic.get("definition_id", ""))
-		)
+		var definition: Dictionary = state.relic_manager.get_relic_definition(relic)
 		return str(definition.get("display_name", "Unknown Relic"))
 	
 	var upgrade = state.get_upgrade(source_id)
