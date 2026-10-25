@@ -42,6 +42,7 @@ func _run_tests() -> void:
 
 	_run_test("GameState initializes core resources and generators", _test_initialization)
 	_run_test("Forge and Relic Crucible modes use the intended activation levels", _test_cycle_generator_activation_level_configuration)
+	_run_test("Relic Crucible upgrades are independent from cycles and improve critical chance", _test_relic_crucible_level_upgrades)
 	_run_test("Heat leak and Matter decay respect their thresholds", _test_environmental_thresholds)
 	_run_test("Generator purchase rejects insufficient resources", _test_purchase_rejects_insufficient_resources)
 	_run_test("Generator purchase spends the exact cost and adds one level", _test_successful_generator_purchase)
@@ -145,10 +146,48 @@ func _test_cycle_generator_activation_level_configuration() -> void:
 		var is_extraction_mode: bool = mode.id == "normal"
 		found_extraction_mode = found_extraction_mode or is_extraction_mode
 		_expect(
-			mode.increase_level_on_activation == is_extraction_mode,
-			"Relic Crucible mode '%s' has the wrong level-on-activation setting." % mode.id
+			not mode.increase_level_on_activation,
+			"Relic Crucible mode '%s' should not level up when a cycle starts." % mode.id
 		)
 	_expect(found_extraction_mode, "Relic Crucible's normal extraction mode is missing.")
+	_expect(crucible.level == 1, "Relic Crucible should start at level 1 for extraction.")
+	_expect(not crucible.definition.scale_rates_with_level, "Crucible recipe rates should not scale with machine level.")
+	_expect(crucible.definition.level_upgrade_enabled, "Relic Crucible level upgrades should be enabled.")
+
+
+func _test_relic_crucible_level_upgrades() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var crucible: Generator = state.get_generator("relic_shard_extractor")
+	if crucible == null:
+		_expect(false, "Relic Crucible is missing.")
+		return
+
+	var forge_mode: GeneratorOperationMode = crucible.definition.operation_modes[3]
+	_expect_approx(simulation.get_effective_relic_critical_chance(crucible, forge_mode), 0.05, "Level 1 should use the 5% base critical chance.")
+	_expect_approx(simulation.get_generator_level_upgrade_cost(crucible), 100.0, "First Crucible level upgrade should cost 100 Matter.")
+	_expect(not simulation.can_buy_generator_level("relic_shard_extractor"), "Crucible upgrade should be unavailable without enough Matter.")
+	state.set_resource_amount(ResourceIds.MATTER, 100.0)
+	_expect(simulation.can_buy_generator_level("relic_shard_extractor"), "Affordable Crucible upgrade was rejected.")
+	_expect(simulation.buy_generator_level("relic_shard_extractor", "regression_test"), "Crucible level upgrade failed.")
+	_expect(crucible.level == 2, "Crucible level upgrade did not increase the level exactly once.")
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Crucible upgrade did not consume its exact Matter cost.")
+	_expect_approx(simulation.get_generator_level_upgrade_cost(crucible), 125.0, "Second Crucible level upgrade cost did not scale by 1.25.")
+	_expect_approx(simulation.get_effective_relic_critical_chance(crucible, forge_mode), 0.055, "Level 2 should provide a 5.5% critical chance.")
+
+	# Cycle inputs and shard outputs remain fixed as the Crucible levels up.
+	state.set_resource_amount(ResourceIds.MATTER, 110.0)
+	crucible.set_operation_mode("normal")
+	var level_before_cycle := crucible.level
+	_expect(simulation.buy_generator("relic_shard_extractor", "regression_test"), "Crucible extraction cycle failed to start.")
+	_expect(crucible.level == level_before_cycle, "Starting an extraction cycle changed the Crucible level.")
+	_expect_approx(crucible.get_input_consumption_per_second(crucible.get_active_inputs()[0], state), 100.0 / 60.0, "Extraction Matter draw changed with Crucible level.")
+	simulation.complete_cycle(crucible)
+	var shard_quantity := 0
+	for entry in state.relic_manager.inventory:
+		if str(entry.get("item_id", "")) == "relic_shard":
+			shard_quantity += int(entry.get("quantity", 0))
+	_expect(shard_quantity == 1, "Extraction should produce one shard per cycle regardless of Crucible level.")
 
 
 func _test_environmental_thresholds() -> void:
