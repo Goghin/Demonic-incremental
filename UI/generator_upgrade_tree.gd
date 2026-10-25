@@ -179,6 +179,10 @@ func _on_stats_view_button_pressed() -> void:
 	_set_view_mode(true)
 
 
+func show_stats_view() -> void:
+	_set_view_mode(true)
+
+
 func _update_automation_button() -> void:
 	if state == null:
 		return

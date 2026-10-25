@@ -56,7 +56,7 @@ func get_relic_description(relic: Dictionary) -> String:
 		return ""
 	var lines: Array[String] = []
 	var value := get_relic_modifier_value(relic)
-	lines.append(_describe_relic_stat(definition, value, "Rolled: "))
+	lines.append(_describe_relic_stat(definition, value, ""))
 	var secondary: Variant = relic.get("secondary_stat", {})
 	if secondary is Dictionary and not secondary.is_empty():
 		lines.append(_describe_relic_stat(secondary, float(secondary.get("rolled_value", 1.0)), "Bonus: "))
@@ -73,6 +73,19 @@ func _describe_relic_stat(stat: Dictionary, value: float, label_prefix: String) 
 	var description_mode := str(stat.get("description_mode", ""))
 	var direction := "−" if value < 1.0 else "+"
 	var percent := absf(value - 1.0) * 100.0
+	var stat_type := str(stat.get("stat_type", "modifier"))
+	if stat_type == "sensitivity":
+		var sensitivity_name := description_label
+		if sensitivity_name == "":
+			var sensitivity_targets: Array = stat.get("sensitivity_targets", [])
+			sensitivity_name = "Ash Contamination"
+			if sensitivity_targets.has("thermic_mass"):
+				sensitivity_name = "Thermic Mass"
+			elif sensitivity_targets.has("crystallization"):
+				sensitivity_name = "Crystallization"
+			elif sensitivity_targets.has("*"):
+				sensitivity_name = "All supported"
+		return "%s%s Sensitivity %s%.1f%%" % [label_prefix, sensitivity_name, direction, percent]
 	if description_label != "":
 		if description_mode == "inverse_resource_boost":
 			var resource_name := _get_resource_display_name(str(stat.get("dynamic_resource_id", stat.get("target_id", ""))))
@@ -86,15 +99,6 @@ func _describe_relic_stat(stat: Dictionary, value: float, label_prefix: String) 
 
 	var modifier_type := str(stat.get("modifier_type", ""))
 	var target_id := str(stat.get("target_id", ""))
-	var stat_type := str(stat.get("stat_type", "modifier"))
-	if stat_type == "sensitivity":
-		var sensitivity_targets: Array = stat.get("sensitivity_targets", [])
-		var sensitivity_name := "Ash Contamination"
-		if sensitivity_targets.is_empty() or str(sensitivity_targets[0]) == "thermic_mass":
-			sensitivity_name = "Thermic Mass"
-		elif str(sensitivity_targets[0]) == "*":
-			sensitivity_name = "All supported"
-		return "%s%s sensitivity %s%.1f%%" % [label_prefix, sensitivity_name, direction, percent]
 	if bool(stat.get("dynamic", false)):
 		return "%sEffect coefficient ×%.4f" % [label_prefix, value]
 	if modifier_type == ModifierTypes.EVENT_CHANCE:

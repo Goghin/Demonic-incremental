@@ -63,6 +63,9 @@ func _make_custom_tooltip(for_text: String) -> Object:
 	var panel := PanelContainer.new()
 	panel.name = "RelicTooltip"
 	panel.custom_minimum_size = Vector2(220.0, 0.0)
+	panel.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	panel.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	panel.clip_contents = true
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var panel_style := StyleBoxFlat.new()
 	panel_style.bg_color = Color(0.055, 0.045, 0.06, 0.98)
@@ -78,6 +81,9 @@ func _make_custom_tooltip(for_text: String) -> Object:
 	panel.add_theme_stylebox_override("panel", panel_style)
 
 	var content := VBoxContainer.new()
+	content.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	content.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
+	content.clip_contents = true
 	content.add_theme_constant_override("separation", 4)
 	panel.add_child(content)
 
@@ -97,12 +103,22 @@ func _make_custom_tooltip(for_text: String) -> Object:
 	var separator := HSeparator.new()
 	content.add_child(separator)
 
+	var description_clip := Control.new()
+	description_clip.name = "DescriptionClip"
+	description_clip.custom_minimum_size = Vector2(0.0, 70.0)
+	description_clip.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	description_clip.clip_contents = true
+	content.add_child(description_clip)
+
 	var description_label := Label.new()
 	description_label.text = state.relic_manager.get_relic_description(relic)
 	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	description_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	description_label.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 	description_label.add_theme_font_size_override("font_size", 11)
 	description_label.add_theme_color_override("font_color", Color(0.86, 0.82, 0.78))
-	content.add_child(description_label)
+	description_clip.add_child(description_label)
 	return panel
 
 

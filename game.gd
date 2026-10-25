@@ -2266,17 +2266,24 @@ func _on_generator_stats_requested(generator_id: String) -> void:
 		return
 	if reliquary_window != null:
 		reliquary_window.hide()
+
+	# The generator-card STATS button stays in the focused generator view and
+	# switches the adjacent upgrade panel to that generator's stats breakdown.
 	generator_list_mode = false
-	_clear_generator_focus()
-	$NavigationTitlePanel/NavigationTitle.text = "STATISTICS"
-	$StatsPanel.show()
-	$GeneratorScroll.hide()
-	$UpgradeScroll.hide()
+	$NavigationTitlePanel/NavigationTitle.text = "GENERATOR"
+	$StatsPanel.hide()
 	$OptionsPanel.hide()
 	$PrestigePanel.hide()
 	$AchievementPanel.hide()
-	_update_navigation_buttons("StatsButton")
-	$StatsPanel.open_generator_stats(generator_id)
+	$GeneratorScroll.show()
+	$UpgradeScroll.hide()
+	_set_selected_generator(generator_id)
+	selected_upgrade_generator_id = generator_id
+	_update_upgrade_view()
+	_position_generator_upgrade_tree()
+	if generator_upgrade_tree != null:
+		generator_upgrade_tree.show_stats_view()
+	_update_navigation_buttons("")
 	_update_navigation_title_visibility()
 
 
