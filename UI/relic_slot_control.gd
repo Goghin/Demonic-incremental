@@ -120,7 +120,9 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	description_label.text = description
 	description_label.position = Vector2(10.0, 52.0)
 	description_label.size = Vector2(258.0, 30.0)
-	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	# Arbitrary wrapping also handles long modifier names/tokens that have no
+	# spaces, which word-only wrapping can let run beyond the panel.
+	description_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 	description_label.add_theme_font_size_override("font_size", 11)
 	description_label.add_theme_color_override("font_color", Color(0.86, 0.82, 0.78))
 	description_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -132,13 +134,13 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	var description_size := description_font.get_multiline_string_size(
 		description,
 		HORIZONTAL_ALIGNMENT_LEFT,
-		258.0,
+		248.0,
 		11
 	)
-	# Leave extra vertical room for Label's actual line spacing and smart-wrap
-	# behavior; font measurement can otherwise be a few pixels shorter than the
-	# rendered label, especially when a word wraps at the end of a line.
-	var description_height := ceilf(description_size.y) + 8.0
+	# Measure against a narrower width than the label actually receives, and
+	# add generous line-height slack. This accounts for theme/font metrics and
+	# avoids underestimating text that wraps at the edge of the tooltip.
+	var description_height := ceilf(description_size.y) + 16.0
 	var tooltip_height := maxf(90.0, 62.0 + description_height)
 	description_label.custom_minimum_size = Vector2(258.0, description_height)
 	description_label.size = Vector2(258.0, description_height)
