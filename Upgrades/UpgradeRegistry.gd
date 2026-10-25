@@ -1371,14 +1371,14 @@ static func _create_essence_retention() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"essence_retention",
 		"Essence Retention",
-		"Reduces the effect of Essence accumulation on Essence production by 5% per level.",
+		"Reduces the effect of Essence accumulation on Essence production by 8% per level.",
 		ResourceIds.ESSENCE,
 		25.0,
 		[
 			UpgradeEffect.sensitivity(
 				"",
 				"essence_accumulation_penalty",
-				0.95
+				0.92
 			)
 		],
 		[
@@ -1402,7 +1402,7 @@ static func _create_essence_stabilization() -> Upgrade:
 	var definition = UpgradeDefinition.new(
 		"essence_stabilization",
 		"Essence Stabilization",
-		"Further reduces the effect of Essence accumulation on Essence production by 5% per level.",
+		"Further reduces the effect of Essence accumulation on Essence production by 8% per level.",
 		ResourceIds.ESSENCE,
 		250.0,
 		[
