@@ -172,6 +172,9 @@ func _ensure_relics_panel() -> void:
 		relics_panel.name = "FocusedGeneratorRelics"
 		relics_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		relics_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		# RelicsView is a Control, not a Container. Explicitly fill its
+		# rectangle so the inventory grid and equipment slots receive space.
+		relics_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		$RelicsView.add_child(relics_panel)
 		relics_panel.relics_changed.connect(_on_relics_changed)
 		relics_panel.setup(
