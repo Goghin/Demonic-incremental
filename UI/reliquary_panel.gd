@@ -326,7 +326,7 @@ func _refresh_inventory() -> void:
 		inventory_grid.add_child(slot)
 
 	status_label.text = (
-		"Drag relics to generator slots. Drag items between squares to rearrange; matching shard stacks merge up to 1,000."
+		"Drag relics to generator slots. Drag items between squares to rearrange."
 		if available_relic_count > 0 or stack_count > 0
 		else "No unequipped relics or materials. Drop an equipped relic into an inventory square to return it there."
 	)
