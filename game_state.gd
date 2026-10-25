@@ -188,14 +188,23 @@ func _initialize_generators() -> void:
 		ThermalCompressor.create()
 	)
 	
-	_register_generator(
-		InfernalForge.create()
-	)
+	var infernal_forge: GeneratorDefinition = InfernalForge.create()
+	for operation_mode in infernal_forge.operation_modes:
+		operation_mode.increase_level_on_activation = true
+	_register_generator(infernal_forge)
 
 	# Temporary, low-cost cycle generator used to test persistent shard rewards.
-	_register_generator(
-		RelicShardExtractor.create()
-	)
+	# Its extraction mode advances the level; processing modes do not.
+	var relic_crucible: GeneratorDefinition = RelicShardExtractor.create()
+	relic_crucible.display_name = "Relic Crucible"
+	for operation_mode in relic_crucible.operation_modes:
+		var mode_search_text: String = (
+			operation_mode.id + " " + operation_mode.display_name
+		).to_lower()
+		operation_mode.increase_level_on_activation = (
+			mode_search_text.contains("extract")
+		)
+	_register_generator(relic_crucible)
 
 # -------------------------------------------------------------------
 # Resource registration / access
