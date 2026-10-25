@@ -327,7 +327,8 @@ func _process(_delta: float) -> void:
 		NumberFormatter.format(generator.get_cost(state)),
 		state.get_resource_display_name(cost_resource_id),
 	]
-	buy_button.text = "BUY · %s" % cost_text
+	var action_label: String = "INITIATE" if generator.definition.cycle_based else "BUY"
+	buy_button.text = "%s · %s" % [action_label, cost_text]
 	buy_button.icon = _get_small_resource_icon(cost_resource_id)
 	buy_button.expand_icon = false
 	buy_button.icon_alignment = HORIZONTAL_ALIGNMENT_LEFT
