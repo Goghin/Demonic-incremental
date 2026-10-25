@@ -6,6 +6,7 @@ signal relics_changed
 const DISPLAY_INVENTORY_ONLY := "inventory"
 const DISPLAY_INVENTORY_AND_GENERATORS := "inventory_and_generators"
 const DISPLAY_GENERATOR_ONLY := "generator"
+const DISPLAY_FOCUSED_GENERATOR_RELICS := "focused_generator_relics"
 
 var state: GameState
 var display_mode: String = DISPLAY_INVENTORY_AND_GENERATORS
@@ -41,7 +42,7 @@ func setup(
 	add_theme_constant_override("separation", 4)
 
 	var title := Label.new()
-	title.text = "THE RELIQUARY"
+	title.text = "GENERATOR RELICS" if display_mode == DISPLAY_FOCUSED_GENERATOR_RELICS else "THE RELIQUARY"
 	title.add_theme_font_size_override("font_size", 13)
 	title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	add_child(title)
@@ -182,6 +183,12 @@ func _apply_display_mode() -> void:
 		inventory_section.visible = display_mode != DISPLAY_GENERATOR_ONLY
 	if generator_section != null:
 		generator_section.visible = display_mode != DISPLAY_INVENTORY_ONLY
+	if generator_navigation != null:
+		generator_navigation.visible = display_mode != DISPLAY_FOCUSED_GENERATOR_RELICS
+	if display_mode == DISPLAY_FOCUSED_GENERATOR_RELICS:
+		right_view = "generators"
+		if crafting_section != null:
+			crafting_section.hide()
 	_update_right_view_visibility()
 
 
@@ -332,7 +339,7 @@ func _refresh_generator_list() -> void:
 
 	for generator_id_variant in state.generators.keys():
 		var generator_id := str(generator_id_variant)
-		if display_mode == DISPLAY_GENERATOR_ONLY and generator_id != focused_generator_id:
+		if display_mode in [DISPLAY_GENERATOR_ONLY, DISPLAY_FOCUSED_GENERATOR_RELICS] and generator_id != focused_generator_id:
 			continue
 		var generator: Generator = state.get_generator(generator_id)
 		if generator == null or not generator.unlocked:
