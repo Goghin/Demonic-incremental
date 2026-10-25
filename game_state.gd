@@ -200,6 +200,8 @@ func _initialize_generators() -> void:
 	# Crucible levels are purchased explicitly, independently of its five cycles.
 	# Its recipes retain fixed resource costs and item quantities as it levels.
 	relic_crucible.definition.starting_level = 1
+	# Generator was constructed before this configuration was applied, so sync its runtime level too.
+	relic_crucible.level = relic_crucible.definition.starting_level
 	relic_crucible.definition.scale_rates_with_level = false
 	relic_crucible.definition.level_upgrade_enabled = true
 	relic_crucible.definition.level_upgrade_resource_id = ResourceIds.MATTER
