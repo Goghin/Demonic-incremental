@@ -621,8 +621,12 @@ func complete_cycle(
 				operation_mode.completion_critical_chance
 			)
 			if relic_instance_id != "":
-				var relic_entry := state.relic_manager.get_relic(relic_instance_id)
-				var relic_definition := state.relic_manager.get_relic_definition(relic_entry)
+				var relic_entry := state.relic_manager.get_inventory_entry_by_instance_id(
+					relic_instance_id
+				)
+				var relic_definition := state.relic_manager.get_definition(
+					str(relic_entry.get("definition_id", ""))
+				)
 				if not relic_definition.is_empty():
 					relic_crafting_completed.emit(
 						str(relic_definition.get("display_name", "Unknown Relic")),
