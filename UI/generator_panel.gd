@@ -1076,7 +1076,3 @@ func _get_event_effect_mode_names(generator: Generator, mode_ids: Array[String])
 	return ", ".join(names)
 
 
-func _on_stats_button_pressed() -> void:
-	if generator_id.is_empty():
-		return
-	stats_requested.emit(generator_id)
