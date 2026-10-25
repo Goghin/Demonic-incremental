@@ -18,6 +18,14 @@ func can_buy_generator(generator_id: String) -> bool:
 	return simulation.can_buy_generator(generator_id)
 
 
+func buy_generator_level(generator_id: String) -> bool:
+	return simulation.buy_generator_level(generator_id)
+
+
+func can_buy_generator_level(generator_id: String) -> bool:
+	return simulation.can_buy_generator_level(generator_id)
+
+
 func buy_upgrade(upgrade_id: String) -> bool:
 	return simulation.buy_upgrade(upgrade_id)
 
