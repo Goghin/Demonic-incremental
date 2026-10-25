@@ -13,6 +13,7 @@ var _has_upgrade_automation_style: bool = false
 var _resource_icon_cache: Dictionary = {}
 var _event_effects_button: Button
 var _event_effects_popup: AcceptDialog
+var _level_upgrade_button: Button
 var _illustration: TextureRect
 var _relic_slots_container: HBoxContainer
 var _crafting_slots_container: HBoxContainer
@@ -58,6 +59,7 @@ func _ready() -> void:
 	_style_operation_mode_dropdown()
 	_setup_event_effects_ui()
 	_setup_relic_slots_ui()
+	_setup_level_upgrade_ui()
 	if reliquary_compact_mode:
 		_apply_reliquary_compact_layout()
 
@@ -180,6 +182,7 @@ func _process(_delta: float) -> void:
 	_update_crafting_slots_ui(generator)
 	update_operation_mode_ui(generator)
 	_update_event_effects_ui(generator)
+	_update_level_upgrade_ui(generator)
 
 	if not generator.unlocked:
 		$HBoxContainer/VBoxContainer/Header/LevelLabel.text = "Locked"
@@ -515,6 +518,69 @@ func _on_buy_button_pressed() -> void:
 		return
 
 	if input_handler.buy_generator(generator_id):
+		generator_purchased.emit()
+
+
+func _setup_level_upgrade_ui() -> void:
+	var generator_content: VBoxContainer = $HBoxContainer/VBoxContainer
+	_level_upgrade_button = Button.new()
+	_level_upgrade_button.name = "LevelUpgradeButton"
+	_level_upgrade_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_level_upgrade_button.visible = false
+	_style_action_button(_level_upgrade_button)
+	_level_upgrade_button.pressed.connect(_on_level_upgrade_button_pressed)
+	generator_content.add_child(_level_upgrade_button)
+	generator_content.move_child(
+		_level_upgrade_button,
+		generator_content.get_node("BuyButtons").get_index()
+	)
+
+
+func _update_level_upgrade_ui(generator: Generator) -> void:
+	if _level_upgrade_button == null:
+		return
+	var definition: GeneratorDefinition = generator.definition
+	_level_upgrade_button.visible = definition.level_upgrade_enabled and generator.unlocked
+	if not _level_upgrade_button.visible:
+		return
+	var resource_id := definition.level_upgrade_resource_id
+	var resource_name := state.get_resource_display_name(resource_id)
+	var current_chance := 0.0
+	var next_chance := 0.0
+	for mode in definition.operation_modes:
+		if mode.completion_random_relic_tier <= 0:
+			continue
+		current_chance = input_handler.simulation.get_effective_relic_critical_chance(generator, mode)
+		next_chance = current_chance
+		if generator.level < definition.level_upgrade_max_level:
+			next_chance = minf(
+				current_chance + definition.level_critical_chance_bonus,
+				definition.level_critical_chance_cap
+			)
+		break
+	if definition.level_upgrade_max_level > 0 and generator.level >= definition.level_upgrade_max_level:
+		_level_upgrade_button.text = "MAX LEVEL · %s%% CRIT" % NumberFormatter.format(current_chance * 100.0)
+		_level_upgrade_button.tooltip_text = "The Relic Crucible has reached its maximum level."
+		_level_upgrade_button.disabled = true
+		return
+	var cost := input_handler.simulation.get_generator_level_upgrade_cost(generator)
+	_level_upgrade_button.text = "UPGRADE · L%d → %d · %s %s" % [
+		generator.level,
+		generator.level + 1,
+		NumberFormatter.format(cost),
+		resource_name
+	]
+	_level_upgrade_button.tooltip_text = "Critical chance: %s%% → %s%%" % [
+		NumberFormatter.format(current_chance * 100.0),
+		NumberFormatter.format(next_chance * 100.0)
+	]
+	_level_upgrade_button.disabled = not input_handler.can_buy_generator_level(generator_id)
+
+
+func _on_level_upgrade_button_pressed() -> void:
+	if input_handler == null:
+		return
+	if input_handler.buy_generator_level(generator_id):
 		generator_purchased.emit()
 
 
