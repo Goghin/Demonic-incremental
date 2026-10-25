@@ -2540,6 +2540,9 @@ func _create_generator_upgrade_tree() -> void:
 	generator_upgrade_tree.purchase_succeeded.connect(
 		_play_ui_purchase
 	)
+	generator_upgrade_tree.relics_changed.connect(
+		_on_generator_relics_changed
+	)
 
 
 func _on_upgrade_automation_settings_changed() -> void:
