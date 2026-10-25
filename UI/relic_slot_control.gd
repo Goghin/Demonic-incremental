@@ -64,7 +64,8 @@ func _make_custom_tooltip(for_text: String) -> Object:
 	panel.name = "RelicTooltip"
 	# Give the tooltip a real width so wrapped labels have room to lay out.
 	# Keep its height bounded by putting the full description in a scroll area.
-	panel.custom_minimum_size = Vector2(280.0, 0.0)
+	panel.custom_minimum_size = Vector2(280.0, 180.0)
+	panel.size = panel.custom_minimum_size
 	panel.clip_contents = true
 	panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	var panel_style := StyleBoxFlat.new()
@@ -103,14 +104,24 @@ func _make_custom_tooltip(for_text: String) -> Object:
 	var separator := HSeparator.new()
 	content.add_child(separator)
 
+	# The tooltip popup sizes itself from minimum sizes. Keep the scroll
+	# viewport inside a fixed-height wrapper so the description's full content
+	# size cannot force the popup to grow to the bottom of the screen.
+	var description_viewport := Control.new()
+	description_viewport.name = "DescriptionViewport"
+	description_viewport.custom_minimum_size = Vector2(0.0, 96.0)
+	description_viewport.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	description_viewport.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	description_viewport.clip_contents = true
+	content.add_child(description_viewport)
+
 	var description_scroll := ScrollContainer.new()
 	description_scroll.name = "DescriptionScroll"
-	description_scroll.custom_minimum_size = Vector2(0.0, 96.0)
-	description_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	description_scroll.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	description_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	description_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	description_scroll.mouse_filter = Control.MOUSE_FILTER_STOP
-	content.add_child(description_scroll)
+	description_viewport.add_child(description_scroll)
 
 	var description_label := Label.new()
 	description_label.text = state.relic_manager.get_relic_description(relic)
