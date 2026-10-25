@@ -182,7 +182,7 @@ func _apply_display_mode() -> void:
 	if inventory_section != null:
 		inventory_section.visible = display_mode != DISPLAY_GENERATOR_ONLY
 	if generator_section != null:
-		generator_section.visible = display_mode != DISPLAY_INVENTORY_ONLY
+		generator_section.visible = display_mode not in [DISPLAY_INVENTORY_ONLY, DISPLAY_FOCUSED_GENERATOR_RELICS]
 	if generator_navigation != null:
 		generator_navigation.visible = display_mode != DISPLAY_FOCUSED_GENERATOR_RELICS
 	if display_mode == DISPLAY_FOCUSED_GENERATOR_RELICS:
