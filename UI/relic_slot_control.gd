@@ -116,37 +116,28 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tooltip.add_child(separator)
 
-	var description_label := Label.new()
+	var description_label := RichTextLabel.new()
 	description_label.text = description
 	description_label.position = Vector2(10.0, 52.0)
-	description_label.size = Vector2(258.0, 30.0)
-	# Arbitrary wrapping also handles long modifier names/tokens that have no
-	# spaces, which word-only wrapping can let run beyond the panel.
-	description_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
-	description_label.add_theme_font_size_override("font_size", 11)
-	description_label.add_theme_color_override("font_color", Color(0.86, 0.82, 0.78))
+	description_label.custom_minimum_size = Vector2(258.0, 0.0)
+	description_label.size = Vector2(258.0, 0.0)
+	description_label.fit_content = true
+	description_label.scroll_active = false
+	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description_label.add_theme_font_size_override("normal_font_size", 11)
+	description_label.add_theme_color_override("default_color", Color(0.86, 0.82, 0.78))
+	description_label.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
 	description_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	tooltip.add_child(description_label)
 
-	# Measure the actual wrapped text using the same font size and width as the
-	# label, instead of estimating from character count (which clipped some text).
-	var description_font := description_label.get_theme_font("font")
-	var description_size := description_font.get_multiline_string_size(
-		description,
-		HORIZONTAL_ALIGNMENT_LEFT,
-		248.0,
-		11
-	)
-	# Measure against a narrower width than the label actually receives, and
-	# add generous line-height slack. This accounts for theme/font metrics and
-	# avoids underestimating text that wraps at the edge of the tooltip.
-	var description_height := ceilf(description_size.y) + 16.0
-	var tooltip_height := maxf(90.0, 62.0 + description_height)
-	description_label.custom_minimum_size = Vector2(258.0, description_height)
-	description_label.size = Vector2(258.0, description_height)
+	# Let RichTextLabel lay out the description and use its actual content
+	# height directly. No estimated line counts or arbitrary maximum height.
+	var description_height := maxf(18.0, description_label.get_content_height() + 6.0)
+	description_label.custom_minimum_size.y = description_height
+	description_label.size.y = description_height
+	var tooltip_height := 62.0 + description_height
 	tooltip.custom_minimum_size = Vector2(280.0, tooltip_height)
 	tooltip.size = tooltip.custom_minimum_size
-
 	return tooltip
 
 
