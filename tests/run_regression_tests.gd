@@ -539,7 +539,9 @@ func _test_data_driven_relic_generation_and_critical_promotion() -> void:
 	_expect(int(normal_definition.get("tier", 0)) == 1, "Normal crafting changed the requested tier.")
 	_expect(bool(normal_definition.get("generated", false)), "Crafted relic did not store its generated definition.")
 	_expect(str(normal_definition.get("display_name", "")) != "", "Generated relic name was empty.")
-	_expect(manager.get_relic_description(normal_relic).contains("Rolled:"), "Generated relic description omitted its primary roll.")
+	var normal_description := manager.get_relic_description(normal_relic)
+	_expect(not normal_description.is_empty(), "Generated relic description omitted its primary stat.")
+	_expect(not normal_description.contains("Rolled:"), "Generated relic description should not use the redundant Rolled prefix.")
 
 	var critical_id := manager.add_random_relic_for_tier(1, 1.0)
 	var critical_relic: Dictionary = manager.get_relic(critical_id)
@@ -676,7 +678,12 @@ func _test_rolled_relic_stats() -> void:
 	var definition := state.relic_manager.get_relic_definition(relic)
 	_expect(bool(definition.get("generated", false)), "Relic did not use the data-driven definition.")
 	_expect(rolled_value > 0.0, "Generated relic did not store a rolled value.")
-	_expect(state.relic_manager.get_relic_description(relic).contains("Rolled:"), "Relic tooltip does not expose the instance's rolled stat.")
+	var relic_description := state.relic_manager.get_relic_description(relic)
+	_expect(
+		relic_description.contains("Heat production +8.0%"),
+		"Relic tooltip should show the instance's rolled stat value without a Rolled prefix."
+	)
+	_expect(not relic_description.contains("Rolled:"), "Relic tooltip should not use the redundant Rolled prefix.")
 
 	state.eternal_flame_state.eternal_flame = 100.0
 	_expect(state.eternal_flame_upgrade_manager.purchase("reliquary", state.eternal_flame_state, state.realm_configuration), "Could not unlock Reliquary for rolled-stat test.")
