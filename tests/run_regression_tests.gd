@@ -44,6 +44,7 @@ func _run_tests() -> void:
 	_run_test("Heat leak and Matter decay respect their thresholds", _test_environmental_thresholds)
 	_run_test("Generator purchase rejects insufficient resources", _test_purchase_rejects_insufficient_resources)
 	_run_test("Generator purchase spends the exact cost and adds one level", _test_successful_generator_purchase)
+	_run_test("Cycle mode can activate without increasing generator level", _test_cycle_mode_without_level_increase)
 	_run_test("Generator production increases Heat and records statistics", _test_generator_production)
 	_run_test("Interval statistics are returned and cleared", _test_interval_statistics)
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
@@ -185,6 +186,38 @@ func _test_successful_generator_purchase() -> void:
 			logger.events.back().get("event", "") == "generator_level_purchased",
 			"Purchase logged the wrong event type."
 		)
+
+
+func _test_cycle_mode_without_level_increase() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var generator: Generator = state.get_generator("relic_shard_extractor")
+	if generator == null:
+		_expect(false, "Relic Shard Extractor is missing.")
+		return
+
+	var mode := generator.get_operation_mode()
+	if mode == null:
+		_expect(false, "Extractor operation mode is missing.")
+		return
+	mode.increase_level_on_activation = false
+	generator.level = 2
+	var cost: float = generator.get_cost(state)
+	state.set_resource_amount(generator.definition.cost_resource_id, cost + 10.0)
+
+	_expect(simulation.buy_generator("relic_shard_extractor", "regression_test"), "Non-leveling cycle activation was rejected.")
+	_expect(generator.level == 2, "Non-leveling cycle activation changed the generator level.")
+	_expect(generator.cycle_active, "Non-leveling cycle mode did not activate its cycle.")
+	_expect_approx(
+		state.get_resource_amount(generator.definition.cost_resource_id),
+		10.0,
+		"Non-leveling cycle activation did not deduct its normal cost."
+	)
+	var logger: TestGameplayLog = state.gameplay_log
+	_expect(
+		not logger.events.is_empty() and logger.events.back().get("event", "") == "generator_cycle_activated",
+		"Non-leveling cycle activation was not logged distinctly."
+	)
 
 
 func _test_generator_production() -> void:
