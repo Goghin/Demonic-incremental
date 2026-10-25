@@ -41,6 +41,7 @@ func _run_tests() -> void:
 	print("========================================")
 
 	_run_test("GameState initializes core resources and generators", _test_initialization)
+	_run_test("Essence accumulation reduces all Essence output and mitigation upgrades weaken it", _test_essence_accumulation_penalty)
 	_run_test("Forge and Relic Crucible modes use the intended activation levels", _test_cycle_generator_activation_level_configuration)
 	_run_test("Relic Crucible upgrades are independent from cycles and improve critical chance", _test_relic_crucible_level_upgrades)
 	_run_test("Heat leak and Matter decay respect their thresholds", _test_environmental_thresholds)
@@ -120,6 +121,56 @@ func _test_initialization() -> void:
 	_expect(state.resources.has(ResourceIds.ASH), "Ash resource was not registered.")
 	_expect(state.generators.has("atomic_friction"), "Atomic Friction was not registered.")
 	_expect(state.get_generator("atomic_friction") != null, "Atomic Friction could not be retrieved.")
+
+
+func _test_essence_accumulation_penalty() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var essence_upgrade: Upgrade = state.get_upgrade("essence_accumulation_penalty")
+	_expect(essence_upgrade != null, "Essence accumulation upgrade was not registered.")
+	if essence_upgrade == null:
+		return
+
+	state.set_resource_amount(ResourceIds.ESSENCE, 1.0)
+	simulation.update_automatic_upgrades()
+	_expect(essence_upgrade.is_purchased(), "Essence accumulation effect did not auto-unlock when Essence became available.")
+
+	var friction: Generator = state.get_generator("atomic_friction")
+	var essence_modifier: Modifier = null
+	for modifier in friction.modifiers:
+		if modifier.id == "essence_accumulation_penalty":
+			essence_modifier = modifier
+			break
+	_expect(essence_modifier != null, "Global Essence production penalty was not applied through the modifier pathway.")
+	if essence_modifier == null:
+		return
+
+	_expect(
+		essence_modifier.applies_to(ModifierTypes.PRODUCTION, ResourceIds.ESSENCE),
+		"Essence accumulation penalty did not target Essence production."
+	)
+	_expect(
+		not essence_modifier.applies_to(ModifierTypes.PRODUCTION, ResourceIds.HEAT),
+		"Essence accumulation penalty incorrectly affected Heat production."
+	)
+
+	state.set_resource_amount(ResourceIds.ESSENCE, 100.0)
+	var unmitigated_multiplier: float = essence_modifier.get_effective_multiplier(state, friction)
+	_expect_approx(
+		unmitigated_multiplier,
+		1.0 / 1.1,
+		"Essence accumulation penalty did not scale dynamically with held Essence."
+	)
+
+	state.set_resource_amount(ResourceIds.ESSENCE, 1000.0)
+	_expect(simulation.buy_upgrade("essence_retention"), "Essence Retention could not be purchased.")
+	_expect(simulation.buy_upgrade("essence_stabilization"), "Essence Stabilization could not be purchased after Retention.")
+	state.set_resource_amount(ResourceIds.ESSENCE, 100.0)
+	var mitigated_multiplier: float = essence_modifier.get_effective_multiplier(state, friction)
+	_expect(
+		mitigated_multiplier > unmitigated_multiplier and mitigated_multiplier < 1.0,
+		"Essence mitigation upgrades should weaken, but not eliminate, the accumulation penalty."
+	)
 
 
 func _test_cycle_generator_activation_level_configuration() -> void:
