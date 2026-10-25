@@ -1309,6 +1309,10 @@ func rebuild_upgrade_effects() -> void:
 					upgrade.definition.id
 				)
 
+	# Upgrade rebuilding clears generator modifiers, so restore equipped relic
+	# effects only after every purchased upgrade has been reapplied.
+	state.rebuild_relic_modifiers()
+
 
 func update_automatic_upgrades() -> void:
 	for upgrade in state.upgrades.values():
