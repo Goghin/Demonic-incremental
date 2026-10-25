@@ -68,6 +68,9 @@ static func create_upgrades() -> Dictionary:
 	_register(upgrades, _create_lava_mite_essence())
 	_register(upgrades, _create_lava_mite_essence_adaptation())
 	_register(upgrades, _create_essence_influence())
+	_register(upgrades, _create_essence_accumulation_penalty())
+	_register(upgrades, _create_essence_retention())
+	_register(upgrades, _create_essence_stabilization())
 	_register(upgrades, _create_lava_mite_metabolism())
 	_register(upgrades, _create_lava_mite_colony_growth())
 	_register(upgrades, _create_lava_mite_dormancy_delay())
@@ -1330,6 +1333,101 @@ static func _create_essence_influence() -> Upgrade:
 	
 	definition.icon_path = "res://Assets/UpgradeIcons/LavaMiteColony/essence_influence.svg"
 	return Upgrade.new(definition)
+
+static func _create_essence_accumulation_penalty() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"essence_accumulation_penalty",
+		"Essence Accumulation",
+		"Essence production becomes less efficient as more Essence is held. Spending Essence restores production efficiency.",
+		ResourceIds.ESSENCE,
+		0.0,
+		[
+			UpgradeEffect.dynamic_resource_modifier(
+				"",
+				ModifierTypes.PRODUCTION,
+				0.01,
+				ResourceIds.ESSENCE,
+				Modifier.DYNAMIC_RESOURCE_SQRT_INVERSE,
+				"essence_accumulation_penalty",
+				ResourceIds.ESSENCE,
+				0.0
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.RESOURCE,
+				ResourceIds.ESSENCE,
+				1.0
+			)
+		],
+		true,
+		"",
+		"ash_management"
+	)
+	return Upgrade.new(definition)
+
+
+static func _create_essence_retention() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"essence_retention",
+		"Essence Retention",
+		"Reduces the effect of Essence accumulation on Essence production by 5% per level.",
+		ResourceIds.ESSENCE,
+		25.0,
+		[
+			UpgradeEffect.sensitivity(
+				"",
+				"essence_accumulation_penalty",
+				0.95
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"essence_accumulation_penalty",
+				1.0
+			)
+		],
+		false,
+		"",
+		"ash_management",
+		5,
+		2.0,
+		"lava_mite_colony"
+	)
+	return Upgrade.new(definition)
+
+
+static func _create_essence_stabilization() -> Upgrade:
+	var definition = UpgradeDefinition.new(
+		"essence_stabilization",
+		"Essence Stabilization",
+		"Further reduces the effect of Essence accumulation on Essence production by 5% per level.",
+		ResourceIds.ESSENCE,
+		250.0,
+		[
+			UpgradeEffect.sensitivity(
+				"",
+				"essence_accumulation_penalty",
+				0.95
+			)
+		],
+		[
+			Requirement.new(
+				RequirementTypes.UPGRADE_PURCHASED,
+				"essence_retention",
+				1.0
+			)
+		],
+		false,
+		"",
+		"ash_management",
+		5,
+		2.0,
+		"lava_mite_colony"
+	)
+	return Upgrade.new(definition)
+
 
 static func _create_lava_mite_husbandry() -> Upgrade:
 	var definition = UpgradeDefinition.new(
