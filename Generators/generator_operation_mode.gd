@@ -9,6 +9,8 @@ var description: String
 var production_multiplier: float
 var input_multiplier: float
 var activation_cost_multiplier: float
+# Whether activating this mode also purchases the next generator level.
+var increase_level_on_activation: bool = true
 
 var cycle_duration: float
 var inputs: Array[GeneratorIO]
