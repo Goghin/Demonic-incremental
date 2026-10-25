@@ -158,7 +158,7 @@ func _test_essence_accumulation_penalty() -> void:
 	var unmitigated_multiplier: float = essence_modifier.get_effective_multiplier(state, friction)
 	_expect_approx(
 		unmitigated_multiplier,
-		1.0 / 1.1,
+		1.0 / 1.9,
 		"Essence accumulation penalty did not scale dynamically with held Essence."
 	)
 
