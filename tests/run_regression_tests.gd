@@ -1088,7 +1088,7 @@ func _test_multiple_relic_slots_and_legacy_migration() -> void:
 	reliquary_upgrade.effect_per_level = 2.0
 	state.relic_manager.ensure_starter_relic()
 	var first_relic_id := str(state.relic_manager.inventory[0].get("instance_id", ""))
-	var second_relic_id := state.relic_manager.add_random_relic_for_tier(1)
+	var second_relic_id := state.relic_manager.add_random_relic_for_tier(1, 0.0, "heat_reservoir_boost")
 	_expect(
 		state.relic_manager.equip_relic("atomic_friction", first_relic_id, state, 0),
 		"First relic slot could not be equipped."
