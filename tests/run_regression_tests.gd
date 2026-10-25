@@ -141,14 +141,14 @@ func _test_cycle_generator_activation_level_configuration() -> void:
 	)
 	var found_extraction_mode: bool = false
 	for mode in crucible.definition.operation_modes:
-		var mode_search_text: String = (mode.id + " " + mode.display_name).to_lower()
-		var is_extraction_mode: bool = mode_search_text.contains("extract")
+		# The "normal" mode is the extractor's shard-extraction operation.
+		var is_extraction_mode: bool = mode.id == "normal"
 		found_extraction_mode = found_extraction_mode or is_extraction_mode
 		_expect(
 			mode.increase_level_on_activation == is_extraction_mode,
 			"Relic Crucible mode '%s' has the wrong level-on-activation setting." % mode.id
 		)
-	_expect(found_extraction_mode, "Relic Crucible has no identifiable extraction mode.")
+	_expect(found_extraction_mode, "Relic Crucible's normal extraction mode is missing.")
 
 
 func _test_environmental_thresholds() -> void:
