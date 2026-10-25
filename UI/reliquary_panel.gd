@@ -11,6 +11,7 @@ var state: GameState
 var display_mode: String = DISPLAY_INVENTORY_AND_GENERATORS
 var focused_generator_id: String = ""
 var inventory_grid: GridContainer
+var inventory_scroll: ScrollContainer
 var inventory_title: Label
 var status_label: Label
 var generator_list: GridContainer
@@ -37,11 +38,11 @@ func setup(
 	input_handler = game_input_handler
 	display_mode = requested_display_mode
 	focused_generator_id = target_generator_id
-	add_theme_constant_override("separation", 8)
+	add_theme_constant_override("separation", 4)
 
 	var title := Label.new()
 	title.text = "THE RELIQUARY"
-	title.add_theme_font_size_override("font_size", 14)
+	title.add_theme_font_size_override("font_size", 13)
 	title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	add_child(title)
 
@@ -49,15 +50,15 @@ func setup(
 	sections.name = "ReliquarySections"
 	sections.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	sections.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	sections.add_theme_constant_override("separation", 6)
+	sections.add_theme_constant_override("separation", 4)
 	add_child(sections)
 
 	inventory_section = VBoxContainer.new()
 	inventory_section.name = "InventorySection"
 	inventory_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inventory_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	inventory_section.custom_minimum_size.x = 250.0
-	inventory_section.add_theme_constant_override("separation", 6)
+	inventory_section.custom_minimum_size.x = 220.0
+	inventory_section.add_theme_constant_override("separation", 3)
 	sections.add_child(inventory_section)
 
 	inventory_title = Label.new()
@@ -69,13 +70,20 @@ func setup(
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	inventory_section.add_child(description)
 
+	inventory_scroll = ScrollContainer.new()
+	inventory_scroll.name = "RelicInventoryScroll"
+	inventory_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	inventory_scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	inventory_scroll.custom_minimum_size.y = 0.0
+	inventory_section.add_child(inventory_scroll)
+
 	inventory_grid = GridContainer.new()
 	inventory_grid.name = "RelicInventoryGrid"
-	inventory_grid.columns = 6
+	inventory_grid.columns = 5
 	inventory_grid.add_theme_constant_override("h_separation", 5)
 	inventory_grid.add_theme_constant_override("v_separation", 5)
 	inventory_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	inventory_section.add_child(inventory_grid)
+	inventory_scroll.add_child(inventory_grid)
 
 	status_label = Label.new()
 	status_label.name = "RelicInventoryStatus"
@@ -87,13 +95,13 @@ func setup(
 	generator_section.name = "GeneratorEquipmentSection"
 	generator_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	generator_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	generator_section.custom_minimum_size.x = 430.0
-	generator_section.add_theme_constant_override("separation", 6)
+	generator_section.custom_minimum_size.x = 0.0
+	generator_section.add_theme_constant_override("separation", 4)
 	sections.add_child(generator_section)
 
 	generator_navigation = HBoxContainer.new()
 	generator_navigation.name = "ReliquaryNavigation"
-	generator_navigation.add_theme_constant_override("separation", 6)
+	generator_navigation.add_theme_constant_override("separation", 4)
 	generator_section.add_child(generator_navigation)
 
 	generators_button = Button.new()
@@ -122,20 +130,20 @@ func setup(
 	generator_list.name = "GeneratorEquipmentList"
 	generator_list.columns = 3
 	generator_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	generator_list.add_theme_constant_override("h_separation", 8)
-	generator_list.add_theme_constant_override("v_separation", 8)
+	generator_list.add_theme_constant_override("h_separation", 5)
+	generator_list.add_theme_constant_override("v_separation", 5)
 	generator_list_scroll.add_child(generator_list)
 
 	crafting_section = VBoxContainer.new()
 	crafting_section.name = "ReliquaryCraftingSection"
 	crafting_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	crafting_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	crafting_section.add_theme_constant_override("separation", 8)
+	crafting_section.add_theme_constant_override("separation", 3)
 	generator_section.add_child(crafting_section)
 
 	var crafting_title := Label.new()
 	crafting_title.text = "RELIC CRAFTING"
-	crafting_title.add_theme_font_size_override("font_size", 13)
+	crafting_title.add_theme_font_size_override("font_size", 11)
 	crafting_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	crafting_section.add_child(crafting_title)
 
@@ -211,14 +219,14 @@ func _style_reliquary_tab(button: Button, selected: bool) -> void:
 	if button == null:
 		return
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color(0.20, 0.12, 0.105, 1.0) if selected else Color(0.12, 0.085, 0.095, 1.0)
-	normal.border_color = Color(0.82, 0.40, 0.22, 1.0) if selected else Color(0.32, 0.22, 0.20, 0.95)
+	normal.bg_color = Color(0.22, 0.12, 0.085, 1.0) if selected else Color(0.075, 0.06, 0.075, 0.98)
+	normal.border_color = Color(0.85, 0.43, 0.2, 1.0) if selected else Color(0.28, 0.2, 0.19, 1.0)
 	normal.set_border_width_all(1)
 	normal.set_corner_radius_all(4)
 	normal.content_margin_left = 6.0
 	normal.content_margin_right = 6.0
-	normal.content_margin_top = 4.0
-	normal.content_margin_bottom = 4.0
+	normal.content_margin_top = 3.0
+	normal.content_margin_bottom = 3.0
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_color_override("font_color", Color(1.0, 0.82, 0.67) if selected else Color(0.88, 0.80, 0.70))
 	var hover := normal.duplicate() as StyleBoxFlat
@@ -332,7 +340,7 @@ func _refresh_generator_list() -> void:
 		var card := PanelContainer.new()
 		card.name = "Generator_" + generator_id
 		# Three compact cards fit across the generator area without stretching.
-		card.custom_minimum_size = Vector2(100.0, 112.0)
+		card.custom_minimum_size = Vector2(95.0, 112.0)
 		card.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 
 		var card_style := StyleBoxFlat.new()
@@ -340,9 +348,9 @@ func _refresh_generator_list() -> void:
 		card_style.border_color = Color(0.29, 0.21, 0.20, 1.0)
 		card_style.set_border_width_all(1)
 		card_style.set_corner_radius_all(4)
-		card_style.content_margin_left = 7.0
+		card_style.content_margin_left = 5.0
 		card_style.content_margin_top = 6.0
-		card_style.content_margin_right = 7.0
+		card_style.content_margin_right = 5.0
 		card_style.content_margin_bottom = 7.0
 		card.add_theme_stylebox_override("panel", card_style)
 		generator_list.add_child(card)
@@ -366,7 +374,7 @@ func _refresh_generator_list() -> void:
 		# Use a compact 48 px square image area for the denser Reliquary grid.
 		var illustration_panel := PanelContainer.new()
 		illustration_panel.name = "IllustrationPanel"
-		illustration_panel.custom_minimum_size = Vector2(48.0, 48.0)
+		illustration_panel.custom_minimum_size = Vector2(44.0, 44.0)
 		var illustration_style := StyleBoxFlat.new()
 		illustration_style.bg_color = Color(0.09, 0.065, 0.075, 1.0)
 		illustration_style.border_color = Color(0.22, 0.15, 0.15, 1.0)
@@ -395,7 +403,7 @@ func _refresh_generator_list() -> void:
 		if slot_count > 0:
 			var slots_row := HBoxContainer.new()
 			slots_row.alignment = BoxContainer.ALIGNMENT_CENTER
-			slots_row.add_theme_constant_override("separation", 3)
+			slots_row.add_theme_constant_override("separation", 2)
 			card_content.add_child(slots_row)
 			for slot_index in range(slot_count):
 				var slot := RelicSlotControl.new()
