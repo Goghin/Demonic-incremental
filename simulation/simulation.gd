@@ -571,7 +571,7 @@ func complete_cycle(
 	for output in generator.get_active_completion_outputs():
 		if not output.unlocked:
 			continue
-		var amount: float = output.amount_per_second * generator.level
+		var amount: float = output.amount_per_second * (generator.level if generator.definition.scale_rates_with_level else 1)
 		
 		for modifier in generator.modifiers:
 			if modifier.applies_to(ModifierTypes.PRODUCTION, output.resource_id):
@@ -617,9 +617,12 @@ func complete_cycle(
 					quantity *= generator.level
 				state.relic_manager.add_stackable_item(item_id, quantity)
 		if operation_mode.completion_random_relic_tier > 0:
+			var critical_chance := operation_mode.completion_critical_chance
+			if generator.cycle_critical_chance_snapshot >= 0.0:
+				critical_chance = generator.cycle_critical_chance_snapshot
 			var relic_instance_id := state.relic_manager.add_random_relic_for_tier(
 				operation_mode.completion_random_relic_tier,
-				operation_mode.completion_critical_chance
+				critical_chance
 			)
 			if relic_instance_id != "":
 				var relic_entry := state.relic_manager.get_inventory_entry_by_instance_id(
@@ -639,6 +642,7 @@ func complete_cycle(
 	generator.cycle_active = false
 	generator.operating = false
 	generator.cycle_progress = 0.0
+	generator.cycle_critical_chance_snapshot = -1.0
 
 
 func _event_effect_source_id(effect: UpgradeEffect) -> String:
@@ -852,6 +856,75 @@ func produce_outputs(
 
 
 
+func get_generator_level_upgrade_cost(generator: Generator) -> float:
+	if generator == null or not generator.definition.level_upgrade_enabled:
+		return INF
+	var levels_purchased := maxi(generator.level - generator.definition.starting_level, 0)
+	return generator.definition.level_upgrade_base_cost * pow(
+		generator.definition.level_upgrade_cost_multiplier,
+		levels_purchased
+	)
+
+
+func get_effective_relic_critical_chance(
+	generator: Generator,
+	operation_mode: GeneratorOperationMode
+) -> float:
+	if generator == null or operation_mode == null:
+		return 0.0
+	var base_chance := operation_mode.completion_critical_chance
+	if operation_mode.completion_random_relic_tier <= 0:
+		return clampf(base_chance, 0.0, 1.0)
+	var levels_above_start := maxi(
+		generator.level - generator.definition.starting_level,
+		0
+	)
+	var chance := base_chance + levels_above_start * generator.definition.level_critical_chance_bonus
+	# Respect explicitly configured mode chances above the progression cap.
+	var effective_cap := maxf(generator.definition.level_critical_chance_cap, base_chance)
+	return clampf(chance, 0.0, effective_cap)
+
+
+func buy_generator_level(generator_id: String, source: String = "manual") -> bool:
+	var generator: Generator = state.get_generator(generator_id)
+	if not can_buy_generator_level(generator_id):
+		return false
+	var resource_id := generator.definition.level_upgrade_resource_id
+	var cost := get_generator_level_upgrade_cost(generator)
+	var previous_level := generator.level
+	state.set_resource_amount(resource_id, state.get_resource_amount(resource_id) - cost)
+	state.record_resource_consumed(resource_id, cost)
+	generator.level += 1
+	_record_diagnostic_event("generator_level_upgrade", generator_id, generator.level, source)
+	state.gameplay_log.record_event(
+		"purchase",
+		"generator_level_upgraded",
+		{
+			"generator_id": generator_id,
+			"generator_name": generator.definition.display_name,
+			"old_level": previous_level,
+			"new_level": generator.level,
+			"cost_resource_id": resource_id,
+			"cost": cost
+		},
+		source
+	)
+	return true
+
+
+func can_buy_generator_level(generator_id: String) -> bool:
+	var generator: Generator = state.get_generator(generator_id)
+	if generator == null or not generator.unlocked:
+		return false
+	if not generator.definition.level_upgrade_enabled:
+		return false
+	if generator.definition.level_upgrade_max_level > 0 and generator.level >= generator.definition.level_upgrade_max_level:
+		return false
+	var resource_id := generator.definition.level_upgrade_resource_id
+	if resource_id.is_empty():
+		return false
+	return state.get_resource_amount(resource_id) >= get_generator_level_upgrade_cost(generator)
+
 
 func buy_generator(
 	generator_id: String,
@@ -924,6 +997,10 @@ func buy_generator(
 	
 	if generator.definition.cycle_based:
 		generator.cycle_progress = 0.0
+		generator.cycle_critical_chance_snapshot = get_effective_relic_critical_chance(
+			generator,
+			operation_mode
+		)
 		generator.cycle_active = true
 
 	state.gameplay_log.record_event(
