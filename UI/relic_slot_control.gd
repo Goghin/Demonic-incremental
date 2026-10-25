@@ -40,6 +40,103 @@ func refresh_slot() -> void:
 
 # Use Godot's native tooltip sizing. The slot's tooltip_text is already populated
 # with the relic name and current rolled description in _update_appearance().
+func _make_custom_tooltip(_for_text: String) -> Object:
+	if state == null:
+		return null
+
+	var relic: Dictionary = {}
+	if slot_kind == "inventory":
+		relic = state.relic_manager.get_inventory_entry_at_slot(slot_index)
+	elif slot_kind == "crafting":
+		relic = state.relic_manager.get_machine_entry_at_slot(generator_id, slot_index)
+	elif slot_kind == "generator":
+		relic = state.relic_manager.get_relic(
+			state.relic_manager.get_equipped_relic_id(generator_id, slot_index)
+		)
+	if state.relic_manager.get_inventory_entry_type(relic) != "relic":
+		return null
+
+	var definition: Dictionary = state.relic_manager.get_relic_definition(relic)
+	if definition.is_empty():
+		return null
+
+	var tier := int(definition.get("tier", 0))
+	var rarity_name := str(definition.get("rarity_name", "Uncommon" if tier >= 2 else "Common" if tier == 1 else "Legacy"))
+	var rarity_color := Color.from_string(str(definition.get("rarity_color", "")), _get_rarity_color(tier))
+	var description := state.relic_manager.get_relic_description(relic)
+
+	# Use a plain Control as the root so child label minimum sizes cannot
+	# force Godot's tooltip popup to expand vertically. All layout is bounded
+	# by this root; unlike the old version, there is no scroll container.
+	var tooltip := Control.new()
+	tooltip.name = "RelicTooltip"
+	tooltip.custom_minimum_size = Vector2(280.0, 90.0)
+	tooltip.size = tooltip.custom_minimum_size
+	tooltip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	var background := Panel.new()
+	background.name = "Background"
+	background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color(0.055, 0.045, 0.06, 0.98)
+	panel_style.border_color = rarity_color.darkened(0.2)
+	panel_style.set_border_width_all(1)
+	panel_style.set_corner_radius_all(5)
+	panel_style.content_margin_left = 10.0
+	panel_style.content_margin_right = 10.0
+	panel_style.content_margin_top = 8.0
+	panel_style.content_margin_bottom = 8.0
+	panel_style.shadow_color = Color(0.0, 0.0, 0.0, 0.65)
+	panel_style.shadow_size = 5
+	background.add_theme_stylebox_override("panel", panel_style)
+	tooltip.add_child(background)
+
+	var rarity_label := Label.new()
+	rarity_label.text = rarity_name.to_upper()
+	rarity_label.position = Vector2(10.0, 7.0)
+	rarity_label.size = Vector2(258.0, 13.0)
+	rarity_label.add_theme_font_size_override("font_size", 9)
+	rarity_label.add_theme_color_override("font_color", rarity_color)
+	rarity_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tooltip.add_child(rarity_label)
+
+	var title_label := Label.new()
+	title_label.text = str(definition.get("display_name", "Relic"))
+	title_label.position = Vector2(10.0, 21.0)
+	title_label.size = Vector2(258.0, 21.0)
+	title_label.add_theme_font_size_override("font_size", 14)
+	title_label.add_theme_color_override("font_color", rarity_color)
+	title_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tooltip.add_child(title_label)
+
+	var separator := HSeparator.new()
+	separator.position = Vector2(10.0, 45.0)
+	separator.size = Vector2(258.0, 2.0)
+	separator.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tooltip.add_child(separator)
+
+	var description_label := Label.new()
+	description_label.text = description
+	description_label.position = Vector2(10.0, 52.0)
+	description_label.size = Vector2(258.0, maxf(30.0, tooltip.custom_minimum_size.y - 60.0))
+	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description_label.add_theme_font_size_override("font_size", 11)
+	description_label.add_theme_color_override("font_color", Color(0.86, 0.82, 0.78))
+	description_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	tooltip.add_child(description_label)
+
+	# Estimate wrapped lines at the fixed text width to choose a compact height.
+	# This keeps the entire description visible without a scrollbar.
+	var estimated_lines := maxi(1, int(ceil(float(description.length()) / 38.0)))
+	var tooltip_height := clampf(62.0 + float(estimated_lines) * 15.0, 90.0, 210.0)
+	tooltip.custom_minimum_size.y = tooltip_height
+	tooltip.size = tooltip.custom_minimum_size
+	description_label.size.y = tooltip_height - 60.0
+
+	return tooltip
+
+
 func _get_rarity_color(tier: int) -> Color:
 	if tier >= 2:
 		return Color(0.38, 0.70, 1.0)
