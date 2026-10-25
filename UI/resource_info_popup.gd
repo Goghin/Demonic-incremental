@@ -288,7 +288,19 @@ func _get_active_modifiers_text() -> String:
 				state.realm_effects.ashen_contamination_multiplier
 			)
 		ResourceIds.ESSENCE:
-			return "No direct modifiers to Essence production."
+			var multiplier := stats.get_effective_resource_modifier_multiplier(
+				"essence_accumulation_penalty",
+				ModifierTypes.PRODUCTION,
+				ResourceIds.ESSENCE
+			)
+			var reduction_percent := (1.0 - multiplier) * 100.0
+			return (
+				"Essence Accumulation: -%s%% production (×%s)"
+				% [
+					NumberFormatter.format(reduction_percent),
+					NumberFormatter.format(multiplier)
+				]
+			)
 		ResourceIds.CRYSTALLIZED_FLAME:
 			return "No direct modifiers to Crystallized Flame production."
 		_:
