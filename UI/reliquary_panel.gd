@@ -281,20 +281,7 @@ func _refresh_inventory() -> void:
 		for instance_id in state.relic_manager.get_equipped_relic_ids(str(generator_id_variant)):
 			equipped_ids[instance_id] = true
 
-	var available_relic_count := 0
-	var relic_shard_count := 0
-	for relic in state.relic_manager.get_inventory_options():
-		var instance_id := str(relic.get("instance_id", ""))
-		if instance_id != "" and not equipped_ids.has(instance_id):
-			available_relic_count += 1
-	for entry in state.relic_manager.inventory:
-		if str(entry.get("item_id", "")) == "relic_shard":
-			relic_shard_count += int(entry.get("quantity", 0))
-
-	inventory_title.text = "RELIQUARY · %d available relics · %d shards" % [
-		available_relic_count,
-		relic_shard_count
-	]
+	inventory_title.text = "RELIQUARY"
 	var visible_slot_count: int = maxi(
 		RelicManager.INVENTORY_SLOT_COUNT,
 		state.relic_manager.get_inventory_slot_count()
