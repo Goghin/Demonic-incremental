@@ -146,7 +146,7 @@ func setup(
 
 	# Crafting uses shared generator state. Keep purchase controls so the
 	# player can buy the first level here; hide unrelated upgrade navigation.
-	crafting_generator_panel.relics_changed.connect(_on_crafting_panel_changed)
+	crafting_generator_panel.relics_changed.connect(_on_equipment_changed)
 	var bottom_buttons := crafting_generator_panel.get_node_or_null("HBoxContainer/VBoxContainer/BottomButtons")
 	if bottom_buttons != null:
 		bottom_buttons.hide()
@@ -155,14 +155,12 @@ func setup(
 		cost_label.hide()
 
 	_set_right_view("generators")
-	_apply_display_mode()
 	refresh()
 
 
 func set_display_mode(requested_display_mode: String, target_generator_id: String = "") -> void:
 	display_mode = requested_display_mode
 	focused_generator_id = target_generator_id
-	_apply_display_mode()
 	refresh()
 
 
@@ -190,11 +188,7 @@ func _on_crafting_button_pressed() -> void:
 
 func _set_right_view(view_name: String) -> void:
 	right_view = "crafting" if view_name == "crafting" else "generators"
-	if generator_list_scroll != null:
-		generator_list_scroll.visible = right_view == "generators"
-	if crafting_section != null:
-		crafting_section.visible = right_view == "crafting"
-	_update_navigation_button_styles()
+	_update_right_view_visibility()
 
 
 func _update_right_view_visibility() -> void:
@@ -312,7 +306,6 @@ func _refresh_inventory() -> void:
 		inventory_grid.add_child(slot)
 
 
-
 func _refresh_generator_list() -> void:
 	for child in generator_list.get_children():
 		generator_list.remove_child(child)
@@ -409,11 +402,3 @@ func _on_equipment_changed() -> void:
 	refresh()
 	relics_changed.emit()
 
-
-func _on_crafting_panel_changed() -> void:
-	if state == null:
-		return
-	state.rebuild_relic_modifiers()
-	_last_equipment_signature = ""
-	refresh()
-	relics_changed.emit()
