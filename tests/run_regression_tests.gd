@@ -41,6 +41,7 @@ func _run_tests() -> void:
 	print("========================================")
 
 	_run_test("GameState initializes core resources and generators", _test_initialization)
+	_run_test("Forge and Relic Crucible modes use the intended activation levels", _test_cycle_generator_activation_level_configuration)
 	_run_test("Heat leak and Matter decay respect their thresholds", _test_environmental_thresholds)
 	_run_test("Generator purchase rejects insufficient resources", _test_purchase_rejects_insufficient_resources)
 	_run_test("Generator purchase spends the exact cost and adds one level", _test_successful_generator_purchase)
@@ -118,6 +119,36 @@ func _test_initialization() -> void:
 	_expect(state.resources.has(ResourceIds.ASH), "Ash resource was not registered.")
 	_expect(state.generators.has("atomic_friction"), "Atomic Friction was not registered.")
 	_expect(state.get_generator("atomic_friction") != null, "Atomic Friction could not be retrieved.")
+
+
+func _test_cycle_generator_activation_level_configuration() -> void:
+	var state := _new_test_state()
+	var forge: Generator = state.get_generator("infernal_forge")
+	var crucible: Generator = state.get_generator("relic_shard_extractor")
+	if forge == null:
+		_expect(false, "Infernal Forge is missing.")
+		return
+	if crucible == null:
+		_expect(false, "Relic Crucible is missing.")
+		return
+
+	for mode in forge.definition.operation_modes:
+		_expect(mode.increase_level_on_activation, "Forge mode '%s' should increase its level." % mode.id)
+
+	_expect(
+		crucible.definition.display_name == "Relic Crucible",
+		"Relic machine display name was not updated."
+	)
+	var found_extraction_mode: bool = false
+	for mode in crucible.definition.operation_modes:
+		var mode_search_text: String = (mode.id + " " + mode.display_name).to_lower()
+		var is_extraction_mode: bool = mode_search_text.contains("extract")
+		found_extraction_mode = found_extraction_mode or is_extraction_mode
+		_expect(
+			mode.increase_level_on_activation == is_extraction_mode,
+			"Relic Crucible mode '%s' has the wrong level-on-activation setting." % mode.id
+		)
+	_expect(found_extraction_mode, "Relic Crucible has no identifiable extraction mode.")
 
 
 func _test_environmental_thresholds() -> void:
