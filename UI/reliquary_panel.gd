@@ -14,7 +14,6 @@ var focused_generator_id: String = ""
 var inventory_grid: GridContainer
 var inventory_scroll: ScrollContainer
 var inventory_title: Label
-var status_label: Label
 var generator_list: GridContainer
 var generator_list_scroll: ScrollContainer
 var generator_navigation: HBoxContainer
@@ -66,11 +65,6 @@ func setup(
 	inventory_title.name = "RelicInventoryLabel"
 	inventory_section.add_child(inventory_title)
 
-	var description := Label.new()
-	description.text = "Drag relics onto generator slots. Drag equipped relics back here to unequip them."
-	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	inventory_section.add_child(description)
-
 	inventory_scroll = ScrollContainer.new()
 	inventory_scroll.name = "RelicInventoryScroll"
 	inventory_scroll.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -85,12 +79,6 @@ func setup(
 	inventory_grid.add_theme_constant_override("v_separation", 5)
 	inventory_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inventory_scroll.add_child(inventory_grid)
-
-	status_label = Label.new()
-	status_label.name = "RelicInventoryStatus"
-	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	status_label.add_theme_color_override("font_color", Color(0.72, 0.67, 0.65))
-	inventory_section.add_child(status_label)
 
 	generator_section = VBoxContainer.new()
 	generator_section.name = "GeneratorEquipmentSection"
@@ -301,7 +289,6 @@ func _refresh_inventory() -> void:
 
 	var available_relic_count := 0
 	var relic_shard_count := 0
-	var stack_count := 0
 	for relic in state.relic_manager.get_inventory_options():
 		var instance_id := str(relic.get("instance_id", ""))
 		if instance_id != "" and not equipped_ids.has(instance_id):
@@ -309,7 +296,6 @@ func _refresh_inventory() -> void:
 	for entry in state.relic_manager.inventory:
 		if str(entry.get("item_id", "")) == "relic_shard":
 			relic_shard_count += int(entry.get("quantity", 0))
-			stack_count += 1
 
 	inventory_title.text = "RELIQUARY · %d available relics · %d shards" % [
 		available_relic_count,
@@ -325,11 +311,6 @@ func _refresh_inventory() -> void:
 		slot.equipment_changed.connect(_on_equipment_changed)
 		inventory_grid.add_child(slot)
 
-	status_label.text = (
-		"Drag relics to generator slots. Drag items between squares to rearrange."
-		if available_relic_count > 0 or stack_count > 0
-		else "No unequipped relics or materials. Drop an equipped relic into an inventory square to return it there."
-	)
 
 
 func _refresh_generator_list() -> void:
