@@ -909,13 +909,18 @@ func buy_generator(
 		cost
 	)
 	
-	generator.level += 1
-	_record_diagnostic_event(
-		"generator_purchase",
-		generator_id,
-		generator.level,
-		source
+	var increases_level := (
+		operation_mode == null
+		or operation_mode.increase_level_on_activation
 	)
+	if increases_level:
+		generator.level += 1
+		_record_diagnostic_event(
+			"generator_purchase",
+			generator_id,
+			generator.level,
+			source
+		)
 	
 	if generator.definition.cycle_based:
 		generator.cycle_progress = 0.0
@@ -923,7 +928,7 @@ func buy_generator(
 
 	state.gameplay_log.record_event(
 		"purchase",
-		"generator_level_purchased",
+		"generator_level_purchased" if increases_level else "generator_cycle_activated",
 		{
 			"generator_id": generator_id,
 			"generator_name": generator.definition.display_name,
