@@ -21,6 +21,7 @@ var generators_button: Button
 var crafting_button: Button
 var crafting_section: VBoxContainer
 var crafting_generator_panel: GeneratorPanel
+var craft_t3_relic_button: Button
 var input_handler: InputHandler
 var inventory_section: VBoxContainer
 var generator_section: VBoxContainer
@@ -143,6 +144,14 @@ func setup(
 	crafting_generator_panel.custom_minimum_size.x = 0.0
 	crafting_generator_panel.setup(state, input_handler, "relic_shard_extractor")
 	crafting_section.add_child(crafting_generator_panel)
+
+	craft_t3_relic_button = Button.new()
+	craft_t3_relic_button.name = "CraftT3RelicButton"
+	craft_t3_relic_button.text = "FORGE T3 RELIC · 1 RELIC SHARD"
+	craft_t3_relic_button.custom_minimum_size.y = 30.0
+	craft_t3_relic_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	craft_t3_relic_button.pressed.connect(_on_forge_t3_relic_pressed)
+	crafting_section.add_child(craft_t3_relic_button)
 
 	# Crafting uses shared generator state. Keep purchase controls so the
 	# player can buy the first level here; hide unrelated upgrade navigation.
@@ -269,6 +278,7 @@ func refresh() -> void:
 	_apply_display_mode()
 	_refresh_inventory()
 	_refresh_generator_list()
+	_update_t3_craft_button()
 
 
 func _refresh_inventory() -> void:
@@ -379,6 +389,32 @@ func _refresh_generator_list() -> void:
 				slot.configure(state, "generator", "", generator_id, slot_index)
 				slot.equipment_changed.connect(_on_equipment_changed)
 				slots_row.add_child(slot)
+
+
+func _update_t3_craft_button() -> void:
+	if craft_t3_relic_button == null or state == null or state.relic_manager == null:
+		return
+	craft_t3_relic_button.disabled = (
+		state.relic_manager.get_stackable_item_quantity("relic_shard") < 1
+	)
+
+
+func _on_forge_t3_relic_pressed() -> void:
+	if state == null or state.relic_manager == null:
+		return
+	if not state.relic_manager.consume_stackable_item("relic_shard", 1):
+		_update_t3_craft_button()
+		return
+
+	var relic_instance_id := state.relic_manager.add_random_relic_for_tier(3)
+	if relic_instance_id == "":
+		# Refund the input if generation fails, so a failed craft never destroys items.
+		state.relic_manager.add_stackable_item("relic_shard", 1)
+		refresh()
+		return
+
+	refresh()
+	relics_changed.emit()
 
 
 func _on_equipment_changed() -> void:
