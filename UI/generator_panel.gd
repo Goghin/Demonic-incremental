@@ -27,7 +27,7 @@ var _last_relic_slot_signature: String = ""
 
 signal upgrades_requested(generator_id: String)
 signal selection_requested(generator_id: String)
-signal stats_requested(generator_id: String)
+signal details_requested(generator_id: String)
 signal upgrade_automation_changed
 signal generator_purchased
 signal relics_changed
@@ -52,8 +52,7 @@ func _ready() -> void:
 	_normal_panel_style = get_theme_stylebox("panel")
 	_style_action_button($HBoxContainer/VBoxContainer/HBoxContainer/PauseButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/BuyButton)
-	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradesButton)
-	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/StatsButton)
+	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/DetailsButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/AutomationButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
@@ -592,8 +591,8 @@ func _on_pause_button_pressed() -> void:
 		generator_id
 	)
 
-func _on_upgrades_button_pressed() -> void:
-	upgrades_requested.emit(generator_id)
+func _on_details_button_pressed() -> void:
+	details_requested.emit(generator_id)
 
 
 func _setup_relic_slots_ui() -> void:
