@@ -5,6 +5,7 @@ extends Control
 
 signal automation_settings_changed
 signal purchase_succeeded
+signal relics_changed
 
 var _last_styled_enabled: bool = false
 var _has_styled_enabled: bool = false
@@ -23,6 +24,8 @@ var generator_id: String = ""
 var stats: GameStats
 var stats_entry: GeneratorStatsEntry
 var stats_view_active: bool = false
+var active_view: String = "upgrades"
+var relics_panel: ReliquaryPanel
 var layout: GeneratorUpgradeLayout
 
 var connections: GeneratorUpgradeConnections
@@ -85,7 +88,8 @@ func _rebuild() -> void:
 	_create_connection_renderer()
 	_create_upgrade_nodes()
 	_create_stats_view(generator_id)
-	_set_view_mode(false)
+	_ensure_relics_panel()
+	_set_active_view("upgrades")
 	_update_automation_button()
 
 
@@ -160,27 +164,71 @@ func _clear_stats_view() -> void:
 	stats_entry = null
 
 
-func _set_view_mode(show_stats: bool) -> void:
-	stats_view_active = show_stats
-	$TreeScroll.visible = not show_stats
-	$StatsScroll.visible = show_stats
-	$Header/UpgradesViewButton.button_pressed = not show_stats
-	$Header/StatsViewButton.button_pressed = show_stats
+func _ensure_relics_panel() -> void:
+	if state == null:
+		return
+	if relics_panel == null:
+		relics_panel = ReliquaryPanel.new()
+		relics_panel.name = "FocusedGeneratorRelics"
+		relics_panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		relics_panel.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		$RelicsView.add_child(relics_panel)
+		relics_panel.relics_changed.connect(_on_relics_changed)
+		relics_panel.setup(
+			state,
+			ReliquaryPanel.DISPLAY_FOCUSED_GENERATOR_RELICS,
+			generator_id,
+			input_handler
+		)
+	else:
+		relics_panel.set_display_mode(
+			ReliquaryPanel.DISPLAY_FOCUSED_GENERATOR_RELICS,
+			generator_id
+		)
+
+
+func _set_active_view(view_name: String) -> void:
+	active_view = view_name if view_name in ["upgrades", "stats", "relics"] else "upgrades"
+	stats_view_active = active_view == "stats"
+	$TreeScroll.visible = active_view == "upgrades"
+	$StatsScroll.visible = active_view == "stats"
+	$RelicsView.visible = active_view == "relics"
+	$Header/UpgradesViewButton.button_pressed = active_view == "upgrades"
+	$Header/StatsViewButton.button_pressed = active_view == "stats"
+	$Header/RelicsViewButton.button_pressed = active_view == "relics"
 	var generator = state.get_generator(generator_id) if state != null else null
 	var generator_name: String = generator.definition.display_name if generator != null else "Generator"
-	$Header/TitleLabel.text = generator_name + (" Stats" if show_stats else " Upgrades")
+	var view_label := "Upgrades" if active_view == "upgrades" else ("Stats" if active_view == "stats" else "Relics")
+	$Header/TitleLabel.text = generator_name + " " + view_label
+	if active_view == "relics" and relics_panel != null:
+		relics_panel.refresh()
+
+
+func _set_view_mode(show_stats: bool) -> void:
+	_set_active_view("stats" if show_stats else "upgrades")
 
 
 func _on_upgrades_view_button_pressed() -> void:
-	_set_view_mode(false)
+	_set_active_view("upgrades")
 
 
 func _on_stats_view_button_pressed() -> void:
-	_set_view_mode(true)
+	_set_active_view("stats")
+
+
+func _on_relics_view_button_pressed() -> void:
+	_set_active_view("relics")
+
+
+func _on_relics_changed() -> void:
+	if state == null:
+		return
+	state.rebuild_relic_modifiers()
+	relics_changed.emit()
 
 
 func show_stats_view() -> void:
-	_set_view_mode(true)
+	_set_active_view("stats")
 
 
 func _update_automation_button() -> void:
