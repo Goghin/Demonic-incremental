@@ -221,9 +221,6 @@ func _on_relics_view_button_pressed() -> void:
 
 
 func _on_relics_changed() -> void:
-	if state == null:
-		return
-	state.rebuild_relic_modifiers()
 	relics_changed.emit()
 
 
