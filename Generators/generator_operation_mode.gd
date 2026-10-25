@@ -18,6 +18,8 @@ var completion_outputs: Array[GeneratorIO]
 var completion_item_outputs: Array[Dictionary]
 # When positive, grant one random relic from this tier on cycle completion.
 var completion_random_relic_tier: int = 0
+# Chance for a relic craft to critically promote its reward by one configured tier.
+var completion_critical_chance: float = 0.0
 # Each entry describes one visible machine input slot and its accepted ingredients.
 # Supported keys can include item_id, relic, item_type, and quantity.
 var crafting_input_requirements: Array[Dictionary]

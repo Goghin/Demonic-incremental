@@ -1,15 +1,6 @@
 class_name RelicManager
 extends RefCounted
 
-const RELIC_DEFINITIONS: Dictionary = {
-	"cinder_shard": {"display_name": "Cinder Shard", "family": "production", "multiplier": 1.15, "description": "Increases a generator's output by 15%.", "tier": 1},
-	"clockwork_ember": {"display_name": "Clockwork Ember", "family": "cycle_speed", "multiplier": 1.10, "description": "Increases cycle speed by 10%.", "tier": 1},
-	"void_lining": {"display_name": "Void Lining", "family": "input_efficiency", "multiplier": 0.90, "description": "Reduces resource input consumption by 10%.", "tier": 1},
-	"emberheart_core": {"display_name": "Emberheart Core", "family": "production", "multiplier": 1.30, "description": "A refined core that increases a generator's output by 30%.", "tier": 2},
-	"chronal_spring": {"display_name": "Chronal Spring", "family": "cycle_speed", "multiplier": 1.20, "description": "A perfected mechanism that increases cycle speed by 20%.", "tier": 2},
-	"abyssal_lining": {"display_name": "Abyssal Lining", "family": "input_efficiency", "multiplier": 0.80, "description": "A void-forged lining that reduces resource input consumption by 20%.", "tier": 2}
-}
-
 const STACKABLE_ITEM_DEFINITIONS: Dictionary = {
 	"relic_shard": {
 		"display_name": "Relic Shard",
@@ -34,22 +25,104 @@ var inventory_positions: Dictionary = {}
 var machine_slots: Dictionary = {}
 var equipped: Dictionary = {}
 var _next_instance_number: int = 1
+var generation_manager = preload("res://Game/relic_generation_manager.gd").new()
 var _next_item_instance_number: int = 1
 
 func ensure_starter_relic() -> void:
 	for relic in inventory:
-		if str(relic.get("definition_id", "")) == "cinder_shard":
+		var generated_definition: Variant = relic.get("generated_definition", {})
+		if generated_definition is Dictionary and not generated_definition.is_empty():
 			return
-	add_relic("cinder_shard")
+	add_random_relic_for_tier(1, 0.0, "heat_reservoir_boost")
 
-func add_relic(definition_id: String) -> String:
-	if not RELIC_DEFINITIONS.has(definition_id):
+
+func get_relic_definition(relic: Dictionary) -> Dictionary:
+	var generated_definition: Variant = relic.get("generated_definition", {})
+	if generated_definition is Dictionary and not generated_definition.is_empty():
+		return generated_definition
+	return get_definition(str(relic.get("definition_id", "")))
+
+
+func get_relic_modifier_value(relic: Dictionary) -> float:
+	var definition := get_relic_definition(relic)
+	if definition.is_empty():
+		return 1.0
+	return float(relic.get("rolled_value", definition.get("multiplier", 1.0)))
+
+
+func get_relic_description(relic: Dictionary) -> String:
+	var definition := get_relic_definition(relic)
+	if definition.is_empty():
 		return ""
-	var instance_id := "relic_%d" % _next_instance_number
-	_next_instance_number += 1
-	inventory.append({"instance_id": instance_id, "definition_id": definition_id})
-	inventory_positions[instance_id] = _find_first_available_inventory_slot()
-	return instance_id
+	var lines: Array[String] = []
+	var value := get_relic_modifier_value(relic)
+	lines.append(_describe_relic_stat(definition, value, "Rolled: "))
+	var secondary: Variant = relic.get("secondary_stat", {})
+	if secondary is Dictionary and not secondary.is_empty():
+		lines.append(_describe_relic_stat(secondary, float(secondary.get("rolled_value", 1.0)), "Bonus: "))
+	var additional_stats: Variant = relic.get("additional_secondary_stats", [])
+	if additional_stats is Array:
+		for stat_variant in additional_stats:
+			if stat_variant is Dictionary and not stat_variant.is_empty():
+				lines.append(_describe_relic_stat(stat_variant, float(stat_variant.get("rolled_value", 1.0)), "Bonus: "))
+	return "\n".join(lines)
+
+
+func _describe_relic_stat(stat: Dictionary, value: float, label_prefix: String) -> String:
+	var description_label := str(stat.get("description_label", ""))
+	var description_mode := str(stat.get("description_mode", ""))
+	var direction := "−" if value < 1.0 else "+"
+	var percent := absf(value - 1.0) * 100.0
+	if description_label != "":
+		if description_mode == "inverse_resource_boost":
+			var resource_name := _get_resource_display_name(str(stat.get("dynamic_resource_id", stat.get("target_id", ""))))
+			return "%s%s starts at +%.1f%% and fades as %s accumulates" % [label_prefix, description_label, value * 100.0, resource_name]
+		if description_mode == "percentage_points":
+			return "%s%s +%.1f percentage points" % [label_prefix, description_label, value * 100.0]
+		if description_label == "All input draw":
+			var draw_description := "reduction" if value < 1.0 else "increase"
+			return "%s%s %s %.1f%%" % [label_prefix, description_label, draw_description, percent]
+		return "%s%s %s%.1f%%" % [label_prefix, description_label, direction, percent]
+
+	var modifier_type := str(stat.get("modifier_type", ""))
+	var target_id := str(stat.get("target_id", ""))
+	var stat_type := str(stat.get("stat_type", "modifier"))
+	if stat_type == "sensitivity":
+		var sensitivity_targets: Array = stat.get("sensitivity_targets", [])
+		var sensitivity_name := "Ash Contamination"
+		if sensitivity_targets.is_empty() or str(sensitivity_targets[0]) == "thermic_mass":
+			sensitivity_name = "Thermic Mass"
+		elif str(sensitivity_targets[0]) == "*":
+			sensitivity_name = "All supported"
+		return "%s%s sensitivity %s%.1f%%" % [label_prefix, sensitivity_name, direction, percent]
+	if bool(stat.get("dynamic", false)):
+		return "%sEffect coefficient ×%.4f" % [label_prefix, value]
+	if modifier_type == ModifierTypes.EVENT_CHANCE:
+		var stat_name := "Critical chance" if target_id == "critical_chance" else "Downleveling chance"
+		return "%s%s +%.1f percentage points" % [label_prefix, stat_name, value * 100.0]
+	if modifier_type == ModifierTypes.CYCLE_SPEED:
+		return "%sCycle speed %s%.1f%%" % [label_prefix, direction, percent]
+	if modifier_type == ModifierTypes.INPUT_DRAW:
+		var resource_name := _get_resource_display_name(target_id)
+		var draw_direction := "reduction" if value < 1.0 else "increase"
+		return "%s%s draw %s %.1f%%" % [label_prefix, resource_name, draw_direction, percent]
+	if modifier_type == ModifierTypes.PRODUCTION:
+		var resource_name := "all resources" if target_id == "" else _get_resource_display_name(target_id)
+		return "%s%s production %s%.1f%%" % [label_prefix, resource_name, direction, percent]
+	return label_prefix + str(stat.get("description", "Relic effect"))
+
+
+func _get_resource_display_name(resource_id: String) -> String:
+	match resource_id:
+		ResourceIds.HEAT:
+			return "Heat"
+		ResourceIds.MATTER:
+			return "Matter"
+		ResourceIds.ASH:
+			return "Ash"
+		_:
+			return resource_id.capitalize()
+
 
 func _find_first_available_inventory_slot() -> int:
 	var occupied: Dictionary = {}
@@ -74,7 +147,7 @@ func get_inventory_entry_by_instance_id(instance_id: String) -> Dictionary:
 
 func get_inventory_entry_type(entry: Dictionary) -> String:
 	var definition_id := str(entry.get("definition_id", ""))
-	if RELIC_DEFINITIONS.has(definition_id):
+	if _is_relic_definition_id(definition_id):
 		return "relic"
 	if STACKABLE_ITEM_DEFINITIONS.has(str(entry.get("item_id", ""))):
 		return "stackable"
@@ -370,40 +443,83 @@ func get_relic(instance_id: String) -> Dictionary:
 	for entry in inventory:
 		if (
 			str(entry.get("instance_id", "")) == instance_id
-			and RELIC_DEFINITIONS.has(str(entry.get("definition_id", "")))
+			and _is_relic_definition_id(str(entry.get("definition_id", "")))
 		):
 			return entry
 	return {}
 
 func get_definition(definition_id: String) -> Dictionary:
-	return RELIC_DEFINITIONS.get(definition_id, {})
+	if definition_id.begins_with("generated_relic_tier_"):
+		var tier_text := definition_id.trim_prefix("generated_relic_tier_")
+		if tier_text.is_valid_int() and int(tier_text) > 0:
+			var tier := int(tier_text)
+			var tier_data: Dictionary = generation_manager.get_tier_definition(tier)
+			return {
+				"display_name": "Generated Relic",
+				"family": "generated",
+				"tier": tier,
+				"rarity_name": str(tier_data.get("display_name", "Tier %d" % tier)),
+				"rarity_color": str(tier_data.get("display_color", "#ffffff"))
+			}
+	return {}
 
 
-func add_random_relic_for_tier(tier: int) -> String:
-	if tier <= 0:
+func _is_relic_definition_id(definition_id: String) -> bool:
+	if not definition_id.begins_with("generated_relic_tier_"):
+		return false
+	var tier_text := definition_id.trim_prefix("generated_relic_tier_")
+	return tier_text.is_valid_int() and int(tier_text) > 0
+
+
+func add_random_relic_for_tier(
+	tier: int,
+	critical_chance: float = 0.0,
+	forced_primary_effect_id: String = ""
+) -> String:
+	var generated: Dictionary = generation_manager.generate_relic(
+		tier,
+		clampf(critical_chance, 0.0, 1.0),
+		forced_primary_effect_id
+	)
+	if generated.is_empty():
 		return ""
-	var candidates: Array[String] = []
-	for definition_id_variant in RELIC_DEFINITIONS.keys():
-		var definition_id := str(definition_id_variant)
-		var definition: Dictionary = RELIC_DEFINITIONS[definition_id]
-		if int(definition.get("tier", 1)) == tier:
-			candidates.append(definition_id)
-	if candidates.is_empty():
-		return ""
-	candidates.sort()
-	return add_relic(candidates[randi_range(0, candidates.size() - 1)])
+	var final_tier := int(generated.get("tier", tier))
+	var definition_id := "generated_relic_tier_%d" % final_tier
+	var instance_id := "relic_%d" % _next_instance_number
+	_next_instance_number += 1
+	var entry: Dictionary = {
+		"instance_id": instance_id,
+		"definition_id": definition_id,
+		"generated_definition": generated.get("generated_definition", {}).duplicate(true),
+		"rolled_value": float(generated.get("rolled_value", 1.0))
+	}
+	var generated_secondary: Variant = generated.get("secondary_stat", {})
+	if generated_secondary is Dictionary and not generated_secondary.is_empty():
+		entry["secondary_stat"] = generated_secondary.duplicate(true)
+	var generated_additional_stats: Variant = generated.get("additional_secondary_stats", [])
+	if generated_additional_stats is Array and not generated_additional_stats.is_empty():
+		entry["additional_secondary_stats"] = generated_additional_stats.duplicate(true)
+	if bool(generated.get("critical_craft", false)):
+		entry["critical_craft"] = true
+		entry["requested_tier"] = int(generated.get("requested_tier", tier))
+	inventory.append(entry)
+	inventory_positions[instance_id] = _find_first_available_inventory_slot()
+	return instance_id
+
 
 func get_inventory_options() -> Array[Dictionary]:
 	var result: Array[Dictionary] = []
 	for relic in inventory:
-		var definition := get_definition(str(relic.get("definition_id", "")))
+		var definition := get_relic_definition(relic)
 		if definition.is_empty():
 			continue
 		result.append({
 			"instance_id": str(relic.get("instance_id", "")),
 			"display_name": str(definition.get("display_name", "Unknown Relic")),
-			"description": str(definition.get("description", "")),
+			"description": get_relic_description(relic),
 			"family": str(definition.get("family", "")),
+			"tier": int(definition.get("tier", 1)),
+			"rolled_value": get_relic_modifier_value(relic),
 			"slot_index": int(inventory_positions.get(str(relic.get("instance_id", "")), 0))
 		})
 	return result
@@ -494,19 +610,56 @@ func unequip_relic(generator_id: String, slot_index: int = 0) -> void:
 			equipped[generator_id] = slots
 
 func get_effect_status(definition_id: String, generator_id: String, state: GameState) -> String:
-	var definition := get_definition(definition_id)
+	# Accept either a stable definition ID or an instance ID so generated relics
+	# can report status from their saved, rolled definition.
+	var relic := get_relic(definition_id)
+	var definition := get_relic_definition(relic) if not relic.is_empty() else get_definition(definition_id)
 	var generator: Generator = state.get_generator(generator_id)
 	if definition.is_empty() or generator == null:
 		return "Inactive"
-	match str(definition.get("family", "")):
-		"production":
+
+	var modifier_type := str(definition.get("modifier_type", ""))
+	var target_id := str(definition.get("target_id", ""))
+	if str(definition.get("stat_type", "")) == "sensitivity":
+		var sensitivity_targets: Variant = definition.get("sensitivity_targets", [])
+		if sensitivity_targets is Array:
+			for sensitivity in generator.modifier_sensitivities:
+				if sensitivity.source_upgrade_id.begins_with("relic:") and (sensitivity_targets.has("*") or sensitivity_targets.has(sensitivity.modifier_id)):
+					return "Active"
+		return "Inactive: no matching sensitivity target"
+	if modifier_type == "":
+		match str(definition.get("family", "")):
+			"production":
+				modifier_type = ModifierTypes.PRODUCTION
+			"cycle_speed":
+				modifier_type = ModifierTypes.CYCLE_SPEED
+			"input_efficiency":
+				modifier_type = ModifierTypes.INPUT_DRAW
+
+	match modifier_type:
+		ModifierTypes.PRODUCTION:
 			if generator.get_operation_mode() != null and generator.get_operation_mode().is_resource_transfer:
 				return "Inactive in resource-transfer mode"
-			return "Active"
-		"cycle_speed":
+			for output in generator.get_active_outputs():
+				if output.unlocked and (target_id == "" or output.resource_id == target_id):
+					return "Active"
+			return "Inactive: no matching output"
+		ModifierTypes.INPUT_DRAW:
+			for input in generator.get_active_inputs():
+				if target_id == "" or input.resource_id == target_id:
+					return "Active"
+			return "Inactive: no matching input"
+		ModifierTypes.CYCLE_SPEED:
 			return "Active" if generator.definition.cycle_based else "Inactive: no cycle"
-		"input_efficiency":
-			return "Active" if not generator.get_active_inputs().is_empty() else "Inactive: no inputs"
+		ModifierTypes.EVENT_CHANCE:
+			if not generator.definition.cycle_based:
+				return "Inactive: no cycle"
+			for effect in generator.event_effects:
+				if target_id == "critical_chance" and effect.event_id == "forge_critical":
+					return "Active"
+				if target_id == "downlevel_chance" and effect.event_action == UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
+					return "Active"
+			return "Inactive: no matching event"
 	return "Inactive"
 
 func get_save_data() -> Dictionary:
@@ -536,11 +689,27 @@ func load_save_data(data: Dictionary) -> void:
 				continue
 			var definition_id := str(entry.get("definition_id", ""))
 			var item_id := str(entry.get("item_id", ""))
-			if RELIC_DEFINITIONS.has(definition_id):
-				inventory.append({
+			if _is_relic_definition_id(definition_id):
+				var saved_generated_definition: Variant = entry.get("generated_definition", {})
+				if not saved_generated_definition is Dictionary or saved_generated_definition.is_empty():
+					continue
+				var relic_entry: Dictionary = {
 					"instance_id": instance_id,
 					"definition_id": definition_id
-				})
+				}
+				relic_entry["generated_definition"] = saved_generated_definition.duplicate(true)
+				if entry.get("critical_craft", false):
+					relic_entry["critical_craft"] = true
+				relic_entry["rolled_value"] = float(
+					entry.get("rolled_value", 1.0)
+				)
+				var saved_secondary: Variant = entry.get("secondary_stat", {})
+				if saved_secondary is Dictionary and not saved_secondary.is_empty():
+					relic_entry["secondary_stat"] = saved_secondary.duplicate(true)
+				var saved_additional_stats: Variant = entry.get("additional_secondary_stats", [])
+				if saved_additional_stats is Array and not saved_additional_stats.is_empty():
+					relic_entry["additional_secondary_stats"] = saved_additional_stats.duplicate(true)
+				inventory.append(relic_entry)
 			elif STACKABLE_ITEM_DEFINITIONS.has(item_id):
 				var quantity := int(entry.get("quantity", 0))
 				if quantity <= 0:

@@ -618,7 +618,8 @@ func complete_cycle(
 				state.relic_manager.add_stackable_item(item_id, quantity)
 		if operation_mode.completion_random_relic_tier > 0:
 			var relic_instance_id := state.relic_manager.add_random_relic_for_tier(
-				operation_mode.completion_random_relic_tier
+				operation_mode.completion_random_relic_tier,
+				operation_mode.completion_critical_chance
 			)
 			if relic_instance_id != "":
 				var relic_entry := state.relic_manager.get_inventory_entry_by_instance_id(
@@ -631,7 +632,7 @@ func complete_cycle(
 					relic_crafting_completed.emit(
 						str(relic_definition.get("display_name", "Unknown Relic")),
 						1,
-						bool(triggered_events.get("relic_critical", triggered_events.get("forge_critical", false)))
+						bool(relic_entry.get("critical_craft", false))
 					)
 
 	_apply_cycle_completion_consequences(generator, triggered_events)
@@ -652,6 +653,27 @@ func _event_effect_applies_to_mode(effect: UpgradeEffect, generator: Generator) 
 	)
 
 
+func _get_effective_event_chance(
+	generator: Generator,
+	effect: UpgradeEffect,
+	base_chance: float
+) -> float:
+	var chance := base_chance
+	var chance_stat := ""
+	if effect.event_action == UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
+		chance_stat = "downlevel_chance"
+	elif effect.event_id == "forge_critical":
+		chance_stat = "critical_chance"
+
+	if chance_stat != "":
+		for modifier in generator.modifiers:
+			if not modifier.applies_to(ModifierTypes.EVENT_CHANCE, chance_stat):
+				continue
+			chance += modifier.get_effective_additive(state, generator)
+
+	return clampf(chance, 0.0, 1.0)
+
+
 func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 	var triggered_events: Dictionary = {"cycle_completed": true}
 	for effect in generator.event_effects:
@@ -662,7 +684,11 @@ func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 		var source_upgrade_id := _event_effect_source_id(effect)
 		var source_upgrade: Upgrade = state.get_upgrade(source_upgrade_id)
 		var effect_level: int = source_upgrade.level if source_upgrade != null else 1
-		var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+		var chance := _get_effective_event_chance(
+			generator,
+			effect,
+			effect.event_chance * effect_level
+		)
 		if chance >= 1.0 or (chance > 0.0 and randf() < chance):
 			triggered_events[effect.event_id] = true
 	return triggered_events
@@ -685,7 +711,11 @@ func _apply_cycle_completion_consequences(generator: Generator, triggered_events
 		var source_upgrade_id := _event_effect_source_id(effect)
 		var source_upgrade: Upgrade = state.get_upgrade(source_upgrade_id)
 		var effect_level: int = source_upgrade.level if source_upgrade != null else 1
-		var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+		var chance := _get_effective_event_chance(
+			generator,
+			effect,
+			effect.event_chance * effect_level
+		)
 		if chance >= 1.0 or (chance > 0.0 and randf() < chance):
 			var previous_level: int = generator.level
 			generator.level = maxi(generator.level - maxi(roundi(effect.event_value), 1), 0)

@@ -111,7 +111,7 @@ func _set_active_section(section_id: String) -> void:
 				node.visible = section_key == section_id
 	for button_name in ["OverviewButton", "EffectsButton", "GeneratorsButton", "HistoryButton", "TimeButton"]:
 		var button := $PanelContent/SectionNavigation.get_node(button_name) as Button
-		var button_section := button_name.trim_suffix("Button").to_lower()
+		var button_section: String = button_name.trim_suffix("Button").to_lower()
 		button.button_pressed = button_section == section_id
 		var button_style := StyleBoxFlat.new()
 		button_style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if button.button_pressed else Color(0.075, 0.06, 0.075, 0.98)

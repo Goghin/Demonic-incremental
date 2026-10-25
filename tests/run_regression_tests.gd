@@ -53,10 +53,16 @@ func _run_tests() -> void:
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
+	_run_test("Relic instances roll targeted stats and preserve rolls in saves", _test_rolled_relic_stats)
+	_run_test("Generated relic sensitivity targets are specific and Ash Contamination is grouped", _test_generated_relic_sensitivity_targets)
+	_run_test("Reservoir relics boost production most at low resource amounts", _test_resource_reservoir_relics)
+	_run_test("Relics support sensitivity stats and saved uncommon bonus stats", _test_relic_sensitivity_and_secondary_stats)
+	_run_test("Relics modify cycle critical and downlevel chances additively", _test_relic_event_chance_modifiers)
 	_run_test("Relic Shards stack, merge, and persist in inventory", _test_relic_shard_stacks)
 	_run_test("Machine crafting slots preserve, consume, and return ingredients", _test_machine_crafting_slots)
 	_run_test("Crafting recipes are validated and consumed when a cycle starts", _test_crafting_cycle_start)
 	_run_test("Relic Shard Extractor exposes five crafting modes and tiered rewards", _test_relic_shard_extractor_modes)
+	_run_test("Data-driven relic generation persists rolls and promotes critical crafts", _test_data_driven_relic_generation_and_critical_promotion)
 	_run_test("Relic Shard Extractor consumes Matter and grants a shard after one minute", _test_relic_shard_extractor_cycle)
 	_run_test("Multiple relic slots stay independent and legacy saves migrate", _test_multiple_relic_slots_and_legacy_migration)
 	_run_test("Modifier mode restrictions only apply in targeted modes", _test_modifier_operation_mode_targeting)
@@ -418,7 +424,18 @@ func _test_relic_inventory_equipment_and_save() -> void:
 	_expect(purchased, "Reliquary purchase failed.")
 	state.relic_manager.ensure_starter_relic()
 	_expect(state.relic_manager.inventory.size() == 1, "Reliquary did not grant exactly one starter relic.")
-	var relic_id := str(state.relic_manager.inventory[0].get("instance_id", ""))
+	var starter_relic: Dictionary = state.relic_manager.inventory[0]
+	var starter_definition: Dictionary = state.relic_manager.get_relic_definition(starter_relic)
+	_expect(
+		str(starter_definition.get("effect_id", "")) == "heat_reservoir_boost",
+		"Starter relic should guarantee the Heat Reservoir effect."
+	)
+	var starter_roll := float(starter_relic.get("rolled_value", 0.0))
+	_expect(
+		starter_roll >= 0.50 and starter_roll <= 0.80,
+		"Starter Heat Reservoir roll should stay within the Common tier range."
+	)
+	var relic_id := str(starter_relic.get("instance_id", ""))
 	_expect(state.relic_manager.equip_relic("atomic_friction", relic_id, state), "Starter relic could not be equipped.")
 	state.rebuild_relic_modifiers()
 	var generator: Generator = state.get_generator("atomic_friction")
@@ -426,7 +443,10 @@ func _test_relic_inventory_equipment_and_save() -> void:
 	for modifier in generator.modifiers:
 		if modifier.id == "relic:" + relic_id:
 			relic_modifier_found = true
-	_expect(relic_modifier_found, "Equipping a relic did not add its modifier to the generator.")
+	for sensitivity in generator.modifier_sensitivities:
+		if sensitivity.source_upgrade_id == "relic:" + relic_id:
+			relic_modifier_found = true
+	_expect(relic_modifier_found, "Equipping a relic did not add its effect to the generator.")
 	var before_save: Dictionary = SaveManager.new().state_to_dictionary(state)
 	var loaded_state := _new_test_state()
 	var save_manager := SaveManager.new()
@@ -442,10 +462,14 @@ func _test_relic_inventory_equipment_and_save() -> void:
 	loaded_state.reset_current_run()
 	_expect(loaded_state.relic_manager.get_equipped_relic_id("atomic_friction") != "", "Realm reset incorrectly removed equipped relics.")
 	var reset_modifier_found := false
-	for modifier in loaded_state.get_generator("atomic_friction").modifiers:
+	var reset_generator: Generator = loaded_state.get_generator("atomic_friction")
+	for modifier in reset_generator.modifiers:
 		if modifier.id.begins_with("relic:"):
 			reset_modifier_found = true
-	_expect(reset_modifier_found, "Equipped relic modifier was not restored after realm reset.")
+	for sensitivity in reset_generator.modifier_sensitivities:
+		if sensitivity.source_upgrade_id.begins_with("relic:"):
+			reset_modifier_found = true
+	_expect(reset_modifier_found, "Equipped relic effect was not restored after realm reset.")
 
 
 
@@ -474,7 +498,7 @@ func _test_relic_shard_extractor_modes() -> void:
 
 	# Recycling consumes the explicitly loaded relic and returns a fixed shard amount.
 	generator.set_operation_mode("recycle_relic")
-	var recycled_relic_id := state.relic_manager.add_relic("clockwork_ember")
+	var recycled_relic_id := state.relic_manager.add_random_relic_for_tier(1)
 	_expect(recycled_relic_id != "", "Could not create a relic for the recycling test.")
 	_expect(
 		state.relic_manager.move_inventory_entry_to_machine_slot(recycled_relic_id, "relic_shard_extractor", 0),
@@ -504,6 +528,97 @@ func _test_relic_shard_extractor_modes() -> void:
 	var before_count := state.relic_manager.inventory.size()
 	simulation.complete_cycle(generator)
 	_expect(state.relic_manager.inventory.size() == before_count + 1, "Forging should grant exactly one relic, not one per generator level.")
+
+
+func _test_data_driven_relic_generation_and_critical_promotion() -> void:
+	var manager := RelicManager.new()
+	var normal_id := manager.add_random_relic_for_tier(1)
+	var normal_relic: Dictionary = manager.get_relic(normal_id)
+	var normal_definition: Dictionary = manager.get_relic_definition(normal_relic)
+	_expect(not normal_id.is_empty(), "Tier 1 generation did not create a relic.")
+	_expect(int(normal_definition.get("tier", 0)) == 1, "Normal crafting changed the requested tier.")
+	_expect(bool(normal_definition.get("generated", false)), "Crafted relic did not store its generated definition.")
+	_expect(str(normal_definition.get("display_name", "")) != "", "Generated relic name was empty.")
+	_expect(manager.get_relic_description(normal_relic).contains("Rolled:"), "Generated relic description omitted its primary roll.")
+
+	var critical_id := manager.add_random_relic_for_tier(1, 1.0)
+	var critical_relic: Dictionary = manager.get_relic(critical_id)
+	var critical_definition: Dictionary = manager.get_relic_definition(critical_relic)
+	_expect(not critical_id.is_empty(), "Guaranteed critical crafting failed to create a relic.")
+	_expect(int(critical_definition.get("tier", 0)) == 2, "Critical crafting did not promote tier 1 to tier 2.")
+	_expect(bool(critical_relic.get("critical_craft", false)), "Promoted relic did not record its critical craft.")
+	var critical_secondary: Variant = critical_relic.get("secondary_stat", {})
+	_expect(critical_secondary is Dictionary and not critical_secondary.is_empty(), "Promoted tier did not generate its configured secondary effect.")
+	_expect(manager.get_relic_description(critical_relic).contains("Bonus:"), "Generated secondary effect was not described.")
+
+	var tier_three_critical_id := manager.add_random_relic_for_tier(2, 1.0)
+	var tier_three_critical_relic: Dictionary = manager.get_relic(tier_three_critical_id)
+	var tier_three_critical_definition: Dictionary = manager.get_relic_definition(tier_three_critical_relic)
+	_expect(int(tier_three_critical_definition.get("tier", 0)) == 3, "Critical Tier 2 crafting did not promote to Tier 3.")
+	_expect(bool(tier_three_critical_relic.get("critical_craft", false)), "Tier 2-to-3 promotion was not recorded as critical.")
+	var tier_three_secondaries: Array[Dictionary] = []
+	var first_tier_three_secondary: Variant = tier_three_critical_relic.get("secondary_stat", {})
+	if first_tier_three_secondary is Dictionary and not first_tier_three_secondary.is_empty():
+		tier_three_secondaries.append(first_tier_three_secondary)
+	var additional_tier_three_secondaries: Variant = tier_three_critical_relic.get("additional_secondary_stats", [])
+	if additional_tier_three_secondaries is Array:
+		for secondary_variant in additional_tier_three_secondaries:
+			if secondary_variant is Dictionary and not secondary_variant.is_empty():
+				tier_three_secondaries.append(secondary_variant)
+	_expect(tier_three_secondaries.size() == 2, "Tier 3 relic should roll exactly two secondary effects.")
+
+	var direct_tier_three_id := manager.add_random_relic_for_tier(3)
+	var direct_tier_three_relic: Dictionary = manager.get_relic(direct_tier_three_id)
+	var direct_tier_three_definition: Dictionary = manager.get_relic_definition(direct_tier_three_relic)
+	_expect(int(direct_tier_three_definition.get("tier", 0)) == 3, "Direct Tier 3 generation failed.")
+	_expect(str(direct_tier_three_definition.get("rarity_name", "")) == "Rare", "Tier 3 rarity name should be Rare.")
+	_expect(
+		manager.get_relic_description(direct_tier_three_relic).count("Bonus:") == 2,
+		"Tier 3 relic description should include both secondary effects."
+	)
+
+	var highest_tier_id := manager.add_random_relic_for_tier(3, 1.0)
+	var highest_tier_relic: Dictionary = manager.get_relic(highest_tier_id)
+	var highest_tier_definition: Dictionary = manager.get_relic_definition(highest_tier_relic)
+	_expect(int(highest_tier_definition.get("tier", 0)) == 3, "Critical crafting changed the tier when no higher tier exists.")
+	_expect(not bool(highest_tier_relic.get("critical_craft", false)), "A non-promoting top-tier craft was incorrectly marked as promoted.")
+
+	var saved_data := manager.get_save_data()
+	var loaded_manager := RelicManager.new()
+	loaded_manager.load_save_data(saved_data)
+	var loaded_critical: Dictionary = loaded_manager.get_relic(critical_id)
+	_expect(
+		loaded_manager.get_relic_definition(loaded_critical) == critical_definition,
+		"Generated definition changed during save/load."
+	)
+	_expect(
+		loaded_critical.get("secondary_stat", {}) == critical_relic.get("secondary_stat", {}),
+		"Generated secondary roll changed during save/load."
+	)
+
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	state.relic_manager.add_stackable_item("relic_shard", 10)
+	var shard_entry := state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(
+		state.relic_manager.move_inventory_entry_to_machine_slot(
+			str(shard_entry.get("instance_id", "")),
+			"relic_shard_extractor",
+			0
+		),
+		"Could not load ingredients for the critical crafting cycle."
+	)
+	state.set_resource_amount(ResourceIds.MATTER, 10.0)
+	extractor.set_operation_mode("forge_relic")
+	extractor.get_operation_mode().completion_critical_chance = 1.0
+	_expect(simulation.buy_generator("relic_shard_extractor"), "Could not start guaranteed critical crafting.")
+	var before_count := state.relic_manager.inventory.size()
+	simulation.complete_cycle(extractor)
+	_expect(state.relic_manager.inventory.size() == before_count + 1, "Critical craft did not award exactly one relic.")
+	var crafted_relic: Dictionary = state.relic_manager.inventory.back()
+	var crafted_definition: Dictionary = state.relic_manager.get_relic_definition(crafted_relic)
+	_expect(int(crafted_definition.get("tier", 0)) == 2, "Crafting cycle did not use the configured critical chance to promote its reward.")
 
 
 func _test_relic_shard_extractor_cycle() -> void:
@@ -541,6 +656,256 @@ func _test_relic_shard_extractor_cycle() -> void:
 		str(persistent_shard.get("item_id", "")) == "relic_shard"
 		and int(persistent_shard.get("quantity", 0)) == 1,
 		"Relic Shard Extractor reward did not persist through Smash/reset."
+	)
+
+
+func _test_rolled_relic_stats() -> void:
+	var state := _new_test_state()
+	var relic_id := state.relic_manager.add_random_relic_for_tier(1)
+	var relic: Dictionary = state.relic_manager.get_relic(relic_id)
+	var rolled_value := 1.08
+	relic["generated_definition"] = {
+		"generated": true,
+		"effect_id": "output_increase",
+		"modifier_type": ModifierTypes.PRODUCTION,
+		"target_id": ResourceIds.HEAT,
+		"description_label": "Heat production",
+		"description_mode": "multiplier"
+	}
+	relic["rolled_value"] = rolled_value
+	var definition := state.relic_manager.get_relic_definition(relic)
+	_expect(bool(definition.get("generated", false)), "Relic did not use the data-driven definition.")
+	_expect(rolled_value > 0.0, "Generated relic did not store a rolled value.")
+	_expect(state.relic_manager.get_relic_description(relic).contains("Rolled:"), "Relic tooltip does not expose the instance's rolled stat.")
+
+	state.eternal_flame_state.eternal_flame = 100.0
+	_expect(state.eternal_flame_upgrade_manager.purchase("reliquary", state.eternal_flame_state, state.realm_configuration), "Could not unlock Reliquary for rolled-stat test.")
+	_expect(state.relic_manager.equip_relic("atomic_friction", relic_id, state), "Could not equip generated relic.")
+	state.rebuild_relic_modifiers()
+	var found_targeted_modifier := false
+	for modifier in state.get_generator("atomic_friction").modifiers:
+		if modifier.id != "relic:" + relic_id:
+			continue
+		found_targeted_modifier = true
+		_expect(modifier.type == definition.get("modifier_type", ""), "Generated relic modifier type did not match its definition.")
+		_expect(modifier.target_id == str(definition.get("target_id", "")), "Generated relic target did not match its definition.")
+		_expect_approx(modifier.multiplier, rolled_value, "Equipped modifier did not use the instance's rolled value.")
+	_expect(found_targeted_modifier, "Generated relic modifier was not rebuilt.")
+
+	var save_data: Dictionary = SaveManager.new().state_to_dictionary(state)
+	var loaded_state := _new_test_state()
+	_expect(SaveManager.new().dictionary_to_state(loaded_state, save_data, 7), "Generated relic save could not be loaded.")
+	var loaded_relic: Dictionary = loaded_state.relic_manager.get_relic(relic_id)
+	_expect_approx(float(loaded_relic.get("rolled_value", 0.0)), rolled_value, "Relic stat rerolled during save/load.")
+
+
+func _test_resource_reservoir_relics() -> void:
+	var definitions: Dictionary = RelicGenerationManager.EFFECT_DEFINITIONS
+	var heat_effect: Dictionary = definitions.get("heat_reservoir_boost", {})
+	var matter_effect: Dictionary = definitions.get("matter_reservoir_boost", {})
+
+	_expect(
+		str(heat_effect.get("target_id", "")) == ResourceIds.HEAT
+		and str(heat_effect.get("dynamic_resource_id", "")) == ResourceIds.HEAT,
+		"Heat reservoir relic should boost Heat production based on current Heat."
+	)
+	_expect(
+		str(matter_effect.get("target_id", "")) == ResourceIds.MATTER
+		and str(matter_effect.get("dynamic_resource_id", "")) == ResourceIds.MATTER,
+		"Matter reservoir relic should boost Matter production based on current Matter."
+	)
+	_expect(
+		str(heat_effect.get("dynamic_formula", "")) == Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST
+		and str(matter_effect.get("dynamic_formula", "")) == Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST,
+		"Both reservoir relics should use the inverse resource boost formula."
+	)
+	_expect(
+		float(heat_effect.get("dynamic_threshold", 0.0)) == 100000.0
+		and float(matter_effect.get("dynamic_threshold", 0.0)) == 10000.0,
+		"Heat and Matter reservoir relics should use their configured independent decay scales."
+	)
+
+	var state := _new_test_state()
+	var heat_generator: Generator = state.get_generator("atomic_friction")
+	state._apply_relic_stat(heat_generator, "test_heat_reservoir", {
+		"stat_type": "modifier",
+		"modifier_type": ModifierTypes.PRODUCTION,
+		"target_id": ResourceIds.HEAT,
+		"rolled_value": 0.8,
+		"dynamic": true,
+		"dynamic_formula": Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST,
+		"dynamic_resource_id": ResourceIds.HEAT,
+		"dynamic_threshold": 100000.0,
+		"dynamic_exponent": 1.5
+	})
+
+	var reservoir_modifier: Modifier = null
+	for modifier in heat_generator.modifiers:
+		if modifier.id == "relic:test_heat_reservoir":
+			reservoir_modifier = modifier
+			break
+	_expect(reservoir_modifier != null, "Heat reservoir relic did not apply a production modifier.")
+	if reservoir_modifier == null:
+		return
+
+	state.set_resource_amount(ResourceIds.HEAT, 0.0)
+	_expect_approx(
+		reservoir_modifier.get_effective_multiplier(state, heat_generator),
+		1.8,
+		"Heat reservoir relic should start at 1.8x with a 0.8 bonus roll and no Heat held."
+	)
+	state.set_resource_amount(ResourceIds.HEAT, 100000.0)
+	var at_scale := reservoir_modifier.get_effective_multiplier(state, heat_generator)
+	_expect_approx(
+		at_scale,
+		1.0 + 0.8 / pow(2.0, 1.5),
+		"Heat reservoir relic should decay smoothly at its configured scale."
+	)
+	state.set_resource_amount(ResourceIds.HEAT, 1000000.0)
+	var at_ten_scales := reservoir_modifier.get_effective_multiplier(state, heat_generator)
+	_expect(
+		at_ten_scales < at_scale and at_ten_scales > 1.0,
+		"Heat reservoir bonus should fall sharply toward neutral as Heat accumulates, without becoming a penalty."
+	)
+
+	var matter_modifier := Modifier.new(ModifierTypes.PRODUCTION, ResourceIds.MATTER, 0.8)
+	matter_modifier.dynamic = true
+	matter_modifier.dynamic_formula = Modifier.DYNAMIC_RESOURCE_INVERSE_BOOST
+	matter_modifier.dynamic_resource_id = ResourceIds.MATTER
+	matter_modifier.dynamic_threshold = 10000.0
+	matter_modifier.dynamic_exponent = 1.5
+	state.set_resource_amount(ResourceIds.MATTER, 0.0)
+	_expect_approx(
+		matter_modifier.get_multiplier(state),
+		1.8,
+		"Matter reservoir formula should start at the same rolled bonus when Matter is empty."
+	)
+	state.set_resource_amount(ResourceIds.MATTER, 100000.0)
+	_expect(
+		matter_modifier.get_multiplier(state) < 1.1,
+		"Matter reservoir bonus should decay sharply above ten times its scale."
+	)
+
+
+func _test_generated_relic_sensitivity_targets() -> void:
+	var definitions: Dictionary = RelicGenerationManager.EFFECT_DEFINITIONS
+	var ash_effect: Dictionary = definitions.get("ash_contamination_sensitivity_reduction", {})
+	var thermic_reduction: Dictionary = definitions.get("thermic_mass_sensitivity_reduction", {})
+	var thermic_increase: Dictionary = definitions.get("thermic_mass_sensitivity_increase", {})
+	var crystallization: Dictionary = definitions.get("crystallization_sensitivity_reduction", {})
+
+	_expect(
+		ash_effect.get("sensitivity_targets", []) == ["ashen_contamination", "ashen_contamination_cycle_speed"],
+		"Ash Contamination relic target should apply to both independent Ash sensitivity modifiers."
+	)
+	_expect(
+		ash_effect.get("roll_ranges", {}).get(1, []) == [0.96, 0.98]
+		and ash_effect.get("roll_ranges", {}).get(2, []) == [0.93, 0.96],
+		"Ash Contamination reduction ranges should be 2–4% for Common and 4–7% for Uncommon."
+	)
+	_expect(
+		thermic_reduction.get("sensitivity_targets", []) == ["thermic_mass"]
+		and thermic_increase.get("sensitivity_targets", []) == ["thermic_mass"],
+		"Thermic Mass sensitivity effects should only target Thermic Mass."
+	)
+	_expect(
+		crystallization.get("sensitivity_targets", []) == ["crystallization"],
+		"Crystallization sensitivity reduction should target only Crystallization."
+	)
+	_expect(
+		crystallization.get("roll_ranges", {}).get(1, []) == [0.985, 0.995]
+		and crystallization.get("roll_ranges", {}).get(2, []) == [0.975, 0.99],
+		"Crystallization reduction ranges should be 0.5–1.5% for Common and 1–2.5% for Uncommon."
+	)
+	_expect(
+		float(crystallization.get("weight", 0.0)) < float(ash_effect.get("weight", 0.0)),
+		"Crystallization sensitivity should be rarer than Ash Contamination sensitivity."
+	)
+
+	for effect_variant in definitions.keys():
+		var effect: Dictionary = definitions[effect_variant]
+		if str(effect.get("stat_type", "")) == "sensitivity":
+			_expect(
+				not effect.get("sensitivity_targets", []).has("*"),
+				"Generated sensitivity effects should not use a universal wildcard target."
+			)
+
+
+func _test_relic_sensitivity_and_secondary_stats() -> void:
+	var state := _new_test_state()
+	var generator: Generator = state.get_generator("infernal_forge")
+	var sensitivity_relic_id := state.relic_manager.add_random_relic_for_tier(1)
+	var sensitivity_relic: Dictionary = state.relic_manager.get_relic(sensitivity_relic_id)
+	var sensitivity_value := 0.97
+	sensitivity_relic["generated_definition"] = {
+		"generated": true,
+		"stat_type": "sensitivity",
+		"sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"],
+		"description_label": "Ash Contamination",
+		"description_mode": "multiplier"
+	}
+	sensitivity_relic["rolled_value"] = sensitivity_value
+	state._apply_relic_stat(generator, sensitivity_relic_id, {
+		"stat_type": "sensitivity",
+		"sensitivity_targets": ["ashen_contamination", "ashen_contamination_cycle_speed"],
+		"rolled_value": sensitivity_value
+	})
+	var matched_sensitivities := 0
+	for sensitivity in generator.modifier_sensitivities:
+		if sensitivity.source_upgrade_id != "relic:" + sensitivity_relic_id:
+			continue
+		if sensitivity.modifier_id in ["ashen_contamination", "ashen_contamination_cycle_speed"]:
+			matched_sensitivities += 1
+			_expect_approx(sensitivity.multiplier, sensitivity_value, "Ash sensitivity relic did not preserve its rolled multiplier.")
+	_expect(matched_sensitivities == 2, "Ash sensitivity relic should affect both general contamination and forge cycle slowdown.")
+
+	var uncommon_id := state.relic_manager.add_random_relic_for_tier(2)
+	var uncommon_relic: Dictionary = state.relic_manager.get_relic(uncommon_id)
+	var secondary: Variant = uncommon_relic.get("secondary_stat", {})
+	_expect(secondary is Dictionary and not secondary.is_empty(), "Uncommon relic did not roll a secondary stat.")
+	_expect(state.relic_manager.get_relic_description(uncommon_relic).contains("Bonus:"), "Uncommon relic tooltip did not describe its secondary stat.")
+	var saved_data: Dictionary = state.relic_manager.get_save_data()
+	var loaded_manager := RelicManager.new()
+	loaded_manager.load_save_data(saved_data)
+	var loaded_relic: Dictionary = loaded_manager.get_relic(uncommon_id)
+	_expect(loaded_relic.get("secondary_stat", {}) == secondary, "Uncommon relic secondary stat changed during save/load.")
+
+
+func _test_relic_event_chance_modifiers() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var forge: Generator = state.get_generator("infernal_forge")
+	var relic := Modifier.new(ModifierTypes.EVENT_CHANCE, "downlevel_chance", 0.12)
+	relic.id = "relic:test_downlevel_chance"
+	forge.modifiers.append(relic)
+	var downlevel_effect := UpgradeEffect.generator_event(
+		"infernal_forge",
+		UpgradeEffectTypes.EVENT_CYCLE_COMPLETED,
+		UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL,
+		"",
+		0.05,
+		1.0
+	)
+	_expect_approx(
+		simulation._get_effective_event_chance(forge, downlevel_effect, 0.05),
+		0.17,
+		"Downlevel chance relic should add percentage points to the beneficial downlevel chance."
+	)
+	var critical_relic := Modifier.new(ModifierTypes.EVENT_CHANCE, "critical_chance", 0.03)
+	critical_relic.id = "relic:test_critical_chance"
+	forge.modifiers.append(critical_relic)
+	var critical_effect := UpgradeEffect.generator_event(
+		"infernal_forge",
+		UpgradeEffectTypes.EVENT_CYCLE_COMPLETED,
+		UpgradeEffectTypes.EVENT_ACTION_TRIGGER,
+		"forge_critical",
+		0.10,
+		0.0
+	)
+	_expect_approx(
+		simulation._get_effective_event_chance(forge, critical_effect, 0.10),
+		0.13,
+		"Critical chance relic should add percentage points to the critical chance."
 	)
 
 
@@ -658,7 +1023,7 @@ func _test_machine_crafting_slots() -> void:
 		"Hidden machine-slot contents were not returned to the Reliquary."
 	)
 
-	var relic_id := loaded_manager.add_relic("cinder_shard")
+	var relic_id := loaded_manager.add_random_relic_for_tier(1)
 	var relic_slot := int(loaded_manager.inventory_positions.get(relic_id, -1))
 	_expect(relic_slot >= 0, "Test relic did not receive an inventory square.")
 	_expect(
@@ -723,7 +1088,7 @@ func _test_multiple_relic_slots_and_legacy_migration() -> void:
 	reliquary_upgrade.effect_per_level = 2.0
 	state.relic_manager.ensure_starter_relic()
 	var first_relic_id := str(state.relic_manager.inventory[0].get("instance_id", ""))
-	var second_relic_id := state.relic_manager.add_relic("clockwork_ember")
+	var second_relic_id := state.relic_manager.add_random_relic_for_tier(1, 0.0, "heat_reservoir_boost")
 	_expect(
 		state.relic_manager.equip_relic("atomic_friction", first_relic_id, state, 0),
 		"First relic slot could not be equipped."
@@ -740,6 +1105,22 @@ func _test_multiple_relic_slots_and_legacy_migration() -> void:
 		state.relic_manager.get_equipped_relic_id("atomic_friction", 1) == second_relic_id,
 		"Second slot did not retain its own relic."
 	)
+
+	var infernal_forge: Generator = state.get_generator("infernal_forge")
+	_expect(infernal_forge != null, "Infernal Forge was unavailable for the cycle-lock test.")
+	if infernal_forge != null:
+		_expect(infernal_forge.definition.cycle_based, "Infernal Forge should use cycle-based operation.")
+		infernal_forge.cycle_active = true
+		_expect(
+			not state.relic_manager.equip_relic("infernal_forge", first_relic_id, state, 0),
+			"A relic could be equipped while Infernal Forge cycle was active."
+		)
+		_expect(
+			state.relic_manager.get_equipped_relic_id("atomic_friction", 0) == first_relic_id,
+			"Rejected cycle-locked equipment change altered the original slot."
+		)
+		infernal_forge.cycle_active = false
+
 	state.rebuild_relic_modifiers()
 	var relic_modifier_count := 0
 	for modifier in state.get_generator("atomic_friction").modifiers:
@@ -747,16 +1128,24 @@ func _test_multiple_relic_slots_and_legacy_migration() -> void:
 			relic_modifier_count += 1
 	_expect(relic_modifier_count == 2, "Both equipped relics were not applied as modifiers.")
 
+	var generated_manager := RelicManager.new()
+	var generated_id := generated_manager.add_random_relic_for_tier(1)
+	var generated_save := generated_manager.get_save_data()
+	generated_save["equipped"] = {"atomic_friction": generated_id}
 	var legacy_manager := RelicManager.new()
-	legacy_manager.load_save_data({
+	legacy_manager.load_save_data(generated_save)
+	_expect(
+		legacy_manager.get_equipped_relic_id("atomic_friction", 0) == generated_id,
+		"Legacy one-relic-per-generator save format was not migrated to slot zero."
+	)
+	var old_relic_manager := RelicManager.new()
+	old_relic_manager.load_save_data({
 		"inventory": [{"instance_id": "relic_1", "definition_id": "cinder_shard"}],
 		"equipped": {"atomic_friction": "relic_1"},
 		"next_instance_number": 2
 	})
-	_expect(
-		legacy_manager.get_equipped_relic_id("atomic_friction", 0) == "relic_1",
-		"Legacy one-relic-per-generator save was not migrated to slot zero."
-	)
+	_expect(old_relic_manager.inventory.is_empty(), "Retired named relics should be discarded from old saves.")
+	_expect(old_relic_manager.get_equipped_relic_id("atomic_friction", 0).is_empty(), "Equipment referencing a retired relic was not cleared.")
 
 
 func _test_reliquary_slot_progression() -> void:

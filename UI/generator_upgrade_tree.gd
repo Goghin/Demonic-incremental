@@ -167,7 +167,7 @@ func _set_view_mode(show_stats: bool) -> void:
 	$Header/UpgradesViewButton.button_pressed = not show_stats
 	$Header/StatsViewButton.button_pressed = show_stats
 	var generator = state.get_generator(generator_id) if state != null else null
-	var generator_name := generator.definition.display_name if generator != null else "Generator"
+	var generator_name: String = generator.definition.display_name if generator != null else "Generator"
 	$Header/TitleLabel.text = generator_name + (" Stats" if show_stats else " Upgrades")
 
 

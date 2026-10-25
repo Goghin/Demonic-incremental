@@ -1346,10 +1346,6 @@ func add_automatic_upgrade_panel(
 
 
 
-# ============================================================
-# GENERATOR UNLOCK EVENT
-# ============================================================
-
 func _on_crystallization_completed(crystals_created: float) -> void:
 	$AchievementToast.show_message(
 		"CRYSTALLIZED FLAME CRAFTED",
@@ -1373,7 +1369,7 @@ func _on_relic_crafting_completed(
 ) -> void:
 	var craft_description := "Crafted %s relic." % NumberFormatter.format(float(quantity))
 	if is_critical:
-		craft_description += " Critical craft!"
+		craft_description += " Critical craft! Relic tier promoted."
 	else:
 		craft_description += " Standard craft."
 	$AchievementToast.show_message(
@@ -1382,6 +1378,10 @@ func _on_relic_crafting_completed(
 		craft_description
 	)
 
+
+# ============================================================
+# GENERATOR UNLOCK EVENT
+# ============================================================
 
 func _on_generator_unlocked(
 	generator_id: String
