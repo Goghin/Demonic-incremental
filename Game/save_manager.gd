@@ -183,7 +183,7 @@ func state_to_dictionary(
 		"prestige_planning": state.prestige_planning,
 		"last_prestige_report": state.last_prestige_report,
 		"total_overflow_this_prestige": state.total_overflow_this_prestige,
-		"overflow_bonus_from_last_realm": state.overflow_bonus_from_last_realm,
+		"total_matter_decayed_this_prestige": state.total_matter_decayed_this_prestige,
 		"generator_automation": (
 			state.generator_automation_manager.get_save_data()
 		),
@@ -292,6 +292,10 @@ func dictionary_to_state(
 	state.total_overflow_this_prestige = max(
 		0.0,
 		float(data.get("total_overflow_this_prestige", 0.0))
+	)
+	state.total_matter_decayed_this_prestige = max(
+		0.0,
+		float(data.get("total_matter_decayed_this_prestige", 0.0))
 	)
 
 	state.overflow_bonus_from_last_realm = max(
@@ -528,6 +532,11 @@ func dictionary_to_state(
 		state.relic_manager.load_save_data(relic_manager_data)
 	if state.eternal_flame_upgrade_manager.is_reliquary_unlocked(state.eternal_flame_state):
 		state.relic_manager.ensure_starter_relic()
+	# Backfill milestone rewards for existing saves. This is idempotent and
+	# uses lifetime progress, so spending Eternal Flames cannot revoke rewards.
+	state.eternal_flame_upgrade_manager.apply_automatic_progression_rewards(
+		state.eternal_flame_state
+	)
 	state.rebuild_relic_modifiers()
 
 	state.rebuild_realm_effects()

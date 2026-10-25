@@ -48,6 +48,8 @@ func _run_tests() -> void:
 	_run_test("Interval statistics are returned and cleared", _test_interval_statistics)
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
 	_run_test("Prestige enters planning before resetting the next realm", _test_prestige_planning_transition)
+	_run_test("Current realm Heat overflow and Matter decay compound for Smash", _test_current_realm_environmental_bonuses)
+	_run_test("Prestige and lifetime Eternal Flame milestones grant starting levels and automation", _test_automatic_progression_rewards)
 	_run_test("Brazier upgrades permanently unlock flame stats in order", _test_brazier_upgrade_unlocks)
 	_run_test("Reliquary and generator relic slots unlock through Prestige progression", _test_reliquary_slot_progression)
 	_run_test("Reliquary grants, equips, saves, and preserves relics", _test_relic_inventory_equipment_and_save)
@@ -264,8 +266,8 @@ func _test_prestige_planning_transition() -> void:
 	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), 1234.0, "Old run resources were reset during planning.")
 	_expect_approx(float(state.last_prestige_report.get("survival_seconds", 0.0)), 42.0, "Report did not capture survival time.")
 	_expect_approx(float(state.last_prestige_report.get("peak_heat", 0.0)), 1234.0, "Report did not capture peak Heat.")
-	_expect(state.eternal_flame_state.get_upgrade_level("eternal_furnace") == 1, "First-prestige Eternal Furnace bonus was lost.")
-	_expect(state.eternal_flame_state.get_upgrade_level("accelerated_friction") == 1, "First-prestige acceleration bonus was lost.")
+	_expect(state.eternal_flame_state.get_upgrade_level("eternal_furnace") == 0, "Eternal Furnace should remain a currency-purchased realm upgrade.")
+	_expect(state.eternal_flame_state.get_upgrade_level("accelerated_friction") == 1, "First-prestige starting-level milestone was not granted.")
 
 	var save_manager := SaveManager.new()
 	var save_data: Dictionary = save_manager.state_to_dictionary(state)
@@ -287,6 +289,100 @@ func _test_prestige_planning_transition() -> void:
 	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), 0.0, "Next realm did not reset Heat.")
 	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 0.0, "Next realm did not reset Matter.")
 	_expect(not prestige.begin_next_realm(state), "Next realm could be initialized twice.")
+
+
+func _test_current_realm_environmental_bonuses() -> void:
+	var state := _new_test_state()
+	var prestige := PrestigeSystem.new()
+	var forge: Generator = state.get_generator("infernal_forge")
+	if forge == null:
+		_expect(false, "Infernal Forge is missing for environmental reward test.")
+		return
+	forge.level = 1
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 100.0)
+
+	_expect_approx(prestige.calculate_eternal_flame_gain(state), 100.0, "Environmental bonuses should start at x1.00.")
+
+	state.total_overflow_this_prestige = 100.0
+	_expect_approx(state.get_heat_overflow_bonus(), 1.2, "Heat overflow bonus should use current realm overflow.")
+	_expect_approx(prestige.calculate_eternal_flame_gain(state), 120.0, "Heat overflow should affect the current Smash.")
+
+	state.total_matter_decayed_this_prestige = 1000.0
+	_expect_approx(state.get_matter_decay_bonus(), 1.3, "Matter decay bonus should match Heat's logarithmic strength.")
+	_expect_approx(state.get_combined_environmental_reward_multiplier(), 1.56, "Environmental bonuses should multiply together.")
+	_expect_approx(prestige.calculate_eternal_flame_gain(state), 156.0, "Combined environmental bonuses were not applied to Smash.")
+
+	var save_manager := SaveManager.new()
+	var save_data: Dictionary = save_manager.state_to_dictionary(state)
+	var restored_state := _new_test_state()
+	_expect(save_manager.dictionary_to_state(restored_state, save_data, 7), "Could not restore current-realm environmental totals.")
+	_expect_approx(restored_state.total_overflow_this_prestige, 100.0, "Heat overflow total did not persist.")
+	_expect_approx(restored_state.total_matter_decayed_this_prestige, 1000.0, "Matter decay total did not persist.")
+	_expect_approx(PrestigeSystem.new().calculate_eternal_flame_gain(restored_state), 156.0, "Restored environmental bonuses changed the Smash preview.")
+	var actual_gain: float = PrestigeSystem.new().smash(restored_state, 1.0)
+	_expect_approx(actual_gain, 156.0, "Actual Smash reward did not match the environmental bonus preview.")
+	_expect_approx(float(restored_state.last_prestige_report.get("environmental_multiplier", 1.0)), 1.56, "Smash report omitted the combined environmental multiplier.")
+
+	var simulation := Simulation.new(state)
+	state.total_matter_decayed_this_prestige = 0.0
+	var matter_threshold: float = state.realm_effects.matter_decay_threshold
+	state.set_resource_amount(ResourceIds.MATTER, matter_threshold * 2.0)
+	var matter_before: float = state.get_resource_amount(ResourceIds.MATTER)
+	simulation.apply_matter_decay(1.0)
+	var actual_decay: float = matter_before - state.get_resource_amount(ResourceIds.MATTER)
+	_expect(actual_decay > 0.0, "Environmental Matter decay did not remove Matter in the test.")
+	_expect_approx(state.total_matter_decayed_this_prestige, actual_decay, "Matter bonus counter did not match actual Matter lost to decay.")
+	_expect_approx(state.resource_statistics.get_total_matter_decayed(), actual_decay, "Lifetime Matter decay statistic did not track actual decay.")
+	var decay_save_data: Dictionary = save_manager.state_to_dictionary(state)
+	var decay_restored_state := _new_test_state()
+	_expect(save_manager.dictionary_to_state(decay_restored_state, decay_save_data, 7), "Could not restore lifetime Matter decay statistics.")
+	_expect_approx(decay_restored_state.resource_statistics.get_total_matter_decayed(), actual_decay, "Lifetime Matter decay statistic did not persist through save/load.")
+
+	state.reset_current_run()
+	_expect_approx(state.total_overflow_this_prestige, 0.0, "Heat overflow total carried into the next realm.")
+	_expect_approx(state.total_matter_decayed_this_prestige, 0.0, "Matter decay total carried into the next realm.")
+
+
+func _test_automatic_progression_rewards() -> void:
+	var state := _new_test_state()
+	var flame_state: EternalFlameState = state.eternal_flame_state
+	var manager: EternalFlameUpgradeManager = state.eternal_flame_upgrade_manager
+
+	# Prestige 3 grants the first three starting-level milestones without
+	# requiring purchases or consuming Eternal Flames.
+	flame_state.prestige_count = 3
+	flame_state.eternal_flame = 3.0
+	flame_state.total_crystallized_flame = 100.0
+	flame_state.spent_flames = 2.0
+	manager.apply_automatic_progression_rewards(flame_state)
+
+	_expect(flame_state.get_upgrade_level("accelerated_friction") == 3, "Prestige 3 did not grant 15 starting AF levels.")
+	_expect(flame_state.get_upgrade_level("accelerated_agitation") == 2, "Prestige 3 did not grant 10 starting MA levels.")
+	_expect(flame_state.get_upgrade_level("established_colony") == 1, "Prestige 3 did not grant the first LMC starting-level milestone.")
+	_expect(flame_state.get_upgrade_level("accelerated_condensation") == 0, "Condensation starting levels were granted before their milestone.")
+	_expect(flame_state.get_upgrade_level("unlock_generator_automation_atomic_friction") == 0, "AF automation unlocked before its lifetime-EF threshold.")
+	_expect_approx(flame_state.spent_flames, 2.0, "Automatic starting-level rewards consumed Eternal Flames.")
+	_expect(not manager.can_purchase("accelerated_friction", flame_state, state.realm_configuration), "Starting-level milestones were still purchasable with Eternal Flames.")
+
+	# Higher progress grants the appropriate level and the AF autobuyer once
+	# both its prestige and lifetime-EF requirements are satisfied.
+	flame_state.prestige_count = 5
+	flame_state.eternal_flame = 8.0
+	manager.apply_automatic_progression_rewards(flame_state)
+	_expect(flame_state.get_upgrade_level("accelerated_friction") == 5, "Prestige 5 did not max AF starting levels.")
+	_expect(flame_state.get_upgrade_level("unlock_generator_automation_atomic_friction") == 1, "AF automation was not granted at its milestone.")
+	_expect(flame_state.is_technology_unlocked("generator_automation_atomic_friction"), "AF automation milestone did not unlock its technology.")
+	_expect_approx(flame_state.spent_flames, 2.0, "Automatic automation rewards consumed Eternal Flames.")
+	_expect(not manager.can_purchase("unlock_generator_automation_atomic_friction", flame_state, state.realm_configuration), "Automatically granted automation remained purchasable.")
+
+	# Reapplying milestones is idempotent, and reset applies the earned starting
+	# levels to the actual generators rather than adding them cumulatively.
+	manager.apply_automatic_progression_rewards(flame_state)
+	state.reset_current_run()
+	_expect(state.get_generator("atomic_friction").level == 25, "AF did not start at its milestone level.")
+	_expect(state.get_generator("molecular_agitation").level == 20, "MA did not start at its milestone level.")
+	_expect(state.get_generator("lava_mite_colony").level == 9, "LMC did not start at its milestone level.")
+	_expect(state.get_generator("thermal_furnace").level == 6, "Infernal Condensation did not start at its milestone level.")
 
 
 func _test_brazier_upgrade_unlocks() -> void:

@@ -148,6 +148,12 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 text = "UPGRADES"
 
+[node name="StatsButton" type="Button" parent="HBoxContainer/VBoxContainer/BottomButtons"]
+custom_minimum_size = Vector2(52, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "STATS"
+
 [node name="UpgradeAutomationButton" type="Button" parent="HBoxContainer/VBoxContainer/BottomButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
@@ -161,3 +167,5 @@ visible = false
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/BottomButtons/UpgradesButton" to="." method="_on_upgrades_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButtons/AutomationButton" to="." method="_on_automation_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton" to="." method="_on_upgrade_automation_button_pressed"]
+
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BottomButtons/StatsButton" to="." method="_on_stats_button_pressed"]

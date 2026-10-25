@@ -15,7 +15,8 @@ func calculate_eternal_flame_gain(state: GameState) -> float:
 	if infernal_forge == null or crystallized_flame <= 0.0 or infernal_forge.level <= 0:
 		return 0.0
 	var forge_multiplier: float = sqrt(float(infernal_forge.level))
-	return float(floori(crystallized_flame * forge_multiplier * state.get_overflow_bonus()))
+	var environmental_multiplier: float = state.get_combined_environmental_reward_multiplier()
+	return float(floori(crystallized_flame * forge_multiplier * environmental_multiplier))
 
 
 # Completes the irreversible Smash without initializing the next realm.
@@ -33,7 +34,10 @@ func smash(state: GameState, run_duration: float = 0.0) -> float:
 		"prestige_count": next_prestige_count,
 		"crystallized_flame": crystallized_flame,
 		"overflow": state.total_overflow_this_prestige,
-		"overflow_bonus_used": state.get_overflow_bonus(),
+		"overflow_bonus_used": state.get_heat_overflow_bonus(),
+		"matter_decayed": state.total_matter_decayed_this_prestige,
+		"matter_decay_bonus_used": state.get_matter_decay_bonus(),
+		"environmental_bonus_combined": state.get_combined_environmental_reward_multiplier(),
 		"layout_before_smash": state.realm_layout_id
 	})
 
@@ -49,16 +53,19 @@ func smash(state: GameState, run_duration: float = 0.0) -> float:
 		"crystallized_flame": crystallized_flame,
 		"eternal_flames_gained": eternal_flame_gain,
 		"prestige_count": next_prestige_count,
-		"total_overflow": state.total_overflow_this_prestige
+		"total_overflow": state.total_overflow_this_prestige,
+		"total_matter_decayed": state.total_matter_decayed_this_prestige,
+		"heat_overflow_multiplier": state.get_heat_overflow_bonus(),
+		"matter_decay_multiplier": state.get_matter_decay_bonus(),
+		"environmental_multiplier": state.get_combined_environmental_reward_multiplier()
 	}
 
 	state.eternal_flame_state.eternal_flame += eternal_flame_gain
 	state.eternal_flame_state.prestige_count = next_prestige_count
-	if next_prestige_count == 1:
-		for upgrade_id in ["eternal_furnace", "accelerated_friction"]:
-			if state.eternal_flame_state.get_upgrade_level(upgrade_id) < 1:
-				state.eternal_flame_state.set_upgrade_level(upgrade_id, 1)
 	state.eternal_flame_state.total_crystallized_flame += crystallized_flame
+	state.eternal_flame_upgrade_manager.apply_automatic_progression_rewards(
+		state.eternal_flame_state
+	)
 
 	# The old realm is gone. Preserve its data only until the player chooses
 	# to continue, while pausing simulation in the planning state.

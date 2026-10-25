@@ -20,6 +20,9 @@ var input_handler: InputHandler
 var info_popup: UpgradeInfoPopup
 
 var generator_id: String = ""
+var stats: GameStats
+var stats_entry: GeneratorStatsEntry
+var stats_view_active: bool = false
 var layout: GeneratorUpgradeLayout
 
 var connections: GeneratorUpgradeConnections
@@ -44,6 +47,7 @@ func setup(
 	) -> void:
 
 	state = game_state
+	stats = GameStats.new(game_state)
 	simulation = game_simulation
 	input_handler = game_input_handler
 	generator_id = game_generator_id
@@ -58,6 +62,8 @@ func _process(_delta: float) -> void:
 func _rebuild() -> void:
 
 	_clear_tree()
+	_clear_stats_view()
+	stats_view_active = false
 
 	if state == null:
 		return
@@ -78,6 +84,8 @@ func _rebuild() -> void:
 
 	_create_connection_renderer()
 	_create_upgrade_nodes()
+	_create_stats_view(generator_id)
+	_set_view_mode(false)
 	_update_automation_button()
 
 
@@ -133,6 +141,42 @@ func _create_upgrade_nodes() -> void:
 
 	# The inner scroll area owns the tree height; the header stays fixed.
 	$TreeScroll/TreeArea.custom_minimum_size.y = max_y + 20.0
+
+
+func _create_stats_view(target_generator_id: String) -> void:
+	if state == null or stats == null:
+		return
+	stats_entry = preload("res://UI/GeneratorStatsEntry.tscn").instantiate() as GeneratorStatsEntry
+	stats_entry.name = target_generator_id
+	stats_entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	$StatsScroll/StatsContent.add_child(stats_entry)
+	stats_entry.setup(state, stats, target_generator_id)
+	stats_entry.expanded = true
+
+
+func _clear_stats_view() -> void:
+	for child in $StatsScroll/StatsContent.get_children():
+		child.queue_free()
+	stats_entry = null
+
+
+func _set_view_mode(show_stats: bool) -> void:
+	stats_view_active = show_stats
+	$TreeScroll.visible = not show_stats
+	$StatsScroll.visible = show_stats
+	$Header/UpgradesViewButton.button_pressed = not show_stats
+	$Header/StatsViewButton.button_pressed = show_stats
+	var generator = state.get_generator(generator_id) if state != null else null
+	var generator_name := generator.definition.display_name if generator != null else "Generator"
+	$Header/TitleLabel.text = generator_name + (" Stats" if show_stats else " Upgrades")
+
+
+func _on_upgrades_view_button_pressed() -> void:
+	_set_view_mode(false)
+
+
+func _on_stats_view_button_pressed() -> void:
+	_set_view_mode(true)
 
 
 func _update_automation_button() -> void:

@@ -766,6 +766,9 @@ func _create_generator_panel(
 	generator_panel.selection_requested.connect(
 		_on_generator_panel_selection_requested
 	)
+	generator_panel.stats_requested.connect(
+		_on_generator_stats_requested
+	)
 	generator_panel.upgrade_automation_changed.connect(
 		_on_upgrade_automation_settings_changed
 	)
@@ -1379,6 +1382,39 @@ func _on_relic_crafting_completed(
 # ============================================================
 # GENERATOR UNLOCK EVENT
 # ============================================================
+
+func _on_crystallization_completed(crystals_created: float) -> void:
+	$AchievementToast.show_message(
+		"CRYSTALLIZED FLAME CRAFTED",
+		"+%s Crystallized Flame" % NumberFormatter.format(crystals_created),
+		"Standard craft"
+	)
+
+
+func _on_critical_crystallization_completed(crystals_created: float) -> void:
+	$AchievementToast.show_message(
+		"CRITICAL CRYSTALLIZATION!",
+		"+%s Crystallized Flame" % NumberFormatter.format(crystals_created),
+		"Critical craft! Bonus output gained."
+	)
+
+
+func _on_relic_crafting_completed(
+	relic_name: String,
+	quantity: int,
+	is_critical: bool
+) -> void:
+	var craft_description := "Crafted %s relic." % NumberFormatter.format(float(quantity))
+	if is_critical:
+		craft_description += " Critical craft!"
+	else:
+		craft_description += " Standard craft."
+	$AchievementToast.show_message(
+		"RELIC CRAFT COMPLETE",
+		relic_name,
+		craft_description
+	)
+
 
 func _on_generator_unlocked(
 	generator_id: String
@@ -2256,6 +2292,25 @@ func _on_rub_button_pressed() -> void:
 	print(
 		"Game Saved."
 	)
+
+
+func _on_generator_stats_requested(generator_id: String) -> void:
+	if state == null or state.get_generator(generator_id) == null:
+		return
+	if reliquary_window != null:
+		reliquary_window.hide()
+	generator_list_mode = false
+	_clear_generator_focus()
+	$NavigationTitlePanel/NavigationTitle.text = "STATISTICS"
+	$StatsPanel.show()
+	$GeneratorScroll.hide()
+	$UpgradeScroll.hide()
+	$OptionsPanel.hide()
+	$PrestigePanel.hide()
+	$AchievementPanel.hide()
+	_update_navigation_buttons("StatsButton")
+	$StatsPanel.open_generator_stats(generator_id)
+	_update_navigation_title_visibility()
 
 
 func _on_stats_button_pressed() -> void:

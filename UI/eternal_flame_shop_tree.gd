@@ -40,10 +40,16 @@ func refresh() -> void:
 			state.realm_configuration
 		)
 		var maxed: bool = level >= upgrade.max_level
-		var prerequisite_met: bool = _prerequisites_met(upgrade, manager)
+		var automatic_reward: bool = manager.is_automatic_progression_upgrade(upgrade_id)
+		var prerequisite_met: bool = automatic_reward or _prerequisites_met(upgrade, manager)
 		var status_text: String = "%d F" % cost
 		if maxed:
 			status_text = "MAXED"
+		elif automatic_reward:
+			status_text = manager.get_automatic_progression_requirement_text(
+				upgrade_id,
+				state.eternal_flame_state
+			)
 		elif not prerequisite_met:
 			status_text = "LOCKED"
 
@@ -53,14 +59,25 @@ func refresh() -> void:
 			upgrade.max_level,
 			status_text
 		]
-		node.tooltip_text = "%s\n\nLevel: %d / %d\nCost: %d Eternal Flame%s" % [
-			upgrade.description,
-			level,
-			upgrade.max_level,
-			cost,
-			"" if cost == 1 else "s"
-		]
-		if not prerequisite_met and upgrade.prerequisite_upgrade_id != "":
+		if automatic_reward:
+			node.tooltip_text = "%s\n\nLevel: %d / %d\nAutomatic progression reward\nNext milestone: %s" % [
+				upgrade.description,
+				level,
+				upgrade.max_level,
+				manager.get_automatic_progression_requirement_text(
+					upgrade_id,
+					state.eternal_flame_state
+				)
+			]
+		else:
+			node.tooltip_text = "%s\n\nLevel: %d / %d\nCost: %d Eternal Flame%s" % [
+				upgrade.description,
+				level,
+				upgrade.max_level,
+				cost,
+				"" if cost == 1 else "s"
+			]
+		if not automatic_reward and not prerequisite_met and upgrade.prerequisite_upgrade_id != "":
 			var prerequisite: EternalFlameUpgrade = manager.get_upgrade(
 				upgrade.prerequisite_upgrade_id
 			)

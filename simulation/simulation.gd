@@ -331,6 +331,7 @@ func _record_gameplay_economy_snapshot() -> void:
 			"heat_leak_per_second": state.get_heat_leak_per_second(),
 			"matter_decay_per_second": state.get_matter_decay_per_second(),
 			"total_overflow_this_prestige": state.total_overflow_this_prestige,
+			"total_matter_decayed_this_prestige": state.total_matter_decayed_this_prestige,
 			"crystallized_flame": state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME),
 			"realm_layout_id": state.realm_layout_id,
 			"generators": generators_snapshot
@@ -1585,6 +1586,9 @@ func apply_matter_decay(
 		ResourceIds.MATTER,
 		decayed_matter
 	)
+	state.resource_statistics.record_matter_decayed(decayed_matter)
+	# Count only Matter actually removed by environmental decay for this realm's Smash reward.
+	state.total_matter_decayed_this_prestige += decayed_matter
 	
 	var heat = state.get_resource_amount(
 		ResourceIds.HEAT

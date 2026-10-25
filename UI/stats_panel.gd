@@ -17,9 +17,12 @@ var time_manager: TimeManager
 var resource_stat_rows: Dictionary = {}
 var resource_statistics_rows: Dictionary = {}
 var pressure_labels: Dictionary = {}
+var current_section: String = "overview"
+var last_generator_id: String = ""
 
 func _ready() -> void:
 	_style_stats_panel()
+	_set_active_section("overview")
 
 
 func _style_stats_panel() -> void:
@@ -39,11 +42,11 @@ func _style_stats_panel() -> void:
 	add_theme_color_override("font_pressed_color", Color(1.0, 0.84, 0.65))
 
 	for node_path in [
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/TimeTitleLabel",
-		"ScrollContainer/VBoxContainer/CurrentResourcesTitleLabel",
-		"ScrollContainer/VBoxContainer/PressureContainer/PressureTitleLabel",
-		"ScrollContainer/VBoxContainer/ResourceHistoryTitleLabel",
-		"ScrollContainer/VBoxContainer/GeneratorStatsTitleLabel"
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/TimeTitleLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/CurrentResourcesTitleLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/PressureContainer/PressureTitleLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/ResourceHistoryTitleLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/GeneratorStatsTitleLabel"
 	]:
 		var title := get_node_or_null(node_path) as Label
 		if title == null:
@@ -52,12 +55,12 @@ func _style_stats_panel() -> void:
 		title.add_theme_color_override("font_color", Color(1.0, 0.66, 0.36))
 
 	for node_path in [
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/ActiveTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/OfflineTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/GameTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/PrestigeTimeLabel",
-		"ScrollContainer/VBoxContainer/TimeStatsContainer/TimeScaleLabel"
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/ActiveTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/OfflineTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/GameTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/PrestigeTimeLabel",
+		"PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/TimeScaleLabel"
 	]:
 		var value_label := get_node_or_null(node_path) as Label
 		if value_label != null:
@@ -92,9 +95,85 @@ func _process(_delta: float) -> void:
 	update_pressure_stats()
 	update_generator_stats()
 
+func _set_active_section(section_id: String) -> void:
+	current_section = section_id
+	var section_nodes := {
+		"overview": ["CurrentResourcesTitleLabel", "ResourceStatsContainer", "ResourceSectionSeparator"],
+		"effects": ["PressureContainer", "PressureSectionSeparator"],
+		"generators": ["GeneratorStatsTitleLabel", "GeneratorStatsContainer"],
+		"history": ["ResourceHistoryTitleLabel", "ResourceStatisticsContainer", "HistorySectionSeparator"],
+		"time": ["TimeStatsContainer", "TimeSectionSeparator"]
+	}
+	for section_key in section_nodes:
+		for node_name in section_nodes[section_key]:
+			var node := $PanelContent/ScrollContainer/VBoxContainer.get_node_or_null(node_name) as Control
+			if node != null:
+				node.visible = section_key == section_id
+	for button_name in ["OverviewButton", "EffectsButton", "GeneratorsButton", "HistoryButton", "TimeButton"]:
+		var button := $PanelContent/SectionNavigation.get_node(button_name) as Button
+		var button_section := button_name.trim_suffix("Button").to_lower()
+		button.button_pressed = button_section == section_id
+		var button_style := StyleBoxFlat.new()
+		button_style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if button.button_pressed else Color(0.075, 0.06, 0.075, 0.98)
+		button_style.border_color = Color(0.95, 0.48, 0.20, 1.0) if button.button_pressed else Color(0.28, 0.20, 0.19, 1.0)
+		button_style.set_border_width_all(2 if button.button_pressed else 1)
+		button_style.set_corner_radius_all(3)
+		button_style.content_margin_left = 3.0
+		button_style.content_margin_right = 3.0
+		button_style.content_margin_top = 4.0
+		button_style.content_margin_bottom = 4.0
+		button.add_theme_stylebox_override("normal", button_style)
+		var hover_style := button_style.duplicate() as StyleBoxFlat
+		hover_style.bg_color = button_style.bg_color.lightened(0.10)
+		hover_style.border_color = button_style.border_color.lightened(0.10)
+		button.add_theme_stylebox_override("hover", hover_style)
+		button.add_theme_color_override(
+			"font_color",
+			Color(1.0, 0.82, 0.62) if button.button_pressed else Color(0.82, 0.75, 0.70)
+		)
+	$PanelContent/ScrollContainer.scroll_vertical = 0
+
+
+func _on_overview_button_pressed() -> void:
+	_set_active_section("overview")
+
+
+func _on_effects_button_pressed() -> void:
+	_set_active_section("effects")
+
+
+func _on_generators_button_pressed() -> void:
+	_set_active_section("generators")
+
+
+func _on_history_button_pressed() -> void:
+	_set_active_section("history")
+
+
+func _on_time_button_pressed() -> void:
+	_set_active_section("time")
+
+
+func open_generator_stats(generator_id: String) -> void:
+	if generator_id.is_empty():
+		_set_active_section("generators")
+		return
+	last_generator_id = generator_id
+	_set_active_section("generators")
+	ensure_generator_stats()
+	await get_tree().process_frame
+	var entry := $PanelContent/ScrollContainer/VBoxContainer/GeneratorStatsContainer.get_node_or_null(generator_id) as GeneratorStatsEntry
+	if entry == null:
+		return
+	entry.expanded = true
+	entry.update_display()
+	await get_tree().process_frame
+	$PanelContent/ScrollContainer.ensure_control_visible(entry)
+
+
 func _setup_resource_stats() -> void:
 	var container = (
-		$ScrollContainer/VBoxContainer/ResourceStatsContainer
+		$PanelContent/ScrollContainer/VBoxContainer/ResourceStatsContainer
 	)
 	
 	for child in container.get_children():
@@ -222,7 +301,7 @@ func _setup_resource_stats() -> void:
 
 func _setup_resource_statistics() -> void:
 	var container = (
-		$ScrollContainer/VBoxContainer/ResourceStatisticsContainer
+		$PanelContent/ScrollContainer/VBoxContainer/ResourceStatisticsContainer
 	)
 	
 	for child in container.get_children():
@@ -431,37 +510,42 @@ func update_resource_statistics() -> void:
 				lifetime_statistics.get_total_overflow()
 			)
 
+		if resource_id == ResourceIds.MATTER:
+			all_realms_text += "\nDecayed: %s" % NumberFormatter.format(
+				lifetime_statistics.get_total_matter_decayed()
+			)
+
 
 		row["this_realm"].text = this_realm_text
 		row["all_realms"].text = all_realms_text
 		
 func update_time_stats() -> void:
-	$ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel.text = (
+	$PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/SessionTimeLabel.text = (
 		"This Session: %s"
 		% format_time(time_manager.session_time)
 	)
 	
-	$ScrollContainer/VBoxContainer/TimeStatsContainer/ActiveTimeLabel.text = (
+	$PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/ActiveTimeLabel.text = (
 		"Active Time: %s"
 		% format_time(time_manager.active_time)
 	)
 	
-	$ScrollContainer/VBoxContainer/TimeStatsContainer/OfflineTimeLabel.text = (
+	$PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/OfflineTimeLabel.text = (
 		"Offline Time: %s"
 		% format_time(time_manager.offline_time)
 	)
 	
-	$ScrollContainer/VBoxContainer/TimeStatsContainer/GameTimeLabel.text = (
+	$PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/GameTimeLabel.text = (
 		"Game Time: %s"
 		% format_time(time_manager.game_time)
 	)
 	
-	$ScrollContainer/VBoxContainer/TimeStatsContainer/PrestigeTimeLabel.text = (
+	$PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/PrestigeTimeLabel.text = (
 		"Since Prestige: %s"
 		% format_time(time_manager.prestige_time)
 	)
 	
-	$ScrollContainer/VBoxContainer/TimeStatsContainer/TimeScaleLabel.text = (
+	$PanelContent/ScrollContainer/VBoxContainer/TimeStatsContainer/TimeScaleLabel.text = (
 		"Time Speed: ×%s"
 		% NumberFormatter.format(time_manager.time_scale)
 	)
@@ -569,7 +653,7 @@ func ensure_generator_stats() -> void:
 		
 		var generator_id = generator.definition.id
 		
-		if $ScrollContainer/VBoxContainer/GeneratorStatsContainer.has_node(
+		if $PanelContent/ScrollContainer/VBoxContainer/GeneratorStatsContainer.has_node(
 			generator_id
 		):
 			continue
@@ -580,7 +664,7 @@ func ensure_generator_stats() -> void:
 		
 		entry.name = generator_id
 		
-		$ScrollContainer/VBoxContainer/GeneratorStatsContainer.add_child(
+		$PanelContent/ScrollContainer/VBoxContainer/GeneratorStatsContainer.add_child(
 			entry
 		)
 		
@@ -591,7 +675,7 @@ func ensure_generator_stats() -> void:
 		)
 
 func _setup_pressure_rows() -> void:
-	var container: VBoxContainer = $ScrollContainer/VBoxContainer/PressureContainer
+	var container: VBoxContainer = $PanelContent/ScrollContainer/VBoxContainer/PressureContainer
 	var title: Label = container.get_node("PressureTitleLabel")
 	title.text = "EFFECTS"
 
@@ -611,6 +695,7 @@ func _setup_pressure_rows() -> void:
 	_add_effect_section(container, "MATTER")
 	_add_effect_row(container, "matter_threshold", "Decay Threshold: 0 Matter", ResourceIds.MATTER)
 	_add_effect_row(container, "matter_decay", "Decay Rate: 0 Matter/s → 0 Heat/s", ResourceIds.MATTER)
+	_add_effect_row(container, "matter_decayed_this_realm", "Decayed This Realm: 0 Matter", ResourceIds.MATTER)
 	
 	_add_effect_section(container, "ASH CONTAMINATION")
 	_add_effect_row(container, "ash_contamination", "Ash Contamination: ×1", ResourceIds.ASH)
@@ -618,7 +703,7 @@ func _setup_pressure_rows() -> void:
 	_add_effect_section(container, "CRYSTALLIZED FLAME")
 	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 	_add_effect_row(container, "flame_penalty", "Heat Production Penalty: 0%", ResourceIds.CRYSTALLIZED_FLAME)
-	_add_effect_row(container, "overflow_bonus", "Overflow Bonus Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
+	_add_effect_row(container, "overflow_bonus", "Overflow Counting Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 
 	_add_effect_section(container, "ESSENCE")
 	_add_effect_row(container, "essence_hunger", "Lava Mite Hunger: ×1", ResourceIds.ESSENCE)
@@ -688,7 +773,7 @@ func update_pressure_stats() -> void:
 	)
 	pressure_labels["overflow_this_realm"].text = (
 		"Overflow This Realm: %s"
-		% NumberFormatter.format(state.current_run_statistics.get_total_overflow())
+		% NumberFormatter.format(state.total_overflow_this_prestige)
 	)
 	pressure_labels["matter_threshold"].text = (
 		"Decay Threshold: %s Matter"
@@ -700,6 +785,10 @@ func update_pressure_stats() -> void:
 			NumberFormatter.format(matter_decay),
 			NumberFormatter.format(matter_decay)
 		]
+	)
+	pressure_labels["matter_decayed_this_realm"].text = (
+		"Decayed This Realm: %s Matter"
+		% NumberFormatter.format(state.total_matter_decayed_this_prestige)
 	)
 	pressure_labels["ash_contamination"].text = (
 		"Ash Contamination: ×%s"
@@ -722,7 +811,7 @@ func update_pressure_stats() -> void:
 		% NumberFormatter.format(raw_flame_penalty_percent)
 	)
 	pressure_labels["overflow_bonus"].text = (
-		"Overflow Bonus Multiplier: ×%s"
+		"Overflow Counting Multiplier: ×%s"
 		% NumberFormatter.format(pow(1.25, state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME)))
 	)
 	pressure_labels["essence_hunger"].text = (

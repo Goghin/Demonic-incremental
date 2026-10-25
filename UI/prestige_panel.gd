@@ -233,9 +233,13 @@ func _refresh_planning_ui() -> void:
 			float(report.get("peak_heat", 0.0)),
 			float(report.get("peak_matter", 0.0))
 		]
-		+ "Crystallized Flame: %.0f   |   Overflow: %.0f\n" % [
+		+ "Crystallized Flame: %.0f   |   Heat Overflow: %.0f\n" % [
 			float(report.get("crystallized_flame", 0.0)),
 			float(report.get("total_overflow", 0.0))
+		]
+		+ "Matter Decayed: %.0f   |   Environmental Bonus: x%.2f\n" % [
+			float(report.get("total_matter_decayed", 0.0)),
+			float(report.get("environmental_multiplier", 1.0))
 		]
 		+ "Generators reached: " + generators_text
 		+ first_prestige_bonus_text
@@ -1131,57 +1135,41 @@ func _update_overflow_bonus_ui() -> void:
 	if state == null or overflow_bonus_label == null:
 		return
 
-	var crystallized_flame: float = (
-		state.get_resource_amount(
-			ResourceIds.CRYSTALLIZED_FLAME
-		)
+	var crystallized_flame: float = state.get_resource_amount(
+		ResourceIds.CRYSTALLIZED_FLAME
 	)
-
-	var infernal_forge = state.get_generator(
-		"infernal_forge"
-	)
-
-	var overflow_multiplier: float = (
-		state.get_overflow_bonus()
-	)
-
-	var next_overflow_multiplier: float = (
-		state.next_overflow_bonus()
-	)
+	var infernal_forge: Generator = state.get_generator("infernal_forge")
+	var heat_multiplier: float = state.get_heat_overflow_bonus()
+	var matter_multiplier: float = state.get_matter_decay_bonus()
+	var combined_multiplier: float = state.get_combined_environmental_reward_multiplier()
 
 	var base_gain: int = 0
 	var final_gain: int = 0
-
 	if infernal_forge != null:
 		var forge_level: int = infernal_forge.level
-
 		if forge_level > 0 and crystallized_flame > 0.0:
-			base_gain = floori(
-				crystallized_flame
-				* sqrt(float(forge_level))
-			)
-
+			base_gain = floori(crystallized_flame * sqrt(float(forge_level)))
 			final_gain = floori(
 				crystallized_flame
 				* sqrt(float(forge_level))
-				* overflow_multiplier
+				* combined_multiplier
 			)
 
-	var overflow_contribution: int = max(
-		0,
-		final_gain - base_gain
-	)
-
+	var environmental_contribution: int = max(0, final_gain - base_gain)
 	overflow_bonus_label.text = (
 		"Base Gain: %d\n"
-		+ "Current Overflow Multiplier: x%.2f\n"
-		+ "Current Overflow Contribution: +%d\n"
-		+ "Next Prestige Overflow Multiplier: x%.2f"
+		+ "Heat Overflow: %.0f (x%.2f)\n"
+		+ "Matter Decayed: %.0f (x%.2f)\n"
+		+ "Combined Environmental Multiplier: x%.2f\n"
+		+ "Environmental Bonus Contribution: +%d"
 	) % [
 		base_gain,
-		overflow_multiplier,
-		overflow_contribution,
-		next_overflow_multiplier
+		state.total_overflow_this_prestige,
+		heat_multiplier,
+		state.total_matter_decayed_this_prestige,
+		matter_multiplier,
+		combined_multiplier,
+		environmental_contribution
 	]
 
 func _is_brazier_unlocked(stat_name: String) -> bool:

@@ -28,6 +28,13 @@ var prerequisite_level: int = 0
 var prerequisite_generator_id: String = ""
 var prerequisite_generator_level: int = 0
 
+# Data-driven automatic progression rewards. Starting-level upgrades can
+# define a prestige threshold for each level; unlocks can require both a
+# minimum prestige count and lifetime Eternal Flames earned.
+var automatic_level_prestige_requirements: Array[int] = []
+var automatic_min_prestiges: int = 0
+var automatic_total_eternal_flame_requirement: float = 0.0
+
 var level: int = 0
 var max_level: int = 1
 
