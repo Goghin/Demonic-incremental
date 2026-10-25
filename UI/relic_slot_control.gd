@@ -119,11 +119,13 @@ func _make_custom_tooltip(_for_text: String) -> Object:
 	var description_label := RichTextLabel.new()
 	description_label.text = description
 	description_label.position = Vector2(10.0, 52.0)
+	# Keep the label constrained to the tooltip's inner width. fit_content=true
+	# lets RichTextLabel expand horizontally to its unwrapped text width.
 	description_label.custom_minimum_size = Vector2(258.0, 0.0)
 	description_label.size = Vector2(258.0, 0.0)
-	description_label.fit_content = true
+	description_label.fit_content = false
 	description_label.scroll_active = false
-	description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	description_label.autowrap_mode = TextServer.AUTOWRAP_ARBITRARY
 	description_label.add_theme_font_size_override("normal_font_size", 11)
 	description_label.add_theme_color_override("default_color", Color(0.86, 0.82, 0.78))
 	description_label.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
