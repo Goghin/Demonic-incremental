@@ -181,7 +181,7 @@ func _process(_delta: float) -> void:
 	var cycle_auto_run_unlocked: bool = state.eternal_flame_state.is_technology_unlocked(
 		EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
 	)
-	cycle_auto_run_button.visible = generator.definition.cycle_based and cycle_auto_run_unlocked
+	cycle_auto_run_button.visible = generator.unlocked and generator.definition.cycle_based and cycle_auto_run_unlocked
 	if cycle_auto_run_button.visible:
 		cycle_auto_run_button.text = "RUN: ON" if generator.auto_run_cycles else "RUN: OFF"
 		_update_toggle_button_style(cycle_auto_run_button, generator.auto_run_cycles)

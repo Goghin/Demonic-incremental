@@ -345,25 +345,23 @@ func _test_cycle_mode_without_level_increase() -> void:
 func _test_cycle_auto_run() -> void:
 	var state := GameState.new()
 	var simulation := Simulation.new(state)
-	var forge: Generator = state.get_generator("infernal_forge")
-	_expect(forge != null, "Infernal Forge was unavailable for the auto-run test.")
-	if forge == null:
+	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	_expect(extractor != null, "Relic Shard Extractor was unavailable for the auto-run test.")
+	if extractor == null:
 		return
-	_expect(not forge.auto_run_cycles, "Cycle auto-run should default to OFF.")
-	simulation.update_cycle_generator(forge, 1.0, false)
-	_expect(not forge.cycle_active, "Cycle auto-run started before its permanent shop unlock.")
+	_expect(not extractor.auto_run_cycles, "Cycle auto-run should default to OFF.")
+	simulation.update_cycle_generator(extractor, 1.0, false)
+	_expect(not extractor.cycle_active, "Cycle auto-run started before its permanent shop unlock.")
 	state.eternal_flame_state.unlock_technology(EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID)
-	forge.auto_run_cycles = true
+	extractor.auto_run_cycles = true
 	for resource in state.get_resources().values():
 		state.set_resource_amount(resource.definition.id, 1000000000000.0)
-	# Keep Ash at zero so the Forge's contamination slowdown does not alter
-	# the expected one-cycle timestep in this focused regression.
-	state.set_resource_amount(ResourceIds.ASH, 0.0)
-	var cycle_duration: float = forge.get_cycle_duration()
-	simulation.update_cycle_generator(forge, cycle_duration, false)
-	_expect(forge.cycle_active, "Auto-run did not automatically start an idle Forge cycle.")
-	_expect_approx(forge.cycle_progress, 0.0, "Auto-run should begin the next cycle after the first cycle completes.")
-
+	var cycle_duration: float = extractor.get_cycle_duration()
+	# Two full cycles plus five seconds should complete two batches and begin
+	# progressing through a third during offline catch-up.
+	simulation.update_cycle_generator(extractor, cycle_duration * 2.0 + 5.0, true)
+	_expect(extractor.cycle_active, "Auto-run did not start the next cycle during offline catch-up.")
+	_expect_approx(extractor.cycle_progress, 5.0, "Offline auto-run did not preserve the time remaining after repeated cycle completions.")
 
 func _test_generator_production() -> void:
 	var state := _new_test_state()
