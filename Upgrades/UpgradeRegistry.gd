@@ -129,9 +129,16 @@ static func _apply_discovery_requirements(upgrades: Dictionary) -> void:
 	# These upgrades affect Ash or Crystallization despite belonging to earlier trees.
 	var discovery_by_upgrade := {
 		"contamination_adaptation": ResourceIds.ASH,
-		"crystallization_adaptation": "upgrade:infernal_forge_unlock",
+		"agitation_optimization": ResourceIds.ASH,
+		"molecular_agitation_refinement": ResourceIds.ASH,
 		"molecular_agitation_expansion": ResourceIds.ASH,
+		"efficient_thermal_transfer": ResourceIds.ASH,
+		"thermal_ash_filtration": ResourceIds.ASH,
 		"thermal_furnace_efficiency": ResourceIds.ASH,
+		"thermal_purity": ResourceIds.ASH,
+		"matter_furnace_ash_reduction": ResourceIds.ASH,
+		"high_pressure_compression": ResourceIds.ASH,
+		"crystallization_adaptation": "upgrade:infernal_forge_unlock",
 		"infernal_forge_immunity": "upgrade:infernal_forge_unlock",
 		"essence_influence": "",
 		"essence_accumulation_penalty": "",
