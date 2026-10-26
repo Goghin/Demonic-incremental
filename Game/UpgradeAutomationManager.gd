@@ -28,6 +28,10 @@ var state: GameState:
 	set(value):
 		_state_ref = weakref(value) if value != null else null
 var automation_states: Dictionary = {}
+
+# Offline structural index only; eligibility and cooldown values stay live.
+var _offline_enabled_ids: Array[String] = []
+var _offline_index_dirty: bool = true
 var exclusive_preferences: Dictionary = {}
 
 
@@ -66,6 +70,7 @@ func is_enabled(generator_id: String) -> bool:
 
 
 func set_enabled(generator_id: String, enabled: bool) -> bool:
+	invalidate_offline_index()
 	if not automation_states.has(generator_id):
 		return false
 
@@ -106,9 +111,14 @@ func is_exclusive_preference_selected(upgrade_id: String) -> bool:
 	return bool(exclusive_preferences.get(upgrade_id, false))
 
 
-func update(delta: float, simulation: Simulation) -> void:
-	var tree_ids: Array[String] = AUTOMATABLE_GENERATOR_IDS.duplicate()
-	tree_ids.append(GENERAL_TREE_ID)
+func update(delta: float, simulation: Simulation, offline_mode: bool = false) -> void:
+	var tree_ids: Array[String]
+	if offline_mode:
+		tree_ids = _get_offline_enabled_ids()
+	else:
+		invalidate_offline_index()
+		tree_ids = AUTOMATABLE_GENERATOR_IDS.duplicate()
+		tree_ids.append(GENERAL_TREE_ID)
 
 	for tree_id in tree_ids:
 		if not is_enabled(tree_id):
@@ -193,6 +203,7 @@ func _upgrade_belongs_to_tree(
 
 
 func reset_for_new_run() -> void:
+	invalidate_offline_index()
 	var tree_ids: Array[String] = AUTOMATABLE_GENERATOR_IDS.duplicate()
 	tree_ids.append(GENERAL_TREE_ID)
 	for tree_id in tree_ids:
@@ -221,6 +232,7 @@ func get_save_data() -> Dictionary:
 
 
 func load_save_data(data: Dictionary) -> void:
+	invalidate_offline_index()
 	var tree_data: Dictionary = data.get("trees", {})
 	if tree_data.is_empty():
 		# Accept an empty/new save without changing the default-off state.
@@ -270,3 +282,23 @@ func load_save_data(data: Dictionary) -> void:
 				exclusive_preferences[upgrade_id] = false
 			else:
 				selected_groups[group_id] = upgrade_id
+
+
+func invalidate_offline_index() -> void:
+	_offline_index_dirty = true
+
+
+func _get_offline_enabled_ids() -> Array[String]:
+	if _offline_index_dirty:
+		_offline_enabled_ids.clear()
+		for id in _all_tree_ids():
+			if is_enabled(id):
+				_offline_enabled_ids.append(id)
+		_offline_index_dirty = false
+	return _offline_enabled_ids
+
+
+func _all_tree_ids() -> Array[String]:
+	var tree_ids: Array[String] = AUTOMATABLE_GENERATOR_IDS.duplicate()
+	tree_ids.append(GENERAL_TREE_ID)
+	return tree_ids

@@ -52,7 +52,27 @@ func _run_benchmarks() -> void:
 			quit(1)
 			return
 	print("COMPONENT_JSON " + JSON.stringify({"component": "startup_gate", "raw_usec": original_start, "indexed_usec": combined_start}))
+	_benchmark_disabled_automation()
 	quit()
+
+
+func _benchmark_disabled_automation() -> void:
+	var state := GameState.new()
+	var simulation := Simulation.new(state)
+	var raw_times: Array[int] = []
+	var indexed_times: Array[int] = []
+	for repeat_index in range(60):
+		for indexed in ([false, true] if repeat_index % 2 == 0 else [true, false]):
+			var start: int = Time.get_ticks_usec()
+			for _tick in range(1000):
+				state.generator_automation_manager.update(0.1, simulation, indexed)
+				state.upgrade_automation_manager.update(0.1, simulation, indexed)
+			var elapsed: int = Time.get_ticks_usec() - start
+			if indexed:
+				indexed_times.append(elapsed)
+			else:
+				raw_times.append(elapsed)
+	print("COMPONENT_JSON " + JSON.stringify({"component": "disabled_automation", "raw_usec": raw_times, "indexed_usec": indexed_times}))
 
 
 func _original_partial_input_start(generator: Generator, state: GameState) -> bool:

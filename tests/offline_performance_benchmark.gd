@@ -92,7 +92,7 @@ func _measure(duration: float, mode: String, scenario: String, profile: bool) ->
 		state.relic_manager.move_inventory_entry_to_machine_slot(str(entry["instance_id"]), "relic_shard_extractor", 0)
 	simulation.profiling_enabled = profile
 	simulation.diagnostics_enabled = true
-	var manager := TimeManager.new(simulation)
+	var manager: TimeManager = _create_time_manager(simulation)
 	state.simulation_statistics = manager.simulation_statistics
 	var updates: int = 0
 	var progress_updates: int = 0
@@ -139,7 +139,11 @@ func _measure(duration: float, mode: String, scenario: String, profile: bool) ->
 	var source_hashes: Dictionary = {
 		"simulation": String(simulation.get_script().source_code).sha256_text(),
 		"generator": String(state.generators.values()[0].get_script().source_code).sha256_text(),
-		"time_manager": String(manager.get_script().source_code).sha256_text()
+		"time_manager": String(manager.get_script().source_code).sha256_text(),
+		"generator_automation": String(state.generator_automation_manager.get_script().source_code).sha256_text(),
+		"upgrade_automation": String(state.upgrade_automation_manager.get_script().source_code).sha256_text(),
+		"gameplay_random": FileAccess.get_file_as_string("res://Game/gameplay_random.gd").sha256_text(),
+		"relic_generation": String(state.relic_manager.generation_manager.get_script().source_code).sha256_text()
 	}
 	var result: Dictionary = {"source_sha256": source_hashes,
 		"seconds": wall_seconds, "duration": duration, "mode": mode, "scenario": scenario,
@@ -152,6 +156,14 @@ func _measure(duration: float, mode: String, scenario: String, profile: bool) ->
 			"generator_automation": generator_automation, "upgrade_automation": state.upgrade_automation_manager.automation_states.duplicate(true),
 			"events": logger.events.duplicate(true), "rng_tail": rng_tail, "rng_kind": "GameState.gameplay_rng"}
 	}
+	# Include persisted progression/equipment as well as runtime fields. Exclude
+	# the independently randomized cosmetic lava palette from gameplay hashes.
+	var save_snapshot: Dictionary = SaveManager.new().state_to_dictionary(state).duplicate(true)
+	save_snapshot.erase("lava_palette")
+	result["snapshot"]["save_state"] = save_snapshot
+	result["snapshot"]["generator_automation_internal"] = state.generator_automation_manager.automation_states.duplicate(true)
+	if manager.get("offline_yield_count") != null:
+		result["scheduling"] = {"yields": manager.get("offline_yield_count"), "steps": manager.get("offline_steps_processed"), "max_work_usec": manager.get("offline_max_work_usec"), "frame_wait_usec": manager.get("offline_frame_wait_usec")}
 	if mode == "manager":
 		result["clocks"] = {"game": manager.game_time, "offline": manager.offline_time, "prestige": manager.prestige_time, "duration": manager.current_offline_duration}
 	# Hash Variant encoding as well as JSON: this retains every double's bits.
@@ -160,3 +172,9 @@ func _measure(duration: float, mode: String, scenario: String, profile: bool) ->
 		result["clocks_binary_sha256"] = var_to_bytes(result["clocks"]).hex_encode().sha256_text()
 	state.simulation_statistics = null
 	return result
+
+
+# Overridden by scheduling experiments; reference fixtures still use the
+# starting commit's original TimeManager and simulation arithmetic.
+func _create_time_manager(simulation: Simulation) -> TimeManager:
+	return TimeManager.new(simulation)

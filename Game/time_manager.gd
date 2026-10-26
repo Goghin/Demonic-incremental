@@ -24,6 +24,14 @@ const MAX_STEP: float = 0.1
 const OFFLINE_MAX_GAME_STEP: float = MAX_STEP
 const OFFLINE_MAX_REAL_STEP: float = 0.1
 
+# A nonpositive budget retains the reference 100-step schedule for benchmarks.
+var offline_work_budget_ms: float = 12.0
+# Scheduling diagnostics only; no gameplay values depend on these counters.
+var offline_yield_count: int = 0
+var offline_steps_processed: int = 0
+var offline_max_work_usec: int = 0
+var offline_frame_wait_usec: int = 0
+
 const PROGRESS_UPDATE_INTERVAL: int = 100
 const STABILIZATION_DURATION: float = 180.0
 
@@ -110,10 +118,15 @@ func update(real_delta: float) -> void:
 
 
 func simulate_offline(seconds: float) -> void:
+	offline_yield_count = 0
+	offline_steps_processed = 0
+	offline_max_work_usec = 0
+	offline_frame_wait_usec = 0
 	if seconds <= 0.0:
 		return
 
 	simulation_statistics.reset()
+	simulation.prepare_offline()
 	offline_simulation_active = true
 
 	# Progress represents REAL/OFFLINE time, not game time.
@@ -138,6 +151,9 @@ func simulate_offline(seconds: float) -> void:
 
 	var remaining = seconds
 	current_offline_duration = 0.0
+	var work_start_usec: int = Time.get_ticks_usec()
+	var budget_usec: int = maxi(1, roundi(offline_work_budget_ms * 1000.0))
+	var use_work_budget: bool = offline_work_budget_ms > 0.0
 
 	while remaining > 0.0:
 		# Bound both real time and game time. This keeps the offline
@@ -163,16 +179,22 @@ func simulate_offline(seconds: float) -> void:
 			_advance_offline_step(game_seconds)
 
 		simulation_tick += 1
+		offline_steps_processed += 1
 		remaining = max(0.0, remaining - step)
 
-		if simulation_tick % PROGRESS_UPDATE_INTERVAL == 0:
-			offline_simulation_progress.emit(
-				simulation_tick,
-				simulation_total_ticks
-			)
-
-			# Give the loading screen a chance to redraw.
+		var should_yield: bool = false
+		if use_work_budget:
+			should_yield = Time.get_ticks_usec() - work_start_usec >= budget_usec
+		else:
+			should_yield = simulation_tick % PROGRESS_UPDATE_INTERVAL == 0
+		if should_yield:
+			offline_simulation_progress.emit(mini(simulation_tick, simulation_total_ticks), simulation_total_ticks)
+			var yield_start_usec: int = Time.get_ticks_usec()
+			offline_max_work_usec = maxi(offline_max_work_usec, yield_start_usec - work_start_usec)
+			offline_yield_count += 1
 			await Engine.get_main_loop().process_frame
+			work_start_usec = Time.get_ticks_usec()
+			offline_frame_wait_usec += work_start_usec - yield_start_usec
 
 	# Make sure progress reaches exactly 100%, including for very short
 	# durations that don't hit a progress-update boundary.
@@ -182,7 +204,11 @@ func simulate_offline(seconds: float) -> void:
 		simulation_total_ticks
 	)
 
+	var final_yield_start_usec: int = Time.get_ticks_usec()
+	offline_max_work_usec = maxi(offline_max_work_usec, final_yield_start_usec - work_start_usec)
+	offline_yield_count += 1
 	await Engine.get_main_loop().process_frame
+	offline_frame_wait_usec += Time.get_ticks_usec() - final_yield_start_usec
 	offline_simulation_active = false
 
 

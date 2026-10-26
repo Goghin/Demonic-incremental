@@ -110,6 +110,12 @@ func _run_tests() -> void:
 	_run_test("Cycle completion effects respect operation-mode restrictions", _test_cycle_event_operation_mode_targeting)
 	_run_test("Generator stats expose data-driven special effects", _test_generator_special_effect_descriptors)
 
+	_run_test("Offline automation index preserves cooldowns, eligibility, ordering and resets", _test_batch_c_index)
+	_run_test("Offline automation index preserves dormant, starved and feedback states", _test_batch_c_starvation)
+	_run_test("Offline automation index refreshes after save/load", _test_batch_c_save)
+	await _run_async_test("Offline frame budgets preserve repeated crafting, RNG and loaded cycles", _test_batch_c_scheduling)
+	await _run_async_test("Offline scheduling preserves zero/short periods and scaled time", _test_batch_c_short)
+
 	print("")
 	print("========================================")
 	print(" RESULTS: %d passed, %d failed" % [_passed, _failed])
@@ -2355,3 +2361,48 @@ func _rng_saved_values_equal(a: Variant, b: Variant) -> bool:
 	if (a is float or a is int) and (b is float or b is int):
 		return absf(float(a) - float(b)) <= maxf(1.0, absf(float(a))) * 1e-12
 	return a == b
+
+
+func _run_async_test(test_name: String, test_callable: Callable) -> void:
+	var errors_before: int = _failed
+	await test_callable.call()
+	if _failed == errors_before:
+		_passed += 1
+		print("[PASS] " + test_name)
+	else:
+		print("[FAIL] " + test_name)
+
+
+func _check_batch_c_failures(test: RefCounted) -> void:
+	for message in test.failures:
+		_expect(false, message)
+
+
+func _test_batch_c_index() -> void:
+	var test = preload("res://tests/offline_batch_c_tests.gd").new()
+	test.test_index_parity()
+	_check_batch_c_failures(test)
+
+
+func _test_batch_c_starvation() -> void:
+	var test = preload("res://tests/offline_batch_c_tests.gd").new()
+	test.test_starvation()
+	_check_batch_c_failures(test)
+
+
+func _test_batch_c_save() -> void:
+	var test = preload("res://tests/offline_batch_c_tests.gd").new()
+	test.test_save_load()
+	_check_batch_c_failures(test)
+
+
+func _test_batch_c_scheduling() -> void:
+	var test = preload("res://tests/offline_batch_c_tests.gd").new()
+	await test.test_scheduling()
+	_check_batch_c_failures(test)
+
+
+func _test_batch_c_short() -> void:
+	var test = preload("res://tests/offline_batch_c_tests.gd").new()
+	await test.test_short_durations()
+	_check_batch_c_failures(test)

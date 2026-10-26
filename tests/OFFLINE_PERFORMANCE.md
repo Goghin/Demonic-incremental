@@ -1,5 +1,7 @@
 # Offline performance batch 1
 
+Historical measurements below predate gameplay RNG isolation and Batch C. See `GAMEPLAY_RNG.md` and `OFFLINE_BATCH_C.md` for current RNG ownership and offline scheduling.
+
 Starting commit: `1f49de685a792efb489ec756c6722d1c46f2043b` on `feature/cycle-auto-run`.
 
 ## Retained changes

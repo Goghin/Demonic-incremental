@@ -39,6 +39,13 @@ func _init(game_state: GameState) -> void:
 	state = game_state
 
 
+# Refresh structural preferences at every catch-up entry, including callers
+# that edited public state between sessions. No numerical state is cached.
+func prepare_offline() -> void:
+	state.generator_automation_manager.invalidate_offline_index()
+	state.upgrade_automation_manager.invalidate_offline_index()
+
+
 func reset_profile() -> void:
 	profile_totals_usec.clear()
 	profile_call_counts.clear()
@@ -266,7 +273,8 @@ func update(delta: float, offline_mode: bool = false) -> void:
 		profile_start_usec = Time.get_ticks_usec()
 	state.generator_automation_manager.update(
 		delta,
-		self
+		self,
+		offline_mode
 	)
 	if profiling_enabled:
 		_record_profile_time("generator_automation", profile_start_usec)
@@ -275,7 +283,8 @@ func update(delta: float, offline_mode: bool = false) -> void:
 		profile_start_usec = Time.get_ticks_usec()
 	state.upgrade_automation_manager.update(
 		delta,
-		self
+		self,
+		offline_mode
 	)
 	if profiling_enabled:
 		_record_profile_time("upgrade_automation", profile_start_usec)

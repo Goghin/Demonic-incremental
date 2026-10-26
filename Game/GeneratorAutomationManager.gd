@@ -28,6 +28,10 @@ var state: GameState:
 		_state_ref = weakref(value) if value != null else null
 var automation_states: Dictionary = {}
 
+# Offline structural index only; eligibility and cooldown values stay live.
+var _offline_enabled_ids: Array[String] = []
+var _offline_index_dirty: bool = true
+
 
 func _init(game_state: GameState) -> void:
 	state = game_state
@@ -84,6 +88,7 @@ func set_enabled(
 	generator_id: String,
 	enabled: bool
 ) -> bool:
+	invalidate_offline_index()
 	if not automation_states.has(generator_id):
 		return false
 
@@ -133,8 +138,11 @@ func get_cooldown(
 	)
 
 
-func update(delta: float, simulation: Simulation) -> void:
-	for generator_id in AUTOMATABLE_GENERATOR_IDS:
+func update(delta: float, simulation: Simulation, offline_mode: bool = false) -> void:
+	var ids: Array[String] = _get_offline_enabled_ids() if offline_mode else AUTOMATABLE_GENERATOR_IDS
+	if not offline_mode:
+		invalidate_offline_index()
+	for generator_id in ids:
 		var profile_start_usec: int = 0
 		if simulation.profiling_enabled:
 			profile_start_usec = Time.get_ticks_usec()
@@ -305,6 +313,7 @@ func _cache_waiting_cost(
 
 
 func reset_for_new_run() -> void:
+	invalidate_offline_index()
 	for generator_id in AUTOMATABLE_GENERATOR_IDS:
 		var automation: Dictionary = automation_states[generator_id]
 
@@ -328,6 +337,7 @@ func get_save_data() -> Dictionary:
 
 
 func load_save_data(data: Dictionary) -> void:
+	invalidate_offline_index()
 	for generator_id in AUTOMATABLE_GENERATOR_IDS:
 		var saved_state = data.get(generator_id, {})
 
@@ -349,3 +359,17 @@ func load_save_data(data: Dictionary) -> void:
 			)
 		else:
 			automation_states[generator_id]["remaining_cooldown"] = 0.0
+
+
+func invalidate_offline_index() -> void:
+	_offline_index_dirty = true
+
+
+func _get_offline_enabled_ids() -> Array[String]:
+	if _offline_index_dirty:
+		_offline_enabled_ids.clear()
+		for id in AUTOMATABLE_GENERATOR_IDS:
+			if is_enabled(id):
+				_offline_enabled_ids.append(id)
+		_offline_index_dirty = false
+	return _offline_enabled_ids
