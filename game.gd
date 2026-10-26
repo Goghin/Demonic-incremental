@@ -58,6 +58,8 @@ var _has_general_upgrade_automation_style: bool = false
 
 var selected_upgrade_generator_id: String = ""
 var selected_generator_id: String = ""
+var _last_upgrade_visibility_signature: String = ""
+var _upgrade_ui_rebuild_pending: bool = false
 var generator_list_mode: bool = false
 
 var effects_flow: HFlowContainer
@@ -1474,6 +1476,7 @@ func _process(
 	time_manager.update(
 		delta
 	)
+	_check_upgrade_visibility_changes()
 	if tutorial_manager != null and state.get_heat_leak_per_second() > 0.0:
 		tutorial_manager.notify_event("heat_leak_started")
 	if tutorial_manager != null and state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME) > 0.0:
@@ -2475,6 +2478,34 @@ func _rebuild_upgrade_ui() -> void:
 	await get_tree().process_frame
 	
 	_create_initial_upgrade_ui()
+	_last_upgrade_visibility_signature = _get_upgrade_visibility_signature()
+	_upgrade_ui_rebuild_pending = false
+	if selected_upgrade_generator_id != "":
+		_update_upgrade_view()
+
+
+func _get_upgrade_visibility_signature() -> String:
+	if state == null or state.upgrade_system == null:
+		return ""
+	var visible_upgrade_ids := PackedStringArray()
+	for upgrade in state.upgrades.values():
+		if state.upgrade_system.is_upgrade_visible(upgrade):
+			visible_upgrade_ids.append(upgrade.definition.id)
+	visible_upgrade_ids.sort()
+	return "|".join(visible_upgrade_ids)
+
+
+func _check_upgrade_visibility_changes() -> void:
+	var current_signature: String = _get_upgrade_visibility_signature()
+	if _last_upgrade_visibility_signature.is_empty():
+		_last_upgrade_visibility_signature = current_signature
+		return
+	if current_signature == _last_upgrade_visibility_signature:
+		return
+	if _upgrade_ui_rebuild_pending:
+		return
+	_upgrade_ui_rebuild_pending = true
+	call_deferred("_rebuild_upgrade_ui")
 
 
 func _on_generator_upgrades_requested(
