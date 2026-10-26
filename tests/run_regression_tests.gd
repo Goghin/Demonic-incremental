@@ -1692,6 +1692,23 @@ func _test_generator_special_effect_descriptors() -> void:
 	var friction_effects: Array[Dictionary] = stats_entry.get_special_effect_descriptors(friction)
 	_expect(friction_effects.is_empty(), "A generator without special effects displayed an unnecessary special-effects section.")
 
+	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	stats_entry.generator_id = "relic_shard_extractor"
+	var extractor_effects: Array[Dictionary] = stats_entry.get_special_effect_descriptors(extractor)
+	var found_crafting_critical := false
+	for effect_data in extractor_effects:
+		if str(effect_data.get("key", "")) != "completion_critical:forge_relic":
+			continue
+		found_crafting_critical = (
+			str(effect_data.get("description", "")).contains("5%")
+			and str(effect_data.get("mode_text", "")) == "Forge Relic"
+			and not bool(effect_data.get("active", true))
+		)
+	_expect(
+		found_crafting_critical,
+		"Generator stats did not expose the mode-specific critical crafting chance."
+	)
+
 
 func _test_cycle_completion_event_effects() -> void:
 	var state := _new_test_state()
