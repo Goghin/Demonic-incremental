@@ -1,6 +1,8 @@
 class_name RelicGenerationManager
 extends RefCounted
 
+const GameplayRandom = preload("res://Game/gameplay_random.gd")
+
 
 # Tier configuration owns the progression rules. Critical promotion follows the
 # next configured tier instead of assuming tiers are consecutive integers.
@@ -255,6 +257,7 @@ func get_next_tier(tier: int) -> int:
 
 func generate_relic(
 	requested_tier: int,
+	rng: RandomNumberGenerator,
 	critical_chance: float = 0.0,
 	forced_primary_effect_id: String = ""
 ) -> Dictionary:
@@ -266,12 +269,12 @@ func generate_relic(
 
 	var final_tier := requested_tier
 	var is_critical := critical_chance >= 1.0 or (
-		critical_chance > 0.0 and randf() < critical_chance
+		critical_chance > 0.0 and GameplayRandom.sample_unit(rng) < critical_chance
 	)
 	if is_critical:
 		final_tier = get_next_tier(requested_tier)
 
-	var primary_effect := _roll_effect_for_tier(final_tier, "", "weight", forced_primary_effect_id)
+	var primary_effect := _roll_effect_for_tier(final_tier, "", rng, "weight", forced_primary_effect_id)
 	if primary_effect.is_empty():
 		return {}
 
@@ -280,7 +283,7 @@ func generate_relic(
 	var tier_data: Dictionary = TIER_DEFINITIONS.get(final_tier, {})
 	generated_definition["rarity_name"] = str(tier_data.get("display_name", "Tier %d" % final_tier))
 	generated_definition["rarity_color"] = str(tier_data.get("display_color", "#ffffff"))
-	generated_definition["display_name"] = _make_display_name(primary_effect)
+	generated_definition["display_name"] = _make_display_name(primary_effect, rng)
 	generated_definition["family"] = _get_family_for_stat_group(str(primary_effect.get("stat_group", "")))
 	generated_definition["generated"] = true
 	generated_definition["effect_id"] = str(primary_effect.get("effect_id", ""))
@@ -297,7 +300,7 @@ func generate_relic(
 	var secondary_stats: Array[Dictionary] = []
 	var excluded_group := str(primary_effect.get("stat_group", ""))
 	for _index in range(secondary_count):
-		var secondary := _roll_effect_for_tier(final_tier, excluded_group, "secondary_weight")
+		var secondary := _roll_effect_for_tier(final_tier, excluded_group, rng, "secondary_weight")
 		if secondary.is_empty():
 			continue
 		secondary_stats.append(secondary)
@@ -314,6 +317,7 @@ func generate_relic(
 func _roll_effect_for_tier(
 	tier: int,
 	excluded_group: String,
+	rng: RandomNumberGenerator,
 	weight_key: String = "weight",
 	forced_effect_id: String = ""
 ) -> Dictionary:
@@ -335,15 +339,15 @@ func _roll_effect_for_tier(
 	if candidates.is_empty():
 		return {}
 
-	var selected := _weighted_pick(candidates, weight_key)
+	var selected := _weighted_pick(candidates, weight_key, rng)
 	if selected.is_empty():
 		return {}
 	var roll_ranges: Dictionary = selected.get("roll_ranges", {})
 	var range_values: Array = roll_ranges.get(tier, [])
 	if range_values.size() < 2:
 		return {}
-	selected["rolled_value"] = randf_range(float(range_values[0]), float(range_values[1]))
-	_apply_target_option(selected)
+	selected["rolled_value"] = GameplayRandom.sample_range(rng, float(range_values[0]), float(range_values[1]))
+	_apply_target_option(selected, rng)
 	selected.erase("roll_ranges")
 	selected.erase("target_options")
 	selected.erase("weight")
@@ -351,7 +355,7 @@ func _roll_effect_for_tier(
 	return selected
 
 
-func _apply_target_option(effect: Dictionary) -> void:
+func _apply_target_option(effect: Dictionary, rng: RandomNumberGenerator) -> void:
 	var options: Variant = effect.get("target_options", [])
 	if not options is Array or options.is_empty():
 		return
@@ -361,7 +365,7 @@ func _apply_target_option(effect: Dictionary) -> void:
 			candidates.append(option_variant)
 	if candidates.is_empty():
 		return
-	var selected_option := candidates[randi_range(0, candidates.size() - 1)]
+	var selected_option := candidates[rng.randi_range(0, candidates.size() - 1)]
 	effect["target_id"] = selected_option.get("target_id", "")
 	# A blank target is universal. Resource-specific descriptions are generated
 	# from the chosen target by RelicManager, avoiding stale "all resources" text.
@@ -371,14 +375,14 @@ func _apply_target_option(effect: Dictionary) -> void:
 		effect["description_label"] = ""
 
 
-func _weighted_pick(candidates: Array[Dictionary], weight_key: String) -> Dictionary:
+func _weighted_pick(candidates: Array[Dictionary], weight_key: String, rng: RandomNumberGenerator) -> Dictionary:
 	var total_weight := 0.0
 	for candidate in candidates:
 		total_weight += maxf(0.0, float(candidate.get(weight_key, 0.0)))
 	if total_weight <= 0.0:
 		return {}
 
-	var roll := randf() * total_weight
+	var roll := GameplayRandom.sample_unit(rng) * total_weight
 	for candidate in candidates:
 		roll -= maxf(0.0, float(candidate.get(weight_key, 0.0)))
 		if roll < 0.0:
@@ -396,8 +400,8 @@ func _get_family_for_stat_group(stat_group: String) -> String:
 			return stat_group
 
 
-func _make_display_name(effect: Dictionary) -> String:
-	var base_name := BASE_NAMES[randi_range(0, BASE_NAMES.size() - 1)]
+func _make_display_name(effect: Dictionary, rng: RandomNumberGenerator) -> String:
+	var base_name := BASE_NAMES[rng.randi_range(0, BASE_NAMES.size() - 1)]
 	var affix := str(effect.get("affix_text", ""))
 	match str(effect.get("affix_position", "prefix")):
 		"suffix":

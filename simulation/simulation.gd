@@ -1,6 +1,8 @@
 class_name Simulation
 extends RefCounted
 
+const GameplayRandom = preload("res://Game/gameplay_random.gd")
+
 signal generator_unlocked(generator_id: String)
 signal crystallization_completed(crystals_created: float)
 signal critical_crystallization_completed(crystals_created: float)
@@ -765,7 +767,7 @@ func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 			effect,
 			effect.event_chance * effect_level
 		)
-		if chance >= 1.0 or (chance > 0.0 and randf() < chance):
+		if chance >= 1.0 or (chance > 0.0 and GameplayRandom.sample_unit(state.gameplay_rng) < chance):
 			triggered_events[effect.event_id] = true
 	return triggered_events
 
@@ -792,7 +794,7 @@ func _apply_cycle_completion_consequences(generator: Generator, triggered_events
 			effect,
 			effect.event_chance * effect_level
 		)
-		if chance >= 1.0 or (chance > 0.0 and randf() < chance):
+		if chance >= 1.0 or (chance > 0.0 and GameplayRandom.sample_unit(state.gameplay_rng) < chance):
 			var previous_level: int = generator.level
 			generator.level = maxi(generator.level - maxi(roundi(effect.event_value), 1), 0)
 			if generator.level < previous_level and generator.definition.id == "infernal_forge":

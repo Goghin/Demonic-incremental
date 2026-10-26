@@ -10,6 +10,9 @@ const MATTER_THRESHOLD_LINE_2_ID: String = "matter_threshold_line_2"
 
 
 var gameplay_log
+# One gameplay stream shared by active/offline simulation and relic generation.
+# Keep this object alive: RelicManager receives the same reference.
+var gameplay_rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 # Interval counters used by hidden gameplay-log economy snapshots.
 var gameplay_interval_produced: Dictionary = {}
@@ -91,7 +94,7 @@ func _init() -> void:
 	
 	eternal_flame_state = EternalFlameState.new()
 	eternal_flame_upgrade_manager = EternalFlameUpgradeManager.new()
-	relic_manager = RelicManager.new()
+	relic_manager = RelicManager.new(gameplay_rng)
 	
 	generator_automation_manager = GeneratorAutomationManager.new(self)
 	upgrade_automation_manager = UpgradeAutomationManager.new(self)

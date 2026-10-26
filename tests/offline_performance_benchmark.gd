@@ -29,6 +29,7 @@ func _run_benchmarks() -> void:
 func _measure(duration: float, mode: String, scenario: String, profile: bool) -> Dictionary:
 	seed(123456)
 	var state := GameState.new()
+	state.gameplay_rng.seed = 123456
 	_configure_test_state(state)
 	var logger := TraceLog.new()
 	state.gameplay_log = logger
@@ -128,7 +129,7 @@ func _measure(duration: float, mode: String, scenario: String, profile: bool) ->
 		upgrades[id] = state.upgrades[id].level
 	var rng_tail: Array[int] = []
 	for _index in range(4):
-		rng_tail.append(randi())
+		rng_tail.append(state.gameplay_rng.randi())
 	var generator_automation: Dictionary = state.generator_automation_manager.automation_states.duplicate(true)
 	# Internal cost-cache metadata is implementation detail; retain behavior state.
 	for automation in generator_automation.values():
@@ -149,7 +150,7 @@ func _measure(duration: float, mode: String, scenario: String, profile: bool) ->
 			"matter_decayed": state.total_matter_decayed_this_prestige, "inventory": state.relic_manager.get_save_data(),
 			"discoveries": state.get_discovered_resources_save_data(), "dormancy": state.get_lava_mite_dormancy_penalty(),
 			"generator_automation": generator_automation, "upgrade_automation": state.upgrade_automation_manager.automation_states.duplicate(true),
-			"events": logger.events.duplicate(true), "rng_tail": rng_tail}
+			"events": logger.events.duplicate(true), "rng_tail": rng_tail, "rng_kind": "GameState.gameplay_rng"}
 	}
 	if mode == "manager":
 		result["clocks"] = {"game": manager.game_time, "offline": manager.offline_time, "prestige": manager.prestige_time, "duration": manager.current_offline_duration}

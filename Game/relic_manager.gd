@@ -27,6 +27,14 @@ var equipped: Dictionary = {}
 var _next_instance_number: int = 1
 var generation_manager = preload("res://Game/relic_generation_manager.gd").new()
 var _next_item_instance_number: int = 1
+var _gameplay_rng: RandomNumberGenerator
+
+
+func _init(random_source: RandomNumberGenerator = null) -> void:
+	_gameplay_rng = random_source
+	if _gameplay_rng == null:
+		# Standalone inventories/tests have their own stream too; never use globals.
+		_gameplay_rng = RandomNumberGenerator.new()
 
 func ensure_starter_relic() -> void:
 	for relic in inventory:
@@ -514,6 +522,7 @@ func add_random_relic_for_tier(
 ) -> String:
 	var generated: Dictionary = generation_manager.generate_relic(
 		tier,
+		_gameplay_rng,
 		clampf(critical_chance, 0.0, 1.0),
 		forced_primary_effect_id
 	)
@@ -736,6 +745,8 @@ func load_save_data(data: Dictionary) -> void:
 				relic_entry["generated_definition"] = saved_generated_definition.duplicate(true)
 				if entry.get("critical_craft", false):
 					relic_entry["critical_craft"] = true
+				if entry.has("requested_tier"):
+					relic_entry["requested_tier"] = int(entry["requested_tier"])
 				relic_entry["rolled_value"] = float(
 					entry.get("rolled_value", 1.0)
 				)

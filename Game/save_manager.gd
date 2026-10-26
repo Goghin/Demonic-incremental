@@ -3,7 +3,7 @@ extends RefCounted
 
 
 const SAVE_PATH := "user://savegame.json"
-const SAVE_VERSION := 8
+const SAVE_VERSION := 9
 
 
 func save_game(
@@ -154,6 +154,8 @@ func state_to_dictionary(
 	) -> Dictionary:
 	
 	var data = {
+		# JSON numbers cannot safely represent every 64-bit RNG value.
+		"gameplay_rng": {"seed": str(state.gameplay_rng.seed), "state": str(state.gameplay_rng.state)},
 		"resources": {},
 		"generators": {},
 		"upgrades": {},
@@ -212,6 +214,7 @@ func state_to_dictionary(
 			"manually_paused": generator.manually_paused,
 			"cycle_active": generator.cycle_active,
 			"cycle_progress": generator.cycle_progress,
+			"cycle_critical_chance_snapshot": _encode_chance_snapshot(generator.cycle_critical_chance_snapshot if generator.cycle_active else -1.0),
 			"operation_mode_id": generator.operation_mode_id,
 			"auto_run_cycles": generator.auto_run_cycles
 		}
@@ -250,6 +253,19 @@ func dictionary_to_state(
 	if not resources_data is Dictionary:
 		return false
 	
+	# Restore before any load-time gameplay reward (such as starter backfill).
+	# Legacy saves retain the stream initialized once by GameState._init().
+	if data.has("gameplay_rng"):
+		var rng_data: Variant = data["gameplay_rng"]
+		if not rng_data is Dictionary:
+			return false
+		if not _is_rng_integer(rng_data.get("seed")) or not _is_rng_integer(rng_data.get("state")):
+			return false
+		state.gameplay_rng.seed = str(rng_data["seed"]).to_int()
+		state.gameplay_rng.state = str(rng_data["state"]).to_int()
+	elif save_version >= 9:
+		return false
+
 	# Migrate the old misspelled resource ID used by existing saves.
 	if resources_data.has("Crystalized Flame"):
 		if not resources_data.has("Crystallized Flame"):
@@ -485,6 +501,22 @@ func dictionary_to_state(
 			generator.cycle_progress = float(
 				generator_data["cycle_progress"]
 			)
+		generator.cycle_critical_chance_snapshot = -1.0
+		if generator.cycle_active and generator_data.has("cycle_critical_chance_snapshot"):
+			var snapshot: Variant = generator_data["cycle_critical_chance_snapshot"]
+			if snapshot is String:
+				if not snapshot.begins_with("f64:") or snapshot.length() != 20:
+					return false
+				for character in snapshot.substr(4):
+					if not "0123456789abcdef".contains(character):
+						return false
+				snapshot = snapshot.substr(4).hex_decode().decode_double(0)
+			if not (snapshot is float or snapshot is int):
+				return false
+			var chance_snapshot: float = float(snapshot)
+			if not is_finite(chance_snapshot) or (chance_snapshot != -1.0 and (chance_snapshot < 0.0 or chance_snapshot > 1.0)):
+				return false
+			generator.cycle_critical_chance_snapshot = chance_snapshot
 		if generator_data.has("auto_run_cycles"):
 			generator.auto_run_cycles = bool(generator_data["auto_run_cycles"])
 			
@@ -565,6 +597,26 @@ func dictionary_to_state(
 		):
 			generator.auto_run_cycles = false
 	return true
+
+
+func _encode_chance_snapshot(chance: float) -> String:
+	# Avoid JSON decimal parsing roundoff in the activation-time probability.
+	var encoded := PackedByteArray()
+	encoded.resize(8)
+	encoded.encode_double(0, chance)
+	return "f64:" + encoded.hex_encode()
+
+
+func _is_rng_integer(value: Variant) -> bool:
+	# Require the canonical integer strings written above; reject overflow,
+	# fractional values and already-rounded JSON numbers instead of reseeding.
+	if not value is String or not value.is_valid_int():
+		return false
+	var digits: String = value.trim_prefix("-")
+	var limit: String = "9223372036854775808" if value.begins_with("-") else "9223372036854775807"
+	if digits.length() > limit.length() or (digits.length() == limit.length() and digits > limit):
+		return false
+	return str(value.to_int()) == value
 
 
 func _migrate_crystallized_flame_statistic_id(data: Dictionary) -> void:

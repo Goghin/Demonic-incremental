@@ -37,6 +37,9 @@ class InputRateProbe extends Generator:
 		return super.get_input_consumption_per_second(input, state, throttled_override)
 
 
+const GameplayRandomCompat = preload("res://Game/gameplay_random.gd")
+
+
 const OfflineComparison = preload("res://simulation/offline_simulation_comparison.gd")
 
 
@@ -55,6 +58,13 @@ func _run_tests() -> void:
 	print("========================================")
 
 	_run_test("GameState initializes core resources and generators", _test_initialization)
+	_run_test("Gameplay RNG replay ignores cosmetics and is shared by normal/offline cycles", _test_gameplay_rng_replay)
+	_run_test("Gameplay RNG survives JSON save/load without 64-bit rounding", _test_gameplay_rng_save_sequence)
+	_run_test("Mixed gameplay rolls continue identically after save/load", _test_gameplay_rng_save_actions)
+	_run_test("Active crafting critical snapshots survive JSON save/load", _test_gameplay_rng_critical_snapshot)
+	_run_test("Version 8 saves migrate without RNG state or critical snapshots", _test_gameplay_rng_legacy_save)
+	_run_test("Gameplay event RNG preserves roll order and probability-edge draw counts", _test_gameplay_rng_event_order)
+	_run_test("Explicit relic RNG preserves deterministic rolls and configured ranges", _test_gameplay_rng_relic_ranges)
 	_run_test("Resource discovery gates upgrade visibility and survives reset/save migration", _test_resource_discovery_visibility)
 	_run_test("Essence accumulation reduces all Essence output and mitigation upgrades weaken it", _test_essence_accumulation_penalty)
 	_run_test("Forge and Relic Crucible modes use the intended activation levels", _test_cycle_generator_activation_level_configuration)
@@ -2089,3 +2099,259 @@ func _test_offline_startup_evaluation_count() -> void:
 	probe.modifiers.append(Modifier.new(ModifierTypes.INPUT_DRAW, probe.get_active_inputs()[0].resource_id, 0.0))
 	_expect(probe.can_start_operating(state, true), "An empty input with zero effective draw must still allow offline startup.")
 	_expect(probe.rate_evaluations == 1, "Zero-rate empty inputs must be evaluated rather than assumed to block startup.")
+
+
+# RNG replay fixtures deliberately keep input reserves abundant so the existing
+# normal/offline input-operation differences do not obscure random-event parity.
+func _rng_state(seed_value: int = 123456) -> GameState:
+	var state := _new_test_state()
+	state.gameplay_rng.seed = seed_value
+	state.set_resource_amount(ResourceIds.HEAT, 1000000.0)
+	state.set_resource_amount(ResourceIds.MATTER, 1000000.0)
+	var forge: Generator = state.get_generator("infernal_forge")
+	forge.unlocked = true
+	forge.level = 3
+	forge.operation_mode_id = "fast"
+	var critical := UpgradeEffect.new(UpgradeEffectTypes.REGISTER_EVENT_EFFECT, forge.definition.id)
+	critical.event_trigger = UpgradeEffectTypes.EVENT_CYCLE_COMPLETED
+	critical.event_action = UpgradeEffectTypes.EVENT_ACTION_TRIGGER
+	critical.event_id = "forge_critical"
+	critical.event_chance = 0.5
+	var downlevel := UpgradeEffect.new(UpgradeEffectTypes.REGISTER_EVENT_EFFECT, forge.definition.id)
+	downlevel.event_trigger = UpgradeEffectTypes.EVENT_CYCLE_COMPLETED
+	downlevel.event_action = UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL
+	downlevel.event_chance = 0.5
+	downlevel.event_value = 1.0
+	forge.event_effects = [critical, downlevel]
+	var crucible: Generator = state.get_generator("relic_shard_extractor")
+	crucible.operation_mode_id = "forge_relic"
+	return state
+
+
+func _rng_actions(state: GameState, count: int, noisy: bool, offline: bool) -> Array[bool]:
+	var simulation := Simulation.new(state)
+	var criticals: Array[bool] = []
+	simulation.critical_crystallization_completed.connect(func(_amount: float) -> void: criticals.append(true))
+	simulation.crystallization_completed.connect(func(_amount: float) -> void: criticals.append(false))
+	var forge: Generator = state.get_generator("infernal_forge")
+	var crucible: Generator = state.get_generator("relic_shard_extractor")
+	for index in range(count):
+		if noisy:
+			seed(90123 + index)
+			var visual_items: Array[int] = [1, 2, 3, 4]
+			visual_items.shuffle()
+			for _noise in range(index % 19 + 1):
+				randf()
+				randi_range(0, 100)
+		forge.level = maxi(forge.level, 1)
+		forge.cycle_active = true
+		forge.operating = false
+		forge.cycle_progress = forge.get_cycle_duration() - 0.1
+		simulation.update_cycle_generator(forge, 0.1, offline)
+		crucible.cycle_active = true
+		crucible.operating = false
+		crucible.cycle_progress = crucible.get_cycle_duration() - 0.1
+		crucible.cycle_critical_chance_snapshot = 0.25
+		simulation.update_cycle_generator(crucible, 0.1, offline)
+	return criticals
+
+
+func _rng_snapshot(state: GameState) -> Dictionary:
+	var resources: Dictionary = {}
+	var levels: Dictionary = {}
+	for id in state.resources:
+		resources[id] = state.get_resource_amount(id)
+	for id in state.generators:
+		levels[id] = state.generators[id].level
+	return {"resources": resources, "levels": levels, "inventory": state.relic_manager.get_save_data(),
+		"statistics": state.resource_statistics.to_dictionary(), "rng_state": str(state.gameplay_rng.state)}
+
+
+func _test_gameplay_rng_replay() -> void:
+	var reference := _rng_state()
+	var noisy := _rng_state()
+	var offline := _rng_state()
+	var expected: Array[bool] = _rng_actions(reference, 32, false, false)
+	_expect(_rng_actions(noisy, 32, true, false) == expected, "Cosmetic/global RNG calls changed critical results.")
+	_expect(_rng_actions(offline, 32, true, true) == expected, "Offline cycles used a different gameplay stream.")
+	_expect(_rng_snapshot(reference) == _rng_snapshot(noisy), "Cosmetic RNG changed relics/resources/inventory or the gameplay stream.")
+	_expect(_rng_snapshot(reference) == _rng_snapshot(offline), "Normal/offline equivalent cycle actions produced different random outcomes.")
+	_expect(expected.has(true) and expected.has(false), "Replay fixture must exercise critical and normal outcomes.")
+
+
+func _json_rng_save(state: GameState) -> Dictionary:
+	var parsed: Variant = JSON.parse_string(JSON.stringify(SaveManager.new().state_to_dictionary(state)))
+	_expect(parsed is Dictionary, "RNG save fixture did not survive JSON encoding.")
+	return parsed if parsed is Dictionary else {}
+
+
+func _test_gameplay_rng_save_sequence() -> void:
+	for seed_value in ["9223372036854775807".to_int(), "-9223372036854775808".to_int()]:
+		var original := _rng_state(seed_value)
+		for _index in range(17):
+			original.gameplay_rng.randi()
+		var saved: Dictionary = _json_rng_save(original)
+		_expect(saved["gameplay_rng"]["seed"] is String and saved["gameplay_rng"]["state"] is String, "64-bit RNG data must be stored as strings.")
+		var restored := _new_test_state()
+		_expect(SaveManager.new().dictionary_to_state(restored, saved, SaveManager.SAVE_VERSION), "Modern RNG save failed to load.")
+		_expect(restored.gameplay_rng.seed == original.gameplay_rng.seed, "RNG seed lost precision in JSON.")
+		_expect(restored.gameplay_rng.state == original.gameplay_rng.state, "RNG state lost precision in JSON.")
+		for _index in range(128):
+			_expect(restored.gameplay_rng.randi() == original.gameplay_rng.randi(), "Reload changed a subsequent gameplay random value.")
+		# Bad modern RNG data fails instead of silently reseeding.
+		saved["gameplay_rng"]["state"] = "184467440737095516160"
+		_expect(not SaveManager.new().dictionary_to_state(_new_test_state(), saved, SaveManager.SAVE_VERSION), "Overflowed RNG state was accepted.")
+		saved.erase("gameplay_rng")
+		_expect(not SaveManager.new().dictionary_to_state(_new_test_state(), saved, SaveManager.SAVE_VERSION), "A modern save missing RNG state silently reseeded.")
+
+
+func _test_gameplay_rng_save_actions() -> void:
+	var original := _rng_state()
+	_rng_actions(original, 16, false, false)
+	var saved: Dictionary = _json_rng_save(original)
+	var restored := _rng_state(99)
+	_expect(SaveManager.new().dictionary_to_state(restored, saved, SaveManager.SAVE_VERSION), "Mixed gameplay save failed to load.")
+	_expect(_rng_saved_values_equal(_rng_snapshot(restored), _rng_snapshot(original)), "Loading rerolled or lost existing inventory/state.")
+	var existing_count: int = original.relic_manager.inventory.size()
+	var expected: Array[bool] = _rng_actions(original, 24, false, true)
+	_expect(_rng_actions(restored, 24, true, true) == expected, "Reload changed subsequent cycle critical rolls.")
+	_expect(_rng_saved_values_equal(_rng_snapshot(restored), _rng_snapshot(original)), "Reload changed subsequent relics/resources/inventory.")
+	_expect(restored.relic_manager.inventory.slice(existing_count) == original.relic_manager.inventory.slice(existing_count), "New post-load relic rolls must match exactly, not approximately.")
+
+
+func _test_gameplay_rng_critical_snapshot() -> void:
+	var state := _new_test_state()
+	state.gameplay_rng.seed = 7654321
+	var simulation := Simulation.new(state)
+	var crucible: Generator = state.get_generator("relic_shard_extractor")
+	crucible.operation_mode_id = "forge_relic"
+	crucible.level = 2
+	state.relic_manager.add_stackable_item("relic_shard", 100)
+	var entry: Dictionary = state.relic_manager.get_inventory_entry_at_slot(0)
+	_expect(state.relic_manager.move_inventory_entry_to_machine_slot(str(entry["instance_id"]), crucible.definition.id, 0), "Could not stock the active-craft fixture.")
+	state.set_resource_amount(ResourceIds.MATTER, 100.0)
+	_expect(simulation.buy_generator(crucible.definition.id), "Could not activate the snapshot craft.")
+	var activation_chance: float = crucible.cycle_critical_chance_snapshot
+	crucible.level = 20
+	crucible.cycle_progress = 12.5
+	var restored := _new_test_state()
+	_expect(SaveManager.new().dictionary_to_state(restored, _json_rng_save(state), SaveManager.SAVE_VERSION), "Active-craft save failed to load.")
+	var loaded: Generator = restored.get_generator(crucible.definition.id)
+	_expect(loaded.cycle_active and loaded.cycle_progress == 12.5, "Loading changed active cycle progress.")
+	_expect(loaded.cycle_critical_chance_snapshot == activation_chance, "Loading lost or rounded the activation-time critical chance.")
+	_expect(activation_chance != Simulation.new(restored).get_effective_relic_critical_chance(loaded, loaded.get_operation_mode()), "Snapshot fixture must differ from current-level critical chance.")
+	simulation.complete_cycle(crucible)
+	Simulation.new(restored).complete_cycle(loaded)
+	_expect(restored.relic_manager.get_save_data() == state.relic_manager.get_save_data(), "Loaded active craft produced a different relic.")
+	_expect(restored.gameplay_rng.state == state.gameplay_rng.state, "Loaded active craft consumed different RNG draws.")
+
+
+func _test_gameplay_rng_legacy_save() -> void:
+	var legacy: Dictionary = _json_rng_save(_rng_state())
+	legacy.erase("gameplay_rng")
+	for generator_data in legacy["generators"].values():
+		generator_data.erase("cycle_critical_chance_snapshot")
+	legacy["generators"]["relic_shard_extractor"]["cycle_active"] = true
+	legacy["generators"]["relic_shard_extractor"]["cycle_progress"] = 7.5
+	var migrated := _new_test_state()
+	migrated.gameplay_rng.seed = 2468
+	var initial_state: int = migrated.gameplay_rng.state
+	_expect(SaveManager.new().dictionary_to_state(migrated, legacy, 8), "Version-8 save without RNG fields failed to load.")
+	_expect(migrated.gameplay_rng.state == initial_state, "Legacy loading unnecessarily reseeded or consumed gameplay RNG.")
+	var craft: Generator = migrated.get_generator("relic_shard_extractor")
+	_expect(craft.cycle_active and craft.cycle_progress == 7.5, "Legacy cycle progress changed.")
+	_expect(craft.cycle_critical_chance_snapshot == -1.0, "Legacy load fabricated an unknown activation probability.")
+	var upgraded: Dictionary = _json_rng_save(migrated)
+	_expect(upgraded.has("gameplay_rng"), "Migrated save did not acquire persistent RNG state.")
+	var restored := _new_test_state()
+	_expect(SaveManager.new().dictionary_to_state(restored, upgraded, SaveManager.SAVE_VERSION), "Migrated save could not load as the modern format.")
+	_expect(restored.gameplay_rng.state == migrated.gameplay_rng.state, "Migrated RNG stream did not persist.")
+	# Preserve the existing starter backfill as a real gameplay RNG event.
+	var missing_reward := _new_test_state()
+	missing_reward.gameplay_rng.seed = 7531
+	missing_reward.eternal_flame_state.set_upgrade_level("reliquary", 1)
+	var reward_save: Dictionary = _json_rng_save(missing_reward)
+	missing_reward.relic_manager.ensure_starter_relic()
+	var loaded_reward := _new_test_state()
+	_expect(SaveManager.new().dictionary_to_state(loaded_reward, reward_save, SaveManager.SAVE_VERSION), "Starter-backfill save failed to load.")
+	_expect(loaded_reward.relic_manager.get_save_data() == missing_reward.relic_manager.get_save_data(), "Starter backfill did not use the restored gameplay stream.")
+	_expect(loaded_reward.gameplay_rng.state == missing_reward.gameplay_rng.state, "Starter backfill consumed unexpected gameplay draws.")
+
+
+func _test_gameplay_rng_event_order() -> void:
+	for chance in [0.0, 0.5, 1.0]:
+		var state := _rng_state(123)
+		var forge: Generator = state.get_generator("infernal_forge")
+		for effect in forge.event_effects:
+			effect.event_chance = chance
+		var reference := RandomNumberGenerator.new()
+		reference.seed = 123
+		seed(123)
+		var expected_critical: bool = chance >= 1.0 or (chance > 0.0 and randf() < chance)
+		var expected_downlevel: bool = chance >= 1.0 or (chance > 0.0 and randf() < chance)
+		if chance > 0.0 and chance < 1.0:
+			reference.randi()
+			reference.randi()
+		var actual: Array[bool] = []
+		var simulation := Simulation.new(state)
+		simulation.critical_crystallization_completed.connect(func(_amount: float) -> void: actual.append(true))
+		simulation.crystallization_completed.connect(func(_amount: float) -> void: actual.append(false))
+		simulation.complete_cycle(forge)
+		_expect(actual == [expected_critical], "The first gameplay draw no longer controls the critical event.")
+		_expect(forge.level == 3 - int(expected_downlevel), "The subsequent gameplay draw no longer controls downleveling.")
+		_expect(state.gameplay_rng.state == reference.state, "Probability 0/1 or event ordering changed the number of RNG draws.")
+
+
+func _test_gameplay_rng_relic_ranges() -> void:
+	# Compare the legacy global utility samplers themselves, not a duplicate
+	# of the new implementation. Covers precision and PCG draw consumption.
+	seed(654321)
+	var expected: Array[float] = []
+	for index in range(500):
+		expected.append(randf())
+		expected.append(randf_range(0.001, 1.75))
+		expected.append(float(randi_range(0, index % 13)))
+	var compatibility_rng := RandomNumberGenerator.new()
+	compatibility_rng.seed = 654321
+	for index in range(500):
+		_expect(GameplayRandomCompat.sample_unit(compatibility_rng) == expected[index * 3], "Dedicated stream changed the legacy unit sampler or draw ordering.")
+		_expect(GameplayRandomCompat.sample_range(compatibility_rng, 0.001, 1.75) == expected[index * 3 + 1], "Dedicated stream changed legacy stat-range sampling.")
+		_expect(float(compatibility_rng.randi_range(0, index % 13)) == expected[index * 3 + 2], "Dedicated stream changed bounded integer draw ordering.")
+	var generator = preload("res://Game/relic_generation_manager.gd").new()
+	var rng := RandomNumberGenerator.new()
+	var replay := RandomNumberGenerator.new()
+	rng.seed = 123456
+	replay.seed = 123456
+	for index in range(200):
+		var tier: int = 1 + index % 3
+		var result: Dictionary = generator.generate_relic(tier, rng, 0.05)
+		randf()
+		var duplicate: Dictionary = generator.generate_relic(tier, replay, 0.05)
+		_expect(result == duplicate, "Explicit relic RNG did not replay its selection/name/stat rolls.")
+		var definition: Dictionary = result["generated_definition"]
+		var ranges: Array = generator.EFFECT_DEFINITIONS[definition["effect_id"]]["roll_ranges"][result["tier"]]
+		_expect(float(result["rolled_value"]) >= float(ranges[0]) and float(result["rolled_value"]) <= float(ranges[1]), "Relic stat escaped its unchanged configured range.")
+		_expect(int(result["tier"]) == tier or int(result["tier"]) == generator.get_next_tier(tier), "Critical promotion escaped its existing tier rules.")
+	_expect(rng.state == replay.state, "Relic replay consumed different numbers of RNG draws.")
+
+
+func _rng_saved_values_equal(a: Variant, b: Variant) -> bool:
+	# Existing save JSON decimal roundoff is outside RNG isolation's scope.
+	# New rolls and RNG words are checked exactly by the tests above.
+	if a is Dictionary and b is Dictionary:
+		if a.size() != b.size():
+			return false
+		for key in a:
+			if not b.has(key) or not _rng_saved_values_equal(a[key], b[key]):
+				return false
+		return true
+	if a is Array and b is Array:
+		if a.size() != b.size():
+			return false
+		for index in range(a.size()):
+			if not _rng_saved_values_equal(a[index], b[index]):
+				return false
+		return true
+	if (a is float or a is int) and (b is float or b is int):
+		return absf(float(a) - float(b)) <= maxf(1.0, absf(float(a))) * 1e-12
+	return a == b

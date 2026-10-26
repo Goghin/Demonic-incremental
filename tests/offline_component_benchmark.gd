@@ -3,6 +3,7 @@ extends "res://tests/offline_performance_benchmark.gd"
 func _run_benchmarks() -> void:
 	seed(123456)
 	var state := GameState.new()
+	state.gameplay_rng.seed = 123456
 	_configure_test_state(state)
 	state.gameplay_log = TraceLog.new()
 	var simulation: Variant = Simulation.new(state)

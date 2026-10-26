@@ -128,6 +128,7 @@ func _run_case(
 	# Keep stochastic cycle events reproducible across step-size comparisons.
 	seed(123456)
 	var state := GameState.new()
+	state.gameplay_rng.seed = 123456
 	_configure_test_state(state)
 
 	var simulation := Simulation.new(state)
