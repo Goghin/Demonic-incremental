@@ -16,6 +16,8 @@ var exclusivity_group: String
 var upgrade_group_id: String
 var generator_id: String
 var technology_id: String
+# Optional resource/mechanic that must be discovered before this upgrade appears.
+var discovery_id: String = ""
 
 var icon_path: String = ""
 
