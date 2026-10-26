@@ -306,6 +306,11 @@ func get_detail_structure_signature(
 		)
 		signature += ";"
 	
+	# Rebuild when purchased effects or the selected operation mode changes.
+	signature += "|special_effects:" + generator.operation_mode_id
+	for descriptor in get_special_effect_descriptors(generator):
+		signature += str(descriptor.get("key", "")) + ";"
+
 	return signature
 
 
@@ -338,6 +343,155 @@ func rebuild_details(
 	build_modifier_details(
 		generator
 	)
+	build_special_effect_details(generator)
+
+
+func build_special_effect_details(generator: Generator) -> void:
+	var descriptors := get_special_effect_descriptors(generator)
+	if descriptors.is_empty():
+		return
+
+	add_detail_separator()
+	add_detail_row(create_stats_label("Special Effects:", 11), "special_effect_title")
+	for effect_index in range(descriptors.size()):
+		var label := create_stats_label("", 10)
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		add_detail_row(label, "special_effect", "", effect_index)
+
+
+func get_special_effect_descriptors(generator: Generator) -> Array[Dictionary]:
+	var descriptors: Array[Dictionary] = []
+
+	# Event effects use the same data as the simulation. Display only purchased
+	# sources and derive chance/strength from the current upgrade level.
+	for effect in generator.event_effects:
+		var source_upgrade: Upgrade = state.get_upgrade(effect.event_source_upgrade_id)
+		if source_upgrade == null or source_upgrade.level <= 0:
+			continue
+
+		var mode_restricted := not effect.operation_mode_ids.is_empty()
+		var event_applies_now := (
+			not mode_restricted
+			or effect.operation_mode_ids.has(generator.operation_mode_id)
+		)
+		var mode_text := "All modes"
+		if mode_restricted:
+			mode_text = _get_effect_mode_names(generator, effect.operation_mode_ids)
+		descriptors.append({
+			"key": "event:%s:%s:%s" % [
+				effect.event_source_upgrade_id,
+				effect.event_action,
+				",".join(effect.operation_mode_ids)
+			],
+			"name": source_upgrade.definition.display_name,
+			"description": _describe_event_effect(effect, source_upgrade),
+			"mode_text": mode_text,
+			"active": event_applies_now
+		})
+
+	# Crafting critical chance lives on operation-mode data rather than an
+	# UpgradeEffect, but uses the same reusable stats-section presentation.
+	for mode in generator.definition.operation_modes:
+		if mode.completion_critical_chance <= 0.0:
+			continue
+		var critical_applies_now := mode.id == generator.operation_mode_id
+		descriptors.append({
+			"key": "completion_critical:%s" % mode.id,
+			"name": "Critical Crafting",
+			"description": "Chance: %s%% per completed cycle to promote the crafted relic by one tier." % [
+				NumberFormatter.format(clampf(mode.completion_critical_chance, 0.0, 1.0) * 100.0)
+			],
+			"mode_text": mode.display_name,
+			"active": critical_applies_now
+		})
+
+	return descriptors
+
+
+func update_special_effect_label(
+	label: Label,
+	generator: Generator,
+	effect_index: int
+) -> void:
+	var descriptors := get_special_effect_descriptors(generator)
+	if effect_index < 0 or effect_index >= descriptors.size():
+		label.text = ""
+		return
+
+	var descriptor: Dictionary = descriptors[effect_index]
+	var is_active: bool = bool(descriptor.get("active", true))
+	var status_prefix := "✓ " if is_active else "— "
+	var mode_text := str(descriptor.get("mode_text", "All modes"))
+	label.text = "%s%s: %s\n  Modes: %s%s" % [
+		status_prefix,
+		str(descriptor.get("name", "Special Effect")),
+		str(descriptor.get("description", "")),
+		mode_text,
+		"" if is_active else " (inactive in current mode)"
+	]
+	label.add_theme_color_override(
+		"font_color",
+		Color(0.82, 0.78, 0.70) if is_active else Color(0.56, 0.52, 0.51)
+	)
+
+
+func _describe_event_effect(effect: UpgradeEffect, source_upgrade: Upgrade) -> String:
+	var effect_level: int = maxi(source_upgrade.level, 0)
+	match effect.event_action:
+		UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
+			var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+			return "Chance: %s%% per completed cycle to trigger %s." % [
+				NumberFormatter.format(chance * 100.0),
+				_get_event_display_name(effect.event_id)
+			]
+		UpgradeEffectTypes.EVENT_ACTION_MULTIPLY_COMPLETION_OUTPUT:
+			var bonus := effect.event_value * effect_level * 100.0
+			var resource_name := state.get_resource_display_name(effect.event_resource_id) if effect.event_resource_id != "" else "completion output"
+			var condition_text := ""
+			if effect.event_condition_id != "":
+				condition_text = " when %s triggers" % _get_event_display_name(effect.event_condition_id)
+			return "Bonus: +%s%% %s%s." % [
+				NumberFormatter.format(bonus),
+				resource_name,
+				condition_text
+			]
+		UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
+			var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+			var levels_lost := maxi(roundi(effect.event_value), 1)
+			return "Chance: %s%% per completed cycle to lose %d generator level(s)." % [
+				NumberFormatter.format(chance * 100.0),
+				levels_lost
+			]
+		_:
+			return "Event action: %s." % effect.event_action.replace("_", " ")
+
+
+func _get_event_display_name(event_id: String) -> String:
+	if event_id == UpgradeEffectTypes.EVENT_CYCLE_COMPLETED:
+		return "cycle completion"
+	for effect in state.get_generator(generator_id).event_effects:
+		if effect.event_id != event_id:
+			continue
+		var source_upgrade: Upgrade = state.get_upgrade(effect.event_source_upgrade_id)
+		if source_upgrade != null:
+			return source_upgrade.definition.display_name
+	return event_id.replace("_", " ")
+
+
+func _get_effect_mode_names(generator: Generator, mode_ids: Array[String]) -> String:
+	var names: Array[String] = []
+	for mode_id in mode_ids:
+		var found := false
+		for mode in generator.definition.operation_modes:
+			if mode.id != mode_id:
+				continue
+			names.append(mode.display_name)
+			found = true
+			break
+		if not found:
+			names.append(mode_id.replace("_", " ").capitalize())
+	return ", ".join(names)
+
 
 func apply_modifier_color(
 	label: Label,
@@ -715,6 +869,8 @@ func update_detail_values(
 					generator,
 					modifier_index
 				)
+			"special_effect":
+				update_special_effect_label(label, generator, modifier_index)
 
 
 func update_production_base_label(
