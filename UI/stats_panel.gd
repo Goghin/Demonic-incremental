@@ -113,6 +113,8 @@ func _set_active_section(section_id: String) -> void:
 		var button := $PanelContent/SectionNavigation.get_node(button_name) as Button
 		var button_section: String = button_name.trim_suffix("Button").to_lower()
 		button.button_pressed = button_section == section_id
+		button.add_theme_font_size_override("font_size", 9)
+		button.focus_mode = Control.FOCUS_NONE
 		var button_style := StyleBoxFlat.new()
 		button_style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if button.button_pressed else Color(0.075, 0.06, 0.075, 0.98)
 		button_style.border_color = Color(0.95, 0.48, 0.20, 1.0) if button.button_pressed else Color(0.28, 0.20, 0.19, 1.0)
@@ -340,9 +342,8 @@ func _setup_resource_statistics() -> void:
 		
 		# Section containing This Realm and All Realms
 		var stats_container = VBoxContainer.new()
-		stats_container.size_flags_horizontal = (
-			Control.SIZE_EXPAND_FILL
-		)
+		stats_container.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		stats_container.size_flags_vertical = Control.SIZE_SHRINK_BEGIN
 		
 		var this_realm_label = Label.new()
 		this_realm_label.text = "THIS REALM"
@@ -353,7 +354,9 @@ func _setup_resource_statistics() -> void:
 		)
 		
 		var this_realm_values = Label.new()
-		this_realm_values.autowrap_mode = TextServer.AUTOWRAP_OFF
+		this_realm_values.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		this_realm_values.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		this_realm_values.custom_minimum_size.x = 0.0
 		this_realm_values.add_theme_font_size_override(
 			"font_size",
 			11
@@ -368,7 +371,9 @@ func _setup_resource_statistics() -> void:
 		)
 		
 		var all_realms_values = Label.new()
-		all_realms_values.autowrap_mode = TextServer.AUTOWRAP_OFF
+		all_realms_values.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		all_realms_values.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		all_realms_values.custom_minimum_size.x = 0.0
 		all_realms_values.add_theme_font_size_override(
 			"font_size",
 			11
@@ -393,7 +398,9 @@ func _setup_resource_statistics() -> void:
 		)
 		
 		var row = HBoxContainer.new()
-		row.custom_minimum_size = Vector2(0, 90)
+		row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		row.custom_minimum_size = Vector2(0, 0)
+		row.add_theme_constant_override("separation", 10)
 		
 		row.add_child(name_container)
 		row.add_child(stats_container)
