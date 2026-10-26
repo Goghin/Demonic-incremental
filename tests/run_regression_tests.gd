@@ -350,6 +350,10 @@ func _test_cycle_auto_run() -> void:
 	if extractor == null:
 		return
 	_expect(not extractor.auto_run_cycles, "Cycle auto-run should default to OFF.")
+	_expect(
+		state.eternal_flame_upgrade_manager.get_upgrade("unlock_cycle_auto_run") != null,
+		"Cycle Auto-run was not registered in the Eternal Flame shop."
+	)
 	simulation.update_cycle_generator(extractor, 1.0, false)
 	_expect(not extractor.cycle_active, "Cycle auto-run started before its permanent shop unlock.")
 	state.eternal_flame_state.unlock_technology(EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID)

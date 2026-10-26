@@ -33,6 +33,8 @@ signal relics_changed
 
 
 var _normal_panel_style: StyleBox
+var _has_cycle_auto_run_style: bool = false
+var _last_cycle_auto_run_style_enabled: bool = false
 var is_new_unlock: bool = false
 var reliquary_compact_mode: bool = false
 
@@ -183,8 +185,15 @@ func _process(_delta: float) -> void:
 	)
 	cycle_auto_run_button.visible = generator.unlocked and generator.definition.cycle_based and cycle_auto_run_unlocked
 	if cycle_auto_run_button.visible:
-		cycle_auto_run_button.text = "RUN: ON" if generator.auto_run_cycles else "RUN: OFF"
-		_update_toggle_button_style(cycle_auto_run_button, generator.auto_run_cycles)
+		var cycle_auto_run_enabled: bool = generator.auto_run_cycles
+		cycle_auto_run_button.text = "RUN: ON" if cycle_auto_run_enabled else "RUN: OFF"
+		if (
+			not _has_cycle_auto_run_style
+			or cycle_auto_run_enabled != _last_cycle_auto_run_style_enabled
+		):
+			_update_toggle_button_style(cycle_auto_run_button, cycle_auto_run_enabled)
+			_last_cycle_auto_run_style_enabled = cycle_auto_run_enabled
+			_has_cycle_auto_run_style = true
 
 	update_illustration(generator)
 	_update_relic_slots_ui()
