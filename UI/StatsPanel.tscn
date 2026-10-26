@@ -13,6 +13,7 @@ script = ExtResource("1_ff2w1")
 
 [node name="PanelContent" type="VBoxContainer" parent="."]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
@@ -56,6 +57,7 @@ toggle_mode = true
 text = "TIME"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContent" unique_id=753617594]
+horizontal_scroll_mode = 3
 vertical_scroll_mode = 4
 layout_mode = 2
 size_flags_horizontal = 3
@@ -115,6 +117,7 @@ text = "CURRENT RESOURCES"
 
 [node name="ResourceStatsContainer" type="VBoxContainer" parent="PanelContent/ScrollContainer/VBoxContainer" unique_id=1478345356]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="ResourceSectionSeparator" type="HSeparator" parent="PanelContent/ScrollContainer/VBoxContainer" unique_id=824110012]
@@ -175,6 +178,7 @@ text = "RESOURCE HISTORY"
 
 [node name="ResourceStatisticsContainer" type="VBoxContainer" parent="PanelContent/ScrollContainer/VBoxContainer" unique_id=306330940]
 layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="HistorySectionSeparator" type="HSeparator" parent="PanelContent/ScrollContainer/VBoxContainer" unique_id=824110015]
 layout_mode = 2
@@ -186,6 +190,7 @@ text = "GENERATOR STATISTICS"
 
 [node name="GeneratorStatsContainer" type="VBoxContainer" parent="PanelContent/ScrollContainer/VBoxContainer" unique_id=756537500]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 0
 theme_override_constants/separation = 6
 
