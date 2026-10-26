@@ -76,6 +76,7 @@ func _run_tests() -> void:
 	_run_test("Miscellaneous modifiers report effective multipliers and sensitivity", _test_misc_modifier_sensitivity_reporting)
 	_run_test("Generic cycle completion effects modify output and can reduce level to zero", _test_cycle_completion_event_effects)
 	_run_test("Cycle completion effects respect operation-mode restrictions", _test_cycle_event_operation_mode_targeting)
+	_run_test("Generator stats expose data-driven special effects", _test_generator_special_effect_descriptors)
 
 	print("")
 	print("========================================")
@@ -1646,6 +1647,50 @@ func _test_misc_modifier_sensitivity_reporting() -> void:
 		"Miscellaneous modifier sensitivity was not exposed to the StatsPanel."
 	)
 
+
+
+func _test_generator_special_effect_descriptors() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	var forge: Generator = state.get_generator("infernal_forge")
+	var friction: Generator = state.get_generator("atomic_friction")
+	if forge == null or friction == null:
+		_expect(false, "Generators required for special-effect stats test are missing.")
+		return
+
+	forge.unlocked = true
+	forge.level = 1
+	state.get_upgrade("infernal_forge_unlock").level = 1
+	state.set_resource_amount(ResourceIds.MATTER, 1000000000.0)
+	_expect(simulation.buy_upgrade("infernal_forge_critical_chance"), "Could not buy Critical Chance for special-effect stats test.")
+	_expect(simulation.buy_upgrade("infernal_forge_critical_production"), "Could not buy Critical Production for special-effect stats test.")
+	for effect in forge.event_effects:
+		if effect.event_source_upgrade_id == "infernal_forge_critical_production":
+			effect.operation_mode_ids = ["fast"]
+
+	var stats_entry := GeneratorStatsEntry.new()
+	stats_entry.state = state
+	stats_entry.generator_id = "infernal_forge"
+	var forge_effects: Array[Dictionary] = stats_entry.get_special_effect_descriptors(forge)
+	_expect(not forge_effects.is_empty(), "Purchased Forge event effects were not exposed to generator stats.")
+
+	var found_chance := false
+	var found_output_bonus := false
+	var found_mode_restriction := false
+	for effect_data in forge_effects:
+		var effect_key := str(effect_data.get("key", ""))
+		var description := str(effect_data.get("description", ""))
+		if effect_key.contains("infernal_forge_critical_chance"):
+			found_chance = description.contains("Chance:")
+		if effect_key.contains("infernal_forge_critical_production"):
+			found_output_bonus = description.contains("Bonus:")
+			found_mode_restriction = str(effect_data.get("mode_text", "")) == "Fast"
+	_expect(found_chance, "Generator stats did not describe the purchased critical chance.")
+	_expect(found_output_bonus, "Generator stats did not describe the critical output bonus.")
+	_expect(found_mode_restriction, "Generator stats did not expose operation-mode restrictions.")
+
+	var friction_effects: Array[Dictionary] = stats_entry.get_special_effect_descriptors(friction)
+	_expect(friction_effects.is_empty(), "A generator without special effects displayed an unnecessary special-effects section.")
 
 
 func _test_cycle_completion_event_effects() -> void:
