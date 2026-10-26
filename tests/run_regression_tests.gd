@@ -26,6 +26,17 @@ class TestGameplayLog extends RefCounted:
 		})
 
 
+class InputRateProbe extends Generator:
+	var rate_evaluations: int = 0
+
+	func _init(generator_definition: GeneratorDefinition) -> void:
+		super(generator_definition)
+
+	func get_input_consumption_per_second(input: GeneratorIO, state: GameState, throttled_override: Variant = null) -> float:
+		rate_evaluations += 1
+		return super.get_input_consumption_per_second(input, state, throttled_override)
+
+
 const OfflineComparison = preload("res://simulation/offline_simulation_comparison.gd")
 
 
@@ -53,6 +64,9 @@ func _run_tests() -> void:
 	_run_test("Matter decay statistics clamp to actual available Matter", _test_matter_decay_clamped_statistics)
 	_run_test("Offline benchmark compares numeric aggregates, sparse flows and generator flags", _test_offline_benchmark_comparison)
 	_run_test("Offline benchmark formats resource flows and numeric aggregates", _test_offline_benchmark_statistics_output)
+	_run_test("Offline partial-input startup matches the existing input gate", _test_offline_partial_input_startup)
+	_run_test("Offline startup skips only unnecessary rate evaluations", _test_offline_startup_evaluation_count)
+	_run_test("Offline automatic upgrades preserve registry order and eligibility timing", _test_offline_automatic_upgrade_order)
 	_run_test("Generator purchase rejects insufficient resources", _test_purchase_rejects_insufficient_resources)
 	_run_test("Generator purchase spends the exact cost and adds one level", _test_successful_generator_purchase)
 	_run_test("Cycle mode can activate without increasing generator level", _test_cycle_mode_without_level_increase)
@@ -516,7 +530,7 @@ func _test_cycle_mode_without_level_increase() -> void:
 
 
 func _test_cycle_auto_run() -> void:
-	var state := GameState.new()
+	var state := _new_test_state()
 	var simulation := Simulation.new(state)
 	var extractor: Generator = state.get_generator("relic_shard_extractor")
 	var forge: Generator = state.get_generator("infernal_forge")
@@ -1881,6 +1895,8 @@ func _test_generator_special_effect_descriptors() -> void:
 		"Generator stats did not expose the mode-specific critical crafting chance."
 	)
 
+	stats_entry.free()
+
 
 func _test_cycle_completion_event_effects() -> void:
 	var state := _new_test_state()
@@ -1980,3 +1996,96 @@ func _test_cycle_event_operation_mode_targeting() -> void:
 		1.5,
 		"Fast-mode critical event and output bonus did not apply."
 	)
+
+
+func _test_offline_partial_input_startup() -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	for generator in state.generators.values():
+		if generator.definition.cycle_based:
+			continue
+		generator.unlocked = true
+		for mode in generator.definition.operation_modes:
+			generator.operation_mode_id = mode.id
+			for level in [0, 1, 5]:
+				generator.level = level
+				for amount in [0.0, 0.000001, 1.0, 100.0]:
+					for resource_id in state.resources:
+						state.set_resource_amount(resource_id, amount)
+					for paused in [false, true]:
+						generator.manually_paused = paused
+						var original: bool = generator.can_start_operating(state, true)
+						var combined: bool = level > 0 and not paused and simulation._get_available_operating_delta(generator, 0.1) > 0.0
+						_expect(original == combined, "Offline duration and original partial-input startup gates disagree.")
+	# Exercise the registered dynamic modifiers and sensitivities as well.
+	state.set_resource_amount(ResourceIds.ASH, 100.0)
+	state.set_resource_amount(ResourceIds.MATTER, 100.0)
+	state.set_resource_amount(ResourceIds.ESSENCE, 100.0)
+	simulation.update_automatic_upgrades()
+	for generator in state.generators.values():
+		if generator.definition.cycle_based:
+			continue
+		generator.unlocked = true
+		generator.level = 2
+		generator.manually_paused = false
+		var original: bool = generator.can_start_operating(state, true)
+		_expect(original == (simulation._get_available_operating_delta(generator, 0.1) > 0.0), "Dynamic input modifiers changed the startup equivalence.")
+
+
+func _upgrade_levels_snapshot(state: GameState) -> Dictionary:
+	var levels: Dictionary = {}
+	for id in state.upgrades:
+		levels[id] = state.upgrades[id].level
+	return levels
+
+
+func _test_offline_automatic_upgrade_order() -> void:
+	var reference := _new_test_state()
+	var indexed := _new_test_state()
+	var reference_simulation := Simulation.new(reference)
+	var indexed_simulation := Simulation.new(indexed)
+	for amount in [0.0, 1.0, 100.0, 0.0]:
+		for state in [reference, indexed]:
+			for id in state.resources:
+				state.set_resource_amount(id, amount)
+		reference_simulation.update_automatic_upgrades()
+		indexed_simulation.update_automatic_upgrades(true)
+		_expect(_upgrade_levels_snapshot(reference) == _upgrade_levels_snapshot(indexed), "Offline automatic upgrades changed eligibility timing.")
+		_expect(reference.gameplay_log.events == indexed.gameplay_log.events, "Offline automatic upgrades changed registry application order.")
+	indexed_simulation.update_automatic_upgrades(true)
+	for upgrade in indexed_simulation._offline_automatic_upgrades:
+		_expect(not upgrade.is_maxed(), "The offline index retained a maxed automatic upgrade.")
+	for state in [reference, indexed]:
+		state.reset_current_run()
+		state.gameplay_log.events.clear()
+		for id in state.resources:
+			state.set_resource_amount(id, 100.0)
+	reference_simulation.update_automatic_upgrades()
+	indexed_simulation.update_automatic_upgrades(true)
+	_expect(_upgrade_levels_snapshot(reference) == _upgrade_levels_snapshot(indexed), "Realm reset did not refresh pruned automatic upgrades.")
+	_expect(reference.gameplay_log.events == indexed.gameplay_log.events, "Realm reset changed automatic-upgrade order.")
+	# Rebuild after reset/load must not retain an old structural index.
+	indexed_simulation.rebuild_upgrade_effects()
+	_expect(indexed_simulation._offline_upgrade_count == -1, "Upgrade rebuild did not invalidate the automatic-upgrade index.")
+
+
+func _test_offline_startup_evaluation_count() -> void:
+	var state := _new_test_state()
+	var probe := InputRateProbe.new(state.get_generator("infernal_forge").definition)
+	probe.level = 1
+	probe.unlocked = true
+	probe.cycle_active = true
+	for resource_id in state.resources:
+		state.set_resource_amount(resource_id, 1e12)
+	_expect(probe.can_start_operating(state, true), "Nonempty offline inputs should pass startup.")
+	_expect(probe.rate_evaluations == 0, "Offline startup evaluated a rate whose value cannot affect its decision.")
+	_expect(probe.can_start_operating(state, false), "Normal startup with abundant inputs should pass.")
+	_expect(probe.rate_evaluations == probe.get_active_inputs().size(), "Normal gameplay must retain its original rate evaluations.")
+	probe.rate_evaluations = 0
+	state.set_resource_amount(probe.get_active_inputs()[0].resource_id, 0.0)
+	_expect(not probe.can_start_operating(state, true), "Empty input with a positive rate should block offline startup.")
+	_expect(probe.rate_evaluations == 1, "Empty inputs still need their rate evaluated.")
+	probe.rate_evaluations = 0
+	probe.modifiers.append(Modifier.new(ModifierTypes.INPUT_DRAW, probe.get_active_inputs()[0].resource_id, 0.0))
+	_expect(probe.can_start_operating(state, true), "An empty input with zero effective draw must still allow offline startup.")
+	_expect(probe.rate_evaluations == 1, "Zero-rate empty inputs must be evaluated rather than assumed to block startup.")

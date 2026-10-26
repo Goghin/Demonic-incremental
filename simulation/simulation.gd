@@ -15,6 +15,11 @@ var _gameplay_snapshot_realm_run_index: int = -1
 # Holds the current game state.
 var state: GameState
 
+# Structural offline index only: requirement values and upgrade levels remain live.
+var _offline_automatic_upgrades: Array[Upgrade] = []
+var _offline_upgrade_count: int = -1
+var _offline_realm_run_index: int = -1
+
 # Optional profiling counters. Disabled during normal gameplay.
 var profiling_enabled: bool = false
 var profile_totals_usec: Dictionary = {}
@@ -109,7 +114,7 @@ func update(delta: float, offline_mode: bool = false) -> void:
 	var profile_subphase_start_usec: int = 0
 	if profiling_enabled:
 		profile_start_usec = Time.get_ticks_usec()
-	update_automatic_upgrades()
+	update_automatic_upgrades(offline_mode)
 	if profiling_enabled:
 		_record_profile_time("automatic_upgrades", profile_start_usec)
 	
@@ -1437,6 +1442,7 @@ func _add_modifier_sensitivity_to_generator(
 
 
 func rebuild_upgrade_effects() -> void:
+	_offline_upgrade_count = -1
 	state.reset_lava_mite_dormancy_parameters()
 	
 	for generator in state.get_generators().values():
@@ -1463,8 +1469,12 @@ func rebuild_upgrade_effects() -> void:
 	state.rebuild_relic_modifiers()
 
 
-func update_automatic_upgrades() -> void:
-	for upgrade in state.upgrades.values():
+func update_automatic_upgrades(offline_mode: bool = false) -> void:
+	if not offline_mode:
+		# Active play or external edits may reset levels before another catch-up.
+		_offline_upgrade_count = -1
+	var candidates: Array = state.upgrades.values() if not offline_mode else _get_offline_automatic_upgrades()
+	for upgrade in candidates:
 		if not upgrade.definition.automatic:
 			continue
 		
@@ -1478,6 +1488,8 @@ func update_automatic_upgrades() -> void:
 		
 		var previous_level: int = upgrade.level
 		upgrade.level += 1
+		if offline_mode:
+			_offline_upgrade_count = -1
 		_record_diagnostic_event(
 			"automatic_upgrade",
 			upgrade.definition.id,
@@ -1499,6 +1511,17 @@ func update_automatic_upgrades() -> void:
 			},
 			"automatic"
 		)
+
+
+func _get_offline_automatic_upgrades() -> Array[Upgrade]:
+	if _offline_upgrade_count != state.upgrades.size() or _offline_realm_run_index != state.gameplay_realm_run_index:
+		_offline_automatic_upgrades.clear()
+		for upgrade in state.upgrades.values():
+			if upgrade.definition.automatic and not upgrade.is_maxed():
+				_offline_automatic_upgrades.append(upgrade)
+		_offline_upgrade_count = state.upgrades.size()
+		_offline_realm_run_index = state.gameplay_realm_run_index
+	return _offline_automatic_upgrades
 
 
 func toggle_generator_pause(

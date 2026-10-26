@@ -389,6 +389,12 @@ func can_start_operating(
 			input.resource_id
 		)
 		
+		# Offline partial-input startup only rejects an empty input with a
+		# positive rate. A nonempty input passes regardless of its rate, so
+		# defer rate evaluation to the operating-duration/consumption checks.
+		if allow_partial_inputs and input_amount > 0.0:
+			continue
+
 		var required_input = get_input_consumption_per_second(
 			input,
 			state
