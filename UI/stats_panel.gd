@@ -781,13 +781,13 @@ func _update_discovery_visibility() -> void:
 
 	for key in pressure_row_containers:
 		var row_container: Control = pressure_row_containers[key] as Control
-		var discovery_id: String = str(pressure_row_visibility_conditions[key])
-		row_container.visible = state.is_resource_discovered(discovery_id)
+		var row_discovery_id: String = str(pressure_row_visibility_conditions[key])
+		row_container.visible = state.is_resource_discovered(row_discovery_id)
 
 	for section_label_variant in pressure_section_visibility_conditions:
 		var section_label: Label = section_label_variant as Label
-		var discovery_id: String = str(pressure_section_visibility_conditions[section_label])
-		section_label.visible = state.is_resource_discovered(discovery_id)
+		var section_discovery_id: String = str(pressure_section_visibility_conditions[section_label])
+		section_label.visible = state.is_resource_discovered(section_discovery_id)
 
 
 func update_pressure_stats() -> void:
