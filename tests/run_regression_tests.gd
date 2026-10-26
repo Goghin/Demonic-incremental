@@ -360,12 +360,22 @@ func _test_cycle_auto_run() -> void:
 		simulation.update_cycle_generator(forge, 1.0, false)
 		_expect(not forge.cycle_active, "Infernal Forge auto-run activated without its own shop unlock.")
 	_expect(
-		state.eternal_flame_upgrade_manager.get_upgrade("unlock_cycle_auto_run") != null,
-		"Cycle Auto-run was not registered in the Eternal Flame shop."
+		state.eternal_flame_upgrade_manager.get_upgrade(
+			"unlock_cycle_auto_run_relic_shard_extractor"
+		) != null,
+		"Relic Shard Extractor Auto-run was not registered in the Eternal Flame shop."
+	)
+	_expect(
+		state.eternal_flame_upgrade_manager.get_upgrade(
+			"unlock_cycle_auto_run_infernal_forge"
+		) != null,
+		"Infernal Forge Auto-run was not registered in the Eternal Flame shop."
 	)
 	simulation.update_cycle_generator(extractor, 1.0, false)
 	_expect(not extractor.cycle_active, "Cycle auto-run started before its permanent shop unlock.")
-	state.eternal_flame_state.unlock_technology(EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID)
+	state.eternal_flame_state.unlock_technology(
+		EternalFlameState.get_cycle_auto_run_technology_id(extractor.definition.id)
+	)
 	extractor.auto_run_cycles = true
 	if forge != null:
 		simulation.update_cycle_generator(forge, 1.0, false)
