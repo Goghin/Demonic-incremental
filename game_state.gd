@@ -21,6 +21,7 @@ var track_gameplay_interval_statistics: bool = true
 var gameplay_realm_run_index: int = 0
 
 var resources: Dictionary = {}
+var discovered_resources: Dictionary = {}
 var resource_thresholds: Dictionary = {}
 var generators: Dictionary = {}
 var upgrades: Dictionary = {}
@@ -245,6 +246,46 @@ func get_resource_display_name(
 	
 	return resources[resource_id].definition.display_name
 
+func discover_resource(resource_id: String) -> void:
+	if not resources.has(resource_id):
+		return
+	discovered_resources[resource_id] = true
+
+
+func is_resource_discovered(resource_id: String) -> bool:
+	if resource_id == ResourceIds.HEAT:
+		return true
+	return bool(discovered_resources.get(resource_id, false))
+
+
+func get_discovered_resources_save_data() -> Dictionary:
+	return discovered_resources.duplicate(true)
+
+
+func restore_discovered_resources(data: Dictionary) -> void:
+	for resource_id in data:
+		if not resources.has(str(resource_id)):
+			continue
+		if bool(data[resource_id]):
+			discover_resource(str(resource_id))
+
+
+func reconcile_resource_discovery() -> void:
+	# Recover discoveries from lifetime statistics for saves created before this feature.
+	for resource_id in resources:
+		if get_resource_amount(resource_id) > 0.0:
+			discover_resource(resource_id)
+			continue
+		if resource_statistics.get_total_produced(resource_id) > 0.0:
+			discover_resource(resource_id)
+			continue
+		if resource_statistics.get_total_consumed(resource_id) > 0.0:
+			discover_resource(resource_id)
+			continue
+		if resource_statistics.get_highest_amount(resource_id) > 0.0:
+			discover_resource(resource_id)
+
+
 func set_resource_amount(
 	resource_id: String,
 	amount: float
@@ -252,6 +293,9 @@ func set_resource_amount(
 	
 	if not resources.has(resource_id):
 		return
+	
+	if amount > 0.0:
+		discover_resource(resource_id)
 	
 	resources[resource_id].amount = amount
 	
@@ -271,6 +315,8 @@ func record_resource_produced(
 	) -> void:
 	if amount <= 0.0:
 		return
+
+	discover_resource(resource_id)
 
 	if track_gameplay_interval_statistics:
 		gameplay_interval_produced[resource_id] = (
@@ -300,6 +346,8 @@ func record_resource_consumed(
 	) -> void:
 	if amount <= 0.0:
 		return
+
+	discover_resource(resource_id)
 
 	if track_gameplay_interval_statistics:
 		gameplay_interval_consumed[resource_id] = (
