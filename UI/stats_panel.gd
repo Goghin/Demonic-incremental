@@ -113,6 +113,8 @@ func _set_active_section(section_id: String) -> void:
 		var button := $PanelContent/SectionNavigation.get_node(button_name) as Button
 		var button_section := button_name.trim_suffix("Button").to_lower()
 		button.button_pressed = button_section == section_id
+		button.add_theme_font_size_override("font_size", 9)
+		button.focus_mode = Control.FOCUS_NONE
 		var button_style := StyleBoxFlat.new()
 		button_style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if button.button_pressed else Color(0.075, 0.06, 0.075, 0.98)
 		button_style.border_color = Color(0.95, 0.48, 0.20, 1.0) if button.button_pressed else Color(0.28, 0.20, 0.19, 1.0)
