@@ -3,7 +3,7 @@ extends RefCounted
 
 
 const SAVE_PATH := "user://savegame.json"
-const SAVE_VERSION := 7
+const SAVE_VERSION := 8
 
 
 func save_game(
@@ -159,6 +159,7 @@ func state_to_dictionary(
 		"upgrades": {},
 		"resource_statistics": state.resource_statistics.to_dictionary(),
 		"current_run_statistics": state.current_run_statistics.to_dictionary(),
+		"discovered_resources": state.get_discovered_resources_save_data(),
 		"achievements": state.achievement_manager.to_dictionary(),
 		"relic_manager": state.relic_manager.get_save_data(),
 		"eternal_flame_state": {
@@ -286,7 +287,13 @@ func dictionary_to_state(
 		state.current_run_statistics.from_dictionary(
 			current_run_statistics_data
 		)
-		# --------------------------------------------------------
+
+	var discovered_resources_data = data.get("discovered_resources", {})
+	if discovered_resources_data is Dictionary:
+		state.restore_discovered_resources(discovered_resources_data)
+	state.reconcile_resource_discovery()
+
+	# --------------------------------------------------------
 	# OVERFLOW
 	# --------------------------------------------------------
 
