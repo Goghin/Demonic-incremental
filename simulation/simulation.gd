@@ -523,7 +523,9 @@ func _is_cycle_auto_run_enabled(generator: Generator) -> bool:
 	return (
 		generator.auto_run_cycles
 		and state.eternal_flame_state.is_technology_unlocked(
-			EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+			EternalFlameState.get_cycle_auto_run_technology_id(
+				generator.definition.id
+			)
 		)
 	)
 

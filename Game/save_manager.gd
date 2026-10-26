@@ -549,12 +549,13 @@ func dictionary_to_state(
 	state.upgrade_automation_manager.load_save_data(
 		data.get("upgrade_automation", {})
 	)
-	# Old saves default to OFF, and a saved preference cannot bypass the
-	# permanent prestige-shop unlock.
-	if not state.eternal_flame_state.is_technology_unlocked(
-		EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
-	):
-		for generator in state.get_generators().values():
+	# Saved preferences cannot bypass the individual permanent shop unlocks.
+	for generator in state.get_generators().values():
+		if not state.eternal_flame_state.is_technology_unlocked(
+			EternalFlameState.get_cycle_auto_run_technology_id(
+				generator.definition.id
+			)
+		):
 			generator.auto_run_cycles = false
 	return true
 

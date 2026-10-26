@@ -180,8 +180,11 @@ func _process(_delta: float) -> void:
 			_has_automation_style = true
 
 	var cycle_auto_run_button: Button = $HBoxContainer/VBoxContainer/BuyButtons/CycleAutoRunButton
+	var cycle_auto_run_technology_id: String = EternalFlameState.get_cycle_auto_run_technology_id(
+		generator.definition.id
+	)
 	var cycle_auto_run_unlocked: bool = state.eternal_flame_state.is_technology_unlocked(
-		EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+		cycle_auto_run_technology_id
 	)
 	cycle_auto_run_button.visible = generator.unlocked and generator.definition.cycle_based and cycle_auto_run_unlocked
 	if cycle_auto_run_button.visible:
@@ -742,7 +745,7 @@ func _on_cycle_auto_run_button_pressed() -> void:
 	if generator == null or not generator.definition.cycle_based:
 		return
 	if not state.eternal_flame_state.is_technology_unlocked(
-		EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+		EternalFlameState.get_cycle_auto_run_technology_id(generator.definition.id)
 	):
 		return
 	generator.auto_run_cycles = not generator.auto_run_cycles

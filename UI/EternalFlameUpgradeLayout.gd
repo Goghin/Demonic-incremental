@@ -63,7 +63,8 @@ func _init() -> void:
 	add_node("unlock_upgrade_automation_lava_mite_colony", 4, 5)
 	add_node("unlock_upgrade_automation_matter_furnace", 5, 5)
 	add_node("unlock_upgrade_automation_thermal_compressor", 2, 6)
-	add_node("unlock_cycle_auto_run", 4, 6)
+	add_node("unlock_cycle_auto_run_infernal_forge", 4, 6)
+	add_node("unlock_cycle_auto_run_relic_shard_extractor", 5, 6)
 
 	add_connection("accelerated_friction", "accelerated_agitation")
 	add_connection("accelerated_agitation", "established_colony")
@@ -89,6 +90,8 @@ func _init() -> void:
 	add_connection("brazier_density", "brazier_integrity")
 	add_connection("brazier_integrity", "brazier_resonance")
 
+	add_connection("attunement_thermal_compressor", "unlock_cycle_auto_run_infernal_forge")
+	add_connection("reliquary", "unlock_cycle_auto_run_relic_shard_extractor")
 	add_connection("reliquary", "attunement_molecular_agitation")
 	add_connection("attunement_molecular_agitation", "attunement_lava_mite_colony")
 	add_connection("attunement_lava_mite_colony", "attunement_thermal_furnace")

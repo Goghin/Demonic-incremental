@@ -5,7 +5,11 @@ extends RefCounted
 const THERMAL_COMPRESSOR_TECHNOLOGY_ID: String = "thermal_compressor_technology"
 const LAVA_MITE_ESSENCE_TECHNOLOGY_ID: String = "lava_mite_essence"
 const ACCELERATED_FRICTION_TECHNOLOGY_ID: String = "accelerated_friction"
-const CYCLE_AUTO_RUN_TECHNOLOGY_ID: String = "cycle_auto_run"
+const CYCLE_AUTO_RUN_TECHNOLOGY_PREFIX: String = "cycle_auto_run_"
+
+
+static func get_cycle_auto_run_technology_id(generator_id: String) -> String:
+	return CYCLE_AUTO_RUN_TECHNOLOGY_PREFIX + generator_id
 
 var eternal_flame: float = 0.0
 var spent_flames: float = 0.0

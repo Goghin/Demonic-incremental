@@ -346,12 +346,19 @@ func _test_cycle_auto_run() -> void:
 	var state := GameState.new()
 	var simulation := Simulation.new(state)
 	var extractor: Generator = state.get_generator("relic_shard_extractor")
+	var forge: Generator = state.get_generator("infernal_forge")
 	_expect(extractor != null, "Relic Shard Extractor was unavailable for the auto-run test.")
 	if extractor == null:
 		return
 	extractor.unlocked = true
 	extractor.level = maxi(extractor.level, 1)
 	_expect(not extractor.auto_run_cycles, "Cycle auto-run should default to OFF.")
+	if forge != null:
+		forge.unlocked = true
+		forge.level = maxi(forge.level, 1)
+		forge.auto_run_cycles = true
+		simulation.update_cycle_generator(forge, 1.0, false)
+		_expect(not forge.cycle_active, "Infernal Forge auto-run activated without its own shop unlock.")
 	_expect(
 		state.eternal_flame_upgrade_manager.get_upgrade("unlock_cycle_auto_run") != null,
 		"Cycle Auto-run was not registered in the Eternal Flame shop."
@@ -360,6 +367,9 @@ func _test_cycle_auto_run() -> void:
 	_expect(not extractor.cycle_active, "Cycle auto-run started before its permanent shop unlock.")
 	state.eternal_flame_state.unlock_technology(EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID)
 	extractor.auto_run_cycles = true
+	if forge != null:
+		simulation.update_cycle_generator(forge, 1.0, false)
+		_expect(not forge.cycle_active, "Unlocking extractor auto-run also unlocked Forge auto-run.")
 	for resource in state.get_resources().values():
 		state.set_resource_amount(resource.definition.id, 1000000000000.0)
 	var cycle_duration: float = extractor.get_cycle_duration()

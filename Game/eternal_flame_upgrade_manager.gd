@@ -169,20 +169,34 @@ func _initialize_upgrades() -> void:
 	_add_upgrade_automation_upgrade("matter_furnace", "Matter Furnace", 75, "unlock_generator_automation_matter_furnace")
 	_add_upgrade_automation_upgrade("thermal_compressor", "Thermal Compressor", 95, "unlock_generator_automation_thermal_compressor")
 	_add_general_upgrade_automation_upgrade()
+	# Cycle auto-run is unlocked separately for each cycle-based generator.
+	_add_cycle_auto_run_upgrade("infernal_forge", "Infernal Forge", 30)
+	_add_cycle_auto_run_upgrade("relic_shard_extractor", "Relic Shard Extractor", 45)
+	_configure_automatic_progression_rewards()
+
+
+func _add_cycle_auto_run_upgrade(
+	generator_id: String,
+	generator_name: String,
+	unlock_cost: int
+) -> void:
+	var technology_id: String = EternalFlameState.get_cycle_auto_run_technology_id(
+		generator_id
+	)
 	_add_upgrade(
 		EternalFlameUpgrade.new(
-			"unlock_cycle_auto_run",
-			"Cycle Auto-run",
-			"Permanently unlocks Auto-run toggles for cycle-based generators. Enabled generators automatically start eligible cycles and restart after each completion.",
+			"unlock_cycle_auto_run_" + generator_id,
+			generator_name + " Auto-run",
+			"Permanently unlocks automatic cycle starting and restarting for "
+			+ generator_name + ".",
 			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
 			0.0,
 			1,
-			30,
+			unlock_cost,
 			1.0,
-			EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+			technology_id
 		)
 	)
-	_configure_automatic_progression_rewards()
 
 
 func _configure_automatic_progression_rewards() -> void:
