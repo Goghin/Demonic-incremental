@@ -384,7 +384,7 @@ func get_special_effect_descriptors(generator: Generator) -> Array[Dictionary]:
 				",".join(effect.operation_mode_ids)
 			],
 			"name": source_upgrade.definition.display_name,
-			"description": _describe_event_effect(effect, source_upgrade),
+			"description": _describe_event_effect(generator, effect, source_upgrade),
 			"mode_text": mode_text,
 			"active": event_applies_now
 		})
@@ -436,28 +436,28 @@ func update_special_effect_label(
 	)
 
 
-func _describe_event_effect(effect: UpgradeEffect, source_upgrade: Upgrade) -> String:
+func _describe_event_effect(generator: Generator, effect: UpgradeEffect, source_upgrade: Upgrade) -> String:
 	var effect_level: int = maxi(source_upgrade.level, 0)
 	match effect.event_action:
 		UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
-			var chance := _get_effective_event_chance(state.get_generator(generator_id), effect, effect.event_chance * effect_level)
+			var chance := _get_effective_event_chance(generator, effect, effect.event_chance * effect_level)
 			return "Chance: %s%% per completed cycle to trigger %s." % [
 				NumberFormatter.format(chance * 100.0),
-				_get_event_display_name(effect.event_id)
+				_get_event_display_name(generator, effect.event_id)
 			]
 		UpgradeEffectTypes.EVENT_ACTION_MULTIPLY_COMPLETION_OUTPUT:
 			var bonus := effect.event_value * effect_level * 100.0
 			var resource_name := state.get_resource_display_name(effect.event_resource_id) if effect.event_resource_id != "" else "completion output"
 			var condition_text := ""
 			if effect.event_condition_id != "":
-				condition_text = " when %s triggers" % _get_event_display_name(effect.event_condition_id)
+				condition_text = " when %s triggers" % _get_event_display_name(generator, effect.event_condition_id)
 			return "Bonus: +%s%% %s%s." % [
 				NumberFormatter.format(bonus),
 				resource_name,
 				condition_text
 			]
 		UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
-			var chance := _get_effective_event_chance(state.get_generator(generator_id), effect, effect.event_chance * effect_level)
+			var chance := _get_effective_event_chance(generator, effect, effect.event_chance * effect_level)
 			var levels_lost := maxi(roundi(effect.event_value), 1)
 			return "Chance: %s%% per completed cycle to lose %d generator level(s)." % [
 				NumberFormatter.format(chance * 100.0),
@@ -523,10 +523,10 @@ func _get_effective_relic_critical_chance(
 	return chance
 
 
-func _get_event_display_name(event_id: String) -> String:
+func _get_event_display_name(generator: Generator, event_id: String) -> String:
 	if event_id == UpgradeEffectTypes.EVENT_CYCLE_COMPLETED:
 		return "cycle completion"
-	for effect in state.get_generator(generator_id).event_effects:
+	for effect in generator.event_effects:
 		if effect.event_id != event_id:
 			continue
 		var source_upgrade: Upgrade = state.get_upgrade(effect.event_source_upgrade_id)
