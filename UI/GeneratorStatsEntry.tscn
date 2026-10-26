@@ -4,6 +4,7 @@
 
 [node name="GeneratorStatsEntry" type="Control" unique_id=1667121199]
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource("1_m8km3")
 
@@ -17,25 +18,28 @@ grow_horizontal = 2
 grow_vertical = 2
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1873805923]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 6
 
 [node name="HeaderButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=328359141]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 0
 
 [node name="HeaderContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton" unique_id=1644239890]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
 [node name="TopRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer" unique_id=949908356]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="GeneratorNameLabel" type="Label" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/TopRow" unique_id=1945643524]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 
 [node name="LevelLabel" type="Label" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/TopRow" unique_id=1599639561]
@@ -45,16 +49,20 @@ horizontal_alignment = 2
 
 [node name="RateRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer" unique_id=1018849455]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="ProductionLabel" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/RateRow" unique_id=749494009]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 
 [node name="ConsumptionLabel" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HeaderButton/HeaderContainer/RateRow" unique_id=1917635751]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 10
 horizontal_alignment = 2
 
 [node name="DetailContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=1737732265]
 layout_mode = 2
+size_flags_horizontal = 3
