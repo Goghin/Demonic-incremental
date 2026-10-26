@@ -440,7 +440,7 @@ func _describe_event_effect(effect: UpgradeEffect, source_upgrade: Upgrade) -> S
 	var effect_level: int = maxi(source_upgrade.level, 0)
 	match effect.event_action:
 		UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
-			var chance := _get_effective_event_chance(generator_id, effect, effect.event_chance * effect_level)
+			var chance := _get_effective_event_chance(state.get_generator(generator_id), effect, effect.event_chance * effect_level)
 			return "Chance: %s%% per completed cycle to trigger %s." % [
 				NumberFormatter.format(chance * 100.0),
 				_get_event_display_name(effect.event_id)
