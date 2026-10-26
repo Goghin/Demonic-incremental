@@ -279,7 +279,7 @@ func reconcile_resource_discovery() -> void:
 		if resource_statistics.get_total_produced(resource_id) > 0.0:
 			discover_resource(resource_id)
 			continue
-			if resource_statistics.get_total_consumed(resource_id) > 0.0:
+		if resource_statistics.get_total_consumed(resource_id) > 0.0:
 			discover_resource(resource_id)
 			continue
 		if resource_statistics.get_total_lost(resource_id) > 0.0:
