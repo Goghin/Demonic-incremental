@@ -121,7 +121,6 @@ static func _apply_discovery_requirements(upgrades: Dictionary) -> void:
 		if definition.upgrade_group_id == "ash_management":
 			definition.discovery_id = ResourceIds.ASH
 		if definition.cost_resource_id in [
-			ResourceIds.ESSENCE,
 			ResourceIds.CRYSTALLIZED_FLAME,
 			ResourceIds.NEXUM
 		]:
@@ -130,20 +129,30 @@ static func _apply_discovery_requirements(upgrades: Dictionary) -> void:
 	# These upgrades affect Ash or Crystallization despite belonging to earlier trees.
 	var discovery_by_upgrade := {
 		"contamination_adaptation": ResourceIds.ASH,
-		"crystallization_adaptation": ResourceIds.CRYSTALLIZED_FLAME,
-		"essence_influence": ResourceIds.ESSENCE,
-		"essence_accumulation_penalty": ResourceIds.ESSENCE,
-		"essence_retention": ResourceIds.ESSENCE,
-		"essence_stabilization": ResourceIds.ESSENCE,
-		"lava_mite_essence_adaptation": ResourceIds.ESSENCE,
+		"crystallization_adaptation": "upgrade:infernal_forge_unlock",
+		"molecular_agitation_expansion": ResourceIds.ASH,
+		"thermal_furnace_efficiency": ResourceIds.ASH,
+		"infernal_forge_immunity": "upgrade:infernal_forge_unlock",
+		"essence_influence": "",
+		"essence_accumulation_penalty": "",
+		"essence_retention": "",
+		"essence_stabilization": "",
+		"lava_mite_essence_adaptation": ResourceIds.ASH,
 		"loss_coefficient_refinement": ResourceIds.MATTER,
 		"loss_exponent_refinement": ResourceIds.MATTER
 	}
 	for upgrade_id in discovery_by_upgrade:
-		if upgrades.has(upgrade_id):
-			upgrades[upgrade_id].definition.discovery_id = str(
-				discovery_by_upgrade[upgrade_id]
-			)
+		if not upgrades.has(upgrade_id):
+			continue
+		var definition: UpgradeDefinition = upgrades[upgrade_id].definition
+		definition.discovery_id = str(discovery_by_upgrade[upgrade_id])
+		if upgrade_id in [
+			"essence_influence",
+			"essence_accumulation_penalty",
+			"essence_retention",
+			"essence_stabilization"
+		]:
+			definition.technology_id = EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID
 
 
 static func _register(
