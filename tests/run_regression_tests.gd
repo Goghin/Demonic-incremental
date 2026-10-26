@@ -129,7 +129,11 @@ func _test_initialization() -> void:
 func _test_resource_discovery_visibility() -> void:
 	var state := _new_test_state()
 	var essence_upgrade: Upgrade = state.get_upgrade("essence_influence")
+	var matter_decay_upgrade: Upgrade = state.get_upgrade("loss_coefficient_refinement")
 	_expect(essence_upgrade != null, "Essence Influence upgrade was not registered.")
+	_expect(matter_decay_upgrade != null, "Matter decay refinement upgrade was not registered.")
+	if matter_decay_upgrade != null:
+		_expect(not state.upgrade_system.is_upgrade_visible(matter_decay_upgrade), "Matter decay upgrade was visible before Matter discovery.")
 	if essence_upgrade == null:
 		return
 
@@ -139,6 +143,7 @@ func _test_resource_discovery_visibility() -> void:
 
 	state.record_resource_produced(ResourceIds.MATTER, 1.0)
 	_expect(state.is_resource_discovered(ResourceIds.MATTER), "Producing Matter did not discover it.")
+	_expect(state.upgrade_system.is_upgrade_visible(matter_decay_upgrade), "Matter decay upgrade did not become visible after Matter discovery.")
 	_expect(not state.upgrade_system.is_upgrade_visible(essence_upgrade), "Discovering Matter incorrectly exposed Essence upgrades.")
 
 	state.record_resource_produced(ResourceIds.ESSENCE, 1.0)
