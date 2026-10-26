@@ -41,6 +41,7 @@ func _run_tests() -> void:
 	print("========================================")
 
 	_run_test("GameState initializes core resources and generators", _test_initialization)
+	_run_test("Resource discovery gates upgrade visibility and survives reset/save migration", _test_resource_discovery_visibility)
 	_run_test("Essence accumulation reduces all Essence output and mitigation upgrades weaken it", _test_essence_accumulation_penalty)
 	_run_test("Forge and Relic Crucible modes use the intended activation levels", _test_cycle_generator_activation_level_configuration)
 	_run_test("Relic Crucible upgrades are independent from cycles and improve critical chance", _test_relic_crucible_level_upgrades)
@@ -123,6 +124,45 @@ func _test_initialization() -> void:
 	_expect(state.resources.has(ResourceIds.ASH), "Ash resource was not registered.")
 	_expect(state.generators.has("atomic_friction"), "Atomic Friction was not registered.")
 	_expect(state.get_generator("atomic_friction") != null, "Atomic Friction could not be retrieved.")
+
+
+func _test_resource_discovery_visibility() -> void:
+	var state := _new_test_state()
+	var essence_upgrade: Upgrade = state.get_upgrade("essence_influence")
+	_expect(essence_upgrade != null, "Essence Influence upgrade was not registered.")
+	if essence_upgrade == null:
+		return
+
+	_expect(not state.is_resource_discovered(ResourceIds.MATTER), "Matter should begin undiscovered.")
+	_expect(not state.is_resource_discovered(ResourceIds.ESSENCE), "Essence should begin undiscovered.")
+	_expect(not state.upgrade_system.is_upgrade_visible(essence_upgrade), "Essence Influence was visible before Essence discovery.")
+
+	state.record_resource_produced(ResourceIds.MATTER, 1.0)
+	_expect(state.is_resource_discovered(ResourceIds.MATTER), "Producing Matter did not discover it.")
+	_expect(not state.upgrade_system.is_upgrade_visible(essence_upgrade), "Discovering Matter incorrectly exposed Essence upgrades.")
+
+	state.record_resource_produced(ResourceIds.ESSENCE, 1.0)
+	_expect(state.is_resource_discovered(ResourceIds.ESSENCE), "Producing Essence did not discover it.")
+	_expect(state.upgrade_system.is_upgrade_visible(essence_upgrade), "Essence Influence did not become visible after Essence discovery.")
+
+	state.reset_current_run()
+	_expect(state.is_resource_discovered(ResourceIds.MATTER), "Matter discovery was lost on prestige reset.")
+	_expect(state.is_resource_discovered(ResourceIds.ESSENCE), "Essence discovery was lost on prestige reset.")
+
+	var save_manager := SaveManager.new()
+	var save_data: Dictionary = save_manager.state_to_dictionary(state)
+	_expect(save_data.has("discovered_resources"), "Save data did not include resource discoveries.")
+	var restored_state := _new_test_state()
+	_expect(save_manager.dictionary_to_state(restored_state, save_data, SaveManager.SAVE_VERSION), "Current-version save could not be restored.")
+	_expect(restored_state.is_resource_discovered(ResourceIds.ESSENCE), "Essence discovery was not restored from save data.")
+
+	# Legacy saves infer discoveries from lifetime statistics when no explicit dictionary exists.
+	var legacy_data: Dictionary = save_data.duplicate(true)
+	legacy_data.erase("discovered_resources")
+	var legacy_state := _new_test_state()
+	_expect(save_manager.dictionary_to_state(legacy_state, legacy_data, SaveManager.SAVE_VERSION - 1), "Legacy save could not be restored.")
+	_expect(legacy_state.is_resource_discovered(ResourceIds.MATTER), "Legacy Matter discovery was not recovered from lifetime statistics.")
+	_expect(legacy_state.is_resource_discovered(ResourceIds.ESSENCE), "Legacy Essence discovery was not recovered from lifetime statistics.")
 
 
 func _test_essence_accumulation_penalty() -> void:
