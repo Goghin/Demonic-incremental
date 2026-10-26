@@ -395,11 +395,12 @@ func get_special_effect_descriptors(generator: Generator) -> Array[Dictionary]:
 		if mode.completion_critical_chance <= 0.0:
 			continue
 		var critical_applies_now := mode.id == generator.operation_mode_id
+		var critical_chance := _get_effective_relic_critical_chance(generator, mode)
 		descriptors.append({
 			"key": "completion_critical:%s" % mode.id,
 			"name": "Critical Crafting",
 			"description": "Chance: %s%% per completed cycle to promote the crafted relic by one tier." % [
-				NumberFormatter.format(clampf(mode.completion_critical_chance, 0.0, 1.0) * 100.0)
+				NumberFormatter.format(critical_chance * 100.0)
 			],
 			"mode_text": mode.display_name,
 			"active": critical_applies_now
@@ -439,7 +440,7 @@ func _describe_event_effect(effect: UpgradeEffect, source_upgrade: Upgrade) -> S
 	var effect_level: int = maxi(source_upgrade.level, 0)
 	match effect.event_action:
 		UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
-			var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+			var chance := _get_effective_event_chance(generator_id, effect, effect.event_chance * effect_level)
 			return "Chance: %s%% per completed cycle to trigger %s." % [
 				NumberFormatter.format(chance * 100.0),
 				_get_event_display_name(effect.event_id)
@@ -456,7 +457,7 @@ func _describe_event_effect(effect: UpgradeEffect, source_upgrade: Upgrade) -> S
 				condition_text
 			]
 		UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
-			var chance := clampf(effect.event_chance * effect_level, 0.0, 1.0)
+			var chance := _get_effective_event_chance(state.get_generator(generator_id), effect, effect.event_chance * effect_level)
 			var levels_lost := maxi(roundi(effect.event_value), 1)
 			return "Chance: %s%% per completed cycle to lose %d generator level(s)." % [
 				NumberFormatter.format(chance * 100.0),
@@ -464,6 +465,62 @@ func _describe_event_effect(effect: UpgradeEffect, source_upgrade: Upgrade) -> S
 			]
 		_:
 			return "Event action: %s." % effect.event_action.replace("_", " ")
+
+
+func _get_effective_event_chance(
+	generator: Generator,
+	effect: UpgradeEffect,
+	base_chance: float
+) -> float:
+	if generator == null:
+		return clampf(base_chance, 0.0, 1.0)
+
+	var chance := base_chance
+	var chance_stat := ""
+	if effect.event_action == UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
+		chance_stat = "downlevel_chance"
+	elif effect.event_id == "forge_critical":
+		chance_stat = "critical_chance"
+
+	if chance_stat != "":
+		for modifier in generator.modifiers:
+			if not modifier.applies_to(ModifierTypes.EVENT_CHANCE, chance_stat):
+				continue
+			chance += modifier.get_effective_additive(state, generator)
+
+	return clampf(chance, 0.0, 1.0)
+
+
+func _get_effective_relic_critical_chance(
+	generator: Generator,
+	mode: GeneratorOperationMode
+) -> float:
+	if generator == null or mode == null:
+		return 0.0
+
+	var base_chance := mode.completion_critical_chance
+	if mode.completion_random_relic_tier <= 0:
+		return clampf(base_chance, 0.0, 1.0)
+
+	var levels_above_start := maxi(
+		generator.level - generator.definition.starting_level,
+		0
+	)
+	var chance := base_chance + levels_above_start * generator.definition.level_critical_chance_bonus
+	var effective_cap := maxf(
+		generator.definition.level_critical_chance_cap,
+		base_chance
+	)
+	chance = clampf(chance, 0.0, effective_cap)
+
+	if (
+		mode.id == generator.operation_mode_id
+		and generator.cycle_active
+		and generator.cycle_critical_chance_snapshot >= 0.0
+	):
+		return generator.cycle_critical_chance_snapshot
+
+	return chance
 
 
 func _get_event_display_name(event_id: String) -> String:
