@@ -26,6 +26,9 @@ class TestGameplayLog extends RefCounted:
 		})
 
 
+const OfflineComparison = preload("res://simulation/offline_simulation_comparison.gd")
+
+
 var _passed: int = 0
 var _failed: int = 0
 
@@ -46,6 +49,10 @@ func _run_tests() -> void:
 	_run_test("Forge and Relic Crucible modes use the intended activation levels", _test_cycle_generator_activation_level_configuration)
 	_run_test("Relic Crucible upgrades are independent from cycles and improve critical chance", _test_relic_crucible_level_upgrades)
 	_run_test("Heat leak and Matter decay respect their thresholds", _test_environmental_thresholds)
+	_run_test("Matter decay records matching lifetime, run and offline totals", _test_matter_decay_statistics)
+	_run_test("Matter decay statistics clamp to actual available Matter", _test_matter_decay_clamped_statistics)
+	_run_test("Offline benchmark compares numeric aggregates, sparse flows and generator flags", _test_offline_benchmark_comparison)
+	_run_test("Offline benchmark formats resource flows and numeric aggregates", _test_offline_benchmark_statistics_output)
 	_run_test("Generator purchase rejects insufficient resources", _test_purchase_rejects_insufficient_resources)
 	_run_test("Generator purchase spends the exact cost and adds one level", _test_successful_generator_purchase)
 	_run_test("Cycle mode can activate without increasing generator level", _test_cycle_mode_without_level_increase)
@@ -311,6 +318,117 @@ func _test_environmental_thresholds() -> void:
 	state.set_resource_amount(ResourceIds.MATTER, matter_threshold * 2.0)
 	_expect(state.get_heat_leak_per_second() > 0.0, "Heat leak should become positive above its threshold.")
 	_expect(state.get_matter_decay_per_second() > 0.0, "Matter decay should become positive above its threshold.")
+
+
+func _test_matter_decay_statistics() -> void:
+	for offline in [false, true]:
+		_assert_matter_decay_statistics(0.1, offline)
+
+
+func _test_matter_decay_clamped_statistics() -> void:
+	for offline in [false, true]:
+		_assert_matter_decay_statistics(1000000.0, offline)
+
+
+func _assert_matter_decay_statistics(delta: float, offline: bool) -> void:
+	var state := _new_test_state()
+	var simulation := Simulation.new(state)
+	state.track_gameplay_interval_statistics = not offline
+	if offline:
+		state.simulation_statistics = ResourceStatistics.new()
+	var initial_matter: float = state.realm_effects.matter_decay_threshold * 2.0
+	var initial_heat: float = 25.0
+	state.set_resource_amount(ResourceIds.MATTER, initial_matter)
+	state.set_resource_amount(ResourceIds.HEAT, initial_heat)
+	var expected_decay: float = minf(state.get_matter_decay_per_second() * delta, initial_matter)
+	_expect(expected_decay > 0.0, "The decay fixture must exercise positive Matter loss.")
+	simulation.apply_matter_decay(delta)
+	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), initial_matter - expected_decay, "Matter balance no longer follows the existing decay formula.")
+	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), initial_heat + expected_decay, "Decay must convert removed Matter to Heat exactly once.")
+	_expect_approx(state.total_matter_decayed_this_prestige, expected_decay, "Decay changed the current-realm Smash reward counter.")
+	var counters: Array[ResourceStatistics] = [state.resource_statistics, state.current_run_statistics]
+	if offline:
+		counters.append(state.simulation_statistics)
+	for statistics in counters:
+		_expect_approx(statistics.get_total_lost(ResourceIds.MATTER), expected_decay, "Matter loss statistics differ from actual decay.")
+		_expect_approx(statistics.get_total_produced(ResourceIds.HEAT), expected_decay, "Decay Heat production was counted more or less than once.")
+		_expect_approx(statistics.get_total_matter_decayed(), expected_decay, "Matter-decayed aggregate was not recorded for every statistics scope.")
+		_expect_approx(statistics.get_total_consumed(ResourceIds.MATTER), 0.0, "Environmental decay must not count as generator consumption.")
+		var restored := ResourceStatistics.new()
+		restored.from_dictionary(statistics.to_dictionary())
+		_expect_approx(restored.get_total_matter_decayed(), expected_decay, "Matter-decayed aggregate did not survive serialization.")
+		_expect_approx(restored.get_total_produced(ResourceIds.HEAT), expected_decay, "Heat-production total did not survive serialization.")
+
+	# At the threshold no additional decay, Heat, or reward should be recorded.
+	state.set_resource_amount(ResourceIds.MATTER, state.realm_effects.matter_decay_threshold)
+	simulation.apply_matter_decay(delta)
+	_expect_approx(state.get_resource_amount(ResourceIds.HEAT), initial_heat + expected_decay, "Threshold-only Matter incorrectly produced Heat.")
+	_expect_approx(state.total_matter_decayed_this_prestige, expected_decay, "Threshold-only Matter increased the Smash counter.")
+	for statistics in counters:
+		_expect_approx(statistics.get_total_matter_decayed(), expected_decay, "Zero decay changed the Matter-decayed aggregate.")
+
+
+func _benchmark_comparison_fixture() -> Dictionary:
+	return {
+		"resources": {"heat": 10.0},
+		"generators": {"test_generator": {"level": 2, "cycle_progress": 1.0, "operating": true, "cycle_active": false}},
+		"overflow": 4.0,
+		"statistics": {
+			"heat": {"total_produced": 10.0, "total_consumed": 0.0, "total_lost": 0.0, "highest_amount": 10.0},
+			"_total_overflow": 4.0,
+			"_total_matter_decayed": 10.0
+		}
+	}
+
+
+func _test_offline_benchmark_comparison() -> void:
+	var baseline: Dictionary = _benchmark_comparison_fixture()
+	_expect_approx(OfflineComparison.get_max_deviation(baseline, baseline.duplicate(true)), 0.0, "Identical snapshots should have zero deviation, including numeric aggregates.")
+	var comparison: Dictionary = baseline.duplicate(true)
+	comparison["statistics"]["_total_matter_decayed"] = 15.0
+	_expect_approx(OfflineComparison.get_max_deviation(baseline, comparison), 50.0, "Matter-decayed aggregate differences were ignored.")
+	comparison = baseline.duplicate(true)
+	comparison["statistics"]["_total_overflow"] = 8.0
+	_expect_approx(OfflineComparison.get_max_deviation(baseline, comparison), 100.0, "Overflow aggregate differences were ignored.")
+	comparison = baseline.duplicate(true)
+	comparison["statistics"]["heat"]["total_produced"] = 12.0
+	_expect_approx(OfflineComparison.get_max_deviation(baseline, comparison), 20.0, "Resource-flow differences were ignored.")
+	comparison = baseline.duplicate(true)
+	comparison["resources"]["heat"] = 11.0
+	_expect_approx(OfflineComparison.get_max_deviation(baseline, comparison), 10.0, "Final resource differences were ignored.")
+	comparison = baseline.duplicate(true)
+	comparison["generators"]["test_generator"]["level"] = 3
+	_expect_approx(OfflineComparison.get_max_deviation(baseline, comparison), 50.0, "Generator level differences were ignored.")
+	comparison = baseline.duplicate(true)
+	comparison["generators"]["test_generator"]["cycle_progress"] = 2.0
+	_expect_approx(OfflineComparison.get_max_deviation(baseline, comparison), 100.0, "Cycle progress differences were ignored.")
+	for flag in ["operating", "cycle_active"]:
+		comparison = baseline.duplicate(true)
+		comparison["generators"]["test_generator"][flag] = not bool(comparison["generators"]["test_generator"][flag])
+		_expect_approx(OfflineComparison.get_max_deviation(baseline, comparison), 100.0, "Generator state flag differences were ignored.")
+	comparison = baseline.duplicate(true)
+	comparison["statistics"]["ash"] = {"total_produced": 2.0}
+	_expect_approx(OfflineComparison.get_max_deviation(baseline, comparison), 200.0, "Comparison-only resource flow was ignored.")
+	_expect_approx(OfflineComparison.get_max_deviation(comparison, baseline), 100.0, "Baseline-only resource flow was ignored.")
+	comparison = baseline.duplicate(true)
+	comparison["statistics"]["heat"] = "invalid"
+	_expect(not is_finite(OfflineComparison.get_max_deviation(baseline, comparison)), "Invalid statistic data must not report zero deviation.")
+	comparison = baseline.duplicate(true)
+	comparison["resources"]["heat"] = NAN
+	_expect(not is_finite(OfflineComparison.get_max_deviation(baseline, comparison)), "Non-finite data must invalidate a comparison.")
+
+
+func _test_offline_benchmark_statistics_output() -> void:
+	var baseline: Dictionary = _benchmark_comparison_fixture()
+	var comparison: Dictionary = baseline.duplicate(true)
+	comparison["statistics"]["_total_matter_decayed"] = 15.0
+	comparison["statistics"]["ash"] = {"total_produced": 2.0}
+	var lines: Array[String] = OfflineComparison.format_statistics_comparison(baseline["statistics"], comparison["statistics"])
+	_expect(lines.size() == 4, "Statistics output should contain both resources and both aggregates.")
+	_expect(lines[0].contains("heat produced") and lines[0].contains("consumed") and lines[0].contains("lost"), "Resource flow output is incomplete.")
+	_expect(lines[1].contains("_total_overflow:"), "Numeric overflow output is missing.")
+	_expect(lines[2].contains("_total_matter_decayed:") and lines[2].contains("15"), "Numeric Matter-decay output is missing.")
+	_expect(lines[3].contains("ash produced") and lines[3].contains("2"), "Comparison-only resource output is missing.")
 
 
 func _test_purchase_rejects_insufficient_resources() -> void:

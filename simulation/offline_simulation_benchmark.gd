@@ -1,6 +1,8 @@
 extends SceneTree
 
 
+const Comparison = preload("res://simulation/offline_simulation_comparison.gd")
+
 const BASELINE_STEP: float = 0.1
 const COMPARISON_STEPS: Array[float] = [0.5, 1.0]
 const BENCHMARK_DURATIONS: Array[Dictionary] = [
@@ -74,6 +76,11 @@ func _run_benchmarks() -> void:
 			one_hour_baseline,
 			result
 		)
+
+		if not is_finite(max_deviation):
+			push_error("Invalid or non-finite benchmark comparison data.")
+			quit(1)
+			return
 
 		var speedup: float = 1.0
 		if float(result["elapsed_seconds"]) > 0.0:
@@ -558,85 +565,7 @@ func _get_max_deviation(
 	baseline: Dictionary,
 	comparison: Dictionary
 ) -> float:
-	var maximum_deviation: float = 0.0
-
-	var baseline_resources: Dictionary = baseline["resources"]
-	var comparison_resources: Dictionary = comparison["resources"]
-
-	for resource_id in baseline_resources:
-		var base_value: float = float(baseline_resources[resource_id])
-		var test_value: float = float(
-			comparison_resources.get(resource_id, 0.0)
-		)
-		maximum_deviation = max(
-			maximum_deviation,
-			_relative_deviation_percent(base_value, test_value)
-		)
-
-	var baseline_generators: Dictionary = baseline["generators"]
-	var comparison_generators: Dictionary = comparison["generators"]
-
-	for generator_id in baseline_generators:
-		var base_generator: Dictionary = baseline_generators[generator_id]
-		var test_generator: Dictionary = comparison_generators.get(
-			generator_id,
-			{}
-		)
-
-		maximum_deviation = max(
-			maximum_deviation,
-			_relative_deviation_percent(
-				float(base_generator["level"]),
-				float(test_generator.get("level", 0.0))
-			)
-		)
-		maximum_deviation = max(
-			maximum_deviation,
-			_relative_deviation_percent(
-				float(base_generator["cycle_progress"]),
-				float(test_generator.get("cycle_progress", 0.0))
-			)
-		)
-
-	maximum_deviation = max(
-		maximum_deviation,
-		_relative_deviation_percent(
-			float(baseline["overflow"]),
-			float(comparison["overflow"])
-		)
-	)
-
-	var baseline_statistics: Dictionary = baseline["statistics"]
-	var comparison_statistics: Dictionary = comparison["statistics"]
-
-	for resource_id in baseline_statistics:
-		if resource_id == "_total_overflow":
-			continue
-
-		var base_stats: Dictionary = baseline_statistics[resource_id]
-		var test_stats: Dictionary = comparison_statistics.get(
-			resource_id,
-			{}
-		)
-
-		for metric in ["total_produced", "total_consumed", "total_lost"]:
-			maximum_deviation = max(
-				maximum_deviation,
-				_relative_deviation_percent(
-					float(base_stats.get(metric, 0.0)),
-					float(test_stats.get(metric, 0.0))
-				)
-			)
-
-	maximum_deviation = max(
-		maximum_deviation,
-		_relative_deviation_percent(
-			float(baseline_statistics.get("_total_overflow", 0.0)),
-			float(comparison_statistics.get("_total_overflow", 0.0))
-		)
-	)
-
-	return maximum_deviation
+	return Comparison.get_max_deviation(baseline, comparison)
 
 
 func _print_detailed_comparison(
@@ -661,22 +590,8 @@ func _print_detailed_comparison(
 	print("  Resource flow totals (produced / consumed / lost):")
 	var base_stats: Dictionary = baseline["statistics"]
 	var test_stats: Dictionary = comparison["statistics"]
-	for resource_id in base_stats:
-		if resource_id == "_total_overflow":
-			continue
-		var a: Dictionary = base_stats[resource_id]
-		var b: Dictionary = test_stats.get(resource_id, {})
-		print(
-			"    %s produced %s -> %s | consumed %s -> %s | lost %s -> %s" % [
-				str(resource_id),
-				_format_number(float(a.get("total_produced", 0.0))),
-				_format_number(float(b.get("total_produced", 0.0))),
-				_format_number(float(a.get("total_consumed", 0.0))),
-				_format_number(float(b.get("total_consumed", 0.0))),
-				_format_number(float(a.get("total_lost", 0.0))),
-				_format_number(float(b.get("total_lost", 0.0)))
-			]
-		)
+	for line in Comparison.format_statistics_comparison(base_stats, test_stats):
+		print(line)
 
 	print("  Generator states (level, operating, cycle active, cycle progress):")
 	var base_generators: Dictionary = baseline["generators"]
@@ -713,16 +628,6 @@ func _print_detailed_comparison(
 			_format_number(float(comparison["overflow"]))
 		]
 	)
-
-
-func _relative_deviation_percent(
-	baseline: float,
-	comparison: float
-) -> float:
-	# Relative deviation is anchored to at least 1 to avoid enormous
-	# percentages when comparing tiny values close to zero.
-	var scale: float = max(abs(baseline), 1.0)
-	return abs(comparison - baseline) / scale * 100.0
 
 
 func _format_number(value: float) -> String:

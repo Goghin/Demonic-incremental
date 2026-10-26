@@ -1740,6 +1740,9 @@ func apply_matter_decay(
 		decayed_matter
 	)
 	state.resource_statistics.record_matter_decayed(decayed_matter)
+	state.current_run_statistics.record_matter_decayed(decayed_matter)
+	if state.simulation_statistics != null:
+		state.simulation_statistics.record_matter_decayed(decayed_matter)
 	# Count only Matter actually removed by environmental decay for this realm's Smash reward.
 	state.total_matter_decayed_this_prestige += decayed_matter
 	
@@ -1756,11 +1759,8 @@ func apply_matter_decay(
 		ResourceIds.HEAT,
 		decayed_matter
 	)
-	if state.simulation_statistics != null:
-		state.simulation_statistics.record_produced(
-		ResourceIds.HEAT,
-		decayed_matter
-	)
+
+
 func _apply_dormancy_effect(
 	effect: UpgradeEffect
 	) -> void:
