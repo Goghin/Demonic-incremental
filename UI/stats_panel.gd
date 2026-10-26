@@ -18,6 +18,7 @@ var resource_stat_rows: Dictionary = {}
 var resource_statistics_rows: Dictionary = {}
 var pressure_labels: Dictionary = {}
 var pressure_row_containers: Dictionary = {}
+var pressure_row_visibility_conditions: Dictionary = {}
 var pressure_section_visibility_conditions: Dictionary = {}
 var current_section: String = "overview"
 var last_generator_id: String = ""
@@ -698,6 +699,9 @@ func _setup_pressure_rows() -> void:
 		child.queue_free()
 
 	pressure_labels.clear()
+	pressure_row_containers.clear()
+	pressure_row_visibility_conditions.clear()
+	pressure_section_visibility_conditions.clear()
 
 	_add_effect_section(container, "HEAT")
 	_add_effect_row(container, "heat_threshold", "Overflow Threshold: 0", ResourceIds.HEAT)
@@ -765,6 +769,7 @@ func _add_effect_row(
 	container.add_child(row)
 	pressure_labels[key] = label
 	pressure_row_containers[key] = row
+	pressure_row_visibility_conditions[key] = resource_id
 
 
 func _update_discovery_visibility() -> void:
@@ -774,28 +779,12 @@ func _update_discovery_visibility() -> void:
 		row_container.visible = state.is_resource_discovered(resource_id)
 
 	for key in pressure_row_containers:
-		var resource_id: String = _get_pressure_resource_id(str(key))
-		pressure_row_containers[key].visible = state.is_resource_discovered(resource_id)
+		var discovery_id: String = str(pressure_row_visibility_conditions[key])
+		pressure_row_containers[key].visible = state.is_resource_discovered(discovery_id)
 
 	for section_label in pressure_section_visibility_conditions:
 		var discovery_id: String = str(pressure_section_visibility_conditions[section_label])
 		section_label.visible = state.is_resource_discovered(discovery_id)
-
-
-func _get_pressure_resource_id(key: String) -> String:
-	match key:
-		"matter_threshold", "matter_decay", "matter_decayed_this_realm":
-			return ResourceIds.MATTER
-		"ash_contamination":
-			return ResourceIds.ASH
-		"flame_raw_multiplier", "flame_penalty", "overflow_bonus":
-			return ResourceIds.CRYSTALLIZED_FLAME
-		"essence_hunger", "essence_resistance", "essence_final_multiplier":
-			return ResourceIds.ESSENCE
-		"nexum_placeholder":
-			return ResourceIds.NEXUM
-		_:
-			return ResourceIds.HEAT
 
 
 func update_pressure_stats() -> void:
