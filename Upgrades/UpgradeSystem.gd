@@ -146,7 +146,7 @@ func is_upgrade_visible(
 
 	# Hide upgrades tied to resources/mechanics the player has not discovered.
 	if definition.discovery_id != "":
-		if not state.is_resource_discovered(definition.discovery_id):
+		if not _is_discovery_condition_met(definition.discovery_id):
 			return false
 
 	# Eternal Flame technology requirement.
@@ -168,3 +168,13 @@ func is_upgrade_visible(
 		return false
 	
 	return generator.unlocked
+
+
+func _is_discovery_condition_met(discovery_id: String) -> bool:
+	# A mechanic may be discovered by obtaining a resource or purchasing the
+	# upgrade that introduces it (for example, unlocking Crystallization).
+	if discovery_id.begins_with("upgrade:"):
+		var required_upgrade_id: String = discovery_id.trim_prefix("upgrade:")
+		var required_upgrade: Upgrade = state.get_upgrade(required_upgrade_id)
+		return required_upgrade != null and required_upgrade.is_purchased()
+	return state.is_resource_discovered(discovery_id)
