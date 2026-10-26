@@ -81,7 +81,6 @@ func _init() -> void:
 	add_connection("unlock_generator_automation_atomic_friction", "generator_automation_cooldown_atomic_friction")
 	add_connection("unlock_generator_automation_molecular_agitation", "generator_automation_cooldown_molecular_agitation")
 	add_connection("unlock_generator_automation_thermal_furnace", "generator_automation_cooldown_thermal_furnace")
-	add_connection("unlock_generator_automation_thermal_furnace", "unlock_cycle_auto_run")
 	add_connection("unlock_generator_automation_thermal_compressor", "generator_automation_cooldown_thermal_compressor")
 	add_connection("unlock_generator_automation_lava_mite_colony", "generator_automation_cooldown_lava_mite_colony")
 	add_connection("unlock_generator_automation_matter_furnace", "generator_automation_cooldown_matter_furnace")
