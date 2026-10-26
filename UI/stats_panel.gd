@@ -17,6 +17,8 @@ var time_manager: TimeManager
 var resource_stat_rows: Dictionary = {}
 var resource_statistics_rows: Dictionary = {}
 var pressure_labels: Dictionary = {}
+var pressure_row_containers: Dictionary = {}
+var pressure_section_visibility_conditions: Dictionary = {}
 var current_section: String = "overview"
 var last_generator_id: String = ""
 
@@ -93,6 +95,7 @@ func _process(_delta: float) -> void:
 	update_resource_stats()
 	update_resource_statistics()
 	update_pressure_stats()
+	_update_discovery_visibility()
 	update_generator_stats()
 
 func _set_active_section(section_id: String) -> void:
@@ -314,10 +317,11 @@ func _setup_resource_statistics() -> void:
 	for resource in state.get_resources().values():
 		var resource_id = resource.definition.id
 
-		# Separate each resource's history from the previous one.
+		# Keep each separator with its row so hidden resources leave no blank gap.
+		var resource_block := VBoxContainer.new()
+		resource_block.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		if not is_first_resource:
-			var resource_separator = HSeparator.new()
-			container.add_child(resource_separator)
+			resource_block.add_child(HSeparator.new())
 
 		is_first_resource = false
 		
@@ -404,10 +408,11 @@ func _setup_resource_statistics() -> void:
 		
 		row.add_child(name_container)
 		row.add_child(stats_container)
-		
-		container.add_child(row)
+		resource_block.add_child(row)
+		container.add_child(resource_block)
 		
 		resource_statistics_rows[resource_id] = {
+			"container": resource_block,
 			"this_realm": this_realm_values,
 			"all_realms": all_realms_values
 		}
@@ -699,34 +704,39 @@ func _setup_pressure_rows() -> void:
 	_add_effect_row(container, "heat_rate", "Overflow Rate: 0 /s", ResourceIds.HEAT)
 	_add_effect_row(container, "overflow_this_realm", "Overflow This Realm: 0", ResourceIds.HEAT)
 
-	_add_effect_section(container, "MATTER")
+	_add_effect_section(container, "MATTER", ResourceIds.MATTER)
 	_add_effect_row(container, "matter_threshold", "Decay Threshold: 0 Matter", ResourceIds.MATTER)
 	_add_effect_row(container, "matter_decay", "Decay Rate: 0 Matter/s → 0 Heat/s", ResourceIds.MATTER)
 	_add_effect_row(container, "matter_decayed_this_realm", "Decayed This Realm: 0 Matter", ResourceIds.MATTER)
 	
-	_add_effect_section(container, "ASH CONTAMINATION")
+	_add_effect_section(container, "ASH CONTAMINATION", ResourceIds.ASH)
 	_add_effect_row(container, "ash_contamination", "Ash Contamination: ×1", ResourceIds.ASH)
 
-	_add_effect_section(container, "CRYSTALLIZED FLAME")
+	_add_effect_section(container, "CRYSTALLIZED FLAME", ResourceIds.CRYSTALLIZED_FLAME)
 	_add_effect_row(container, "flame_raw_multiplier", "Raw Heat Production Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 	_add_effect_row(container, "flame_penalty", "Heat Production Penalty: 0%", ResourceIds.CRYSTALLIZED_FLAME)
 	_add_effect_row(container, "overflow_bonus", "Overflow Counting Multiplier: ×1", ResourceIds.CRYSTALLIZED_FLAME)
 
-	_add_effect_section(container, "ESSENCE")
+	_add_effect_section(container, "ESSENCE", ResourceIds.ESSENCE)
 	_add_effect_row(container, "essence_hunger", "Lava Mite Hunger: ×1", ResourceIds.ESSENCE)
 	_add_effect_row(container, "essence_resistance", "Crystallization Resistance: 0%", ResourceIds.ESSENCE)
 	_add_effect_row(container, "essence_final_multiplier", "Final Heat Production Multiplier: ×1", ResourceIds.ESSENCE)
 
-	_add_effect_section(container, "NEXUM")
+	_add_effect_section(container, "NEXUM", ResourceIds.NEXUM)
 	_add_effect_row(container, "nexum_placeholder", "No effects yet", ResourceIds.NEXUM)
 
 
-func _add_effect_section(container: VBoxContainer, heading: String) -> void:
+func _add_effect_section(
+	container: VBoxContainer,
+	heading: String,
+	discovery_id: String = ResourceIds.HEAT
+	) -> void:
 	var label := Label.new()
 	label.text = heading
 	label.add_theme_font_size_override("font_size", 10)
 	label.add_theme_color_override("font_color", Color(1.0, 0.66, 0.36))
 	container.add_child(label)
+	pressure_section_visibility_conditions[label] = discovery_id
 
 
 func _add_effect_row(
@@ -754,6 +764,38 @@ func _add_effect_row(
 
 	container.add_child(row)
 	pressure_labels[key] = label
+	pressure_row_containers[key] = row
+
+
+func _update_discovery_visibility() -> void:
+	for resource_id in resource_statistics_rows:
+		var row_data: Dictionary = resource_statistics_rows[resource_id]
+		var row_container: Control = row_data["container"]
+		row_container.visible = state.is_resource_discovered(resource_id)
+
+	for key in pressure_row_containers:
+		var resource_id: String = _get_pressure_resource_id(str(key))
+		pressure_row_containers[key].visible = state.is_resource_discovered(resource_id)
+
+	for section_label in pressure_section_visibility_conditions:
+		var discovery_id: String = str(pressure_section_visibility_conditions[section_label])
+		section_label.visible = state.is_resource_discovered(discovery_id)
+
+
+func _get_pressure_resource_id(key: String) -> String:
+	match key:
+		"matter_threshold", "matter_decay", "matter_decayed_this_realm":
+			return ResourceIds.MATTER
+		"ash_contamination":
+			return ResourceIds.ASH
+		"flame_raw_multiplier", "flame_penalty", "overflow_bonus":
+			return ResourceIds.CRYSTALLIZED_FLAME
+		"essence_hunger", "essence_resistance", "essence_final_multiplier":
+			return ResourceIds.ESSENCE
+		"nexum_placeholder":
+			return ResourceIds.NEXUM
+		_:
+			return ResourceIds.HEAT
 
 
 func update_pressure_stats() -> void:
