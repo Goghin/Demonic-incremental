@@ -169,6 +169,19 @@ func _initialize_upgrades() -> void:
 	_add_upgrade_automation_upgrade("matter_furnace", "Matter Furnace", 75, "unlock_generator_automation_matter_furnace")
 	_add_upgrade_automation_upgrade("thermal_compressor", "Thermal Compressor", 95, "unlock_generator_automation_thermal_compressor")
 	_add_general_upgrade_automation_upgrade()
+	_add_upgrade(
+		EternalFlameUpgrade.new(
+			"unlock_cycle_auto_run",
+			"Cycle Auto-run",
+			"Permanently unlocks Auto-run toggles for cycle-based generators. Enabled generators automatically start eligible cycles and restart after each completion.",
+			EternalFlameUpgrade.EFFECT_UNLOCK_TECHNOLOGY,
+			0.0,
+			1,
+			30,
+			1.0,
+			EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+		)
+	)
 	_configure_automatic_progression_rewards()
 
 

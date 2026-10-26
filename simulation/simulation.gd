@@ -426,9 +426,18 @@ func update_cycle_generator(
 	heat_upgrade_multiplier: float = -1.0
 	) -> void:
 	
-	if not generator.cycle_active:
+	if offline_mode and _is_cycle_auto_run_enabled(generator):
+		_update_auto_run_cycle_generator_offline(generator, delta, heat_upgrade_multiplier)
 		return
-	
+
+	if not generator.cycle_active:
+		if (
+			not _is_cycle_auto_run_enabled(generator)
+			or generator.manually_paused
+			or not buy_generator(generator.definition.id, "cycle_auto_run")
+		):
+			return
+
 	if not generator.operating:
 		if generator.can_start_operating(
 			state,
@@ -506,6 +515,62 @@ func update_cycle_generator(
 	if generator.cycle_progress >= cycle_duration:
 		generator.cycle_progress = cycle_duration
 		complete_cycle(generator)
+		if _is_cycle_auto_run_enabled(generator) and not generator.manually_paused:
+			buy_generator(generator.definition.id, "cycle_auto_run")
+
+
+func _is_cycle_auto_run_enabled(generator: Generator) -> bool:
+	return (
+		generator.auto_run_cycles
+		and state.eternal_flame_state.is_technology_unlocked(
+			EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+		)
+	)
+
+
+func _update_auto_run_cycle_generator_offline(
+	generator: Generator,
+	delta: float,
+	heat_upgrade_multiplier: float
+) -> void:
+	var remaining_delta: float = maxf(delta, 0.0)
+	while remaining_delta > 0.000001:
+		if generator.manually_paused:
+			generator.operating = false
+			break
+		if not generator.cycle_active:
+			if not _is_cycle_auto_run_enabled(generator) or not buy_generator(generator.definition.id, "cycle_auto_run"):
+				break
+		if not generator.operating:
+			if generator.can_start_operating(state, true):
+				generator.operating = true
+			else:
+				break
+
+		var cycle_duration: float = generator.get_cycle_duration()
+		var remaining_cycle_time: float = maxf(cycle_duration - generator.cycle_progress, 0.0)
+		var cycle_speed_multiplier: float = _get_cycle_speed_multiplier(generator)
+		if cycle_speed_multiplier <= 0.0:
+			generator.operating = false
+			break
+		var requested_delta: float = minf(remaining_delta, remaining_cycle_time / cycle_speed_multiplier)
+		var operating_delta: float = _get_available_operating_delta(generator, requested_delta)
+		if operating_delta <= 0.0:
+			generator.operating = false
+			break
+
+		consume_inputs(generator, operating_delta)
+		produce_outputs(generator, operating_delta, heat_upgrade_multiplier)
+		generator.cycle_progress += _get_cycle_progress_delta(generator, operating_delta)
+		remaining_delta -= operating_delta
+		if generator.cycle_progress >= cycle_duration - 0.000001:
+			generator.cycle_progress = cycle_duration
+			complete_cycle(generator)
+			if not _is_cycle_auto_run_enabled(generator) or generator.manually_paused:
+				break
+		elif operating_delta < requested_delta - 0.000001:
+			generator.operating = false
+			break
 
 
 # In offline mode, return how much of this step the generator can actually

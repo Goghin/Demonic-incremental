@@ -22,6 +22,8 @@ var is_throttled: bool = false
 
 var cycle_active: bool = false
 var cycle_progress: float = 0.0
+# Player preference; preserved across realm resets, but only honored after the permanent shop unlock.
+var auto_run_cycles: bool = false
 
 var operation_mode_id: String = "normal"
 

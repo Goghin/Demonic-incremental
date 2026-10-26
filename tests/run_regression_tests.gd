@@ -48,6 +48,7 @@ func _run_tests() -> void:
 	_run_test("Generator purchase rejects insufficient resources", _test_purchase_rejects_insufficient_resources)
 	_run_test("Generator purchase spends the exact cost and adds one level", _test_successful_generator_purchase)
 	_run_test("Cycle mode can activate without increasing generator level", _test_cycle_mode_without_level_increase)
+	_run_test("Cycle auto-run is prestige-unlock gated and restarts completed cycles", _test_cycle_auto_run)
 	_run_test("Generator production increases Heat and records statistics", _test_generator_production)
 	_run_test("Interval statistics are returned and cleared", _test_interval_statistics)
 	_run_test("Realm reset clears resources and advances the run index", _test_realm_reset)
@@ -339,6 +340,29 @@ func _test_cycle_mode_without_level_increase() -> void:
 		not logger.events.is_empty() and logger.events.back().get("event", "") == "generator_cycle_activated",
 		"Non-leveling cycle activation was not logged distinctly."
 	)
+
+
+func _test_cycle_auto_run() -> void:
+	var state := GameState.new()
+	var simulation := Simulation.new(state)
+	var forge: Generator = state.get_generator("infernal_forge")
+	_expect(forge != null, "Infernal Forge was unavailable for the auto-run test.")
+	if forge == null:
+		return
+	_expect(not forge.auto_run_cycles, "Cycle auto-run should default to OFF.")
+	simulation.update_cycle_generator(forge, 1.0, false)
+	_expect(not forge.cycle_active, "Cycle auto-run started before its permanent shop unlock.")
+	state.eternal_flame_state.unlock_technology(EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID)
+	forge.auto_run_cycles = true
+	for resource in state.get_resources().values():
+		state.set_resource_amount(resource.definition.id, 1000000000000.0)
+	# Keep Ash at zero so the Forge's contamination slowdown does not alter
+	# the expected one-cycle timestep in this focused regression.
+	state.set_resource_amount(ResourceIds.ASH, 0.0)
+	var cycle_duration: float = forge.get_cycle_duration()
+	simulation.update_cycle_generator(forge, cycle_duration, false)
+	_expect(forge.cycle_active, "Auto-run did not automatically start an idle Forge cycle.")
+	_expect_approx(forge.cycle_progress, 0.0, "Auto-run should begin the next cycle after the first cycle completes.")
 
 
 func _test_generator_production() -> void:

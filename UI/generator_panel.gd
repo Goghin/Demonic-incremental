@@ -53,6 +53,7 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/BuyButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/DetailsButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/AutomationButton)
+	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/CycleAutoRunButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
 	_setup_event_effects_ui()
@@ -175,6 +176,16 @@ func _process(_delta: float) -> void:
 			_update_automation_button_style(automation_button, auto_enabled)
 			_last_automation_style_enabled = auto_enabled
 			_has_automation_style = true
+
+	var cycle_auto_run_button: Button = $HBoxContainer/VBoxContainer/BuyButtons/CycleAutoRunButton
+	var cycle_auto_run_unlocked: bool = state.eternal_flame_state.is_technology_unlocked(
+		EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+	)
+	cycle_auto_run_button.visible = generator.definition.cycle_based and cycle_auto_run_unlocked
+	if cycle_auto_run_button.visible:
+		cycle_auto_run_button.text = "RUN: ON" if generator.auto_run_cycles else "RUN: OFF"
+		_update_toggle_button_style(cycle_auto_run_button, generator.auto_run_cycles)
+
 	update_illustration(generator)
 	_update_relic_slots_ui()
 	_update_crafting_slots_ui(generator)
@@ -714,6 +725,18 @@ func _on_automation_button_pressed() -> void:
 
 	state.generator_automation_manager.toggle(generator_id)
 
+
+func _on_cycle_auto_run_button_pressed() -> void:
+	if state == null:
+		return
+	var generator: Generator = state.get_generator(generator_id)
+	if generator == null or not generator.definition.cycle_based:
+		return
+	if not state.eternal_flame_state.is_technology_unlocked(
+		EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+	):
+		return
+	generator.auto_run_cycles = not generator.auto_run_cycles
 
 
 func _on_upgrade_automation_button_pressed() -> void:

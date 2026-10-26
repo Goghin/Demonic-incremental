@@ -139,6 +139,13 @@ theme_override_font_sizes/font_size = 9
 text = "AUTO: OFF"
 visible = false
 
+[node name="CycleAutoRunButton" type="Button" parent="HBoxContainer/VBoxContainer/BuyButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 9
+text = "RUN: OFF"
+visible = false
+
 [node name="BottomButtons" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -161,5 +168,6 @@ visible = false
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButtons/BuyButton" to="." method="_on_buy_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/BottomButtons/DetailsButton" to="." method="_on_details_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButtons/AutomationButton" to="." method="_on_automation_button_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/BuyButtons/CycleAutoRunButton" to="." method="_on_cycle_auto_run_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton" to="." method="_on_upgrade_automation_button_pressed"]
 

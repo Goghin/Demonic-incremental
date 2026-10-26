@@ -211,7 +211,8 @@ func state_to_dictionary(
 			"manually_paused": generator.manually_paused,
 			"cycle_active": generator.cycle_active,
 			"cycle_progress": generator.cycle_progress,
-			"operation_mode_id": generator.operation_mode_id
+			"operation_mode_id": generator.operation_mode_id,
+			"auto_run_cycles": generator.auto_run_cycles
 		}
 	
 	for upgrade in state.upgrades.values():
@@ -477,6 +478,8 @@ func dictionary_to_state(
 			generator.cycle_progress = float(
 				generator_data["cycle_progress"]
 			)
+		if generator_data.has("auto_run_cycles"):
+			generator.auto_run_cycles = bool(generator_data["auto_run_cycles"])
 			
 		if generator_data.has("operation_mode_id"):
 			var operation_mode_id = str(
@@ -546,6 +549,13 @@ func dictionary_to_state(
 	state.upgrade_automation_manager.load_save_data(
 		data.get("upgrade_automation", {})
 	)
+	# Old saves default to OFF, and a saved preference cannot bypass the
+	# permanent prestige-shop unlock.
+	if not state.eternal_flame_state.is_technology_unlocked(
+		EternalFlameState.CYCLE_AUTO_RUN_TECHNOLOGY_ID
+	):
+		for generator in state.get_generators().values():
+			generator.auto_run_cycles = false
 	return true
 
 
