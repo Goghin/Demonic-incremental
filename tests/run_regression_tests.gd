@@ -349,6 +349,8 @@ func _test_cycle_auto_run() -> void:
 	_expect(extractor != null, "Relic Shard Extractor was unavailable for the auto-run test.")
 	if extractor == null:
 		return
+	extractor.unlocked = true
+	extractor.level = maxi(extractor.level, 1)
 	_expect(not extractor.auto_run_cycles, "Cycle auto-run should default to OFF.")
 	_expect(
 		state.eternal_flame_upgrade_manager.get_upgrade("unlock_cycle_auto_run") != null,
