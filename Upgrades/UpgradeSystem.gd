@@ -143,7 +143,12 @@ func is_upgrade_visible(
 	) -> bool:
 	
 	var definition = upgrade.definition
-	
+
+	# Hide upgrades tied to resources/mechanics the player has not discovered.
+	if definition.discovery_id != "":
+		if not state.is_resource_discovered(definition.discovery_id):
+			return false
+
 	# Eternal Flame technology requirement.
 	if definition.technology_id != "":
 		if not state.eternal_flame_state.is_technology_unlocked(
