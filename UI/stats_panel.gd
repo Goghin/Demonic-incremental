@@ -87,6 +87,7 @@ func setup(
 	_setup_resource_stats()
 	_setup_resource_statistics()
 	_setup_pressure_rows()
+	_update_discovery_visibility()
 
 func _process(_delta: float) -> void:
 	if stats == null or time_manager == null:
