@@ -279,7 +279,10 @@ func reconcile_resource_discovery() -> void:
 		if resource_statistics.get_total_produced(resource_id) > 0.0:
 			discover_resource(resource_id)
 			continue
-		if resource_statistics.get_total_consumed(resource_id) > 0.0:
+			if resource_statistics.get_total_consumed(resource_id) > 0.0:
+			discover_resource(resource_id)
+			continue
+		if resource_statistics.get_total_lost(resource_id) > 0.0:
 			discover_resource(resource_id)
 			continue
 		if resource_statistics.get_highest_amount(resource_id) > 0.0:
@@ -377,6 +380,8 @@ func record_resource_lost(
 	) -> void:
 	if amount <= 0.0:
 		return
+
+	discover_resource(resource_id)
 
 	if track_gameplay_interval_statistics:
 		gameplay_interval_lost[resource_id] = (
