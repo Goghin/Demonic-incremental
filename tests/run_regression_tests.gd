@@ -143,7 +143,9 @@ func _test_resource_discovery_visibility() -> void:
 
 	state.record_resource_produced(ResourceIds.ESSENCE, 1.0)
 	_expect(state.is_resource_discovered(ResourceIds.ESSENCE), "Producing Essence did not discover it.")
-	_expect(state.upgrade_system.is_upgrade_visible(essence_upgrade), "Essence Influence did not become visible after Essence discovery.")
+	_expect(not state.upgrade_system.is_upgrade_visible(essence_upgrade), "Essence Influence appeared before its technology was discovered.")
+	state.eternal_flame_state.unlock_technology(EternalFlameState.LAVA_MITE_ESSENCE_TECHNOLOGY_ID)
+	_expect(state.upgrade_system.is_upgrade_visible(essence_upgrade), "Essence Influence did not become visible after its technology was discovered.")
 
 	state.reset_current_run()
 	_expect(state.is_resource_discovered(ResourceIds.MATTER), "Matter discovery was lost on prestige reset.")
