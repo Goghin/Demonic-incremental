@@ -4,6 +4,8 @@ extends "res://tests/experimental/adaptive_offline.gd"
 # ODE reimplementation. Every slope is measured using Simulation.update(0.1).
 # The outer step-doubling controller and all discrete guards remain authoritative.
 var map_operator_usec: int = 0
+var reuse_probe_fields: bool = false
+var ensure_statistics_once: bool = false
 
 
 func _init(game_simulation: Simulation) -> void:
@@ -40,7 +42,7 @@ func _advance(delta: float, end: float) -> void:
 
 
 func _map_advance(delta: float, end: float) -> void:
-	var saved: Dictionary = Checkpoint.capture(simulation)
+	var saved: Dictionary = _capture_checkpoint()
 	var initial: Dictionary = Metrics.numeric(simulation.state)
 	super._advance(REFERENCE_STEP, end - delta + REFERENCE_STEP)
 	var first: Dictionary = Metrics.numeric(simulation.state)
@@ -51,19 +53,22 @@ func _map_advance(delta: float, end: float) -> void:
 		predicted[id] = float(initial[key]) + ticks * (float(first[key]) - float(initial[key]))
 		if not is_finite(predicted[id]) or float(predicted[id]) < 0.0:
 			trial_failure_reason = "predictor_resource_exhaustion"
-			Checkpoint.restore(simulation, saved)
+			_restore_checkpoint(saved)
 			return
-	Checkpoint.restore(simulation, saved)
+	_restore_checkpoint(saved)
 	for id in predicted:
 		simulation.state.resources[id].amount = predicted[id]
-	var before_probe: Dictionary = Metrics.numeric(simulation.state)
+	var before_probe: Dictionary = initial if reuse_probe_fields else Metrics.numeric(simulation.state)
 	super._advance(REFERENCE_STEP, end)
 	var endpoint: Dictionary = Metrics.numeric(simulation.state)
 	var result: Dictionary = {}
 	for key in first:
 		var base: float = float(initial.get(key, 0.0))
 		var d0: float = float(first[key]) - base
-		var d1: float = float(endpoint.get(key, 0.0)) - float(before_probe.get(key, 0.0))
+		var before_value: float = float(before_probe.get(key, 0.0))
+		if reuse_probe_fields and str(key).begins_with("resource/"):
+			before_value = float(predicted[str(key).trim_prefix("resource/")])
+		var d1: float = float(endpoint.get(key, 0.0)) - before_value
 		# For n=1 this is F_0.1 exactly. For n>1, the (n-1) correction
 		# matches the n(n-1)/2 term of repeated discrete-map composition.
 		result[key] = base + ticks * d0 + (ticks - 1.0) * 0.5 * (d1 - d0)
@@ -71,13 +76,13 @@ func _map_advance(delta: float, end: float) -> void:
 		var value: float = float(result[key])
 		if not is_finite(value) or (str(key).begins_with("resource/") and value < 0.0):
 			trial_failure_reason = "corrector_resource_exhaustion"
-			Checkpoint.restore(simulation, saved)
+			_restore_checkpoint(saved)
 			return
 		if (str(key).ends_with("total_produced") or str(key).ends_with("total_consumed") or str(key).ends_with("total_lost") or str(key).ends_with("/overflow") or str(key).ends_with("/decay")) and value < float(initial.get(key, 0.0)):
 			trial_failure_reason = "negative_integrated_flow"
-			Checkpoint.restore(simulation, saved)
+			_restore_checkpoint(saved)
 			return
-	Checkpoint.restore(simulation, saved)
+	_restore_checkpoint(saved)
 	for id in simulation.state.resources:
 		simulation.state.resources[id].amount = float(result["resource/" + str(id)])
 	var objects: Array = [simulation.state.resource_statistics, simulation.state.current_run_statistics, simulation.state.simulation_statistics]
@@ -91,9 +96,12 @@ func _map_advance(delta: float, end: float) -> void:
 		stats.total_matter_decayed = float(result[prefix + "/decay"])
 		for id in simulation.state.resources:
 			var path: String = prefix + "/" + str(id) + "/"
+			if ensure_statistics_once and (result.has(path + "total_produced") or result.has(path + "total_consumed") or result.has(path + "total_lost") or first.has(path + "highest_amount")):
+				stats._ensure_resource(id)
 			for field in ["total_produced", "total_consumed", "total_lost"]:
 				if result.has(path + field):
-					stats._ensure_resource(id)
+					if not ensure_statistics_once:
+						stats._ensure_resource(id)
 					stats.statistics[id][field] = result[path + field]
 			var peak_key: String = path + "highest_amount"
 			if not first.has(peak_key):
@@ -103,9 +111,10 @@ func _map_advance(delta: float, end: float) -> void:
 			# fictitious lump production of a long Simulation.update(delta).
 			if float(endpoint.get(peak_key, 0.0)) > float(initial.get(peak_key, 0.0)):
 				var resource_key: String = "resource/" + str(id)
-				var last_increment: float = float(endpoint[resource_key]) - float(before_probe[resource_key])
+				var last_increment: float = float(endpoint[resource_key]) - float(predicted[id] if reuse_probe_fields else before_probe[resource_key])
 				peak = maxf(peak, float(endpoint[peak_key]) + float(result[resource_key]) - float(predicted[id]) - last_increment)
-			stats._ensure_resource(id)
+			if not ensure_statistics_once:
+				stats._ensure_resource(id)
 			stats.statistics[id]["highest_amount"] = peak
 	simulation.state.total_overflow_this_prestige = float(result["reward/overflow"])
 	simulation.state.total_matter_decayed_this_prestige = float(result["reward/decay"])

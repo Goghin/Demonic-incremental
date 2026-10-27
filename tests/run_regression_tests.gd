@@ -130,6 +130,13 @@ func _run_tests() -> void:
 	_run_test("Experimental feedback cooldown bounds rejected trials and restores state", _test_feedback_retry_control)
 	_run_test("Experimental feedback preserves loaded states and short intervals", _test_feedback_save_short)
 	_run_test("Experimental feedback commits offline-entry interval bookkeeping exactly", _test_feedback_offline_entry)
+	_run_test("Experimental accuracy modes validate policy and avoid short-interval regressions", _test_horizon_modes)
+	_run_test("Experimental reference-map cleanups preserve every sampled binary state", _test_horizon_exact_cleanups)
+	_run_test("Experimental diagnostics and retained audits are observational", _test_horizon_diagnostics)
+	_run_test("Experimental modes use exact simulation at prestige reward boundaries", _test_horizon_prestige_protection)
+	_run_test("Experimental modes preserve mixed gameplay, automation and consumers", _test_horizon_fallbacks)
+	_run_test("Experimental source-free Matter decay safely leaves the absolute margin", _test_horizon_monotone_margin)
+
 
 	print("")
 	print("========================================")
@@ -2510,5 +2517,47 @@ func _test_feedback_save_short() -> void:
 func _test_feedback_offline_entry() -> void:
 	var test = preload("res://tests/experimental/feedback_tests.gd").new()
 	test.test_feedback_offline_entry()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_horizon_modes() -> void:
+	var test = preload("res://tests/experimental/horizon_tests.gd").new()
+	test.test_modes()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_horizon_exact_cleanups() -> void:
+	var test = preload("res://tests/experimental/horizon_tests.gd").new()
+	test.test_exact_cleanups()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_horizon_diagnostics() -> void:
+	var test = preload("res://tests/experimental/horizon_tests.gd").new()
+	test.test_diagnostics()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_horizon_prestige_protection() -> void:
+	var test = preload("res://tests/experimental/horizon_tests.gd").new()
+	test.test_prestige_protection()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_horizon_fallbacks() -> void:
+	var test = preload("res://tests/experimental/horizon_tests.gd").new()
+	test.test_fallbacks()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_horizon_monotone_margin() -> void:
+	var test = preload("res://tests/experimental/horizon_tests.gd").new()
+	test.test_monotone_margin()
 	for failure in test.failures:
 		_expect(false, failure)

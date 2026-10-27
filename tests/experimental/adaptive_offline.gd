@@ -22,6 +22,7 @@ var numerical_retry_max_ticks: int = 0
 var trial_failure_reason: String = ""
 var trace_attempts: bool = false
 var attempts: Array[Dictionary] = []
+var profile_checkpoints: bool = false
 
 var counters: Dictionary = {}
 var samples: Dictionary = {}
@@ -132,14 +133,39 @@ func _sample(tick: int) -> void:
 	counters["audit_capture_usec"] += Time.get_ticks_usec() - started
 
 
+func _capture_checkpoint() -> Dictionary:
+	var start: int = Time.get_ticks_usec() if profile_checkpoints else 0
+	var value: Dictionary = Checkpoint.capture(simulation)
+	if profile_checkpoints:
+		counters["all_capture_usec"] += Time.get_ticks_usec() - start
+		counters["capture_calls"] += 1
+	return value
+
+
+func _restore_checkpoint(value: Dictionary) -> void:
+	var start: int = Time.get_ticks_usec() if profile_checkpoints else 0
+	Checkpoint.restore(simulation, value)
+	if profile_checkpoints:
+		counters["all_restore_usec"] += Time.get_ticks_usec() - start
+		counters["restore_calls"] += 1
+
+
+func _near_boundary_requires_exact(_resource: String, _before: float, _coarse: float, _fine: float) -> bool:
+	return true
+
+
+func _completed_interval(_ticks: int, _adaptive: bool) -> void:
+	pass
+
+
 func run(seconds: float) -> Dictionary:
 	elapsed = 0.0
 	duration = maxf(seconds, 0.0)
 	samples.clear()
 	attempts.clear()
 	counters = {"evaluations": 0, "accepted": 0, "rejected": 0, "fallback_ticks": 0,
-		"fallback_reasons": {}, "rejection_reasons": {}, "rejection_fields": {}, "rejected_usec": 0, "event_detection_usec": 0, "trial_usec": 0, "fallback_usec": 0,
-		"checkpoint_usec": 0, "numerical_usec": 0, "audit_capture_usec": 0, "initial_checkpoint_bytes": 0, "strict_failure": ""}
+		"proven_margin_bypasses": 0, "fallback_reasons": {}, "rejection_reasons": {}, "rejection_fields": {}, "rejected_usec": 0, "event_detection_usec": 0, "trial_usec": 0, "fallback_usec": 0,
+		"all_capture_usec": 0, "all_restore_usec": 0, "capture_calls": 0, "restore_calls": 0, "checkpoint_usec": 0, "numerical_usec": 0, "audit_capture_usec": 0, "initial_checkpoint_bytes": 0, "strict_failure": ""}
 	var finite_configuration: bool = true
 	for value in [seconds, maximum_step, minimum_step, absolute_tolerance, relative_tolerance, event_safety_margin, audit_interval]:
 		finite_configuration = finite_configuration and is_finite(value)
@@ -161,6 +187,8 @@ func run(seconds: float) -> Dictionary:
 	simulation.state.simulation_statistics = manager.simulation_statistics
 	simulation.prepare_offline()
 	while tick < total_ticks:
+		var completed_ticks: int = 0
+		var completed_adaptive: bool = false
 		var checkpoint_tick: int = mini(total_ticks, (floori(float(tick) / float(audit_ticks)) + 1) * audit_ticks)
 		var start: int = Time.get_ticks_usec()
 		var reason: String = guard()
@@ -182,11 +210,12 @@ func run(seconds: float) -> Dictionary:
 			counters["fallback_reasons"][reason if reason != "" else "minimum_step"] = int(counters["fallback_reasons"].get(reason if reason != "" else "minimum_step", 0)) + count
 			counters["fallback_usec"] += Time.get_ticks_usec() - start
 			proposal = min_ticks
+			completed_ticks = count
 		else:
 			start = Time.get_ticks_usec()
 			var attempt_start: int = start
 			trial_failure_reason = ""
-			var saved: Dictionary = Checkpoint.capture(simulation)
+			var saved: Dictionary = _capture_checkpoint()
 			counters["checkpoint_usec"] += Time.get_ticks_usec() - start
 			if counters["initial_checkpoint_bytes"] == 0:
 				counters["initial_checkpoint_bytes"] = var_to_bytes(saved).size()
@@ -199,7 +228,7 @@ func run(seconds: float) -> Dictionary:
 			if _signature() != signature or simulation.state.gameplay_rng.state != rng:
 				counters["strict_failure"] = "Unexpected coarse-trial discrete event; discard this experimental state."
 				return counters
-			Checkpoint.restore(simulation, saved)
+			_restore_checkpoint(saved)
 			var first: float = float(n >> 1) * REFERENCE_STEP
 			_advance(first, elapsed + first)
 			_advance(h - first, elapsed + h)
@@ -229,7 +258,7 @@ func run(seconds: float) -> Dictionary:
 			for pair in [[ResourceIds.HEAT, simulation.state.realm_effects.heat_leak_threshold], [ResourceIds.MATTER, simulation.state.realm_effects.matter_decay_threshold]]:
 				var before: float = saved["amounts"][pair[0]] - float(pair[1])
 				var after: float = fine["resource/" + pair[0]] - float(pair[1])
-				if before * after < 0.0 or (absf(after) < event_safety_margin and before != after):
+				if before * after < 0.0 or (absf(after) < event_safety_margin and before != after and _near_boundary_requires_exact(pair[0], float(saved["amounts"][pair[0]]), float(coarse.get("resource/" + pair[0], fine["resource/" + pair[0]])), float(fine["resource/" + pair[0]]))):
 					error = INF
 					rejection_reason = "environmental_threshold"
 			if trial_failure_reason != "":
@@ -245,8 +274,10 @@ func run(seconds: float) -> Dictionary:
 				retry_ticks = 0
 				_sample(tick) # Audit every accepted endpoint, plus fixed checkpoints.
 				proposal = mini(max_ticks, n * 2) if error < 0.25 else n
+				completed_ticks = n
+				completed_adaptive = true
 			else:
-				Checkpoint.restore(simulation, saved)
+				_restore_checkpoint(saved)
 				counters["rejected"] += 1
 				counters["rejected_usec"] += Time.get_ticks_usec() - attempt_start
 				counters["rejection_reasons"][rejection_reason] = int(counters["rejection_reasons"].get(rejection_reason, 0)) + 1
@@ -256,5 +287,7 @@ func run(seconds: float) -> Dictionary:
 					retry_ticks = mini(numerical_retry_max_ticks, maxi(fallback_window_ticks, retry_ticks * 2))
 		if tick == checkpoint_tick:
 			_sample(tick)
+		if completed_ticks > 0:
+			_completed_interval(completed_ticks, completed_adaptive)
 	counters["fallback_fraction"] = float(counters["fallback_ticks"]) / float(total_ticks)
 	return counters.duplicate(true)
