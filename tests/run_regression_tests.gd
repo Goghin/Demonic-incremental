@@ -146,6 +146,7 @@ func _run_tests() -> void:
 	_run_test("Autobuyer large deltas stop failures and retain success overshoot", _test_cooldown_large_delta)
 	_run_test("Waiting automation preserves existing save/load and prestige reset rules", _test_cooldown_save_and_reset)
 	_run_test("Experimental ready upgrade waits skip replay with exact timer parity", _test_autobuyer_replay_elimination)
+	_run_test("Experimental resource-flow proofs preserve dense endpoints, exhaustion and dependency transitions", _test_resource_flow_bounds)
 
 
 	print("")
@@ -2640,4 +2641,11 @@ func _test_autobuyer_replay_elimination() -> void:
 	var test = preload("res://tests/experimental/autobuyer_tests.gd").new()
 	test.test_replay_elimination()
 	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_resource_flow_bounds() -> void:
+	var test = preload("res://tests/experimental/resource_flow_tests.gd").new()
+	test.run_all()
+	for failure: String in test.failures:
 		_expect(false, failure)

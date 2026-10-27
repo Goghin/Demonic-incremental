@@ -1,0 +1,62 @@
+{
+  "engine": "Linux Godot 4.6.1.stable.official.14d19694e",
+  "editor": {
+    "command": [
+      "/tmp/godot-runtime/Godot_v4.6.1-stable_linux.x86_64",
+      "--headless",
+      "--editor",
+      "--path",
+      ".",
+      "--import",
+      "--quit"
+    ],
+    "returncode": 0,
+    "errors": [
+      "ERROR: Condition \"bucket_table_size == 0\" is true.",
+      "SCRIPT ERROR: Parse Error: Expected statement, found \"Indent\" instead.",
+      "          at: GDScript::reload (res://game.gd:771)",
+      "ERROR: Failed to load script \"res://game.gd\" with error \"Parse error\"."
+    ],
+    "status": "Not a passing validation run; existing parse/import issues left untouched."
+  },
+  "focused": {
+    "command": [
+      "/tmp/godot-runtime/Godot_v4.6.1-stable_linux.x86_64",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "tests/experimental/run_resource_flow_tests.gd"
+    ],
+    "returncode": 0,
+    "log": "Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org\n\nRESOURCE_FLOW_TESTS {\"endpoint_cases\":49,\"failures\":[],\"proof_and_invalidation_checks\":5,\"transition_runs\":6}\n"
+  },
+  "regression": {
+    "command": [
+      "/tmp/godot-runtime/Godot_v4.6.1-stable_linux.x86_64",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "tests/run_regression_tests.gd"
+    ],
+    "returncode": 0,
+    "log": "Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org\n\n\n========================================\n DEMONIC INCREMENTAL REGRESSION TESTS\n========================================\n[PASS] GameState initializes core resources and generators\n[PASS] Gameplay RNG replay ignores cosmetics and is shared by normal/offline cycles\n[PASS] Gameplay RNG survives JSON save/load without 64-bit rounding\n[PASS] Mixed gameplay rolls continue identically after save/load\n[PASS] Active crafting critical snapshots survive JSON save/load\n[PASS] Version 8 saves migrate without RNG state or critical snapshots\n[PASS] Gameplay event RNG preserves roll order and probability-edge draw counts\n[PASS] Explicit relic RNG preserves deterministic rolls and configured ranges\n[PASS] Resource discovery gates upgrade visibility and survives reset/save migration\n[PASS] Essence accumulation reduces all Essence output and mitigation upgrades weaken it\n[PASS] Forge and Relic Crucible modes use the intended activation levels\n[PASS] Relic Crucible upgrades are independent from cycles and improve critical chance\n[PASS] Heat leak and Matter decay respect their thresholds\n[PASS] Matter decay records matching lifetime, run and offline totals\n[PASS] Matter decay statistics clamp to actual available Matter\n[PASS] Offline benchmark compares numeric aggregates, sparse flows and generator flags\n[PASS] Offline benchmark formats resource flows and numeric aggregates\n[PASS] Offline partial-input startup matches the existing input gate\n[PASS] Offline startup skips only unnecessary rate evaluations\n[PASS] Offline automatic upgrades preserve registry order and eligibility timing\n[PASS] Generator purchase rejects insufficient resources\n[PASS] Generator purchase spends the exact cost and adds one level\n[PASS] Cycle mode can activate without increasing generator level\n[PASS] Cycle auto-run is prestige-unlock gated and restarts completed cycles\n[PASS] Generator production increases Heat and records statistics\n[PASS] Interval statistics are returned and cleared\n[PASS] Realm reset clears resources and advances the run index\n[PASS] Prestige enters planning before resetting the next realm\n[PASS] Current realm Heat overflow and Matter decay compound for Smash\n[PASS] Prestige and lifetime Eternal Flame milestones grant starting levels and automation\n[PASS] Brazier upgrades permanently unlock flame stats in order\n[PASS] Reliquary and generator relic slots unlock through Prestige progression\n[PASS] Reliquary grants, equips, saves, and preserves relics\n[PASS] Relic instances roll targeted stats and preserve rolls in saves\n[PASS] Generated relic sensitivity targets are specific and Ash Contamination is grouped\n[PASS] Reservoir relics boost production most at low resource amounts\n[PASS] Relics support sensitivity stats and saved uncommon bonus stats\n[PASS] Relics modify cycle critical and downlevel chances additively\n[PASS] Relic Shards stack, merge, and persist in inventory\n[PASS] Machine crafting slots preserve, consume, and return ingredients\n[PASS] Crafting recipes are validated and consumed when a cycle starts\n[PASS] Relic Shard Extractor exposes five crafting modes and tiered rewards\n[PASS] Data-driven relic generation persists rolls and promotes critical crafts\n[PASS] Relic Shard Extractor consumes Matter and grants a shard after one minute\n[PASS] Multiple relic slots stay independent and legacy saves migrate\n[PASS] Modifier mode restrictions only apply in targeted modes\n[PASS] Ash contamination uses generic cycle-speed modifiers and sensitivities\n[PASS] Forge Immunity blocks Ash production penalty but preserves cycle slowdown\n[PASS] Miscellaneous modifiers report effective multipliers and sensitivity\n[PASS] Generic cycle completion effects modify output and can reduce level to zero\n[PASS] Cycle completion effects respect operation-mode restrictions\n[PASS] Generator stats expose data-driven special effects\n[PASS] Offline automation index preserves cooldowns, eligibility, ordering and resets\n[PASS] Offline automation index preserves dormant, starved and feedback states\n[PASS] Offline automation index refreshes after save/load\n[PASS] Offline frame budgets preserve repeated crafting, RNG and loaded cycles\n[PASS] Offline scheduling preserves zero/short periods and scaled time\n[PASS] Experimental adaptive checkpoints restore all continuous statistics\n[PASS] Experimental adaptive subset preserves discrete outcomes and measured accuracy\n[PASS] Experimental unsupported mechanics fall back with exact binary parity\n[PASS] Experimental resource thresholds retain automatic-upgrade ordering\n[PASS] Experimental rejected steps cannot contaminate balances or statistics\n[PASS] Experimental adaptive and exact paths preserve loaded RNG/crafts\n[PASS] Experimental adaptive path validates minimum steps and short durations\n[PASS] Experimental reference-map feedback meets three sampled accuracy targets\n[PASS] Experimental feedback preserves long-interval dormancy and statistics\n[PASS] Experimental feedback retains exact fallback for consumers and discrete systems\n[PASS] Experimental feedback cooldown bounds rejected trials and restores state\n[PASS] Experimental feedback preserves loaded states and short intervals\n[PASS] Experimental feedback commits offline-entry interval bookkeeping exactly\n[PASS] Experimental accuracy modes validate policy and avoid short-interval regressions\n[PASS] Experimental reference-map cleanups preserve every sampled binary state\n[PASS] Experimental diagnostics and retained audits are observational\n[PASS] Experimental modes use exact simulation at prestige reward boundaries\n[PASS] Experimental modes preserve mixed gameplay, automation and consumers\n[PASS] Experimental source-free Matter decay safely leaves the absolute margin\n[PASS] Experimental autobuyers advance only within proven waiting bounds\n[PASS] Experimental autobuyers preserve purchase ticks, priority and deductions\n[PASS] Experimental affordability proofs invalidate stale and dynamic costs\n[PASS] Experimental autobuyer short and zero intervals remain exact\n[PASS] Upgrade autobuyers start cooldowns only after success and retry live waits\n[PASS] Waiting upgrade buyers observe live requirements and exclusive choices\n[PASS] Autobuyer purchases preserve registry, tree and generator-first priority\n[PASS] Autobuyer large deltas stop failures and retain success overshoot\n[PASS] Waiting automation preserves existing save/load and prestige reset rules\n[PASS] Experimental ready upgrade waits skip replay with exact timer parity\n[PASS] Experimental resource-flow proofs preserve dense endpoints, exhaustion and dependency transitions\n\n========================================\n RESULTS: 87 passed, 0 failed\n========================================\n"
+  },
+  "survey": {
+    "command": [
+      "/tmp/godot-runtime/Godot_v4.6.1-stable_linux.x86_64",
+      "--headless",
+      "--path",
+      ".",
+      "--script",
+      "tests/experimental/resource_flow_benchmark.gd",
+      "--",
+      "--scenario=mixed",
+      "--duration=120",
+      "--survey=true"
+    ],
+    "returncode": 0,
+    "log": "Clean diagnostic run; full structured result in resource_flow_survey.json."
+  }
+}

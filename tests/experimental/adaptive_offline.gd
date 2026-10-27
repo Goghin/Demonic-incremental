@@ -36,8 +36,9 @@ func _init(game_simulation: Simulation) -> void:
 	manager = TimeManager.new(simulation)
 
 
-# There are no generator-specific shortcuts. Consumers, discrete production,
-# stateful/dormancy modifiers and discrete controllers deliberately fall back.
+# The default guard rejects consumers. The isolated resource-flow subclass
+# overrides only that capability after proving an enclosing static-rate box.
+# Discrete production and unproved stateful controllers still fall back.
 func guard() -> String:
 	var state: GameState = simulation.state
 	if force_exact:
@@ -61,7 +62,11 @@ func guard() -> String:
 			continue
 		# Throttle flags can change even for paused/level-zero consumers.
 		if not g.get_active_inputs().is_empty():
-			return "resource_consumers"
+			var consumer_reason: String = _consumer_guard(g)
+			if consumer_reason != "":
+				return consumer_reason
+			for input in g.get_active_inputs():
+				changing[input.resource_id] = true
 		if g.manually_paused and g.operating:
 			return "pause_transition"
 		if g.manually_paused or g.level <= 0:
@@ -97,6 +102,10 @@ func guard() -> String:
 		if not blocked:
 			return "automatic_resource_boundary"
 	return ""
+
+
+func _consumer_guard(_generator: Generator) -> String:
+	return "resource_consumers"
 
 
 func _automation_guard() -> String:

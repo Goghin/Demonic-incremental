@@ -1,0 +1,1511 @@
+{
+  "source_hashes": {
+    "tests/experimental/resource_flow_offline.gd": "a851b4eb5731d89f94009ba8b88de41f25e265c5b5c4e0ad5d8885f04e073189",
+    "tests/experimental/autobuyer_fixtures.gd": "a2bf258b6d325f63fb9a0b7cf6636e869699dfc97240a0d561b0c3cd11541a85",
+    "tests/experimental/continuous_checkpoint.gd": "ed90e0f1d7d5be5a0a4b9551532dfe761f99378dc93897c4a3f2b2ef556fde1f",
+    "tests/experimental/adaptive_tests.gd": "1c0c24af298e9305439977d45f2bc6725d249c50defb02d9d6f51c51e1176107",
+    "tests/experimental/resource_flow_diagnostics.gd": "4be0c760870d77f28dfa6bbce684a5eece12474ffb948efc154221f00aff904f",
+    "tests/experimental/horizon_benchmark.gd": "927ceb3398f4c4d1f1be9fca9e80fb5c7e52534418b7645e767b4441f5972000",
+    "tests/experimental/resource_flow_fixtures.gd": "6e9791090487af09714e9fa5dddc1f2bdbcccc318d09a747ff588dcc865d8957",
+    "tests/experimental/resource_flow_bounds.gd": "90284b4e825cffc553d6a944ab416fe61a143f94cb5e5d7f9a0c14d6bf98b8f1",
+    "tests/experimental/adaptive_offline.gd": "9c47842b7bca6c230f8db1a2803b6b9a4b040c092a84d42d4f1f55be14d6ee22",
+    "tests/experimental/run_resource_flow_tests.gd": "dfcc3ae9c8d3177e62e3fbe743e2abbe264a3b0001c845841c7aaedf6d55c17a",
+    "tests/experimental/autobuyer_boundary.gd": "df0fa9116ec451fabcd08ff1877c85bfa442d86a7d31598764abc8bdb3534f08",
+    "tests/experimental/autobuyer_tests.gd": "01d93c16e6446714aabf375ea12321ce2796813d55b5c1556db5c99a159b1ffe",
+    "tests/experimental/horizon_tests.gd": "7eb368295c98f7daa4fddd8f0a5ff6d10bfb1486ab90925c563227ed6ecd330e",
+    "tests/experimental/feedback_tests.gd": "a4e9ffb48347ad9ddb07be706ab8de7e068a7f6064fd39dbf376ffd04011bdc0",
+    "tests/experimental/horizon_components.gd": "83b1c8e5629417481d294cab9c76015a00df66164cf0c8ba46c8b1319cb3cba3",
+    "tests/experimental/feedback_offline.gd": "ecad782da67139932560a0454b1899fa98fdf7dea29f86a330589239fa964bee",
+    "tests/experimental/autobuyer_benchmark.gd": "5f057ef44cd2f2398683fcbecdff1646e0863dbeda0ca296aee32466c11a6aa4",
+    "tests/experimental/adaptive_benchmark.gd": "2cba40bc0df8dc89772775bd5e9b2a40228bab461263b957b6ebe101ff76b7af",
+    "tests/experimental/resource_flow_benchmark.gd": "9bf139b1a0c743cfed5a16d3f8cc555fd51dec8a8a784c74381d0249badea111",
+    "tests/experimental/autobuyer_offline.gd": "00b5bc9e3d2abf81c21c0c5ee54e6131af5183f11a277ca4ecf8b2d8cc54192b",
+    "tests/experimental/adaptive_metrics.gd": "e99ad3dc2e0262e0ca098e2130b99e67d96ddd1085f033a6a498d8463c5f24bc",
+    "tests/experimental/horizon_fixtures.gd": "58e0fd82f450b323703aa86fa2e1ed9a82f2ea6450005d160eebbc35b88a161e",
+    "tests/experimental/horizon_runner.gd": "3dd91409b1f910822ff66f35eb9a9e4816b8801213ded1d9bc8de38f8f8a590a",
+    "tests/experimental/autobuyer_activity.gd": "27c46c4c2e64e182697df49cdfb6de6245ba1f920d145cd82e7717b23ebb38d3",
+    "tests/experimental/resource_flow_tests.gd": "f2390b150dbf89bb3a68de58e7a7a9440365ed62e9ed4994ed29c63232b9c898",
+    "tests/experimental/accuracy_modes.gd": "5e770805ba52a433a34021a42d9a5d60463fe7ff7742fd17ae18eb70bae2c61a"
+  },
+  "runs": [
+    {
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 0,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 30720,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 1013,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 1842716,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1712747,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "samples": 71,
+          "seconds": 1.848065
+        },
+        "new": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 17625,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2536,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1248
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1338,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 57689,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 725,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 96962,
+            "numerical_usec": 28717,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 6437
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 123053
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.193726,
+          "speedup": 9.53958167721421
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 27246,
+            "automation_boundary": {
+              "calls": 3600,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {
+                "disabled": 3600
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 49087
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 94532,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "resource_consumers": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 1924529,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1821806,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 60,
+          "seconds": 2.052404,
+          "speedup": 0.90043919228378
+        }
+      },
+      "scenario": "transfer"
+    },
+    {
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 1,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 36600,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 1192,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 2008270,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1856590,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "samples": 71,
+          "seconds": 2.014161
+        },
+        "new": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 20547,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2449,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1307
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1650,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 67774,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 777,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 110081,
+            "numerical_usec": 32095,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 6936
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 141544
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.22303,
+          "speedup": 9.03089718871901
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 32750,
+            "automation_boundary": {
+              "calls": 3600,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {
+                "disabled": 3600
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 48715
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 96260,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "resource_consumers": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 1913320,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1810115,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 60,
+          "seconds": 2.049828,
+          "speedup": 0.98260000351249
+        }
+      },
+      "scenario": "transfer"
+    },
+    {
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 2,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 33495,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 1217,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 2096313,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1941654,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "samples": 71,
+          "seconds": 2.102756
+        },
+        "new": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 17968,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2310,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1149
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1654,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 59064,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 909,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 94086,
+            "numerical_usec": 27827,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 7109
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 120380
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.192739,
+          "speedup": 10.9098625602499
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 27062,
+            "automation_boundary": {
+              "calls": 3600,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {
+                "disabled": 3600
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 47575
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 93949,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "resource_consumers": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 1874561,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1771052,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 60,
+          "seconds": 2.00111,
+          "speedup": 1.05079480888107
+        }
+      },
+      "scenario": "transfer"
+    },
+    {
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 0,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 123993,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 1625,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 4429145,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 4171431,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "samples": 398,
+          "seconds": 4.437281
+        },
+        "new": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 116067,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3800,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 57584
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 10636,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 420754,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 52440,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 703509,
+            "numerical_usec": 299213,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 122124,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 897306
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.440367,
+          "speedup": 3.08065999845873
+        },
+        "old": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 110520,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3608,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 52877
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 10318,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 400037,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 49867,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 672319,
+            "numerical_usec": 287066,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 129166,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 857330
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.377123,
+          "speedup": 3.22213847274354
+        }
+      },
+      "scenario": "late_both"
+    },
+    {
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 1,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 140136,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 1658,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 4600614,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 4320371,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "samples": 398,
+          "seconds": 4.608815
+        },
+        "new": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 108215,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3238,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 47972
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 9048,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 382517,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 47718,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 648468,
+            "numerical_usec": 276698,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 121420,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 829920
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.323855,
+          "speedup": 3.48135936337439
+        },
+        "old": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 99645,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3278,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 45854
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 9064,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 352310,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 43385,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 596807,
+            "numerical_usec": 247943,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 103759,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 759947
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.214717,
+          "speedup": 3.79414711410147
+        }
+      },
+      "scenario": "late_both"
+    },
+    {
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 2,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 120190,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 1527,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 4351621,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 4101077,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "samples": 398,
+          "seconds": 4.359521
+        },
+        "new": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 98873,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3077,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 45039
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 8884,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 365214,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 44140,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 600860,
+            "numerical_usec": 254005,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 111319,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 775360
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.236575,
+          "speedup": 3.52548046014192
+        },
+        "old": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 99024,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3441,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 44788
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 9284,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 359424,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 42757,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 631150,
+            "numerical_usec": 261831,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 113417,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 799578
+          },
+          "discrete_parity": true,
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.260846,
+          "speedup": 3.4576157595773
+        }
+      },
+      "scenario": "late_both"
+    }
+  ]
+}
