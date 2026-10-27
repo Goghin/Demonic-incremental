@@ -1,0 +1,233 @@
+extends RefCounted
+
+# ISOLATED EXPERIMENT. Nothing in production preloads or calls this class.
+# Step doubling estimates the error of the existing ordered update map. It is
+# not a proof of accuracy relative to repeated 0.1 s updates: audit that separately.
+const Metrics = preload("res://tests/experimental/adaptive_metrics.gd")
+const Checkpoint = preload("res://tests/experimental/continuous_checkpoint.gd")
+const REFERENCE_STEP: float = TimeManager.OFFLINE_MAX_GAME_STEP
+
+var maximum_step: float = 60.0
+var minimum_step: float = REFERENCE_STEP
+var absolute_tolerance: float = 1e-8
+var relative_tolerance: float = 1e-4
+var event_safety_margin: float = 0.1
+var fallback_window_ticks: int = 10
+var audit_interval: float = 60.0
+var distribute_error_budget: bool = true
+var force_exact: bool = false
+var allow_environmental_feedback: bool = true
+
+var counters: Dictionary = {}
+var samples: Dictionary = {}
+var simulation: Simulation
+var manager: TimeManager
+var elapsed: float = 0.0
+var duration: float = 0.0
+
+func _init(game_simulation: Simulation) -> void:
+	simulation = game_simulation
+	manager = TimeManager.new(simulation)
+
+
+# There are no generator-specific shortcuts. Consumers, discrete production,
+# stateful/dormancy modifiers and discrete controllers deliberately fall back.
+func guard() -> String:
+	var state: GameState = simulation.state
+	if force_exact:
+		return "forced_exact"
+	if not allow_environmental_feedback and (state.get_heat_leak_per_second() > 0.0 or state.get_matter_decay_per_second() > 0.0):
+		return "environmental_feedback"
+	if simulation.profiling_enabled or simulation.diagnostics_enabled:
+		return "instrumented_simulation"
+	if state.prestige_planning:
+		return "prestige_planning"
+	for automation in [state.generator_automation_manager, state.upgrade_automation_manager]:
+		for entry in automation.automation_states.values():
+			if entry["enabled"]:
+				return "enabled_automation"
+	var changing: Dictionary = {}
+	for g in state.generators.values():
+		if g.cycle_active or g.auto_run_cycles:
+			return "cycle_or_auto_run"
+		if g.definition.cycle_based:
+			continue
+		if not g.unlocked:
+			continue
+		# Throttle flags can change even for paused/level-zero consumers.
+		if not g.get_active_inputs().is_empty():
+			return "resource_consumers"
+		if g.manually_paused and g.operating:
+			return "pause_transition"
+		if g.manually_paused or g.level <= 0:
+			continue
+		if not g.operating or g.is_throttled:
+			return "operating_transition"
+		for modifier in g.modifiers:
+			if modifier.dynamic and modifier.dynamic_formula == Modifier.DYNAMIC_LAVA_MITE_DORMANCY:
+				return "time_dependent_modifier"
+		for output in g.get_active_outputs():
+			if not output.unlocked:
+				continue
+			if output.discrete:
+				return "discrete_production"
+			changing[output.resource_id] = true
+			if not state.is_resource_discovered(output.resource_id):
+				return "discovery_boundary"
+	if state.get_heat_leak_per_second() > 0.0:
+		changing[ResourceIds.HEAT] = true
+	if state.get_matter_decay_per_second() > 0.0:
+		changing[ResourceIds.MATTER] = true
+		changing[ResourceIds.HEAT] = true
+	# Every pending automatic upgrade must have an immutable unmet requirement.
+	# Otherwise evaluate exact ticks, including the original ordered application.
+	for u in state.upgrades.values():
+		if not u.definition.automatic or u.is_maxed():
+			continue
+		var blocked: bool = false
+		for requirement in u.definition.requirements:
+			if not state.upgrade_system.requirement_met(requirement):
+				if requirement.type != RequirementTypes.RESOURCE or not changing.has(requirement.target_id):
+					blocked = true
+		if not blocked:
+			return "automatic_resource_boundary"
+	return ""
+
+
+# This standalone experiment owns a fresh, scale-one TimeManager context.
+# Trials have no clock callbacks; commit the interval clocks with accepted time.
+func _sync_clocks() -> void:
+	manager.game_time = elapsed
+	manager.offline_time = elapsed
+	manager.prestige_time = elapsed
+	manager.current_offline_duration = elapsed
+
+
+func _signature() -> String:
+	var started: int = Time.get_ticks_usec()
+	var result: String = Metrics.discrete(simulation.state, false)
+	counters["event_detection_usec"] += Time.get_ticks_usec() - started
+	return result
+
+
+func _advance(delta: float, end: float) -> void:
+	simulation.state.set_lava_mite_dormancy_penalty(manager.get_dormancy_penalty(end))
+	var started: int = Time.get_ticks_usec()
+	simulation.update(delta, true)
+	counters["numerical_usec"] += Time.get_ticks_usec() - started
+	counters["evaluations"] += 1
+
+
+func _sample(tick: int) -> void:
+	if samples.has(tick):
+		return
+	var started: int = Time.get_ticks_usec()
+	samples[tick] = {"numeric": Metrics.numeric(simulation.state, manager), "discrete": Metrics.discrete(simulation.state),
+		"rng": str(simulation.state.gameplay_rng.state)}
+	counters["audit_capture_usec"] += Time.get_ticks_usec() - started
+
+
+func run(seconds: float) -> Dictionary:
+	elapsed = 0.0
+	duration = maxf(seconds, 0.0)
+	samples.clear()
+	counters = {"evaluations": 0, "accepted": 0, "rejected": 0, "fallback_ticks": 0,
+		"fallback_reasons": {}, "event_detection_usec": 0, "trial_usec": 0, "fallback_usec": 0,
+		"checkpoint_usec": 0, "numerical_usec": 0, "audit_capture_usec": 0, "initial_checkpoint_bytes": 0, "strict_failure": ""}
+	var finite_configuration: bool = true
+	for value in [seconds, maximum_step, minimum_step, absolute_tolerance, relative_tolerance, event_safety_margin, audit_interval]:
+		finite_configuration = finite_configuration and is_finite(value)
+	if not finite_configuration or not is_finite(maximum_step) or maximum_step < REFERENCE_STEP or minimum_step < REFERENCE_STEP or absolute_tolerance <= 0.0 or relative_tolerance < 0.0 or event_safety_margin < 0.0:
+		counters["strict_failure"] = "Invalid experimental configuration; no simulation was performed."
+		return counters
+	if manager.time_scale != 1.0 or manager.stabilization_countdown_active or manager.dormancy_recovery_remaining != 0.0 or manager.game_time != 0.0:
+		counters["strict_failure"] = "Unsupported TimeManager context; use a fresh scale-one experimental interval."
+		return counters
+	if duration <= 0.0:
+		return counters
+	var total_ticks: int = ceili(duration / REFERENCE_STEP)
+	var audit_ticks: int = maxi(1, floori(audit_interval / REFERENCE_STEP))
+	var max_ticks: int = maxi(1, floori(maximum_step / REFERENCE_STEP))
+	var min_ticks: int = maxi(2, ceili(minimum_step / REFERENCE_STEP))
+	var proposal: int = min_ticks
+	var tick: int = 0
+	simulation.state.simulation_statistics = manager.simulation_statistics
+	simulation.prepare_offline()
+	while tick < total_ticks:
+		var checkpoint_tick: int = mini(total_ticks, (floori(float(tick) / float(audit_ticks)) + 1) * audit_ticks)
+		var start: int = Time.get_ticks_usec()
+		var reason: String = guard()
+		counters["event_detection_usec"] += Time.get_ticks_usec() - start
+		var n: int = mini(mini(proposal, max_ticks), checkpoint_tick - tick)
+		if reason != "" or n < min_ticks:
+			start = Time.get_ticks_usec()
+			var count: int = mini(maxi(1, fallback_window_ticks), checkpoint_tick - tick)
+			for _index in range(count):
+				var delta: float = minf(REFERENCE_STEP, duration - elapsed)
+				if delta > 0.0:
+					elapsed = minf(duration, elapsed + delta)
+					_sync_clocks()
+					_advance(delta, elapsed)
+				tick += 1
+				counters["fallback_ticks"] += 1
+			counters["fallback_reasons"][reason if reason != "" else "minimum_step"] = int(counters["fallback_reasons"].get(reason if reason != "" else "minimum_step", 0)) + count
+			counters["fallback_usec"] += Time.get_ticks_usec() - start
+			proposal = min_ticks
+		else:
+			start = Time.get_ticks_usec()
+			var saved: Dictionary = Checkpoint.capture(simulation)
+			counters["checkpoint_usec"] += Time.get_ticks_usec() - start
+			if counters["initial_checkpoint_bytes"] == 0:
+				counters["initial_checkpoint_bytes"] = var_to_bytes(saved).size()
+			var signature: String = _signature()
+			var rng: int = simulation.state.gameplay_rng.state
+			var h: float = minf(float(n) * REFERENCE_STEP, duration - elapsed)
+			start = Time.get_ticks_usec()
+			_advance(h, elapsed + h)
+			var coarse: Dictionary = Metrics.numeric(simulation.state)
+			if _signature() != signature or simulation.state.gameplay_rng.state != rng:
+				counters["strict_failure"] = "Unexpected coarse-trial discrete event; discard this experimental state."
+				return counters
+			Checkpoint.restore(simulation, saved)
+			var first: float = float(n >> 1) * REFERENCE_STEP
+			_advance(first, elapsed + first)
+			_advance(h - first, elapsed + h)
+			var fine: Dictionary = Metrics.numeric(simulation.state)
+			counters["trial_usec"] += Time.get_ticks_usec() - start
+			if _signature() != signature or simulation.state.gameplay_rng.state != rng:
+				counters["strict_failure"] = "Unexpected fine-trial discrete event; discard this experimental state."
+				return counters
+			var error: float = 0.0
+			for key in coarse:
+				if not fine.has(key):
+					fine[key] = 0.0
+			for key in fine:
+				var a: float = float(coarse.get(key, 0.0))
+				var b: float = float(fine[key])
+				var budget: float = absolute_tolerance + relative_tolerance * maxf(absf(a), absf(b))
+				if distribute_error_budget and not str(key).ends_with("highest_amount"):
+					budget *= h / duration
+				var value: float = absf(a - b) / maxf(budget, 1e-30) if is_finite(a) and is_finite(b) else INF
+				error = maxf(error, value)
+			# Reject environmental threshold crossings, leaving the crossing on
+			# the authoritative grid. Margin is in resource units, not seconds.
+			for pair in [[ResourceIds.HEAT, simulation.state.realm_effects.heat_leak_threshold], [ResourceIds.MATTER, simulation.state.realm_effects.matter_decay_threshold]]:
+				var before: float = saved["amounts"][pair[0]] - float(pair[1])
+				var after: float = fine["resource/" + pair[0]] - float(pair[1])
+				if before * after < 0.0 or (absf(after) < event_safety_margin and before != after):
+					error = INF
+			if error <= 1.0:
+				elapsed = minf(duration, elapsed + h)
+				_sync_clocks()
+				tick += n
+				counters["accepted"] += 1
+				_sample(tick) # Audit every accepted endpoint, plus fixed checkpoints.
+				proposal = mini(max_ticks, n * 2) if error < 0.25 else n
+			else:
+				Checkpoint.restore(simulation, saved)
+				counters["rejected"] += 1
+				proposal = n >> 1
+		if tick == checkpoint_tick:
+			_sample(tick)
+	counters["fallback_fraction"] = float(counters["fallback_ticks"]) / float(total_ticks)
+	return counters.duplicate(true)

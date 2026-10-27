@@ -116,6 +116,14 @@ func _run_tests() -> void:
 	await _run_async_test("Offline frame budgets preserve repeated crafting, RNG and loaded cycles", _test_batch_c_scheduling)
 	await _run_async_test("Offline scheduling preserves zero/short periods and scaled time", _test_batch_c_short)
 
+	_run_test("Experimental adaptive checkpoints restore all continuous statistics", _test_experimental_checkpoint)
+	_run_test("Experimental adaptive subset preserves discrete outcomes and measured accuracy", _test_experimental_restricted)
+	_run_test("Experimental unsupported mechanics fall back with exact binary parity", _test_experimental_fallbacks)
+	_run_test("Experimental resource thresholds retain automatic-upgrade ordering", _test_experimental_threshold_order)
+	_run_test("Experimental rejected steps cannot contaminate balances or statistics", _test_experimental_rejection)
+	_run_test("Experimental adaptive and exact paths preserve loaded RNG/crafts", _test_experimental_save_load)
+	_run_test("Experimental adaptive path validates minimum steps and short durations", _test_experimental_configuration)
+
 	print("")
 	print("========================================")
 	print(" RESULTS: %d passed, %d failed" % [_passed, _failed])
@@ -2406,3 +2414,52 @@ func _test_batch_c_short() -> void:
 	var test = preload("res://tests/offline_batch_c_tests.gd").new()
 	await test.test_short_durations()
 	_check_batch_c_failures(test)
+
+
+func _test_experimental_checkpoint() -> void:
+	var test = preload("res://tests/experimental/adaptive_tests.gd").new()
+	test.test_checkpoint()
+	for message in test.failures:
+		_expect(false, message)
+
+
+func _test_experimental_restricted() -> void:
+	var test = preload("res://tests/experimental/adaptive_tests.gd").new()
+	test.test_restricted()
+	for message in test.failures:
+		_expect(false, message)
+
+
+func _test_experimental_fallbacks() -> void:
+	var test = preload("res://tests/experimental/adaptive_tests.gd").new()
+	test.test_fallbacks()
+	for message in test.failures:
+		_expect(false, message)
+
+
+func _test_experimental_threshold_order() -> void:
+	var test = preload("res://tests/experimental/adaptive_tests.gd").new()
+	test.test_threshold_order()
+	for message in test.failures:
+		_expect(false, message)
+
+
+func _test_experimental_rejection() -> void:
+	var test = preload("res://tests/experimental/adaptive_tests.gd").new()
+	test.test_rejection()
+	for message in test.failures:
+		_expect(false, message)
+
+
+func _test_experimental_save_load() -> void:
+	var test = preload("res://tests/experimental/adaptive_tests.gd").new()
+	test.test_save_load()
+	for message in test.failures:
+		_expect(false, message)
+
+
+func _test_experimental_configuration() -> void:
+	var test = preload("res://tests/experimental/adaptive_tests.gd").new()
+	test.test_configuration()
+	for message in test.failures:
+		_expect(false, message)
