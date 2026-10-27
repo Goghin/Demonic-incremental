@@ -136,6 +136,10 @@ func _run_tests() -> void:
 	_run_test("Experimental modes use exact simulation at prestige reward boundaries", _test_horizon_prestige_protection)
 	_run_test("Experimental modes preserve mixed gameplay, automation and consumers", _test_horizon_fallbacks)
 	_run_test("Experimental source-free Matter decay safely leaves the absolute margin", _test_horizon_monotone_margin)
+	_run_test("Experimental autobuyers advance only within proven waiting bounds", _test_autobuyer_waiting)
+	_run_test("Experimental autobuyers preserve purchase ticks, priority and deductions", _test_autobuyer_purchases)
+	_run_test("Experimental affordability proofs invalidate stale and dynamic costs", _test_autobuyer_invalidation)
+	_run_test("Experimental autobuyer short and zero intervals remain exact", _test_autobuyer_short)
 
 
 	print("")
@@ -2559,5 +2563,33 @@ func _test_horizon_fallbacks() -> void:
 func _test_horizon_monotone_margin() -> void:
 	var test = preload("res://tests/experimental/horizon_tests.gd").new()
 	test.test_monotone_margin()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_autobuyer_waiting() -> void:
+	var test = preload("res://tests/experimental/autobuyer_tests.gd").new()
+	test.test_waiting()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_autobuyer_purchases() -> void:
+	var test = preload("res://tests/experimental/autobuyer_tests.gd").new()
+	test.test_purchase_boundaries()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_autobuyer_invalidation() -> void:
+	var test = preload("res://tests/experimental/autobuyer_tests.gd").new()
+	test.test_proof_invalidation()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_autobuyer_short() -> void:
+	var test = preload("res://tests/experimental/autobuyer_tests.gd").new()
+	test.test_zero_short()
 	for failure in test.failures:
 		_expect(false, failure)

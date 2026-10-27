@@ -48,10 +48,9 @@ func guard() -> String:
 		return "instrumented_simulation"
 	if state.prestige_planning:
 		return "prestige_planning"
-	for automation in [state.generator_automation_manager, state.upgrade_automation_manager]:
-		for entry in automation.automation_states.values():
-			if entry["enabled"]:
-				return "enabled_automation"
+	var automation_reason: String = _automation_guard()
+	if automation_reason != "":
+		return automation_reason
 	var changing: Dictionary = {}
 	for g in state.generators.values():
 		if g.cycle_active or g.auto_run_cycles:
@@ -98,6 +97,22 @@ func guard() -> String:
 		if not blocked:
 			return "automatic_resource_boundary"
 	return ""
+
+
+func _automation_guard() -> String:
+	for automation in [simulation.state.generator_automation_manager, simulation.state.upgrade_automation_manager]:
+		for entry in automation.automation_states.values():
+			if entry["enabled"]:
+				return "enabled_automation"
+	return ""
+
+
+func _commit_interval(_ticks: int, _seconds: float) -> void:
+	pass
+
+
+func _trial_active(_active: bool) -> void:
+	pass
 
 
 # This standalone experiment owns a fresh, scale-one TimeManager context.
@@ -212,6 +227,7 @@ func run(seconds: float) -> Dictionary:
 			proposal = min_ticks
 			completed_ticks = count
 		else:
+			_trial_active(true)
 			start = Time.get_ticks_usec()
 			var attempt_start: int = start
 			trial_failure_reason = ""
@@ -226,6 +242,7 @@ func run(seconds: float) -> Dictionary:
 			_advance(h, elapsed + h)
 			var coarse: Dictionary = Metrics.numeric(simulation.state)
 			if _signature() != signature or simulation.state.gameplay_rng.state != rng:
+				_trial_active(false)
 				counters["strict_failure"] = "Unexpected coarse-trial discrete event; discard this experimental state."
 				return counters
 			_restore_checkpoint(saved)
@@ -235,8 +252,10 @@ func run(seconds: float) -> Dictionary:
 			var fine: Dictionary = Metrics.numeric(simulation.state)
 			counters["trial_usec"] += Time.get_ticks_usec() - start
 			if _signature() != signature or simulation.state.gameplay_rng.state != rng:
+				_trial_active(false)
 				counters["strict_failure"] = "Unexpected fine-trial discrete event; discard this experimental state."
 				return counters
+			_trial_active(false)
 			var error: float = 0.0
 			var worst_field: String = ""
 			var rejection_reason: String = "numerical_error"
@@ -272,6 +291,9 @@ func run(seconds: float) -> Dictionary:
 				tick += n
 				counters["accepted"] += 1
 				retry_ticks = 0
+				_commit_interval(n, h)
+				if counters["strict_failure"] != "":
+					return counters
 				_sample(tick) # Audit every accepted endpoint, plus fixed checkpoints.
 				proposal = mini(max_ticks, n * 2) if error < 0.25 else n
 				completed_ticks = n
