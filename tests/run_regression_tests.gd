@@ -124,6 +124,13 @@ func _run_tests() -> void:
 	_run_test("Experimental adaptive and exact paths preserve loaded RNG/crafts", _test_experimental_save_load)
 	_run_test("Experimental adaptive path validates minimum steps and short durations", _test_experimental_configuration)
 
+	_run_test("Experimental reference-map feedback meets three sampled accuracy targets", _test_feedback_targets)
+	_run_test("Experimental feedback preserves long-interval dormancy and statistics", _test_feedback_long_clocks)
+	_run_test("Experimental feedback retains exact fallback for consumers and discrete systems", _test_feedback_fallbacks)
+	_run_test("Experimental feedback cooldown bounds rejected trials and restores state", _test_feedback_retry_control)
+	_run_test("Experimental feedback preserves loaded states and short intervals", _test_feedback_save_short)
+	_run_test("Experimental feedback commits offline-entry interval bookkeeping exactly", _test_feedback_offline_entry)
+
 	print("")
 	print("========================================")
 	print(" RESULTS: %d passed, %d failed" % [_passed, _failed])
@@ -2463,3 +2470,45 @@ func _test_experimental_configuration() -> void:
 	test.test_configuration()
 	for message in test.failures:
 		_expect(false, message)
+
+
+func _test_feedback_targets() -> void:
+	var test = preload("res://tests/experimental/feedback_tests.gd").new()
+	test.test_feedback_targets()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_feedback_long_clocks() -> void:
+	var test = preload("res://tests/experimental/feedback_tests.gd").new()
+	test.test_feedback_long_clocks()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_feedback_fallbacks() -> void:
+	var test = preload("res://tests/experimental/feedback_tests.gd").new()
+	test.test_feedback_fallbacks()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_feedback_retry_control() -> void:
+	var test = preload("res://tests/experimental/feedback_tests.gd").new()
+	test.test_feedback_retry_control()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_feedback_save_short() -> void:
+	var test = preload("res://tests/experimental/feedback_tests.gd").new()
+	test.test_feedback_save_short()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_feedback_offline_entry() -> void:
+	var test = preload("res://tests/experimental/feedback_tests.gd").new()
+	test.test_feedback_offline_entry()
+	for failure in test.failures:
+		_expect(false, failure)

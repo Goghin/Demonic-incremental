@@ -17,6 +17,11 @@ var audit_interval: float = 60.0
 var distribute_error_budget: bool = true
 var force_exact: bool = false
 var allow_environmental_feedback: bool = true
+# Diagnostics are optional: per-attempt traces are excluded from throughput runs.
+var numerical_retry_max_ticks: int = 0
+var trial_failure_reason: String = ""
+var trace_attempts: bool = false
+var attempts: Array[Dictionary] = []
 
 var counters: Dictionary = {}
 var samples: Dictionary = {}
@@ -131,8 +136,9 @@ func run(seconds: float) -> Dictionary:
 	elapsed = 0.0
 	duration = maxf(seconds, 0.0)
 	samples.clear()
+	attempts.clear()
 	counters = {"evaluations": 0, "accepted": 0, "rejected": 0, "fallback_ticks": 0,
-		"fallback_reasons": {}, "event_detection_usec": 0, "trial_usec": 0, "fallback_usec": 0,
+		"fallback_reasons": {}, "rejection_reasons": {}, "rejection_fields": {}, "rejected_usec": 0, "event_detection_usec": 0, "trial_usec": 0, "fallback_usec": 0,
 		"checkpoint_usec": 0, "numerical_usec": 0, "audit_capture_usec": 0, "initial_checkpoint_bytes": 0, "strict_failure": ""}
 	var finite_configuration: bool = true
 	for value in [seconds, maximum_step, minimum_step, absolute_tolerance, relative_tolerance, event_safety_margin, audit_interval]:
@@ -151,6 +157,7 @@ func run(seconds: float) -> Dictionary:
 	var min_ticks: int = maxi(2, ceili(minimum_step / REFERENCE_STEP))
 	var proposal: int = min_ticks
 	var tick: int = 0
+	var retry_ticks: int = 0
 	simulation.state.simulation_statistics = manager.simulation_statistics
 	simulation.prepare_offline()
 	while tick < total_ticks:
@@ -161,7 +168,9 @@ func run(seconds: float) -> Dictionary:
 		var n: int = mini(mini(proposal, max_ticks), checkpoint_tick - tick)
 		if reason != "" or n < min_ticks:
 			start = Time.get_ticks_usec()
-			var count: int = mini(maxi(1, fallback_window_ticks), checkpoint_tick - tick)
+			var count: int = mini(maxi(maxi(1, fallback_window_ticks), retry_ticks), checkpoint_tick - tick)
+			if reason == "" and retry_ticks > 0:
+				reason = "numerical_retry_cooldown"
 			for _index in range(count):
 				var delta: float = minf(REFERENCE_STEP, duration - elapsed)
 				if delta > 0.0:
@@ -175,6 +184,8 @@ func run(seconds: float) -> Dictionary:
 			proposal = min_ticks
 		else:
 			start = Time.get_ticks_usec()
+			var attempt_start: int = start
+			trial_failure_reason = ""
 			var saved: Dictionary = Checkpoint.capture(simulation)
 			counters["checkpoint_usec"] += Time.get_ticks_usec() - start
 			if counters["initial_checkpoint_bytes"] == 0:
@@ -198,6 +209,8 @@ func run(seconds: float) -> Dictionary:
 				counters["strict_failure"] = "Unexpected fine-trial discrete event; discard this experimental state."
 				return counters
 			var error: float = 0.0
+			var worst_field: String = ""
+			var rejection_reason: String = "numerical_error"
 			for key in coarse:
 				if not fine.has(key):
 					fine[key] = 0.0
@@ -208,7 +221,9 @@ func run(seconds: float) -> Dictionary:
 				if distribute_error_budget and not str(key).ends_with("highest_amount"):
 					budget *= h / duration
 				var value: float = absf(a - b) / maxf(budget, 1e-30) if is_finite(a) and is_finite(b) else INF
-				error = maxf(error, value)
+				if value > error:
+					error = value
+					worst_field = str(key)
 			# Reject environmental threshold crossings, leaving the crossing on
 			# the authoritative grid. Margin is in resource units, not seconds.
 			for pair in [[ResourceIds.HEAT, simulation.state.realm_effects.heat_leak_threshold], [ResourceIds.MATTER, simulation.state.realm_effects.matter_decay_threshold]]:
@@ -216,17 +231,29 @@ func run(seconds: float) -> Dictionary:
 				var after: float = fine["resource/" + pair[0]] - float(pair[1])
 				if before * after < 0.0 or (absf(after) < event_safety_margin and before != after):
 					error = INF
+					rejection_reason = "environmental_threshold"
+			if trial_failure_reason != "":
+				error = INF
+				rejection_reason = trial_failure_reason
+			if trace_attempts:
+				attempts.append({"tick": tick, "ticks": n, "error": error, "field": worst_field, "reason": rejection_reason if error > 1.0 else "accepted", "usec": Time.get_ticks_usec() - attempt_start})
 			if error <= 1.0:
 				elapsed = minf(duration, elapsed + h)
 				_sync_clocks()
 				tick += n
 				counters["accepted"] += 1
+				retry_ticks = 0
 				_sample(tick) # Audit every accepted endpoint, plus fixed checkpoints.
 				proposal = mini(max_ticks, n * 2) if error < 0.25 else n
 			else:
 				Checkpoint.restore(simulation, saved)
 				counters["rejected"] += 1
+				counters["rejected_usec"] += Time.get_ticks_usec() - attempt_start
+				counters["rejection_reasons"][rejection_reason] = int(counters["rejection_reasons"].get(rejection_reason, 0)) + 1
+				counters["rejection_fields"][worst_field] = int(counters["rejection_fields"].get(worst_field, 0)) + 1
 				proposal = n >> 1
+				if proposal < min_ticks and numerical_retry_max_ticks > 0:
+					retry_ticks = mini(numerical_retry_max_ticks, maxi(fallback_window_ticks, retry_ticks * 2))
 		if tick == checkpoint_tick:
 			_sample(tick)
 	counters["fallback_fraction"] = float(counters["fallback_ticks"]) / float(total_ticks)

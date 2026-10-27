@@ -1,6 +1,7 @@
 extends SceneTree
 
 const Adaptive = preload("res://tests/experimental/adaptive_offline.gd")
+const Feedback = preload("res://tests/experimental/feedback_offline.gd")
 const Metrics = preload("res://tests/experimental/adaptive_metrics.gd")
 
 class Log extends RefCounted:
@@ -27,6 +28,8 @@ static func make_state(scenario: String) -> GameState:
 	var state := GameState.new()
 	state.gameplay_rng.seed = 123456
 	state.gameplay_log = Log.new()
+	if scenario.begins_with("feedback_"):
+		return make_feedback_state(scenario)
 	if scenario == "fresh":
 		return state
 	if scenario in ["automation", "upgrade_automation", "starved", "cycles", "coupled"]:
@@ -102,7 +105,10 @@ func measure(options: Dictionary) -> Dictionary:
 	var scenario: String = options["scenario"]
 	var duration: float = float(options["duration"])
 	var adaptive_state: GameState = make_state(scenario)
-	var prototype = Adaptive.new(Simulation.new(adaptive_state))
+	var initial_fingerprint: String = (Metrics.discrete(adaptive_state) + JSON.stringify(Metrics.numeric(adaptive_state)) + str(adaptive_state.gameplay_rng.state)).sha256_text()
+	var prototype = Feedback.new(Simulation.new(adaptive_state)) if options.get("integrator", "original") == "map" else Adaptive.new(Simulation.new(adaptive_state))
+	prototype.numerical_retry_max_ticks = int(options.get("retry_max", str(prototype.numerical_retry_max_ticks)))
+	prototype.trace_attempts = options.get("trace", "false") == "true"
 	prototype.maximum_step = float(options["maximum"])
 	prototype.minimum_step = float(options.get("minimum", "0.1"))
 	prototype.event_safety_margin = float(options.get("margin", "0.1"))
@@ -118,6 +124,8 @@ func measure(options: Dictionary) -> Dictionary:
 	var counters: Dictionary = prototype.run(duration)
 	var adaptive_seconds: float = float(Time.get_ticks_usec() - start) / 1e6
 	var memory_after: int = OS.get_static_memory_usage()
+	if options.get("phase_log", "false") == "true":
+		print("PHASE_JSON " + JSON.stringify({"phase": "adaptive_complete", "seconds": adaptive_seconds, "counters": counters}))
 	var reference: GameState = make_state(scenario)
 	var simulation := Simulation.new(reference)
 	var manager := TimeManager.new(simulation)
@@ -127,6 +135,7 @@ func measure(options: Dictionary) -> Dictionary:
 	var strict: bool = counters["strict_failure"] == ""
 	var rng: bool = true
 	var audits: int = 0
+	var field_deviations: Dictionary = {}
 	var reference_audit_usec: int = 0
 	start = Time.get_ticks_usec()
 	var evaluations: int = 0
@@ -145,7 +154,15 @@ func measure(options: Dictionary) -> Dictionary:
 		if prototype.samples.has(tick + 1):
 			var audit_start: int = Time.get_ticks_usec()
 			var sample: Dictionary = prototype.samples[tick + 1]
-			var errors: Dictionary = Metrics.compare(Metrics.numeric(reference, manager), sample["numeric"], prototype.absolute_tolerance, prototype.relative_tolerance)
+			var reference_values: Dictionary = Metrics.numeric(reference, manager)
+			var errors: Dictionary = Metrics.compare(reference_values, sample["numeric"], prototype.absolute_tolerance, prototype.relative_tolerance)
+			for field in reference_values:
+				var value: float = float(reference_values[field])
+				var difference: float = absf(value - float(sample["numeric"].get(field, 0.0)))
+				if not field_deviations.has(field):
+					field_deviations[field] = {"absolute": 0.0, "relative": 0.0}
+				field_deviations[field]["absolute"] = maxf(float(field_deviations[field]["absolute"]), difference)
+				field_deviations[field]["relative"] = maxf(float(field_deviations[field]["relative"]), difference / maxf(absf(value), prototype.absolute_tolerance))
 			for key in max_error:
 				if key == "worst_key":
 					continue
@@ -161,12 +178,15 @@ func measure(options: Dictionary) -> Dictionary:
 	var final_error: Dictionary = Metrics.compare(Metrics.numeric(reference, manager), Metrics.numeric(adaptive_state, prototype.manager), prototype.absolute_tolerance, prototype.relative_tolerance)
 	strict = strict and Metrics.discrete(reference) == Metrics.discrete(adaptive_state)
 	rng = rng and reference.gameplay_rng.state == adaptive_state.gameplay_rng.state
-	var result: Dictionary = {"scenario": scenario, "duration": duration, "relative_tolerance": prototype.relative_tolerance,
+	var result: Dictionary = {"scenario": scenario, "duration": duration, "integrator": options.get("integrator", "original"), "attempts": prototype.attempts, "relative_tolerance": prototype.relative_tolerance,
 		"absolute_tolerance": prototype.absolute_tolerance, "maximum_step": prototype.maximum_step,
+		"initial_fingerprint": initial_fingerprint, "final_reference_discrete": Metrics.discrete(reference), "final_candidate_discrete": Metrics.discrete(adaptive_state),
+		"final_reference_rng": str(reference.gameplay_rng.state), "final_candidate_rng": str(adaptive_state.gameplay_rng.state),
+		"retry_max_ticks": prototype.numerical_retry_max_ticks, "fallback_window_ticks": prototype.fallback_window_ticks, "event_safety_margin": prototype.event_safety_margin, "minimum_step": prototype.minimum_step,
 		"distributed_budget": prototype.distribute_error_budget, "audit_interval": prototype.audit_interval,
 		"reference_seconds": reference_seconds, "reference_wall_with_audits": reference_wall, "reference_audit_usec": reference_audit_usec, "adaptive_seconds": adaptive_seconds, "speedup": reference_seconds / maxf(adaptive_seconds, 1e-9),
 		"reference_evaluations": evaluations, "adaptive_counters": counters, "maximum_sampled_deviation": max_error,
-		"final_deviation": final_error, "audits": audits, "discrete_parity": strict, "rng_parity": rng,
+		"final_deviation": final_error, "field_deviations": field_deviations, "final_reference": Metrics.numeric(reference, manager), "final_candidate": Metrics.numeric(adaptive_state, prototype.manager), "audits": audits, "discrete_parity": strict, "rng_parity": rng,
 		"accuracy_pass": float(max_error["normalized"]) <= 1.0 and float(final_error["normalized"]) <= 1.0,
 		"static_memory_before": memory_before, "static_memory_after": memory_after, "engine_static_peak": OS.get_static_memory_peak_usage(),
 		"trace_bytes": var_to_bytes(prototype.samples).size(),
@@ -177,6 +197,7 @@ func measure(options: Dictionary) -> Dictionary:
 			"prototype": FileAccess.get_file_as_string("res://tests/experimental/adaptive_offline.gd").sha256_text(),
 			"checkpoint": FileAccess.get_file_as_string("res://tests/experimental/continuous_checkpoint.gd").sha256_text(),
 			"metrics": FileAccess.get_file_as_string("res://tests/experimental/adaptive_metrics.gd").sha256_text(),
+			"feedback": FileAccess.get_file_as_string("res://tests/experimental/feedback_offline.gd").sha256_text(),
 			"fixture": FileAccess.get_file_as_string("res://tests/experimental/adaptive_benchmark.gd").sha256_text()}, "engine": Engine.get_version_info()["string"]}
 	if options["mode"] == "manager":
 		var managed: GameState = make_state(scenario)
@@ -190,3 +211,50 @@ func measure(options: Dictionary) -> Dictionary:
 		result["manager_discrete_parity"] = Metrics.discrete(reference) == Metrics.discrete(managed)
 		result["manager_rng_parity"] = reference.gameplay_rng.state == managed.gameplay_rng.state
 	return result
+
+# Input-free Matter production is a synthetic data-driven integration control.
+# Actual existing Matter-producing consumers stay on exact fallback.
+static func make_feedback_state(scenario: String) -> GameState:
+	if scenario in ["feedback_starved", "feedback_recovery"]:
+		var starved: GameState = make_state("starved")
+		if scenario == "feedback_recovery":
+			starved.get_generator("atomic_friction").manually_paused = false
+		return starved
+	var state: GameState = make_state("heat")
+	var producer: Generator = state.get_generator("atomic_friction")
+	if scenario in ["feedback_held", "feedback_combined", "feedback_high", "feedback_dynamic", "feedback_representative", "feedback_stored"]:
+		state.set_resource_amount(ResourceIds.MATTER, state.realm_effects.matter_decay_threshold * 2.0)
+	if scenario in ["feedback_matter", "feedback_combined", "feedback_threshold", "feedback_representative"]:
+		var mode := GeneratorOperationMode.new("source", "Test source", "Synthetic input-free Matter fixture", 1.0, 1.0, 1.0, 0.0, [], [GeneratorIO.new(ResourceIds.MATTER, 0.25)])
+		var definition := GeneratorDefinition.new("feedback_source", "Test source", 1.0, 1.0, ResourceIds.HEAT, false, "", [mode])
+		var source := Generator.new(definition)
+		source.unlocked = true
+		source.level = 1
+		state.generators[definition.id] = source
+		state.set_resource_amount(ResourceIds.MATTER, state.realm_effects.matter_decay_threshold + 1.0)
+	if scenario == "feedback_matter":
+		producer.manually_paused = true
+	if scenario == "feedback_threshold":
+		state.set_resource_amount(ResourceIds.MATTER, state.realm_effects.matter_decay_threshold - 0.01)
+		state.set_resource_amount(ResourceIds.HEAT, state.realm_effects.heat_leak_threshold - 0.01)
+	if scenario == "feedback_equilibrium":
+		# Find the map's actual equilibrium by reference ticks, not an ODE root.
+		var simulation := Simulation.new(state)
+		for _tick in range(10000):
+			simulation.update(0.1, true)
+	if scenario == "feedback_high":
+		state.set_resource_amount(ResourceIds.HEAT, state.realm_effects.heat_leak_threshold * 100.0)
+		state.set_resource_amount(ResourceIds.MATTER, state.realm_effects.matter_decay_threshold * 10.0)
+	if scenario == "feedback_dynamic":
+		var modifier := Modifier.new(ModifierTypes.PRODUCTION, ResourceIds.HEAT, 0.05)
+		modifier.dynamic = true
+		modifier.dynamic_resource_id = ResourceIds.HEAT
+		modifier.dynamic_formula = Modifier.DYNAMIC_RESOURCE_SQRT_INVERSE
+		modifier.id = "feedback_test_heat_sensitivity"
+		producer.modifiers.append(modifier)
+		producer.invalidate_production_modifier_cache()
+	if scenario in ["feedback_representative", "feedback_stored"]:
+		producer.level = 10
+		state.set_resource_amount(ResourceIds.HEAT, state.realm_effects.heat_leak_threshold * 3.0)
+		state.set_resource_amount(ResourceIds.MATTER, state.realm_effects.matter_decay_threshold * 2.0)
+	return state
