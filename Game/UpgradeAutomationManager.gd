@@ -132,6 +132,12 @@ func update(delta: float, simulation: Simulation, offline_mode: bool = false) ->
 				continue
 
 		var automation: Dictionary = automation_states[tree_id]
+		# Zero means ready/waiting. Failed scans do not start a cooldown;
+		# retry once on the next update, using live eligibility and resources.
+		# Time spent waiting is not carried into a successful purchase's timer.
+		if float(automation["remaining_cooldown"]) <= 0.0:
+			_attempt_purchase(tree_id, simulation)
+			continue
 		var remaining_delta: float = maxf(delta, 0.0)
 
 		# Preserve cooldown overshoot so the result does not depend as heavily
@@ -148,15 +154,8 @@ func update(delta: float, simulation: Simulation, offline_mode: bool = false) ->
 			remaining_delta = maxf(remaining_delta - cooldown, 0.0)
 			automation["remaining_cooldown"] = 0.0
 			if not _attempt_purchase(tree_id, simulation):
-				# No upgrade is affordable. The failed check still starts the
-				# normal cooldown; account for the unused part of this step.
-				var elapsed_after_failed_check: float = fmod(
-					remaining_delta,
-					BASE_COOLDOWN
-				)
-				automation["remaining_cooldown"] = (
-					BASE_COOLDOWN - elapsed_after_failed_check
-				)
+				# Do not spend the remaining delta on repeated failed scans.
+				# Stay ready until the first update with an eligible purchase.
 				break
 			if remaining_delta <= 0.0:
 				break
@@ -181,8 +180,7 @@ func _attempt_purchase(tree_id: String, simulation: Simulation) -> bool:
 			automation_states[tree_id]["remaining_cooldown"] = BASE_COOLDOWN
 			return true
 
-	# Avoid checking every frame when no eligible upgrade is affordable.
-	automation_states[tree_id]["remaining_cooldown"] = BASE_COOLDOWN
+	automation_states[tree_id]["remaining_cooldown"] = 0.0
 	return false
 
 

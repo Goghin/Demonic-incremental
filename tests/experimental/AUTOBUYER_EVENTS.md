@@ -1,5 +1,7 @@
 # Event-aware autobuyer simulation
 
+> Historical results for commit `6fadba6`. The follow-up [cooldown unification report](AUTOBUYER_COOLDOWNS.md) supersedes the failed-upgrade retry semantics and the replay implementation described below. Original measurements remain unchanged.
+
 Base: `3d5c5f707fd45363de60c76337a55403f202344e`, branch `feature/cycle-auto-run`.
 
 **A restricted waiting-automation prototype is validated. It is not a production solution for a realistic 24-hour catch-up.** The final four-hour waiting fixture achieved a median paired **3.18×** speedup (2.93–3.99×), with unchanged discrete outcomes and small sampled numerical errors. A realistic mixed fixture still uses exact simulation throughout. No six-minute or 5× mixed-gameplay claim is supported.
@@ -144,3 +146,10 @@ python tests/experimental/run_autobuyer.py --godot GODOT --project . --output ac
 ```
 
 Use explicit timeouts appropriate to the machine. `--short_exact=0` disables the short-duration mitigation for experiments only; it is not the default. Internal mode configurations and production TimeManager settings are unchanged.
+
+
+## Follow-up: success-triggered upgrade cooldowns
+
+Upgrade automation now keeps its cooldown at zero after a failed scan, just as a generator waiting entry does. Enabling, successful purchases, load and prestige reset retain their existing initial/base cooldown rules. No save fields, generator behavior or purchasing order changed.
+
+The experimental boundary now requires every enabled, unlocked upgrade tree that can run to have an exactly-zero cooldown before skipping. Positive initial/post-purchase timers use authoritative ticks. Given the existing proof that no purchase can occur, a zero timer stays zero, so the default accepted-interval path no longer invokes the upgrade manager. Disabled/locked timers remain unchanged. A benchmark-only replay control verifies identical binary states and samples under the corrected rules. Reference-grid clock accumulation remains O(ticks); resource, consumer, cycle and reward guards are unchanged. See the follow-up report for fresh serial measurements and regression results.

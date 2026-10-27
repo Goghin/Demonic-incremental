@@ -140,6 +140,12 @@ func _run_tests() -> void:
 	_run_test("Experimental autobuyers preserve purchase ticks, priority and deductions", _test_autobuyer_purchases)
 	_run_test("Experimental affordability proofs invalidate stale and dynamic costs", _test_autobuyer_invalidation)
 	_run_test("Experimental autobuyer short and zero intervals remain exact", _test_autobuyer_short)
+	_run_test("Upgrade autobuyers start cooldowns only after success and retry live waits", _test_cooldown_success_and_waiting)
+	_run_test("Waiting upgrade buyers observe live requirements and exclusive choices", _test_cooldown_requirements_and_preferences)
+	_run_test("Autobuyer purchases preserve registry, tree and generator-first priority", _test_cooldown_priority_and_competition)
+	_run_test("Autobuyer large deltas stop failures and retain success overshoot", _test_cooldown_large_delta)
+	_run_test("Waiting automation preserves existing save/load and prestige reset rules", _test_cooldown_save_and_reset)
+	_run_test("Experimental ready upgrade waits skip replay with exact timer parity", _test_autobuyer_replay_elimination)
 
 
 	print("")
@@ -2591,5 +2597,47 @@ func _test_autobuyer_invalidation() -> void:
 func _test_autobuyer_short() -> void:
 	var test = preload("res://tests/experimental/autobuyer_tests.gd").new()
 	test.test_zero_short()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_cooldown_success_and_waiting() -> void:
+	var test = preload("res://tests/autobuyer_cooldown_tests.gd").new()
+	test.test_success_and_waiting()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_cooldown_requirements_and_preferences() -> void:
+	var test = preload("res://tests/autobuyer_cooldown_tests.gd").new()
+	test.test_requirements_and_preferences()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_cooldown_priority_and_competition() -> void:
+	var test = preload("res://tests/autobuyer_cooldown_tests.gd").new()
+	test.test_priority_and_competition()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_cooldown_large_delta() -> void:
+	var test = preload("res://tests/autobuyer_cooldown_tests.gd").new()
+	test.test_large_delta()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_cooldown_save_and_reset() -> void:
+	var test = preload("res://tests/autobuyer_cooldown_tests.gd").new()
+	test.test_save_and_reset()
+	for failure in test.failures:
+		_expect(false, failure)
+
+
+func _test_autobuyer_replay_elimination() -> void:
+	var test = preload("res://tests/experimental/autobuyer_tests.gd").new()
+	test.test_replay_elimination()
 	for failure in test.failures:
 		_expect(false, failure)

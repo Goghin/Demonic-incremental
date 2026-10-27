@@ -63,6 +63,10 @@ static func inspect(simulation: Simulation) -> Dictionary:
 		var generator: Generator = state.get_generator(id)
 		if id != UpgradeAutomationManager.GENERAL_TREE_ID and (generator == null or not generator.unlocked):
 			continue
+		# Only ready buyers have invariant timer state. Positive timers must
+		# expire on the original tick grid before waiting checks can be skipped.
+		if float(um.automation_states[id]["remaining_cooldown"]) != 0.0:
+			return _failure("upgrade_cooldown_transition")
 		for upgrade in state.upgrades.values():
 			var definition: UpgradeDefinition = upgrade.definition
 			if not um._upgrade_belongs_to_tree(definition, id) or upgrade.is_maxed():

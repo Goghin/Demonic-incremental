@@ -18,21 +18,26 @@ func make_runner(scenario: String, kind: String, short_exact: float = 0.0):
 	return runner
 
 
-func measure(scenario: String, seconds: float, profile: bool = false, short_exact: float = 0.0, dense_reference: bool = false) -> Dictionary:
-	var result: Dictionary = {"scenario": scenario, "duration": seconds, "profiled": profile, "dense_reference": dense_reference, "runs": {}, "source_hashes": {}}
+func measure(scenario: String, seconds: float, profile: bool = false, short_exact: float = 0.0, dense_reference: bool = false, replay_waiting: bool = false, include_previous: bool = true) -> Dictionary:
+	var result: Dictionary = {"scenario": scenario, "duration": seconds, "profiled": profile, "dense_reference": dense_reference, "replay_waiting": replay_waiting, "include_previous": include_previous, "runs": {}, "source_hashes": {}}
 	for file in ["autobuyer_boundary.gd", "autobuyer_offline.gd", "autobuyer_fixtures.gd", "autobuyer_tests.gd", "autobuyer_activity.gd", "adaptive_offline.gd", "feedback_offline.gd", "horizon_runner.gd"]:
 		result["source_hashes"][file] = FileAccess.get_file_as_string("res://tests/experimental/" + file).sha256_text()
+	var comparison_kinds: Array = ["previous", "event"] if include_previous else ["event"]
 	var candidates: Dictionary = {}
 	# Serial, separate timers; no reference caches or diagnostic CPU attribution
 	# mixed into the non-profiled measurements.
 	var order: Array = ["event", "previous", "precise"] if dense_reference else ["precise", "previous", "event"]
+	if not include_previous:
+		order.erase("previous")
 	for kind in order:
 		var runner = make_runner(scenario, kind, short_exact)
+		if kind != "previous":
+			runner.replay_waiting_upgrade_checks = replay_waiting
 		if profile:
 			preload("res://tests/experimental/autobuyer_activity.gd").install(runner.simulation.state)
 		runner.simulation.profiling_enabled = profile
 		if dense_reference and kind == "precise":
-			for candidate_kind in ["event", "previous"]:
+			for candidate_kind in comparison_kinds:
 				for tick in candidates[candidate_kind].samples:
 					runner.requested_audits[tick] = true
 		var start: int = Time.get_ticks_usec()
@@ -57,7 +62,7 @@ func measure(scenario: String, seconds: float, profile: bool = false, short_exac
 			"activity": {"generator": runner.simulation.state.generator_automation_manager.get("metrics"), "upgrade": runner.simulation.state.upgrade_automation_manager.get("metrics")} if profile else {}}
 		print("AUTOBUYER_PHASE " + JSON.stringify({"kind": kind, "scenario": scenario, "seconds": wall}))
 	var reference = candidates["precise"]
-	for kind in ["previous", "event"]:
+	for kind in comparison_kinds:
 		var runner = candidates[kind]
 		var comparison: Dictionary = validate(reference, runner, scenario + "/" + kind)
 		comparison["speedup"] = float(result["runs"]["precise"]["seconds"]) / maxf(float(result["runs"][kind]["seconds"]), 1e-9)
@@ -209,3 +214,27 @@ func test_zero_short() -> void:
 		reference.run(seconds)
 		runner.run(seconds)
 		check(full(reference.simulation.state) == full(runner.simulation.state), "Short/zero mitigation changed state.")
+
+
+func test_replay_elimination() -> void:
+	var pending = make_runner("late_upgrade", "event")
+	check(Boundary.inspect(pending.simulation)["status"] == "upgrade_cooldown_transition", "An active initial timer was skipped.")
+	var skipped = make_runner("late_both", "event")
+	var replayed = make_runner("late_both", "event")
+	replayed.replay_waiting_upgrade_checks = true
+	var reference = make_runner("late_both", "precise")
+	for runner in [skipped, replayed, reference]:
+		runner.run(120.0)
+	validate(reference, skipped, "ready waiting skip")
+	check(full(skipped.simulation.state) == full(replayed.simulation.state), "Eliminating failed scans changed binary state.")
+	check(var_to_bytes(skipped.samples) == var_to_bytes(replayed.samples), "Eliminating failed scans changed sampled state.")
+	check(skipped.cooldown_replay_ticks == 0 and skipped.skipped_upgrade_checks > 0, "Ready upgrade waits still replayed the manager.")
+	check(replayed.cooldown_replay_ticks > 0 and skipped.counters["accepted"] == replayed.counters["accepted"], "Replay control did not exercise the same adaptive intervals.")
+	check(skipped.boundary_reasons.has("upgrade_cooldown_transition"), "Initial cooldown did not use exact ticks.")
+	var locked = make_runner("late_upgrade", "event")
+	var locked_reference = make_runner("late_upgrade", "precise")
+	for runner in [locked, locked_reference]:
+		runner.simulation.state.eternal_flame_state.unlocked_technologies.erase(runner.simulation.state.upgrade_automation_manager.get_automation_technology_id("matter_furnace"))
+		runner.run(120.0)
+	validate(locked_reference, locked, "locked upgrade timer")
+	check(locked.simulation.state.upgrade_automation_manager.automation_states["matter_furnace"]["remaining_cooldown"] == UpgradeAutomationManager.BASE_COOLDOWN, "A locked timer advanced during skipped intervals.")

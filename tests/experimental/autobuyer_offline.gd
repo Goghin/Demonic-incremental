@@ -2,6 +2,9 @@ extends "res://tests/experimental/horizon_runner.gd"
 
 const Boundary = preload("res://tests/experimental/autobuyer_boundary.gd")
 var event_automation_enabled: bool = true
+# Benchmark control only; default skips checks whose zero timer is invariant.
+var replay_waiting_upgrade_checks: bool = false
+var skipped_upgrade_checks: int = 0
 var boundary_calls: int = 0
 var boundary_usec: int = 0
 var boundary_reasons: Dictionary = {}
@@ -23,12 +26,14 @@ func run(seconds: float) -> Dictionary:
 	boundary_usec = 0
 	boundary_reasons.clear()
 	skipped_waiting_checks = 0
+	skipped_upgrade_checks = 0
 	cooldown_replay_usec = 0
 	cooldown_replay_ticks = 0
 	var result: Dictionary = super(seconds)
 	result["automation_boundary"] = {"calls": boundary_calls, "usec": boundary_usec,
 		"reasons": boundary_reasons.duplicate(), "skipped_waiting_checks": skipped_waiting_checks,
-		"cooldown_replay_usec": cooldown_replay_usec, "cooldown_replay_ticks": cooldown_replay_ticks}
+		"cooldown_replay_usec": cooldown_replay_usec, "cooldown_replay_ticks": cooldown_replay_ticks,
+		"skipped_upgrade_checks": skipped_upgrade_checks, "replay_waiting_upgrade_checks": replay_waiting_upgrade_checks}
 	return result
 
 
@@ -81,11 +86,10 @@ func _advance(delta: float, end: float) -> void:
 
 
 func _commit_interval(ticks: int, _seconds: float) -> void:
-	# Generator waiting entries are constant after cache stabilization. Upgrade
-	# cooldowns are not: replay the production manager on the reference grid.
-	# No purchase is possible at ANY resource value inside the proven box, so
-	# using the final amounts for these failed checks is equivalent. This keeps
-	# exact floating subtraction/overshoot; it deliberately leaves O(ticks) work.
+	# The boundary guard requires every eligible upgrade timer to be zero.
+	# With success-triggered cooldowns and no possible purchase, all waiting
+	# state is invariant. Keep only reference-clock accumulation; the optional
+	# replay control demonstrates binary parity with actual failed scans.
 	_grid_tick += ticks
 	var state: GameState = simulation.state
 	for id in state.generator_automation_manager.automation_states:
@@ -94,15 +98,21 @@ func _commit_interval(ticks: int, _seconds: float) -> void:
 		if entry["enabled"] and entry["waiting_for_resources"] and state.generator_automation_manager.is_automation_unlocked(id) and generator != null and generator.unlocked:
 			skipped_waiting_checks += ticks
 	var enabled_upgrade: bool = false
-	for entry in state.upgrade_automation_manager.automation_states.values():
-		enabled_upgrade = enabled_upgrade or bool(entry["enabled"])
+	for id in state.upgrade_automation_manager.automation_states:
+		var entry: Dictionary = state.upgrade_automation_manager.automation_states[id]
+		if not entry["enabled"]:
+			continue
+		enabled_upgrade = true
+		var generator: Generator = state.get_generator(id)
+		if state.upgrade_automation_manager.is_automation_unlocked(id) and (id == UpgradeAutomationManager.GENERAL_TREE_ID or (generator != null and generator.unlocked)) and not replay_waiting_upgrade_checks:
+			skipped_upgrade_checks += ticks
 	var start: int = Time.get_ticks_usec()
 	var events_before: int = state.gameplay_log.events.size()
 	var rng_before: int = state.gameplay_rng.state
 	for _index in range(ticks):
 		var delta: float = minf(REFERENCE_STEP, duration - _reference_elapsed)
 		_reference_elapsed = minf(duration, _reference_elapsed + delta)
-		if enabled_upgrade:
+		if enabled_upgrade and replay_waiting_upgrade_checks:
 			state.upgrade_automation_manager.update(delta, simulation, true)
 			cooldown_replay_ticks += 1
 	cooldown_replay_usec += Time.get_ticks_usec() - start
