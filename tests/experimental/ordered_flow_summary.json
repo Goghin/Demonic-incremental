@@ -1,0 +1,506 @@
+{
+  "warm_samples_per_case": 3,
+  "warmup_excluded": true,
+  "long_runs": [
+    {
+      "exact": {
+        "median_usec": 64355,
+        "min_usec": 63476,
+        "max_usec": 70715
+      },
+      "existing": {
+        "median_usec": 78029,
+        "min_usec": 72294,
+        "max_usec": 82898
+      },
+      "batch": {
+        "median_usec": 8902413,
+        "min_usec": 8485618,
+        "max_usec": 9394101
+      },
+      "label": "early",
+      "interval_ticks": 2,
+      "slowdown": 138.33288788749903,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 68214,
+        "min_usec": 59600,
+        "max_usec": 71550
+      },
+      "existing": {
+        "median_usec": 70002,
+        "min_usec": 66794,
+        "max_usec": 72818
+      },
+      "batch": {
+        "median_usec": 3350851,
+        "min_usec": 3268227,
+        "max_usec": 3478909
+      },
+      "label": "early",
+      "interval_ticks": 5,
+      "slowdown": 49.12262878587973,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 63725,
+        "min_usec": 62130,
+        "max_usec": 69569
+      },
+      "existing": {
+        "median_usec": 70519,
+        "min_usec": 66549,
+        "max_usec": 75661
+      },
+      "batch": {
+        "median_usec": 1759807,
+        "min_usec": 1755182,
+        "max_usec": 1760235
+      },
+      "label": "early",
+      "interval_ticks": 10,
+      "slowdown": 27.615645351118086,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 69477,
+        "min_usec": 69463,
+        "max_usec": 70171
+      },
+      "existing": {
+        "median_usec": 81927,
+        "min_usec": 81195,
+        "max_usec": 111897
+      },
+      "batch": {
+        "median_usec": 8392926,
+        "min_usec": 8120215,
+        "max_usec": 9302457
+      },
+      "label": "early_event",
+      "interval_ticks": 2,
+      "slowdown": 120.80150265555507,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 65258,
+        "min_usec": 63991,
+        "max_usec": 66348
+      },
+      "existing": {
+        "median_usec": 70286,
+        "min_usec": 68408,
+        "max_usec": 71260
+      },
+      "batch": {
+        "median_usec": 3871244,
+        "min_usec": 3513814,
+        "max_usec": 3879526
+      },
+      "label": "early_event",
+      "interval_ticks": 5,
+      "slowdown": 59.3221367495173,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 72578,
+        "min_usec": 62276,
+        "max_usec": 73604
+      },
+      "existing": {
+        "median_usec": 71088,
+        "min_usec": 68180,
+        "max_usec": 80531
+      },
+      "batch": {
+        "median_usec": 1977691,
+        "min_usec": 1883120,
+        "max_usec": 2109642
+      },
+      "label": "early_event",
+      "interval_ticks": 10,
+      "slowdown": 27.249180192344788,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 61468,
+        "min_usec": 60520,
+        "max_usec": 64054
+      },
+      "existing": {
+        "median_usec": 78248,
+        "min_usec": 67399,
+        "max_usec": 81023
+      },
+      "batch": {
+        "median_usec": 62860,
+        "min_usec": 60751,
+        "max_usec": 69987
+      },
+      "label": "mid",
+      "interval_ticks": 2,
+      "slowdown": 1.02264592958938,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 56049,
+        "min_usec": 56008,
+        "max_usec": 61411
+      },
+      "existing": {
+        "median_usec": 66926,
+        "min_usec": 61900,
+        "max_usec": 77250
+      },
+      "batch": {
+        "median_usec": 63942,
+        "min_usec": 60147,
+        "max_usec": 64112
+      },
+      "label": "mid",
+      "interval_ticks": 5,
+      "slowdown": 1.1408232082641974,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 60152,
+        "min_usec": 59181,
+        "max_usec": 62720
+      },
+      "existing": {
+        "median_usec": 70566,
+        "min_usec": 61999,
+        "max_usec": 70574
+      },
+      "batch": {
+        "median_usec": 65559,
+        "min_usec": 57673,
+        "max_usec": 70164
+      },
+      "label": "mid",
+      "interval_ticks": 10,
+      "slowdown": 1.089888947998404,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 204838,
+        "min_usec": 200599,
+        "max_usec": 210070
+      },
+      "existing": {
+        "median_usec": 210390,
+        "min_usec": 207926,
+        "max_usec": 217094
+      },
+      "batch": {
+        "median_usec": 217386,
+        "min_usec": 204384,
+        "max_usec": 225107
+      },
+      "label": "forge_competing",
+      "interval_ticks": 2,
+      "slowdown": 1.0612581649889181,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 216277,
+        "min_usec": 205657,
+        "max_usec": 265246
+      },
+      "existing": {
+        "median_usec": 218869,
+        "min_usec": 200771,
+        "max_usec": 249440
+      },
+      "batch": {
+        "median_usec": 206244,
+        "min_usec": 191538,
+        "max_usec": 253226
+      },
+      "label": "forge_competing",
+      "interval_ticks": 5,
+      "slowdown": 0.9536104162717256,
+      "coverage": 0.0
+    },
+    {
+      "exact": {
+        "median_usec": 213770,
+        "min_usec": 206305,
+        "max_usec": 216435
+      },
+      "existing": {
+        "median_usec": 234294,
+        "min_usec": 206142,
+        "max_usec": 258474
+      },
+      "batch": {
+        "median_usec": 223229,
+        "min_usec": 222834,
+        "max_usec": 234237
+      },
+      "label": "forge_competing",
+      "interval_ticks": 10,
+      "slowdown": 1.0442484913692287,
+      "coverage": 0.0
+    }
+  ],
+  "isolated_runs": [
+    {
+      "label": "early",
+      "ticks": 2,
+      "median_wall_usec": {
+        "exact": 475,
+        "existing": 857,
+        "batch": 28509
+      },
+      "median_counters": {
+        "capture_usec": 17238,
+        "candidate_usec": 289,
+        "rollback_usec": 10306,
+        "commit_usec": 0,
+        "fallback_usec": 442,
+        "guard_usec": 125,
+        "accepted": 0,
+        "rejected": 1,
+        "ineligible": 0
+      }
+    },
+    {
+      "label": "early",
+      "ticks": 5,
+      "median_wall_usec": {
+        "exact": 1067,
+        "existing": 1553,
+        "batch": 31235
+      },
+      "median_counters": {
+        "capture_usec": 17712,
+        "candidate_usec": 390,
+        "rollback_usec": 11777,
+        "commit_usec": 0,
+        "fallback_usec": 909,
+        "guard_usec": 202,
+        "accepted": 0,
+        "rejected": 1,
+        "ineligible": 0
+      }
+    },
+    {
+      "label": "early",
+      "ticks": 10,
+      "median_wall_usec": {
+        "exact": 1420,
+        "existing": 1984,
+        "batch": 28967
+      },
+      "median_counters": {
+        "capture_usec": 16177,
+        "candidate_usec": 330,
+        "rollback_usec": 10410,
+        "commit_usec": 0,
+        "fallback_usec": 1546,
+        "guard_usec": 126,
+        "accepted": 0,
+        "rejected": 1,
+        "ineligible": 0
+      }
+    },
+    {
+      "label": "early_event",
+      "ticks": 2,
+      "median_wall_usec": {
+        "exact": 373,
+        "existing": 893,
+        "batch": 29106
+      },
+      "median_counters": {
+        "capture_usec": 17704,
+        "candidate_usec": 327,
+        "rollback_usec": 10414,
+        "commit_usec": 0,
+        "fallback_usec": 512,
+        "guard_usec": 139,
+        "accepted": 0,
+        "rejected": 1,
+        "ineligible": 0
+      }
+    },
+    {
+      "label": "early_event",
+      "ticks": 5,
+      "median_wall_usec": {
+        "exact": 690,
+        "existing": 1410,
+        "batch": 33751
+      },
+      "median_counters": {
+        "capture_usec": 18710,
+        "candidate_usec": 403,
+        "rollback_usec": 11611,
+        "commit_usec": 0,
+        "fallback_usec": 1053,
+        "guard_usec": 137,
+        "accepted": 0,
+        "rejected": 1,
+        "ineligible": 0
+      }
+    },
+    {
+      "label": "early_event",
+      "ticks": 10,
+      "median_wall_usec": {
+        "exact": 1172,
+        "existing": 1953,
+        "batch": 32060
+      },
+      "median_counters": {
+        "capture_usec": 18500,
+        "candidate_usec": 319,
+        "rollback_usec": 10594,
+        "commit_usec": 0,
+        "fallback_usec": 1652,
+        "guard_usec": 140,
+        "accepted": 0,
+        "rejected": 1,
+        "ineligible": 0
+      }
+    },
+    {
+      "label": "mid",
+      "ticks": 2,
+      "median_wall_usec": {
+        "exact": 347,
+        "existing": 969,
+        "batch": 532
+      },
+      "median_counters": {
+        "capture_usec": 0,
+        "candidate_usec": 0,
+        "rollback_usec": 0,
+        "commit_usec": 0,
+        "fallback_usec": 510,
+        "guard_usec": 10,
+        "accepted": 0,
+        "rejected": 0,
+        "ineligible": 1
+      }
+    },
+    {
+      "label": "mid",
+      "ticks": 5,
+      "median_wall_usec": {
+        "exact": 835,
+        "existing": 1062,
+        "batch": 807
+      },
+      "median_counters": {
+        "capture_usec": 0,
+        "candidate_usec": 0,
+        "rollback_usec": 0,
+        "commit_usec": 0,
+        "fallback_usec": 775,
+        "guard_usec": 11,
+        "accepted": 0,
+        "rejected": 0,
+        "ineligible": 1
+      }
+    },
+    {
+      "label": "mid",
+      "ticks": 10,
+      "median_wall_usec": {
+        "exact": 1365,
+        "existing": 2128,
+        "batch": 1379
+      },
+      "median_counters": {
+        "capture_usec": 0,
+        "candidate_usec": 0,
+        "rollback_usec": 0,
+        "commit_usec": 0,
+        "fallback_usec": 1352,
+        "guard_usec": 11,
+        "accepted": 0,
+        "rejected": 0,
+        "ineligible": 1
+      }
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 2,
+      "median_wall_usec": {
+        "exact": 1375,
+        "existing": 1693,
+        "batch": 1299
+      },
+      "median_counters": {
+        "capture_usec": 0,
+        "candidate_usec": 0,
+        "rollback_usec": 0,
+        "commit_usec": 0,
+        "fallback_usec": 1273,
+        "guard_usec": 11,
+        "accepted": 0,
+        "rejected": 0,
+        "ineligible": 1
+      }
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 5,
+      "median_wall_usec": {
+        "exact": 2491,
+        "existing": 3103,
+        "batch": 2247
+      },
+      "median_counters": {
+        "capture_usec": 0,
+        "candidate_usec": 0,
+        "rollback_usec": 0,
+        "commit_usec": 0,
+        "fallback_usec": 2219,
+        "guard_usec": 14,
+        "accepted": 0,
+        "rejected": 0,
+        "ineligible": 1
+      }
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 10,
+      "median_wall_usec": {
+        "exact": 3789,
+        "existing": 4542,
+        "batch": 3812
+      },
+      "median_counters": {
+        "capture_usec": 0,
+        "candidate_usec": 0,
+        "rollback_usec": 0,
+        "commit_usec": 0,
+        "fallback_usec": 3789,
+        "guard_usec": 10,
+        "accepted": 0,
+        "rejected": 0,
+        "ineligible": 1
+      }
+    }
+  ],
+  "scope": "active gameplay only; idle controls excluded",
+  "base_commit": "e6657d0c4296b3550eb2c6207984ec258866a130",
+  "existing_schedule_matched_full_parity": true,
+  "existing_constant_tick_discrete_mismatches": 48,
+  "candidate_full_binary_parity": true,
+  "safe_active_batched_coverage": 0.0
+}

@@ -1,0 +1,63 @@
+{
+  "base_commit": "e6657d0c4296b3550eb2c6207984ec258866a130",
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "baseline_groups_passed": 90,
+  "final_groups_passed": 91,
+  "groups_failed": 0,
+  "warnings_or_errors": false,
+  "integer_output_tick_witness": 69,
+  "transaction_validation_passed": true,
+  "real_forge_completion_and_rng_coverage_retained": true,
+  "candidate_active_commits": 0,
+  "candidate_full_binary_fallback_parity": true,
+  "existing_schedule_matched_full_parity": true,
+  "constant_tick_existing_discrete_mismatches": 48,
+  "purchased_modifier_witness": [
+    {
+      "category": "purchase",
+      "details": {
+        "cost": 30000.0,
+        "cost_resource_id": "heat",
+        "generator_id": "",
+        "new_level": 1,
+        "old_level": 0,
+        "upgrade_id": "heat_threshold_line_2",
+        "upgrade_name": "Heat Retention II"
+      },
+      "event": "upgrade_purchased",
+      "source": "manual",
+      "tick": 0
+    }
+  ],
+  "windows_4_7_2_validated": false,
+  "editor_issue": "game.gd:771 untouched; clean editor parse not claimed",
+  "source_sha256": {
+    "ordered_flow_batch.gd": "1465cdf06997a3d4348b9e91e4c8a371c0cf4f1fab428c4e9dfa9cc5de24aca6",
+    "ordered_flow_fixtures.gd": "01bbef1963509ed8d1e6a3f830930cba5053464ec1aad4974476a507a778290c",
+    "ordered_flow_tests.gd": "90100ada0863a96addfc989e0fede818a56947f92d901f8c221b2b613d905e38",
+    "run_ordered_flow_tests.gd": "4357d4754eeb0f29e0239ebcca22fad13c02e7829334279b0dcc58be30b41ce4",
+    "ordered_flow_benchmark.gd": "8f24f989b0d3a1a430f1fbc2745800dec114f500381c6a99ee91599f6af5027e",
+    "run_ordered_flow.py": "43b7d4adf64e715643302f05ad298f11df159bd16580b0e6eec00ee57d5caef2"
+  },
+  "regression_source_sha256": "5fca6486dcd5cb27e5fb0c27967e2f82c97b7135b69a1c2d13996d8e37ab3004",
+  "log_sha256": {
+    "baseline_regression": "cd3cf63ff819f612cc88419857fe96cb515d634a3b5b563840025c64fd87d82f",
+    "transaction_validation": "7c2f784fb1b4b5c4bb2150a6500e77e0e3aea0435ffa2f8ae45b64e67cfea954",
+    "final_validation": "148c2b2be4e45a7fe9a468acf2eb65cda8f0d7254aecdc42bb1e4be86a98cafe",
+    "final_regression": "bb031f111e63eb14154cca42a6a480bfc0e0374c8cd122cd668f6d1710f0de8f",
+    "benchmark": "e10ae9c0aee8a1232188968f6f7c39bf828c74b4531449668c66ed53d562b1e5",
+    "purchase_witness": "f396a75d3a2fde2d0f64fb6934485c7ad80915591e536d29c1e0c5c27aa06d16"
+  }
+}

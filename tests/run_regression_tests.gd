@@ -149,6 +149,7 @@ func _run_tests() -> void:
 	_run_test("Experimental resource-flow proofs preserve dense endpoints, exhaustion and dependency transitions", _test_resource_flow_bounds)
 	_run_test("Experimental transactions restore mixed state, phases, automation and RNG", _test_simulation_transactions)
 	_run_test("Compact checkpoint descriptors preserve reference parity and nested aliases", _test_checkpoint_contracts)
+	_run_test("Ordered macro flows reject unproved phases and restore exact fallback", _test_ordered_flow_batch)
 	_run_test("Core fixtures preserve dense event parity and restricted-checkpoint contracts", _test_core_investigation)
 
 
@@ -2677,4 +2678,11 @@ func _test_checkpoint_contracts() -> void:
 	reference.checkpoint_implementation = preload("res://tests/experimental/transaction_checkpoint.gd")
 	reference.run_all()
 	for failure: String in reference.failures:
+		_expect(false, failure)
+
+
+func _test_ordered_flow_batch() -> void:
+	var test: RefCounted = preload("res://tests/experimental/ordered_flow_tests.gd").new()
+	test.run_all()
+	for failure: String in test.failures:
 		_expect(false, failure)
