@@ -1,0 +1,4606 @@
+{
+  "runs": [
+    {
+      "advance_usec": 10409,
+      "capture_usec": 16773,
+      "commit_usec": 477,
+      "heap_delta_bytes": 831016,
+      "rejected_overhead_usec": 26821,
+      "release_usec": 385,
+      "repeat": 0,
+      "restore_usec": 4497,
+      "scenario": "early",
+      "verify_usec": 5166,
+      "warmup": true,
+      "block": 0
+    },
+    {
+      "advance_usec": 10218,
+      "capture_usec": 16874,
+      "commit_usec": 346,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 27302,
+      "release_usec": 315,
+      "repeat": 1,
+      "restore_usec": 4866,
+      "scenario": "early",
+      "verify_usec": 5247,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 10674,
+      "capture_usec": 16228,
+      "commit_usec": 416,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 26675,
+      "release_usec": 337,
+      "repeat": 2,
+      "restore_usec": 4871,
+      "scenario": "early",
+      "verify_usec": 5239,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 10072,
+      "capture_usec": 16304,
+      "commit_usec": 613,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 26426,
+      "release_usec": 264,
+      "repeat": 3,
+      "restore_usec": 4946,
+      "scenario": "early",
+      "verify_usec": 4912,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 9993,
+      "capture_usec": 15628,
+      "commit_usec": 383,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 25104,
+      "release_usec": 253,
+      "repeat": 4,
+      "restore_usec": 4078,
+      "scenario": "early",
+      "verify_usec": 5145,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 9967,
+      "capture_usec": 16524,
+      "commit_usec": 341,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 26197,
+      "release_usec": 279,
+      "repeat": 5,
+      "restore_usec": 4408,
+      "scenario": "early",
+      "verify_usec": 4986,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 10355,
+      "capture_usec": 16263,
+      "commit_usec": 370,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 27082,
+      "release_usec": 385,
+      "repeat": 6,
+      "restore_usec": 4912,
+      "scenario": "early",
+      "verify_usec": 5522,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 10563,
+      "capture_usec": 16063,
+      "commit_usec": 514,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 25592,
+      "release_usec": 309,
+      "repeat": 7,
+      "restore_usec": 4401,
+      "scenario": "early",
+      "verify_usec": 4819,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 55411,
+      "capture_usec": 15286,
+      "commit_usec": 630,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 25503,
+      "release_usec": 339,
+      "repeat": 0,
+      "restore_usec": 4855,
+      "scenario": "mid",
+      "verify_usec": 5023,
+      "warmup": true,
+      "block": 0
+    },
+    {
+      "advance_usec": 50609,
+      "capture_usec": 16725,
+      "commit_usec": 602,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 26583,
+      "release_usec": 349,
+      "repeat": 1,
+      "restore_usec": 4809,
+      "scenario": "mid",
+      "verify_usec": 4700,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 51844,
+      "capture_usec": 14275,
+      "commit_usec": 646,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 23949,
+      "release_usec": 333,
+      "repeat": 2,
+      "restore_usec": 4763,
+      "scenario": "mid",
+      "verify_usec": 4578,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 55349,
+      "capture_usec": 22218,
+      "commit_usec": 612,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 32186,
+      "release_usec": 339,
+      "repeat": 3,
+      "restore_usec": 4909,
+      "scenario": "mid",
+      "verify_usec": 4720,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 57534,
+      "capture_usec": 14560,
+      "commit_usec": 639,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 29785,
+      "release_usec": 630,
+      "repeat": 4,
+      "restore_usec": 6901,
+      "scenario": "mid",
+      "verify_usec": 7694,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 52984,
+      "capture_usec": 14873,
+      "commit_usec": 634,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 24595,
+      "release_usec": 462,
+      "repeat": 5,
+      "restore_usec": 4685,
+      "scenario": "mid",
+      "verify_usec": 4575,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 52910,
+      "capture_usec": 13931,
+      "commit_usec": 635,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 24165,
+      "release_usec": 362,
+      "repeat": 6,
+      "restore_usec": 4996,
+      "scenario": "mid",
+      "verify_usec": 4876,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 55294,
+      "capture_usec": 16690,
+      "commit_usec": 632,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 26513,
+      "release_usec": 327,
+      "repeat": 7,
+      "restore_usec": 4881,
+      "scenario": "mid",
+      "verify_usec": 4615,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 33603,
+      "capture_usec": 17379,
+      "commit_usec": 776,
+      "heap_delta_bytes": 975596,
+      "rejected_overhead_usec": 29971,
+      "release_usec": 512,
+      "repeat": 0,
+      "restore_usec": 5662,
+      "scenario": "forge_competing",
+      "verify_usec": 6418,
+      "warmup": true,
+      "block": 0
+    },
+    {
+      "advance_usec": 33477,
+      "capture_usec": 17237,
+      "commit_usec": 666,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 28388,
+      "release_usec": 456,
+      "repeat": 1,
+      "restore_usec": 5590,
+      "scenario": "forge_competing",
+      "verify_usec": 5105,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 32771,
+      "capture_usec": 17789,
+      "commit_usec": 696,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 28562,
+      "release_usec": 436,
+      "repeat": 2,
+      "restore_usec": 5091,
+      "scenario": "forge_competing",
+      "verify_usec": 5246,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 32341,
+      "capture_usec": 19345,
+      "commit_usec": 659,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 30735,
+      "release_usec": 438,
+      "repeat": 3,
+      "restore_usec": 5154,
+      "scenario": "forge_competing",
+      "verify_usec": 5798,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 36062,
+      "capture_usec": 17780,
+      "commit_usec": 660,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 30031,
+      "release_usec": 443,
+      "repeat": 4,
+      "restore_usec": 6444,
+      "scenario": "forge_competing",
+      "verify_usec": 5364,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 33347,
+      "capture_usec": 17935,
+      "commit_usec": 698,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 29157,
+      "release_usec": 466,
+      "repeat": 5,
+      "restore_usec": 5547,
+      "scenario": "forge_competing",
+      "verify_usec": 5209,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 31333,
+      "capture_usec": 17487,
+      "commit_usec": 725,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 27849,
+      "release_usec": 435,
+      "repeat": 6,
+      "restore_usec": 4939,
+      "scenario": "forge_competing",
+      "verify_usec": 4988,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 31542,
+      "capture_usec": 17663,
+      "commit_usec": 623,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 28291,
+      "release_usec": 447,
+      "repeat": 7,
+      "restore_usec": 5086,
+      "scenario": "forge_competing",
+      "verify_usec": 5095,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 9602,
+      "capture_usec": 16764,
+      "commit_usec": 404,
+      "heap_delta_bytes": 831016,
+      "rejected_overhead_usec": 26609,
+      "release_usec": 381,
+      "repeat": 0,
+      "restore_usec": 4330,
+      "scenario": "early",
+      "verify_usec": 5134,
+      "warmup": true,
+      "block": 1
+    },
+    {
+      "advance_usec": 10608,
+      "capture_usec": 23341,
+      "commit_usec": 369,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 32518,
+      "release_usec": 262,
+      "repeat": 1,
+      "restore_usec": 4233,
+      "scenario": "early",
+      "verify_usec": 4682,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 9674,
+      "capture_usec": 17634,
+      "commit_usec": 397,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 26924,
+      "release_usec": 249,
+      "repeat": 2,
+      "restore_usec": 4513,
+      "scenario": "early",
+      "verify_usec": 4528,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 9775,
+      "capture_usec": 16045,
+      "commit_usec": 297,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 24946,
+      "release_usec": 225,
+      "repeat": 3,
+      "restore_usec": 4028,
+      "scenario": "early",
+      "verify_usec": 4648,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 10194,
+      "capture_usec": 16552,
+      "commit_usec": 442,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 25338,
+      "release_usec": 222,
+      "repeat": 4,
+      "restore_usec": 4119,
+      "scenario": "early",
+      "verify_usec": 4445,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 9540,
+      "capture_usec": 16042,
+      "commit_usec": 303,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 25175,
+      "release_usec": 288,
+      "repeat": 5,
+      "restore_usec": 4227,
+      "scenario": "early",
+      "verify_usec": 4618,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 10068,
+      "capture_usec": 15839,
+      "commit_usec": 305,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 24970,
+      "release_usec": 281,
+      "repeat": 6,
+      "restore_usec": 4248,
+      "scenario": "early",
+      "verify_usec": 4602,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 10320,
+      "capture_usec": 15950,
+      "commit_usec": 300,
+      "heap_delta_bytes": 828660,
+      "rejected_overhead_usec": 24759,
+      "release_usec": 243,
+      "repeat": 7,
+      "restore_usec": 4084,
+      "scenario": "early",
+      "verify_usec": 4482,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 55205,
+      "capture_usec": 15101,
+      "commit_usec": 590,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 24525,
+      "release_usec": 276,
+      "repeat": 0,
+      "restore_usec": 4633,
+      "scenario": "mid",
+      "verify_usec": 4515,
+      "warmup": true,
+      "block": 1
+    },
+    {
+      "advance_usec": 52096,
+      "capture_usec": 16728,
+      "commit_usec": 583,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 25971,
+      "release_usec": 288,
+      "repeat": 1,
+      "restore_usec": 4555,
+      "scenario": "mid",
+      "verify_usec": 4400,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 52916,
+      "capture_usec": 16166,
+      "commit_usec": 561,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 25573,
+      "release_usec": 286,
+      "repeat": 2,
+      "restore_usec": 4573,
+      "scenario": "mid",
+      "verify_usec": 4548,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 50623,
+      "capture_usec": 14971,
+      "commit_usec": 601,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 24112,
+      "release_usec": 282,
+      "repeat": 3,
+      "restore_usec": 4463,
+      "scenario": "mid",
+      "verify_usec": 4396,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 50392,
+      "capture_usec": 14884,
+      "commit_usec": 605,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 24777,
+      "release_usec": 375,
+      "repeat": 4,
+      "restore_usec": 4542,
+      "scenario": "mid",
+      "verify_usec": 4976,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 51909,
+      "capture_usec": 16458,
+      "commit_usec": 578,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 26752,
+      "release_usec": 347,
+      "repeat": 5,
+      "restore_usec": 4979,
+      "scenario": "mid",
+      "verify_usec": 4968,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 69075,
+      "capture_usec": 15023,
+      "commit_usec": 626,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 24577,
+      "release_usec": 319,
+      "repeat": 6,
+      "restore_usec": 4564,
+      "scenario": "mid",
+      "verify_usec": 4671,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 52409,
+      "capture_usec": 15534,
+      "commit_usec": 630,
+      "heap_delta_bytes": 810676,
+      "rejected_overhead_usec": 25758,
+      "release_usec": 305,
+      "repeat": 7,
+      "restore_usec": 4800,
+      "scenario": "mid",
+      "verify_usec": 5119,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 35492,
+      "capture_usec": 19284,
+      "commit_usec": 722,
+      "heap_delta_bytes": 975596,
+      "rejected_overhead_usec": 31879,
+      "release_usec": 470,
+      "repeat": 0,
+      "restore_usec": 5708,
+      "scenario": "forge_competing",
+      "verify_usec": 6417,
+      "warmup": true,
+      "block": 1
+    },
+    {
+      "advance_usec": 33237,
+      "capture_usec": 20831,
+      "commit_usec": 735,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 32139,
+      "release_usec": 423,
+      "repeat": 1,
+      "restore_usec": 5455,
+      "scenario": "forge_competing",
+      "verify_usec": 5430,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 37512,
+      "capture_usec": 21484,
+      "commit_usec": 728,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 39378,
+      "release_usec": 602,
+      "repeat": 2,
+      "restore_usec": 9932,
+      "scenario": "forge_competing",
+      "verify_usec": 7360,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 30933,
+      "capture_usec": 19744,
+      "commit_usec": 723,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 32845,
+      "release_usec": 690,
+      "repeat": 3,
+      "restore_usec": 6177,
+      "scenario": "forge_competing",
+      "verify_usec": 6234,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 33031,
+      "capture_usec": 21143,
+      "commit_usec": 717,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 33550,
+      "release_usec": 562,
+      "repeat": 4,
+      "restore_usec": 5401,
+      "scenario": "forge_competing",
+      "verify_usec": 6444,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 35852,
+      "capture_usec": 20454,
+      "commit_usec": 819,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 33988,
+      "release_usec": 489,
+      "repeat": 5,
+      "restore_usec": 6575,
+      "scenario": "forge_competing",
+      "verify_usec": 6470,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 34799,
+      "capture_usec": 21063,
+      "commit_usec": 810,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 32980,
+      "release_usec": 450,
+      "repeat": 6,
+      "restore_usec": 5724,
+      "scenario": "forge_competing",
+      "verify_usec": 5743,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 41495,
+      "capture_usec": 21279,
+      "commit_usec": 647,
+      "heap_delta_bytes": 975532,
+      "rejected_overhead_usec": 38850,
+      "release_usec": 482,
+      "repeat": 7,
+      "restore_usec": 10703,
+      "scenario": "forge_competing",
+      "verify_usec": 6386,
+      "warmup": false,
+      "block": 1
+    }
+  ],
+  "profiles": [
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 193,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 146,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 140,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 141,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 144,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1167,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1117,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1017,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1010,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1111,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1464,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1410,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1538,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1563,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1544,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 63,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 25,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 24,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 61,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 218,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 172,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 184,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 171,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 168,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8918,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 9166,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 8626,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8230,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8627,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 173,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 106,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 105,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 133,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 105,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8341,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 7605,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7954,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 7540,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 7975,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 27,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 22,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 128,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 106,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 102,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 102,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 103,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1408,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1286,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1239,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1205,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1215,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 9,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 108,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 80,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 78,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 77,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 77,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 4
+        }
+      ],
+      "scenario": "early",
+      "block": 0
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 201,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 144,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 142,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 160,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 139,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 610,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 687,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 563,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 648,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 596,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2153,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1590,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1496,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1462,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1494,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 39,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 33,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 31,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 33,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 32,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 115,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 83,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 87,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 85,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 134,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 306,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 173,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 168,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 194,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 307,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8842,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 8324,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 8683,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 7812,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8257,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 175,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 124,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 102,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 236,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 108,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 7821,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 7500,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7521,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8885,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 7849,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 28,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 12,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 21,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 164,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 122,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 119,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 118,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 117,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1286,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1215,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1177,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1320,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1192,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 9,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 18,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 159,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 111,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 108,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 106,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 106,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 4
+        }
+      ],
+      "scenario": "mid",
+      "block": 0
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 218,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 145,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 139,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 236,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 139,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2583,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2655,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 3799,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2497,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2583,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1501,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1683,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1378,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1399,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1356,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 27,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 24,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 22,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 59,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 70,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 196,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 168,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 163,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 169,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 163,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8157,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 7818,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 8051,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 9205,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8203,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 178,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 108,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 105,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 105,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 105,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 7131,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 7153,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7027,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 7013,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 7500,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 25,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 12,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 28,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 10,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 20,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 156,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 135,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 132,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 131,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 129,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1333,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1189,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1185,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1195,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1179,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 16,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 149,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 115,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 112,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 115,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 114,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 4
+        }
+      ],
+      "scenario": "forge_competing",
+      "block": 0
+    },
+    {
+      "diagnostic_populated_inventory": true,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 185,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 142,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 140,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 163,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 146,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2623,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2622,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2518,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2516,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2523,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1742,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1648,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1501,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1545,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1487,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 31,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 24,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 62,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 227,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 211,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 166,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 167,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 165,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8666,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 8227,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7890,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8224,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8341,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 233,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 122,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 184,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 127,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 116,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 7637,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 8185,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7806,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8192,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 7411,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 555,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 565,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 484,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 449,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 444,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 464,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 455,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 451,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 432,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 447,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 157,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 205,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 134,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 129,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 168,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1285,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1328,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1195,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1426,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1265,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 10,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 147,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 131,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 114,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 150,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 185,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 4
+        }
+      ],
+      "scenario": "forge_competing",
+      "block": 0
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 188,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 142,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 154,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 135,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 133,
+          "category": "resources",
+          "heap_delta_bytes": 13132,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1025,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 994,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1034,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1006,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 998,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 92540,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1441,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1382,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1373,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1405,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1358,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 28,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 22,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 59,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 205,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 166,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 165,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 164,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 165,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8372,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 8005,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 8660,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8722,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8131,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 172,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 109,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 106,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 122,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 106,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 7260,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 7355,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7193,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 6900,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 6930,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 21,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 12,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 19,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 123,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 101,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 100,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 99,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 98,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14508,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1296,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1167,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1161,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1173,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1167,
+          "category": "prestige",
+          "heap_delta_bytes": 80620,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 9,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 105,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 78,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 78,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 76,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 75,
+          "category": "other_state",
+          "heap_delta_bytes": 11396,
+          "repeat": 4
+        }
+      ],
+      "scenario": "early",
+      "block": 1
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 198,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 142,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 141,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 160,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 140,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 601,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 559,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 554,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 564,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 548,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 61828,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1494,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1391,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1394,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1413,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1380,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 28,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 24,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 36,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 62,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 59,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 59,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 196,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 168,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 168,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 183,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 166,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8371,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 8172,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 8168,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8220,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8260,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 182,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 111,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 110,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 108,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 108,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 7079,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 7468,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7020,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 6989,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 7121,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 24,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 30,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 12,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 20,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 142,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 119,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 116,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 119,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 117,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16044,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1323,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1199,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1179,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1196,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1184,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 8,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 6,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 16,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 26,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 145,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 112,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 111,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 107,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 107,
+          "category": "other_state",
+          "heap_delta_bytes": 14388,
+          "repeat": 4
+        }
+      ],
+      "scenario": "mid",
+      "block": 1
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 187,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 141,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 137,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 162,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 141,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2594,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2538,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2492,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2620,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2855,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1580,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1470,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1399,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1402,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1406,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 28,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 24,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 26,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 61,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 71,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 205,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 170,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 167,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 169,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 167,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 9616,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 9535,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 10237,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 9074,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8802,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 204,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 110,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 171,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 111,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 107,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 7975,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 7693,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7827,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 7713,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 7457,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 27,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 12,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 28,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 5848,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 22,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 4656,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 272,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 234,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 135,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 130,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 173,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1417,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1194,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1305,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1222,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1177,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 9,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 16,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 150,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 116,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 113,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 129,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 113,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 4
+        }
+      ],
+      "scenario": "forge_competing",
+      "block": 1
+    },
+    {
+      "diagnostic_populated_inventory": true,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 184,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 144,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 139,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 173,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 142,
+          "category": "resources",
+          "heap_delta_bytes": 13340,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2593,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2551,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2793,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2496,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2497,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 193676,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1469,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1701,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1510,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1622,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1423,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 111404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 30,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 24,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 24,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 41,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 8152,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 62,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 205,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 172,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 172,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 183,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 166,
+          "category": "automation",
+          "heap_delta_bytes": 23172,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 9060,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 9134,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 8608,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8673,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8908,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 532076,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 173,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 110,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 131,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 108,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 106,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 13652,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 7066,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 7635,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 7697,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 7301,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 7134,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 494328,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 654,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 495,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 537,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 616,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 517,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 53264,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 607,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 480,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 440,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 457,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 441,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 51052,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 159,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 128,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 142,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 129,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 129,
+          "category": "statistics_history",
+          "heap_delta_bytes": 16924,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1438,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1193,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1363,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1409,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1361,
+          "category": "prestige",
+          "heap_delta_bytes": 81628,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 10,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 5,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 12,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 11,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4136,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 148,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 192,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 122,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 112,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 114,
+          "category": "other_state",
+          "heap_delta_bytes": 15316,
+          "repeat": 4
+        }
+      ],
+      "scenario": "forge_competing",
+      "block": 1
+    }
+  ],
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "platform": "Linux",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "debug_build": true,
+  "kind": "compact",
+  "failures": [],
+  "host": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "sample_policy": "Two reverse-order serial blocks; seven warm samples plus one excluded cold/warmup per fixture per block.",
+  "source_sha256": {
+    "checkpoint_benchmark.gd": "6626369e6f84f6106522cf00db851119d610e23a41054433652a75bc0997a9cf",
+    "compact_checkpoint.gd": "0b796a07c1d10ee6665bf03be8cecbffde9b7b9f37e71c11d6c6e47446f5e006",
+    "runtime_state_descriptors.gd": "118678cf9811836d408c6c9b330ee0276a7daa229331b446eac1c511cf0d0075",
+    "transaction_checkpoint.gd": "1f1d49b94bf8d5e611fb12e895feb1b8704c63e6c177dea95800619682d1233b"
+  }
+}

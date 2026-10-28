@@ -1,0 +1,371 @@
+{
+  "method": "14 warm samples per implementation/fixture; two reverse-order serial blocks; inclusive quartiles",
+  "fixtures": {
+    "early": {
+      "heap_delta_bytes": {
+        "reference": {
+          "median": 4953032.0,
+          "q1": 4953032.0,
+          "q3": 4953032.0,
+          "samples": 14
+        },
+        "compact": {
+          "median": 828660.0,
+          "q1": 828660.0,
+          "q3": 828660.0,
+          "samples": 14
+        },
+        "reduction_percent": 83.2696417063326
+      },
+      "capture_usec": {
+        "reference": {
+          "median": 33193.5,
+          "q1": 31714.0,
+          "q3": 36779.5,
+          "samples": 14
+        },
+        "compact": {
+          "median": 16245.5,
+          "q1": 16042.75,
+          "q3": 16545.0,
+          "samples": 14
+        },
+        "reduction_percent": 51.0581891032883
+      },
+      "restore_usec": {
+        "reference": {
+          "median": 11189.0,
+          "q1": 10702.0,
+          "q3": 13404.25,
+          "samples": 14
+        },
+        "compact": {
+          "median": 4324.5,
+          "q1": 4146.0,
+          "q3": 4777.75,
+          "samples": 14
+        },
+        "reduction_percent": 61.35043346143534
+      },
+      "verify_usec": {
+        "reference": {
+          "median": 11905.5,
+          "q1": 11041.0,
+          "q3": 12897.5,
+          "samples": 14
+        },
+        "compact": {
+          "median": 4750.5,
+          "q1": 4606.0,
+          "q3": 5105.25,
+          "samples": 14
+        },
+        "reduction_percent": 60.09827390701776
+      },
+      "release_usec": {
+        "reference": {
+          "median": 3523.0,
+          "q1": 2760.25,
+          "q3": 3991.25,
+          "samples": 14
+        },
+        "compact": {
+          "median": 271.5,
+          "q1": 250.0,
+          "q3": 303.75,
+          "samples": 14
+        },
+        "reduction_percent": 92.2934998580755
+      },
+      "commit_usec": {
+        "reference": {
+          "median": 3791.5,
+          "q1": 3536.0,
+          "q3": 4027.25,
+          "samples": 14
+        },
+        "compact": {
+          "median": 369.5,
+          "q1": 314.0,
+          "q3": 411.25,
+          "samples": 14
+        },
+        "reduction_percent": 90.25451668205196
+      },
+      "rejected_overhead_usec": {
+        "reference": {
+          "median": 61849.0,
+          "q1": 58636.25,
+          "q3": 64746.5,
+          "samples": 14
+        },
+        "compact": {
+          "median": 25894.5,
+          "q1": 25121.75,
+          "q3": 26861.75,
+          "samples": 14
+        },
+        "reduction_percent": 58.13271031059516
+      },
+      "advance_usec": {
+        "reference": {
+          "median": 10981.5,
+          "q1": 10711.0,
+          "q3": 11475.25,
+          "samples": 14
+        },
+        "compact": {
+          "median": 10133.0,
+          "q1": 9973.5,
+          "q3": 10346.25,
+          "samples": 14
+        },
+        "reduction_percent": 7.72663115239266
+      }
+    },
+    "mid": {
+      "heap_delta_bytes": {
+        "reference": {
+          "median": 4824848.0,
+          "q1": 4824848.0,
+          "q3": 4824848.0,
+          "samples": 14
+        },
+        "compact": {
+          "median": 810676.0,
+          "q1": 810676.0,
+          "q3": 810676.0,
+          "samples": 14
+        },
+        "reduction_percent": 83.19789556064772
+      },
+      "capture_usec": {
+        "reference": {
+          "median": 32429.0,
+          "q1": 31588.75,
+          "q3": 33907.5,
+          "samples": 14
+        },
+        "compact": {
+          "median": 15278.5,
+          "q1": 14875.75,
+          "q3": 16632.0,
+          "samples": 14
+        },
+        "reduction_percent": 52.88630546732862
+      },
+      "restore_usec": {
+        "reference": {
+          "median": 10652.0,
+          "q1": 10286.75,
+          "q3": 11314.0,
+          "samples": 14
+        },
+        "compact": {
+          "median": 4781.5,
+          "q1": 4566.25,
+          "q3": 4902.0,
+          "samples": 14
+        },
+        "reduction_percent": 55.11171610965078
+      },
+      "verify_usec": {
+        "reference": {
+          "median": 10757.5,
+          "q1": 9439.25,
+          "q3": 11727.75,
+          "samples": 14
+        },
+        "compact": {
+          "median": 4685.5,
+          "q1": 4575.75,
+          "q3": 4945.0,
+          "samples": 14
+        },
+        "reduction_percent": 56.444341157332104
+      },
+      "release_usec": {
+        "reference": {
+          "median": 2835.5,
+          "q1": 2483.0,
+          "q3": 3424.75,
+          "samples": 14
+        },
+        "compact": {
+          "median": 336.0,
+          "q1": 308.5,
+          "q3": 358.75,
+          "samples": 14
+        },
+        "reduction_percent": 88.15023805325339
+      },
+      "commit_usec": {
+        "reference": {
+          "median": 4241.0,
+          "q1": 4030.5,
+          "q3": 4443.25,
+          "samples": 14
+        },
+        "compact": {
+          "median": 619.0,
+          "q1": 601.25,
+          "q3": 633.5,
+          "samples": 14
+        },
+        "reduction_percent": 85.40438575807593
+      },
+      "rejected_overhead_usec": {
+        "reference": {
+          "median": 57513.5,
+          "q1": 55276.25,
+          "q3": 60293.5,
+          "samples": 14
+        },
+        "compact": {
+          "median": 25665.5,
+          "q1": 24581.5,
+          "q3": 26565.5,
+          "samples": 14
+        },
+        "reduction_percent": 55.374825041077315
+      },
+      "advance_usec": {
+        "reference": {
+          "median": 57927.0,
+          "q1": 55984.75,
+          "q3": 60132.75,
+          "samples": 14
+        },
+        "compact": {
+          "median": 52659.5,
+          "q1": 51860.25,
+          "q3": 54716.5,
+          "samples": 14
+        },
+        "reduction_percent": 9.093341619624695
+      }
+    },
+    "forge_competing": {
+      "heap_delta_bytes": {
+        "reference": {
+          "median": 5555076.0,
+          "q1": 5555076.0,
+          "q3": 5555076.0,
+          "samples": 14
+        },
+        "compact": {
+          "median": 975532.0,
+          "q1": 975532.0,
+          "q3": 975532.0,
+          "samples": 14
+        },
+        "reduction_percent": 82.43890812654948
+      },
+      "capture_usec": {
+        "reference": {
+          "median": 36877.0,
+          "q1": 35492.0,
+          "q3": 37814.25,
+          "samples": 14
+        },
+        "compact": {
+          "median": 19544.5,
+          "q1": 17782.25,
+          "q3": 21005.0,
+          "samples": 14
+        },
+        "reduction_percent": 47.00084063237249
+      },
+      "restore_usec": {
+        "reference": {
+          "median": 12022.5,
+          "q1": 11414.5,
+          "q3": 13131.75,
+          "samples": 14
+        },
+        "compact": {
+          "median": 5568.5,
+          "q1": 5215.75,
+          "q3": 6377.25,
+          "samples": 14
+        },
+        "reduction_percent": 53.68267831149927
+      },
+      "verify_usec": {
+        "reference": {
+          "median": 12247.5,
+          "q1": 11561.0,
+          "q3": 13700.0,
+          "samples": 14
+        },
+        "compact": {
+          "median": 5586.5,
+          "q1": 5218.25,
+          "q3": 6348.0,
+          "samples": 14
+        },
+        "reduction_percent": 54.386609512145334
+      },
+      "release_usec": {
+        "reference": {
+          "median": 3996.5,
+          "q1": 3310.0,
+          "q3": 4838.5,
+          "samples": 14
+        },
+        "compact": {
+          "median": 453.0,
+          "q1": 439.25,
+          "q3": 487.25,
+          "samples": 14
+        },
+        "reduction_percent": 88.66508194670337
+      },
+      "commit_usec": {
+        "reference": {
+          "median": 5311.0,
+          "q1": 4632.5,
+          "q3": 5739.75,
+          "samples": 14
+        },
+        "compact": {
+          "median": 707.5,
+          "q1": 661.5,
+          "q3": 727.25,
+          "samples": 14
+        },
+        "reduction_percent": 86.67859160233478
+      },
+      "rejected_overhead_usec": {
+        "reference": {
+          "median": 66823.5,
+          "q1": 62655.25,
+          "q3": 69197.75,
+          "samples": 14
+        },
+        "compact": {
+          "median": 31437.0,
+          "q1": 28710.75,
+          "q3": 33407.5,
+          "samples": 14
+        },
+        "reduction_percent": 52.9551729556219
+      },
+      "advance_usec": {
+        "reference": {
+          "median": 32770.0,
+          "q1": 32091.0,
+          "q3": 37807.5,
+          "samples": 14
+        },
+        "compact": {
+          "median": 33292.0,
+          "q1": 32448.5,
+          "q3": 35588.75,
+          "samples": 14
+        },
+        "reduction_percent": -1.5929203539823078
+      }
+    }
+  }
+}

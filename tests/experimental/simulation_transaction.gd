@@ -1,6 +1,7 @@
 extends RefCounted
 
-const Checkpoint = preload("res://tests/experimental/transaction_checkpoint.gd")
+const Checkpoint = preload("res://tests/experimental/compact_checkpoint.gd")
+var checkpoint_implementation: Script = Checkpoint
 static var _owners: Dictionary = {}
 var journal: RefCounted
 var simulation: Simulation
@@ -8,7 +9,8 @@ var error: String = ""
 var _checkpoint: RefCounted
 
 
-func _init(target: Simulation, event_journal: RefCounted = null) -> void:
+func _init(target: Simulation, event_journal: RefCounted = null, implementation: Script = Checkpoint) -> void:
+	checkpoint_implementation = implementation
 	journal = event_journal
 	simulation = target
 
@@ -21,7 +23,7 @@ func begin() -> bool:
 	if is_active() or _owners.has(simulation.state.get_instance_id()):
 		error = "Nested transactions are unsupported"
 		return false
-	var candidate: RefCounted = Checkpoint.new()
+	var candidate: RefCounted = checkpoint_implementation.new()
 	if not candidate.capture(simulation, journal):
 		error = candidate.error
 		return false

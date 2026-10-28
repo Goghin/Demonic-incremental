@@ -148,6 +148,7 @@ func _run_tests() -> void:
 	_run_test("Experimental ready upgrade waits skip replay with exact timer parity", _test_autobuyer_replay_elimination)
 	_run_test("Experimental resource-flow proofs preserve dense endpoints, exhaustion and dependency transitions", _test_resource_flow_bounds)
 	_run_test("Experimental transactions restore mixed state, phases, automation and RNG", _test_simulation_transactions)
+	_run_test("Compact checkpoint descriptors preserve reference parity and nested aliases", _test_checkpoint_contracts)
 	_run_test("Core fixtures preserve dense event parity and restricted-checkpoint contracts", _test_core_investigation)
 
 
@@ -2664,4 +2665,16 @@ func _test_simulation_transactions() -> void:
 	var test: RefCounted = preload("res://tests/experimental/transaction_tests.gd").new()
 	test.run_all()
 	for failure: String in test.failures:
+		_expect(false, failure)
+
+
+func _test_checkpoint_contracts() -> void:
+	var contracts: RefCounted = preload("res://tests/experimental/checkpoint_contract_tests.gd").new()
+	contracts.run_all()
+	for failure: String in contracts.failures:
+		_expect(false, failure)
+	var reference: RefCounted = preload("res://tests/experimental/transaction_tests.gd").new()
+	reference.checkpoint_implementation = preload("res://tests/experimental/transaction_checkpoint.gd")
+	reference.run_all()
+	for failure: String in reference.failures:
 		_expect(false, failure)

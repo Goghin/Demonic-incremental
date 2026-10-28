@@ -18,7 +18,7 @@ func _run() -> void:
 	var inventory := FileAccess.open("res://tests/experimental/transaction_state_inventory.json", FileAccess.WRITE)
 	inventory.store_string(JSON.stringify(snapshot.describe(), "\t") + "\n")
 	inventory.close()
-	var output := FileAccess.open("res://tests/experimental/transaction_results.json", FileAccess.WRITE)
+	var output := FileAccess.open("res://tests/experimental/checkpoint_transaction_results.json", FileAccess.WRITE)
 	output.store_string(JSON.stringify(result, "\t") + "\n")
 	output.close()
 	for failure: String in tests.failures:

@@ -1,0 +1,234 @@
+{
+	"compact": {
+		"failures": [],
+		"fingerprints": {
+			"automation/consumption": "d5dead43b18530fc6096f7142e0d729b1800fc7072137fa5d887c10e4d79ef20",
+			"automation/mixed": "e2afc3d66d464427976700f1eb732a7025bf93e743280d9ff066401e7b286aef",
+			"automation/upgrades": "1f32e22a66596df6d43f24aefb5d930c2738dfb6fafa40030123fdf0be10b88b",
+			"early": "ff3db9fc76a53e6bad58f62251c6f6001ba56362140820067d5515a3ad1cebdc",
+			"forge": "53089c91436c605be171b2066d83fff945be6d05ada0dab9e59a4d4057a9dfec",
+			"forge_competing": "4fdf001f2d109340110bd4a53730341e337325b7d6143e199dc1b92065cc4197",
+			"forge_running": "f95875d608e2789bc80fe716da1c016e921152072befe5b68b031d78298cbb79",
+			"mid": "d4bba2a77e338a9b2072df9a4facbd4d93905d42fa4d225a6d8158769f7ad4ea",
+			"real_forge_completion": "5f5e66d3dbce8b3feaade14261bfff3ad8f9d96acd2608e76b1e227e8340e24e"
+		},
+		"measurements": [
+			{
+				"candidate_usec_mean": 11183.0,
+				"capture_static_memory_delta_bytes_max": 831080,
+				"capture_usec_mean": 19091.3333333333,
+				"commit_usec": 621,
+				"encoded_bytes": 484384,
+				"records": 1018,
+				"restore_and_verify_usec_mean": 10809.3333333333,
+				"scenario": "early",
+				"ticks_per_attempt": 100
+			},
+			{
+				"candidate_usec_mean": 52709.6666666667,
+				"capture_static_memory_delta_bytes_max": 810740,
+				"capture_usec_mean": 15269.6666666667,
+				"commit_usec": 608,
+				"encoded_bytes": 471000,
+				"records": 985,
+				"restore_and_verify_usec_mean": 9670.33333333333,
+				"scenario": "mid",
+				"ticks_per_attempt": 600
+			},
+			{
+				"candidate_usec_mean": 36832.3333333333,
+				"capture_static_memory_delta_bytes_max": 975660,
+				"capture_usec_mean": 20819.3333333333,
+				"commit_usec": 688,
+				"encoded_bytes": 541096,
+				"records": 1134,
+				"restore_and_verify_usec_mean": 13184.0,
+				"scenario": "forge_competing",
+				"ticks_per_attempt": 100
+			},
+			{
+				"candidate_usec_mean": 29551.3333333333,
+				"capture_static_memory_delta_bytes_max": 975596,
+				"capture_usec_mean": 18846.6666666667,
+				"commit_usec": 575,
+				"encoded_bytes": 541096,
+				"records": 1134,
+				"restore_and_verify_usec_mean": 11300.3333333333,
+				"scenario": "forge_running",
+				"ticks_per_attempt": 100
+			},
+			{
+				"candidate_usec_mean": 22920.6666666667,
+				"capture_static_memory_delta_bytes_max": 975596,
+				"capture_usec_mean": 18682.6666666667,
+				"commit_usec": 761,
+				"encoded_bytes": 541096,
+				"records": 1134,
+				"restore_and_verify_usec_mean": 10749.0,
+				"scenario": "forge",
+				"ticks_per_attempt": 100
+			},
+			{
+				"candidate_usec_mean": 53240.3333333333,
+				"capture_static_memory_delta_bytes_max": 782444,
+				"capture_usec_mean": 15495.3333333333,
+				"commit_usec": 444,
+				"encoded_bytes": 452660,
+				"records": 954,
+				"restore_and_verify_usec_mean": 10840.6666666667,
+				"scenario": "automation/upgrades",
+				"ticks_per_attempt": 600
+			},
+			{
+				"candidate_usec_mean": 247928.0,
+				"capture_static_memory_delta_bytes_max": 787156,
+				"capture_usec_mean": 18586.3333333333,
+				"commit_usec": 867,
+				"encoded_bytes": 455804,
+				"records": 958,
+				"restore_and_verify_usec_mean": 12949.3333333333,
+				"scenario": "automation/consumption",
+				"ticks_per_attempt": 600
+			},
+			{
+				"candidate_usec_mean": 267848.0,
+				"capture_static_memory_delta_bytes_max": 804188,
+				"capture_usec_mean": 17775.0,
+				"commit_usec": 784,
+				"encoded_bytes": 465952,
+				"records": 978,
+				"restore_and_verify_usec_mean": 11173.6666666667,
+				"scenario": "automation/mixed",
+				"ticks_per_attempt": 600
+			},
+			{
+				"candidate_usec_mean": 4379.66666666667,
+				"capture_static_memory_delta_bytes_max": 948676,
+				"capture_usec_mean": 25210.6666666667,
+				"commit_usec": 1565,
+				"encoded_bytes": 523028,
+				"records": 1100,
+				"restore_and_verify_usec_mean": 12868.6666666667,
+				"scenario": "real_forge_completion",
+				"ticks_per_attempt": 20
+			}
+		]
+	},
+	"contract_failures": [],
+	"original_compact_endpoint_parity": true,
+	"reference": {
+		"failures": [],
+		"fingerprints": {
+			"automation/consumption": "d5dead43b18530fc6096f7142e0d729b1800fc7072137fa5d887c10e4d79ef20",
+			"automation/mixed": "e2afc3d66d464427976700f1eb732a7025bf93e743280d9ff066401e7b286aef",
+			"automation/upgrades": "1f32e22a66596df6d43f24aefb5d930c2738dfb6fafa40030123fdf0be10b88b",
+			"early": "ff3db9fc76a53e6bad58f62251c6f6001ba56362140820067d5515a3ad1cebdc",
+			"forge": "53089c91436c605be171b2066d83fff945be6d05ada0dab9e59a4d4057a9dfec",
+			"forge_competing": "4fdf001f2d109340110bd4a53730341e337325b7d6143e199dc1b92065cc4197",
+			"forge_running": "f95875d608e2789bc80fe716da1c016e921152072befe5b68b031d78298cbb79",
+			"mid": "d4bba2a77e338a9b2072df9a4facbd4d93905d42fa4d225a6d8158769f7ad4ea",
+			"real_forge_completion": "5f5e66d3dbce8b3feaade14261bfff3ad8f9d96acd2608e76b1e227e8340e24e"
+		},
+		"measurements": [
+			{
+				"candidate_usec_mean": 12073.6666666667,
+				"capture_static_memory_delta_bytes_max": 4953372,
+				"capture_usec_mean": 33605.6666666667,
+				"commit_usec": 4168,
+				"encoded_bytes": 484384,
+				"records": 1018,
+				"restore_and_verify_usec_mean": 23234.3333333333,
+				"scenario": "early",
+				"ticks_per_attempt": 100
+			},
+			{
+				"candidate_usec_mean": 53188.6666666667,
+				"capture_static_memory_delta_bytes_max": 4824912,
+				"capture_usec_mean": 30155.3333333333,
+				"commit_usec": 4177,
+				"encoded_bytes": 471000,
+				"records": 985,
+				"restore_and_verify_usec_mean": 22145.0,
+				"scenario": "mid",
+				"ticks_per_attempt": 600
+			},
+			{
+				"candidate_usec_mean": 32138.6666666667,
+				"capture_static_memory_delta_bytes_max": 5555140,
+				"capture_usec_mean": 35439.0,
+				"commit_usec": 4262,
+				"encoded_bytes": 541096,
+				"records": 1134,
+				"restore_and_verify_usec_mean": 27654.0,
+				"scenario": "forge_competing",
+				"ticks_per_attempt": 100
+			},
+			{
+				"candidate_usec_mean": 30560.3333333333,
+				"capture_static_memory_delta_bytes_max": 5555140,
+				"capture_usec_mean": 38079.0,
+				"commit_usec": 4870,
+				"encoded_bytes": 541096,
+				"records": 1134,
+				"restore_and_verify_usec_mean": 29748.3333333333,
+				"scenario": "forge_running",
+				"ticks_per_attempt": 100
+			},
+			{
+				"candidate_usec_mean": 23777.3333333333,
+				"capture_static_memory_delta_bytes_max": 5555140,
+				"capture_usec_mean": 37155.6666666667,
+				"commit_usec": 4661,
+				"encoded_bytes": 541096,
+				"records": 1134,
+				"restore_and_verify_usec_mean": 27177.3333333333,
+				"scenario": "forge",
+				"ticks_per_attempt": 100
+			},
+			{
+				"candidate_usec_mean": 47531.0,
+				"capture_static_memory_delta_bytes_max": 4630288,
+				"capture_usec_mean": 27127.0,
+				"commit_usec": 3696,
+				"encoded_bytes": 452660,
+				"records": 954,
+				"restore_and_verify_usec_mean": 20476.3333333333,
+				"scenario": "automation/upgrades",
+				"ticks_per_attempt": 600
+			},
+			{
+				"candidate_usec_mean": 225514.666666667,
+				"capture_static_memory_delta_bytes_max": 4668408,
+				"capture_usec_mean": 33721.6666666667,
+				"commit_usec": 4910,
+				"encoded_bytes": 455804,
+				"records": 958,
+				"restore_and_verify_usec_mean": 23969.0,
+				"scenario": "automation/consumption",
+				"ticks_per_attempt": 600
+			},
+			{
+				"candidate_usec_mean": 258956.333333333,
+				"capture_static_memory_delta_bytes_max": 4775028,
+				"capture_usec_mean": 31581.0,
+				"commit_usec": 5705,
+				"encoded_bytes": 465952,
+				"records": 978,
+				"restore_and_verify_usec_mean": 23929.3333333333,
+				"scenario": "automation/mixed",
+				"ticks_per_attempt": 600
+			},
+			{
+				"candidate_usec_mean": 4006.66666666667,
+				"capture_static_memory_delta_bytes_max": 5360480,
+				"capture_usec_mean": 35549.3333333333,
+				"commit_usec": 4140,
+				"encoded_bytes": 523028,
+				"records": 1100,
+				"restore_and_verify_usec_mean": 26070.6666666667,
+				"scenario": "real_forge_completion",
+				"ticks_per_attempt": 20
+			}
+		]
+	}
+}

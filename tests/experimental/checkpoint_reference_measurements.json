@@ -1,0 +1,4606 @@
+{
+  "runs": [
+    {
+      "advance_usec": 11767,
+      "capture_usec": 33509,
+      "commit_usec": 4255,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 56821,
+      "release_usec": 2651,
+      "repeat": 0,
+      "restore_usec": 10870,
+      "scenario": "early",
+      "verify_usec": 9791,
+      "warmup": true,
+      "block": 0
+    },
+    {
+      "advance_usec": 10903,
+      "capture_usec": 41777,
+      "commit_usec": 4036,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 68342,
+      "release_usec": 3690,
+      "repeat": 1,
+      "restore_usec": 10634,
+      "scenario": "early",
+      "verify_usec": 12241,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 10729,
+      "capture_usec": 33016,
+      "commit_usec": 4001,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 64872,
+      "release_usec": 7456,
+      "repeat": 2,
+      "restore_usec": 11347,
+      "scenario": "early",
+      "verify_usec": 13053,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 10705,
+      "capture_usec": 38231,
+      "commit_usec": 4393,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 64370,
+      "release_usec": 3145,
+      "repeat": 3,
+      "restore_usec": 11031,
+      "scenario": "early",
+      "verify_usec": 11963,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 11067,
+      "capture_usec": 32894,
+      "commit_usec": 3527,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 60086,
+      "release_usec": 4783,
+      "repeat": 4,
+      "restore_usec": 10906,
+      "scenario": "early",
+      "verify_usec": 11503,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 12633,
+      "capture_usec": 33807,
+      "commit_usec": 5075,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 58077,
+      "release_usec": 2535,
+      "repeat": 5,
+      "restore_usec": 11602,
+      "scenario": "early",
+      "verify_usec": 10133,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 11060,
+      "capture_usec": 36903,
+      "commit_usec": 3563,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 63345,
+      "release_usec": 2962,
+      "repeat": 6,
+      "restore_usec": 12253,
+      "scenario": "early",
+      "verify_usec": 11227,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 12322,
+      "capture_usec": 36409,
+      "commit_usec": 4160,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 69917,
+      "release_usec": 3761,
+      "repeat": 7,
+      "restore_usec": 14584,
+      "scenario": "early",
+      "verify_usec": 15163,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 57627,
+      "capture_usec": 32333,
+      "commit_usec": 4999,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 59034,
+      "release_usec": 4451,
+      "repeat": 0,
+      "restore_usec": 11422,
+      "scenario": "mid",
+      "verify_usec": 10828,
+      "warmup": true,
+      "block": 0
+    },
+    {
+      "advance_usec": 59682,
+      "capture_usec": 32047,
+      "commit_usec": 4396,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 55177,
+      "release_usec": 3001,
+      "repeat": 1,
+      "restore_usec": 10229,
+      "scenario": "mid",
+      "verify_usec": 9900,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 59151,
+      "capture_usec": 30582,
+      "commit_usec": 4475,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 61254,
+      "release_usec": 3771,
+      "repeat": 2,
+      "restore_usec": 15161,
+      "scenario": "mid",
+      "verify_usec": 11740,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 62877,
+      "capture_usec": 32547,
+      "commit_usec": 4452,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 55574,
+      "release_usec": 2548,
+      "repeat": 3,
+      "restore_usec": 11107,
+      "scenario": "mid",
+      "verify_usec": 9372,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 61622,
+      "capture_usec": 37499,
+      "commit_usec": 3876,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 64925,
+      "release_usec": 3543,
+      "repeat": 4,
+      "restore_usec": 12370,
+      "scenario": "mid",
+      "verify_usec": 11513,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 53934,
+      "capture_usec": 34298,
+      "commit_usec": 4140,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 60569,
+      "release_usec": 2816,
+      "repeat": 5,
+      "restore_usec": 11764,
+      "scenario": "mid",
+      "verify_usec": 11691,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 56056,
+      "capture_usec": 34313,
+      "commit_usec": 4166,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 59467,
+      "release_usec": 3589,
+      "repeat": 6,
+      "restore_usec": 10525,
+      "scenario": "mid",
+      "verify_usec": 11040,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 56745,
+      "capture_usec": 31636,
+      "commit_usec": 4417,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 55649,
+      "release_usec": 2472,
+      "repeat": 7,
+      "restore_usec": 11066,
+      "scenario": "mid",
+      "verify_usec": 10475,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 42454,
+      "capture_usec": 48672,
+      "commit_usec": 4973,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 83882,
+      "release_usec": 4818,
+      "repeat": 0,
+      "restore_usec": 16757,
+      "scenario": "forge_competing",
+      "verify_usec": 13635,
+      "warmup": true,
+      "block": 0
+    },
+    {
+      "advance_usec": 39502,
+      "capture_usec": 37095,
+      "commit_usec": 4885,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 69504,
+      "release_usec": 4862,
+      "repeat": 1,
+      "restore_usec": 14153,
+      "scenario": "forge_competing",
+      "verify_usec": 13394,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 40728,
+      "capture_usec": 52440,
+      "commit_usec": 4742,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 84636,
+      "release_usec": 4768,
+      "repeat": 2,
+      "restore_usec": 13219,
+      "scenario": "forge_competing",
+      "verify_usec": 14209,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 38942,
+      "capture_usec": 36375,
+      "commit_usec": 4506,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 67377,
+      "release_usec": 3789,
+      "repeat": 3,
+      "restore_usec": 14831,
+      "scenario": "forge_competing",
+      "verify_usec": 12382,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 32809,
+      "capture_usec": 35074,
+      "commit_usec": 5102,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 66270,
+      "release_usec": 3301,
+      "repeat": 4,
+      "restore_usec": 12732,
+      "scenario": "forge_competing",
+      "verify_usec": 15163,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 31917,
+      "capture_usec": 35043,
+      "commit_usec": 5776,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 62313,
+      "release_usec": 4286,
+      "repeat": 5,
+      "restore_usec": 11509,
+      "scenario": "forge_competing",
+      "verify_usec": 11475,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 34404,
+      "capture_usec": 36819,
+      "commit_usec": 7190,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 69469,
+      "release_usec": 5257,
+      "repeat": 6,
+      "restore_usec": 12870,
+      "scenario": "forge_competing",
+      "verify_usec": 14523,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 41011,
+      "capture_usec": 47129,
+      "commit_usec": 7649,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 79051,
+      "release_usec": 7516,
+      "repeat": 7,
+      "restore_usec": 11350,
+      "scenario": "forge_competing",
+      "verify_usec": 13056,
+      "warmup": false,
+      "block": 0
+    },
+    {
+      "advance_usec": 11347,
+      "capture_usec": 34126,
+      "commit_usec": 3395,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 57241,
+      "release_usec": 2377,
+      "repeat": 0,
+      "restore_usec": 10608,
+      "scenario": "early",
+      "verify_usec": 10130,
+      "warmup": true,
+      "block": 1
+    },
+    {
+      "advance_usec": 11997,
+      "capture_usec": 31119,
+      "commit_usec": 3869,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 60353,
+      "release_usec": 3598,
+      "repeat": 1,
+      "restore_usec": 13788,
+      "scenario": "early",
+      "verify_usec": 11848,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 11284,
+      "capture_usec": 33371,
+      "commit_usec": 3515,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 57070,
+      "release_usec": 2693,
+      "repeat": 2,
+      "restore_usec": 10027,
+      "scenario": "early",
+      "verify_usec": 10979,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 10897,
+      "capture_usec": 38876,
+      "commit_usec": 3632,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 60122,
+      "release_usec": 2576,
+      "repeat": 3,
+      "restore_usec": 10147,
+      "scenario": "early",
+      "verify_usec": 8523,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 9691,
+      "capture_usec": 31828,
+      "commit_usec": 3448,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 63974,
+      "release_usec": 3448,
+      "repeat": 4,
+      "restore_usec": 13968,
+      "scenario": "early",
+      "verify_usec": 14730,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 9637,
+      "capture_usec": 30665,
+      "commit_usec": 3966,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 58153,
+      "release_usec": 4068,
+      "repeat": 5,
+      "restore_usec": 10989,
+      "scenario": "early",
+      "verify_usec": 12431,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 11539,
+      "capture_usec": 31676,
+      "commit_usec": 3714,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 66249,
+      "release_usec": 4378,
+      "repeat": 6,
+      "restore_usec": 14496,
+      "scenario": "early",
+      "verify_usec": 15699,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 10337,
+      "capture_usec": 30409,
+      "commit_usec": 3457,
+      "heap_delta_bytes": 4953032,
+      "rejected_overhead_usec": 49230,
+      "release_usec": 2205,
+      "repeat": 7,
+      "restore_usec": 8952,
+      "scenario": "early",
+      "verify_usec": 7664,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 54878,
+      "capture_usec": 30237,
+      "commit_usec": 4272,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 57601,
+      "release_usec": 3643,
+      "repeat": 0,
+      "restore_usec": 10596,
+      "scenario": "mid",
+      "verify_usec": 13125,
+      "warmup": true,
+      "block": 1
+    },
+    {
+      "advance_usec": 60283,
+      "capture_usec": 38077,
+      "commit_usec": 4847,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 58310,
+      "release_usec": 1839,
+      "repeat": 1,
+      "restore_usec": 10013,
+      "scenario": "mid",
+      "verify_usec": 8381,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 55250,
+      "capture_usec": 31573,
+      "commit_usec": 4184,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 53670,
+      "release_usec": 2516,
+      "repeat": 2,
+      "restore_usec": 10164,
+      "scenario": "mid",
+      "verify_usec": 9417,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 54756,
+      "capture_usec": 32667,
+      "commit_usec": 3734,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 55009,
+      "release_usec": 2114,
+      "repeat": 3,
+      "restore_usec": 10722,
+      "scenario": "mid",
+      "verify_usec": 9506,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 55961,
+      "capture_usec": 29942,
+      "commit_usec": 3917,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 63978,
+      "release_usec": 7696,
+      "repeat": 4,
+      "restore_usec": 10151,
+      "scenario": "mid",
+      "verify_usec": 16189,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 57431,
+      "capture_usec": 32311,
+      "commit_usec": 4298,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 53029,
+      "release_usec": 2277,
+      "repeat": 5,
+      "restore_usec": 10582,
+      "scenario": "mid",
+      "verify_usec": 7859,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 58423,
+      "capture_usec": 30571,
+      "commit_usec": 3994,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 56717,
+      "release_usec": 2855,
+      "repeat": 6,
+      "restore_usec": 11383,
+      "scenario": "mid",
+      "verify_usec": 11908,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 65636,
+      "capture_usec": 32736,
+      "commit_usec": 8869,
+      "heap_delta_bytes": 4824848,
+      "rejected_overhead_usec": 58757,
+      "release_usec": 3070,
+      "repeat": 7,
+      "restore_usec": 10460,
+      "scenario": "mid",
+      "verify_usec": 12491,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 37227,
+      "capture_usec": 35424,
+      "commit_usec": 6685,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 68482,
+      "release_usec": 5307,
+      "repeat": 0,
+      "restore_usec": 13394,
+      "scenario": "forge_competing",
+      "verify_usec": 14357,
+      "warmup": true,
+      "block": 1
+    },
+    {
+      "advance_usec": 32091,
+      "capture_usec": 37914,
+      "commit_usec": 5572,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 68384,
+      "release_usec": 5019,
+      "repeat": 1,
+      "restore_usec": 13338,
+      "scenario": "forge_competing",
+      "verify_usec": 12113,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 34082,
+      "capture_usec": 34115,
+      "commit_usec": 5631,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 61170,
+      "release_usec": 3337,
+      "repeat": 2,
+      "restore_usec": 12310,
+      "scenario": "forge_competing",
+      "verify_usec": 11408,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 32731,
+      "capture_usec": 36935,
+      "commit_usec": 5896,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 63682,
+      "release_usec": 4029,
+      "repeat": 3,
+      "restore_usec": 11383,
+      "scenario": "forge_competing",
+      "verify_usec": 11335,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 32091,
+      "capture_usec": 35645,
+      "commit_usec": 5520,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 65146,
+      "release_usec": 3964,
+      "repeat": 4,
+      "restore_usec": 11735,
+      "scenario": "forge_competing",
+      "verify_usec": 13802,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 32489,
+      "capture_usec": 41714,
+      "commit_usec": 4158,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 68082,
+      "release_usec": 2960,
+      "repeat": 5,
+      "restore_usec": 11589,
+      "scenario": "forge_competing",
+      "verify_usec": 11819,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 31727,
+      "capture_usec": 37515,
+      "commit_usec": 4596,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 61205,
+      "release_usec": 2569,
+      "repeat": 6,
+      "restore_usec": 10755,
+      "scenario": "forge_competing",
+      "verify_usec": 10366,
+      "warmup": false,
+      "block": 1
+    },
+    {
+      "advance_usec": 31885,
+      "capture_usec": 35441,
+      "commit_usec": 4584,
+      "heap_delta_bytes": 5555076,
+      "rejected_overhead_usec": 61919,
+      "release_usec": 3167,
+      "repeat": 7,
+      "restore_usec": 11342,
+      "scenario": "forge_competing",
+      "verify_usec": 11969,
+      "warmup": false,
+      "block": 1
+    }
+  ],
+  "profiles": [
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 312,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 229,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 315,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 311,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 219,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2243,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1856,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2109,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2016,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2165,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2791,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2832,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2709,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2991,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2747,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 34,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 27,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 19,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 22,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 21,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 81,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 129,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 307,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 207,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 290,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 203,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 193,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17178,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 19066,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 21730,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 18864,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 19658,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 962,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 147,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 134,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 224,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 134,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 22948,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 20912,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 20988,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 16172,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 19062,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 69,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 10,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 9,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 29,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 18,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 16,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 16,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 164,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 169,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 323,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 167,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 157,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 4236,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2866,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4931,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2401,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2440,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 10,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 21,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 172,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 109,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 103,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 102,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 97,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 4
+        }
+      ],
+      "scenario": "early",
+      "block": 0
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 257,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 224,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 290,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 195,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 218,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1081,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 939,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 904,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1141,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 928,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2702,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 3097,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2974,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2782,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3086,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 44,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 22,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 104,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 20,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 20,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 59,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 282,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 345,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 321,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 211,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 198,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 16679,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 18298,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 18176,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 16925,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 18187,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1580,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 146,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 133,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 232,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 133,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 15774,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 17971,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 17623,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 17990,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 17822,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 44,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 9,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 79,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 38,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 37,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 17,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 15,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 15,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 325,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 199,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 258,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 212,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 191,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 3663,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2585,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2456,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2820,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2627,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 11,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 22,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 44,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 17,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 194,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 143,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 137,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 142,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 138,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 4
+        }
+      ],
+      "scenario": "mid",
+      "block": 0
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 285,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 220,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 186,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 182,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 178,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 7614,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5250,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 5033,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 6156,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 5808,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 5166,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2648,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2862,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 3083,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3042,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 40,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 30,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 21,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 23,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 20,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 60,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 269,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 199,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 220,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 253,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 195,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 20064,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 21948,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 18947,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 21719,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 21604,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1582,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 250,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 136,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 157,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 129,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 16500,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15755,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 15583,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 19817,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 24545,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 65,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 9,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 19,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 9,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 34,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 17,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 15,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 202,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 330,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 708,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 232,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 210,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 6947,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 3942,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2863,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2612,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2344,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 10,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 22,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 197,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 148,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 144,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 182,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 142,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 4
+        }
+      ],
+      "scenario": "forge_competing",
+      "block": 0
+    },
+    {
+      "diagnostic_populated_inventory": true,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 367,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 274,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 194,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 224,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 189,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 5330,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5093,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4848,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 4897,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4829,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 3056,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2595,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2841,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2868,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2755,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 32,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 26,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 20,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 25,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 22,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 59,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 73,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 302,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 198,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 191,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 368,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 215,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 24448,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 20825,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 22492,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 19512,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 18536,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 874,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 144,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 131,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 132,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 129,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17060,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 18928,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 17721,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 15811,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 16253,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1253,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 580,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 547,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 523,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 537,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 558,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 503,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 519,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 526,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 521,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 195,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 155,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 149,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 150,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 147,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2406,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2337,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2327,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2312,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2305,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 9,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 21,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 184,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 169,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 144,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 141,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 140,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 4
+        }
+      ],
+      "scenario": "forge_competing",
+      "block": 0
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 239,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 192,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 194,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 208,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 187,
+          "category": "resources",
+          "heap_delta_bytes": 45660,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1764,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2041,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 1873,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1792,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 1898,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 481940,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 3011,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2877,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2821,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2664,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2686,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 43,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 41,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 20,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 20,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 19,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 59,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 232,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 199,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 218,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 218,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 227,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17667,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 17751,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 16854,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 17361,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 17879,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 674,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 143,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 132,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 131,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 131,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 14839,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16804,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 15881,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14441,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 15709,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 31,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 11,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 9,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 24,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 156,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 134,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 136,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 172,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 144,
+          "category": "statistics_history",
+          "heap_delta_bytes": 55832,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 3062,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2845,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2933,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2413,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2461,
+          "category": "prestige",
+          "heap_delta_bytes": 562068,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 12,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 19,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 142,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 120,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 182,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 110,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 102,
+          "category": "other_state",
+          "heap_delta_bytes": 37944,
+          "repeat": 4
+        }
+      ],
+      "scenario": "early",
+      "block": 1
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 284,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 239,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 194,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 189,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 222,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1071,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 1298,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 936,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 1038,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 920,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 305252,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2935,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2900,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2687,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 3033,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2903,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 33,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 24,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 20,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 27,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 22,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 61,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 97,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 59,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 242,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 202,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 195,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 221,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 199,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17645,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 17558,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 16931,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 22594,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 19626,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 826,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 134,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 130,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 132,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 160,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 15572,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16665,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 18748,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 18501,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 18302,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 23,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 18,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 10,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 9,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 23,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 15,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 183,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 156,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 152,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 155,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 180,
+          "category": "statistics_history",
+          "heap_delta_bytes": 68640,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 3495,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2765,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 3132,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2714,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2461,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 11,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 20,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 182,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 173,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 147,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 136,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 135,
+          "category": "other_state",
+          "heap_delta_bytes": 63376,
+          "repeat": 4
+        }
+      ],
+      "scenario": "mid",
+      "block": 1
+    },
+    {
+      "diagnostic_populated_inventory": false,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 257,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 305,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 196,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 190,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 188,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 4912,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 5190,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4726,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 4567,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4823,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 3302,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2892,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2980,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2877,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3560,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 56,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 21,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 21,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 21,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 19,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 89,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 328,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 234,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 208,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 222,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 196,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 16870,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16984,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 17449,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 17611,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 20061,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 936,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 172,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 132,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 129,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 127,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 15245,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16803,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 16243,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 16130,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 18520,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 23,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 21,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 8,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 8,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 8,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 7320,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 25,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 15,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 14,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 5204,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 308,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 219,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 159,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 159,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 276,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 4398,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2842,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2882,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 3083,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2638,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 11,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 19,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 14,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 225,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 258,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 166,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 145,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 143,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 4
+        }
+      ],
+      "scenario": "forge_competing",
+      "block": 1
+    },
+    {
+      "diagnostic_populated_inventory": true,
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 341,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 235,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 191,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 194,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 187,
+          "category": "resources",
+          "heap_delta_bytes": 46788,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 4604,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 4529,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 4774,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 5212,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 4678,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 1024252,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2840,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2712,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2723,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2929,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3110,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 550284,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 43,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 21,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 21,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 21,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 119,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 15888,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 62,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 56,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 79,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 65,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 55,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 40408,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 302,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 206,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 258,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 207,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 196,
+          "category": "automation",
+          "heap_delta_bytes": 116312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 17804,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 18130,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 16538,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 16379,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 16808,
+          "category": "upgrade_state_with_definitions",
+          "heap_delta_bytes": 3112404,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 674,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 142,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 160,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 130,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 129,
+          "category": "upgrade_level_values",
+          "heap_delta_bytes": 87864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 16025,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 16109,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 15861,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 16000,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 15512,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 2896864,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 1280,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 559,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 610,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 574,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 589,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 343624,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 537,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2424,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 556,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 538,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 618,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 328420,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 202,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 155,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 152,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 145,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 147,
+          "category": "statistics_history",
+          "heap_delta_bytes": 74876,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 2644,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 2564,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 2426,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 2521,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 2726,
+          "category": "prestige",
+          "heap_delta_bytes": 568780,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 11,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 4,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 3,
+          "category": "rng",
+          "heap_delta_bytes": 3088,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 21,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 15,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 13,
+          "category": "signals",
+          "heap_delta_bytes": 4312,
+          "repeat": 4
+        },
+        {
+          "capture_usec": 210,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 0
+        },
+        {
+          "capture_usec": 249,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 1
+        },
+        {
+          "capture_usec": 155,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 2
+        },
+        {
+          "capture_usec": 146,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 3
+        },
+        {
+          "capture_usec": 144,
+          "category": "other_state",
+          "heap_delta_bytes": 66688,
+          "repeat": 4
+        }
+      ],
+      "scenario": "forge_competing",
+      "block": 1
+    }
+  ],
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "platform": "Linux",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "debug_build": true,
+  "kind": "reference",
+  "failures": [],
+  "host": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "sample_policy": "Two reverse-order serial blocks; seven warm samples plus one excluded cold/warmup per fixture per block.",
+  "source_sha256": {
+    "checkpoint_benchmark.gd": "6626369e6f84f6106522cf00db851119d610e23a41054433652a75bc0997a9cf",
+    "compact_checkpoint.gd": "0b796a07c1d10ee6665bf03be8cecbffde9b7b9f37e71c11d6c6e47446f5e006",
+    "runtime_state_descriptors.gd": "118678cf9811836d408c6c9b330ee0276a7daa229331b446eac1c511cf0d0075",
+    "transaction_checkpoint.gd": "1f1d49b94bf8d5e611fb12e895feb1b8704c63e6c177dea95800619682d1233b"
+  }
+}

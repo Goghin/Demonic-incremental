@@ -1,0 +1,48 @@
+{
+  "base_commit": "ae889322811165c7590ed9b76683543401e7dcd9",
+  "branch": "feature/cycle-auto-run",
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "debug_build": true,
+  "baseline_groups_passed": 89,
+  "final_groups_passed": 90,
+  "groups_failed": 0,
+  "warning_or_error_messages": false,
+  "fixture_cases_per_implementation": 9,
+  "rejected_candidates_per_implementation": 27,
+  "committed_candidates_per_implementation": 9,
+  "original_compact_endpoint_parity": true,
+  "real_forge_completion_and_rng_outcomes": true,
+  "windows_4_7_2_validated": false,
+  "editor_issue": "game.gd:771 untouched; clean editor parse not claimed",
+  "source_sha256": {
+    "runtime_state_descriptors.gd": "118678cf9811836d408c6c9b330ee0276a7daa229331b446eac1c511cf0d0075",
+    "compact_checkpoint.gd": "0b796a07c1d10ee6665bf03be8cecbffde9b7b9f37e71c11d6c6e47446f5e006",
+    "transaction_checkpoint.gd": "1f1d49b94bf8d5e611fb12e895feb1b8704c63e6c177dea95800619682d1233b",
+    "simulation_transaction.gd": "b37bec7eebe7417b6bf71209e935f357d6914bd6e5d7cab160c1fe5e2dfc23b1",
+    "transaction_tests.gd": "e101bd6f3cf899138cbc7bad92a666af68565f8f6e4c7183d9ef92086945e023",
+    "checkpoint_contract_tests.gd": "0c3ae89f305e979879dd17c5300057e6a3ca8bdcf7d95633578bb0c3dc5e911b",
+    "checkpoint_benchmark.gd": "6626369e6f84f6106522cf00db851119d610e23a41054433652a75bc0997a9cf",
+    "run_checkpoint_validation.gd": "f3ac4f450d6424764ec39cc379af48540608b1d902253d2b692ce843c036a10a",
+    "run_checkpoint_benchmarks.py": "a5a434dc74e52d0c708e2d04bf72e890a99651862095b96a7d20cf5f1a42d61d",
+    "run_transaction_tests.gd": "edf1985b374e4a970c6a8301fab08f07214a57b4dc991df6e557b1fe10ce8df9"
+  },
+  "regression_source_sha256": "793624e804d2c2f3469b6ca562f8b05aff2304220d68bda54cc3a7bd3b8f6a24",
+  "log_sha256": {
+    "baseline_regression": "429e981776473be50c96bca5318521477ba0d006dfbcf0b6fa37f6c9d45b637b",
+    "final_regression": "cd3cf63ff819f612cc88419857fe96cb515d634a3b5b563840025c64fd87d82f",
+    "differential": "3ea250d8e1d05551d0ddc6f89c179e9a06582e5fbedb164bdcc3cb3735aeab4b",
+    "benchmarks": "0a9cfb71c55f5709af491605eb4d90b1a3b4c7dd11fe231b07fffbe166425d34"
+  }
+}

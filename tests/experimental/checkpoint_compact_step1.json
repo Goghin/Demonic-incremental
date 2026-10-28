@@ -1,0 +1,578 @@
+{
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "debug_build": true,
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "failures": [],
+  "kind": "compact",
+  "platform": "Linux",
+  "profiles": [
+    {
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 185,
+          "category": "resources",
+          "heap_delta_bytes": -12540
+        },
+        {
+          "capture_usec": 1131,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 91976
+        },
+        {
+          "capture_usec": 1591,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 112608
+        },
+        {
+          "capture_usec": 27,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 6916
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10020
+        },
+        {
+          "capture_usec": 184,
+          "category": "automation",
+          "heap_delta_bytes": 21632
+        },
+        {
+          "capture_usec": 14394,
+          "category": "upgrade_levels",
+          "heap_delta_bytes": 537840
+        },
+        {
+          "capture_usec": 8962,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 500560
+        },
+        {
+          "capture_usec": 22,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 4348
+        },
+        {
+          "capture_usec": 22,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 3712
+        },
+        {
+          "capture_usec": 124,
+          "category": "statistics_history",
+          "heap_delta_bytes": 12808
+        },
+        {
+          "capture_usec": 1384,
+          "category": "prestige",
+          "heap_delta_bytes": 80456
+        },
+        {
+          "capture_usec": 10,
+          "category": "rng",
+          "heap_delta_bytes": 3192
+        },
+        {
+          "capture_usec": 15,
+          "category": "signals",
+          "heap_delta_bytes": 3400
+        },
+        {
+          "capture_usec": 65,
+          "category": "other_state",
+          "heap_delta_bytes": 7240
+        }
+      ],
+      "scenario": "early"
+    },
+    {
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 217,
+          "category": "resources",
+          "heap_delta_bytes": -12540
+        },
+        {
+          "capture_usec": 663,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 60416
+        },
+        {
+          "capture_usec": 1857,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 112608
+        },
+        {
+          "capture_usec": 28,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 6916
+        },
+        {
+          "capture_usec": 57,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10020
+        },
+        {
+          "capture_usec": 191,
+          "category": "automation",
+          "heap_delta_bytes": 21632
+        },
+        {
+          "capture_usec": 9961,
+          "category": "upgrade_levels",
+          "heap_delta_bytes": 537840
+        },
+        {
+          "capture_usec": 8366,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 500560
+        },
+        {
+          "capture_usec": 25,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 4348
+        },
+        {
+          "capture_usec": 21,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 3712
+        },
+        {
+          "capture_usec": 163,
+          "category": "statistics_history",
+          "heap_delta_bytes": 14424
+        },
+        {
+          "capture_usec": 1420,
+          "category": "prestige",
+          "heap_delta_bytes": 81256
+        },
+        {
+          "capture_usec": 10,
+          "category": "rng",
+          "heap_delta_bytes": 3192
+        },
+        {
+          "capture_usec": 16,
+          "category": "signals",
+          "heap_delta_bytes": 3400
+        },
+        {
+          "capture_usec": 64,
+          "category": "other_state",
+          "heap_delta_bytes": 7240
+        }
+      ],
+      "scenario": "mid"
+    },
+    {
+      "isolated_subgraph_nonadditive": true,
+      "rows": [
+        {
+          "capture_usec": 267,
+          "category": "resources",
+          "heap_delta_bytes": -12540
+        },
+        {
+          "capture_usec": 2839,
+          "category": "generator_runtime_with_effects",
+          "heap_delta_bytes": 192920
+        },
+        {
+          "capture_usec": 1761,
+          "category": "generator_definitions",
+          "heap_delta_bytes": 112608
+        },
+        {
+          "capture_usec": 28,
+          "category": "output_accumulators",
+          "heap_delta_bytes": 6916
+        },
+        {
+          "capture_usec": 58,
+          "category": "cycle_runtime",
+          "heap_delta_bytes": 10020
+        },
+        {
+          "capture_usec": 467,
+          "category": "automation",
+          "heap_delta_bytes": 21632
+        },
+        {
+          "capture_usec": 9949,
+          "category": "upgrade_levels",
+          "heap_delta_bytes": 537840
+        },
+        {
+          "capture_usec": 8219,
+          "category": "upgrade_definitions_effects",
+          "heap_delta_bytes": 500560
+        },
+        {
+          "capture_usec": 23,
+          "category": "relic_inventory_equipment",
+          "heap_delta_bytes": 4348
+        },
+        {
+          "capture_usec": 20,
+          "category": "relic_effect_metadata",
+          "heap_delta_bytes": 3712
+        },
+        {
+          "capture_usec": 149,
+          "category": "statistics_history",
+          "heap_delta_bytes": 15208
+        },
+        {
+          "capture_usec": 1274,
+          "category": "prestige",
+          "heap_delta_bytes": 81256
+        },
+        {
+          "capture_usec": 9,
+          "category": "rng",
+          "heap_delta_bytes": 3192
+        },
+        {
+          "capture_usec": 16,
+          "category": "signals",
+          "heap_delta_bytes": 3400
+        },
+        {
+          "capture_usec": 65,
+          "category": "other_state",
+          "heap_delta_bytes": 7240
+        }
+      ],
+      "scenario": "forge_competing"
+    }
+  ],
+  "runs": [
+    {
+      "advance_usec": 9973,
+      "capture_usec": 21118,
+      "commit_usec": 449,
+      "heap_delta_bytes": 846252,
+      "rejected_overhead_usec": 30392,
+      "release_usec": 305,
+      "repeat": 0,
+      "restore_usec": 4371,
+      "scenario": "early",
+      "verify_usec": 4598,
+      "warmup": true
+    },
+    {
+      "advance_usec": 10597,
+      "capture_usec": 20225,
+      "commit_usec": 549,
+      "heap_delta_bytes": 843896,
+      "rejected_overhead_usec": 30057,
+      "release_usec": 320,
+      "repeat": 1,
+      "restore_usec": 4663,
+      "scenario": "early",
+      "verify_usec": 4849,
+      "warmup": false
+    },
+    {
+      "advance_usec": 10015,
+      "capture_usec": 19324,
+      "commit_usec": 427,
+      "heap_delta_bytes": 843896,
+      "rejected_overhead_usec": 28911,
+      "release_usec": 363,
+      "repeat": 2,
+      "restore_usec": 4342,
+      "scenario": "early",
+      "verify_usec": 4882,
+      "warmup": false
+    },
+    {
+      "advance_usec": 11049,
+      "capture_usec": 20656,
+      "commit_usec": 450,
+      "heap_delta_bytes": 843896,
+      "rejected_overhead_usec": 31104,
+      "release_usec": 320,
+      "repeat": 3,
+      "restore_usec": 4881,
+      "scenario": "early",
+      "verify_usec": 5247,
+      "warmup": false
+    },
+    {
+      "advance_usec": 11339,
+      "capture_usec": 20407,
+      "commit_usec": 459,
+      "heap_delta_bytes": 843896,
+      "rejected_overhead_usec": 30171,
+      "release_usec": 335,
+      "repeat": 4,
+      "restore_usec": 4771,
+      "scenario": "early",
+      "verify_usec": 4658,
+      "warmup": false
+    },
+    {
+      "advance_usec": 11078,
+      "capture_usec": 21108,
+      "commit_usec": 569,
+      "heap_delta_bytes": 843896,
+      "rejected_overhead_usec": 32127,
+      "release_usec": 340,
+      "repeat": 5,
+      "restore_usec": 4821,
+      "scenario": "early",
+      "verify_usec": 5858,
+      "warmup": false
+    },
+    {
+      "advance_usec": 11048,
+      "capture_usec": 21067,
+      "commit_usec": 470,
+      "heap_delta_bytes": 843896,
+      "rejected_overhead_usec": 31782,
+      "release_usec": 364,
+      "repeat": 6,
+      "restore_usec": 4897,
+      "scenario": "early",
+      "verify_usec": 5454,
+      "warmup": false
+    },
+    {
+      "advance_usec": 10192,
+      "capture_usec": 19879,
+      "commit_usec": 541,
+      "heap_delta_bytes": 843896,
+      "rejected_overhead_usec": 29422,
+      "release_usec": 309,
+      "repeat": 7,
+      "restore_usec": 4597,
+      "scenario": "early",
+      "verify_usec": 4637,
+      "warmup": false
+    },
+    {
+      "advance_usec": 56052,
+      "capture_usec": 19506,
+      "commit_usec": 601,
+      "heap_delta_bytes": 824504,
+      "rejected_overhead_usec": 31839,
+      "release_usec": 351,
+      "repeat": 0,
+      "restore_usec": 7095,
+      "scenario": "mid",
+      "verify_usec": 4887,
+      "warmup": true
+    },
+    {
+      "advance_usec": 54759,
+      "capture_usec": 20203,
+      "commit_usec": 588,
+      "heap_delta_bytes": 824504,
+      "rejected_overhead_usec": 31441,
+      "release_usec": 366,
+      "repeat": 1,
+      "restore_usec": 5952,
+      "scenario": "mid",
+      "verify_usec": 4920,
+      "warmup": false
+    },
+    {
+      "advance_usec": 56409,
+      "capture_usec": 19167,
+      "commit_usec": 878,
+      "heap_delta_bytes": 824504,
+      "rejected_overhead_usec": 29054,
+      "release_usec": 346,
+      "repeat": 2,
+      "restore_usec": 4793,
+      "scenario": "mid",
+      "verify_usec": 4748,
+      "warmup": false
+    },
+    {
+      "advance_usec": 53458,
+      "capture_usec": 19324,
+      "commit_usec": 601,
+      "heap_delta_bytes": 824504,
+      "rejected_overhead_usec": 29059,
+      "release_usec": 336,
+      "repeat": 3,
+      "restore_usec": 4624,
+      "scenario": "mid",
+      "verify_usec": 4775,
+      "warmup": false
+    },
+    {
+      "advance_usec": 54120,
+      "capture_usec": 21110,
+      "commit_usec": 689,
+      "heap_delta_bytes": 824504,
+      "rejected_overhead_usec": 31925,
+      "release_usec": 391,
+      "repeat": 4,
+      "restore_usec": 5262,
+      "scenario": "mid",
+      "verify_usec": 5162,
+      "warmup": false
+    },
+    {
+      "advance_usec": 54906,
+      "capture_usec": 20092,
+      "commit_usec": 655,
+      "heap_delta_bytes": 824504,
+      "rejected_overhead_usec": 29955,
+      "release_usec": 327,
+      "repeat": 5,
+      "restore_usec": 4754,
+      "scenario": "mid",
+      "verify_usec": 4782,
+      "warmup": false
+    },
+    {
+      "advance_usec": 54112,
+      "capture_usec": 19053,
+      "commit_usec": 689,
+      "heap_delta_bytes": 824504,
+      "rejected_overhead_usec": 28891,
+      "release_usec": 453,
+      "repeat": 6,
+      "restore_usec": 4666,
+      "scenario": "mid",
+      "verify_usec": 4719,
+      "warmup": false
+    },
+    {
+      "advance_usec": 51999,
+      "capture_usec": 19377,
+      "commit_usec": 1007,
+      "heap_delta_bytes": 824504,
+      "rejected_overhead_usec": 31544,
+      "release_usec": 317,
+      "repeat": 7,
+      "restore_usec": 6079,
+      "scenario": "mid",
+      "verify_usec": 5771,
+      "warmup": false
+    },
+    {
+      "advance_usec": 34038,
+      "capture_usec": 23618,
+      "commit_usec": 810,
+      "heap_delta_bytes": 990112,
+      "rejected_overhead_usec": 35566,
+      "release_usec": 441,
+      "repeat": 0,
+      "restore_usec": 5942,
+      "scenario": "forge_competing",
+      "verify_usec": 5565,
+      "warmup": true
+    },
+    {
+      "advance_usec": 33609,
+      "capture_usec": 22994,
+      "commit_usec": 762,
+      "heap_delta_bytes": 990048,
+      "rejected_overhead_usec": 34768,
+      "release_usec": 469,
+      "repeat": 1,
+      "restore_usec": 5600,
+      "scenario": "forge_competing",
+      "verify_usec": 5705,
+      "warmup": false
+    },
+    {
+      "advance_usec": 33855,
+      "capture_usec": 26891,
+      "commit_usec": 736,
+      "heap_delta_bytes": 990048,
+      "rejected_overhead_usec": 38283,
+      "release_usec": 474,
+      "repeat": 2,
+      "restore_usec": 5211,
+      "scenario": "forge_competing",
+      "verify_usec": 5707,
+      "warmup": false
+    },
+    {
+      "advance_usec": 32826,
+      "capture_usec": 25286,
+      "commit_usec": 744,
+      "heap_delta_bytes": 990048,
+      "rejected_overhead_usec": 36933,
+      "release_usec": 543,
+      "repeat": 3,
+      "restore_usec": 5576,
+      "scenario": "forge_competing",
+      "verify_usec": 5528,
+      "warmup": false
+    },
+    {
+      "advance_usec": 32709,
+      "capture_usec": 23962,
+      "commit_usec": 723,
+      "heap_delta_bytes": 990048,
+      "rejected_overhead_usec": 36001,
+      "release_usec": 544,
+      "repeat": 4,
+      "restore_usec": 5291,
+      "scenario": "forge_competing",
+      "verify_usec": 6204,
+      "warmup": false
+    },
+    {
+      "advance_usec": 33066,
+      "capture_usec": 24523,
+      "commit_usec": 815,
+      "heap_delta_bytes": 990048,
+      "rejected_overhead_usec": 36751,
+      "release_usec": 470,
+      "repeat": 5,
+      "restore_usec": 5881,
+      "scenario": "forge_competing",
+      "verify_usec": 5877,
+      "warmup": false
+    },
+    {
+      "advance_usec": 34289,
+      "capture_usec": 25573,
+      "commit_usec": 1091,
+      "heap_delta_bytes": 990048,
+      "rejected_overhead_usec": 37043,
+      "release_usec": 685,
+      "repeat": 6,
+      "restore_usec": 5282,
+      "scenario": "forge_competing",
+      "verify_usec": 5503,
+      "warmup": false
+    },
+    {
+      "advance_usec": 39825,
+      "capture_usec": 23919,
+      "commit_usec": 739,
+      "heap_delta_bytes": 990048,
+      "rejected_overhead_usec": 35067,
+      "release_usec": 469,
+      "repeat": 7,
+      "restore_usec": 5322,
+      "scenario": "forge_competing",
+      "verify_usec": 5357,
+      "warmup": false
+    }
+  ],
+  "stage": "Intermediate flat records with linear identity lookup; superseded by the final bucket implementation. Exploratory run, not used for final percentage claims."
+}

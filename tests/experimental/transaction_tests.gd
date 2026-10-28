@@ -5,6 +5,9 @@ const AutomationFixtures = preload("res://tests/experimental/autobuyer_fixtures.
 const Events = preload("res://tests/experimental/transaction_events.gd")
 const Transaction = preload("res://tests/experimental/simulation_transaction.gd")
 const Checkpoint = preload("res://tests/experimental/transaction_checkpoint.gd")
+var checkpoint_implementation: Script = preload("res://tests/experimental/compact_checkpoint.gd")
+var initial_conditions: Dictionary = {}
+var fingerprints: Dictionary = {}
 var failures: Array[String] = []
 var measurements: Array[Dictionary] = []
 
@@ -33,10 +36,18 @@ func run_all() -> Dictionary:
 	_identity_and_partial()
 	_rng_events()
 	_lifecycle()
-	return {"failures": failures, "measurements": measurements}
+	return {"failures": failures, "measurements": measurements, "fingerprints": fingerprints}
 
 
 func _exercise(state: GameState, control: GameState, label: String, ticks: int) -> void:
+	# Reuse identical initial RNG/presentation values across implementation
+	# runs. Fixtures without serialized RNG otherwise initialize independently.
+	if initial_conditions.has(label):
+		state.gameplay_rng.seed = initial_conditions[label]["seed"]
+		state.gameplay_rng.state = initial_conditions[label]["rng_state"]
+		state.lava_palette = initial_conditions[label]["palette"].duplicate(true)
+	else:
+		initial_conditions[label] = {"seed": state.gameplay_rng.seed, "rng_state": state.gameplay_rng.state, "palette": state.lava_palette.duplicate(true)}
 	state.simulation_statistics = ResourceStatistics.new()
 	control.simulation_statistics = ResourceStatistics.new()
 	control.lava_palette = state.lava_palette.duplicate(true)
@@ -48,7 +59,7 @@ func _exercise(state: GameState, control: GameState, label: String, ticks: int) 
 	var reference_journal: RefCounted = Events.new()
 	journal.attach(simulation)
 	reference_journal.attach(reference)
-	var transaction: RefCounted = Transaction.new(simulation, journal)
+	var transaction: RefCounted = Transaction.new(simulation, journal, checkpoint_implementation)
 	var before: PackedByteArray = fingerprint(simulation, journal)
 	var capture_bytes: int = 0
 	var capture_usec: int = 0
@@ -65,7 +76,7 @@ func _exercise(state: GameState, control: GameState, label: String, ticks: int) 
 			return
 		capture_bytes = maxi(capture_bytes, OS.get_static_memory_usage() - memory_before)
 		capture_usec += Time.get_ticks_usec() - started
-		records = transaction._checkpoint.records.size()
+		records = transaction._checkpoint.records.size() if checkpoint_implementation == Checkpoint else transaction._checkpoint.targets.size()
 		started = Time.get_ticks_usec()
 		for tick: int in range(ticks):
 			check(transaction.advance(0.1), label + ": advance failed")
@@ -112,20 +123,21 @@ func _exercise(state: GameState, control: GameState, label: String, ticks: int) 
 	check(fingerprint(simulation, journal) == fingerprint(reference, reference_journal), label + ": committed continuation differs")
 	for draw: int in range(128):
 		check(state.gameplay_rng.randi() == control.gameplay_rng.randi(), label + ": subsequent RNG differs")
+	fingerprints[label] = fingerprint(simulation, journal).hex_encode().sha256_text()
 	measurements.append({"scenario": label, "ticks_per_attempt": ticks, "capture_static_memory_delta_bytes_max": capture_bytes, "records": records, "encoded_bytes": before.size(), "capture_usec_mean": capture_usec / 3.0, "restore_and_verify_usec_mean": restore_usec / 3.0, "candidate_usec_mean": advance_usec / 3.0, "commit_usec": commit_usec})
 
 
 func _lifecycle() -> void:
 	var simulation := Simulation.new(Fixtures.make_state("early"))
-	var transaction: RefCounted = Transaction.new(simulation)
+	var transaction: RefCounted = Transaction.new(simulation, null, checkpoint_implementation)
 	check(not transaction.commit() and not transaction.rollback() and not transaction.advance(0.1), "Inactive operations accepted")
 	check(transaction.begin() and not transaction.begin(), "Nested transaction accepted")
-	var second: RefCounted = Transaction.new(simulation)
+	var second: RefCounted = Transaction.new(simulation, null, checkpoint_implementation)
 	check(not second.begin(), "Second wrapper nested transaction accepted")
 	check(not transaction.advance(-1.0) and not transaction.advance(INF), "Invalid delta accepted")
 	check(transaction.rollback(), "Lifecycle rollback failed")
 	var before: PackedByteArray = fingerprint(simulation)
-	var abandoned: RefCounted = Transaction.new(simulation)
+	var abandoned: RefCounted = Transaction.new(simulation, null, checkpoint_implementation)
 	check(abandoned.begin(), "Abandoned probe begin failed")
 	abandoned.advance(0.1)
 	abandoned = null
@@ -191,7 +203,7 @@ func _rng_events() -> void:
 	var reference_journal: RefCounted = Events.new()
 	journal.attach(simulation)
 	reference_journal.attach(reference)
-	var transaction: RefCounted = Transaction.new(simulation, journal)
+	var transaction: RefCounted = Transaction.new(simulation, journal, checkpoint_implementation)
 	var before: PackedByteArray = fingerprint(simulation, journal)
 	check(transaction.begin(), "RNG transaction begin failed")
 	_rng_actions(simulation)
@@ -238,7 +250,7 @@ func _identity_and_partial() -> void:
 	var modifiers: Array[Modifier] = generator.modifiers
 	state.last_prestige_report["alias"] = modifiers
 	state.last_prestige_report["cycle"] = state.last_prestige_report
-	var transaction: RefCounted = Transaction.new(simulation)
+	var transaction: RefCounted = Transaction.new(simulation, null, checkpoint_implementation)
 	var before: PackedByteArray = fingerprint(simulation)
 	check(transaction.begin(), "Identity probe begin failed")
 	simulation.update(0.1, true)
