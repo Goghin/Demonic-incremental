@@ -1,5 +1,7 @@
 # Compact exact ordered simulation kernel
 
+Historical milestone report for `43b3897`. The current multi-input/controller extension is documented in [EXACT_FLOW_CONSUMERS.md](EXACT_FLOW_CONSUMERS.md); the earlier scope and measurements below are retained as baseline evidence.
+
 ## Implemented result and boundary
 
 Base: `c06e43a5002f4c6fbdb1586c8b8a4ca5469e75c5`, branch `feature/cycle-auto-run`. This experiment reduces work **inside each authoritative 0.1-second tick**. It neither skips ticks nor introduces analytical/approximate batching. Production source, formulas, balance, saves, prestige/relic mechanics, existing adaptive eligibility and branch selection are unchanged. The six pre-existing untracked files are preserved; game.gd:771 is untouched.

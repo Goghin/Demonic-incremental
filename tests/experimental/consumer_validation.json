@@ -1,0 +1,581 @@
+{
+	"cases": [
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 724,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 41,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1850,
+				"partial_operations": 2000
+			},
+			"label": "consumer_9500",
+			"mite_operating_ticks": 2000,
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 512,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 42,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"label": "consumer_20000",
+			"mite_operating_ticks": 2000,
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 599,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 35,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"label": "consumer_50000",
+			"mite_operating_ticks": 2000,
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 10000,
+			"counters": {
+				"build_usec": 659,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 34,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"label": "consumer_50000",
+			"mite_operating_ticks": 10000,
+			"ticks": 10000
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 694,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 50,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 1
+			},
+			"label": "multi_funded",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 510,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 43,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 1
+			},
+			"label": "multi_partial",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 633,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 47,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 1,
+				"input_exhaustions": 1,
+				"partial_operations": 0
+			},
+			"label": "multi_exact",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 811,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 49,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"label": "multi_empty",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 523,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 38,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 1
+			},
+			"label": "multi_tiny",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 543,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 35,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 4
+			},
+			"label": "multi_dynamic",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 678,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 32,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 100,
+				"partial_operations": 100
+			},
+			"label": "multi_duplicate",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 549,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 43,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 1,
+				"input_exhaustions": 1,
+				"partial_operations": 1
+			},
+			"label": "multi_competing",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 508,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 46,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"label": "multi_replenished",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 428,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 26,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 1,
+				"input_exhaustions": 1,
+				"partial_operations": 0
+			},
+			"label": "mite_entry",
+			"mite_operating_ticks": 12,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 592,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 23,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"label": "mite_recovery",
+			"mite_operating_ticks": 100,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 1822,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 22,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"label": "mite_dormant",
+			"mite_operating_ticks": 100,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 738,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 28,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"label": "mite_high_ash",
+			"mite_operating_ticks": 100,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 612,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 2,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"unsupported_transfer_mode": 1
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+
+			},
+			"label": "transfer",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 341,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+
+			},
+			"label": "mid",
+			"mite_operating_ticks": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 574,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+
+			},
+			"label": "forge_competing",
+			"mite_operating_ticks": 100,
+			"ticks": 100
+		},
+		{
+			"reserve_edge_checks": 6
+		},
+		{
+			"counters": {
+				"build_usec": 7028,
+				"builds": 40,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 302,
+				"kernel_ticks": 40,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 40,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0
+			},
+			"repeated_transitions": 40
+		},
+		{
+			"counters": {
+				"build_usec": 3062,
+				"builds": 8,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 5,
+				"fallback_usec": 0,
+				"invalidate_usec": 70,
+				"kernel_ticks": 35,
+				"kernel_usec": 0,
+				"reasons": {
+					"unsupported_transfer_mode": 1
+				},
+				"writeback_usec": 0
+			},
+			"reentry": true
+		}
+	],
+	"failures": []
+}

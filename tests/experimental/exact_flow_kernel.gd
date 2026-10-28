@@ -8,6 +8,8 @@ var journal: RefCounted
 var trace: Array[PackedByteArray] = []
 # Intrusive per-phase clocks are OFF for normal throughput measurements.
 var measure_phases: bool = false
+var collect_flow_counters: bool = false
+var flow_counts: Dictionary = {}
 var _running: bool = false
 var counters: Dictionary = {"build_usec": 0, "invalidate_usec": 0, "kernel_usec": 0, "fallback_usec": 0, "builds": 0, "kernel_ticks": 0, "fallback_ticks": 0, "event_ticks": 0, "event_check_usec": 0, "reasons": {}, "writeback_usec": 0}
 
@@ -30,6 +32,7 @@ func run(ticks: int, record_trace: bool = false) -> bool:
 		if packet == null and not unsupported:
 			var started: int = Time.get_ticks_usec()
 			packet = Packet.new()
+			packet.measure_flows = collect_flow_counters
 			var supported: bool = packet.build(simulation, journal)
 			counters["build_usec"] += Time.get_ticks_usec() - started
 			counters["builds"] += 1
@@ -44,6 +47,7 @@ func run(ticks: int, record_trace: bool = false) -> bool:
 			counters["event_check_usec"] += Time.get_ticks_usec() - event_started
 		if due:
 			var started: int = Time.get_ticks_usec()
+			_collect_packet(packet)
 			packet = null
 			counters["invalidate_usec"] += Time.get_ticks_usec() - started
 			counters["event_ticks"] += 1
@@ -62,9 +66,17 @@ func run(ticks: int, record_trace: bool = false) -> bool:
 			trace.append(View.capture(simulation, journal))
 	# No cached coefficient/reference survives an external synchronization point.
 	var started: int = Time.get_ticks_usec()
+	_collect_packet(packet)
 	packet = null
 	counters["invalidate_usec"] += Time.get_ticks_usec() - started
 	counters["kernel_ticks"] += kernel_ticks
 	counters["fallback_ticks"] += fallback_ticks
 	_running = false
 	return true
+
+
+func _collect_packet(packet: RefCounted) -> void:
+	if not collect_flow_counters or packet == null:
+		return
+	for key: String in packet.flow_counts:
+		flow_counts[key] = int(flow_counts.get(key, 0)) + int(packet.flow_counts[key])

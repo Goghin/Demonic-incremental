@@ -4,6 +4,7 @@ extends RefCounted
 # external caller. Live objects remain authoritative; only configuration is cached.
 const STEP: float = TimeManager.OFFLINE_MAX_GAME_STEP
 const PARTIAL_EPSILON: float = 0.000001
+const Controller = preload("res://tests/experimental/exact_flow_controller.gd")
 const Events = preload("res://tests/experimental/transaction_events.gd")
 var simulation: Simulation
 var machines: Array = []
@@ -11,6 +12,9 @@ var automatic_candidates: Array[Upgrade] = []
 var initialized: bool = false
 var _built: bool = false
 var error: String = ""
+# Optional diagnostics, disabled in throughput measurements.
+var measure_flows: bool = false
+var flow_counts: Dictionary = {"controller_transitions": 0, "partial_operations": 0, "empty_duration_checks": 0, "input_exhaustions": 0}
 
 class Rate extends RefCounted:
 	var prefix: float = 0.0
@@ -29,13 +33,22 @@ class Output extends RefCounted:
 	var rate: Rate
 	var cache_initialized: bool = false
 
+class InputOperation extends RefCounted:
+	var definition: GeneratorIO
+	var resource: ResourceState
+	var resource_id: String
+	var rate: Rate
+	func evaluate(state: GameState, generator: Generator) -> float:
+		# Controller-dependent rate selection remains in the production API.
+		return rate.evaluate(state, generator) if rate != null else generator.get_input_consumption_per_second(definition, state)
+
 class Machine extends RefCounted:
 	var generator: Generator
 	var can_start: bool
 	var inactive_cycle: bool
-	var input_resource: ResourceState
-	var input_id: String
-	var input_rate: Rate
+	var inputs: Array[InputOperation] = []
+	var single_input: InputOperation
+	var multiple_inputs: bool = false
 	var outputs: Array[Output] = []
 
 
@@ -112,11 +125,6 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 				return false
 		if not generator.unlocked:
 			continue
-		if generator.level > 0 and not generator.definition.cycle_based:
-			for input: GeneratorIO in generator.get_active_inputs():
-				if input.resource_id != ResourceIds.HEAT:
-					error = "unsupported_consumer/" + input.resource_id
-					return false
 		var machine := Machine.new()
 		machine.generator = generator
 		machine.inactive_cycle = generator.definition.cycle_based
@@ -125,22 +133,25 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 		if machine.inactive_cycle or (not machine.can_start and not generator.operating):
 			continue
 		var mode: GeneratorOperationMode = generator.get_operation_mode()
-		if mode == null or mode.get_script() != preload("res://Generators/generator_operation_mode.gd") or mode.is_resource_transfer or mode.inputs.size() > 1:
-			error = "unsupported_mode_or_multi_input"
+		if mode == null or mode.get_script() != preload("res://Generators/generator_operation_mode.gd") or mode.is_resource_transfer:
+			error = "unsupported_transfer_mode"
 			return false
 		var scale: int = generator.level if generator.definition.scale_rates_with_level else 1
-		if not mode.inputs.is_empty():
-			var input: GeneratorIO = mode.inputs[0]
-			if input.get_script() != preload("res://Generators/generator_io.gd"):
-				error = "unknown_input_script"
+		for input: GeneratorIO in mode.inputs:
+			if input.get_script() != preload("res://Generators/generator_io.gd") or not state.resources.has(input.resource_id):
+				error = "unknown_input_contract"
 				return false
-			if input.resource_id != ResourceIds.HEAT:
-				error = "unsupported_input/" + input.resource_id
-				return false
-			machine.input_id = input.resource_id
-			machine.input_resource = state.resources[input.resource_id]
-			machine.input_rate = _rate(input.amount_per_second * mode.input_multiplier, generator, ModifierTypes.INPUT_DRAW, input.resource_id)
-			machine.input_rate.final_scale = scale
+			var operation := InputOperation.new()
+			operation.definition = input
+			operation.resource_id = input.resource_id
+			operation.resource = state.resources[input.resource_id]
+			if not Controller.needs_native_input_rates(generator):
+				operation.rate = _rate(input.amount_per_second * mode.input_multiplier, generator, ModifierTypes.INPUT_DRAW, input.resource_id)
+				operation.rate.final_scale = scale
+			machine.inputs.append(operation)
+		machine.multiple_inputs = machine.inputs.size() > 1
+		if machine.inputs.size() == 1:
+			machine.single_input = machine.inputs[0]
 		for output: GeneratorIO in mode.outputs:
 			if output.get_script() != preload("res://Generators/generator_io.gd"):
 				error = "unknown_output_script"
@@ -230,39 +241,72 @@ func step() -> void:
 		initialized = true
 	for machine: Machine in machines:
 		var generator: Generator = machine.generator
-		simulation._update_lava_mite_throttle_state(generator)
+		if measure_flows:
+			var was_throttled: bool = generator.is_throttled
+			simulation._update_lava_mite_throttle_state(generator)
+			if was_throttled != generator.is_throttled:
+				flow_counts["controller_transitions"] += 1
+		else:
+			simulation._update_lava_mite_throttle_state(generator)
 		if machine.inactive_cycle:
 			continue
-		var input_rate: float = 0.0
-		var rate_known: bool = false
-		if not generator.operating:
-			if not machine.can_start:
-				continue
-			if machine.input_resource != null and machine.input_resource.amount <= 0.0:
-				input_rate = machine.input_rate.evaluate(state, generator)
-				rate_known = true
-				if input_rate > 0.0:
-					continue
-			generator.operating = true
 		var duration: float = STEP
-		if machine.input_resource != null:
-			if not rate_known:
-				input_rate = machine.input_rate.evaluate(state, generator)
-			if input_rate > 0.0:
-				if machine.input_resource.amount <= 0.0:
-					generator.operating = false
+		if machine.multiple_inputs:
+			# Availability rates all see the same pre-consumption state. The
+			# consumption pass MUST reevaluate sequentially after earlier writes.
+			if not generator.operating:
+				if not machine.can_start or not _can_start(machine, state):
 					continue
-				duration = min(duration, machine.input_resource.amount / input_rate)
-			duration = max(duration, 0.0)
-		if duration <= 0.0:
-			generator.operating = false
-			continue
-		if machine.input_resource != null:
-			var amount: float = machine.input_resource.amount
-			var consumed: float = min(input_rate * duration, amount)
-			if consumed > 0.0:
-				state.set_resource_amount(machine.input_id, amount - consumed)
-				state.record_resource_consumed(machine.input_id, consumed)
+				generator.operating = true
+			duration = _available_duration(machine, state)
+			if duration <= 0.0:
+				generator.operating = false
+				if measure_flows:
+					flow_counts["empty_duration_checks"] += 1
+				continue
+			for input: InputOperation in machine.inputs:
+				var amount: float = input.resource.amount
+				var consumed: float = min(input.evaluate(state, generator) * duration, amount)
+				if consumed > 0.0:
+					state.set_resource_amount(input.resource_id, amount - consumed)
+					state.record_resource_consumed(input.resource_id, consumed)
+					if measure_flows and consumed == amount:
+						flow_counts["input_exhaustions"] += 1
+		else:
+			# Preserve the proven single-input fast path. No resource mutation
+			# occurs between startup/availability/consumption, so rate reuse is exact.
+			var input: InputOperation = machine.single_input
+			var input_rate: float = 0.0
+			var rate_known: bool = false
+			if not generator.operating:
+				if not machine.can_start:
+					continue
+				if input != null and input.resource.amount <= 0.0:
+					input_rate = input.rate.evaluate(state, generator) if input.rate != null else generator.get_input_consumption_per_second(input.definition, state)
+					rate_known = true
+					if input_rate > 0.0:
+						continue
+				generator.operating = true
+			if input != null:
+				if not rate_known:
+					input_rate = input.rate.evaluate(state, generator) if input.rate != null else generator.get_input_consumption_per_second(input.definition, state)
+				if input_rate > 0.0:
+					if input.resource.amount <= 0.0:
+						generator.operating = false
+						continue
+					duration = min(duration, input.resource.amount / input_rate)
+				duration = max(duration, 0.0)
+			if duration <= 0.0:
+				generator.operating = false
+				continue
+			if input != null:
+				var amount: float = input.resource.amount
+				var consumed: float = min(input_rate * duration, amount)
+				if consumed > 0.0:
+					state.set_resource_amount(input.resource_id, amount - consumed)
+					state.record_resource_consumed(input.resource_id, consumed)
+					if measure_flows and consumed == amount:
+						flow_counts["input_exhaustions"] += 1
 		for output: Output in machine.outputs:
 			if not output.cache_initialized:
 				generator.get_production_modifiers(output.resource_id)
@@ -282,6 +326,8 @@ func step() -> void:
 				state.record_resource_produced(output.resource_id, production)
 		if duration < STEP - PARTIAL_EPSILON:
 			generator.operating = false
+			if measure_flows:
+				flow_counts["partial_operations"] += 1
 	simulation.apply_environmental_effects(STEP, heat_start)
 	# These disabled-manager calls are retained: their structural caches are
 	# authoritative observable state. No automation is accelerated.
@@ -291,3 +337,24 @@ func step() -> void:
 		simulation._gameplay_snapshot_elapsed = 0.0
 		state.take_gameplay_interval_statistics()
 		simulation._gameplay_was_offline = true
+
+
+func _can_start(machine: Machine, state: GameState) -> bool:
+	for input: InputOperation in machine.inputs:
+		if input.resource.amount > 0.0:
+			continue
+		if input.evaluate(state, machine.generator) > 0.0:
+			return false
+	return true
+
+
+func _available_duration(machine: Machine, state: GameState) -> float:
+	var duration: float = STEP
+	for input: InputOperation in machine.inputs:
+		var rate: float = input.evaluate(state, machine.generator)
+		if rate <= 0.0:
+			continue
+		if input.resource.amount <= 0.0:
+			return 0.0
+		duration = min(duration, input.resource.amount / rate)
+	return max(duration, 0.0)

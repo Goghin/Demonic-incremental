@@ -1,0 +1,2153 @@
+{
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "sample_method": "Three samples after one excluded warmup, alternating order; min/max are observed ranges, not confidence intervals.",
+  "kernel_and_previous_parity_samples_including_warmup": 192,
+  "compared_tick_views": 17600,
+  "additional_tick_views": 86,
+  "benchmarks": [
+    {
+      "label": "consumer_20000",
+      "ticks": 2000,
+      "diagnostic": false,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            369462,
+            316226,
+            364702
+          ],
+          "median_usec": 364702,
+          "min_usec": 316226,
+          "max_usec": 369462,
+          "usec_per_tick": 182.351,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 0.9169897615039128
+        },
+        "previous": {
+          "samples_usec": [
+            288955,
+            334428,
+            373068
+          ],
+          "median_usec": 334428,
+          "min_usec": 288955,
+          "max_usec": 373068,
+          "usec_per_tick": 167.214,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 260,
+          "release_usec": 0,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.0905247168299306,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            283747,
+            419359,
+            356160
+          ],
+          "median_usec": 356160,
+          "min_usec": 283747,
+          "max_usec": 419359,
+          "usec_per_tick": 178.08,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 442,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0239836028751124,
+          "speedup_vs_previous_public": 0.9389824797843666
+        },
+        "isolated": {
+          "samples_usec": [
+            191732,
+            264786,
+            247157
+          ],
+          "median_usec": 247157,
+          "min_usec": 191732,
+          "max_usec": 264786,
+          "usec_per_tick": 123.5785,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 412,
+          "retained_packet_estimate_bytes": 19824,
+          "speedup_vs_exact": 1.4755883911845507,
+          "speedup_vs_previous_public": 1.3530994469102635
+        },
+        "extended": {
+          "samples_usec": [
+            200958,
+            226230,
+            247943
+          ],
+          "median_usec": 226230,
+          "min_usec": 200958,
+          "max_usec": 247943,
+          "usec_per_tick": 113.115,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 371,
+          "release_usec": 53,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.6120850461919285,
+          "speedup_vs_previous_public": 1.4782654820315608
+        },
+        "adaptive": {
+          "samples_usec": [
+            338541,
+            383536,
+            369260
+          ],
+          "median_usec": 369260,
+          "min_usec": 338541,
+          "max_usec": 383536,
+          "usec_per_tick": 184.63,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9876563938688188,
+          "speedup_vs_previous_public": 0.9056708010615826
+        }
+      }
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 2000,
+      "diagnostic": false,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            362726,
+            348071,
+            312332
+          ],
+          "median_usec": 348071,
+          "min_usec": 312332,
+          "max_usec": 362726,
+          "usec_per_tick": 174.0355,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 1.053790749588446
+        },
+        "previous": {
+          "samples_usec": [
+            366794,
+            379438,
+            302154
+          ],
+          "median_usec": 366794,
+          "min_usec": 302154,
+          "max_usec": 379438,
+          "usec_per_tick": 183.397,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 395,
+          "release_usec": 0,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 0.948954999263892,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            352262,
+            354869,
+            311614
+          ],
+          "median_usec": 352262,
+          "min_usec": 311614,
+          "max_usec": 354869,
+          "usec_per_tick": 176.131,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 420,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.988102605447082,
+          "speedup_vs_previous_public": 1.041253385264377
+        },
+        "isolated": {
+          "samples_usec": [
+            232296,
+            240944,
+            202923
+          ],
+          "median_usec": 232296,
+          "min_usec": 202923,
+          "max_usec": 240944,
+          "usec_per_tick": 116.148,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 505,
+          "retained_packet_estimate_bytes": 19824,
+          "speedup_vs_exact": 1.4983942900437373,
+          "speedup_vs_previous_public": 1.5789940420842374
+        },
+        "extended": {
+          "samples_usec": [
+            236221,
+            248013,
+            201366
+          ],
+          "median_usec": 236221,
+          "min_usec": 201366,
+          "max_usec": 248013,
+          "usec_per_tick": 118.1105,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 358,
+          "release_usec": 50,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.473497275856084,
+          "speedup_vs_previous_public": 1.552757798840916
+        },
+        "adaptive": {
+          "samples_usec": [
+            393331,
+            394604,
+            353037
+          ],
+          "median_usec": 393331,
+          "min_usec": 353037,
+          "max_usec": 394604,
+          "usec_per_tick": 196.6655,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.884931520780208,
+          "speedup_vs_previous_public": 0.932532650617419
+        }
+      }
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 10000,
+      "diagnostic": false,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            1555982,
+            1831186,
+            1502588
+          ],
+          "median_usec": 1555982,
+          "min_usec": 1502588,
+          "max_usec": 1831186,
+          "usec_per_tick": 155.5982,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 1.018403811869289
+        },
+        "previous": {
+          "samples_usec": [
+            1584618,
+            1738673,
+            1542339
+          ],
+          "median_usec": 1584618,
+          "min_usec": 1542339,
+          "max_usec": 1738673,
+          "usec_per_tick": 158.4618,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 10000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 324,
+          "release_usec": 0,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 0.9819287676903834,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            1483070,
+            1779273,
+            1404629
+          ],
+          "median_usec": 1483070,
+          "min_usec": 1404629,
+          "max_usec": 1779273,
+          "usec_per_tick": 148.307,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 10000,
+          "packet_build_usec": 337,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0491628850964554,
+          "speedup_vs_previous_public": 1.0684714814540108
+        },
+        "isolated": {
+          "samples_usec": [
+            920036,
+            1023602,
+            912422
+          ],
+          "median_usec": 920036,
+          "min_usec": 912422,
+          "max_usec": 1023602,
+          "usec_per_tick": 92.0036,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 420,
+          "retained_packet_estimate_bytes": 19824,
+          "speedup_vs_exact": 1.6912186044893895,
+          "speedup_vs_previous_public": 1.7223434735162537
+        },
+        "extended": {
+          "samples_usec": [
+            990535,
+            1055413,
+            949507
+          ],
+          "median_usec": 990535,
+          "min_usec": 949507,
+          "max_usec": 1055413,
+          "usec_per_tick": 99.0535,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 436,
+          "release_usec": 55,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.570850096160156,
+          "speedup_vs_previous_public": 1.5997597258047418
+        },
+        "adaptive": {
+          "samples_usec": [
+            1814005,
+            1691212,
+            1574366
+          ],
+          "median_usec": 1691212,
+          "min_usec": 1574366,
+          "max_usec": 1814005,
+          "usec_per_tick": 169.1212,
+          "binary_parity": false,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 2608695.65217391,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 10000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9200395929073351,
+          "speedup_vs_previous_public": 0.9369718284874989
+        }
+      }
+    },
+    {
+      "label": "consumer_9500",
+      "ticks": 2000,
+      "diagnostic": false,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            337879,
+            325100,
+            376863
+          ],
+          "median_usec": 337879,
+          "min_usec": 325100,
+          "max_usec": 376863,
+          "usec_per_tick": 168.9395,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 0.9413606646166232
+        },
+        "previous": {
+          "samples_usec": [
+            318753,
+            318066,
+            307361
+          ],
+          "median_usec": 318066,
+          "min_usec": 307361,
+          "max_usec": 318753,
+          "usec_per_tick": 159.033,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 301,
+          "release_usec": 1,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.062292102896883,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            302143,
+            312807,
+            333506
+          ],
+          "median_usec": 312807,
+          "min_usec": 302143,
+          "max_usec": 333506,
+          "usec_per_tick": 156.4035,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 347,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0801516590101883,
+          "speedup_vs_previous_public": 1.016812283612579
+        },
+        "isolated": {
+          "samples_usec": [
+            209331,
+            204482,
+            201985
+          ],
+          "median_usec": 204482,
+          "min_usec": 201985,
+          "max_usec": 209331,
+          "usec_per_tick": 102.241,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 408,
+          "retained_packet_estimate_bytes": 26592,
+          "speedup_vs_exact": 1.6523654893829285,
+          "speedup_vs_previous_public": 1.5554718752750853
+        },
+        "extended": {
+          "samples_usec": [
+            201740,
+            210308,
+            214942
+          ],
+          "median_usec": 210308,
+          "min_usec": 201740,
+          "max_usec": 214942,
+          "usec_per_tick": 105.154,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 373,
+          "release_usec": 56,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.6065912851627138,
+          "speedup_vs_previous_public": 1.5123818399680469
+        },
+        "adaptive": {
+          "samples_usec": [
+            357027,
+            380186,
+            372629
+          ],
+          "median_usec": 372629,
+          "min_usec": 357027,
+          "max_usec": 380186,
+          "usec_per_tick": 186.3145,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9067437048646241,
+          "speedup_vs_previous_public": 0.8535728566483016
+        }
+      }
+    },
+    {
+      "label": "early",
+      "ticks": 2000,
+      "diagnostic": false,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            217977,
+            225331,
+            262969
+          ],
+          "median_usec": 225331,
+          "min_usec": 217977,
+          "max_usec": 262969,
+          "usec_per_tick": 112.6655,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 0.5626567139008836
+        },
+        "previous": {
+          "samples_usec": [
+            126784,
+            118209,
+            133831
+          ],
+          "median_usec": 126784,
+          "min_usec": 118209,
+          "max_usec": 133831,
+          "usec_per_tick": 63.392,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 389,
+          "release_usec": 39,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.7772826224129228,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            131260,
+            112703,
+            141279
+          ],
+          "median_usec": 131260,
+          "min_usec": 112703,
+          "max_usec": 141279,
+          "usec_per_tick": 65.63,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 577,
+          "retained_packet_estimate_bytes": 20708,
+          "speedup_vs_exact": 1.7166768246228858,
+          "speedup_vs_previous_public": 0.9658997409721164
+        },
+        "isolated": {
+          "samples_usec": [
+            115566,
+            118957,
+            157683
+          ],
+          "median_usec": 118957,
+          "min_usec": 115566,
+          "max_usec": 157683,
+          "usec_per_tick": 59.4785,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 438,
+          "retained_packet_estimate_bytes": 22988,
+          "speedup_vs_exact": 1.8942222820010592,
+          "speedup_vs_previous_public": 1.0657968845885488
+        },
+        "extended": {
+          "samples_usec": [
+            114422,
+            114001,
+            129399
+          ],
+          "median_usec": 114422,
+          "min_usec": 114001,
+          "max_usec": 129399,
+          "usec_per_tick": 57.211,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 398,
+          "release_usec": 50,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.9692978622992081,
+          "speedup_vs_previous_public": 1.1080386638933073
+        },
+        "adaptive": {
+          "samples_usec": [
+            230249,
+            254316,
+            272517
+          ],
+          "median_usec": 254316,
+          "min_usec": 230249,
+          "max_usec": 272517,
+          "usec_per_tick": 127.158,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.8860276191824344,
+          "speedup_vs_previous_public": 0.49852938863461205
+        }
+      }
+    },
+    {
+      "label": "early",
+      "ticks": 36000,
+      "diagnostic": false,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            5025173,
+            4832249,
+            4513714
+          ],
+          "median_usec": 4832249,
+          "min_usec": 4513714,
+          "max_usec": 5025173,
+          "usec_per_tick": 134.22913888888888,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 0.5206755694915556
+        },
+        "previous": {
+          "samples_usec": [
+            2794748,
+            2516034,
+            2419810
+          ],
+          "median_usec": 2516034,
+          "min_usec": 2419810,
+          "max_usec": 2794748,
+          "usec_per_tick": 69.88983333333333,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 454,
+          "release_usec": 43,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.9205817568443033,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            2855991,
+            2547595,
+            2338966
+          ],
+          "median_usec": 2547595,
+          "min_usec": 2338966,
+          "max_usec": 2855991,
+          "usec_per_tick": 70.76652777777778,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 472,
+          "retained_packet_estimate_bytes": 20708,
+          "speedup_vs_exact": 1.8967885397796747,
+          "speedup_vs_previous_public": 0.9876114531548382
+        },
+        "isolated": {
+          "samples_usec": [
+            2624625,
+            2529515,
+            2742488
+          ],
+          "median_usec": 2624625,
+          "min_usec": 2529515,
+          "max_usec": 2742488,
+          "usec_per_tick": 72.90625,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 814,
+          "retained_packet_estimate_bytes": 22988,
+          "speedup_vs_exact": 1.8411197790160498,
+          "speedup_vs_previous_public": 0.9586260894413487
+        },
+        "extended": {
+          "samples_usec": [
+            2809972,
+            2641434,
+            2681662
+          ],
+          "median_usec": 2681662,
+          "min_usec": 2641434,
+          "max_usec": 2809972,
+          "usec_per_tick": 74.49061111111111,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 723,
+          "release_usec": 52,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.801960500614917,
+          "speedup_vs_previous_public": 0.9382368098589606
+        },
+        "adaptive": {
+          "samples_usec": [
+            5102634,
+            4627575,
+            5409540
+          ],
+          "median_usec": 5102634,
+          "min_usec": 4627575,
+          "max_usec": 5409540,
+          "usec_per_tick": 141.73983333333334,
+          "binary_parity": false,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 19565217.3912901,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 36000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9470107007478883,
+          "speedup_vs_previous_public": 0.49308533592650383
+        }
+      }
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 2000,
+      "diagnostic": false,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            722125,
+            763438,
+            757131
+          ],
+          "median_usec": 757131,
+          "min_usec": 722125,
+          "max_usec": 763438,
+          "usec_per_tick": 378.5655,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 1.0100180814152373
+        },
+        "previous": {
+          "samples_usec": [
+            765595,
+            718944,
+            764716
+          ],
+          "median_usec": 764716,
+          "min_usec": 718944,
+          "max_usec": 765595,
+          "usec_per_tick": 382.358,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 249,
+          "release_usec": 0,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 0.990081285078382,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            764337,
+            789908,
+            795911
+          ],
+          "median_usec": 789908,
+          "min_usec": 764337,
+          "max_usec": 795911,
+          "usec_per_tick": 394.954,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 169,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.958505294287436,
+          "speedup_vs_previous_public": 0.9681076783625435
+        },
+        "isolated": {
+          "samples_usec": [
+            794927,
+            795644,
+            781417
+          ],
+          "median_usec": 794927,
+          "min_usec": 781417,
+          "max_usec": 795644,
+          "usec_per_tick": 397.4635,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 204,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9524534957297965,
+          "speedup_vs_previous_public": 0.961995252394245
+        },
+        "extended": {
+          "samples_usec": [
+            810632,
+            818744,
+            817808
+          ],
+          "median_usec": 817808,
+          "min_usec": 810632,
+          "max_usec": 818744,
+          "usec_per_tick": 408.904,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 187,
+          "release_usec": 3,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 0.9258053234989142,
+          "speedup_vs_previous_public": 0.9350801166043864
+        },
+        "adaptive": {
+          "samples_usec": [
+            855147,
+            820281,
+            860828
+          ],
+          "median_usec": 855147,
+          "min_usec": 820281,
+          "max_usec": 860828,
+          "usec_per_tick": 427.5735,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.8853811099144357,
+          "speedup_vs_previous_public": 0.8942509299570717
+        }
+      }
+    },
+    {
+      "label": "mid",
+      "ticks": 2000,
+      "diagnostic": false,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            270762,
+            282395,
+            232370
+          ],
+          "median_usec": 270762,
+          "min_usec": 232370,
+          "max_usec": 282395,
+          "usec_per_tick": 135.381,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 1.0196113191659095
+        },
+        "previous": {
+          "samples_usec": [
+            276072,
+            286917,
+            263732
+          ],
+          "median_usec": 276072,
+          "min_usec": 263732,
+          "max_usec": 286917,
+          "usec_per_tick": 138.036,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 184,
+          "release_usec": 1,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 0.9807658871598713,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            269259,
+            312470,
+            281393
+          ],
+          "median_usec": 281393,
+          "min_usec": 269259,
+          "max_usec": 312470,
+          "usec_per_tick": 140.6965,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 235,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9622200978702384,
+          "speedup_vs_previous_public": 0.9810905033174244
+        },
+        "isolated": {
+          "samples_usec": [
+            264708,
+            283304,
+            280166
+          ],
+          "median_usec": 280166,
+          "min_usec": 264708,
+          "max_usec": 283304,
+          "usec_per_tick": 140.083,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 211,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9664341854471992,
+          "speedup_vs_previous_public": 0.98538723471085
+        },
+        "extended": {
+          "samples_usec": [
+            269605,
+            278797,
+            268400
+          ],
+          "median_usec": 269605,
+          "min_usec": 268400,
+          "max_usec": 278797,
+          "usec_per_tick": 134.8025,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 367,
+          "release_usec": 5,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.0042914634372508,
+          "speedup_vs_previous_public": 1.023986943862317
+        },
+        "adaptive": {
+          "samples_usec": [
+            288568,
+            302951,
+            299381
+          ],
+          "median_usec": 299381,
+          "min_usec": 288568,
+          "max_usec": 302951,
+          "usec_per_tick": 149.6905,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9044060912349147,
+          "speedup_vs_previous_public": 0.9221426877457153
+        }
+      }
+    },
+    {
+      "label": "mite_entry",
+      "ticks": 2000,
+      "diagnostic": true,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            66227,
+            65029,
+            76508
+          ],
+          "median_usec": 66227,
+          "min_usec": 65029,
+          "max_usec": 76508,
+          "usec_per_tick": 33.1135,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 1.06874839566944
+        },
+        "previous": {
+          "samples_usec": [
+            70780,
+            68547,
+            76256
+          ],
+          "median_usec": 70780,
+          "min_usec": 68547,
+          "max_usec": 76256,
+          "usec_per_tick": 35.39,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 241,
+          "release_usec": 0,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 0.9356739191862108,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            66051,
+            76802,
+            78087
+          ],
+          "median_usec": 76802,
+          "min_usec": 66051,
+          "max_usec": 78087,
+          "usec_per_tick": 38.401,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 201,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.8623082732220515,
+          "speedup_vs_previous_public": 0.9215905835785526
+        },
+        "isolated": {
+          "samples_usec": [
+            51307,
+            70455,
+            53446
+          ],
+          "median_usec": 53446,
+          "min_usec": 51307,
+          "max_usec": 70455,
+          "usec_per_tick": 26.723,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 359,
+          "retained_packet_estimate_bytes": 12808,
+          "speedup_vs_exact": 1.239138569771358,
+          "speedup_vs_previous_public": 1.3243273584552633
+        },
+        "extended": {
+          "samples_usec": [
+            46229,
+            53509,
+            61426
+          ],
+          "median_usec": 53509,
+          "min_usec": 46229,
+          "max_usec": 61426,
+          "usec_per_tick": 26.7545,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 454,
+          "release_usec": 40,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.2376796426769328,
+          "speedup_vs_previous_public": 1.3227681324636977
+        },
+        "adaptive": {
+          "samples_usec": [
+            81342,
+            86195,
+            85603
+          ],
+          "median_usec": 85603,
+          "min_usec": 81342,
+          "max_usec": 86195,
+          "usec_per_tick": 42.8015,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.7736527925423174,
+          "speedup_vs_previous_public": 0.8268401808347838
+        }
+      }
+    },
+    {
+      "label": "mite_recovery",
+      "ticks": 2000,
+      "diagnostic": true,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            131022,
+            131728,
+            121790
+          ],
+          "median_usec": 131022,
+          "min_usec": 121790,
+          "max_usec": 131728,
+          "usec_per_tick": 65.511,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 1.0047243974294393
+        },
+        "previous": {
+          "samples_usec": [
+            131641,
+            133060,
+            130420
+          ],
+          "median_usec": 131641,
+          "min_usec": 130420,
+          "max_usec": 133060,
+          "usec_per_tick": 65.8205,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 228,
+          "release_usec": 0,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 0.9952978175492437,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            143504,
+            133287,
+            125804
+          ],
+          "median_usec": 133287,
+          "min_usec": 125804,
+          "max_usec": 143504,
+          "usec_per_tick": 66.6435,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 206,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9830065947916901,
+          "speedup_vs_previous_public": 0.9876507086212459
+        },
+        "isolated": {
+          "samples_usec": [
+            107245,
+            111042,
+            102548
+          ],
+          "median_usec": 107245,
+          "min_usec": 102548,
+          "max_usec": 111042,
+          "usec_per_tick": 53.6225,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 274,
+          "retained_packet_estimate_bytes": 12808,
+          "speedup_vs_exact": 1.2217073057018975,
+          "speedup_vs_previous_public": 1.2274791365564828
+        },
+        "extended": {
+          "samples_usec": [
+            108199,
+            129750,
+            99912
+          ],
+          "median_usec": 108199,
+          "min_usec": 99912,
+          "max_usec": 129750,
+          "usec_per_tick": 54.0995,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 343,
+          "release_usec": 42,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.2109354060573572,
+          "speedup_vs_previous_public": 1.2166563461769517
+        },
+        "adaptive": {
+          "samples_usec": [
+            150933,
+            171466,
+            136722
+          ],
+          "median_usec": 150933,
+          "min_usec": 136722,
+          "max_usec": 171466,
+          "usec_per_tick": 75.4665,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.8680805390471269,
+          "speedup_vs_previous_public": 0.8721816965143474
+        }
+      }
+    },
+    {
+      "label": "multi_dynamic",
+      "ticks": 2000,
+      "diagnostic": true,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            79019,
+            76618,
+            104494
+          ],
+          "median_usec": 79019,
+          "min_usec": 76618,
+          "max_usec": 104494,
+          "usec_per_tick": 39.5095,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 0.9582252369683241
+        },
+        "previous": {
+          "samples_usec": [
+            75718,
+            74962,
+            93253
+          ],
+          "median_usec": 75718,
+          "min_usec": 74962,
+          "max_usec": 93253,
+          "usec_per_tick": 37.859,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 220,
+          "release_usec": 0,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.0435959745370982,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            80363,
+            84513,
+            90661
+          ],
+          "median_usec": 84513,
+          "min_usec": 80363,
+          "max_usec": 90661,
+          "usec_per_tick": 42.2565,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 207,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9349922497130619,
+          "speedup_vs_previous_public": 0.8959331700448452
+        },
+        "isolated": {
+          "samples_usec": [
+            50378,
+            47287,
+            52403
+          ],
+          "median_usec": 50378,
+          "min_usec": 47287,
+          "max_usec": 52403,
+          "usec_per_tick": 25.189,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 329,
+          "retained_packet_estimate_bytes": 20964,
+          "speedup_vs_exact": 1.5685219738774863,
+          "speedup_vs_previous_public": 1.5029973401087777
+        },
+        "extended": {
+          "samples_usec": [
+            51744,
+            57496,
+            50658
+          ],
+          "median_usec": 51744,
+          "min_usec": 50658,
+          "max_usec": 57496,
+          "usec_per_tick": 25.872,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 387,
+          "release_usec": 61,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.5271142547928263,
+          "speedup_vs_previous_public": 1.4633194186765615
+        },
+        "adaptive": {
+          "samples_usec": [
+            115592,
+            95195,
+            91394
+          ],
+          "median_usec": 95195,
+          "min_usec": 91394,
+          "max_usec": 115592,
+          "usec_per_tick": 47.5975,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.8300751089868166,
+          "speedup_vs_previous_public": 0.7953989180103997
+        }
+      }
+    },
+    {
+      "label": "multi_partial",
+      "ticks": 2000,
+      "diagnostic": true,
+      "methods": {
+        "exact": {
+          "samples_usec": [
+            77840,
+            67978,
+            67841
+          ],
+          "median_usec": 67978,
+          "min_usec": 67841,
+          "max_usec": 77840,
+          "usec_per_tick": 33.989,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 1.0,
+          "speedup_vs_previous_public": 1.0198299449822001
+        },
+        "previous": {
+          "samples_usec": [
+            69326,
+            67469,
+            76234
+          ],
+          "median_usec": 69326,
+          "min_usec": 67469,
+          "max_usec": 76234,
+          "usec_per_tick": 34.663,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 222,
+          "release_usec": 0,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 0.9805556356922367,
+          "speedup_vs_previous_public": 1.0
+        },
+        "previous_isolated": {
+          "samples_usec": [
+            76224,
+            72912,
+            74666
+          ],
+          "median_usec": 74666,
+          "min_usec": 72912,
+          "max_usec": 76224,
+          "usec_per_tick": 37.333,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 297,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.9104277716765328,
+          "speedup_vs_previous_public": 0.9284815042991456
+        },
+        "isolated": {
+          "samples_usec": [
+            40680,
+            42918,
+            43705
+          ],
+          "median_usec": 42918,
+          "min_usec": 40680,
+          "max_usec": 43705,
+          "usec_per_tick": 21.459,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 276,
+          "retained_packet_estimate_bytes": 20804,
+          "speedup_vs_exact": 1.5839041893844075,
+          "speedup_vs_previous_public": 1.6153129223169767
+        },
+        "extended": {
+          "samples_usec": [
+            42028,
+            44481,
+            41598
+          ],
+          "median_usec": 42028,
+          "min_usec": 41598,
+          "max_usec": 44481,
+          "usec_per_tick": 21.014,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 100.0,
+          "fallback_ticks": 0,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "build_usec": 290,
+          "release_usec": 60,
+          "builds": 1,
+          "automatic_event_ticks": 0,
+          "speedup_vs_exact": 1.6174455125154659,
+          "speedup_vs_previous_public": 1.6495193680403542
+        },
+        "adaptive": {
+          "samples_usec": [
+            88183,
+            94998,
+            86078
+          ],
+          "median_usec": 88183,
+          "min_usec": 86078,
+          "max_usec": 94998,
+          "usec_per_tick": 44.0915,
+          "binary_parity": true,
+          "discrete_parity": true,
+          "rng_parity": true,
+          "max_normalized_numeric_error": 0.0,
+          "kernel_coverage_percent": 0.0,
+          "fallback_ticks": 2000,
+          "packet_build_usec": 0,
+          "retained_packet_estimate_bytes": 0,
+          "speedup_vs_exact": 0.7708742047786988,
+          "speedup_vs_previous_public": 0.7861605978476577
+        }
+      }
+    }
+  ],
+  "observations": [
+    {
+      "counters": {
+        "build_usec": 492,
+        "builds": 1,
+        "event_check_usec": 9428,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 58,
+        "kernel_ticks": 2000,
+        "kernel_usec": 128215,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 0,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 2000,
+        "partial_operations": 2000
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "early",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 456,
+        "builds": 1,
+        "event_check_usec": 130838,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 68,
+        "kernel_ticks": 36000,
+        "kernel_usec": 2602371,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 0,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 32880,
+        "partial_operations": 36000
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "early",
+      "ticks": 36000
+    },
+    {
+      "counters": {
+        "build_usec": 274,
+        "builds": 1,
+        "event_check_usec": 308,
+        "event_ticks": 0,
+        "fallback_ticks": 2000,
+        "fallback_usec": 350835,
+        "invalidate_usec": 4,
+        "kernel_ticks": 0,
+        "kernel_usec": 0,
+        "reasons": {
+          "enabled_automation": 1
+        },
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [
+          "atomic_friction"
+        ],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {},
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [
+          "atomic_friction"
+        ],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "mid",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 278,
+        "builds": 1,
+        "event_check_usec": 341,
+        "event_ticks": 0,
+        "fallback_ticks": 2000,
+        "fallback_usec": 827398,
+        "invalidate_usec": 5,
+        "kernel_ticks": 0,
+        "kernel_usec": 0,
+        "reasons": {
+          "enabled_automation": 1
+        },
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [
+          "infernal_forge"
+        ],
+        "enabled_automation": [
+          "atomic_friction"
+        ],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {},
+      "initial_blockers": {
+        "active_or_auto_cycles": [
+          "infernal_forge"
+        ],
+        "enabled_automation": [
+          "atomic_friction"
+        ],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "forge_competing",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 585,
+        "builds": 1,
+        "event_check_usec": 8813,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 178,
+        "kernel_ticks": 2000,
+        "kernel_usec": 210382,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 1,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 1850,
+        "partial_operations": 2000
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "consumer_9500",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 483,
+        "builds": 1,
+        "event_check_usec": 7914,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 130,
+        "kernel_ticks": 2000,
+        "kernel_usec": 214427,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 0,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 0,
+        "partial_operations": 0
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "consumer_20000",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 487,
+        "builds": 1,
+        "event_check_usec": 7042,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 88,
+        "kernel_ticks": 2000,
+        "kernel_usec": 195865,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 0,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 0,
+        "partial_operations": 0
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "consumer_50000",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 617,
+        "builds": 1,
+        "event_check_usec": 32584,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 71,
+        "kernel_ticks": 10000,
+        "kernel_usec": 897306,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 0,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 0,
+        "partial_operations": 0
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "consumer_50000",
+      "ticks": 10000
+    },
+    {
+      "counters": {
+        "build_usec": 494,
+        "builds": 1,
+        "event_check_usec": 6322,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 165,
+        "kernel_ticks": 2000,
+        "kernel_usec": 40684,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 1,
+        "empty_duration_checks": 1,
+        "input_exhaustions": 1,
+        "partial_operations": 0
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "mite_entry",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 553,
+        "builds": 1,
+        "event_check_usec": 6615,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 83,
+        "kernel_ticks": 2000,
+        "kernel_usec": 105984,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 2,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 1,
+        "partial_operations": 1
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "mite_recovery",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 452,
+        "builds": 1,
+        "event_check_usec": 7628,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 79,
+        "kernel_ticks": 2000,
+        "kernel_usec": 44411,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 1,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 1,
+        "partial_operations": 4
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "multi_dynamic",
+      "ticks": 2000
+    },
+    {
+      "counters": {
+        "build_usec": 616,
+        "builds": 1,
+        "event_check_usec": 7188,
+        "event_ticks": 0,
+        "fallback_ticks": 0,
+        "fallback_usec": 0,
+        "invalidate_usec": 174,
+        "kernel_ticks": 2000,
+        "kernel_usec": 39128,
+        "reasons": {},
+        "writeback_usec": 0
+      },
+      "final_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "flows": {
+        "controller_transitions": 1,
+        "empty_duration_checks": 0,
+        "input_exhaustions": 1,
+        "partial_operations": 1
+      },
+      "initial_blockers": {
+        "active_or_auto_cycles": [],
+        "enabled_automation": [],
+        "essence_modifiers": [],
+        "relic_inventory_entries": 0
+      },
+      "intrusive_untimed": true,
+      "label": "multi_partial",
+      "ticks": 2000
+    }
+  ],
+  "validation_failures": []
+}
