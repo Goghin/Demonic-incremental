@@ -1,0 +1,1033 @@
+{
+	"after": {
+		"achievements": {
+			"highest_crystallized_flame_this_run": 0.0,
+			"seen_generator_ids": {
+
+			},
+			"unlocked_achievements": {
+
+			}
+		},
+		"current_run_statistics": {
+			"Crystallized Flame": {
+				"highest_amount": 1.0,
+				"total_consumed": 0.0,
+				"total_lost": 0.0,
+				"total_produced": 1.0
+			},
+			"_total_matter_decayed": 0.0,
+			"_total_overflow": 8040829.99686255,
+			"ash": {
+				"highest_amount": 6035.11333188894,
+				"total_consumed": 104754.825008125,
+				"total_lost": 0.0,
+				"total_produced": 110718.30309333
+			},
+			"heat": {
+				"highest_amount": 1507534.30523305,
+				"total_consumed": 218589273.315626,
+				"total_lost": 8208897.07584535,
+				"total_produced": 226798170.391471
+			},
+			"matter": {
+				"highest_amount": 278.356015625,
+				"total_consumed": 16244.4290726056,
+				"total_lost": 0.0,
+				"total_produced": 16245.0
+			}
+		},
+		"discovered_resources": {
+			"Crystallized Flame": true,
+			"ash": true,
+			"heat": true,
+			"matter": true
+		},
+		"eternal_flame_state": {
+			"eternal_flame": 0.0,
+			"prestige_count": 0,
+			"spent_flames": 0.0,
+			"total_crystallized_flame": 0.0,
+			"unlocked_technologies": {
+
+			},
+			"upgrade_levels": {
+
+			}
+		},
+		"gameplay_rng": {
+			"seed": "27481",
+			"state": "-9083581148786106569"
+		},
+		"generator_automation": {
+			"atomic_friction": {
+				"enabled": false
+			},
+			"lava_mite_colony": {
+				"enabled": false
+			},
+			"matter_furnace": {
+				"enabled": false
+			},
+			"molecular_agitation": {
+				"enabled": false
+			},
+			"thermal_compressor": {
+				"enabled": false
+			},
+			"thermal_furnace": {
+				"enabled": false
+			}
+		},
+		"generators": {
+			"atomic_friction": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 60,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"infernal_forge": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 1,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"lava_mite_colony": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 5,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+					"essence": 0.0
+				},
+				"unlocked": true
+			},
+			"matter_furnace": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 1,
+				"manually_paused": true,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"molecular_agitation": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 44,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"relic_shard_extractor": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 1,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"thermal_compressor": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 0,
+				"manually_paused": false,
+				"operation_mode_id": "compression",
+				"production_progress": {
+					"nexum": 0.0
+				},
+				"unlocked": false
+			},
+			"thermal_furnace": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 29,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+					"matter": 0.373309021094026
+				},
+				"unlocked": true
+			}
+		},
+		"last_prestige_report": {
+
+		},
+		"lava_palette": {
+			"bright": "ff6b3b",
+			"dark": "3e0702",
+			"glow": "ff4e1e",
+			"orange": "da2404",
+			"red": "950c00"
+		},
+		"prestige_planning": false,
+		"realm_configuration": {
+			"density": 0,
+			"integrity": 0,
+			"intensity": 0,
+			"locked": false,
+			"resonance": 0,
+			"stability": 0
+		},
+		"realm_layout_id": "default",
+		"realm_stabilized": true,
+		"relic_manager": {
+			"equipped": {
+
+			},
+			"inventory": [],
+			"inventory_positions": {
+
+			},
+			"machine_slots": {
+
+			},
+			"next_instance_number": 1,
+			"next_item_instance_number": 1
+		},
+		"resource_statistics": {
+			"Crystallized Flame": {
+				"highest_amount": 1.0,
+				"total_consumed": 0.0,
+				"total_lost": 0.0,
+				"total_produced": 1.0
+			},
+			"_total_matter_decayed": 0.0,
+			"_total_overflow": 8040829.99686255,
+			"ash": {
+				"highest_amount": 6035.11333188894,
+				"total_consumed": 104754.825008125,
+				"total_lost": 0.0,
+				"total_produced": 110718.30309333
+			},
+			"heat": {
+				"highest_amount": 1507534.30523305,
+				"total_consumed": 218589273.315626,
+				"total_lost": 8208897.07584535,
+				"total_produced": 226798170.391471
+			},
+			"matter": {
+				"highest_amount": 278.356015625,
+				"total_consumed": 16244.4290726056,
+				"total_lost": 0.0,
+				"total_produced": 16245.0
+			}
+		},
+		"resources": {
+			"Crystallized Flame": 1.0,
+			"ash": 5963.47808515858,
+			"essence": 0.0,
+			"heat": 0.0,
+			"matter": 0.570927394414497,
+			"nexum": 0.0
+		},
+		"total_matter_decayed_this_prestige": 0.0,
+		"total_overflow_this_prestige": 8040829.99686255,
+		"upgrade_automation": {
+			"exclusive_preferences": {
+
+			},
+			"trees": {
+				"atomic_friction": {
+					"enabled": false
+				},
+				"general": {
+					"enabled": false
+				},
+				"lava_mite_colony": {
+					"enabled": false
+				},
+				"matter_furnace": {
+					"enabled": false
+				},
+				"molecular_agitation": {
+					"enabled": false
+				},
+				"thermal_compressor": {
+					"enabled": false
+				},
+				"thermal_furnace": {
+					"enabled": false
+				}
+			}
+		},
+		"upgrades": {
+			"agitation_optimization": {
+				"level": 0
+			},
+			"ash_threshold_line_1": {
+				"level": 6
+			},
+			"ash_threshold_line_2": {
+				"level": 1
+			},
+			"ashen_contamination": {
+				"level": 1
+			},
+			"atomic_friction_optimization": {
+				"level": 10
+			},
+			"atomic_friction_refinement": {
+				"level": 6
+			},
+			"atomic_mastery": {
+				"level": 2
+			},
+			"atomic_process_optimization": {
+				"level": 0
+			},
+			"atomic_reorganization": {
+				"level": 0
+			},
+			"contamination_adaptation": {
+				"level": 0
+			},
+			"crystallization_adaptation": {
+				"level": 0
+			},
+			"efficient_atomic_processing": {
+				"level": 0
+			},
+			"efficient_thermal_transfer": {
+				"level": 1
+			},
+			"essence_accumulation_penalty": {
+				"level": 0
+			},
+			"essence_influence": {
+				"level": 0
+			},
+			"essence_retention": {
+				"level": 0
+			},
+			"essence_stabilization": {
+				"level": 0
+			},
+			"heat_loss_coefficient_refinement": {
+				"level": 1
+			},
+			"heat_loss_exponent_refinement": {
+				"level": 0
+			},
+			"heat_threshold_line_1": {
+				"level": 10
+			},
+			"heat_threshold_line_2": {
+				"level": 10
+			},
+			"high_pressure_compression": {
+				"level": 0
+			},
+			"improved_lava_mite_colony_management": {
+				"level": 0
+			},
+			"infernal_forge_ash_adaptation": {
+				"level": 0
+			},
+			"infernal_forge_careful_ash_resistance": {
+				"level": 0
+			},
+			"infernal_forge_careful_mode": {
+				"level": 0
+			},
+			"infernal_forge_critical_chance": {
+				"level": 0
+			},
+			"infernal_forge_critical_production": {
+				"level": 0
+			},
+			"infernal_forge_fast_ash_reduction": {
+				"level": 0
+			},
+			"infernal_forge_fast_ash_sensitivity": {
+				"level": 0
+			},
+			"infernal_forge_fast_mode": {
+				"level": 0
+			},
+			"infernal_forge_immunity": {
+				"level": 1
+			},
+			"infernal_forge_infernal_mode": {
+				"level": 0
+			},
+			"infernal_forge_recrystallization": {
+				"level": 0
+			},
+			"infernal_forge_refinement": {
+				"level": 0
+			},
+			"infernal_forge_unlock": {
+				"level": 1
+			},
+			"intensified_friction_essence": {
+				"level": 0
+			},
+			"lava_mite_adaptation": {
+				"level": 1
+			},
+			"lava_mite_colony_growth": {
+				"level": 0
+			},
+			"lava_mite_colony_unlock": {
+				"level": 1
+			},
+			"lava_mite_dormancy": {
+				"level": 1
+			},
+			"lava_mite_dormancy_conditioning": {
+				"level": 0
+			},
+			"lava_mite_dormancy_delay": {
+				"level": 0
+			},
+			"lava_mite_dormancy_resilience": {
+				"level": 0
+			},
+			"lava_mite_essence": {
+				"level": 0
+			},
+			"lava_mite_essence_adaptation": {
+				"level": 0
+			},
+			"lava_mite_husbandry": {
+				"level": 0
+			},
+			"lava_mite_improved_adaptation": {
+				"level": 0
+			},
+			"lava_mite_metabolism": {
+				"level": 0
+			},
+			"lava_mite_refinement": {
+				"level": 0
+			},
+			"loss_coefficient_refinement": {
+				"level": 0
+			},
+			"loss_exponent_refinement": {
+				"level": 0
+			},
+			"matter_furnace_ash_reduction": {
+				"level": 0
+			},
+			"matter_furnace_refinement": {
+				"level": 0
+			},
+			"matter_furnace_unlock": {
+				"level": 1
+			},
+			"matter_refinement": {
+				"level": 0
+			},
+			"matter_threshold_line_1": {
+				"level": 6
+			},
+			"matter_threshold_line_2": {
+				"level": 0
+			},
+			"molecular_agitation": {
+				"level": 1
+			},
+			"molecular_agitation_boost": {
+				"level": 0
+			},
+			"molecular_agitation_expansion": {
+				"level": 0
+			},
+			"molecular_agitation_refinement": {
+				"level": 0
+			},
+			"molecular_resonance": {
+				"level": 10
+			},
+			"resonant_containment": {
+				"level": 3
+			},
+			"thermal_ash_filtration": {
+				"level": 0
+			},
+			"thermal_compressor_efficiency": {
+				"level": 0
+			},
+			"thermal_compressor_optimization": {
+				"level": 0
+			},
+			"thermal_compressor_unlock": {
+				"level": 0
+			},
+			"thermal_conversion": {
+				"level": 0
+			},
+			"thermal_furnace_efficiency": {
+				"level": 0
+			},
+			"thermal_furnace_mastery": {
+				"level": 0
+			},
+			"thermal_furnace_optimization": {
+				"level": 6
+			},
+			"thermal_furnace_refinement": {
+				"level": 0
+			},
+			"thermal_purity": {
+				"level": 0
+			},
+			"thermal_recovery": {
+				"level": 0
+			},
+			"thermic_mass": {
+				"level": 1
+			},
+			"unlock_infernal_condensation": {
+				"level": 1
+			}
+		}
+	},
+	"before": {
+		"achievements": {
+			"highest_crystallized_flame_this_run": 0.0,
+			"seen_generator_ids": {
+
+			},
+			"unlocked_achievements": {
+
+			}
+		},
+		"current_run_statistics": {
+			"_total_matter_decayed": 0.0,
+			"_total_overflow": 8040829.99686255,
+			"ash": {
+				"highest_amount": 6035.11333188894,
+				"total_consumed": 104754.238900686,
+				"total_lost": 0.0,
+				"total_produced": 110717.022468605
+			},
+			"heat": {
+				"highest_amount": 1507534.30523305,
+				"total_consumed": 218585564.062975,
+				"total_lost": 8040829.99686255,
+				"total_produced": 226797195.51795
+			},
+			"matter": {
+				"highest_amount": 278.356015625,
+				"total_consumed": 16244.0,
+				"total_lost": 0.0,
+				"total_produced": 16244.0
+			}
+		},
+		"discovered_resources": {
+			"ash": true,
+			"heat": true,
+			"matter": true
+		},
+		"eternal_flame_state": {
+			"eternal_flame": 0.0,
+			"prestige_count": 0,
+			"spent_flames": 0.0,
+			"total_crystallized_flame": 0.0,
+			"unlocked_technologies": {
+
+			},
+			"upgrade_levels": {
+
+			}
+		},
+		"gameplay_rng": {
+			"seed": "27481",
+			"state": "-9083581148786106569"
+		},
+		"generator_automation": {
+			"atomic_friction": {
+				"enabled": false
+			},
+			"lava_mite_colony": {
+				"enabled": false
+			},
+			"matter_furnace": {
+				"enabled": false
+			},
+			"molecular_agitation": {
+				"enabled": false
+			},
+			"thermal_compressor": {
+				"enabled": false
+			},
+			"thermal_furnace": {
+				"enabled": false
+			}
+		},
+		"generators": {
+			"atomic_friction": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 60,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"infernal_forge": {
+				"auto_run_cycles": false,
+				"cycle_active": true,
+				"cycle_critical_chance_snapshot": "f64:0000000000000000",
+				"cycle_progress": 599.980379294567,
+				"level": 1,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"lava_mite_colony": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 5,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+					"essence": 0.0
+				},
+				"unlocked": true
+			},
+			"matter_furnace": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 1,
+				"manually_paused": true,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"molecular_agitation": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 44,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"relic_shard_extractor": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 1,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+
+				},
+				"unlocked": true
+			},
+			"thermal_compressor": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 0,
+				"manually_paused": false,
+				"operation_mode_id": "compression",
+				"production_progress": {
+					"nexum": 0.0
+				},
+				"unlocked": false
+			},
+			"thermal_furnace": {
+				"auto_run_cycles": false,
+				"cycle_active": false,
+				"cycle_critical_chance_snapshot": "f64:000000000000f0bf",
+				"cycle_progress": 0.0,
+				"level": 29,
+				"manually_paused": false,
+				"operation_mode_id": "normal",
+				"production_progress": {
+					"matter": 0.98987428267228
+				},
+				"unlocked": true
+			}
+		},
+		"last_prestige_report": {
+
+		},
+		"lava_palette": {
+			"bright": "ff6b3b",
+			"dark": "3e0702",
+			"glow": "ff4e1e",
+			"orange": "da2404",
+			"red": "950c00"
+		},
+		"prestige_planning": false,
+		"realm_configuration": {
+			"density": 0,
+			"integrity": 0,
+			"intensity": 0,
+			"locked": false,
+			"resonance": 0,
+			"stability": 0
+		},
+		"realm_layout_id": "default",
+		"realm_stabilized": true,
+		"relic_manager": {
+			"equipped": {
+
+			},
+			"inventory": [],
+			"inventory_positions": {
+
+			},
+			"machine_slots": {
+
+			},
+			"next_instance_number": 1,
+			"next_item_instance_number": 1
+		},
+		"resource_statistics": {
+			"_total_matter_decayed": 0.0,
+			"_total_overflow": 8040829.99686255,
+			"ash": {
+				"highest_amount": 6035.11333188894,
+				"total_consumed": 104754.238900686,
+				"total_lost": 0.0,
+				"total_produced": 110717.022468605
+			},
+			"heat": {
+				"highest_amount": 1507534.30523305,
+				"total_consumed": 218585564.062975,
+				"total_lost": 8040829.99686255,
+				"total_produced": 226797195.51795
+			},
+			"matter": {
+				"highest_amount": 278.356015625,
+				"total_consumed": 16244.0,
+				"total_lost": 0.0,
+				"total_produced": 16244.0
+			}
+		},
+		"resources": {
+			"Crystallized Flame": 0.0,
+			"ash": 5962.78356787382,
+			"essence": 0.0,
+			"heat": 170801.458112166,
+			"matter": 0.0,
+			"nexum": 0.0
+		},
+		"total_matter_decayed_this_prestige": 0.0,
+		"total_overflow_this_prestige": 8040829.99686255,
+		"upgrade_automation": {
+			"exclusive_preferences": {
+
+			},
+			"trees": {
+				"atomic_friction": {
+					"enabled": false
+				},
+				"general": {
+					"enabled": false
+				},
+				"lava_mite_colony": {
+					"enabled": false
+				},
+				"matter_furnace": {
+					"enabled": false
+				},
+				"molecular_agitation": {
+					"enabled": false
+				},
+				"thermal_compressor": {
+					"enabled": false
+				},
+				"thermal_furnace": {
+					"enabled": false
+				}
+			}
+		},
+		"upgrades": {
+			"agitation_optimization": {
+				"level": 0
+			},
+			"ash_threshold_line_1": {
+				"level": 6
+			},
+			"ash_threshold_line_2": {
+				"level": 1
+			},
+			"ashen_contamination": {
+				"level": 1
+			},
+			"atomic_friction_optimization": {
+				"level": 10
+			},
+			"atomic_friction_refinement": {
+				"level": 6
+			},
+			"atomic_mastery": {
+				"level": 2
+			},
+			"atomic_process_optimization": {
+				"level": 0
+			},
+			"atomic_reorganization": {
+				"level": 0
+			},
+			"contamination_adaptation": {
+				"level": 0
+			},
+			"crystallization_adaptation": {
+				"level": 0
+			},
+			"efficient_atomic_processing": {
+				"level": 0
+			},
+			"efficient_thermal_transfer": {
+				"level": 1
+			},
+			"essence_accumulation_penalty": {
+				"level": 0
+			},
+			"essence_influence": {
+				"level": 0
+			},
+			"essence_retention": {
+				"level": 0
+			},
+			"essence_stabilization": {
+				"level": 0
+			},
+			"heat_loss_coefficient_refinement": {
+				"level": 1
+			},
+			"heat_loss_exponent_refinement": {
+				"level": 0
+			},
+			"heat_threshold_line_1": {
+				"level": 10
+			},
+			"heat_threshold_line_2": {
+				"level": 10
+			},
+			"high_pressure_compression": {
+				"level": 0
+			},
+			"improved_lava_mite_colony_management": {
+				"level": 0
+			},
+			"infernal_forge_ash_adaptation": {
+				"level": 0
+			},
+			"infernal_forge_careful_ash_resistance": {
+				"level": 0
+			},
+			"infernal_forge_careful_mode": {
+				"level": 0
+			},
+			"infernal_forge_critical_chance": {
+				"level": 0
+			},
+			"infernal_forge_critical_production": {
+				"level": 0
+			},
+			"infernal_forge_fast_ash_reduction": {
+				"level": 0
+			},
+			"infernal_forge_fast_ash_sensitivity": {
+				"level": 0
+			},
+			"infernal_forge_fast_mode": {
+				"level": 0
+			},
+			"infernal_forge_immunity": {
+				"level": 1
+			},
+			"infernal_forge_infernal_mode": {
+				"level": 0
+			},
+			"infernal_forge_recrystallization": {
+				"level": 0
+			},
+			"infernal_forge_refinement": {
+				"level": 0
+			},
+			"infernal_forge_unlock": {
+				"level": 1
+			},
+			"intensified_friction_essence": {
+				"level": 0
+			},
+			"lava_mite_adaptation": {
+				"level": 1
+			},
+			"lava_mite_colony_growth": {
+				"level": 0
+			},
+			"lava_mite_colony_unlock": {
+				"level": 1
+			},
+			"lava_mite_dormancy": {
+				"level": 1
+			},
+			"lava_mite_dormancy_conditioning": {
+				"level": 0
+			},
+			"lava_mite_dormancy_delay": {
+				"level": 0
+			},
+			"lava_mite_dormancy_resilience": {
+				"level": 0
+			},
+			"lava_mite_essence": {
+				"level": 0
+			},
+			"lava_mite_essence_adaptation": {
+				"level": 0
+			},
+			"lava_mite_husbandry": {
+				"level": 0
+			},
+			"lava_mite_improved_adaptation": {
+				"level": 0
+			},
+			"lava_mite_metabolism": {
+				"level": 0
+			},
+			"lava_mite_refinement": {
+				"level": 0
+			},
+			"loss_coefficient_refinement": {
+				"level": 0
+			},
+			"loss_exponent_refinement": {
+				"level": 0
+			},
+			"matter_furnace_ash_reduction": {
+				"level": 0
+			},
+			"matter_furnace_refinement": {
+				"level": 0
+			},
+			"matter_furnace_unlock": {
+				"level": 1
+			},
+			"matter_refinement": {
+				"level": 0
+			},
+			"matter_threshold_line_1": {
+				"level": 6
+			},
+			"matter_threshold_line_2": {
+				"level": 0
+			},
+			"molecular_agitation": {
+				"level": 1
+			},
+			"molecular_agitation_boost": {
+				"level": 0
+			},
+			"molecular_agitation_expansion": {
+				"level": 0
+			},
+			"molecular_agitation_refinement": {
+				"level": 0
+			},
+			"molecular_resonance": {
+				"level": 10
+			},
+			"resonant_containment": {
+				"level": 3
+			},
+			"thermal_ash_filtration": {
+				"level": 0
+			},
+			"thermal_compressor_efficiency": {
+				"level": 0
+			},
+			"thermal_compressor_optimization": {
+				"level": 0
+			},
+			"thermal_compressor_unlock": {
+				"level": 0
+			},
+			"thermal_conversion": {
+				"level": 0
+			},
+			"thermal_furnace_efficiency": {
+				"level": 0
+			},
+			"thermal_furnace_mastery": {
+				"level": 0
+			},
+			"thermal_furnace_optimization": {
+				"level": 6
+			},
+			"thermal_furnace_refinement": {
+				"level": 0
+			},
+			"thermal_purity": {
+				"level": 0
+			},
+			"thermal_recovery": {
+				"level": 0
+			},
+			"thermic_mass": {
+				"level": 1
+			},
+			"unlock_infernal_condensation": {
+				"level": 1
+			}
+		}
+	},
+	"source": "authoritative ledger replay, first completed Forge",
+	"tick": 214083
+}

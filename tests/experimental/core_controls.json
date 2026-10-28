@@ -1,0 +1,1919 @@
+{
+  "source_hashes": {
+    "tests/experimental/core_replay.gd": "6f3c922c4a46ae67485dffca78746668b9882d6c0ec8779d5f619e4f073dda30",
+    "tests/experimental/core_blockers.gd": "5aca9315e89a6f8611cabf043fd6a08da104dceee58711a6c2fdf34dc6061284",
+    "tests/experimental/core_cycle_bound.gd": "b640446504a3fc4129af22a8758f7b475d47ba72875f5c1cc3b676a020b11d0c",
+    "tests/experimental/core_activity.gd": "6d01ebe99dece6b8b0d783caf712399224cfda09acdd788e116608511b0ebf7c",
+    "tests/experimental/core_fixtures.gd": "f3fa9db4e04ed11252bfd1dec551da529102ccdd5cdb862cad68e4d02ba59817",
+    "tests/experimental/core_progression_builder.gd": "e9e60e15e0a08492d29bc96101b68d921589d2a1baa88e34054b8a018aaa5d94",
+    "tests/experimental/core_tests.gd": "b36b83593d4c011e08b64c18f93b1d10dd4732fe971b3d160b361a7c5f0b6f3b",
+    "tests/experimental/core_investigation_runner.gd": "2ab99e3d40d3991c7f3a2a3c33b499bc15c06c5acda8ecd0cf04ed18606ce9f8",
+    "tests/experimental/core_benchmark.gd": "61f3d622760f9db1d3f448fcc2f25a727aacb60402fb5663a5b4c52f934d1bd1",
+    "core_progression.json": "eafc29d19c8133a582ce06bfd515446ef11b6b49e4c90b499451120eab63231c"
+  },
+  "diagnostic_only": false,
+  "runs": [
+    {
+      "ablation": "none",
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 0,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 33243,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 2476,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 2036194,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1893607,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "samples": 71,
+          "seconds": 2.043434
+        },
+        "new": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 22663,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2468,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1296
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1446,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 66766,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 694,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 109602,
+            "numerical_usec": 32631,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 8994
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 138783
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.222851,
+          "speedup": 9.16950787746073
+        },
+        "old": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 27025,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2869,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1203
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1444,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 69096,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 771,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 121676,
+            "numerical_usec": 38278,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 9841
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 152700
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.24332,
+          "speedup": 8.39813414433667
+        }
+      },
+      "scenario": "transfer",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 1,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 30919,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 2323,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 1916842,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1779843,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "samples": 71,
+          "seconds": 1.923748
+        },
+        "new": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 19054,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2325,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1012
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1283,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 63118,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 628,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 95983,
+            "numerical_usec": 26733,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 6388
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 121211
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.200396,
+          "speedup": 9.59973252959141
+        },
+        "old": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 20267,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2673,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1138
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1561,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 68765,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 716,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 105690,
+            "numerical_usec": 31662,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 7767
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 138226
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.219359,
+          "speedup": 8.76986127763164
+        }
+      },
+      "scenario": "transfer",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 2,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 31648,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 2757,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 2041444,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 1897744,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "samples": 71,
+          "seconds": 2.049645
+        },
+        "new": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 23438,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2865,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1232
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1625,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 65557,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 707,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 120629,
+            "numerical_usec": 33791,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 6913
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 152177
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.233638,
+          "speedup": 8.7727381675926
+        },
+        "old": {
+          "adaptive_coverage": 0.999722222222222,
+          "counters": {
+            "accepted": 71,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 21706,
+            "automation_boundary": {
+              "calls": 71,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 2555,
+              "reasons": {
+                "disabled": 71
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 1149
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 1659,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 434,
+            "event_detection_usec": 68364,
+            "fallback_fraction": 0.000277777777777778,
+            "fallback_reasons": {
+              "flow/upgrade/automatic_resource/thermic_mass": 10
+            },
+            "fallback_ticks": 10,
+            "fallback_usec": 668,
+            "initial_checkpoint_bytes": 1876,
+            "map_operator_usec": 107847,
+            "numerical_usec": 33911,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 72,
+              "reasons": {
+                "proved": 71,
+                "upgrade/automatic_resource/thermic_mass": 1
+              },
+              "usec": 6869
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 139128
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "thermal_compressor",
+                "generator_name": "Arcane Compressor"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 0
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 3
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 7.25961527330216e-09,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 7.26332574333074e-13,
+            "worst_key": "dormancy"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 4.42637231196525e-07,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 2.17869455809705e-09,
+            "statistics_rel": 4.42637231216118e-07
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 71,
+          "seconds": 0.221238,
+          "speedup": 9.26443468120305
+        }
+      },
+      "scenario": "transfer",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 0,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 131129,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 3888,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 4805084,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 4526837,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "samples": 398,
+          "seconds": 4.816005
+        },
+        "new": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 123365,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3088,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 55159
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 11357,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 421068,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 48356,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 684551,
+            "numerical_usec": 289300,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 129377,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 887131
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.426936,
+          "speedup": 3.37506727701873
+        },
+        "old": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 113133,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3919,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 54134
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 11676,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 425980,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 55964,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 721899,
+            "numerical_usec": 308688,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 135406,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 923852
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.468928,
+          "speedup": 3.27858479108574
+        }
+      },
+      "scenario": "late_both",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 1,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 112288,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 3189,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 4375235,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 4132141,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "samples": 398,
+          "seconds": 4.384121
+        },
+        "new": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 92182,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3083,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 39822
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 8697,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 339532,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 48500,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 571499,
+            "numerical_usec": 247036,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 103773,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 730822
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.168087,
+          "speedup": 3.75324868781178
+        },
+        "old": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 100544,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3131,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 42976
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 9356,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 365038,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 47845,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 628287,
+            "numerical_usec": 272779,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 118590,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 801851
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.269298,
+          "speedup": 3.45397298349166
+        }
+      },
+      "scenario": "late_both",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 3600.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 2,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 128536,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 36000,
+            "event_detection_usec": 3583,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 36000
+            },
+            "fallback_ticks": 36000,
+            "fallback_usec": 4622327,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 4355231,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "samples": 398,
+          "seconds": 4.632729
+        },
+        "new": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 95282,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3137,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 42241
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 8357,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 347069,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 43266,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 582151,
+            "numerical_usec": 243904,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 102677,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 744977
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.186585,
+          "speedup": 3.9042538039837
+        },
+        "old": {
+          "adaptive_coverage": 0.988333333333333,
+          "counters": {
+            "accepted": 398,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 100528,
+            "automation_boundary": {
+              "calls": 464,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 3207,
+              "reasons": {
+                "generator_wait_transition": 6,
+                "provably_waiting": 453,
+                "upgrade_cooldown_transition": 5
+              },
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 35580,
+              "skipped_waiting_checks": 35580,
+              "usec": 43556
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 9795,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 3050,
+            "event_detection_usec": 375915,
+            "fallback_fraction": 0.0116666666666667,
+            "fallback_reasons": {
+              "automation_generator_wait_transition": 60,
+              "automation_upgrade_cooldown_transition": 50,
+              "numerical_retry_cooldown": 310
+            },
+            "fallback_ticks": 420,
+            "fallback_usec": 42348,
+            "initial_checkpoint_bytes": 1944,
+            "map_operator_usec": 620254,
+            "numerical_usec": 260803,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 50,
+            "rejected_usec": 107705,
+            "rejection_fields": {
+              "lifetime/decay": 50
+            },
+            "rejection_reasons": {
+              "numerical_error": 50
+            },
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 800610
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 1
+            }
+          ],
+          "exact_state": false,
+          "final_deviation": {
+            "normalized": 0.00415813924031446,
+            "resource_abs": 1.52921752913926e-05,
+            "resource_rel": 1.51823140612786e-07,
+            "statistics_abs": 0.000406351929996163,
+            "statistics_rel": 4.15815054686087e-07,
+            "worst_key": "lifetime/decay"
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0137287269537979,
+            "resource_abs": 6.95655330673617e-05,
+            "resource_rel": 4.84828931141732e-07,
+            "statistics_abs": 0.0021452521905303,
+            "statistics_rel": 1.37287652112358e-06
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 398,
+          "seconds": 1.268695,
+          "speedup": 3.65157031437816
+        }
+      },
+      "scenario": "late_both",
+      "survey": false
+    }
+  ]
+}

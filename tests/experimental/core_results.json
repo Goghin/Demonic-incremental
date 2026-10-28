@@ -1,0 +1,4477 @@
+{
+  "source_hashes": {
+    "tests/experimental/core_replay.gd": "6f3c922c4a46ae67485dffca78746668b9882d6c0ec8779d5f619e4f073dda30",
+    "tests/experimental/core_blockers.gd": "5aca9315e89a6f8611cabf043fd6a08da104dceee58711a6c2fdf34dc6061284",
+    "tests/experimental/core_cycle_bound.gd": "b640446504a3fc4129af22a8758f7b475d47ba72875f5c1cc3b676a020b11d0c",
+    "tests/experimental/core_activity.gd": "6d01ebe99dece6b8b0d783caf712399224cfda09acdd788e116608511b0ebf7c",
+    "tests/experimental/core_fixtures.gd": "f3fa9db4e04ed11252bfd1dec551da529102ccdd5cdb862cad68e4d02ba59817",
+    "tests/experimental/core_progression_builder.gd": "e9e60e15e0a08492d29bc96101b68d921589d2a1baa88e34054b8a018aaa5d94",
+    "tests/experimental/core_tests.gd": "b36b83593d4c011e08b64c18f93b1d10dd4732fe971b3d160b361a7c5f0b6f3b",
+    "tests/experimental/core_investigation_runner.gd": "2ab99e3d40d3991c7f3a2a3c33b499bc15c06c5acda8ecd0cf04ed18606ce9f8",
+    "tests/experimental/core_benchmark.gd": "61f3d622760f9db1d3f448fcc2f25a727aacb60402fb5663a5b4c52f934d1bd1",
+    "core_progression.json": "eafc29d19c8133a582ce06bfd515446ef11b6b49e4c90b499451120eab63231c"
+  },
+  "diagnostic_only": false,
+  "runs": [
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 0,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 911,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 94,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 141464,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 136372,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.141824
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 850,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3001,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 132826,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 129371,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1373
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.137013,
+          "speedup": 1.03511345638735
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1230,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3390,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 139899,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 135887,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1424
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.144804,
+          "speedup": 0.979420457998398
+        }
+      },
+      "scenario": "early",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 1,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 876,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 106,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 149924,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 145162,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.150301
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 892,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3455,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 150957,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 146971,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1611
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.155677,
+          "speedup": 0.965466960437316
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 840,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3143,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 149402,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 144566,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1399
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.153669,
+          "speedup": 0.978082762300789
+        }
+      },
+      "scenario": "early",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 2,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 992,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 104,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 148439,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 142539,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.149058
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1023,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3479,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 148248,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 143968,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1438
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.153107,
+          "speedup": 0.973554442318117
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1200,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3796,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 151062,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 146372,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1785
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.156367,
+          "speedup": 0.953257400858237
+        }
+      },
+      "scenario": "early",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 3,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 917,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 92,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 137776,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 132988,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.138123
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 870,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3602,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 142678,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 138630,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1453
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.147446,
+          "speedup": 0.936770071755083
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 914,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3620,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 142883,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 138820,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1838
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.1477,
+          "speedup": 0.935159106296547
+        }
+      },
+      "scenario": "early",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 4,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 885,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 75,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 125115,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 120870,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.12543
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 941,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3155,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 142010,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 138091,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1327
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.146431,
+          "speedup": 0.856580915243357
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 817,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 2885,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 136777,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 133005,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/unmodelled_throttle/lava_mite_colony": 120
+              },
+              "usec": 1217
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.140753,
+          "speedup": 0.891135535299425
+        }
+      },
+      "scenario": "early",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 0,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1151,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 85,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 133571,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 129039,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "samples": 2,
+          "seconds": 0.133898
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 872,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3062,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 145852,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 142103,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1412
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.150147,
+          "speedup": 0.891779389531592
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 877,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 2679,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 129161,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 125973,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1199
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.132982,
+          "speedup": 1.00688815027598
+        }
+      },
+      "scenario": "mid",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 1,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1040,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 103,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 152232,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 147344,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "samples": 2,
+          "seconds": 0.15268
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 879,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3794,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 146104,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 142273,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1729
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.151078,
+          "speedup": 1.01060379406664
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 903,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3365,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 153128,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 147671,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1569
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.157731,
+          "speedup": 0.967977125612594
+        }
+      },
+      "scenario": "mid",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 2,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1897,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 123,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 150380,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 144442,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "samples": 2,
+          "seconds": 0.151094
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1235,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3512,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 155379,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 150887,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1611
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.160568,
+          "speedup": 0.940996960789198
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 927,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3646,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 152361,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 148111,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1849
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.157237,
+          "speedup": 0.960931587349034
+        }
+      },
+      "scenario": "mid",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 3,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 965,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 105,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 147507,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 142497,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "samples": 2,
+          "seconds": 0.147867
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 907,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3144,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 140260,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 136644,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1470
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.144586,
+          "speedup": 1.0226923768553
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1037,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3680,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 161696,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 157155,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1601
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.167001,
+          "speedup": 0.885425835773438
+        }
+      },
+      "scenario": "mid",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 4,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1033,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 106,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 150615,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 145397,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "samples": 2,
+          "seconds": 0.151044
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 933,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3380,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 147320,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 143273,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1606
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.151976,
+          "speedup": 0.993867452755698
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 998,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3772,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/controller/inactive_consumer/matter_furnace": 440,
+              "flow/controller/unmodelled_throttle/lava_mite_colony": 760
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 156246,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 151927,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "controller/inactive_consumer/matter_furnace": 44,
+                "controller/unmodelled_throttle/lava_mite_colony": 76
+              },
+              "usec": 1816
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "thermic_mass",
+                "upgrade_name": "Thermic Mass"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 27
+            },
+            {
+              "category": "unlock",
+              "details": {
+                "generator_id": "lava_mite_colony",
+                "generator_name": "Lava Mite Colony"
+              },
+              "event": "generator_unlocked",
+              "source": "upgrade_effect",
+              "tick": 439
+            },
+            {
+              "category": "signal",
+              "details": {
+                "id": "lava_mite_colony"
+              },
+              "event": "unlock",
+              "source": "game",
+              "tick": 439
+            },
+            {
+              "category": "upgrade",
+              "details": {
+                "new_level": 1,
+                "old_level": 0,
+                "upgrade_id": "lava_mite_colony_unlock",
+                "upgrade_name": "Lava Mite Colony"
+              },
+              "event": "automatic_upgrade_applied",
+              "source": "automatic",
+              "tick": 439
+            }
+          ],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.161333,
+          "speedup": 0.936225074845196
+        }
+      },
+      "scenario": "mid",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 0,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 881,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 128,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 427990,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 422450,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.428509
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1143,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3420,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 452640,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 447305,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 732
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.457551,
+          "speedup": 0.936527294225125
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 826,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 2560,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 410694,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 406326,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 594
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.414449,
+          "speedup": 1.03392456007856
+        }
+      },
+      "scenario": "forge_competing",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 1,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1072,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 140,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 455827,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 449324,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.456292
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 992,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3017,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 454339,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 449110,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 661
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.458707,
+          "speedup": 0.994735201337673
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 821,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3033,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 468393,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 462867,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 646
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.472636,
+          "speedup": 0.965419477145203
+        }
+      },
+      "scenario": "forge_competing",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 2,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 899,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 121,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 405172,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 400043,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.405649
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 885,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 3691,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 490742,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 484673,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 918
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.495778,
+          "speedup": 0.818206939396262
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 985,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 2598,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 415694,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 411244,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 583
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.419591,
+          "speedup": 0.966772404555865
+        }
+      },
+      "scenario": "forge_competing",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 3,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 852,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 156,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 456328,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 450560,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.456876
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 941,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 2975,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 475389,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 470260,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 738
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.479662,
+          "speedup": 0.952495715733162
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 852,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 2481,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 392722,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 388559,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 577
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.396357,
+          "speedup": 1.1526881069339
+        }
+      },
+      "scenario": "forge_competing",
+      "survey": false
+    },
+    {
+      "ablation": "none",
+      "duration": 120.0,
+      "engine": "4.6.1-stable (official)",
+      "failures": [],
+      "repeat": 4,
+      "runs": {
+        "exact": {
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1176,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": true,
+              "maximum_step": 0.1,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 158,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "precise_mode": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 461717,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 455197,
+            "policy": "precise_mode",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 0,
+              "reasons": {},
+              "usec": 0
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "events": [],
+          "samples": 2,
+          "seconds": 0.462233
+        },
+        "new": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 1165,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 2948,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 433774,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 429035,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 661
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.43823,
+          "speedup": 1.05477260799124
+        },
+        "old": {
+          "adaptive_coverage": 0.0,
+          "counters": {
+            "accepted": 0,
+            "all_capture_usec": 0,
+            "all_restore_usec": 0,
+            "audit_capture_usec": 932,
+            "automation_boundary": {
+              "calls": 0,
+              "cooldown_replay_ticks": 0,
+              "cooldown_replay_usec": 0,
+              "reasons": {},
+              "replay_waiting_upgrade_checks": false,
+              "skipped_upgrade_checks": 0,
+              "skipped_waiting_checks": 0,
+              "usec": 0
+            },
+            "capture_calls": 0,
+            "checkpoint_usec": 0,
+            "configuration": {
+              "absolute_tolerance": 1e-08,
+              "audit_interval": 60.0,
+              "distribute_error_budget": true,
+              "ensure_statistics_once": true,
+              "event_safety_margin": 0.1,
+              "fallback_window_ticks": 10,
+              "force_exact": false,
+              "maximum_step": 60.0,
+              "minimum_step": 0.1,
+              "monotone_decay_fraction_limit": 0.5,
+              "monotone_decay_margin": true,
+              "numerical_retry_max_ticks": 1000,
+              "relative_tolerance": 0.0001,
+              "reuse_probe_fields": true,
+              "short_exact_seconds": 0.0
+            },
+            "evaluations": 1200,
+            "event_detection_usec": 2731,
+            "fallback_fraction": 1.0,
+            "fallback_reasons": {
+              "flow/cycle/active/infernal_forge": 1200
+            },
+            "fallback_ticks": 1200,
+            "fallback_usec": 457253,
+            "initial_checkpoint_bytes": 0,
+            "map_operator_usec": 0,
+            "numerical_usec": 451977,
+            "policy": "balanced",
+            "proven_margin_bypasses": 0,
+            "rejected": 0,
+            "rejected_usec": 0,
+            "rejection_fields": {},
+            "rejection_reasons": {},
+            "resource_flow": {
+              "calls": 120,
+              "reasons": {
+                "cycle/active/infernal_forge": 120
+              },
+              "usec": 638
+            },
+            "restore_calls": 0,
+            "strict_failure": "",
+            "trial_usec": 0
+          },
+          "discrete_parity": true,
+          "events": [],
+          "exact_state": true,
+          "final_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0,
+            "worst_key": ""
+          },
+          "maximum_sampled_deviation": {
+            "normalized": 0.0,
+            "resource_abs": 0.0,
+            "resource_rel": 0.0,
+            "statistics_abs": 0.0,
+            "statistics_rel": 0.0
+          },
+          "prestige_parity": true,
+          "rng_parity": true,
+          "samples": 2,
+          "seconds": 0.461281,
+          "speedup": 1.0020638179331
+        }
+      },
+      "scenario": "forge_competing",
+      "survey": false
+    }
+  ]
+}

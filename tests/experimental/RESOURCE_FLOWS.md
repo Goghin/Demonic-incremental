@@ -156,3 +156,7 @@ godot --headless --path . --script tests/experimental/resource_flow_benchmark.gd
 ```
 
 The driver bounds each subprocess at 600 seconds and rejects warning/error output, nonzero exit codes, missing results or validation failures. Short-duration exact policy is disabled only inside this explicit experiment. Production settings and save fields are unchanged.
+
+## Core-gameplay investigation follow-up
+
+See [CORE_GAMEPLAY.md](CORE_GAMEPLAY.md) for the recovered progression witness, replay-verified early/mid/Forge fixtures, simultaneous blockers, diagnostic ablations and real completion-boundary tests. It demonstrates why the restricted Nexum result does not generalize. No new core eligibility exception is enabled; the report provides the measured architectural alternative and a concrete transactional-state/clock/phase proposal.
