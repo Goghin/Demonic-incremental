@@ -1,0 +1,4115 @@
+{
+	"cpu": "AMD EPYC 9V74 80-Core Processor",
+	"engine": {
+		"build": "official",
+		"hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+		"hex": 263681,
+		"major": 4,
+		"minor": 6,
+		"patch": 1,
+		"status": "stable",
+		"string": "4.6.1-stable (official)",
+		"timestamp": 0
+	},
+	"failures": [],
+	"phase_profiles": [
+		{
+			"counters": {
+				"build_usec": 339,
+				"builds": 1,
+				"event_check_usec": 7942,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 52,
+				"kernel_ticks": 2000,
+				"kernel_usec": 156571,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"intrusive": true,
+			"label": "early",
+			"ticks": 2000
+		},
+		{
+			"counters": {
+				"build_usec": 323,
+				"builds": 1,
+				"event_check_usec": 268,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 231850,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"intrusive": true,
+			"label": "mid",
+			"ticks": 2000
+		},
+		{
+			"counters": {
+				"build_usec": 369,
+				"builds": 1,
+				"event_check_usec": 310,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 662198,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"intrusive": true,
+			"label": "forge_competing",
+			"ticks": 2000
+		}
+	],
+	"runs": [
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 383,
+			"warmup": true
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 1,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 418,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 198,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"build_usec": 350,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 7,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 1,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 602,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 396,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 1,
+				"event_detection_usec": 59,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 1
+				},
+				"fallback_ticks": 1,
+				"fallback_usec": 571,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 553,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 1,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 1215,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 331,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 1,
+				"event_detection_usec": 69,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 1
+				},
+				"fallback_ticks": 1,
+				"fallback_usec": 499,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 482,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 1,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 1007,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 548,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 34,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 1,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 809,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 1,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 646,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 466,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 371,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 304,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 1,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 391,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 186,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 411,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 11,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 1,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 855,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 322,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 1,
+				"event_detection_usec": 50,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 1
+				},
+				"fallback_ticks": 1,
+				"fallback_usec": 562,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 542,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 1,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 1014,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 281,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 1,
+				"event_detection_usec": 43,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 1
+				},
+				"fallback_ticks": 1,
+				"fallback_usec": 353,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 340,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 1,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 754,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 430,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 9,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 1,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 835,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 1,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 339,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 182,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 1,
+			"wall_usec": 525,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1556,
+			"warmup": true
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 10,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 399,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 711,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"build_usec": 476,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 10,
+				"kernel_ticks": 10,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 10,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1600,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 333,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10,
+				"event_detection_usec": 64,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10
+				},
+				"fallback_ticks": 10,
+				"fallback_usec": 1700,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 1651,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 2192,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 380,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10,
+				"event_detection_usec": 61,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10
+				},
+				"fallback_ticks": 10,
+				"fallback_usec": 2251,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 2187,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 2791,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 549,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 10,
+				"kernel_ticks": 10,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 10,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1306,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 10,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 444,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1066,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1606,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1506,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 10,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 547,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 749,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 426,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 9,
+				"kernel_ticks": 10,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 10,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1105,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 597,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10,
+				"event_detection_usec": 74,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10
+				},
+				"fallback_ticks": 10,
+				"fallback_usec": 1573,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 1521,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 2352,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 284,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10,
+				"event_detection_usec": 44,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10
+				},
+				"fallback_ticks": 10,
+				"fallback_usec": 1329,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 1287,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1732,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 449,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 9,
+				"kernel_ticks": 10,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 10,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1181,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 10,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 424,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 664,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10,
+			"wall_usec": 1360,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 228621,
+			"warmup": true
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 570,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 107702,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"build_usec": 402,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 41,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 118652,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2247,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 4827,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 217317,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 211254,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 224880,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1718,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 4714,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 237401,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 231516,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 244305,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 375,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 42,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 107922,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 411,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 117699,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 217484,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 216354,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 569,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 108412,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 473,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 43,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 110130,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1867,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5144,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 220107,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 214316,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 227605,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1878,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5019,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 223267,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 217276,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 230856,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 352,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 38,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 106289,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 386,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 104571,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 212543,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 4132253,
+			"warmup": true
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 36000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 391,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 2149559,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"build_usec": 362,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 42,
+				"kernel_ticks": 36000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 36000,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 2264712,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 29261,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 36000,
+				"event_detection_usec": 94000,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 36000
+				},
+				"fallback_ticks": 36000,
+				"fallback_usec": 4627395,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 4499204,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 36000,
+			"full_binary_parity": false,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 19565217.3912901,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.195652173912901,
+				"statistics_rel": 19565217.3912901,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 4758048,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 30830,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 36000,
+				"event_detection_usec": 91408,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 36000
+				},
+				"fallback_ticks": 36000,
+				"fallback_usec": 4398349,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 4278627,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 36000,
+			"full_binary_parity": false,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 19565217.3912901,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.195652173912901,
+				"statistics_rel": 19565217.3912901,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 4527715,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 615,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 142,
+				"kernel_ticks": 36000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 36000,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 2188825,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 36000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 438,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 2349398,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 4387965,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 4139162,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 36000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 378,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 2277570,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 692,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 39,
+				"kernel_ticks": 36000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 36000,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 2492413,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 29708,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 36000,
+				"event_detection_usec": 105438,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 36000
+				},
+				"fallback_ticks": 36000,
+				"fallback_usec": 4904766,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 4771669,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 36000,
+			"full_binary_parity": false,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 19565217.3912901,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.195652173912901,
+				"statistics_rel": 19565217.3912901,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 5047764,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 29737,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 36000,
+				"event_detection_usec": 106693,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 36000
+				},
+				"fallback_ticks": 36000,
+				"fallback_usec": 4725077,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 4592307,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 36000,
+			"full_binary_parity": false,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 19565217.3912901,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.195652173912901,
+				"statistics_rel": 19565217.3912901,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 4869482,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 619,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 42,
+				"kernel_ticks": 36000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 36000,
+			"kind": "kernel",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 3033324,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 36000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 404,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 2547326,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 36000,
+			"wall_usec": 4266007,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 207055,
+			"warmup": true
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 381,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 109522,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"build_usec": 389,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 44,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "kernel",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 119845,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2100,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5611,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 230622,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 223777,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 238793,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2189,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 6596,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 281066,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 270516,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 290404,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 444,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 47,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "kernel",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 111949,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 308,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 106170,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 203251,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 204987,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 333,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 106231,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 311,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 41,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "kernel",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 103584,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1927,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 4751,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 220680,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 214096,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 227790,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1934,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 6495,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 272264,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 264435,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 281323,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 586,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 47,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "kernel",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 127331,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 395,
+			"packet_heap_delta_bytes": 20708,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 126243,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early_event",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 248542,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 301609,
+			"warmup": true
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "isolated",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 203,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 274243,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"build_usec": 484,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 1,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "kernel",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 278289,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2235,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5508,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/inactive_consumer/matter_furnace": 440,
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 1560
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 266346,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 258767,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 274622,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2669,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7088,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/inactive_consumer/matter_furnace": 440,
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 1560
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 292901,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 284800,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 303212,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 179,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 1,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "kernel",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 262976,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "isolated",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 179,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 240585,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 237413,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 266038,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "isolated",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 207,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 261217,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 195,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "kernel",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 245942,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2005,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5761,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/inactive_consumer/matter_furnace": 440,
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 1560
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 289649,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 282210,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 297991,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1991,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5494,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/inactive_consumer/matter_furnace": 440,
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 1560
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 248026,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 241496,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 256001,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 161,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 1,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "kernel",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 248206,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "isolated",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 165,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 237092,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "mid",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 244172,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 755300,
+			"warmup": true
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "isolated",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 273,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 869050,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"build_usec": 171,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "kernel",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 758577,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2052,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5599,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 724451,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 715784,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 732772,
+			"warmup": true
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2044,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5796,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 771918,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 762262,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 780386,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 223,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "kernel",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 712190,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "isolated",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 175,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 725733,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 716518,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 790099,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "isolated",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 230,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 755386,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 228,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 1,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "kernel",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 671059,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2101,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5422,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 765868,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 756828,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 774102,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2015,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5201,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 708638,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 700559,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "existing",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 716446,
+			"warmup": false
+		},
+		{
+			"counters": {
+				"build_usec": 175,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "kernel",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 704374,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "isolated",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 782,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 760941,
+			"warmup": false
+		},
+		{
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"full_binary_parity": true,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_heap_delta_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 773718,
+			"warmup": false
+		}
+	]
+}

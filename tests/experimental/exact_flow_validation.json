@@ -1,0 +1,743 @@
+{
+	"cases": [
+		{
+			"compared_ticks": 1,
+			"counters": {
+				"build_usec": 544,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 12,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"prefix": 0,
+			"ticks": 1
+		},
+		{
+			"compared_ticks": 10,
+			"counters": {
+				"build_usec": 634,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 14,
+				"kernel_ticks": 10,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"prefix": 0,
+			"ticks": 10
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 618,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 30,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"prefix": 0,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 1380,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 30,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"prefix": 0,
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 577,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 19,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "heat_zero",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 596,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 20,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "heat_below",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 581,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 16,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "heat_at",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 669,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 19,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "heat_above",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 617,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 29,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "heat_stiff",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 696,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "matter_below",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 655,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 26,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "matter_at",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 657,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 24,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "matter_above",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 703,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 20,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "matter_strong",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 652,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 22,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "phase_below",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 649,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 24,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "phase_at",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 599,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 19,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "phase_above",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 30,
+			"counters": {
+				"build_usec": 592,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 30,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "purchased_modifier",
+			"prefix": 0,
+			"ticks": 30
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 883,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 27,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"prefix": 68,
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 600,
+			"counters": {
+				"build_usec": 369,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 600,
+				"fallback_usec": 0,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"prefix": 0,
+			"ticks": 600
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 464,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"prefix": 0,
+			"ticks": 100
+		},
+		{
+			"counters": {
+				"build_usec": 1183,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "none"
+		},
+		{
+			"counters": {
+				"build_usec": 1177,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 21,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "level"
+		},
+		{
+			"counters": {
+				"build_usec": 1291,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 16,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "pause"
+		},
+		{
+			"counters": {
+				"build_usec": 1246,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "modifier"
+		},
+		{
+			"counters": {
+				"build_usec": 774,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 16,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "modifier_target"
+		},
+		{
+			"counters": {
+				"build_usec": 1102,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "sensitivity"
+		},
+		{
+			"counters": {
+				"build_usec": 1349,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "threshold"
+		},
+		{
+			"counters": {
+				"build_usec": 1108,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 17,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "phase"
+		},
+		{
+			"counters": {
+				"build_usec": 1086,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "resource_object"
+		},
+		{
+			"counters": {
+				"build_usec": 1716,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 19,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "output_unlock"
+		},
+		{
+			"counters": {
+				"build_usec": 1555,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 23,
+				"kernel_ticks": 11,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "upgrade"
+		},
+		{
+			"counters": {
+				"build_usec": 796,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 10,
+				"fallback_usec": 0,
+				"invalidate_usec": 8,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+					"unsupported_output/essence": 1
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "mode"
+		},
+		{
+			"counters": {
+				"build_usec": 1395,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 10,
+				"fallback_usec": 0,
+				"invalidate_usec": 87,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+					"relic_inventory": 1
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "relic"
+		},
+		{
+			"counters": {
+				"build_usec": 1082,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 10,
+				"fallback_usec": 0,
+				"invalidate_usec": 8,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "automation"
+		},
+		{
+			"counters": {
+				"build_usec": 1140,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 10,
+				"fallback_usec": 0,
+				"invalidate_usec": 10,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+					"unsupported_consumer/ash": 1
+				},
+				"writeback_usec": 0
+			},
+			"invalidation": "mite"
+		},
+		{
+			"counters": {
+				"build_usec": 230,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 10,
+				"fallback_usec": 0,
+				"invalidate_usec": 0,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"enabled_automation": 1
+				},
+				"writeback_usec": 0
+			},
+			"events": [
+				{
+					"amount": 3.0,
+					"event": "normal"
+				},
+				{
+					"critical": false,
+					"event": "relic",
+					"name": "Generated Relic",
+					"quantity": 1
+				}
+			],
+			"rng_fallback": true
+		},
+		{
+			"automatic_event": true,
+			"counters": {
+				"build_usec": 657,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 25,
+				"kernel_ticks": 149,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"writeback_usec": 0
+			}
+		}
+	],
+	"failures": []
+}

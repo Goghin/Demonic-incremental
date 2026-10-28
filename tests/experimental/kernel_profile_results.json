@@ -1,0 +1,2057 @@
+{
+	"cpu": "AMD EPYC 9V74 80-Core Processor",
+	"engine": {
+		"build": "official",
+		"hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+		"hex": 263681,
+		"major": 4,
+		"minor": 6,
+		"patch": 1,
+		"status": "stable",
+		"string": "4.6.1-stable (official)",
+		"timestamp": 0
+	},
+	"failures": [],
+	"runs": [
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 0,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 210087
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 1,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 226858
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 2,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 212003
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 6000,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_processing": 2000,
+				"generator_start_checks": 4002,
+				"heat_leak": 2000,
+				"input_consumption": 6000,
+				"input_rate_calculation": 2000,
+				"matter_decay": 2000,
+				"output_production": 6000,
+				"production_rate_calculation": 10000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 33342,
+				"available_operating_duration": 10150,
+				"cycle_generator_processing": 2079,
+				"environmental_effects": 8302,
+				"generator_automation": 2101,
+				"generator_processing": 187372,
+				"generator_start_checks": 4909,
+				"heat_leak": 3630,
+				"input_consumption": 18548,
+				"input_rate_calculation": 3410,
+				"matter_decay": 2197,
+				"output_production": 113308,
+				"production_rate_calculation": 62471,
+				"upgrade_automation": 1987
+			},
+			"nested_details": {
+
+			},
+			"repeat": 0,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 242981
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 6000,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_processing": 2000,
+				"generator_start_checks": 4002,
+				"heat_leak": 2000,
+				"input_consumption": 6000,
+				"input_rate_calculation": 2000,
+				"matter_decay": 2000,
+				"output_production": 6000,
+				"production_rate_calculation": 10000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 34116,
+				"available_operating_duration": 10746,
+				"cycle_generator_processing": 1993,
+				"environmental_effects": 8143,
+				"generator_automation": 2151,
+				"generator_processing": 199907,
+				"generator_start_checks": 4647,
+				"heat_leak": 3680,
+				"input_consumption": 21989,
+				"input_rate_calculation": 3345,
+				"matter_decay": 2095,
+				"output_production": 117646,
+				"production_rate_calculation": 64306,
+				"upgrade_automation": 1925
+			},
+			"nested_details": {
+
+			},
+			"repeat": 1,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 256120
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 6000,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_processing": 2000,
+				"generator_start_checks": 4002,
+				"heat_leak": 2000,
+				"input_consumption": 6000,
+				"input_rate_calculation": 2000,
+				"matter_decay": 2000,
+				"output_production": 6000,
+				"production_rate_calculation": 10000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 35693,
+				"available_operating_duration": 10635,
+				"cycle_generator_processing": 2119,
+				"environmental_effects": 8792,
+				"generator_automation": 2328,
+				"generator_processing": 201094,
+				"generator_start_checks": 5037,
+				"heat_leak": 4138,
+				"input_consumption": 20428,
+				"input_rate_calculation": 3779,
+				"matter_decay": 2124,
+				"output_production": 120654,
+				"production_rate_calculation": 66306,
+				"upgrade_automation": 2053
+			},
+			"nested_details": {
+
+			},
+			"repeat": 2,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 260642
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 6000,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_processing": 2000,
+				"generator_start_checks": 4002,
+				"heat_leak": 2000,
+				"input_consumption": 6000,
+				"input_rate_calculation": 2000,
+				"matter_decay": 2000,
+				"output_production": 6000,
+				"production_rate_calculation": 10000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 34263,
+				"available_operating_duration": 12755,
+				"cycle_generator_processing": 2259,
+				"environmental_effects": 8692,
+				"generator_automation": 2372,
+				"generator_processing": 358561,
+				"generator_start_checks": 5143,
+				"heat_leak": 3982,
+				"input_consumption": 28568,
+				"input_rate_calculation": 5189,
+				"matter_decay": 2073,
+				"output_production": 262115,
+				"production_rate_calculation": 176742,
+				"upgrade_automation": 1980
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 12000,
+					"usec": 22861
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 40000,
+					"usec": 18266
+				},
+				"generator/get_production_progress": {
+					"calls": 2000,
+					"usec": 1004
+				},
+				"generator/get_production_rate": {
+					"calls": 10000,
+					"usec": 167405
+				},
+				"generator/set_production_progress": {
+					"calls": 2000,
+					"usec": 868
+				},
+				"modifier/effective_dynamic": {
+					"calls": 14000,
+					"usec": 54067
+				},
+				"modifier/effective_static": {
+					"calls": 26000,
+					"usec": 66793
+				},
+				"modifier/raw_dynamic": {
+					"calls": 14000,
+					"usec": 22208
+				},
+				"modifier/raw_static": {
+					"calls": 26000,
+					"usec": 11915
+				},
+				"statistics/record_consumed": {
+					"calls": 6000,
+					"usec": 4690
+				},
+				"statistics/record_produced": {
+					"calls": 24090,
+					"usec": 19190
+				},
+				"statistics/update_highest": {
+					"calls": 20060,
+					"usec": 18117
+				}
+			},
+			"repeat": 0,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 416257
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 6000,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_processing": 2000,
+				"generator_start_checks": 4002,
+				"heat_leak": 2000,
+				"input_consumption": 6000,
+				"input_rate_calculation": 2000,
+				"matter_decay": 2000,
+				"output_production": 6000,
+				"production_rate_calculation": 10000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 32948,
+				"available_operating_duration": 12620,
+				"cycle_generator_processing": 2201,
+				"environmental_effects": 10027,
+				"generator_automation": 2222,
+				"generator_processing": 346492,
+				"generator_start_checks": 4748,
+				"heat_leak": 3609,
+				"input_consumption": 28396,
+				"input_rate_calculation": 5647,
+				"matter_decay": 2096,
+				"output_production": 251117,
+				"production_rate_calculation": 164359,
+				"upgrade_automation": 1878
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 12000,
+					"usec": 23144
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 40000,
+					"usec": 16885
+				},
+				"generator/get_production_progress": {
+					"calls": 2000,
+					"usec": 973
+				},
+				"generator/get_production_rate": {
+					"calls": 10000,
+					"usec": 156694
+				},
+				"generator/set_production_progress": {
+					"calls": 2000,
+					"usec": 874
+				},
+				"modifier/effective_dynamic": {
+					"calls": 14000,
+					"usec": 49818
+				},
+				"modifier/effective_static": {
+					"calls": 26000,
+					"usec": 61150
+				},
+				"modifier/raw_dynamic": {
+					"calls": 14000,
+					"usec": 21710
+				},
+				"modifier/raw_static": {
+					"calls": 26000,
+					"usec": 11321
+				},
+				"statistics/record_consumed": {
+					"calls": 6000,
+					"usec": 4807
+				},
+				"statistics/record_produced": {
+					"calls": 24090,
+					"usec": 18268
+				},
+				"statistics/update_highest": {
+					"calls": 20060,
+					"usec": 17898
+				}
+			},
+			"repeat": 1,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 403800
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 6000,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_processing": 2000,
+				"generator_start_checks": 4002,
+				"heat_leak": 2000,
+				"input_consumption": 6000,
+				"input_rate_calculation": 2000,
+				"matter_decay": 2000,
+				"output_production": 6000,
+				"production_rate_calculation": 10000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 33905,
+				"available_operating_duration": 13613,
+				"cycle_generator_processing": 2165,
+				"environmental_effects": 8600,
+				"generator_automation": 2227,
+				"generator_processing": 348502,
+				"generator_start_checks": 5075,
+				"heat_leak": 3992,
+				"input_consumption": 28205,
+				"input_rate_calculation": 5149,
+				"matter_decay": 2043,
+				"output_production": 250850,
+				"production_rate_calculation": 166606,
+				"upgrade_automation": 2070
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 12000,
+					"usec": 23919
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 40000,
+					"usec": 17651
+				},
+				"generator/get_production_progress": {
+					"calls": 2000,
+					"usec": 946
+				},
+				"generator/get_production_rate": {
+					"calls": 10000,
+					"usec": 158685
+				},
+				"generator/set_production_progress": {
+					"calls": 2000,
+					"usec": 771
+				},
+				"modifier/effective_dynamic": {
+					"calls": 14000,
+					"usec": 51445
+				},
+				"modifier/effective_static": {
+					"calls": 26000,
+					"usec": 61712
+				},
+				"modifier/raw_dynamic": {
+					"calls": 14000,
+					"usec": 22167
+				},
+				"modifier/raw_static": {
+					"calls": 26000,
+					"usec": 11625
+				},
+				"statistics/record_consumed": {
+					"calls": 6000,
+					"usec": 4695
+				},
+				"statistics/record_produced": {
+					"calls": 24090,
+					"usec": 18797
+				},
+				"statistics/update_highest": {
+					"calls": 20060,
+					"usec": 18165
+				}
+			},
+			"repeat": 2,
+			"scenario": "early",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 405992
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 0,
+			"scenario": "mid",
+			"signal_handler_usec": 4,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 225943
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 1,
+			"scenario": "mid",
+			"signal_handler_usec": 6,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 233483
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 2,
+			"scenario": "mid",
+			"signal_handler_usec": 5,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 237059
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 7396,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5533,
+				"heat_leak": 2000,
+				"input_consumption": 7396,
+				"input_rate_calculation": 4958,
+				"matter_decay": 2000,
+				"output_production": 7396,
+				"production_rate_calculation": 9668,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 21993,
+				"available_operating_duration": 28115,
+				"cycle_generator_processing": 2030,
+				"environmental_effects": 8295,
+				"generator_automation": 17873,
+				"generator_automation_loop_checks": 6495,
+				"generator_automation_purchase_attempts": 23,
+				"generator_automation_waiting_checks": 6055,
+				"generator_processing": 220157,
+				"generator_start_checks": 8953,
+				"heat_leak": 3706,
+				"input_consumption": 49403,
+				"input_rate_calculation": 17465,
+				"matter_decay": 2136,
+				"output_production": 91254,
+				"production_rate_calculation": 38977,
+				"upgrade_automation": 1980
+			},
+			"nested_details": {
+
+			},
+			"repeat": 0,
+			"scenario": "mid",
+			"signal_handler_usec": 4,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 280151
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 7396,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5533,
+				"heat_leak": 2000,
+				"input_consumption": 7396,
+				"input_rate_calculation": 4958,
+				"matter_decay": 2000,
+				"output_production": 7396,
+				"production_rate_calculation": 9668,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 21664,
+				"available_operating_duration": 28658,
+				"cycle_generator_processing": 2080,
+				"environmental_effects": 8410,
+				"generator_automation": 16457,
+				"generator_automation_loop_checks": 5874,
+				"generator_automation_purchase_attempts": 23,
+				"generator_automation_waiting_checks": 5668,
+				"generator_processing": 221843,
+				"generator_start_checks": 8350,
+				"heat_leak": 3902,
+				"input_consumption": 49080,
+				"input_rate_calculation": 18111,
+				"matter_decay": 2063,
+				"output_production": 91547,
+				"production_rate_calculation": 38233,
+				"upgrade_automation": 2020
+			},
+			"nested_details": {
+
+			},
+			"repeat": 1,
+			"scenario": "mid",
+			"signal_handler_usec": 6,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 280076
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 7396,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5533,
+				"heat_leak": 2000,
+				"input_consumption": 7396,
+				"input_rate_calculation": 4958,
+				"matter_decay": 2000,
+				"output_production": 7396,
+				"production_rate_calculation": 9668,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 21945,
+				"available_operating_duration": 25567,
+				"cycle_generator_processing": 2068,
+				"environmental_effects": 7781,
+				"generator_automation": 15928,
+				"generator_automation_loop_checks": 5880,
+				"generator_automation_purchase_attempts": 22,
+				"generator_automation_waiting_checks": 5591,
+				"generator_processing": 210449,
+				"generator_start_checks": 8321,
+				"heat_leak": 3664,
+				"input_consumption": 46957,
+				"input_rate_calculation": 17044,
+				"matter_decay": 1884,
+				"output_production": 89486,
+				"production_rate_calculation": 37138,
+				"upgrade_automation": 2020
+			},
+			"nested_details": {
+
+			},
+			"repeat": 2,
+			"scenario": "mid",
+			"signal_handler_usec": 6,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 267570
+		},
+		{
+			"history_calls": 3,
+			"history_usec": 15,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 7396,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5533,
+				"heat_leak": 2000,
+				"input_consumption": 7396,
+				"input_rate_calculation": 4958,
+				"matter_decay": 2000,
+				"output_production": 7396,
+				"production_rate_calculation": 9668,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 20794,
+				"available_operating_duration": 39204,
+				"cycle_generator_processing": 2202,
+				"environmental_effects": 8240,
+				"generator_automation": 16256,
+				"generator_automation_loop_checks": 6150,
+				"generator_automation_purchase_attempts": 25,
+				"generator_automation_waiting_checks": 5303,
+				"generator_processing": 327182,
+				"generator_start_checks": 8728,
+				"heat_leak": 3727,
+				"input_consumption": 76387,
+				"input_rate_calculation": 28213,
+				"matter_decay": 2059,
+				"output_production": 153316,
+				"production_rate_calculation": 71771,
+				"upgrade_automation": 1906
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 11645,
+					"usec": 66933
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 22989,
+					"usec": 9908
+				},
+				"generator/get_production_progress": {
+					"calls": 1834,
+					"usec": 887
+				},
+				"generator/get_production_rate": {
+					"calls": 9668,
+					"usec": 64468
+				},
+				"generator/set_production_progress": {
+					"calls": 1834,
+					"usec": 733
+				},
+				"modifier/effective_dynamic": {
+					"calls": 19041,
+					"usec": 58890
+				},
+				"modifier/raw_dynamic": {
+					"calls": 19041,
+					"usec": 20426
+				},
+				"statistics/record_consumed": {
+					"calls": 14874,
+					"usec": 10910
+				},
+				"statistics/record_produced": {
+					"calls": 23676,
+					"usec": 17435
+				},
+				"statistics/update_highest": {
+					"calls": 25700,
+					"usec": 21933
+				}
+			},
+			"repeat": 0,
+			"scenario": "mid",
+			"signal_handler_usec": 3,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 8,
+			"wall_usec": 383887
+		},
+		{
+			"history_calls": 3,
+			"history_usec": 24,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 7396,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5533,
+				"heat_leak": 2000,
+				"input_consumption": 7396,
+				"input_rate_calculation": 4958,
+				"matter_decay": 2000,
+				"output_production": 7396,
+				"production_rate_calculation": 9668,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 21776,
+				"available_operating_duration": 39750,
+				"cycle_generator_processing": 2075,
+				"environmental_effects": 8416,
+				"generator_automation": 16816,
+				"generator_automation_loop_checks": 6269,
+				"generator_automation_purchase_attempts": 23,
+				"generator_automation_waiting_checks": 5628,
+				"generator_processing": 334165,
+				"generator_start_checks": 8970,
+				"heat_leak": 3710,
+				"input_consumption": 78342,
+				"input_rate_calculation": 29654,
+				"matter_decay": 2210,
+				"output_production": 155383,
+				"production_rate_calculation": 73035,
+				"upgrade_automation": 2178
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 11645,
+					"usec": 68918
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 22989,
+					"usec": 10106
+				},
+				"generator/get_production_progress": {
+					"calls": 1834,
+					"usec": 913
+				},
+				"generator/get_production_rate": {
+					"calls": 9668,
+					"usec": 65134
+				},
+				"generator/set_production_progress": {
+					"calls": 1834,
+					"usec": 784
+				},
+				"modifier/effective_dynamic": {
+					"calls": 19041,
+					"usec": 59258
+				},
+				"modifier/raw_dynamic": {
+					"calls": 19041,
+					"usec": 20436
+				},
+				"statistics/record_consumed": {
+					"calls": 14874,
+					"usec": 11120
+				},
+				"statistics/record_produced": {
+					"calls": 23676,
+					"usec": 17654
+				},
+				"statistics/update_highest": {
+					"calls": 25700,
+					"usec": 21845
+				}
+			},
+			"repeat": 1,
+			"scenario": "mid",
+			"signal_handler_usec": 3,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 8,
+			"wall_usec": 393526
+		},
+		{
+			"history_calls": 3,
+			"history_usec": 15,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 7396,
+				"cycle_generator_processing": 2000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5533,
+				"heat_leak": 2000,
+				"input_consumption": 7396,
+				"input_rate_calculation": 4958,
+				"matter_decay": 2000,
+				"output_production": 7396,
+				"production_rate_calculation": 9668,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 22227,
+				"available_operating_duration": 41176,
+				"cycle_generator_processing": 2741,
+				"environmental_effects": 8366,
+				"generator_automation": 17930,
+				"generator_automation_loop_checks": 6498,
+				"generator_automation_purchase_attempts": 23,
+				"generator_automation_waiting_checks": 6286,
+				"generator_processing": 366822,
+				"generator_start_checks": 9333,
+				"heat_leak": 3755,
+				"input_consumption": 84638,
+				"input_rate_calculation": 31131,
+				"matter_decay": 2055,
+				"output_production": 173636,
+				"production_rate_calculation": 81471,
+				"upgrade_automation": 2139
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 11645,
+					"usec": 73000
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 22989,
+					"usec": 12147
+				},
+				"generator/get_production_progress": {
+					"calls": 1834,
+					"usec": 968
+				},
+				"generator/get_production_rate": {
+					"calls": 9668,
+					"usec": 71733
+				},
+				"generator/set_production_progress": {
+					"calls": 1834,
+					"usec": 795
+				},
+				"modifier/effective_dynamic": {
+					"calls": 19041,
+					"usec": 65887
+				},
+				"modifier/raw_dynamic": {
+					"calls": 19041,
+					"usec": 21838
+				},
+				"statistics/record_consumed": {
+					"calls": 14874,
+					"usec": 11351
+				},
+				"statistics/record_produced": {
+					"calls": 23676,
+					"usec": 23880
+				},
+				"statistics/update_highest": {
+					"calls": 25700,
+					"usec": 23597
+				}
+			},
+			"repeat": 2,
+			"scenario": "mid",
+			"signal_handler_usec": 3,
+			"signals": 1,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 8,
+			"wall_usec": 427632
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 0,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 651513
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 1,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 749279
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 2,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 831082
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 10000,
+				"cycle_generator_processing": 4000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5,
+				"heat_leak": 2000,
+				"input_consumption": 10000,
+				"input_rate_calculation": 12000,
+				"matter_decay": 2000,
+				"output_production": 10000,
+				"production_rate_calculation": 16000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 22114,
+				"available_operating_duration": 88022,
+				"cycle_generator_processing": 96659,
+				"environmental_effects": 28698,
+				"generator_automation": 22742,
+				"generator_automation_loop_checks": 8504,
+				"generator_automation_purchase_attempts": 47,
+				"generator_automation_waiting_checks": 7735,
+				"generator_processing": 734090,
+				"generator_start_checks": 25,
+				"heat_leak": 22431,
+				"input_consumption": 128997,
+				"input_rate_calculation": 81207,
+				"matter_decay": 2807,
+				"output_production": 259802,
+				"production_rate_calculation": 169573,
+				"upgrade_automation": 3475
+			},
+			"nested_details": {
+
+			},
+			"repeat": 0,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 823405
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 10000,
+				"cycle_generator_processing": 4000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5,
+				"heat_leak": 2000,
+				"input_consumption": 10000,
+				"input_rate_calculation": 12000,
+				"matter_decay": 2000,
+				"output_production": 10000,
+				"production_rate_calculation": 16000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 19077,
+				"available_operating_duration": 82176,
+				"cycle_generator_processing": 95164,
+				"environmental_effects": 27173,
+				"generator_automation": 20269,
+				"generator_automation_loop_checks": 8028,
+				"generator_automation_purchase_attempts": 44,
+				"generator_automation_waiting_checks": 6531,
+				"generator_processing": 696856,
+				"generator_start_checks": 23,
+				"heat_leak": 21536,
+				"input_consumption": 125171,
+				"input_rate_calculation": 81058,
+				"matter_decay": 2374,
+				"output_production": 243515,
+				"production_rate_calculation": 161266,
+				"upgrade_automation": 2740
+			},
+			"nested_details": {
+
+			},
+			"repeat": 1,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 777245
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 10000,
+				"cycle_generator_processing": 4000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5,
+				"heat_leak": 2000,
+				"input_consumption": 10000,
+				"input_rate_calculation": 12000,
+				"matter_decay": 2000,
+				"output_production": 10000,
+				"production_rate_calculation": 16000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 25302,
+				"available_operating_duration": 88530,
+				"cycle_generator_processing": 93999,
+				"environmental_effects": 28611,
+				"generator_automation": 22310,
+				"generator_automation_loop_checks": 8617,
+				"generator_automation_purchase_attempts": 43,
+				"generator_automation_waiting_checks": 7219,
+				"generator_processing": 712463,
+				"generator_start_checks": 22,
+				"heat_leak": 22943,
+				"input_consumption": 124413,
+				"input_rate_calculation": 78281,
+				"matter_decay": 2601,
+				"output_production": 248672,
+				"production_rate_calculation": 164231,
+				"upgrade_automation": 3409
+			},
+			"nested_details": {
+
+			},
+			"repeat": 2,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 804409
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 10000,
+				"cycle_generator_processing": 4000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5,
+				"heat_leak": 2000,
+				"input_consumption": 10000,
+				"input_rate_calculation": 12000,
+				"matter_decay": 2000,
+				"output_production": 10000,
+				"production_rate_calculation": 16000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 27151,
+				"available_operating_duration": 193418,
+				"cycle_generator_processing": 158801,
+				"environmental_effects": 52139,
+				"generator_automation": 27294,
+				"generator_automation_loop_checks": 10464,
+				"generator_automation_purchase_attempts": 62,
+				"generator_automation_waiting_checks": 9070,
+				"generator_processing": 1656489,
+				"generator_start_checks": 19,
+				"heat_leak": 45093,
+				"input_consumption": 270476,
+				"input_rate_calculation": 191565,
+				"matter_decay": 3714,
+				"output_production": 702840,
+				"production_rate_calculation": 542026,
+				"upgrade_automation": 4274
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 32000,
+					"usec": 629867
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 238004,
+					"usec": 117103
+				},
+				"generator/get_production_progress": {
+					"calls": 2000,
+					"usec": 1389
+				},
+				"generator/get_production_rate": {
+					"calls": 16000,
+					"usec": 527703
+				},
+				"generator/set_production_progress": {
+					"calls": 2000,
+					"usec": 1296
+				},
+				"modifier/effective_dynamic": {
+					"calls": 60000,
+					"usec": 237198
+				},
+				"modifier/effective_static": {
+					"calls": 178004,
+					"usec": 488481
+				},
+				"modifier/raw_dynamic": {
+					"calls": 60000,
+					"usec": 96230
+				},
+				"modifier/raw_static": {
+					"calls": 178004,
+					"usec": 96177
+				},
+				"statistics/record_consumed": {
+					"calls": 36000,
+					"usec": 31454
+				},
+				"statistics/record_lost": {
+					"calls": 5895,
+					"usec": 5853
+				},
+				"statistics/record_overflow": {
+					"calls": 5895,
+					"usec": 4996
+				},
+				"statistics/record_produced": {
+					"calls": 47400,
+					"usec": 46840
+				},
+				"statistics/update_highest": {
+					"calls": 59530,
+					"usec": 65605
+				}
+			},
+			"repeat": 0,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 1781803
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 10000,
+				"cycle_generator_processing": 4000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5,
+				"heat_leak": 2000,
+				"input_consumption": 10000,
+				"input_rate_calculation": 12000,
+				"matter_decay": 2000,
+				"output_production": 10000,
+				"production_rate_calculation": 16000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 20801,
+				"available_operating_duration": 165393,
+				"cycle_generator_processing": 136007,
+				"environmental_effects": 38855,
+				"generator_automation": 22230,
+				"generator_automation_loop_checks": 8538,
+				"generator_automation_purchase_attempts": 59,
+				"generator_automation_waiting_checks": 7264,
+				"generator_processing": 1422910,
+				"generator_start_checks": 21,
+				"heat_leak": 33242,
+				"input_consumption": 229900,
+				"input_rate_calculation": 158473,
+				"matter_decay": 2638,
+				"output_production": 603517,
+				"production_rate_calculation": 475514,
+				"upgrade_automation": 3035
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 32000,
+					"usec": 540852
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 238004,
+					"usec": 106474
+				},
+				"generator/get_production_progress": {
+					"calls": 2000,
+					"usec": 1266
+				},
+				"generator/get_production_rate": {
+					"calls": 16000,
+					"usec": 462350
+				},
+				"generator/set_production_progress": {
+					"calls": 2000,
+					"usec": 1012
+				},
+				"modifier/effective_dynamic": {
+					"calls": 60000,
+					"usec": 208127
+				},
+				"modifier/effective_static": {
+					"calls": 178004,
+					"usec": 435849
+				},
+				"modifier/raw_dynamic": {
+					"calls": 60000,
+					"usec": 78713
+				},
+				"modifier/raw_static": {
+					"calls": 178004,
+					"usec": 80918
+				},
+				"statistics/record_consumed": {
+					"calls": 36000,
+					"usec": 27564
+				},
+				"statistics/record_lost": {
+					"calls": 5895,
+					"usec": 4633
+				},
+				"statistics/record_overflow": {
+					"calls": 5895,
+					"usec": 2517
+				},
+				"statistics/record_produced": {
+					"calls": 47400,
+					"usec": 37971
+				},
+				"statistics/update_highest": {
+					"calls": 59530,
+					"usec": 52972
+				}
+			},
+			"repeat": 1,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 1519865
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 2000,
+				"available_operating_duration": 10000,
+				"cycle_generator_processing": 4000,
+				"environmental_effects": 2000,
+				"generator_automation": 2000,
+				"generator_automation_loop_checks": 2000,
+				"generator_automation_purchase_attempts": 1,
+				"generator_automation_waiting_checks": 1949,
+				"generator_processing": 2000,
+				"generator_start_checks": 5,
+				"heat_leak": 2000,
+				"input_consumption": 10000,
+				"input_rate_calculation": 12000,
+				"matter_decay": 2000,
+				"output_production": 10000,
+				"production_rate_calculation": 16000,
+				"upgrade_automation": 2000
+			},
+			"native_totals": {
+				"automatic_upgrades": 22686,
+				"available_operating_duration": 173413,
+				"cycle_generator_processing": 137673,
+				"environmental_effects": 40894,
+				"generator_automation": 23660,
+				"generator_automation_loop_checks": 9099,
+				"generator_automation_purchase_attempts": 61,
+				"generator_automation_waiting_checks": 8035,
+				"generator_processing": 1471694,
+				"generator_start_checks": 18,
+				"heat_leak": 35132,
+				"input_consumption": 241469,
+				"input_rate_calculation": 165160,
+				"matter_decay": 2843,
+				"output_production": 621860,
+				"production_rate_calculation": 490879,
+				"upgrade_automation": 2836
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 32000,
+					"usec": 561764
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 238004,
+					"usec": 113835
+				},
+				"generator/get_production_progress": {
+					"calls": 2000,
+					"usec": 1205
+				},
+				"generator/get_production_rate": {
+					"calls": 16000,
+					"usec": 478007
+				},
+				"generator/set_production_progress": {
+					"calls": 2000,
+					"usec": 1144
+				},
+				"modifier/effective_dynamic": {
+					"calls": 60000,
+					"usec": 214094
+				},
+				"modifier/effective_static": {
+					"calls": 178004,
+					"usec": 454164
+				},
+				"modifier/raw_dynamic": {
+					"calls": 60000,
+					"usec": 81813
+				},
+				"modifier/raw_static": {
+					"calls": 178004,
+					"usec": 86571
+				},
+				"statistics/record_consumed": {
+					"calls": 36000,
+					"usec": 28284
+				},
+				"statistics/record_lost": {
+					"calls": 5895,
+					"usec": 4927
+				},
+				"statistics/record_overflow": {
+					"calls": 5895,
+					"usec": 2682
+				},
+				"statistics/record_produced": {
+					"calls": 47400,
+					"usec": 37099
+				},
+				"statistics/update_highest": {
+					"calls": 59530,
+					"usec": 53594
+				}
+			},
+			"repeat": 2,
+			"scenario": "forge_competing",
+			"signal_handler_usec": 0,
+			"signals": 0,
+			"ticks": 2000,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 1574326
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 0,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 3,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 3812
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 1,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 4,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 4950
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "throughput",
+			"native_calls": {
+
+			},
+			"native_totals": {
+
+			},
+			"nested_details": {
+
+			},
+			"repeat": 2,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 3,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 4361
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 20,
+				"available_operating_duration": 80,
+				"cycle_generator_processing": 40,
+				"environmental_effects": 20,
+				"generator_automation": 20,
+				"generator_processing": 20,
+				"generator_start_checks": 42,
+				"heat_leak": 20,
+				"heat_leak_integration": 1,
+				"input_consumption": 80,
+				"input_rate_calculation": 62,
+				"matter_decay": 20,
+				"output_production": 80,
+				"production_rate_calculation": 101,
+				"upgrade_automation": 20
+			},
+			"native_totals": {
+				"automatic_upgrades": 236,
+				"available_operating_duration": 551,
+				"cycle_generator_processing": 119,
+				"environmental_effects": 166,
+				"generator_automation": 211,
+				"generator_processing": 3866,
+				"generator_start_checks": 63,
+				"heat_leak": 70,
+				"heat_leak_integration": 25,
+				"input_consumption": 694,
+				"input_rate_calculation": 298,
+				"matter_decay": 24,
+				"output_production": 1930,
+				"production_rate_calculation": 1387,
+				"upgrade_automation": 28
+			},
+			"nested_details": {
+
+			},
+			"repeat": 0,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 3,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 4633
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 20,
+				"available_operating_duration": 80,
+				"cycle_generator_processing": 40,
+				"environmental_effects": 20,
+				"generator_automation": 20,
+				"generator_processing": 20,
+				"generator_start_checks": 42,
+				"heat_leak": 20,
+				"heat_leak_integration": 1,
+				"input_consumption": 80,
+				"input_rate_calculation": 62,
+				"matter_decay": 20,
+				"output_production": 80,
+				"production_rate_calculation": 101,
+				"upgrade_automation": 20
+			},
+			"native_totals": {
+				"automatic_upgrades": 640,
+				"available_operating_duration": 533,
+				"cycle_generator_processing": 154,
+				"environmental_effects": 133,
+				"generator_automation": 31,
+				"generator_processing": 4389,
+				"generator_start_checks": 65,
+				"heat_leak": 81,
+				"heat_leak_integration": 25,
+				"input_consumption": 824,
+				"input_rate_calculation": 337,
+				"matter_decay": 24,
+				"output_production": 2131,
+				"production_rate_calculation": 1501,
+				"upgrade_automation": 32
+			},
+			"nested_details": {
+
+			},
+			"repeat": 1,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 2,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 5352
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "native_profile",
+			"native_calls": {
+				"automatic_upgrades": 20,
+				"available_operating_duration": 80,
+				"cycle_generator_processing": 40,
+				"environmental_effects": 20,
+				"generator_automation": 20,
+				"generator_processing": 20,
+				"generator_start_checks": 42,
+				"heat_leak": 20,
+				"heat_leak_integration": 1,
+				"input_consumption": 80,
+				"input_rate_calculation": 62,
+				"matter_decay": 20,
+				"output_production": 80,
+				"production_rate_calculation": 101,
+				"upgrade_automation": 20
+			},
+			"native_totals": {
+				"automatic_upgrades": 459,
+				"available_operating_duration": 366,
+				"cycle_generator_processing": 121,
+				"environmental_effects": 113,
+				"generator_automation": 27,
+				"generator_processing": 3480,
+				"generator_start_checks": 53,
+				"heat_leak": 67,
+				"heat_leak_integration": 26,
+				"input_consumption": 668,
+				"input_rate_calculation": 293,
+				"matter_decay": 24,
+				"output_production": 1790,
+				"production_rate_calculation": 1251,
+				"upgrade_automation": 24
+			},
+			"nested_details": {
+
+			},
+			"repeat": 2,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 3,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 4208
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 20,
+				"available_operating_duration": 80,
+				"cycle_generator_processing": 40,
+				"environmental_effects": 20,
+				"generator_automation": 20,
+				"generator_processing": 20,
+				"generator_start_checks": 42,
+				"heat_leak": 20,
+				"heat_leak_integration": 1,
+				"input_consumption": 80,
+				"input_rate_calculation": 62,
+				"matter_decay": 20,
+				"output_production": 80,
+				"production_rate_calculation": 101,
+				"upgrade_automation": 20
+			},
+			"native_totals": {
+				"automatic_upgrades": 463,
+				"available_operating_duration": 634,
+				"cycle_generator_processing": 203,
+				"environmental_effects": 216,
+				"generator_automation": 46,
+				"generator_processing": 8553,
+				"generator_start_checks": 64,
+				"heat_leak": 85,
+				"heat_leak_integration": 26,
+				"input_consumption": 1456,
+				"input_rate_calculation": 781,
+				"matter_decay": 25,
+				"output_production": 5494,
+				"production_rate_calculation": 4304,
+				"upgrade_automation": 104
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 148,
+					"usec": 1477
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 1293,
+					"usec": 563
+				},
+				"generator/get_production_progress": {
+					"calls": 20,
+					"usec": 8
+				},
+				"generator/get_production_rate": {
+					"calls": 101,
+					"usec": 4229
+				},
+				"generator/set_production_progress": {
+					"calls": 20,
+					"usec": 13
+				},
+				"modifier/effective_dynamic": {
+					"calls": 313,
+					"usec": 1150
+				},
+				"modifier/effective_static": {
+					"calls": 980,
+					"usec": 2435
+				},
+				"modifier/raw_dynamic": {
+					"calls": 313,
+					"usec": 434
+				},
+				"modifier/raw_static": {
+					"calls": 980,
+					"usec": 440
+				},
+				"statistics/record_consumed": {
+					"calls": 186,
+					"usec": 205
+				},
+				"statistics/record_lost": {
+					"calls": 3,
+					"usec": 4
+				},
+				"statistics/record_produced": {
+					"calls": 255,
+					"usec": 219
+				},
+				"statistics/update_highest": {
+					"calls": 298,
+					"usec": 291
+				}
+			},
+			"repeat": 0,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 2,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 9512
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 20,
+				"available_operating_duration": 80,
+				"cycle_generator_processing": 40,
+				"environmental_effects": 20,
+				"generator_automation": 20,
+				"generator_processing": 20,
+				"generator_start_checks": 42,
+				"heat_leak": 20,
+				"heat_leak_integration": 1,
+				"input_consumption": 80,
+				"input_rate_calculation": 62,
+				"matter_decay": 20,
+				"output_production": 80,
+				"production_rate_calculation": 101,
+				"upgrade_automation": 20
+			},
+			"native_totals": {
+				"automatic_upgrades": 451,
+				"available_operating_duration": 702,
+				"cycle_generator_processing": 164,
+				"environmental_effects": 130,
+				"generator_automation": 35,
+				"generator_processing": 8659,
+				"generator_start_checks": 62,
+				"heat_leak": 78,
+				"heat_leak_integration": 27,
+				"input_consumption": 1221,
+				"input_rate_calculation": 493,
+				"matter_decay": 30,
+				"output_production": 5671,
+				"production_rate_calculation": 4502,
+				"upgrade_automation": 30
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 148,
+					"usec": 1346
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 1293,
+					"usec": 553
+				},
+				"generator/get_production_progress": {
+					"calls": 20,
+					"usec": 12
+				},
+				"generator/get_production_rate": {
+					"calls": 101,
+					"usec": 4418
+				},
+				"generator/set_production_progress": {
+					"calls": 20,
+					"usec": 36
+				},
+				"modifier/effective_dynamic": {
+					"calls": 313,
+					"usec": 1186
+				},
+				"modifier/effective_static": {
+					"calls": 980,
+					"usec": 2613
+				},
+				"modifier/raw_dynamic": {
+					"calls": 313,
+					"usec": 454
+				},
+				"modifier/raw_static": {
+					"calls": 980,
+					"usec": 558
+				},
+				"statistics/record_consumed": {
+					"calls": 186,
+					"usec": 190
+				},
+				"statistics/record_lost": {
+					"calls": 3,
+					"usec": 4
+				},
+				"statistics/record_produced": {
+					"calls": 255,
+					"usec": 316
+				},
+				"statistics/update_highest": {
+					"calls": 298,
+					"usec": 252
+				}
+			},
+			"repeat": 1,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 2,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 9425
+		},
+		{
+			"history_calls": 0,
+			"history_usec": 0,
+			"kind": "detail_profile",
+			"native_calls": {
+				"automatic_upgrades": 20,
+				"available_operating_duration": 80,
+				"cycle_generator_processing": 40,
+				"environmental_effects": 20,
+				"generator_automation": 20,
+				"generator_processing": 20,
+				"generator_start_checks": 42,
+				"heat_leak": 20,
+				"heat_leak_integration": 1,
+				"input_consumption": 80,
+				"input_rate_calculation": 62,
+				"matter_decay": 20,
+				"output_production": 80,
+				"production_rate_calculation": 101,
+				"upgrade_automation": 20
+			},
+			"native_totals": {
+				"automatic_upgrades": 424,
+				"available_operating_duration": 621,
+				"cycle_generator_processing": 177,
+				"environmental_effects": 123,
+				"generator_automation": 35,
+				"generator_processing": 7923,
+				"generator_start_checks": 68,
+				"heat_leak": 75,
+				"heat_leak_integration": 26,
+				"input_consumption": 1112,
+				"input_rate_calculation": 541,
+				"matter_decay": 20,
+				"output_production": 5219,
+				"production_rate_calculation": 4084,
+				"upgrade_automation": 31
+			},
+			"nested_details": {
+				"generator/get_input_consumption_per_second": {
+					"calls": 148,
+					"usec": 1178
+				},
+				"generator/get_modifier_sensitivity": {
+					"calls": 1293,
+					"usec": 533
+				},
+				"generator/get_production_progress": {
+					"calls": 20,
+					"usec": 8
+				},
+				"generator/get_production_rate": {
+					"calls": 101,
+					"usec": 4000
+				},
+				"generator/set_production_progress": {
+					"calls": 20,
+					"usec": 10
+				},
+				"modifier/effective_dynamic": {
+					"calls": 313,
+					"usec": 1089
+				},
+				"modifier/effective_static": {
+					"calls": 980,
+					"usec": 2372
+				},
+				"modifier/raw_dynamic": {
+					"calls": 313,
+					"usec": 453
+				},
+				"modifier/raw_static": {
+					"calls": 980,
+					"usec": 410
+				},
+				"statistics/record_consumed": {
+					"calls": 186,
+					"usec": 145
+				},
+				"statistics/record_lost": {
+					"calls": 3,
+					"usec": 19
+				},
+				"statistics/record_produced": {
+					"calls": 255,
+					"usec": 191
+				},
+				"statistics/update_highest": {
+					"calls": 298,
+					"usec": 418
+				}
+			},
+			"repeat": 2,
+			"scenario": "completion_witness",
+			"signal_handler_usec": 2,
+			"signals": 1,
+			"ticks": 20,
+			"unprofiled_added_modifiers": 0,
+			"wall_usec": 8650
+		}
+	]
+}
