@@ -6,12 +6,13 @@ const STEP: float = TimeManager.OFFLINE_MAX_GAME_STEP
 var simulation: Simulation
 var journal: RefCounted
 var trace: Array[PackedByteArray] = []
+var detailed_trace: bool = false
 # Intrusive per-phase clocks are OFF for normal throughput measurements.
 var measure_phases: bool = false
 var collect_flow_counters: bool = false
 var flow_counts: Dictionary = {}
 var _running: bool = false
-var counters: Dictionary = {"build_usec": 0, "invalidate_usec": 0, "kernel_usec": 0, "fallback_usec": 0, "builds": 0, "kernel_ticks": 0, "fallback_ticks": 0, "event_ticks": 0, "event_check_usec": 0, "reasons": {}, "writeback_usec": 0}
+var counters: Dictionary = {"build_usec": 0, "invalidate_usec": 0, "kernel_usec": 0, "fallback_usec": 0, "builds": 0, "kernel_ticks": 0, "fallback_ticks": 0, "event_ticks": 0, "structural_invalidations": 0, "event_check_usec": 0, "reasons": {}, "writeback_usec": 0}
 
 
 func _init(target: Simulation, events: RefCounted = null) -> void:
@@ -62,8 +63,14 @@ func run(ticks: int, record_trace: bool = false) -> bool:
 			if measure_phases:
 				counters["kernel_usec"] += Time.get_ticks_usec() - started
 			kernel_ticks += 1
+			if packet.configuration_changed:
+				var invalidation_started: int = Time.get_ticks_usec()
+				_collect_packet(packet)
+				packet = null
+				counters["structural_invalidations"] += 1
+				counters["invalidate_usec"] += Time.get_ticks_usec() - invalidation_started
 		if record_trace:
-			trace.append(View.capture(simulation, journal))
+			trace.append(View.capture(simulation, journal, detailed_trace))
 	# No cached coefficient/reference survives an external synchronization point.
 	var started: int = Time.get_ticks_usec()
 	_collect_packet(packet)

@@ -1,5 +1,7 @@
 # Exact ordered consumers and Lava Mite controllers
 
+Historical consumer-milestone results below use `caadfe63` scope. Enabled automation and original mid-game support are extended in [EXACT_FLOW_AUTOMATION.md](EXACT_FLOW_AUTOMATION.md); these earlier measurements remain unchanged.
+
 ## Implemented scope
 
 Base `43b3897c4062b96aca81401a7115ff9707ea8c46`, branch `feature/cycle-auto-run`. The experimental packet now supports arbitrary registered input resources and ordered multi-input continuous generators. The native Lava Mite throttle/hysteresis logic and native controller-dependent input rates participate in the same exact loop. Output eligibility remains Heat/Matter/Ash; existing automation, cycles, relic, Essence and external-event restrictions remain.

@@ -4,11 +4,14 @@ extends RefCounted
 # external caller. Live objects remain authoritative; only configuration is cached.
 const STEP: float = TimeManager.OFFLINE_MAX_GAME_STEP
 const PARTIAL_EPSILON: float = 0.000001
+const Automation = preload("res://tests/experimental/exact_flow_automation.gd")
 const Controller = preload("res://tests/experimental/exact_flow_controller.gd")
 const Events = preload("res://tests/experimental/transaction_events.gd")
 var simulation: Simulation
 var machines: Array = []
 var automatic_candidates: Array[Upgrade] = []
+var has_automation: bool = false
+var configuration_changed: bool = false
 var initialized: bool = false
 var _built: bool = false
 var error: String = ""
@@ -88,11 +91,13 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 			if not (journal != null and journal.get_script() == Events and callback.get_object() == journal and callback.get_method() == signal_info["name"] and callback.get_bound_arguments_count() == 0 and callback.get_unbound_arguments_count() == 0 and int(connection["flags"]) == 0):
 				error = "external_observer"
 				return false
-	for manager: Variant in [state.generator_automation_manager, state.upgrade_automation_manager]:
-		for item: Dictionary in manager.automation_states.values():
-			if bool(item["enabled"]):
-				error = "enabled_automation"
-				return false
+	has_automation = Automation.enabled(state)
+	if has_automation:
+		for upgrade: Upgrade in state.upgrades.values():
+			for effect: UpgradeEffect in upgrade.definition.effects:
+				if effect.get_script() != preload("res://Upgrades/upgrade_effect.gd"):
+					error = "unknown_automation_effect_contract"
+					return false
 	if not state.relic_manager.inventory.is_empty():
 		error = "relic_inventory"
 		return false
@@ -112,6 +117,11 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 		if generator.get_script() != preload("res://Generators/generator.gd") or generator.definition.get_script() != preload("res://Generators/generator_definition.gd"):
 			error = "unknown_generator_script"
 			return false
+		if has_automation:
+			for mode: GeneratorOperationMode in generator.definition.operation_modes:
+				if mode.get_script() != preload("res://Generators/generator_operation_mode.gd"):
+					error = "unknown_automation_mode_contract"
+					return false
 		if generator.cycle_active or generator.auto_run_cycles:
 			error = "cycle_or_auto_run"
 			return false
@@ -221,6 +231,8 @@ func _rate(coefficient: float, generator: Generator, kind: String, resource_id: 
 
 
 func event_due() -> bool:
+	if configuration_changed:
+		return true
 	for upgrade: Upgrade in automatic_candidates:
 		if simulation.state.upgrade_system.requirements_met(upgrade.definition.requirements):
 			return true
@@ -229,6 +241,7 @@ func event_due() -> bool:
 
 func step() -> void:
 	# Internal only: caller owns the synchronous interval and checked event_due.
+	assert(not configuration_changed, "Invalidated packet must be discarded before another step")
 	var state: GameState = simulation.state
 	var heat_start: float = state.resources[ResourceIds.HEAT].amount
 	state.track_gameplay_interval_statistics = false
@@ -329,10 +342,14 @@ func step() -> void:
 			if measure_flows:
 				flow_counts["partial_operations"] += 1
 	simulation.apply_environmental_effects(STEP, heat_start)
-	# These disabled-manager calls are retained: their structural caches are
-	# authoritative observable state. No automation is accelerated.
+	# All checks and mutations stay native, after environmental accounting.
+	# The audited owned log appends on every successful native purchase,
+	# including activation without a level increase and upgrades/unlocks.
+	var automation_mark: int = Automation.mark(state) if has_automation else 0
 	state.generator_automation_manager.update(STEP, simulation, true)
 	state.upgrade_automation_manager.update(STEP, simulation, true)
+	if has_automation:
+		configuration_changed = Automation.changed(state, automation_mark)
 	if not simulation._gameplay_was_offline:
 		simulation._gameplay_snapshot_elapsed = 0.0
 		state.take_gameplay_interval_statistics()

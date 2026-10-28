@@ -1,0 +1,104 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+
+========================================
+ DEMONIC INCREMENTAL REGRESSION TESTS
+========================================
+[PASS] GameState initializes core resources and generators
+[PASS] Gameplay RNG replay ignores cosmetics and is shared by normal/offline cycles
+[PASS] Gameplay RNG survives JSON save/load without 64-bit rounding
+[PASS] Mixed gameplay rolls continue identically after save/load
+[PASS] Active crafting critical snapshots survive JSON save/load
+[PASS] Version 8 saves migrate without RNG state or critical snapshots
+[PASS] Gameplay event RNG preserves roll order and probability-edge draw counts
+[PASS] Explicit relic RNG preserves deterministic rolls and configured ranges
+[PASS] Resource discovery gates upgrade visibility and survives reset/save migration
+[PASS] Essence accumulation reduces all Essence output and mitigation upgrades weaken it
+[PASS] Forge and Relic Crucible modes use the intended activation levels
+[PASS] Relic Crucible upgrades are independent from cycles and improve critical chance
+[PASS] Heat leak and Matter decay respect their thresholds
+[PASS] Matter decay records matching lifetime, run and offline totals
+[PASS] Matter decay statistics clamp to actual available Matter
+[PASS] Offline benchmark compares numeric aggregates, sparse flows and generator flags
+[PASS] Offline benchmark formats resource flows and numeric aggregates
+[PASS] Offline partial-input startup matches the existing input gate
+[PASS] Offline startup skips only unnecessary rate evaluations
+[PASS] Offline automatic upgrades preserve registry order and eligibility timing
+[PASS] Generator purchase rejects insufficient resources
+[PASS] Generator purchase spends the exact cost and adds one level
+[PASS] Cycle mode can activate without increasing generator level
+[PASS] Cycle auto-run is prestige-unlock gated and restarts completed cycles
+[PASS] Generator production increases Heat and records statistics
+[PASS] Interval statistics are returned and cleared
+[PASS] Realm reset clears resources and advances the run index
+[PASS] Prestige enters planning before resetting the next realm
+[PASS] Current realm Heat overflow and Matter decay compound for Smash
+[PASS] Prestige and lifetime Eternal Flame milestones grant starting levels and automation
+[PASS] Brazier upgrades permanently unlock flame stats in order
+[PASS] Reliquary and generator relic slots unlock through Prestige progression
+[PASS] Reliquary grants, equips, saves, and preserves relics
+[PASS] Relic instances roll targeted stats and preserve rolls in saves
+[PASS] Generated relic sensitivity targets are specific and Ash Contamination is grouped
+[PASS] Reservoir relics boost production most at low resource amounts
+[PASS] Relics support sensitivity stats and saved uncommon bonus stats
+[PASS] Relics modify cycle critical and downlevel chances additively
+[PASS] Relic Shards stack, merge, and persist in inventory
+[PASS] Machine crafting slots preserve, consume, and return ingredients
+[PASS] Crafting recipes are validated and consumed when a cycle starts
+[PASS] Relic Shard Extractor exposes five crafting modes and tiered rewards
+[PASS] Data-driven relic generation persists rolls and promotes critical crafts
+[PASS] Relic Shard Extractor consumes Matter and grants a shard after one minute
+[PASS] Multiple relic slots stay independent and legacy saves migrate
+[PASS] Modifier mode restrictions only apply in targeted modes
+[PASS] Ash contamination uses generic cycle-speed modifiers and sensitivities
+[PASS] Forge Immunity blocks Ash production penalty but preserves cycle slowdown
+[PASS] Miscellaneous modifiers report effective multipliers and sensitivity
+[PASS] Generic cycle completion effects modify output and can reduce level to zero
+[PASS] Cycle completion effects respect operation-mode restrictions
+[PASS] Generator stats expose data-driven special effects
+[PASS] Offline automation index preserves cooldowns, eligibility, ordering and resets
+[PASS] Offline automation index preserves dormant, starved and feedback states
+[PASS] Offline automation index refreshes after save/load
+[PASS] Offline frame budgets preserve repeated crafting, RNG and loaded cycles
+[PASS] Offline scheduling preserves zero/short periods and scaled time
+[PASS] Experimental adaptive checkpoints restore all continuous statistics
+[PASS] Experimental adaptive subset preserves discrete outcomes and measured accuracy
+[PASS] Experimental unsupported mechanics fall back with exact binary parity
+[PASS] Experimental resource thresholds retain automatic-upgrade ordering
+[PASS] Experimental rejected steps cannot contaminate balances or statistics
+[PASS] Experimental adaptive and exact paths preserve loaded RNG/crafts
+[PASS] Experimental adaptive path validates minimum steps and short durations
+[PASS] Experimental reference-map feedback meets three sampled accuracy targets
+[PASS] Experimental feedback preserves long-interval dormancy and statistics
+[PASS] Experimental feedback retains exact fallback for consumers and discrete systems
+[PASS] Experimental feedback cooldown bounds rejected trials and restores state
+[PASS] Experimental feedback preserves loaded states and short intervals
+[PASS] Experimental feedback commits offline-entry interval bookkeeping exactly
+[PASS] Experimental accuracy modes validate policy and avoid short-interval regressions
+[PASS] Experimental reference-map cleanups preserve every sampled binary state
+[PASS] Experimental diagnostics and retained audits are observational
+[PASS] Experimental modes use exact simulation at prestige reward boundaries
+[PASS] Experimental modes preserve mixed gameplay, automation and consumers
+[PASS] Experimental source-free Matter decay safely leaves the absolute margin
+[PASS] Experimental autobuyers advance only within proven waiting bounds
+[PASS] Experimental autobuyers preserve purchase ticks, priority and deductions
+[PASS] Experimental affordability proofs invalidate stale and dynamic costs
+[PASS] Experimental autobuyer short and zero intervals remain exact
+[PASS] Upgrade autobuyers start cooldowns only after success and retry live waits
+[PASS] Waiting upgrade buyers observe live requirements and exclusive choices
+[PASS] Autobuyer purchases preserve registry, tree and generator-first priority
+[PASS] Autobuyer large deltas stop failures and retain success overshoot
+[PASS] Waiting automation preserves existing save/load and prestige reset rules
+[PASS] Experimental ready upgrade waits skip replay with exact timer parity
+[PASS] Experimental resource-flow proofs preserve dense endpoints, exhaustion and dependency transitions
+[PASS] Experimental transactions restore mixed state, phases, automation and RNG
+[PASS] Compact checkpoint descriptors preserve reference parity and nested aliases
+[PASS] Ordered macro flows reject unproved phases and restore exact fallback
+[PASS] Compact exact kernel preserves ordered tick state and invalidation
+[PASS] Exact consumers preserve sequential inputs, exhaustion and Mite hysteresis
+[PASS] Exact kernel preserves native automation and purchase invalidation
+[PASS] Core fixtures preserve dense event parity and restricted-checkpoint contracts
+
+========================================
+ RESULTS: 94 passed, 0 failed
+========================================

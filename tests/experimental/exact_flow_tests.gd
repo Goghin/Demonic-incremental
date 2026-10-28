@@ -63,9 +63,9 @@ func _differential(label: String, ticks: int, prefix: int = 0) -> void:
 		compared += 1
 	check(oracle.fingerprint(candidate["simulation"], candidate["journal"]) == oracle.fingerprint(control["simulation"], control["journal"]), label + ": complete final graph differs")
 	check(oracle.failures.is_empty(), "Original snapshot failed")
-	if label == "early":
-		check(kernel.counters["kernel_ticks"] > 0, "Real early fixture never entered the kernel")
-	if label in ["mid", "forge_competing"]:
+	if label in ["early", "mid"]:
+		check(kernel.counters["kernel_ticks"] > 0, "Supported representative fixture never entered the kernel: " + label)
+	if label == "forge_competing":
 		check(kernel.counters["kernel_ticks"] == 0, "Unsupported representative state accelerated")
 	results.append({"label": label, "prefix": prefix, "ticks": ticks, "compared_ticks": compared, "counters": kernel.counters.duplicate(true)})
 
@@ -115,10 +115,10 @@ func _invalidation() -> void:
 		for tick: int in range(10):
 			control["simulation"].update(STEP, true)
 		check(oracle.fingerprint(candidate["simulation"], candidate["journal"]) == oracle.fingerprint(control["simulation"], control["journal"]), "Stale packet after " + change)
-		if change in ["mode", "relic", "automation"]:
+		if change in ["mode", "relic"]:
 			check(kernel.counters["fallback_ticks"] == 10, "Unsupported reentry did not fall back: " + change)
-		if change == "mite":
-			check(kernel.counters["kernel_ticks"] > 1 and kernel.counters["reasons"].is_empty(), "Mite reentry did not use the expanded controller contract")
+		if change in ["mite", "automation"]:
+			check(kernel.counters["kernel_ticks"] > 1 and kernel.counters["reasons"].is_empty(), "Supported reentry did not use the expanded kernel contract: " + change)
 		results.append({"invalidation": change, "counters": kernel.counters.duplicate(true)})
 
 

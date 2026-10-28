@@ -1,0 +1,1220 @@
+{
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "measured_samples_per_method": 3,
+  "non_native_binary_parity_samples_including_warmup": 192,
+  "individual_tick_comparisons": 32920,
+  "scenarios": [
+    {
+      "label": "early",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 229723,
+          "min_usec": 222643,
+          "max_usec": 252977
+        },
+        "extended": {
+          "median_usec": 109543,
+          "min_usec": 109440,
+          "max_usec": 110851
+        },
+        "isolated": {
+          "median_usec": 103984,
+          "min_usec": 102769,
+          "max_usec": 105368
+        },
+        "previous_isolated": {
+          "median_usec": 108937,
+          "min_usec": 103597,
+          "max_usec": 109533
+        },
+        "previous": {
+          "median_usec": 101782,
+          "min_usec": 100811,
+          "max_usec": 105751
+        },
+        "exact": {
+          "median_usec": 197546,
+          "min_usec": 189352,
+          "max_usec": 199024
+        }
+      },
+      "speedup": 1.803364888673854,
+      "change_vs_previous_percent": 7.625120355269099,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 350,
+          "builds": 1,
+          "event_check_usec": 6830,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 55,
+          "kernel_ticks": 2000,
+          "kernel_usec": 106218,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 2000,
+          "partial_operations": 2000
+        },
+        "generator_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "early",
+        "ticks": 2000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 22988,
+      "packet_retained_estimate_bytes": 23100
+    },
+    {
+      "label": "early",
+      "ticks": 36000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 5201631,
+          "min_usec": 4665240,
+          "max_usec": 5720363
+        },
+        "extended": {
+          "median_usec": 2425636,
+          "min_usec": 2406862,
+          "max_usec": 2506898
+        },
+        "isolated": {
+          "median_usec": 2522448,
+          "min_usec": 2391925,
+          "max_usec": 2830333
+        },
+        "previous_isolated": {
+          "median_usec": 2423700,
+          "min_usec": 2282191,
+          "max_usec": 2538881
+        },
+        "previous": {
+          "median_usec": 2679037,
+          "min_usec": 2373857,
+          "max_usec": 2760589
+        },
+        "exact": {
+          "median_usec": 4433242,
+          "min_usec": 4276594,
+          "max_usec": 4696178
+        }
+      },
+      "speedup": 1.8276616936753907,
+      "change_vs_previous_percent": -9.458659958783699,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 605,
+          "builds": 1,
+          "event_check_usec": 130838,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 63,
+          "kernel_ticks": 36000,
+          "kernel_usec": 2344842,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 32880,
+          "partial_operations": 36000
+        },
+        "generator_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "early",
+        "ticks": 36000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 22988,
+      "packet_retained_estimate_bytes": 23100
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 331592,
+          "min_usec": 317117,
+          "max_usec": 345697
+        },
+        "extended": {
+          "median_usec": 197273,
+          "min_usec": 189583,
+          "max_usec": 212225
+        },
+        "isolated": {
+          "median_usec": 215271,
+          "min_usec": 179608,
+          "max_usec": 248044
+        },
+        "previous_isolated": {
+          "median_usec": 221226,
+          "min_usec": 178594,
+          "max_usec": 244299
+        },
+        "previous": {
+          "median_usec": 217741,
+          "min_usec": 190081,
+          "max_usec": 244514
+        },
+        "exact": {
+          "median_usec": 369516,
+          "min_usec": 336845,
+          "max_usec": 383636
+        }
+      },
+      "speedup": 1.8731199910783534,
+      "change_vs_previous_percent": -9.400158904386402,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 362,
+          "builds": 1,
+          "event_check_usec": 8431,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 86,
+          "kernel_ticks": 2000,
+          "kernel_usec": 213897,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "generator_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "consumer_50000",
+        "ticks": 2000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 19824,
+      "packet_retained_estimate_bytes": 19936
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 1739013,
+          "min_usec": 1653128,
+          "max_usec": 2018532
+        },
+        "extended": {
+          "median_usec": 1079697,
+          "min_usec": 1011723,
+          "max_usec": 1083665
+        },
+        "isolated": {
+          "median_usec": 1021056,
+          "min_usec": 940303,
+          "max_usec": 1062973
+        },
+        "previous_isolated": {
+          "median_usec": 1051724,
+          "min_usec": 983444,
+          "max_usec": 1080529
+        },
+        "previous": {
+          "median_usec": 1024201,
+          "min_usec": 1010631,
+          "max_usec": 1096678
+        },
+        "exact": {
+          "median_usec": 1493213,
+          "min_usec": 1450358,
+          "max_usec": 1703347
+        }
+      },
+      "speedup": 1.382992635896923,
+      "change_vs_previous_percent": 5.418467664062043,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 413,
+          "builds": 1,
+          "event_check_usec": 39071,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 55,
+          "kernel_ticks": 10000,
+          "kernel_usec": 1062811,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "generator_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "consumer_50000",
+        "ticks": 10000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 19824,
+      "packet_retained_estimate_bytes": 19936
+    },
+    {
+      "label": "mid",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 339704,
+          "min_usec": 291718,
+          "max_usec": 414151
+        },
+        "extended": {
+          "median_usec": 207997,
+          "min_usec": 202156,
+          "max_usec": 239961
+        },
+        "isolated": {
+          "median_usec": 195522,
+          "min_usec": 186655,
+          "max_usec": 240882
+        },
+        "previous_isolated": {
+          "median_usec": 279396,
+          "min_usec": 277152,
+          "max_usec": 316475
+        },
+        "previous": {
+          "median_usec": 375841,
+          "min_usec": 239777,
+          "max_usec": 390994
+        },
+        "exact": {
+          "median_usec": 305336,
+          "min_usec": 274053,
+          "max_usec": 347333
+        }
+      },
+      "speedup": 1.467982711289105,
+      "change_vs_previous_percent": -44.65824643931875,
+      "coverage_percent": 99.9,
+      "observations": {
+        "counters": {
+          "build_usec": 2775,
+          "builds": 3,
+          "event_check_usec": 8778,
+          "event_ticks": 2,
+          "fallback_ticks": 2,
+          "fallback_usec": 468,
+          "invalidate_usec": 257,
+          "kernel_ticks": 1998,
+          "kernel_usec": 183939,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 3255,
+          "partial_operations": 3363
+        },
+        "generator_activity": {
+          "attempts": 1,
+          "cooldown_decrements": 51,
+          "failed": 1,
+          "ready_transitions": 1,
+          "successful": 0,
+          "waiting_checks": 1949,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "mid",
+        "ticks": 2000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 23172
+    },
+    {
+      "label": "mid",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 1737788,
+          "min_usec": 1662165,
+          "max_usec": 1984726
+        },
+        "extended": {
+          "median_usec": 1237046,
+          "min_usec": 1216215,
+          "max_usec": 1239594
+        },
+        "isolated": {
+          "median_usec": 1363497,
+          "min_usec": 1326189,
+          "max_usec": 1391101
+        },
+        "previous_isolated": {
+          "median_usec": 1828900,
+          "min_usec": 1773995,
+          "max_usec": 1830267
+        },
+        "previous": {
+          "median_usec": 1818648,
+          "min_usec": 1591606,
+          "max_usec": 1849732
+        },
+        "exact": {
+          "median_usec": 1662004,
+          "min_usec": 1408978,
+          "max_usec": 1894231
+        }
+      },
+      "speedup": 1.3435264331318317,
+      "change_vs_previous_percent": -31.979910350986007,
+      "coverage_percent": 99.98,
+      "observations": {
+        "counters": {
+          "build_usec": 1327,
+          "builds": 3,
+          "event_check_usec": 40503,
+          "event_ticks": 2,
+          "fallback_ticks": 2,
+          "fallback_usec": 453,
+          "invalidate_usec": 143,
+          "kernel_ticks": 9998,
+          "kernel_usec": 1095192,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 19255,
+          "partial_operations": 19363
+        },
+        "generator_activity": {
+          "attempts": 1,
+          "cooldown_decrements": 51,
+          "failed": 1,
+          "ready_transitions": 1,
+          "successful": 0,
+          "waiting_checks": 9949,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "mid",
+        "ticks": 10000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 23172
+    },
+    {
+      "label": "reached_entry",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 329902,
+          "min_usec": 322471,
+          "max_usec": 362201
+        },
+        "extended": {
+          "median_usec": 264185,
+          "min_usec": 237956,
+          "max_usec": 288109
+        },
+        "isolated": {
+          "median_usec": 241690,
+          "min_usec": 235797,
+          "max_usec": 266213
+        },
+        "previous_isolated": {
+          "median_usec": 319094,
+          "min_usec": 310879,
+          "max_usec": 355985
+        },
+        "previous": {
+          "median_usec": 334196,
+          "min_usec": 314443,
+          "max_usec": 340793
+        },
+        "exact": {
+          "median_usec": 333640,
+          "min_usec": 330548,
+          "max_usec": 340238
+        }
+      },
+      "speedup": 1.262902890020251,
+      "change_vs_previous_percent": -20.94908377120014,
+      "coverage_percent": 99.85,
+      "observations": {
+        "counters": {
+          "build_usec": 5671,
+          "builds": 16,
+          "event_check_usec": 11209,
+          "event_ticks": 3,
+          "fallback_ticks": 3,
+          "fallback_usec": 758,
+          "invalidate_usec": 555,
+          "kernel_ticks": 1997,
+          "kernel_usec": 241096,
+          "reasons": {},
+          "structural_invalidations": 12,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction",
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1388,
+          "partial_operations": 1416
+        },
+        "generator_activity": {
+          "attempts": 7,
+          "cooldown_decrements": 298,
+          "failed": 2,
+          "ready_transitions": 2,
+          "successful": 5,
+          "waiting_checks": 1698,
+          "waiting_refreshes": 6
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction",
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "reached_entry",
+        "ticks": 2000,
+        "upgrade_activity": {
+          "attempts": 1008,
+          "cooldown_decrements": 994,
+          "failed": 999,
+          "ready_transitions": 2,
+          "successful": 9,
+          "waiting_checks": 998
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 7744
+    },
+    {
+      "label": "reached_settled",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 2404416,
+          "min_usec": 2353752,
+          "max_usec": 2427890
+        },
+        "extended": {
+          "median_usec": 1779038,
+          "min_usec": 1717496,
+          "max_usec": 1843922
+        },
+        "isolated": {
+          "median_usec": 1782439,
+          "min_usec": 1716901,
+          "max_usec": 1792789
+        },
+        "previous_isolated": {
+          "median_usec": 2271124,
+          "min_usec": 1973253,
+          "max_usec": 2319437
+        },
+        "previous": {
+          "median_usec": 2229799,
+          "min_usec": 2153173,
+          "max_usec": 2262507
+        },
+        "exact": {
+          "median_usec": 2099717,
+          "min_usec": 2042700,
+          "max_usec": 2234862
+        }
+      },
+      "speedup": 1.1802541598324487,
+      "change_vs_previous_percent": -20.215319856184344,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 549,
+          "builds": 1,
+          "event_check_usec": 61065,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 122,
+          "kernel_ticks": 10000,
+          "kernel_usec": 1692556,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction",
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 10000,
+          "partial_operations": 10000
+        },
+        "generator_activity": {
+          "attempts": 1,
+          "cooldown_decrements": 51,
+          "failed": 1,
+          "ready_transitions": 1,
+          "successful": 0,
+          "waiting_checks": 9949,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction",
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "reached_settled",
+        "ticks": 10000,
+        "upgrade_activity": {
+          "attempts": 9900,
+          "cooldown_decrements": 101,
+          "failed": 9900,
+          "ready_transitions": 1,
+          "successful": 0,
+          "waiting_checks": 9899
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 19960
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 867601,
+          "min_usec": 777386,
+          "max_usec": 889569
+        },
+        "extended": {
+          "median_usec": 819530,
+          "min_usec": 767966,
+          "max_usec": 1059048
+        },
+        "isolated": {
+          "median_usec": 810197,
+          "min_usec": 715273,
+          "max_usec": 1080519
+        },
+        "previous_isolated": {
+          "median_usec": 801841,
+          "min_usec": 743558,
+          "max_usec": 885594
+        },
+        "previous": {
+          "median_usec": 784247,
+          "min_usec": 756337,
+          "max_usec": 975995
+        },
+        "exact": {
+          "median_usec": 957594,
+          "min_usec": 790142,
+          "max_usec": 973734
+        }
+      },
+      "speedup": 1.1684672922284725,
+      "change_vs_previous_percent": 4.4989652494686005,
+      "coverage_percent": 0.0,
+      "observations": {
+        "counters": {
+          "build_usec": 861,
+          "builds": 1,
+          "event_check_usec": 302,
+          "event_ticks": 0,
+          "fallback_ticks": 2000,
+          "fallback_usec": 761183,
+          "invalidate_usec": 4,
+          "kernel_ticks": 0,
+          "kernel_usec": 0,
+          "reasons": {
+            "cycle_or_auto_run": 1
+          },
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {},
+        "generator_activity": {
+          "attempts": 1,
+          "cooldown_decrements": 51,
+          "failed": 1,
+          "ready_transitions": 1,
+          "successful": 0,
+          "waiting_checks": 1949,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "forge_competing",
+        "ticks": 2000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 0
+    },
+    {
+      "label": "waiting",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 22789,
+          "min_usec": 22765,
+          "max_usec": 25046
+        },
+        "extended": {
+          "median_usec": 22940,
+          "min_usec": 22157,
+          "max_usec": 26096
+        },
+        "isolated": {
+          "median_usec": 22902,
+          "min_usec": 22731,
+          "max_usec": 22957
+        },
+        "previous_isolated": {
+          "median_usec": 26965,
+          "min_usec": 26103,
+          "max_usec": 28410
+        },
+        "previous": {
+          "median_usec": 28463,
+          "min_usec": 28322,
+          "max_usec": 33635
+        },
+        "exact": {
+          "median_usec": 27426,
+          "min_usec": 26328,
+          "max_usec": 29011
+        }
+      },
+      "speedup": 1.1955536181342632,
+      "change_vs_previous_percent": -19.40413870639075,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 496,
+          "builds": 1,
+          "event_check_usec": 646,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 28,
+          "kernel_ticks": 2000,
+          "kernel_usec": 23499,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "generator_activity": {
+          "attempts": 1,
+          "cooldown_decrements": 0,
+          "failed": 1,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 1999,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "waiting",
+        "ticks": 2000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 5064
+    },
+    {
+      "label": "effects",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 120027,
+          "min_usec": 104140,
+          "max_usec": 153969
+        },
+        "extended": {
+          "median_usec": 34347,
+          "min_usec": 32688,
+          "max_usec": 38324
+        },
+        "isolated": {
+          "median_usec": 33196,
+          "min_usec": 32768,
+          "max_usec": 36433
+        },
+        "previous_isolated": {
+          "median_usec": 64125,
+          "min_usec": 56840,
+          "max_usec": 68114
+        },
+        "previous": {
+          "median_usec": 67413,
+          "min_usec": 61321,
+          "max_usec": 86260
+        },
+        "exact": {
+          "median_usec": 62766,
+          "min_usec": 62004,
+          "max_usec": 66827
+        }
+      },
+      "speedup": 1.8274085072932134,
+      "change_vs_previous_percent": -49.04988652040407,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 778,
+          "builds": 5,
+          "event_check_usec": 533,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 68,
+          "kernel_ticks": 2000,
+          "kernel_usec": 36325,
+          "reasons": {},
+          "structural_invalidations": 4,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "generator_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "effects",
+        "ticks": 2000,
+        "upgrade_activity": {
+          "attempts": 1603,
+          "cooldown_decrements": 398,
+          "failed": 1599,
+          "ready_transitions": 1,
+          "successful": 4,
+          "waiting_checks": 1599
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 7424
+    },
+    {
+      "label": "purchase_heavy",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 42410,
+          "min_usec": 38352,
+          "max_usec": 45143
+        },
+        "extended": {
+          "median_usec": 32939,
+          "min_usec": 28924,
+          "max_usec": 33419
+        },
+        "isolated": {
+          "median_usec": 23374,
+          "min_usec": 21950,
+          "max_usec": 23711
+        },
+        "previous_isolated": {
+          "median_usec": 26961,
+          "min_usec": 25946,
+          "max_usec": 28423
+        },
+        "previous": {
+          "median_usec": 27572,
+          "min_usec": 27452,
+          "max_usec": 28561
+        },
+        "exact": {
+          "median_usec": 25585,
+          "min_usec": 25488,
+          "max_usec": 26696
+        }
+      },
+      "speedup": 0.7767388202434804,
+      "change_vs_previous_percent": 19.465399680835628,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 6783,
+          "builds": 124,
+          "event_check_usec": 660,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 480,
+          "kernel_ticks": 2000,
+          "kernel_usec": 21284,
+          "reasons": {},
+          "structural_invalidations": 123,
+          "writeback_usec": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "generator_activity": {
+          "attempts": 123,
+          "cooldown_decrements": 1877,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 123,
+          "waiting_checks": 0,
+          "waiting_refreshes": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "purchase_heavy",
+        "ticks": 2000,
+        "upgrade_activity": {
+          "attempts": 0,
+          "cooldown_decrements": 0,
+          "failed": 0,
+          "ready_transitions": 0,
+          "successful": 0,
+          "waiting_checks": 0
+        }
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 5064
+    }
+  ]
+}

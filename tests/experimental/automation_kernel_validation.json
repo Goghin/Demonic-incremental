@@ -1,0 +1,1646 @@
+{
+	"cases": [
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 1593,
+				"builds": 3,
+				"event_check_usec": 0,
+				"event_ticks": 2,
+				"fallback_ticks": 2,
+				"fallback_usec": 0,
+				"invalidate_usec": 196,
+				"kernel_ticks": 1998,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"purchases": [],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 6882,
+				"builds": 16,
+				"event_check_usec": 0,
+				"event_ticks": 3,
+				"fallback_ticks": 3,
+				"fallback_usec": 0,
+				"invalidate_usec": 328,
+				"kernel_ticks": 1997,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 12,
+				"writeback_usec": 0
+			},
+			"label": "reached_entry",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 2107.53379240293,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 26,
+							"old_level": 25
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 51
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 2571.19122673158,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 27,
+							"old_level": 26
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 101
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 200.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 101
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 3136.85329661252,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 28,
+							"old_level": 27
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 151
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 3826.96102186728,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 29,
+							"old_level": 28
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 201
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 290.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 2,
+							"old_level": 1,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 201
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 4668.89244667808,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 30,
+							"old_level": 29
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 255
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 420.5,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 3,
+							"old_level": 2,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 301
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 609.725,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 4,
+							"old_level": 3,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 401
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 884.10125,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 5,
+							"old_level": 4,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 501
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1281.9468125,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 6,
+							"old_level": 5,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 767
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1858.822878125,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 7,
+							"old_level": 6,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 868
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 2695.29317328125,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 8,
+							"old_level": 7,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 968
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 3908.17510125781,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 9,
+							"old_level": 8,
+							"upgrade_id": "atomic_friction_optimization",
+							"upgrade_name": "Atomic Friction Optimization"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 1068
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 1140,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 27,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_settled",
+			"purchases": [],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 10000,
+			"counters": {
+				"build_usec": 1989,
+				"builds": 3,
+				"event_check_usec": 0,
+				"event_ticks": 2,
+				"fallback_ticks": 2,
+				"fallback_usec": 0,
+				"invalidate_usec": 107,
+				"kernel_ticks": 9998,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"purchases": [],
+			"ticks": 10000
+		},
+		{
+			"compared_ticks": 10000,
+			"counters": {
+				"build_usec": 565,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 32,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_settled",
+			"purchases": [],
+			"ticks": 10000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 686,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 2000,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"cycle_or_auto_run": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"purchases": [],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 1200,
+			"counters": {
+				"build_usec": 2458,
+				"builds": 16,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 167,
+				"kernel_ticks": 1200,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 15,
+				"writeback_usec": 0
+			},
+			"label": "initial",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 18.3,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 2,
+							"old_level": 1
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 51
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 22.326,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 3,
+							"old_level": 2
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 101
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 27.23772,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 4,
+							"old_level": 3
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 151
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 33.2300184,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 5,
+							"old_level": 4
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 201
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 40.540622448,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 6,
+							"old_level": 5
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 251
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 49.45955938656,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 7,
+							"old_level": 6
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 301
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 60.3406624516032,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 8,
+							"old_level": 7
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 351
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 73.6156081909559,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 9,
+							"old_level": 8
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 401
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 89.8110419929662,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 10,
+							"old_level": 9
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 451
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 109.569471231419,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 11,
+							"old_level": 10
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 501
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 133.674754902331,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 12,
+							"old_level": 11
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 551
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 163.083200980844,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 13,
+							"old_level": 12
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 601
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 198.961505196629,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 14,
+							"old_level": 13
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 651
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 242.733036339888,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 15,
+							"old_level": 14
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 701
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 296.134304334663,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 16,
+							"old_level": 15
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 751
+				}
+			],
+			"ticks": 1200
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 158,
+				"builds": 1,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 200,
+				"kernel_ticks": 120,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "waiting",
+			"purchases": [],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 514,
+				"builds": 4,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 22,
+				"kernel_ticks": 120,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 3,
+				"writeback_usec": 0
+			},
+			"label": "production",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 18.3,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 2,
+							"old_level": 1
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 22.326,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 3,
+							"old_level": 2
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 51
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 27.23772,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 4,
+							"old_level": 3
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 101
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 926,
+				"builds": 4,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 24,
+				"kernel_ticks": 120,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 3,
+				"writeback_usec": 0
+			},
+			"label": "decay",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 18.3,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 2,
+							"old_level": 1
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 22.326,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 3,
+							"old_level": 2
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 51
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 27.23772,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 4,
+							"old_level": 3
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 101
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 450,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 15,
+				"kernel_ticks": 120,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "competition",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 18.3,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 2,
+							"old_level": 1
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 1200,
+			"counters": {
+				"build_usec": 256,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 19,
+				"kernel_ticks": 1200,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "registry",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 10.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "af_first",
+							"upgrade_name": "af_first"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				}
+			],
+			"ticks": 1200
+		},
+		{
+			"compared_ticks": 1200,
+			"counters": {
+				"build_usec": 791,
+				"builds": 5,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 1200,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 4,
+				"writeback_usec": 0
+			},
+			"label": "effects",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "heat_threshold_line_1",
+							"upgrade_name": "heat_threshold_line_1"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 2,
+							"old_level": 1,
+							"upgrade_id": "heat_threshold_line_1",
+							"upgrade_name": "heat_threshold_line_1"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 102
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 3,
+							"old_level": 2,
+							"upgrade_id": "heat_threshold_line_1",
+							"upgrade_name": "heat_threshold_line_1"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 202
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 4,
+							"old_level": 3,
+							"upgrade_id": "heat_threshold_line_1",
+							"upgrade_name": "heat_threshold_line_1"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 302
+				}
+			],
+			"ticks": 1200
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 460,
+				"builds": 4,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 28,
+				"kernel_ticks": 119,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 2,
+				"writeback_usec": 0
+			},
+			"label": "automatic",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1773.07536281055,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 25,
+							"old_level": 24
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 2163.15194262887,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 26,
+							"old_level": 25
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 51
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 453,
+				"builds": 4,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 25,
+				"kernel_ticks": 120,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 3,
+				"writeback_usec": 0
+			},
+			"label": "activation",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 18.3,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 1,
+							"old_level": 1
+						},
+						"event": "generator_cycle_activated",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 18.3,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 1,
+							"old_level": 1
+						},
+						"event": "generator_cycle_activated",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 51
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 18.3,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 1,
+							"old_level": 1
+						},
+						"event": "generator_cycle_activated",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 101
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 337,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 119,
+				"fallback_usec": 0,
+				"invalidate_usec": 13,
+				"kernel_ticks": 1,
+				"kernel_usec": 0,
+				"reasons": {
+					"unsupported_output/essence": 1
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "unsupported",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "unlock_unsupported",
+							"upgrade_name": "unlock_unsupported"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 348,
+				"builds": 3,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 120,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 2,
+				"writeback_usec": 0
+			},
+			"label": "cost_refresh",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 0.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "cheaper_next_tick",
+							"upgrade_name": "cheaper_next_tick"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 9.15,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 2,
+							"old_level": 1
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 2
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 315,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 16,
+				"kernel_ticks": 119,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "general",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "general_paid",
+							"upgrade_name": "general_paid"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 782,
+				"builds": 9,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 62,
+				"kernel_ticks": 120,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 8,
+				"writeback_usec": 0
+			},
+			"label": "purchase_heavy",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 18.3,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 2,
+							"old_level": 1
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 22.326,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 3,
+							"old_level": 2
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 17
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 27.23772,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 4,
+							"old_level": 3
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 33
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 33.2300184,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 5,
+							"old_level": 4
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 50
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 40.540622448,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 6,
+							"old_level": 5
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 66
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 49.45955938656,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 7,
+							"old_level": 6
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 82
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 60.3406624516032,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 8,
+							"old_level": 7
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 99
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 73.6156081909559,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 9,
+							"old_level": 8
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 115
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"compared_ticks": 120,
+			"counters": {
+				"build_usec": 383,
+				"builds": 2,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 16,
+				"kernel_ticks": 120,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "upgrade_initial",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "initial_upgrade",
+							"upgrade_name": "initial_upgrade"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 101
+				}
+			],
+			"ticks": 120
+		},
+		{
+			"counters": {
+				"build_usec": 2166,
+				"builds": 10,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 5,
+				"fallback_usec": 0,
+				"invalidate_usec": 32,
+				"kernel_ticks": 50,
+				"kernel_usec": 0,
+				"reasons": {
+					"unsupported_transfer_mode": 1
+				},
+				"structural_invalidations": 2,
+				"writeback_usec": 0
+			},
+			"reentry": true
+		},
+		{
+			"activity_parity": "waiting",
+			"generator": {
+				"attempts": 1,
+				"cooldown_decrements": 0,
+				"failed": 1,
+				"ready_transitions": 0,
+				"successful": 0,
+				"waiting_checks": 119,
+				"waiting_refreshes": 0
+			},
+			"ticks": 120,
+			"upgrade": {
+				"attempts": 0,
+				"cooldown_decrements": 0,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 0,
+				"waiting_checks": 0
+			}
+		},
+		{
+			"activity_parity": "effects",
+			"generator": {
+				"attempts": 0,
+				"cooldown_decrements": 0,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 0,
+				"waiting_checks": 0,
+				"waiting_refreshes": 0
+			},
+			"ticks": 120,
+			"upgrade": {
+				"attempts": 2,
+				"cooldown_decrements": 118,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 2,
+				"waiting_checks": 1
+			}
+		},
+		{
+			"activity_parity": "cost_refresh",
+			"generator": {
+				"attempts": 3,
+				"cooldown_decrements": 51,
+				"failed": 2,
+				"ready_transitions": 1,
+				"successful": 1,
+				"waiting_checks": 68,
+				"waiting_refreshes": 1
+			},
+			"ticks": 120,
+			"upgrade": {
+				"attempts": 20,
+				"cooldown_decrements": 101,
+				"failed": 19,
+				"ready_transitions": 1,
+				"successful": 1,
+				"waiting_checks": 19
+			}
+		},
+		{
+			"activity_parity": "registry",
+			"generator": {
+				"attempts": 0,
+				"cooldown_decrements": 0,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 0,
+				"waiting_checks": 0,
+				"waiting_refreshes": 0
+			},
+			"ticks": 120,
+			"upgrade": {
+				"attempts": 140,
+				"cooldown_decrements": 101,
+				"failed": 139,
+				"ready_transitions": 1,
+				"successful": 1,
+				"waiting_checks": 139
+			}
+		},
+		{
+			"activity_parity": "purchase_heavy",
+			"generator": {
+				"attempts": 8,
+				"cooldown_decrements": 112,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 8,
+				"waiting_checks": 0,
+				"waiting_refreshes": 0
+			},
+			"ticks": 120,
+			"upgrade": {
+				"attempts": 0,
+				"cooldown_decrements": 0,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 0,
+				"waiting_checks": 0
+			}
+		},
+		{
+			"activity_parity": "mid",
+			"generator": {
+				"attempts": 1,
+				"cooldown_decrements": 51,
+				"failed": 1,
+				"ready_transitions": 1,
+				"successful": 0,
+				"waiting_checks": 69,
+				"waiting_refreshes": 0
+			},
+			"ticks": 120,
+			"upgrade": {
+				"attempts": 0,
+				"cooldown_decrements": 0,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 0,
+				"waiting_checks": 0
+			}
+		},
+		{
+			"activity_parity": "reached_entry",
+			"generator": {
+				"attempts": 2,
+				"cooldown_decrements": 118,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 2,
+				"waiting_checks": 0,
+				"waiting_refreshes": 0
+			},
+			"ticks": 120,
+			"upgrade": {
+				"attempts": 1,
+				"cooldown_decrements": 119,
+				"failed": 0,
+				"ready_transitions": 0,
+				"successful": 1,
+				"waiting_checks": 0
+			}
+		}
+	],
+	"failures": []
+}

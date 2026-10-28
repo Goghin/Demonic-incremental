@@ -1,0 +1,60 @@
+{
+  "base_commit": "caadfe6360795b2f294777a9b0c3d4ecda501ef9",
+  "branch": "feature/cycle-auto-run",
+  "recorded_utc": "2026-10-28T17:21:55.302305+00:00",
+  "host": "Linux-6.18.55-x86_64-with-glibc2.39",
+  "architecture": "x86_64",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "cpu_affinity_count": 9,
+  "python": "3.12.14",
+  "godot_version": "4.6.1.stable.official.14d19694e",
+  "windows_4_7_2_validated": false,
+  "editor_import_executed": false,
+  "existing_game_editor_issue_untouched": true,
+  "validation": {
+    "previous_groups_retained": 93,
+    "passing_groups": 94,
+    "failures": 0,
+    "warnings": 0,
+    "runtime_errors": 0,
+    "new_binary_parity_samples": 192,
+    "new_tick_comparisons": 32920,
+    "benchmark_and_full_regression_serial": true
+  },
+  "commands": [
+    "python tests/experimental/run_automation_kernel.py --godot /path/to/godot --mode fixtures",
+    "python tests/experimental/run_automation_kernel.py --godot /path/to/godot --mode tests",
+    "python tests/experimental/run_automation_kernel.py --godot /path/to/godot --mode benchmark",
+    "python tests/experimental/run_automation_kernel.py --godot /path/to/godot --mode regression",
+    "python tests/experimental/summarize_automation_kernel.py"
+  ],
+  "production_sha256_unchanged_from_base": {
+    "simulation/simulation.gd": "2fb9f861c9d673aef50192119c84b248a82709f14abad483035d883d90aa7738",
+    "Game/GeneratorAutomationManager.gd": "35e16ab69359bfc404cd2b480a999d78f9fcedb760992b46a66317acb95454c4",
+    "Game/UpgradeAutomationManager.gd": "d76dc0d194d5d29d20f90bf21fbbd80cba0469528c1353b3632ee15ef58d4397",
+    "game_state.gd": "3d1c83da895e8ade889bafca90d12a184324d366f33516a2056a465adc7d3484",
+    "game.gd": "c271b40f8f38cf2577a300e5493e83cacb844154d030cbd70a1a4246b7c424c1",
+    "Generators/generator.gd": "d87dad85e18035df4674b94ca74d7e0d49e74e605b535ab27bf813e00f7e48cb",
+    "Upgrades/UpgradeSystem.gd": "8d31d0db4beafd90e28d883c5cb423f8c62c45103cde5183753060880f1b8363",
+    "Upgrades/upgrade_effect.gd": "d0cb39fa331e4772e11c88e64e9f0a6b4d89f35de99ff27873dfe584ae0b4edb"
+  },
+  "baseline_archives": {
+    "tests/experimental/baselines/exact_flow_caadfe63_kernel.gd": {
+      "sha256": "02b83b203d8c3409663078440b5d19c28fd20dfeb6cd0a8e2b90940c7dc9c00c",
+      "normalized_equals_base": true
+    },
+    "tests/experimental/baselines/exact_flow_caadfe63_packet.gd": {
+      "sha256": "1d789890e2717732564e484771c5f2e63e98a8082572b2dfc277f239b146d61e",
+      "normalized_equals_base": true
+    }
+  },
+  "raw_sha256": {
+    "automation_kernel_benchmark.log": "25651b76412c659ed88f287aa88b550cef0d551b7dc2c7f9531cdd2ca1ef4132",
+    "automation_kernel_regression.log": "fa145210155ba6184bd295c96ba650c3ed26230918e18c2f770aa1d0b17c690d",
+    "automation_kernel_tests.log": "23a79fde90b76a5c58eb1eb052dde449acbfb4f0354507419ed62b7a4a49e2e1",
+    "automation_kernel_progression.log": "a834a6c8f30e078d17939bbdff0cb8c13d8b50c41bbec5e3fe53ffb32d2cb0bc",
+    "automation_progression.json": "974be3520806ddd7c2aa83abc3a25c8ae6794713d708c1e69df163db57992567",
+    "automation_kernel_validation.json": "f4b5d6a8f8b86dbb883867660528aa624f063a2ef46c54d03a26c05bf2916da0",
+    "automation_kernel_benchmark_results.json": "fc57c24aa984308be100229c88215fbe61839441cc60e8852aed66c67c581345"
+  }
+}
