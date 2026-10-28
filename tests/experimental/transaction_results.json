@@ -1,0 +1,104 @@
+{
+	"failures": [],
+	"measurements": [
+		{
+			"candidate_usec_mean": 11549.0,
+			"capture_static_memory_delta_bytes_max": 4953372,
+			"capture_usec_mean": 34813.3333333333,
+			"commit_usec": 3631,
+			"encoded_bytes": 484384,
+			"records": 1018,
+			"restore_and_verify_usec_mean": 27005.0,
+			"scenario": "early",
+			"ticks_per_attempt": 100
+		},
+		{
+			"candidate_usec_mean": 56297.3333333333,
+			"capture_static_memory_delta_bytes_max": 4824912,
+			"capture_usec_mean": 30059.3333333333,
+			"commit_usec": 3409,
+			"encoded_bytes": 471000,
+			"records": 985,
+			"restore_and_verify_usec_mean": 22998.0,
+			"scenario": "mid",
+			"ticks_per_attempt": 600
+		},
+		{
+			"candidate_usec_mean": 33392.3333333333,
+			"capture_static_memory_delta_bytes_max": 5555140,
+			"capture_usec_mean": 35718.3333333333,
+			"commit_usec": 5437,
+			"encoded_bytes": 541096,
+			"records": 1134,
+			"restore_and_verify_usec_mean": 26842.3333333333,
+			"scenario": "forge_competing",
+			"ticks_per_attempt": 100
+		},
+		{
+			"candidate_usec_mean": 29807.3333333333,
+			"capture_static_memory_delta_bytes_max": 5555140,
+			"capture_usec_mean": 36061.0,
+			"commit_usec": 4518,
+			"encoded_bytes": 541096,
+			"records": 1134,
+			"restore_and_verify_usec_mean": 25534.0,
+			"scenario": "forge_running",
+			"ticks_per_attempt": 100
+		},
+		{
+			"candidate_usec_mean": 25593.6666666667,
+			"capture_static_memory_delta_bytes_max": 5555140,
+			"capture_usec_mean": 41514.3333333333,
+			"commit_usec": 4647,
+			"encoded_bytes": 541096,
+			"records": 1134,
+			"restore_and_verify_usec_mean": 31037.6666666667,
+			"scenario": "forge",
+			"ticks_per_attempt": 100
+		},
+		{
+			"candidate_usec_mean": 49322.6666666667,
+			"capture_static_memory_delta_bytes_max": 4630288,
+			"capture_usec_mean": 28993.3333333333,
+			"commit_usec": 4111,
+			"encoded_bytes": 452660,
+			"records": 954,
+			"restore_and_verify_usec_mean": 22957.3333333333,
+			"scenario": "automation/upgrades",
+			"ticks_per_attempt": 600
+		},
+		{
+			"candidate_usec_mean": 212979.666666667,
+			"capture_static_memory_delta_bytes_max": 4668408,
+			"capture_usec_mean": 32267.0,
+			"commit_usec": 4232,
+			"encoded_bytes": 455804,
+			"records": 958,
+			"restore_and_verify_usec_mean": 24335.3333333333,
+			"scenario": "automation/consumption",
+			"ticks_per_attempt": 600
+		},
+		{
+			"candidate_usec_mean": 242270.666666667,
+			"capture_static_memory_delta_bytes_max": 4775028,
+			"capture_usec_mean": 30202.0,
+			"commit_usec": 3549,
+			"encoded_bytes": 465952,
+			"records": 978,
+			"restore_and_verify_usec_mean": 24422.3333333333,
+			"scenario": "automation/mixed",
+			"ticks_per_attempt": 600
+		},
+		{
+			"candidate_usec_mean": 4521.33333333333,
+			"capture_static_memory_delta_bytes_max": 5360480,
+			"capture_usec_mean": 37702.6666666667,
+			"commit_usec": 4169,
+			"encoded_bytes": 523028,
+			"records": 1100,
+			"restore_and_verify_usec_mean": 24703.3333333333,
+			"scenario": "real_forge_completion",
+			"ticks_per_attempt": 20
+		}
+	]
+}

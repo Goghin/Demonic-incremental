@@ -1,0 +1,31 @@
+{
+  "base_commit": "48d460cc715e1ed879b43d0d36ab15c78febb149",
+  "branch": "feature/cycle-auto-run",
+  "godot": "4.6.1.stable.official.14d19694e (Linux x86_64)",
+  "commands": [
+    "godot --headless --path . --script tests/experimental/run_transaction_tests.gd",
+    "godot --headless --path . --script tests/run_regression_tests.gd"
+  ],
+  "regression_passed": 89,
+  "regression_failed": 0,
+  "regression_and_transaction_warnings_or_errors": false,
+  "differential_fixture_cases": 9,
+  "mixed_rejections": 27,
+  "mixed_commits": 9,
+  "binary_parity": true,
+  "rng_gameplay_outcomes_and_following_draws_exact": true,
+  "editor_check": "Existing game.gd:771 parse error reproduced; left unchanged",
+  "windows_godot_4_7_2_validated": false,
+  "source_sha256": {
+    "tests/run_regression_tests.gd": "77559c5c2ea8beb786d4d28302da65a5eb60e456e160f710d680792db3bf0c2d",
+    "tests/experimental/transaction_checkpoint.gd": "1f1d49b94bf8d5e611fb12e895feb1b8704c63e6c177dea95800619682d1233b",
+    "tests/experimental/simulation_transaction.gd": "17d71a1cb26b56614dfe1dc478464b2d54e6a73dce85e9e8deaf858572f600ea",
+    "tests/experimental/transaction_events.gd": "84635b80c3ddbbedc06b983360ca7c95899073134442f4625346e46494581d8c",
+    "tests/experimental/transaction_tests.gd": "7604b7873edfd339ec07a965578330fdf89c1f861c1a1df59067dc4cbe232454",
+    "tests/experimental/run_transaction_tests.gd": "b81cd70b31f6e0f063b2499f142020f9a98206861808c1d39d1909c83bd77a2a"
+  },
+  "log_sha256": {
+    "regression": "429e981776473be50c96bca5318521477ba0d006dfbcf0b6fa37f6c9d45b637b",
+    "transactions": "df9d514f2e1390d08edb5b6a05f871980180fb6cec74f2d37d21154849ba343c"
+  }
+}

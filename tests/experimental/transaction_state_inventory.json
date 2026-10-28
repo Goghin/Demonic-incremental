@@ -1,0 +1,420 @@
+{
+	"RandomNumberGenerator": {
+		"fields": [
+			"seed",
+			"state"
+		],
+		"instances": 1
+	},
+	"WeakRef": {
+		"fields": [],
+		"instances": 3
+	},
+	"autobuyer_fixtures.gd::TickLog": {
+		"fields": [
+			"events",
+			"clock"
+		],
+		"instances": 1
+	},
+	"res://Game/AchievementManager.gd": {
+		"fields": [
+			"unlocked_achievements",
+			"seen_generator_ids",
+			"highest_crystallized_flame_this_run"
+		],
+		"instances": 1
+	},
+	"res://Game/GeneratorAutomationManager.gd": {
+		"fields": [
+			"_state_ref",
+			"automation_states",
+			"_offline_enabled_ids",
+			"_offline_index_dirty"
+		],
+		"instances": 1
+	},
+	"res://Game/UpgradeAutomationManager.gd": {
+		"fields": [
+			"_state_ref",
+			"automation_states",
+			"_offline_enabled_ids",
+			"_offline_index_dirty",
+			"exclusive_preferences"
+		],
+		"instances": 1
+	},
+	"res://Game/eternal_flame_state.gd": {
+		"fields": [
+			"eternal_flame",
+			"spent_flames",
+			"prestige_count",
+			"total_crystallized_flame",
+			"upgrade_levels",
+			"unlocked_technologies"
+		],
+		"instances": 1
+	},
+	"res://Game/eternal_flame_upgrade.gd": {
+		"fields": [
+			"id",
+			"display_name",
+			"description",
+			"effect_type",
+			"effect_per_level",
+			"technology_id",
+			"target_generator_id",
+			"prerequisite_upgrade_id",
+			"prerequisite_level",
+			"prerequisite_generator_id",
+			"prerequisite_generator_level",
+			"automatic_level_prestige_requirements",
+			"automatic_min_prestiges",
+			"automatic_total_eternal_flame_requirement",
+			"level",
+			"max_level",
+			"base_cost",
+			"cost_multiplier"
+		],
+		"instances": 42
+	},
+	"res://Game/eternal_flame_upgrade_manager.gd": {
+		"fields": [
+			"upgrades"
+		],
+		"instances": 1
+	},
+	"res://Game/modifier.gd": {
+		"fields": [
+			"id",
+			"type",
+			"target_id",
+			"multiplier",
+			"source_upgrade_id",
+			"operation_mode_ids",
+			"dynamic_threshold",
+			"dynamic_exponent",
+			"dynamic",
+			"dynamic_resource_id",
+			"dynamic_formula",
+			"dynamic_generator_id",
+			"dynamic_realm_effect_id",
+			"dynamic_realm_effect_is_divisor"
+		],
+		"instances": 84
+	},
+	"res://Game/modifiersensitivity.gd": {
+		"fields": [
+			"modifier_id",
+			"multiplier",
+			"source_upgrade_id",
+			"operation_mode_ids",
+			"dynamic",
+			"dynamic_formula",
+			"dynamic_resource_id"
+		],
+		"instances": 2
+	},
+	"res://Game/realm_configuration.gd": {
+		"fields": [
+			"stability",
+			"density",
+			"integrity",
+			"intensity",
+			"resonance",
+			"locked"
+		],
+		"instances": 1
+	},
+	"res://Game/realm_effects.gd": {
+		"fields": [
+			"heat_leak_threshold",
+			"matter_decay_threshold",
+			"thermal_mass_multiplier",
+			"matter_production_multiplier",
+			"heat_production_realm_multiplier",
+			"heat_production_upgrade_multiplier",
+			"heat_production_multiplier",
+			"generator_cost_multiplier",
+			"ashen_contamination_multiplier"
+		],
+		"instances": 1
+	},
+	"res://Game/relic_generation_manager.gd": {
+		"fields": [],
+		"instances": 1
+	},
+	"res://Game/relic_manager.gd": {
+		"fields": [
+			"inventory",
+			"inventory_positions",
+			"machine_slots",
+			"equipped",
+			"_next_instance_number",
+			"generation_manager",
+			"_next_item_instance_number",
+			"_gameplay_rng"
+		],
+		"instances": 1
+	},
+	"res://Game/requirement.gd": {
+		"fields": [
+			"type",
+			"target_id",
+			"value"
+		],
+		"instances": 71
+	},
+	"res://Game/resource_statistics.gd": {
+		"fields": [
+			"statistics",
+			"total_overflow",
+			"total_matter_decayed"
+		],
+		"instances": 3
+	},
+	"res://Generators/generator.gd": {
+		"fields": [
+			"definition",
+			"level",
+			"cycle_critical_chance_snapshot",
+			"modifiers",
+			"_production_modifier_cache",
+			"event_effects",
+			"modifier_sensitivities",
+			"production_progress",
+			"initial_unlocked",
+			"unlocked",
+			"manually_paused",
+			"operating",
+			"is_throttled",
+			"cycle_active",
+			"cycle_progress",
+			"auto_run_cycles",
+			"operation_mode_id"
+		],
+		"instances": 8
+	},
+	"res://Generators/generator_definition.gd": {
+		"fields": [
+			"id",
+			"display_name",
+			"base_cost",
+			"cost_multiplier",
+			"cost_resource_id",
+			"cycle_based",
+			"operation_modes",
+			"illustration_path",
+			"starting_level",
+			"scale_rates_with_level",
+			"level_upgrade_enabled",
+			"level_upgrade_resource_id",
+			"level_upgrade_base_cost",
+			"level_upgrade_cost_multiplier",
+			"level_upgrade_max_level",
+			"level_critical_chance_bonus",
+			"level_critical_chance_cap"
+		],
+		"instances": 8
+	},
+	"res://Generators/generator_io.gd": {
+		"fields": [
+			"resource_id",
+			"amount_per_second",
+			"discrete",
+			"unlocked",
+			"starts_unlocked"
+		],
+		"instances": 35
+	},
+	"res://Generators/generator_operation_mode.gd": {
+		"fields": [
+			"id",
+			"display_name",
+			"description",
+			"production_multiplier",
+			"input_multiplier",
+			"activation_cost_multiplier",
+			"increase_level_on_activation",
+			"cycle_duration",
+			"inputs",
+			"outputs",
+			"completion_outputs",
+			"completion_item_outputs",
+			"completion_random_relic_tier",
+			"completion_critical_chance",
+			"crafting_input_requirements",
+			"initially_unlocked",
+			"unlocked",
+			"is_resource_transfer"
+		],
+		"instances": 18
+	},
+	"res://Resources/GameResource.gd": {
+		"fields": [
+			"id",
+			"display_name"
+		],
+		"instances": 6
+	},
+	"res://Resources/resource_state.gd": {
+		"fields": [
+			"definition",
+			"amount"
+		],
+		"instances": 6
+	},
+	"res://Upgrades/UpgradeSystem.gd": {
+		"fields": [
+			"_state_ref"
+		],
+		"instances": 1
+	},
+	"res://Upgrades/upgrade.gd": {
+		"fields": [
+			"definition",
+			"level"
+		],
+		"instances": 77
+	},
+	"res://Upgrades/upgrade_definition.gd": {
+		"fields": [
+			"id",
+			"display_name",
+			"description",
+			"cost_resource_id",
+			"cost",
+			"cost_multiplier",
+			"max_level",
+			"effects",
+			"requirements",
+			"automatic",
+			"exclusivity_group",
+			"upgrade_group_id",
+			"generator_id",
+			"technology_id",
+			"discovery_id",
+			"icon_path"
+		],
+		"instances": 77
+	},
+	"res://Upgrades/upgrade_effect.gd": {
+		"fields": [
+			"type",
+			"target_id",
+			"modifier_type",
+			"value",
+			"modifier_target_id",
+			"modifier_id",
+			"output_resource_id",
+			"operation_mode_id",
+			"operation_mode_ids",
+			"dynamic_formula",
+			"dynamic_resource_id",
+			"dynamic_generator_id",
+			"dynamic_realm_effect_id",
+			"dynamic_realm_effect_is_divisor",
+			"sensitivity_modifier_id",
+			"sensitivity_multiplier",
+			"dynamic_threshold",
+			"dynamic_exponent",
+			"sensitivity_dynamic_formula",
+			"sensitivity_dynamic_resource_id",
+			"dormancy_parameter",
+			"dormancy_value",
+			"event_trigger",
+			"event_action",
+			"event_id",
+			"event_condition_id",
+			"event_chance",
+			"event_value",
+			"event_resource_id",
+			"event_order",
+			"event_source_upgrade_id"
+		],
+		"instances": 92
+	},
+	"res://Upgrades/upgrade_group_definition.gd": {
+		"fields": [
+			"id",
+			"display_name",
+			"description"
+		],
+		"instances": 9
+	},
+	"res://game_state.gd": {
+		"fields": [
+			"gameplay_log",
+			"gameplay_rng",
+			"gameplay_interval_produced",
+			"gameplay_interval_consumed",
+			"gameplay_interval_lost",
+			"track_gameplay_interval_statistics",
+			"gameplay_realm_run_index",
+			"resources",
+			"discovered_resources",
+			"resource_thresholds",
+			"generators",
+			"upgrades",
+			"upgrade_groups",
+			"upgrade_system",
+			"resource_statistics",
+			"current_run_statistics",
+			"achievement_manager",
+			"simulation_statistics",
+			"realm_layout_id",
+			"realm_layout",
+			"lava_palette",
+			"eternal_flame_state",
+			"realm_configuration",
+			"realm_effects",
+			"eternal_flame_upgrade_manager",
+			"relic_manager",
+			"generator_automation_manager",
+			"upgrade_automation_manager",
+			"realm_stabilized",
+			"prestige_planning",
+			"last_prestige_report",
+			"lava_mite_dormancy_penalty",
+			"heat_leak_threshold",
+			"heat_leak_scaling",
+			"heat_leak_exponent",
+			"total_overflow_this_prestige",
+			"total_matter_decayed_this_prestige",
+			"overflow_bonus_from_last_realm",
+			"matter_decay_threshold",
+			"matter_decay_scaling",
+			"matter_decay_exponent",
+			"lava_mite_dormancy_delay",
+			"lava_mite_dormancy_duration",
+			"lava_mite_dormancy_max_penalty"
+		],
+		"instances": 1
+	},
+	"res://simulation/simulation.gd": {
+		"fields": [
+			"_gameplay_snapshot_elapsed",
+			"_gameplay_was_offline",
+			"_gameplay_snapshot_realm_run_index",
+			"state",
+			"_offline_automatic_upgrades",
+			"_offline_upgrade_count",
+			"_offline_realm_run_index",
+			"profiling_enabled",
+			"profile_totals_usec",
+			"profile_call_counts",
+			"diagnostics_enabled",
+			"diagnostic_time_seconds",
+			"diagnostic_events",
+			"diagnostic_checkpoints",
+			"diagnostic_environmental_checkpoints"
+		],
+		"instances": 1
+	},
+	"res://tests/experimental/transaction_events.gd": {
+		"fields": [
+			"events"
+		],
+		"instances": 1
+	}
+}
