@@ -176,10 +176,10 @@ func _rng_fallback() -> void:
 	kernel.run(10, true)
 	for tick: int in range(10):
 		control["simulation"].update(STEP, true)
-		check(kernel.trace[tick] == View.capture(control["simulation"], control["journal"]), "RNG/cycle fallback tick differs")
-	check(kernel.counters["kernel_ticks"] == 0, "Crafting was optimized")
-	check(candidate["simulation"].state.gameplay_rng.state != before_rng and not candidate["simulation"].state.relic_manager.inventory.is_empty(), "Fallback fixture exercised no random relic reward")
-	results.append({"rng_fallback": true, "events": candidate["journal"].events, "counters": kernel.counters.duplicate(true)})
+		check(kernel.trace[tick] == View.capture(control["simulation"], control["journal"]), "Native RNG/cycle tick differs")
+	check(kernel.counters["kernel_ticks"] > 0 and kernel.counters["reasons"].is_empty(), "Native crafting did not use the reviewed cycle contract")
+	check(candidate["simulation"].state.gameplay_rng.state != before_rng and not candidate["simulation"].state.relic_manager.inventory.is_empty(), "Native fixture exercised no random relic reward")
+	results.append({"native_rng_crafting": true, "events": candidate["journal"].events, "counters": kernel.counters.duplicate(true)})
 
 
 func _automatic_event() -> void:

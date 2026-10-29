@@ -1,0 +1,33 @@
+{
+	"cases": [
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 971,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 40,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_first_affordable",
+			"rewards": [],
+			"ticks": 2000
+		}
+	],
+	"failures": []
+}

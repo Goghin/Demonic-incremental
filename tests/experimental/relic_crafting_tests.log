@@ -1,0 +1,36 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+CRAFT_DIFFERENTIAL idle 1000
+CRAFT_DIFFERENTIAL extraction 1000
+CRAFT_DIFFERENTIAL starved 1000
+CRAFT_DIFFERENTIAL exact_exhaustion 1000
+CRAFT_DIFFERENTIAL forge_standard 2000
+CRAFT_DIFFERENTIAL critical_standard 2000
+CRAFT_DIFFERENTIAL forge_greater 2000
+CRAFT_DIFFERENTIAL critical_greater 2000
+CRAFT_DIFFERENTIAL recycle 1000
+CRAFT_DIFFERENTIAL combine 1000
+CRAFT_DIFFERENTIAL auto_standard 3000
+CRAFT_DIFFERENTIAL auto_extraction 3000
+CRAFT_DIFFERENTIAL auto_combine 3000
+CRAFT_DIFFERENTIAL auto_unfunded 3000
+CRAFT_DIFFERENTIAL auto_no_matter 3000
+CRAFT_DIFFERENTIAL essence 2000
+CRAFT_DIFFERENTIAL nexum 2000
+CRAFT_DIFFERENTIAL forge_together 1000
+CRAFT_DIFFERENTIAL separate_rng 1000
+CRAFT_DIFFERENTIAL full_inventory 1000
+CRAFT_DIFFERENTIAL stack_overflow 1000
+CRAFT_DIFFERENTIAL speed 1000
+CRAFT_DIFFERENTIAL paused 1000
+CRAFT_DIFFERENTIAL automation 1000
+CRAFT_DIFFERENTIAL late_mixed 1000
+CRAFT_DIFFERENTIAL canonical_cycles 1000
+CRAFT_DIFFERENTIAL earned_craft_accessible 2000
+CRAFT_DIFFERENTIAL earned_craft_after_repeated 2000
+CRAFT_DIFFERENTIAL earned_craft_extraction_active 2000
+CRAFT_DIFFERENTIAL earned_craft_first_craft 2000
+CRAFT_DIFFERENTIAL earned_craft_first_extraction 2000
+CRAFT_DIFFERENTIAL earned_craft_near_completion 2000
+CRAFT_DIFFERENTIAL earned_craft_repeat_craft 2000
+RELIC_CRAFTING_TESTS failures=0

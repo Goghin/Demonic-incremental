@@ -8,8 +8,8 @@ const CONTRACT: Dictionary = {
 	"reads": ["existing native generator modifier/sensitivity arrays", "live resources", "native cycle events"],
 	"writes": [],
 	"public_boundary": "release every packet; caller performs native equipment/rebuild APIs before reentry",
-	"interior_mutations": "no reviewed core path equips, moves, generates or consumes inventory",
-	"fallback": ["external callbacks", "active inventory crafting", "recipe-bearing autobuyer", "unknown relic semantics"],
+	"interior_mutations": "reviewed native crafting may consume/insert inventory; no reviewed core path equips or rebuilds equipment",
+	"fallback": ["external callbacks", "recipe-bearing autobuyer", "unknown relic semantics"],
 }
 
 

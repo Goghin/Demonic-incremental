@@ -183,7 +183,12 @@ func _unsupported() -> void:
 		var state: GameState = item["simulation"].state
 		var forge: Generator = state.get_generator("infernal_forge")
 		match kind:
-			"other_cycle": state.get_generator("relic_shard_extractor").cycle_active = true
+			"other_cycle":
+				var unknown: Generator = InfernalForge.create()
+				unknown.definition.id = "unreviewed_cycle_probe"
+				unknown.unlocked = true
+				unknown.cycle_active = true
+				state.generators[unknown.definition.id] = unknown
 			"inventory": forge.get_operation_mode().completion_item_outputs.append({"item_id": "relic_shard", "quantity": 1})
 			"recipe": forge.get_operation_mode().crafting_input_requirements.append({"item_id": "relic_shard", "quantity": 1})
 			"missing_resource": forge.get_operation_mode().completion_outputs.append(GeneratorIO.new("unregistered_probe", 1.0))

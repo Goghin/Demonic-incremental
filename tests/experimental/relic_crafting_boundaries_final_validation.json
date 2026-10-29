@@ -1,0 +1,143 @@
+{
+	"cases": [
+		{
+			"boundary_graph_ticks": 45,
+			"counters": {
+				"build_usec": 26946,
+				"builds": 45,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 920,
+				"kernel_ticks": 45,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			}
+		},
+		{
+			"callback_ticks": 3,
+			"counters": {
+				"build_usec": 989,
+				"builds": 4,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 3,
+				"fallback_usec": 0,
+				"invalidate_usec": 24,
+				"kernel_ticks": 5,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 3
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"reentry_ticks": 5
+		},
+		{
+			"counters": {
+				"build_usec": 1094,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 36,
+				"kernel_ticks": 5,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"equipment_lock_ticks": 6
+		},
+		{
+			"counters": {
+				"build_usec": 1783,
+				"builds": 3,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 127,
+				"kernel_ticks": 1004,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"low_level_alias": false,
+			"rebuild_ticks": 5,
+			"startup_tick_comparisons": 1000
+		},
+		{
+			"counters": {
+				"build_usec": 2376,
+				"builds": 3,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 91,
+				"kernel_ticks": 1004,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"low_level_alias": true,
+			"rebuild_ticks": 5,
+			"startup_tick_comparisons": 1000
+		},
+		{
+			"generation_timings": {
+				"generation_calls": 3,
+				"generation_usec": 629
+			},
+			"instrumentation_tick_comparisons": 3000,
+			"inventory_timings": {
+				"item_calls": 0,
+				"item_usec": 0,
+				"random_reward_calls": 3,
+				"random_reward_usec": 684,
+				"recipe_calls": 2,
+				"recipe_usec": 58
+			},
+			"metrics": {
+				"auto_attempts": 302,
+				"auto_successes": 2,
+				"completion_usec": 800,
+				"completions": 3,
+				"crafting_active_ticks": 2700,
+				"crafting_completions": 3,
+				"crafting_no_progress_ticks": 0,
+				"crafting_progress_ticks": 2700,
+				"cycle_calls": 3000,
+				"cycle_usec": 88279,
+				"forge_completions": 0
+			}
+		}
+	],
+	"failures": []
+}

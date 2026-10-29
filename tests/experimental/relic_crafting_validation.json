@@ -1,0 +1,1597 @@
+{
+	"cases": [
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1503,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 428,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "idle",
+			"rewards": [],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1516,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 213,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "extraction",
+			"rewards": [],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 585,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 98,
+				"kernel_ticks": 1000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "starved",
+			"rewards": [],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 468,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 100,
+				"kernel_ticks": 1000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "exact_exhaustion",
+			"rewards": [],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 1495,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 85,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "forge_standard",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.908775157940886
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 2231,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 95,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "critical_standard",
+			"rewards": [
+				{
+					"critical_craft": true,
+					"definition_id": "generated_relic_tier_2",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Voracious",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Voracious Umbral Crystal",
+						"effect_id": "input_draw_increase",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61b3ff",
+						"rarity_name": "Uncommon",
+						"rolled_value": 1.18581971450853,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 2
+					},
+					"instance_id": "relic_2",
+					"requested_tier": 1,
+					"rolled_value": 1.18581971450853,
+					"secondary_stat": {
+						"affix_position": "prefix",
+						"affix_text": "Potent",
+						"description_label": "",
+						"description_mode": "multiplier",
+						"effect_id": "output_increase",
+						"modifier_type": "production",
+						"rolled_value": 1.15975479717848,
+						"stat_group": "output",
+						"target_id": "heat"
+					}
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 3726,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 87,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "forge_greater",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_2",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61b3ff",
+						"rarity_name": "Uncommon",
+						"rolled_value": 0.768803909873326,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 2
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.768803909873326,
+					"secondary_stat": {
+						"affix_position": "prefix",
+						"affix_text": "Essence-Touched",
+						"description_label": "Crystallization",
+						"description_mode": "multiplier",
+						"effect_id": "crystallization_sensitivity_reduction",
+						"rolled_value": 0.987889266130653,
+						"sensitivity_targets": [
+							"crystallization"
+						],
+						"stat_group": "sensitivity",
+						"stat_type": "sensitivity"
+					}
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 1924,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 93,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "critical_greater",
+			"rewards": [
+				{
+					"additional_secondary_stats": [
+						{
+							"affix_position": "suffix",
+							"affix_text": "of Acceleration",
+							"description_label": "Cycle speed",
+							"description_mode": "multiplier",
+							"effect_id": "cycle_speed_increase",
+							"modifier_type": "cycle_speed",
+							"rolled_value": 1.30828289895378,
+							"stat_group": "cycle_speed",
+							"target_id": ""
+						}
+					],
+					"critical_craft": true,
+					"definition_id": "generated_relic_tier_3",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Voracious",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Voracious Umbral Crystal",
+						"effect_id": "input_draw_increase",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#c58aff",
+						"rarity_name": "Rare",
+						"rolled_value": 1.37163942901707,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 3
+					},
+					"instance_id": "relic_2",
+					"requested_tier": 2,
+					"rolled_value": 1.37163942901707,
+					"secondary_stat": {
+						"affix_position": "prefix",
+						"affix_text": "Potent",
+						"description_label": "",
+						"description_mode": "multiplier",
+						"effect_id": "output_increase",
+						"modifier_type": "production",
+						"rolled_value": 1.31950959435695,
+						"stat_group": "output",
+						"target_id": "heat"
+					}
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 2203,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 214,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "recycle",
+			"rewards": [],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1255,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 1247,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "combine",
+			"rewards": [],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 3000,
+			"counters": {
+				"build_usec": 1892,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 296,
+				"kernel_ticks": 2999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "auto_standard",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.908775157940886
+				},
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "suffix",
+						"affix_text": "of Acceleration",
+						"description_label": "Cycle speed",
+						"description_mode": "multiplier",
+						"display_name": "Emberstone of Acceleration",
+						"effect_id": "cycle_speed_increase",
+						"family": "cycle_speed",
+						"generated": true,
+						"modifier_type": "cycle_speed",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 1.11110583977683,
+						"stat_group": "cycle_speed",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_3",
+					"rolled_value": 1.11110583977683
+				},
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Volatile",
+						"description_label": "Thermic Mass",
+						"description_mode": "multiplier",
+						"display_name": "Volatile Ashglass Core",
+						"effect_id": "thermic_mass_sensitivity_increase",
+						"family": "sensitivity",
+						"generated": true,
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 1.0203742833104,
+						"sensitivity_targets": [
+							"thermic_mass"
+						],
+						"stat_group": "sensitivity",
+						"stat_type": "sensitivity",
+						"tier": 1
+					},
+					"instance_id": "relic_4",
+					"rolled_value": 1.0203742833104
+				}
+			],
+			"ticks": 3000
+		},
+		{
+			"compared_ticks": 3000,
+			"counters": {
+				"build_usec": 1384,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 116,
+				"kernel_ticks": 2999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "auto_extraction",
+			"rewards": [],
+			"ticks": 3000
+		},
+		{
+			"compared_ticks": 3000,
+			"counters": {
+				"build_usec": 5868,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 1114,
+				"kernel_ticks": 2999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "auto_combine",
+			"rewards": [],
+			"ticks": 3000
+		},
+		{
+			"compared_ticks": 3000,
+			"counters": {
+				"build_usec": 1633,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 173,
+				"kernel_ticks": 2999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "auto_unfunded",
+			"rewards": [],
+			"ticks": 3000
+		},
+		{
+			"compared_ticks": 3000,
+			"counters": {
+				"build_usec": 1097,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 94,
+				"kernel_ticks": 2999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "auto_no_matter",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Ashveil",
+						"description_label": "Ash Contamination",
+						"description_mode": "multiplier",
+						"display_name": "Ashveil Cinder Shard",
+						"effect_id": "ash_contamination_sensitivity_reduction",
+						"family": "sensitivity",
+						"generated": true,
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.979795146590088,
+						"sensitivity_targets": [
+							"ashen_contamination",
+							"ashen_contamination_cycle_speed"
+						],
+						"stat_group": "sensitivity",
+						"stat_type": "sensitivity",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.979795146590088
+				}
+			],
+			"ticks": 3000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 1379,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 68,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "essence",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.908775157940886
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 20236,
+				"builds": 16,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 515,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 14,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "nexum",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_3",
+					"rolled_value": 0.908775157940886
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1358,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 161,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "forge_together",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Potent",
+						"description_label": "",
+						"description_mode": "multiplier",
+						"display_name": "Potent Ashglass Core",
+						"effect_id": "output_increase",
+						"family": "production",
+						"generated": true,
+						"modifier_type": "production",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 1.11835251846355,
+						"stat_group": "output",
+						"target_id": "heat",
+						"tier": 1
+					},
+					"instance_id": "relic_3",
+					"rolled_value": 1.11835251846355
+				}
+			],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1476,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 45,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "separate_rng",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Voracious",
+						"description_label": "",
+						"description_mode": "multiplier",
+						"display_name": "Voracious Emberstone",
+						"effect_id": "input_draw_increase",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 1.05742987585154,
+						"stat_group": "input_draw",
+						"target_id": "matter",
+						"tier": 1
+					},
+					"instance_id": "relic_3",
+					"rolled_value": 1.05742987585154
+				}
+			],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1266,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 149,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "full_inventory",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_28",
+					"rolled_value": 0.908775157940886
+				}
+			],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1298,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 345,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "stack_overflow",
+			"rewards": [],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1335,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 493,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "speed",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.908775157940886
+				}
+			],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 1236,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 75,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "paused",
+			"rewards": [],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 16088,
+				"builds": 21,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 584,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 19,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "automation",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.908775157940886
+				}
+			],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 17351,
+				"builds": 21,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 817,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 19,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "late_mixed",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_3",
+					"rolled_value": 0.908775157940886
+				}
+			],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 1000,
+			"counters": {
+				"build_usec": 852,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 31,
+				"kernel_ticks": 999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "canonical_cycles",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Volatile",
+						"description_label": "Thermic Mass",
+						"description_mode": "multiplier",
+						"display_name": "Volatile Emberstone",
+						"effect_id": "thermic_mass_sensitivity_increase",
+						"family": "sensitivity",
+						"generated": true,
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 1.02599899348608,
+						"sensitivity_targets": [
+							"thermic_mass"
+						],
+						"stat_group": "sensitivity",
+						"stat_type": "sensitivity",
+						"tier": 1
+					},
+					"instance_id": "relic_1",
+					"rolled_value": 1.02599899348608
+				}
+			],
+			"ticks": 1000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 696,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 36,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_accessible",
+			"rewards": [],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 811,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 39,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_after_repeated",
+			"rewards": [],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 908,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 552,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_extraction_active",
+			"rewards": [],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 864,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 486,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_first_craft",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Heat-Hungry",
+						"description_label": "Heat production",
+						"description_mode": "inverse_resource_boost",
+						"display_name": "Heat-Hungry Emberstone",
+						"dynamic": true,
+						"dynamic_exponent": 1.5,
+						"dynamic_formula": "resource_inverse_boost",
+						"dynamic_resource_id": "heat",
+						"dynamic_threshold": 100000.0,
+						"effect_id": "heat_reservoir_boost",
+						"family": "production",
+						"generated": true,
+						"modifier_type": "production",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.548428246657463,
+						"stat_group": "output",
+						"target_id": "heat",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.548428246657463
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 2946,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 51,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_first_extraction",
+			"rewards": [],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 596,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 68,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_near_completion",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Heat-Hungry",
+						"description_label": "Heat production",
+						"description_mode": "inverse_resource_boost",
+						"display_name": "Heat-Hungry Emberstone",
+						"dynamic": true,
+						"dynamic_exponent": 1.5,
+						"dynamic_formula": "resource_inverse_boost",
+						"dynamic_resource_id": "heat",
+						"dynamic_threshold": 100000.0,
+						"effect_id": "heat_reservoir_boost",
+						"family": "production",
+						"generated": true,
+						"modifier_type": "production",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.548428246657463,
+						"stat_group": "output",
+						"target_id": "heat",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.548428246657463
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 563,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 171,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_repeat_craft",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Ashveil",
+						"description_label": "Ash Contamination",
+						"description_mode": "multiplier",
+						"display_name": "Ashveil Cinder Shard",
+						"effect_id": "ash_contamination_sensitivity_reduction",
+						"family": "sensitivity",
+						"generated": true,
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.970184468829038,
+						"sensitivity_targets": [
+							"ashen_contamination",
+							"ashen_contamination_cycle_speed"
+						],
+						"stat_group": "sensitivity",
+						"stat_type": "sensitivity",
+						"tier": 1
+					},
+					"instance_id": "relic_3",
+					"rolled_value": 0.970184468829038
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"boundary_graph_ticks": 45,
+			"counters": {
+				"build_usec": 28562,
+				"builds": 45,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 744,
+				"kernel_ticks": 45,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			}
+		},
+		{
+			"callback_ticks": 3,
+			"counters": {
+				"build_usec": 1107,
+				"builds": 4,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 3,
+				"fallback_usec": 0,
+				"invalidate_usec": 24,
+				"kernel_ticks": 5,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 3
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"reentry_ticks": 5
+		},
+		{
+			"counters": {
+				"build_usec": 1187,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 36,
+				"kernel_ticks": 5,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"equipment_lock_ticks": 6
+		},
+		{
+			"counters": {
+				"build_usec": 2851,
+				"builds": 3,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 96,
+				"kernel_ticks": 1004,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"low_level_alias": false,
+			"rebuild_ticks": 5,
+			"startup_tick_comparisons": 1000
+		},
+		{
+			"counters": {
+				"build_usec": 2593,
+				"builds": 3,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 252,
+				"kernel_ticks": 1004,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"low_level_alias": true,
+			"rebuild_ticks": 5,
+			"startup_tick_comparisons": 1000
+		},
+		{
+			"generation_timings": {
+				"generation_calls": 3,
+				"generation_usec": 740
+			},
+			"instrumentation_tick_comparisons": 3000,
+			"inventory_timings": {
+				"item_calls": 0,
+				"item_usec": 0,
+				"random_reward_calls": 3,
+				"random_reward_usec": 1012,
+				"recipe_calls": 2,
+				"recipe_usec": 509
+			},
+			"metrics": {
+				"auto_attempts": 302,
+				"auto_successes": 2,
+				"completion_usec": 1267,
+				"completions": 3,
+				"crafting_active_ticks": 2700,
+				"crafting_completions": 3,
+				"crafting_no_progress_ticks": 0,
+				"crafting_progress_ticks": 2700,
+				"cycle_calls": 3000,
+				"cycle_usec": 223950,
+				"forge_completions": 0
+			}
+		}
+	],
+	"failures": []
+}

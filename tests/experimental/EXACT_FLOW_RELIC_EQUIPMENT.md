@@ -2,6 +2,8 @@
 
 Base `eeb85dce1c9d79ad0e65cbb8c5d1d7e351097478`, branch `feature/cycle-auto-run`.
 
+Subsequent native Crucible support is documented in [EXACT_FLOW_RELIC_CRAFTING.md](EXACT_FLOW_RELIC_CRAFTING.md); the restrictions and measurements below describe this historical milestone.
+
 ## Pre-implementation audit and boundary decision
 
 Inspected actual HEAD/working tree; native simulation, generator/IO/cycle definitions, both automation managers, GameState, RelicManager/RelicGenerationManager, permanent slot upgrades, save/load, UI equipment callbacks, prior exact-flow reports and regression tests. Tracked tree was clean. Unrelated untracked files are preserved.

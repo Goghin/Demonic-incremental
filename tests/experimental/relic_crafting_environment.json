@@ -1,0 +1,53 @@
+{
+  "base_commit": "182e562d4fddea47f405042e081893b82861e97f",
+  "branch": "feature/cycle-auto-run",
+  "engine": "4.6.1.stable.official.14d19694e",
+  "host": {
+    "system": "Linux",
+    "release": "6.18.55",
+    "version": "#1 SMP Wed Oct 14 19:45:18 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "binary_sha256": "1d732a7b56ff8d2951f2bf43698a91c46ff80014b065672c6af2f7ffd0e6545e",
+  "fixture_sha256": {
+    "core_progression.json": "eafc29d19c8133a582ce06bfd515446ef11b6b49e4c90b499451120eab63231c",
+    "core_event_fixture.json": "c6aa45cde11f68ca6f1a89a6824442ca63474939bce080e965d07ecc02bb724d",
+    "consumer_progression.json": "ef72516f33842ad74b9471eb88dcfbd960eea783942e8e8baae01755c291753f",
+    "automation_progression.json": "974be3520806ddd7c2aa83abc3a25c8ae6794713d708c1e69df163db57992567",
+    "cycle_progression.json": "814d14607266d6e88fbb829e14359cb52810bc8c23e4f5848387e41abb8e8354",
+    "essence_nexum_progression.json": "69dd64ffe0eaaf13e90292eb2af6b1d1e0cfdfb89614b72a534e29c2a3e4ea48",
+    "relic_equipment_progression.json": "6f2481d911283cfd799db3f30064f4333e74dc0f86c6fd9b93fa6f4bbea52122",
+    "relic_crafting_progression.json": "2af800e403e8800bda9fd55b70e16720632819002447810558235a4efb263e26"
+  },
+  "unrelated_untracked_count": 21,
+  "validation_scope": "Linux script execution only; Windows 4.7.2 and editor startup unverified",
+  "baseline_archives": "182e562 kernel/packet/cycles/equipment; preload remapping only; other execution helpers unchanged except the validation-only RNG view",
+  "baseline_regression_groups": 97,
+  "final_regression_groups": 98,
+  "dedicated_tick_endpoints": 56000,
+  "core_execution_unchanged": [
+    "exact_flow_packet.gd",
+    "exact_flow_kernel.gd",
+    "simulation/simulation.gd",
+    "Game/relic_manager.gd",
+    "Game/relic_generation_manager.gd"
+  ],
+  "additional_early_tick_endpoints": 4000,
+  "total_new_tick_endpoints": 60000,
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "benchmark_main_completed_before_interruption": 23,
+  "benchmark_resume": "Complete scenario samples retained; resumed with identical engine hash and CPU; no throughput overlap with validation",
+  "validation_comparisons": 120000,
+  "windows_validation": "not performed",
+  "benchmark_main_scenarios": 53,
+  "benchmark_main_exact_comparisons": 424,
+  "benchmark_confirmation_scenarios": 8,
+  "benchmark_confirmation_exact_comparisons": 112,
+  "evidence_sha256": {
+    "relic_crafting_benchmark_results.json": "f44b6b46dd9c5737ed0e367ea281725bdda66f26b2f1ef4c98522509f499cdb1",
+    "relic_crafting_benchmark_confirmation_results.json": "212ee19dd69db706390ab6ef28665e2f1805aaa06f8577caafe20720f083bf21",
+    "relic_crafting_validation.json": "3935688b6bf9d06213ad260a3f5619e52619b9151e6dd895e9c95815aa289643",
+    "relic_crafting_regression_validation.json": "2809189b6387b413e16c809b88742050c3bf6c8aa7d1da5c5243032ee3858028"
+  }
+}

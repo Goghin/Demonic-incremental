@@ -55,7 +55,7 @@ func _differential(label: String, ticks: int) -> void:
 	var before: PackedByteArray = oracle.fingerprint(candidate["simulation"], candidate["journal"])
 	var packet: RefCounted = Packet.new()
 	var admitted: bool = packet.build(candidate["simulation"], candidate["journal"])
-	check(admitted == (label != "crafting"), label + ": unexpected admission " + packet.error)
+	check(admitted, label + ": unexpected admission " + packet.error)
 	check(before == oracle.fingerprint(candidate["simulation"], candidate["journal"]), label + ": admission mutated state")
 	packet = null
 	var kernel: RefCounted = Kernel.new(candidate["simulation"], candidate["journal"])
@@ -76,7 +76,7 @@ func _differential(label: String, ticks: int) -> void:
 	check(oracle.fingerprint(candidate["simulation"], candidate["journal"]) == oracle.fingerprint(control["simulation"], control["journal"]), label + ": complete graph differs")
 	check(oracle.failures.is_empty(), label + ": graph capture failed")
 	if label == "crafting":
-		check(kernel.counters["kernel_ticks"] == 0 and not candidate["simulation"].state.relic_manager.inventory.is_empty(), "Active crafting fallback/reward missing")
+		check(kernel.counters["kernel_ticks"] > 0 and not candidate["simulation"].state.relic_manager.inventory.is_empty(), "Native crafting execution/reward missing")
 	else:
 		check(kernel.counters["kernel_ticks"] > 0 and kernel.counters["reasons"].is_empty(), label + ": no admitted execution")
 	var completions: int = 0
@@ -142,7 +142,7 @@ func _boundaries() -> void:
 			kernel.run(1)
 			control["simulation"].update(STEP, true)
 			check(oracle.fingerprint(candidate["simulation"], candidate["journal"]) == oracle.fingerprint(control["simulation"], control["journal"]), "Boundary graph differs: " + change)
-	check(kernel.counters["reasons"].has("unsupported_cycle_contract") and kernel.counters["kernel_ticks"] > 20, "Craft fallback and equipment reentry missing")
+	check(kernel.counters["reasons"].is_empty() and kernel.counters["kernel_ticks"] > 30, "Native craft and equipment reentry missing")
 	check(oracle.failures.is_empty(), "Boundary graph capture failed")
 	cases.append({"boundary_graph_ticks": 36, "counters": kernel.counters.duplicate(true)})
 
