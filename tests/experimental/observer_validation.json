@@ -1,0 +1,1201 @@
+{
+	"cases": [
+		{
+			"counters": {
+				"build_usec": 613,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 35,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"ticks": 100,
+			"workload": "none"
+		},
+		{
+			"counters": {
+				"build_usec": 755,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 39,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"ticks": 100,
+			"workload": "journal"
+		},
+		{
+			"counters": {
+				"build_usec": 649,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 35,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"ticks": 100,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 1020,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 113,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"ticks": 100,
+			"workload": "heavy"
+		},
+		{
+			"counters": {
+				"build_usec": 209,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"ticks": 100,
+			"workload": "observe"
+		},
+		{
+			"counters": {
+				"build_usec": 209,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "early",
+			"ticks": 100,
+			"workload": "mixed"
+		},
+		{
+			"counters": {
+				"build_usec": 509,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 35,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "consumer_50000",
+			"ticks": 100,
+			"workload": "none"
+		},
+		{
+			"counters": {
+				"build_usec": 654,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 33,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "consumer_50000",
+			"ticks": 100,
+			"workload": "journal"
+		},
+		{
+			"counters": {
+				"build_usec": 589,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 34,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "consumer_50000",
+			"ticks": 100,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 635,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 29,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "consumer_50000",
+			"ticks": 100,
+			"workload": "heavy"
+		},
+		{
+			"counters": {
+				"build_usec": 192,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "consumer_50000",
+			"ticks": 100,
+			"workload": "observe"
+		},
+		{
+			"counters": {
+				"build_usec": 199,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "consumer_50000",
+			"ticks": 100,
+			"workload": "mixed"
+		},
+		{
+			"counters": {
+				"build_usec": 1500,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 92,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"ticks": 100,
+			"workload": "none"
+		},
+		{
+			"counters": {
+				"build_usec": 1370,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 87,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"ticks": 100,
+			"workload": "journal"
+		},
+		{
+			"counters": {
+				"build_usec": 1704,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 64,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"ticks": 100,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 3545,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 646,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"ticks": 100,
+			"workload": "heavy"
+		},
+		{
+			"counters": {
+				"build_usec": 200,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 5,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"ticks": 100,
+			"workload": "observe"
+		},
+		{
+			"counters": {
+				"build_usec": 204,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mid",
+			"ticks": 100,
+			"workload": "mixed"
+		},
+		{
+			"counters": {
+				"build_usec": 806,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"ticks": 100,
+			"workload": "none"
+		},
+		{
+			"counters": {
+				"build_usec": 1090,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"ticks": 100,
+			"workload": "journal"
+		},
+		{
+			"counters": {
+				"build_usec": 1092,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"ticks": 100,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 854,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"ticks": 100,
+			"workload": "heavy"
+		},
+		{
+			"counters": {
+				"build_usec": 225,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 5,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"ticks": 100,
+			"workload": "observe"
+		},
+		{
+			"counters": {
+				"build_usec": 213,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 5,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"ticks": 100,
+			"workload": "mixed"
+		},
+		{
+			"counters": {
+				"build_usec": 1559,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 43,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_first_craft",
+			"ticks": 100,
+			"workload": "none"
+		},
+		{
+			"counters": {
+				"build_usec": 974,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 49,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_first_craft",
+			"ticks": 100,
+			"workload": "journal"
+		},
+		{
+			"counters": {
+				"build_usec": 1500,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 44,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_first_craft",
+			"ticks": 100,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 953,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 47,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_first_craft",
+			"ticks": 100,
+			"workload": "heavy"
+		},
+		{
+			"counters": {
+				"build_usec": 3096,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_first_craft",
+			"ticks": 100,
+			"workload": "observe"
+		},
+		{
+			"counters": {
+				"build_usec": 466,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_first_craft",
+			"ticks": 100,
+			"workload": "mixed"
+		},
+		{
+			"counters": {
+				"build_usec": 1154,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 49,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_repeat_craft",
+			"ticks": 100,
+			"workload": "none"
+		},
+		{
+			"counters": {
+				"build_usec": 1717,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 47,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_repeat_craft",
+			"ticks": 100,
+			"workload": "journal"
+		},
+		{
+			"counters": {
+				"build_usec": 834,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 61,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_repeat_craft",
+			"ticks": 100,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 902,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 45,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_repeat_craft",
+			"ticks": 100,
+			"workload": "heavy"
+		},
+		{
+			"counters": {
+				"build_usec": 429,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_repeat_craft",
+			"ticks": 100,
+			"workload": "observe"
+		},
+		{
+			"counters": {
+				"build_usec": 559,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_repeat_craft",
+			"ticks": 100,
+			"workload": "mixed"
+		},
+		{
+			"counters": {
+				"build_usec": 520,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 44,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_multiple",
+			"ticks": 100,
+			"workload": "none"
+		},
+		{
+			"counters": {
+				"build_usec": 681,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 45,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_multiple",
+			"ticks": 100,
+			"workload": "journal"
+		},
+		{
+			"counters": {
+				"build_usec": 668,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 79,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_multiple",
+			"ticks": 100,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 739,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 146,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_multiple",
+			"ticks": 100,
+			"workload": "heavy"
+		},
+		{
+			"counters": {
+				"build_usec": 193,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_multiple",
+			"ticks": 100,
+			"workload": "observe"
+		},
+		{
+			"counters": {
+				"build_usec": 408,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 100,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_multiple",
+			"ticks": 100,
+			"workload": "mixed"
+		},
+		{
+			"counters": {
+				"build_usec": 291,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 60,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_together",
+			"ticks": 60,
+			"workload": "resource"
+		},
+		{
+			"counters": {
+				"build_usec": 160,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 60,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_together",
+			"ticks": 60,
+			"workload": "upgrade"
+		},
+		{
+			"counters": {
+				"build_usec": 142,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 60,
+				"fallback_usec": 0,
+				"invalidate_usec": 4,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_together",
+			"ticks": 60,
+			"workload": "automation"
+		},
+		{
+			"counters": {
+				"build_usec": 419,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 60,
+				"fallback_usec": 0,
+				"invalidate_usec": 5,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_together",
+			"ticks": 60,
+			"workload": "inventory"
+		},
+		{
+			"counters": {
+				"build_usec": 224,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 60,
+				"fallback_usec": 0,
+				"invalidate_usec": 3,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_together",
+			"ticks": 60,
+			"workload": "register"
+		},
+		{
+			"counters": {
+				"build_usec": 929,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 60,
+				"fallback_usec": 0,
+				"invalidate_usec": 29,
+				"kernel_ticks": 10,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_together",
+			"ticks": 60,
+			"workload": "remove"
+		},
+		{
+			"counters": {
+				"build_usec": 1052,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 60,
+				"fallback_usec": 0,
+				"invalidate_usec": 308,
+				"kernel_ticks": 10,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_together",
+			"ticks": 60,
+			"workload": "replace"
+		},
+		{
+			"counters": {
+				"build_usec": 1048,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 47,
+				"kernel_ticks": 1000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_first_craft",
+			"ticks": 1000,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 847,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 46,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "earned_craft_repeat_craft",
+			"ticks": 2000,
+			"workload": "readonly"
+		},
+		{
+			"counters": {
+				"build_usec": 640,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 40,
+				"kernel_ticks": 1000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "consumer_50000",
+			"ticks": 1000,
+			"workload": "readonly"
+		}
+	],
+	"failures": []
+}

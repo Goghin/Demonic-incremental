@@ -1,0 +1,63 @@
+{
+	"diagnostics": {
+		"corrected": {
+			"counters": {
+				"build_usec": 6258,
+				"builds": 12,
+				"dispatch_usec": 0,
+				"event_invalidations": 0,
+				"fallback_ticks": 1,
+				"kernel_ticks": 12,
+				"observer_callback_boundaries": 13,
+				"observer_packet_releases": 12,
+				"partial_ticks": 1,
+				"progress_boundaries": 2,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0
+			},
+			"game_time": 1.20000004768372,
+			"steps": 13
+		},
+		"legacy": {
+			"counters": {
+				"build_usec": 723,
+				"builds": 1,
+				"dispatch_usec": 0,
+				"event_invalidations": 0,
+				"fallback_ticks": 1,
+				"kernel_ticks": 12,
+				"partial_ticks": 1,
+				"progress_boundaries": 2,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0
+			},
+			"game_time": 1.20000004768372,
+			"steps": 13
+		},
+		"native": {
+			"counters": {
+				"build_usec": 0,
+				"builds": 0,
+				"dispatch_usec": 0,
+				"event_invalidations": 0,
+				"fallback_ticks": 0,
+				"kernel_ticks": 0,
+				"observer_callback_boundaries": 13,
+				"partial_ticks": 0,
+				"progress_boundaries": 2,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0
+			},
+			"game_time": 1.20000004768372,
+			"steps": 13
+		}
+	},
+	"legacy_diverged": true,
+	"native_corrected_exact": true
+}

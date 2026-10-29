@@ -1,0 +1,3323 @@
+{
+  "environment": {
+    "engine": {
+      "build": "official",
+      "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+      "hex": 263681,
+      "major": 4,
+      "minor": 6,
+      "patch": 1,
+      "status": "stable",
+      "string": "4.6.1-stable (official)",
+      "timestamp": 0
+    },
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "repetitions": "one warmup + five measured, offline one + three",
+    "logging": "in-memory TickLog without external clock; production logger only disabled diagnostic",
+    "platform": "Linux",
+    "processor_count": 9,
+    "debug_build": true,
+    "baseline_commit": "4aa3073602e150714baff4d312cc0e23d85b72d4",
+    "native_step": 0.1
+  },
+  "comparisons": 748,
+  "all_exact_parity": true,
+  "failures": [],
+  "scenarios": [
+    {
+      "label": "early",
+      "workload": "journal",
+      "ticks": 2000,
+      "methods": {
+        "historical": {
+          "ticks_per_second_median": 8229.233529189092,
+          "ticks_per_second_min": 7934.681700243595,
+          "ticks_per_second_max": 10017.831740498086,
+          "runs": 5
+        },
+        "instrumented": {
+          "ticks_per_second_median": 9394.964299135663,
+          "ticks_per_second_min": 8089.764021583491,
+          "ticks_per_second_max": 9691.42502713599,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 9508.550564094763,
+          "ticks_per_second_min": 8612.114661694606,
+          "ticks_per_second_max": 10189.888573568449,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 9186.87012521704,
+          "ticks_per_second_min": 7920.760709858575,
+          "ticks_per_second_max": 9833.615230303269,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 4298.486932599725,
+          "ticks_per_second_min": 3812.6029402793874,
+          "ticks_per_second_max": 4473.572371217036,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 2.258854330386555,
+        "min": 2.139090909090909,
+        "max": 2.370575677754964
+      },
+      "versus_previous": {
+        "median": 1.035015237452279,
+        "min": 0.9115698701112436,
+        "max": 1.1381494143361541
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.040941993101696,
+        "min": 0.9249441989296951,
+        "max": 1.1753804608794458
+      },
+      "versus_historical": {
+        "median": 1.0731064910120425,
+        "min": 1.0171750571907496,
+        "max": 1.2060191387559809
+      },
+      "speedup_from_median_times": 2.2120692032310054,
+      "versus_previous_from_median_times": 1.035015237452279,
+      "instrumentation_from_median_times": 1.0120901220422465,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 831.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 65.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 818.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 83.0,
+        "observer_checks": 5.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 818.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 83.0,
+          "min": 76.0,
+          "max": 136.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 818.0,
+          "min": 617.0,
+          "max": 2950.0
+        },
+        "packet_build_usec": {
+          "median": 818.0,
+          "min": 617.0,
+          "max": 2950.0
+        }
+      }
+    },
+    {
+      "label": "early",
+      "workload": "readonly",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 8410.110635005403,
+          "ticks_per_second_min": 7772.544264639587,
+          "ticks_per_second_max": 9572.859030077923,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 8743.666306719071,
+          "ticks_per_second_min": 7410.755971216624,
+          "ticks_per_second_max": 9781.960109166675,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 4754.783906958389,
+          "ticks_per_second_min": 3384.1520161085637,
+          "ticks_per_second_max": 4868.051465040088,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 4549.03173859444,
+          "ticks_per_second_min": 3943.023313125339,
+          "ticks_per_second_max": 4721.178972813091,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.9220939332071332,
+        "min": 1.7603620895367535,
+        "max": 2.252241251459755
+      },
+      "versus_previous": {
+        "median": 2.0572880493793346,
+        "min": 1.52232490236329,
+        "max": 2.6241846462619165
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.0285290866583847,
+        "min": 0.881172233379527,
+        "max": 1.1249426196898622
+      },
+      "speedup_from_median_times": 1.9220939332071332,
+      "versus_previous_from_median_times": 1.838919807464468,
+      "instrumentation_from_median_times": 1.0396612703672776,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 689.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 50.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 779.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 121.0,
+        "observer_checks": 15.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 779.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 121.0,
+          "min": 95.0,
+          "max": 392.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 779.0,
+          "min": 680.0,
+          "max": 1412.0
+        },
+        "packet_build_usec": {
+          "median": 779.0,
+          "min": 680.0,
+          "max": 1412.0
+        }
+      }
+    },
+    {
+      "label": "consumer_50000",
+      "workload": "journal",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 5022.261172647761,
+          "ticks_per_second_min": 4096.0943740143775,
+          "ticks_per_second_max": 5124.2371291973905,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 4123.915410247105,
+          "ticks_per_second_min": 3939.536001449749,
+          "ticks_per_second_max": 5446.59342814037,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 5251.54920701607,
+          "ticks_per_second_min": 1580.2781289506954,
+          "ticks_per_second_max": 5507.472262992816,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 3056.402858347953,
+          "ticks_per_second_min": 1572.9193619295315,
+          "ticks_per_second_max": 3225.8012487076635,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.6884466860202287,
+        "min": 1.3426293921518337,
+        "max": 2.5046013780496934
+      },
+      "versus_previous": {
+        "median": 0.9889461386375891,
+        "min": 0.7809284431905616,
+        "max": 2.4929383817174013
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9929550348321723,
+        "min": 0.7844148016246646,
+        "max": 1.0629081540950214
+      },
+      "speedup_from_median_times": 1.3492708917554683,
+      "versus_previous_from_median_times": 0.7852759724192537,
+      "instrumentation_from_median_times": 0.8211272310382369,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 575.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 171.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 783.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 100.0,
+        "observer_checks": 5.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 783.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 100.0,
+          "min": 60.0,
+          "max": 268.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 783.0,
+          "min": 552.0,
+          "max": 1306.0
+        },
+        "packet_build_usec": {
+          "median": 783.0,
+          "min": 552.0,
+          "max": 1306.0
+        }
+      }
+    },
+    {
+      "label": "consumer_50000",
+      "workload": "readonly",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 5211.617738262134,
+          "ticks_per_second_min": 2249.728907666626,
+          "ticks_per_second_max": 5294.717195917773,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 4584.495694012419,
+          "ticks_per_second_min": 2826.9989709723745,
+          "ticks_per_second_max": 5704.051017032296,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 3189.4111549655145,
+          "ticks_per_second_min": 1889.303800995852,
+          "ticks_per_second_max": 3451.0724207547496,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 3338.547030946662,
+          "ticks_per_second_min": 2826.755238330801,
+          "ticks_per_second_max": 3612.8864433661984,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.373200871971081,
+        "min": 1.0000862234686148,
+        "max": 1.578807168851318
+      },
+      "versus_previous": {
+        "median": 1.4963178338403085,
+        "min": 1.2201504446672975,
+        "max": 1.7884338957527637
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.998966308531788,
+        "min": 0.7133845895255309,
+        "max": 1.2565953885992784
+      },
+      "speedup_from_median_times": 1.373200871971081,
+      "versus_previous_from_median_times": 1.437411318661419,
+      "instrumentation_from_median_times": 0.879668449271409,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 703.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 49.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 816.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 125.0,
+        "observer_checks": 15.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 816.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 125.0,
+          "min": 86.0,
+          "max": 211.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 816.0,
+          "min": 633.0,
+          "max": 1104.0
+        },
+        "packet_build_usec": {
+          "median": 816.0,
+          "min": 633.0,
+          "max": 1104.0
+        }
+      }
+    },
+    {
+      "label": "mid",
+      "workload": "journal",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 5972.556104698909,
+          "ticks_per_second_min": 5457.0110313478,
+          "ticks_per_second_max": 6024.060096023518,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 6169.602369127309,
+          "ticks_per_second_min": 5811.976740469085,
+          "ticks_per_second_max": 6464.437513130889,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 6007.322926647584,
+          "ticks_per_second_min": 5304.448841243151,
+          "ticks_per_second_max": 6289.308176100629,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 4365.23006945081,
+          "ticks_per_second_min": 3960.466622177425,
+          "ticks_per_second_max": 4546.870275517605,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.4808927388205633,
+        "min": 1.2782367624964766,
+        "max": 1.5577968349939846
+      },
+      "versus_previous": {
+        "median": 1.0278455645878113,
+        "min": 0.9547741029940399,
+        "max": 1.1588812048563086
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.082159768573137,
+        "min": 0.97311379559859,
+        "max": 1.1264822498847396
+      },
+      "speedup_from_median_times": 1.4133510195267915,
+      "versus_previous_from_median_times": 1.0270136039732238,
+      "instrumentation_from_median_times": 1.0329919486689083,
+      "coverage_percent": 99.9,
+      "previous_coverage_percent": 99.9,
+      "counters": {
+        "build_usec": 2371.0,
+        "builds": 3.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 2.0,
+        "fallback_ticks": 2.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 132.0,
+        "kernel_ticks": 1998.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 2.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 2.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 2201.0,
+        "eligible_ticks": 1998.0,
+        "fallback_ticks_by_reason": {
+          "automatic_upgrade": 2.0
+        },
+        "native_fallback_ticks": 2.0,
+        "observer_check_usec": 270.0,
+        "observer_checks": 15.0,
+        "observer_invocations": 1.0,
+        "observer_signal_checks": 21.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 2201.0,
+        "packet_builds": 3.0,
+        "packet_rebuilds": 2.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 270.0,
+          "min": 223.0,
+          "max": 396.0
+        },
+        "callback_usec": {
+          "median": 2.0,
+          "min": 1.0,
+          "max": 2.0
+        },
+        "eligibility_usec": {
+          "median": 2201.0,
+          "min": 1866.0,
+          "max": 2333.0
+        },
+        "packet_build_usec": {
+          "median": 2201.0,
+          "min": 1866.0,
+          "max": 2333.0
+        }
+      }
+    },
+    {
+      "label": "mid",
+      "workload": "readonly",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 5876.3901335409655,
+          "ticks_per_second_min": 4948.229152492052,
+          "ticks_per_second_max": 6163.119277928946,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 6038.756740762212,
+          "ticks_per_second_min": 5481.659736935149,
+          "ticks_per_second_max": 6387.347941198075,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 4087.8227847066373,
+          "ticks_per_second_min": 3884.0985007379786,
+          "ticks_per_second_max": 4510.386292033982,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 4401.485941653902,
+          "ticks_per_second_min": 3976.823075118211,
+          "ticks_per_second_max": 4442.2627998249745,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.3593875492913519,
+        "min": 1.2724055989672554,
+        "max": 1.532447429283588
+      },
+      "versus_previous": {
+        "median": 1.4772550227359191,
+        "min": 1.2694564660287841,
+        "max": 1.5690313458895657
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9798214943507431,
+        "min": 0.9335842106272937,
+        "max": 1.290835113806572
+      },
+      "speedup_from_median_times": 1.3719813764742115,
+      "versus_previous_from_median_times": 1.4772550227359191,
+      "instrumentation_from_median_times": 1.0276303314673576,
+      "coverage_percent": 99.9,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 2166.0,
+        "builds": 3.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 2.0,
+        "fallback_ticks": 2.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 117.0,
+        "kernel_ticks": 1998.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 2.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 3.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 2711.0,
+        "eligible_ticks": 1998.0,
+        "fallback_ticks_by_reason": {
+          "automatic_upgrade": 2.0
+        },
+        "native_fallback_ticks": 2.0,
+        "observer_check_usec": 344.0,
+        "observer_checks": 45.0,
+        "observer_invocations": 3.0,
+        "observer_signal_checks": 21.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 2711.0,
+        "packet_builds": 3.0,
+        "packet_rebuilds": 2.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 344.0,
+          "min": 326.0,
+          "max": 714.0
+        },
+        "callback_usec": {
+          "median": 3.0,
+          "min": 3.0,
+          "max": 5.0
+        },
+        "eligibility_usec": {
+          "median": 2711.0,
+          "min": 1729.0,
+          "max": 6953.0
+        },
+        "packet_build_usec": {
+          "median": 2711.0,
+          "min": 1729.0,
+          "max": 6953.0
+        }
+      }
+    },
+    {
+      "label": "forge_competing",
+      "workload": "journal",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 1993.4674073062574,
+          "ticks_per_second_min": 1877.6539465000062,
+          "ticks_per_second_max": 2046.404263069361,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 1962.7798065287946,
+          "ticks_per_second_min": 1851.4695576746653,
+          "ticks_per_second_max": 2082.391918653442,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 1983.2632415049397,
+          "ticks_per_second_min": 1804.5867180612963,
+          "ticks_per_second_max": 2112.9007380362277,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 1442.4789866873614,
+          "ticks_per_second_min": 1345.8198499007121,
+          "ticks_per_second_max": 1493.076603788234,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.3648893244178004,
+        "min": 1.2835331223275195,
+        "max": 1.494653342264545
+      },
+      "versus_previous": {
+        "median": 1.0221116959104501,
+        "min": 0.9246220456331702,
+        "max": 1.0647596264699102
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.992976728561572,
+        "min": 0.9287684117075826,
+        "max": 1.045336287971202
+      },
+      "speedup_from_median_times": 1.3606990636558933,
+      "versus_previous_from_median_times": 0.9896718526580455,
+      "instrumentation_from_median_times": 0.9846059179773947,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 774.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 78.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 1168.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 79.0,
+        "observer_checks": 5.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 1168.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 79.0,
+          "min": 67.0,
+          "max": 114.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 1168.0,
+          "min": 763.0,
+          "max": 1888.0
+        },
+        "packet_build_usec": {
+          "median": 1168.0,
+          "min": 763.0,
+          "max": 1888.0
+        }
+      }
+    },
+    {
+      "label": "forge_competing",
+      "workload": "readonly",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 1966.4832593280134,
+          "ticks_per_second_min": 1933.1759083751947,
+          "ticks_per_second_max": 2074.5489152702357,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 1976.050270718887,
+          "ticks_per_second_min": 1412.9662258683031,
+          "ticks_per_second_max": 2049.1089449752776,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 1485.1646899124644,
+          "ticks_per_second_min": 1340.9912875796047,
+          "ticks_per_second_max": 1530.4244555706302,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 1470.7007006418137,
+          "ticks_per_second_min": 1445.1994808843465,
+          "ticks_per_second_max": 1523.1782027106478,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.297320475832905,
+        "min": 0.960743559346701,
+        "max": 1.4083546269904532
+      },
+      "versus_previous": {
+        "median": 1.2954413658356703,
+        "min": 1.0536729350558334,
+        "max": 1.3570603073253595
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9590548667759066,
+        "min": 0.7185244111110012,
+        "max": 1.0221782002134134
+      },
+      "speedup_from_median_times": 1.3436114294747659,
+      "versus_previous_from_median_times": 1.3305260245820654,
+      "instrumentation_from_median_times": 1.0048650357665099,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 1159.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 169.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 1059.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 115.0,
+        "observer_checks": 15.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 1059.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 115.0,
+          "min": 100.0,
+          "max": 165.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 1059.0,
+          "min": 910.0,
+          "max": 1373.0
+        },
+        "packet_build_usec": {
+          "median": 1059.0,
+          "min": 910.0,
+          "max": 1373.0
+        }
+      }
+    },
+    {
+      "label": "earned_craft_first_craft",
+      "workload": "journal",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2900.2236072401183,
+          "ticks_per_second_min": 2633.481291090538,
+          "ticks_per_second_max": 2975.752084142366,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2874.042225428376,
+          "ticks_per_second_min": 2648.9960967042516,
+          "ticks_per_second_max": 3008.921452105493,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2947.352908668902,
+          "ticks_per_second_min": 2441.686423979314,
+          "ticks_per_second_max": 3121.673466712035,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2346.277747667213,
+          "ticks_per_second_min": 2327.094006453032,
+          "ticks_per_second_max": 2491.8019715137198,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.1854504356533933,
+        "min": 1.1290206793880289,
+        "max": 1.2929952308594985
+      },
+      "versus_previous": {
+        "median": 0.9751266015600302,
+        "min": 0.8917699664769544,
+        "max": 1.232312807474161
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9979320754061685,
+        "min": 0.9051765357223747,
+        "max": 1.0839946674583645
+      },
+      "speedup_from_median_times": 1.224936914773152,
+      "versus_previous_from_median_times": 0.9751266015600302,
+      "instrumentation_from_median_times": 0.9909726333699295,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 1107.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 60.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 2.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 1315.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 70.0,
+        "observer_checks": 5.0,
+        "observer_invocations": 1.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 1315.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 70.0,
+          "min": 65.0,
+          "max": 72.0
+        },
+        "callback_usec": {
+          "median": 2.0,
+          "min": 1.0,
+          "max": 3.0
+        },
+        "eligibility_usec": {
+          "median": 1315.0,
+          "min": 961.0,
+          "max": 1603.0
+        },
+        "packet_build_usec": {
+          "median": 1315.0,
+          "min": 961.0,
+          "max": 1603.0
+        }
+      }
+    },
+    {
+      "label": "earned_craft_first_craft",
+      "workload": "readonly",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2917.3060429077373,
+          "ticks_per_second_min": 1635.185262402267,
+          "ticks_per_second_max": 3125.351602055231,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2158.396052725299,
+          "ticks_per_second_min": 1736.6553234129792,
+          "ticks_per_second_max": 3075.182050777406,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 1883.8174430192319,
+          "ticks_per_second_min": 1792.235141250532,
+          "ticks_per_second_max": 2355.756998954044,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2285.541890554541,
+          "ticks_per_second_min": 1519.5466888317876,
+          "ticks_per_second_max": 2494.207203769246,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.2656704843893412,
+        "min": 0.6962754821606424,
+        "max": 1.370142259883835
+      },
+      "versus_previous": {
+        "median": 1.1561211032857264,
+        "min": 0.9218809019145756,
+        "max": 1.3446582678787256
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9692148779106223,
+        "min": 0.7158870899856898,
+        "max": 1.1275312003923441
+      },
+      "speedup_from_median_times": 0.9443695001370581,
+      "versus_previous_from_median_times": 1.1457564854405393,
+      "instrumentation_from_median_times": 0.7398593157452834,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 1354.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 96.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 4.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 1343.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 146.0,
+        "observer_checks": 15.0,
+        "observer_invocations": 3.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 1343.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 146.0,
+          "min": 95.0,
+          "max": 504.0
+        },
+        "callback_usec": {
+          "median": 4.0,
+          "min": 4.0,
+          "max": 12.0
+        },
+        "eligibility_usec": {
+          "median": 1343.0,
+          "min": 943.0,
+          "max": 2350.0
+        },
+        "packet_build_usec": {
+          "median": 1343.0,
+          "min": 943.0,
+          "max": 2350.0
+        }
+      }
+    },
+    {
+      "label": "earned_craft_repeat_craft",
+      "workload": "journal",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2927.4690273776905,
+          "ticks_per_second_min": 2642.231311497934,
+          "ticks_per_second_max": 2998.3029605243432,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2960.077435625716,
+          "ticks_per_second_min": 2736.7942833841007,
+          "ticks_per_second_max": 3088.0161812047895,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 3026.515300548102,
+          "ticks_per_second_min": 2859.7411362323483,
+          "ticks_per_second_max": 3088.411969449429,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2392.9141027589103,
+          "ticks_per_second_min": 2354.367646279805,
+          "ticks_per_second_max": 2488.760137031133,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.2389774116490888,
+        "min": 1.132987676215342,
+        "max": 1.3116117128453753
+      },
+      "versus_previous": {
+        "median": 0.9957541041691272,
+        "min": 0.8861493578112214,
+        "max": 1.0350857978444716
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.0327329715207707,
+        "min": 0.9127811029828321,
+        "max": 1.1202945869063934
+      },
+      "speedup_from_median_times": 1.2370178403867045,
+      "versus_previous_from_median_times": 0.9780480657373997,
+      "instrumentation_from_median_times": 1.0111387713902595,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 1045.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 59.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 2.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 1389.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 76.0,
+        "observer_checks": 5.0,
+        "observer_invocations": 1.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 1389.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 76.0,
+          "min": 69.0,
+          "max": 101.0
+        },
+        "callback_usec": {
+          "median": 2.0,
+          "min": 1.0,
+          "max": 2.0
+        },
+        "eligibility_usec": {
+          "median": 1389.0,
+          "min": 1034.0,
+          "max": 3416.0
+        },
+        "packet_build_usec": {
+          "median": 1389.0,
+          "min": 1034.0,
+          "max": 3416.0
+        }
+      }
+    },
+    {
+      "label": "earned_craft_repeat_craft",
+      "workload": "readonly",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 3024.46947024905,
+          "ticks_per_second_min": 2683.14835261399,
+          "ticks_per_second_max": 3229.363960621136,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 3036.2098385343606,
+          "ticks_per_second_min": 2354.037881177584,
+          "ticks_per_second_max": 3096.2148773124854,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2367.794210269597,
+          "ticks_per_second_min": 1283.5314571098338,
+          "ticks_per_second_max": 2490.2382659972905,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2354.8721716513423,
+          "ticks_per_second_min": 1453.194776055419,
+          "ticks_per_second_max": 2418.271492085602,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.2857058277011642,
+        "min": 1.2326478540856625,
+        "max": 1.6199052735156614
+      },
+      "versus_previous": {
+        "median": 1.2822946459475708,
+        "min": 1.1830373276323753,
+        "max": 1.8340320902443963
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.0001973536395048,
+        "min": 0.8773416791823014,
+        "max": 1.0498717719849
+      },
+      "speedup_from_median_times": 1.289331062248374,
+      "versus_previous_from_median_times": 1.2822946459475708,
+      "instrumentation_from_median_times": 1.0038817942785663,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 967.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 58.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 5.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 1071.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 101.0,
+        "observer_checks": 15.0,
+        "observer_invocations": 3.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 1071.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 101.0,
+          "min": 89.0,
+          "max": 182.0
+        },
+        "callback_usec": {
+          "median": 5.0,
+          "min": 5.0,
+          "max": 6.0
+        },
+        "eligibility_usec": {
+          "median": 1071.0,
+          "min": 958.0,
+          "max": 1402.0
+        },
+        "packet_build_usec": {
+          "median": 1071.0,
+          "min": 958.0,
+          "max": 1402.0
+        }
+      }
+    },
+    {
+      "label": "reached_multiple",
+      "workload": "journal",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 3015.1814385430644,
+          "ticks_per_second_min": 2988.1028684293487,
+          "ticks_per_second_max": 3138.515231214417,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2910.8014018419553,
+          "ticks_per_second_min": 2700.968972618927,
+          "ticks_per_second_max": 3221.748088295228,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 3017.396801257651,
+          "ticks_per_second_min": 2773.1750774755787,
+          "ticks_per_second_max": 3167.1277476812666,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2380.7568187851234,
+          "ticks_per_second_min": 1952.1794130967812,
+          "ticks_per_second_max": 2400.502185057114,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.342114207747982,
+        "min": 1.134221952125325,
+        "max": 1.4910521964907377
+      },
+      "versus_previous": {
+        "median": 0.9646730587865451,
+        "min": 0.8528133968061042,
+        "max": 1.137425696977726
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9486369539450925,
+        "min": 0.8957898646139303,
+        "max": 1.0556131211764206
+      },
+      "speedup_from_median_times": 1.2226370114219847,
+      "versus_previous_from_median_times": 0.9646730587865451,
+      "instrumentation_from_median_times": 0.9653818389278936,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 566.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 56.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 940.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 67.0,
+        "observer_checks": 5.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 940.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 67.0,
+          "min": 61.0,
+          "max": 94.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 940.0,
+          "min": 556.0,
+          "max": 2280.0
+        },
+        "packet_build_usec": {
+          "median": 940.0,
+          "min": 556.0,
+          "max": 2280.0
+        }
+      }
+    },
+    {
+      "label": "reached_multiple",
+      "workload": "readonly",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2983.9656605231785,
+          "ticks_per_second_min": 2874.000925428298,
+          "ticks_per_second_max": 3116.6726402892273,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 3076.5538904562222,
+          "ticks_per_second_min": 2872.7789827489623,
+          "ticks_per_second_max": 3189.6247884880063,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2329.926980088444,
+          "ticks_per_second_min": 2203.5071019033894,
+          "ticks_per_second_max": 2458.2225084685765,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2366.3178319796025,
+          "ticks_per_second_min": 2317.099732606691,
+          "ticks_per_second_max": 2388.610151354282,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.288010054178114,
+        "min": 1.2140292161622546,
+        "max": 1.3718400785923548
+      },
+      "versus_previous": {
+        "median": 1.297532984707344,
+        "min": 1.2329909938378891,
+        "max": 1.3962078396746236
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.0689214124296489,
+        "min": 0.9217455005099182,
+        "max": 1.076484075240977
+      },
+      "speedup_from_median_times": 1.3001439827220733,
+      "versus_previous_from_median_times": 1.3204507766760296,
+      "instrumentation_from_median_times": 1.0310285842621962,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 938.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 59.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 792.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 90.0,
+        "observer_checks": 15.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 792.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 90.0,
+          "min": 85.0,
+          "max": 167.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 792.0,
+          "min": 580.0,
+          "max": 1049.0
+        },
+        "packet_build_usec": {
+          "median": 792.0,
+          "min": 580.0,
+          "max": 1049.0
+        }
+      }
+    },
+    {
+      "label": "earned_feedback",
+      "workload": "journal",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2491.7150474671716,
+          "ticks_per_second_min": 2163.921371753036,
+          "ticks_per_second_max": 2784.9102423428894,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2694.3937748726225,
+          "ticks_per_second_min": 2607.89854231511,
+          "ticks_per_second_max": 2709.8141338485593,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2598.195553188311,
+          "ticks_per_second_min": 2543.432285566403,
+          "ticks_per_second_max": 2755.7812846625616,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 1845.6875970716321,
+          "ticks_per_second_min": 1700.9030094076945,
+          "ticks_per_second_max": 1863.380656990752,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.459831977604199,
+        "min": 1.4034836308728245,
+        "max": 1.5634503592683795
+      },
+      "versus_previous": {
+        "median": 1.0164935098302508,
+        "min": 0.9777240994662406,
+        "max": 1.0521110807009748
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.0854046569114661,
+        "min": 0.9521320222558062,
+        "max": 1.2522701467906316
+      },
+      "speedup_from_median_times": 1.459831977604199,
+      "versus_previous_from_median_times": 1.037025012057412,
+      "instrumentation_from_median_times": 1.0813410536696295,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 1375.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 80.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 1206.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 69.0,
+        "observer_checks": 5.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 1206.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 69.0,
+          "min": 59.0,
+          "max": 133.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 1206.0,
+          "min": 802.0,
+          "max": 2014.0
+        },
+        "packet_build_usec": {
+          "median": 1206.0,
+          "min": 802.0,
+          "max": 2014.0
+        }
+      }
+    },
+    {
+      "label": "earned_feedback",
+      "workload": "readonly",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2878.273496425904,
+          "ticks_per_second_min": 2712.6699318170413,
+          "ticks_per_second_max": 3043.389605607141,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2957.9935338261353,
+          "ticks_per_second_min": 2909.9162671594127,
+          "ticks_per_second_max": 3064.9931803901736,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2051.791316408791,
+          "ticks_per_second_min": 2029.395798136,
+          "ticks_per_second_max": 2067.9465187671317,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2086.8200618533465,
+          "ticks_per_second_min": 2041.7934705486605,
+          "ticks_per_second_max": 2119.3872003848805,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.4385677707684856,
+        "min": 1.385653746982503,
+        "max": 1.4687386020566104
+      },
+      "versus_previous": {
+        "median": 1.4470990913736292,
+        "min": 1.4094557729101345,
+        "max": 1.4972706235728626
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.029334415657897,
+        "min": 1.0070985242057837,
+        "max": 1.0727129876837793
+      },
+      "speedup_from_median_times": 1.4174645854224162,
+      "versus_previous_from_median_times": 1.441663930522648,
+      "instrumentation_from_median_times": 1.027697172453981,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 1232.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 60.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 844.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 85.0,
+        "observer_checks": 15.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 844.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 85.0,
+          "min": 82.0,
+          "max": 184.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 844.0,
+          "min": 728.0,
+          "max": 1221.0
+        },
+        "packet_build_usec": {
+          "median": 844.0,
+          "min": 728.0,
+          "max": 1221.0
+        }
+      }
+    },
+    {
+      "label": "early",
+      "workload": "none",
+      "ticks": 2000,
+      "methods": {
+        "historical": {
+          "ticks_per_second_median": 10834.060118199595,
+          "ticks_per_second_min": 10007.906245934288,
+          "ticks_per_second_max": 11232.736687802933,
+          "runs": 5
+        },
+        "instrumented": {
+          "ticks_per_second_median": 10649.96751759907,
+          "ticks_per_second_min": 10172.8882355634,
+          "ticks_per_second_max": 10972.491962649638,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 10747.083510212417,
+          "ticks_per_second_min": 9704.545123708689,
+          "ticks_per_second_max": 11317.466245656922,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 10628.009055063714,
+          "ticks_per_second_min": 9976.455564866914,
+          "ticks_per_second_max": 11455.934746995681,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 5434.856451853965,
+          "ticks_per_second_min": 4306.252032012678,
+          "ticks_per_second_max": 5816.252937207733,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.968627983567039,
+        "min": 1.847767562077841,
+        "max": 2.2535943209001936
+      },
+      "versus_previous": {
+        "median": 0.9932440278261604,
+        "min": 0.9381236666899521,
+        "max": 1.0842478163281863
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9940236350361016,
+        "min": 0.9539616379331259,
+        "max": 1.0330795230444338
+      },
+      "versus_historical": {
+        "median": 0.9743536962557136,
+        "min": 0.9567644830384154,
+        "max": 1.041891601308299
+      },
+      "speedup_from_median_times": 1.977436498170309,
+      "versus_previous_from_median_times": 1.0112038345593966,
+      "instrumentation_from_median_times": 1.0091189003584153,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 563.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 60.0,
+        "kernel_ticks": 2000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 666.0,
+        "eligible_ticks": 2000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 36.0,
+        "observer_checks": 0.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 666.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 36.0,
+          "min": 35.0,
+          "max": 161.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 666.0,
+          "min": 553.0,
+          "max": 817.0
+        },
+        "packet_build_usec": {
+          "median": 666.0,
+          "min": 553.0,
+          "max": 817.0
+        }
+      }
+    },
+    {
+      "label": "early",
+      "workload": "journal",
+      "ticks": 36000,
+      "methods": {
+        "historical": {
+          "ticks_per_second_median": 7712.637413489917,
+          "ticks_per_second_min": 4635.117737784437,
+          "ticks_per_second_max": 9341.038998578346,
+          "runs": 5
+        },
+        "instrumented": {
+          "ticks_per_second_median": 9620.531496952028,
+          "ticks_per_second_min": 8158.04674606108,
+          "ticks_per_second_max": 9735.58686928947,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 9232.63469644636,
+          "ticks_per_second_min": 8435.929467193724,
+          "ticks_per_second_max": 9831.85614246578,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 9420.951673134849,
+          "ticks_per_second_min": 7909.885313254529,
+          "ticks_per_second_max": 9789.637016575487,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 5267.6138031381515,
+          "ticks_per_second_min": 5139.369713408758,
+          "ticks_per_second_max": 5305.268072248319,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.7735661586487563,
+        "min": 1.6414326926479235,
+        "max": 1.866472469300712
+      },
+      "versus_previous": {
+        "median": 1.014588733009276,
+        "min": 0.9726036953107449,
+        "max": 1.0665046499546218
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.0202216701210165,
+        "min": 0.9483387925560344,
+        "max": 1.0389911688716305
+      },
+      "versus_historical": {
+        "median": 1.0937801189044258,
+        "min": 0.9883948346486419,
+        "max": 2.121166429564173
+      },
+      "speedup_from_median_times": 1.7527167027594293,
+      "versus_previous_from_median_times": 0.9800108329580438,
+      "instrumentation_from_median_times": 0.9596803148943941,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 1479.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 166.0,
+        "kernel_ticks": 36000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 848.0,
+        "eligible_ticks": 36000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 163.0,
+        "observer_checks": 5.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 848.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 163.0,
+          "min": 107.0,
+          "max": 188.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 848.0,
+          "min": 808.0,
+          "max": 1440.0
+        },
+        "packet_build_usec": {
+          "median": 848.0,
+          "min": 808.0,
+          "max": 1440.0
+        }
+      }
+    },
+    {
+      "label": "early",
+      "workload": "none",
+      "ticks": 36000,
+      "methods": {
+        "historical": {
+          "ticks_per_second_median": 9561.984101076547,
+          "ticks_per_second_min": 9230.705325886205,
+          "ticks_per_second_max": 9726.254565260737,
+          "runs": 5
+        },
+        "instrumented": {
+          "ticks_per_second_median": 9659.844669697712,
+          "ticks_per_second_min": 9592.193233666892,
+          "ticks_per_second_max": 9756.023531528757,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 9701.4303950665,
+          "ticks_per_second_min": 9510.876744321215,
+          "ticks_per_second_max": 9834.096067645469,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 9613.422901950564,
+          "ticks_per_second_min": 9191.321962306389,
+          "ticks_per_second_max": 9666.53670545096,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 5226.8033378946875,
+          "ticks_per_second_min": 4202.8525460705605,
+          "ticks_per_second_max": 5358.030280908132,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.8406117026289543,
+        "min": 1.7915350345780876,
+        "max": 2.308296636325443
+      },
+      "versus_previous": {
+        "median": 1.0197203747797048,
+        "min": 0.985619818553607,
+        "max": 1.0443654355644483
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9944041610512901,
+        "min": 0.9890284111023635,
+        "max": 1.0252187198574712
+      },
+      "versus_historical": {
+        "median": 1.014583405757206,
+        "min": 0.9914161695472294,
+        "max": 1.0399095871534192
+      },
+      "speedup_from_median_times": 1.8560924848138929,
+      "versus_previous_from_median_times": 1.0091546469986334,
+      "instrumentation_from_median_times": 1.0043050097378108,
+      "coverage_percent": 100.0,
+      "previous_coverage_percent": 100.0,
+      "counters": {
+        "build_usec": 738.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 0.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 63.0,
+        "kernel_ticks": 36000.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 0.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 604.0,
+        "eligible_ticks": 36000.0,
+        "fallback_ticks_by_reason": {},
+        "native_fallback_ticks": 0.0,
+        "observer_check_usec": 35.0,
+        "observer_checks": 0.0,
+        "observer_invocations": 0.0,
+        "observer_signal_checks": 7.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 604.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 35.0,
+          "min": 33.0,
+          "max": 38.0
+        },
+        "callback_usec": {
+          "median": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "eligibility_usec": {
+          "median": 604.0,
+          "min": 565.0,
+          "max": 753.0
+        },
+        "packet_build_usec": {
+          "median": 604.0,
+          "min": 565.0,
+          "max": 753.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "heavy",
+      "ticks": 2000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 5320.6913706367,
+          "ticks_per_second_min": 4731.8910529403975,
+          "ticks_per_second_max": 5572.846860954684,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 5130.652054569615,
+          "ticks_per_second_min": 4927.103503663301,
+          "ticks_per_second_max": 5497.813244781888,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 3237.555645487657,
+          "ticks_per_second_min": 3061.5821950625864,
+          "ticks_per_second_max": 3289.2681049539665,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 3231.137829030804,
+          "ticks_per_second_min": 3141.862967646666,
+          "ticks_per_second_max": 3308.0214558271623,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.5878778083906684,
+        "min": 1.5252622887599008,
+        "max": 1.7498577440822913
+      },
+      "versus_previous": {
+        "median": 1.5847301533551899,
+        "min": 1.4979330800802133,
+        "max": 1.7957424934232409
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.0277097299839237,
+        "min": 0.8855630940239162,
+        "max": 1.0469430783905702
+      },
+      "speedup_from_median_times": 1.5878778083906684,
+      "versus_previous_from_median_times": 1.5847301533551899,
+      "instrumentation_from_median_times": 0.9642829657221136,
+      "coverage_percent": 99.95,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 1576.0,
+        "builds": 2.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 1.0,
+        "fallback_ticks": 1.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 83.0,
+        "kernel_ticks": 1999.0,
+        "kernel_usec": 0.0,
+        "reasons": {},
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 1.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 8.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 1542.0,
+        "eligible_ticks": 1999.0,
+        "fallback_ticks_by_reason": {
+          "automatic_upgrade": 1.0
+        },
+        "native_fallback_ticks": 1.0,
+        "observer_check_usec": 412.0,
+        "observer_checks": 90.0,
+        "observer_invocations": 18.0,
+        "observer_signal_checks": 14.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 1542.0,
+        "packet_builds": 2.0,
+        "packet_rebuilds": 1.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 412.0,
+          "min": 317.0,
+          "max": 535.0
+        },
+        "callback_usec": {
+          "median": 8.0,
+          "min": 6.0,
+          "max": 12.0
+        },
+        "eligibility_usec": {
+          "median": 1542.0,
+          "min": 1369.0,
+          "max": 2004.0
+        },
+        "packet_build_usec": {
+          "median": 1542.0,
+          "min": 1369.0,
+          "max": 2004.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "observe",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 3061.2682221990926,
+          "ticks_per_second_min": 2945.9853584527687,
+          "ticks_per_second_max": 3113.3734958514297,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 3028.5042823050553,
+          "ticks_per_second_min": 2915.230915440812,
+          "ticks_per_second_max": 3074.9929275162667,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 3081.5311511984073,
+          "ticks_per_second_min": 2942.405357531675,
+          "ticks_per_second_max": 3108.979042372275,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 3132.8811541534174,
+          "ticks_per_second_min": 3080.8476027924803,
+          "ticks_per_second_max": 3190.443982184561,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 0.9637523233786826,
+        "min": 0.9195979313521424,
+        "max": 0.9815223674985547
+      },
+      "versus_previous": {
+        "median": 0.9907645484598835,
+        "min": 0.9635385428481505,
+        "max": 1.0058843838205187
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9791881185719996,
+        "min": 0.9536838542254316,
+        "max": 1.0437909742807592
+      },
+      "speedup_from_median_times": 0.966683424390362,
+      "versus_previous_from_median_times": 0.9827920386679426,
+      "instrumentation_from_median_times": 0.9892972658663339,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 162.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 3.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 14.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 164.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 48.0,
+        "observer_checks": 2.0,
+        "observer_invocations": 4.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 164.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 48.0,
+          "min": 46.0,
+          "max": 55.0
+        },
+        "callback_usec": {
+          "median": 14.0,
+          "min": 13.0,
+          "max": 15.0
+        },
+        "eligibility_usec": {
+          "median": 164.0,
+          "min": 151.0,
+          "max": 221.0
+        },
+        "packet_build_usec": {
+          "median": 164.0,
+          "min": 151.0,
+          "max": 221.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "resource",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2764.8750276487503,
+          "ticks_per_second_min": 1418.3874069892458,
+          "ticks_per_second_max": 3113.518899059717,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2500.7377176267,
+          "ticks_per_second_min": 2364.7873701436133,
+          "ticks_per_second_max": 3048.2414694962476,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2891.560690967343,
+          "ticks_per_second_min": 2096.0186126452804,
+          "ticks_per_second_max": 3181.784917703133,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2981.399051318822,
+          "ticks_per_second_min": 2756.7651015592264,
+          "ticks_per_second_max": 3060.368835652073,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 0.8308595124029586,
+        "min": 0.787024884657496,
+        "max": 1.0585872010437178
+      },
+      "versus_previous": {
+        "median": 0.9580287632065062,
+        "min": 0.8178238753662465,
+        "max": 1.1818233612587752
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9044668177112248,
+        "min": 0.786497537073954,
+        "max": 1.9195767829624104
+      },
+      "speedup_from_median_times": 0.8387799400823243,
+      "versus_previous_from_median_times": 0.8648401278377121,
+      "instrumentation_from_median_times": 0.9044668177112248,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 263.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 81.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 16.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 197.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 53.0,
+        "observer_checks": 2.0,
+        "observer_invocations": 4.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 197.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 53.0,
+          "min": 48.0,
+          "max": 151.0
+        },
+        "callback_usec": {
+          "median": 16.0,
+          "min": 15.0,
+          "max": 61.0
+        },
+        "eligibility_usec": {
+          "median": 197.0,
+          "min": 164.0,
+          "max": 253.0
+        },
+        "packet_build_usec": {
+          "median": 197.0,
+          "min": 164.0,
+          "max": 253.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "upgrade",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2094.1443535585795,
+          "ticks_per_second_min": 619.338855771464,
+          "ticks_per_second_max": 2687.074098755347,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 1315.0212244425625,
+          "ticks_per_second_min": 380.56355373290984,
+          "ticks_per_second_max": 2706.3306486533297,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2180.2975234000432,
+          "ticks_per_second_min": 258.0660478758971,
+          "ticks_per_second_max": 2357.184107864745,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 1810.1546053048392,
+          "ticks_per_second_min": 79.26485336160658,
+          "ticks_per_second_max": 2779.3141208612537,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 0.9549469834929213,
+        "min": 0.7264690102098248,
+        "max": 16.133214831486537
+      },
+      "versus_previous": {
+        "median": 0.8419729924220173,
+        "min": 0.1694657116043722,
+        "max": 4.955308605663792
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.8766117899312694,
+        "min": 0.4483780761903457,
+        "max": 2.1232661445155725
+      },
+      "speedup_from_median_times": 0.7264690102098248,
+      "versus_previous_from_median_times": 0.6031384296542546,
+      "instrumentation_from_median_times": 0.6279515651382613,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 178.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 4.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 93.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 233.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 91.0,
+        "observer_checks": 2.0,
+        "observer_invocations": 4.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 233.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 91.0,
+          "min": 49.0,
+          "max": 144.0
+        },
+        "callback_usec": {
+          "median": 93.0,
+          "min": 72.0,
+          "max": 1070.0
+        },
+        "eligibility_usec": {
+          "median": 233.0,
+          "min": 166.0,
+          "max": 9456.0
+        },
+        "packet_build_usec": {
+          "median": 233.0,
+          "min": 166.0,
+          "max": 9456.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "automation",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2474.928969538574,
+          "ticks_per_second_min": 1747.7323173182795,
+          "ticks_per_second_max": 2618.740228825521,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2545.753555781279,
+          "ticks_per_second_min": 2345.5788184850376,
+          "ticks_per_second_max": 2645.9856428819016,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2546.8492927399516,
+          "ticks_per_second_min": 2239.145183934581,
+          "ticks_per_second_max": 2639.699496609306,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2569.762631025772,
+          "ticks_per_second_min": 2480.515550351985,
+          "ticks_per_second_max": 2747.4037035001925,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 0.9636018214965165,
+        "min": 0.9204238930040766,
+        "max": 1.0263001799847764
+      },
+      "versus_previous": {
+        "median": 1.0389250947924356,
+        "min": 0.8885779693855053,
+        "max": 1.1776312840323282
+      },
+      "instrumentation_cost_ratio": {
+        "median": 1.0104040155478116,
+        "min": 0.9045185230359296,
+        "max": 1.5087478740095193
+      },
+      "speedup_from_median_times": 0.9906570844502827,
+      "versus_previous_from_median_times": 0.999569767649073,
+      "instrumentation_from_median_times": 1.0286168157205373,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 421.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 3.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 21.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 330.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 52.0,
+        "observer_checks": 2.0,
+        "observer_invocations": 4.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 330.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 52.0,
+          "min": 46.0,
+          "max": 143.0
+        },
+        "callback_usec": {
+          "median": 21.0,
+          "min": 16.0,
+          "max": 46.0
+        },
+        "eligibility_usec": {
+          "median": 330.0,
+          "min": 158.0,
+          "max": 411.0
+        },
+        "packet_build_usec": {
+          "median": 330.0,
+          "min": 158.0,
+          "max": 411.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "inventory",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2084.94047494944,
+          "ticks_per_second_min": 887.3657748344841,
+          "ticks_per_second_max": 2697.824743908986,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2346.486957052249,
+          "ticks_per_second_min": 323.3344315926193,
+          "ticks_per_second_max": 2718.824597749901,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 1095.5578416195851,
+          "ticks_per_second_min": 810.1935309287329,
+          "ticks_per_second_max": 2456.7791134466893,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2373.6111407812505,
+          "ticks_per_second_min": 1341.5453797847892,
+          "ticks_per_second_max": 2696.988003797359,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 1.0080966596520993,
+        "min": 0.132160685572462,
+        "max": 1.3990154140728208
+      },
+      "versus_previous": {
+        "median": 1.1066622077943264,
+        "min": 0.29513223246581627,
+        "max": 2.896205495941751
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9176925175386094,
+        "min": 0.19166004100527262,
+        "max": 1.304029841818785
+      },
+      "speedup_from_median_times": 0.9885726085191555,
+      "versus_previous_from_median_times": 2.141819325197281,
+      "instrumentation_from_median_times": 1.1254455392109703,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 397.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 3.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 180.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 354.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 65.0,
+        "observer_checks": 2.0,
+        "observer_invocations": 4.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 354.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 65.0,
+          "min": 45.0,
+          "max": 243.0
+        },
+        "callback_usec": {
+          "median": 180.0,
+          "min": 158.0,
+          "max": 242.0
+        },
+        "eligibility_usec": {
+          "median": 354.0,
+          "min": 155.0,
+          "max": 701.0
+        },
+        "packet_build_usec": {
+          "median": 354.0,
+          "min": 155.0,
+          "max": 701.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "register",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2584.3666492652646,
+          "ticks_per_second_min": 2529.455509407045,
+          "ticks_per_second_max": 2719.090736057862,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2407.4689316134377,
+          "ticks_per_second_min": 1914.0660888739167,
+          "ticks_per_second_max": 2519.9453675844306,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2654.745091376326,
+          "ticks_per_second_min": 1841.1866079450886,
+          "ticks_per_second_max": 2745.842108587072,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2499.7062845115697,
+          "ticks_per_second_min": 1749.9741878807288,
+          "ticks_per_second_max": 2649.919177465087,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 0.9693748208061085,
+        "min": 0.7719007441888953,
+        "max": 1.3695642795513374
+      },
+      "versus_previous": {
+        "median": 0.9177313435844711,
+        "min": 0.8708177655958105,
+        "max": 1.3017160387307065
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.943217332949861,
+        "min": 0.7113856307230576,
+        "max": 0.996240241511564
+      },
+      "speedup_from_median_times": 0.9631007236851609,
+      "versus_previous_from_median_times": 0.9068550270358761,
+      "instrumentation_from_median_times": 0.9315508433363667,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 209.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 3.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 31.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 325.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 87.0,
+        "observer_checks": 2.0,
+        "observer_invocations": 5.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 325.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 87.0,
+          "min": 49.0,
+          "max": 151.0
+        },
+        "callback_usec": {
+          "median": 31.0,
+          "min": 29.0,
+          "max": 56.0
+        },
+        "eligibility_usec": {
+          "median": 325.0,
+          "min": 199.0,
+          "max": 361.0
+        },
+        "packet_build_usec": {
+          "median": 325.0,
+          "min": 199.0,
+          "max": 361.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "remove",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2563.826459714595,
+          "ticks_per_second_min": 2105.8661006098587,
+          "ticks_per_second_max": 2651.057241627961,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2559.9082528882163,
+          "ticks_per_second_min": 2491.6095049919395,
+          "ticks_per_second_max": 2763.301150085939,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2679.7797221068427,
+          "ticks_per_second_min": 2599.671401534846,
+          "ticks_per_second_max": 2727.5306028933646,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2739.575913648567,
+          "ticks_per_second_min": 2493.206013612905,
+          "ticks_per_second_max": 2783.6311354709765,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 0.9508007126707441,
+        "min": 0.9134465512112143,
+        "max": 1.0159967503578475
+      },
+      "versus_previous": {
+        "median": 0.9847045481889929,
+        "min": 0.9297814609303171,
+        "max": 1.0209071365015503
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9984717347730258,
+        "min": 0.9398550381589996,
+        "max": 1.2074358667931235
+      },
+      "speedup_from_median_times": 0.9344177104692568,
+      "versus_previous_from_median_times": 0.9552681631890313,
+      "instrumentation_from_median_times": 0.9984717347730258,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 250.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 4.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 85.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 192.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 50.0,
+        "observer_checks": 2.0,
+        "observer_invocations": 3.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 192.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 50.0,
+          "min": 46.0,
+          "max": 74.0
+        },
+        "callback_usec": {
+          "median": 85.0,
+          "min": 77.0,
+          "max": 106.0
+        },
+        "eligibility_usec": {
+          "median": 192.0,
+          "min": 164.0,
+          "max": 261.0
+        },
+        "packet_build_usec": {
+          "median": 192.0,
+          "min": 164.0,
+          "max": 261.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "replace",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2563.563558431304,
+          "ticks_per_second_min": 2363.384555754605,
+          "ticks_per_second_max": 2661.3793929393605,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2411.9400681131874,
+          "ticks_per_second_min": 2297.1132178191665,
+          "ticks_per_second_max": 2662.250879873916,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2610.6934001670843,
+          "ticks_per_second_min": 2514.7110596992406,
+          "ticks_per_second_max": 2772.102667594397,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2622.056741307882,
+          "ticks_per_second_min": 2529.6538674613153,
+          "ticks_per_second_max": 2659.8928063199055,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 0.9314993483679467,
+        "min": 0.8946061484532388,
+        "max": 1.0081864214556122
+      },
+      "versus_previous": {
+        "median": 0.949053770794,
+        "min": 0.8286537308564327,
+        "max": 0.9931899622492826
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.9448853625648648,
+        "min": 0.9288476355581239,
+        "max": 1.0384961477229768
+      },
+      "speedup_from_median_times": 0.9198657031770074,
+      "versus_previous_from_median_times": 0.9238695236900754,
+      "instrumentation_from_median_times": 0.9408544056497284,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 211.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 3.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 107.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 357.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 52.0,
+        "observer_checks": 2.0,
+        "observer_invocations": 4.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 357.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 52.0,
+          "min": 48.0,
+          "max": 110.0
+        },
+        "callback_usec": {
+          "median": 107.0,
+          "min": 100.0,
+          "max": 153.0
+        },
+        "eligibility_usec": {
+          "median": 357.0,
+          "min": 183.0,
+          "max": 839.0
+        },
+        "packet_build_usec": {
+          "median": 357.0,
+          "min": 183.0,
+          "max": 839.0
+        }
+      }
+    },
+    {
+      "label": "forge_together",
+      "workload": "mixed",
+      "ticks": 1000,
+      "methods": {
+        "instrumented": {
+          "ticks_per_second_median": 2609.8280906236705,
+          "ticks_per_second_min": 2274.6710825614614,
+          "ticks_per_second_max": 2665.3801765014755,
+          "runs": 5
+        },
+        "optimized": {
+          "ticks_per_second_median": 2588.072093336232,
+          "ticks_per_second_min": 2190.3453955654268,
+          "ticks_per_second_max": 2671.9892692910944,
+          "runs": 5
+        },
+        "previous": {
+          "ticks_per_second_median": 2593.3542703468092,
+          "ticks_per_second_min": 2397.725038483487,
+          "ticks_per_second_max": 2717.051672888715,
+          "runs": 5
+        },
+        "native": {
+          "ticks_per_second_median": 2630.2638154606907,
+          "ticks_per_second_min": 2543.7137202830645,
+          "ticks_per_second_max": 2726.459746548302,
+          "runs": 5
+        }
+      },
+      "speedup": {
+        "median": 0.9766283464731811,
+        "min": 0.8327474159400196,
+        "max": 1.03614667083497
+      },
+      "versus_previous": {
+        "median": 0.9632002029048521,
+        "min": 0.913509831365308,
+        "max": 1.0605192072117349
+      },
+      "instrumentation_cost_ratio": {
+        "median": 0.991663819787364,
+        "min": 0.832791222847931,
+        "max": 1.1746706105228282
+      },
+      "speedup_from_median_times": 0.983959129165502,
+      "versus_previous_from_median_times": 0.9979631872625444,
+      "instrumentation_from_median_times": 0.991663819787364,
+      "coverage_percent": 0.0,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 216.0,
+        "builds": 1.0,
+        "cycle_invalidations": 0.0,
+        "cycle_usec": 0.0,
+        "event_check_usec": 0.0,
+        "event_ticks": 0.0,
+        "fallback_ticks": 1000.0,
+        "fallback_usec": 0.0,
+        "invalidate_usec": 3.0,
+        "kernel_ticks": 0.0,
+        "kernel_usec": 0.0,
+        "reasons": {
+          "external_observer": 1.0
+        },
+        "structural_invalidations": 0.0,
+        "writeback_usec": 0.0
+      },
+      "observer_metrics": {
+        "automatic_upgrade_invalidations": 0.0,
+        "automation_invalidations": 0.0,
+        "callback_usec": 24.0,
+        "cycle_invalidations": 0.0,
+        "eligibility_usec": 206.0,
+        "eligible_ticks": 0.0,
+        "fallback_ticks_by_reason": {
+          "external_observer": 1000.0
+        },
+        "native_fallback_ticks": 1000.0,
+        "observer_check_usec": 79.0,
+        "observer_checks": 4.0,
+        "observer_invocations": 10.0,
+        "observer_signal_checks": 1.0,
+        "observer_triggered_invalidations": 0.0,
+        "packet_build_usec": 206.0,
+        "packet_builds": 1.0,
+        "packet_rebuilds": 0.0
+      },
+      "observer_time_ranges": {
+        "observer_check_usec": {
+          "median": 79.0,
+          "min": 56.0,
+          "max": 163.0
+        },
+        "callback_usec": {
+          "median": 24.0,
+          "min": 20.0,
+          "max": 60.0
+        },
+        "eligibility_usec": {
+          "median": 206.0,
+          "min": 180.0,
+          "max": 284.0
+        },
+        "packet_build_usec": {
+          "median": 206.0,
+          "min": 180.0,
+          "max": 284.0
+        }
+      }
+    },
+    {
+      "label": "offline_one_hour",
+      "workload": "readonly",
+      "ticks": 36001,
+      "methods": {
+        "optimized": {
+          "ticks_per_second_median": 3423.665832107901,
+          "ticks_per_second_min": 2684.9098238419933,
+          "ticks_per_second_max": 3583.829414458359,
+          "runs": 3
+        },
+        "previous": {
+          "ticks_per_second_median": 2849.529171917372,
+          "ticks_per_second_min": 2026.608061791815,
+          "ticks_per_second_max": 2902.624568921833,
+          "runs": 3
+        },
+        "native": {
+          "ticks_per_second_median": 1956.8852535560918,
+          "ticks_per_second_min": 1886.357455856532,
+          "ticks_per_second_max": 2113.1877626113155,
+          "runs": 3
+        }
+      },
+      "speedup": {
+        "median": 1.6201427495856766,
+        "min": 1.4233303531662114,
+        "max": 1.8313947677543951
+      },
+      "versus_previous": {
+        "median": 1.2576917793218787,
+        "min": 1.179506943048996,
+        "max": 1.3248293414307963
+      },
+      "speedup_from_median_times": 1.7495485879339863,
+      "versus_previous_from_median_times": 1.2014847455673556,
+      "coverage_percent": 99.99722229938057,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 397302.0,
+        "builds": 360.0,
+        "dispatch_usec": 0.0,
+        "event_invalidations": 0.0,
+        "fallback_ticks": 1.0,
+        "kernel_ticks": 36000.0,
+        "partial_ticks": 1.0,
+        "progress_boundaries": 362.0,
+        "reasons": {},
+        "structural_invalidations": 0.0
+      },
+      "observer_metrics": {},
+      "observer_time_ranges": {}
+    },
+    {
+      "label": "offline_matched_dispatch",
+      "workload": "readonly",
+      "ticks": 36001,
+      "methods": {
+        "optimized": {
+          "ticks_per_second_median": 2521.9650045043845,
+          "ticks_per_second_min": 2515.707185128335,
+          "ticks_per_second_max": 2761.703024372043,
+          "runs": 3
+        },
+        "previous": {
+          "ticks_per_second_median": 2281.2978881027852,
+          "ticks_per_second_min": 2115.912832925228,
+          "ticks_per_second_max": 2444.3342110512613,
+          "runs": 3
+        },
+        "native": {
+          "ticks_per_second_median": 2168.2429053599703,
+          "ticks_per_second_min": 1678.6262355278461,
+          "ticks_per_second_max": 2374.1803452476724,
+          "runs": 3
+        }
+      },
+      "speedup": {
+        "median": 1.1631376716464752,
+        "min": 1.0596108211256792,
+        "max": 1.6452161689845277
+      },
+      "versus_previous": {
+        "median": 1.1027526033526878,
+        "min": 1.0317594840763349,
+        "max": 1.305206425046355
+      },
+      "speedup_from_median_times": 1.1631376716464752,
+      "versus_previous_from_median_times": 1.1054956994685807,
+      "coverage_percent": 99.99722229938057,
+      "previous_coverage_percent": 0.0,
+      "counters": {
+        "build_usec": 364427.0,
+        "builds": 360.0,
+        "dispatch_usec": 0.0,
+        "event_invalidations": 0.0,
+        "fallback_ticks": 1.0,
+        "kernel_ticks": 36000.0,
+        "partial_ticks": 1.0,
+        "progress_boundaries": 362.0,
+        "reasons": {},
+        "structural_invalidations": 0.0
+      },
+      "observer_metrics": {},
+      "observer_time_ranges": {}
+    }
+  ]
+}

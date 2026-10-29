@@ -1,0 +1,35 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+Observer bench complete: ["early", "journal", 2000]
+Observer bench complete: ["early", "readonly", 2000]
+Observer bench complete: ["consumer_50000", "journal", 2000]
+Observer bench complete: ["consumer_50000", "readonly", 2000]
+Observer bench complete: ["mid", "journal", 2000]
+Observer bench complete: ["mid", "readonly", 2000]
+Observer bench complete: ["forge_competing", "journal", 2000]
+Observer bench complete: ["forge_competing", "readonly", 2000]
+Observer bench complete: ["earned_craft_first_craft", "journal", 2000]
+Observer bench complete: ["earned_craft_first_craft", "readonly", 2000]
+Observer bench complete: ["earned_craft_repeat_craft", "journal", 2000]
+Observer bench complete: ["earned_craft_repeat_craft", "readonly", 2000]
+Observer bench complete: ["reached_multiple", "journal", 2000]
+Observer bench complete: ["reached_multiple", "readonly", 2000]
+Observer bench complete: ["earned_feedback", "journal", 2000]
+Observer bench complete: ["earned_feedback", "readonly", 2000]
+Observer bench complete: ["early", "none", 2000]
+Observer bench complete: ["early", "journal", 36000]
+Observer bench complete: ["early", "none", 36000]
+Observer bench complete: ["forge_together", "heavy", 2000]
+Observer bench complete: ["forge_together", "observe", 1000]
+Observer bench complete: ["forge_together", "resource", 1000]
+Observer bench complete: ["forge_together", "upgrade", 1000]
+Observer bench complete: ["forge_together", "automation", 1000]
+Observer bench complete: ["forge_together", "inventory", 1000]
+Observer bench complete: ["forge_together", "register", 1000]
+Observer bench complete: ["forge_together", "remove", 1000]
+Observer bench complete: ["forge_together", "replace", 1000]
+Observer bench complete: ["forge_together", "mixed", 1000]
+Offline observer benchmark repeat 0
+Offline observer benchmark repeat 1
+Offline observer benchmark repeat 2
+Offline observer benchmark repeat 3

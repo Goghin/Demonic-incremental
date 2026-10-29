@@ -85,4 +85,18 @@ func _advance_offline_step(game_seconds: float) -> void:
 	if instrument:
 		counters["dispatch_usec"] += Time.get_ticks_usec() - started
 	if on_tick.is_valid():
+		# This debug/validation hook is an arbitrary external callable. A
+		# callback can buy, equip or change subscriptions at this exact boundary.
+		# Never retain cached configuration across it, even if today's callback
+		# happens to be a read-only trace collector.
+		counters["observer_callback_boundaries"] = int(counters.get("observer_callback_boundaries", 0)) + 1
+		if packet != null:
+			counters["observer_packet_releases"] = int(counters.get("observer_packet_releases", 0)) + 1
+		packet = null
+		rejected = false
+		var callback_started: int = Time.get_ticks_usec() if instrument else 0
 		on_tick.call(self)
+		packet = null
+		rejected = false
+		if instrument:
+			counters["callback_usec"] = int(counters.get("callback_usec", 0)) + Time.get_ticks_usec() - callback_started

@@ -9,6 +9,8 @@ const Cycles = preload("res://tests/experimental/exact_flow_cycles.gd")
 const Equipment = preload("res://tests/experimental/exact_flow_equipment.gd")
 const Controller = preload("res://tests/experimental/exact_flow_controller.gd")
 const Events = preload("res://tests/experimental/transaction_events.gd")
+const Observers = preload("res://tests/experimental/exact_flow_observers.gd")
+var observer_metrics: Dictionary = {}
 var simulation: Simulation
 var machines: Array = []
 var automatic_candidates: Array[Upgrade] = []
@@ -101,12 +103,9 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 			if requirement.get_script() != preload("res://Game/requirement.gd"):
 				error = "unknown_requirement_contract"
 				return false
-	for signal_info: Dictionary in target.get_signal_list():
-		for connection: Dictionary in target.get_signal_connection_list(signal_info["name"]):
-			var callback: Callable = connection["callable"]
-			if not (journal != null and journal.get_script() == Events and callback.get_object() == journal and callback.get_method() == signal_info["name"] and callback.get_bound_arguments_count() == 0 and callback.get_unbound_arguments_count() == 0 and int(connection["flags"]) == 0):
-				error = "external_observer"
-				return false
+	error = Observers.rejection(target, journal, observer_metrics)
+	if not error.is_empty():
+		return false
 	has_automation = Automation.enabled(state)
 	if has_automation:
 		for upgrade: Upgrade in state.upgrades.values():
@@ -402,6 +401,14 @@ func step() -> void:
 	state.generator_automation_manager.update(STEP, simulation, true)
 	state.upgrade_automation_manager.update(STEP, simulation, true)
 	if has_automation:
+		if not observer_metrics.is_empty() and Automation.changed(state, automation_mark):
+			observer_metrics["automation_invalidations"] += 1
+			if not observer_metrics.has("automation_events"):
+				observer_metrics["automation_events"] = {}
+			var events: Dictionary = observer_metrics["automation_events"]
+			for index: int in range(automation_mark, state.gameplay_log.events.size()):
+				var event_name: String = str(state.gameplay_log.events[index]["event"])
+				events[event_name] = int(events.get(event_name, 0)) + 1
 		configuration_changed = configuration_changed or Automation.changed(state, automation_mark)
 	if not simulation._gameplay_was_offline:
 		simulation._gameplay_snapshot_elapsed = 0.0
