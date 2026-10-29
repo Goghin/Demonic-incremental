@@ -6,6 +6,7 @@ const STEP: float = TimeManager.OFFLINE_MAX_GAME_STEP
 const PARTIAL_EPSILON: float = 0.000001
 const Automation = preload("res://tests/experimental/exact_flow_automation.gd")
 const Cycles = preload("res://tests/experimental/exact_flow_cycles.gd")
+const Equipment = preload("res://tests/experimental/exact_flow_equipment.gd")
 const Controller = preload("res://tests/experimental/exact_flow_controller.gd")
 const Events = preload("res://tests/experimental/transaction_events.gd")
 var simulation: Simulation
@@ -113,13 +114,9 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 				if effect.get_script() != preload("res://Upgrades/upgrade_effect.gd"):
 					error = "unknown_automation_effect_contract"
 					return false
-	if not state.relic_manager.inventory.is_empty():
-		error = "relic_inventory"
+	error = Equipment.rejection(state)
+	if not error.is_empty():
 		return false
-	for slots: Variant in state.relic_manager.equipped.values() + state.relic_manager.machine_slots.values():
-		if not slots.is_empty():
-			error = "relic_slots"
-			return false
 	for stats: ResourceStatistics in [state.resource_statistics, state.current_run_statistics, state.simulation_statistics]:
 		if stats != null and stats.get_script() != preload("res://Game/resource_statistics.gd"):
 			error = "unknown_statistics_script"
@@ -149,6 +146,10 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 		for modifier: Modifier in generator.modifiers:
 			if modifier.get_script() != preload("res://Game/modifier.gd"):
 				error = "unknown_modifier"
+				return false
+			var equipment_error: String = Equipment.modifier_rejection(modifier)
+			if not equipment_error.is_empty():
+				error = equipment_error
 				return false
 		for sensitivity: ModifierSensitivity in generator.modifier_sensitivities:
 			if sensitivity.get_script() != preload("res://Game/modifiersensitivity.gd"):
@@ -248,6 +249,10 @@ func _rate(coefficient: float, generator: Generator, kind: String, resource_id: 
 	for modifier: Modifier in modifiers:
 		if modifier.get_script() != preload("res://Game/modifier.gd"):
 			error = "unknown_cached_modifier"
+			return result
+		var equipment_error: String = Equipment.modifier_rejection(modifier)
+		if not equipment_error.is_empty():
+			error = equipment_error
 			return result
 		if not use_cache and not modifier.applies_to(kind, resource_id):
 			continue

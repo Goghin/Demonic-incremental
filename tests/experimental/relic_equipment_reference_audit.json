@@ -1,0 +1,167 @@
+{
+	"failures": [],
+	"rows": [
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 26281,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 36000,
+				"event_detection_usec": 95669,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 36000
+				},
+				"fallback_ticks": 36000,
+				"fallback_usec": 4561894,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 4437592,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"first_graph_differences": [
+				{
+					"native": 0.0,
+					"path": "graph/3/1/lava_mite_dormancy_penalty/literal",
+					"reference": 0.195652173912901
+				}
+			],
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 19565217.3912901,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.195652173912901,
+				"statistics_rel": 19565217.3912901,
+				"worst_key": "dormancy"
+			},
+			"rng_parity": true,
+			"ticks": 36000
+		},
+		{
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 8591,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 33975,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/inactive_consumer/matter_furnace": 440,
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 9560
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 1616132,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 1575473,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": false,
+			"event_parity": true,
+			"first_graph_differences": [
+				{
+					"native": 0.0,
+					"path": "graph/4/1/lava_mite_dormancy_penalty/literal",
+					"reference": 0.0260869565217391
+				},
+				{
+					"native": 274.401139133214,
+					"path": "graph/4/1/total_matter_decayed_this_prestige/literal",
+					"reference": 274.401139133146
+				},
+				{
+					"native": 0.0423584835326512,
+					"path": "graph/18/1/amount/literal",
+					"reference": 0.0423584834653869
+				},
+				{
+					"native": 120.598860866786,
+					"path": "graph/20/1/amount/literal",
+					"reference": 120.598860866853
+				},
+				{
+					"native": 0.049986459761932,
+					"path": "graph/24/1/amount/literal",
+					"reference": 0.049986459677812
+				},
+				{
+					"native": 0.519593185480427,
+					"path": "graph/131/2/0/1/literal",
+					"reference": 0.519593185408877
+				},
+				{
+					"native": 274.401139133214,
+					"path": "graph/868/1/total_matter_decayed/literal",
+					"reference": 274.401139133146
+				},
+				{
+					"native": 726271.500564025,
+					"path": "graph/871/2/0/1/literal",
+					"reference": 726271.500564025
+				},
+				{
+					"native": 691775.801482368,
+					"path": "graph/871/2/1/1/literal",
+					"reference": 691775.801482367
+				},
+				{
+					"native": 1540609967.56305,
+					"path": "graph/873/2/0/1/literal",
+					"reference": 1540609967.56305
+				},
+				{
+					"native": 1401497994.3245,
+					"path": "graph/873/2/1/1/literal",
+					"reference": 1401497994.3245
+				},
+				{
+					"native": 274.401139133214,
+					"path": "graph/874/2/2/1/literal",
+					"reference": 274.401139133146
+				}
+			],
+			"label": "mid",
+			"numeric_deviation": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 0.0000000000841199540579929,
+				"resource_rel": 0.00000000168285480625407,
+				"statistics_abs": 0.0260869565217391,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"rng_parity": true,
+			"ticks": 10000
+		}
+	]
+}

@@ -1,0 +1,2223 @@
+{
+	"cpu": "AMD EPYC 9V74 80-Core Processor",
+	"engine": {
+		"build": "official",
+		"hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+		"hex": 263681,
+		"major": 4,
+		"minor": 6,
+		"patch": 1,
+		"status": "stable",
+		"string": "4.6.1-stable (official)",
+		"timestamp": 0
+	},
+	"failures": [],
+	"observations": [
+		{
+			"admitted": true,
+			"counters": {
+				"build_usec": 293,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 8765,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 149,
+				"kernel_ticks": 2000,
+				"kernel_usec": 136586,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"critical_completions": 0,
+			"cycle_activity": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_level_changes": 0,
+				"completion_usec": 0,
+				"completions": 0,
+				"cycle_calls": 0,
+				"cycle_usec": 0,
+				"downlevels": 0,
+				"startup_level_changes": 0
+			},
+			"external_equipment_boundaries": 0,
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 14000,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 2000,
+				"partial_operations": 2000,
+				"tape_evaluations": 12000
+			},
+			"intrusive_untimed": true,
+			"label": "early",
+			"normal_completions": 0,
+			"packet_build_usec": 1313,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"previous_admitted": true,
+			"previous_packet_allocation_estimate_bytes": 23604,
+			"previous_packet_build_usec": 607,
+			"rng_words": 0,
+			"ticks": 2000
+		},
+		{
+			"admitted": true,
+			"counters": {
+				"build_usec": 671,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 482482,
+				"event_check_usec": 44728,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 102,
+				"kernel_ticks": 10000,
+				"kernel_usec": 2658961,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"critical_completions": 0,
+			"cycle_activity": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_level_changes": 0,
+				"completion_usec": 0,
+				"completions": 0,
+				"cycle_calls": 10000,
+				"cycle_usec": 501971,
+				"downlevels": 0,
+				"startup_level_changes": 0
+			},
+			"external_equipment_boundaries": 0,
+			"flows": {
+				"controller_transitions": 1,
+				"dynamic_modifier_evaluations": 130000,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 50,
+				"partial_operations": 53,
+				"tape_evaluations": 90000
+			},
+			"intrusive_untimed": true,
+			"label": "forge_competing",
+			"normal_completions": 0,
+			"packet_build_usec": 951,
+			"packet_retained_allocation_estimate_bytes": 35508,
+			"previous_admitted": true,
+			"previous_packet_allocation_estimate_bytes": 35508,
+			"previous_packet_build_usec": 378,
+			"rng_words": 0,
+			"ticks": 10000
+		}
+	],
+	"runs": [
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 206401,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 378,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 43,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 111265,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 480,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 49,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 111915,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1789,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 4548,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 226142,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 219934,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 232891,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1706,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 4858,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 222527,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 216268,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 229608,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 440,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 55,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 136126,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 370,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 49,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 114618,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 217134,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 232926,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 459,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 46,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 127683,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 873,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 46,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 143235,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1787,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5040,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 236932,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 230483,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 244213,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2101,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5583,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 241166,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 234169,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 249602,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 439,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 108593,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 552,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 50,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 105928,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 203539,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 199705,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 393,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 81,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 109680,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 541,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 51,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 110835,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1783,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 5071,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 226271,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 219895,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 233614,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1851,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 4904,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 221155,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 214929,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 228386,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 421,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 51,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 106521,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 351,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 51,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 104654,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 191097,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 6,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 193201,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 382,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 97,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 6,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 121364,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 453,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 49,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 6,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 122487,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 1728,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 6023,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 253727,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 246728,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 6,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 261947,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3377828,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 568,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 53,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2740244,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 602,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2602338,
+			"warmup": true
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 7957,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 27299,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 3662715,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 3614815,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": false,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 48.2008011256389,
+				"resource_rel": 0.047978464294547,
+				"statistics_abs": 27136.6117520332,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3701442,
+			"warmup": true
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 7857,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 28831,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 3780863,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 3732124,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": false,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 48.2008011256389,
+				"resource_rel": 0.047978464294547,
+				"statistics_abs": 27136.6117520332,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3820452,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 786,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 81,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2605530,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 734,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2644076,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3731013,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3623203,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 614,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 82,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2642752,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 632,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2788627,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 8503,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 29664,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 3786392,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 3734254,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": false,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 48.2008011256389,
+				"resource_rel": 0.047978464294547,
+				"statistics_abs": 27136.6117520332,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3827404,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 8230,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 29046,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 3886051,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 3835794,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": false,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 48.2008011256389,
+				"resource_rel": 0.047978464294547,
+				"statistics_abs": 27136.6117520332,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3927161,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 960,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 95,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2857428,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 708,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 55,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2602510,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3795422,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3644689,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 919,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 76,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2548853,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 629,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2759336,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 8366,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 27620,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 3681326,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 3631209,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": false,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 48.2008011256389,
+				"resource_rel": 0.047978464294547,
+				"statistics_abs": 27136.6117520332,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3720336,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 8393,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 27180,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 3673486,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 3627063,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": false,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 48.2008011256389,
+				"resource_rel": 0.047978464294547,
+				"statistics_abs": 27136.6117520332,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3711675,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 635,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 54,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2627590,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 613,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2803627,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3443277,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "exact",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 6,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3796600,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 713,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 60,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "previous",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 6,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2624389,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 789,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 80,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"event_parity": true,
+			"kind": "extended",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"repeat": 6,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2568991,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 7678,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 26689,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/cycle/active/infernal_forge": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 3562706,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 3516899,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": false,
+			"event_parity": true,
+			"kind": "adaptive",
+			"label": "forge_competing",
+			"numeric_deviation": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 48.2008011256389,
+				"resource_rel": 0.047978464294547,
+				"statistics_abs": 27136.6117520332,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"repeat": 6,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 3599834,
+			"warmup": false
+		}
+	]
+}

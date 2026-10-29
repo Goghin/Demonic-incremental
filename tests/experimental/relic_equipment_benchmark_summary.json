@@ -1,0 +1,1900 @@
+{
+  "main": [
+    {
+      "label": "early",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 225.555,
+          "min_ms": 217.31,
+          "max_ms": 234.132,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 116.574,
+          "min_ms": 112.789,
+          "max_ms": 122.699,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 120.304,
+          "min_ms": 112.607,
+          "max_ms": 127.537,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 259.126,
+          "min_ms": 251.118,
+          "max_ms": 296.411,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.8748753158664717,
+      "previous_runtime_change_percent": 3.199684320689,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "early",
+      "ticks": 36000,
+      "methods": {
+        "exact": {
+          "median_ms": 5093.466,
+          "min_ms": 4556.877,
+          "max_ms": 5138.03,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2639.25,
+          "min_ms": 2553.208,
+          "max_ms": 2663.413,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2529.982,
+          "min_ms": 2486.546,
+          "max_ms": 2612.522,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 5210.347,
+          "min_ms": 4674.586,
+          "max_ms": 5391.067,
+          "samples": 3
+        }
+      },
+      "native_speedup": 2.0132419914449984,
+      "previous_runtime_change_percent": -4.140115563133461,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 333.019,
+          "min_ms": 326.731,
+          "max_ms": 347.78,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 229.119,
+          "min_ms": 208.59,
+          "max_ms": 230.182,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 210.295,
+          "min_ms": 209.734,
+          "max_ms": 214.12,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 361.432,
+          "min_ms": 355.646,
+          "max_ms": 382.347,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.583580208754369,
+      "previous_runtime_change_percent": -8.215817981049156,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 1711.266,
+          "min_ms": 1487.197,
+          "max_ms": 1744.947,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 993.379,
+          "min_ms": 909.959,
+          "max_ms": 1102.293,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 982.331,
+          "min_ms": 939.663,
+          "max_ms": 1013.493,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 1603.631,
+          "min_ms": 1522.555,
+          "max_ms": 1660.373,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.7420462145651516,
+      "previous_runtime_change_percent": -1.1121636354301856,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "mid",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 262.338,
+          "min_ms": 223.871,
+          "max_ms": 272.481,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 185.069,
+          "min_ms": 160.288,
+          "max_ms": 200.089,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 182.609,
+          "min_ms": 162.884,
+          "max_ms": 186.198,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 291.362,
+          "min_ms": 272.761,
+          "max_ms": 299.301,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.436610462792086,
+      "previous_runtime_change_percent": -1.329233961387366,
+      "kernel_coverage_percent": 99.9,
+      "builds": 3
+    },
+    {
+      "label": "mid",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 1552.186,
+          "min_ms": 1518.245,
+          "max_ms": 1578.578,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 1147.275,
+          "min_ms": 1113.129,
+          "max_ms": 1164.188,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 1040.397,
+          "min_ms": 1015.217,
+          "max_ms": 1150.615,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 1525.291,
+          "min_ms": 1445.699,
+          "max_ms": 1633.827,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.4919170278268776,
+      "previous_runtime_change_percent": -9.315813558214037,
+      "kernel_coverage_percent": 99.98,
+      "builds": 3
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 771.179,
+          "min_ms": 755.809,
+          "max_ms": 851.032,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 549.381,
+          "min_ms": 527.797,
+          "max_ms": 569.493,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 533.643,
+          "min_ms": 500.691,
+          "max_ms": 601.116,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 698.664,
+          "min_ms": 695.479,
+          "max_ms": 782.336,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.4451215512992768,
+      "previous_runtime_change_percent": -2.8646786110185674,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 3252.396,
+          "min_ms": 3109.268,
+          "max_ms": 3499.488,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2318.754,
+          "min_ms": 2317.751,
+          "max_ms": 2393.259,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2460.871,
+          "min_ms": 2378.617,
+          "max_ms": 2735.395,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 3265.804,
+          "min_ms": 3214.648,
+          "max_ms": 3451.52,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.321644247097877,
+      "previous_runtime_change_percent": 6.129024467451072,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "earned_essence",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 3185.224,
+          "min_ms": 2904.277,
+          "max_ms": 3239.312,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2122.131,
+          "min_ms": 1978.487,
+          "max_ms": 2221.009,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2143.464,
+          "min_ms": 2062.446,
+          "max_ms": 2169.881,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 3280.951,
+          "min_ms": 3115.06,
+          "max_ms": 3500.486,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.486017026644721,
+      "previous_runtime_change_percent": 1.0052631058120376,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "earned_feedback",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 3148.83,
+          "min_ms": 3063.139,
+          "max_ms": 3229.319,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2180.089,
+          "min_ms": 2177.64,
+          "max_ms": 2254.929,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2166.937,
+          "min_ms": 2121.596,
+          "max_ms": 2287.237,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 3232.187,
+          "min_ms": 2989.342,
+          "max_ms": 3394.847,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.4531248485765853,
+      "previous_runtime_change_percent": -0.6032781230491113,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "passive",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 496.662,
+          "min_ms": 495.697,
+          "max_ms": 540.903,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 517.11,
+          "min_ms": 495.269,
+          "max_ms": 539.202,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 311.876,
+          "min_ms": 291.789,
+          "max_ms": 325.454,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 533.89,
+          "min_ms": 532.769,
+          "max_ms": 553.743,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.5924983006066513,
+      "previous_runtime_change_percent": -39.68865425151322,
+      "kernel_coverage_percent": 99.95,
+      "builds": 16
+    },
+    {
+      "label": "one",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 481.931,
+          "min_ms": 464.523,
+          "max_ms": 567.905,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 558.45,
+          "min_ms": 492.602,
+          "max_ms": 593.974,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 372.378,
+          "min_ms": 305.099,
+          "max_ms": 388.563,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 601.982,
+          "min_ms": 490.411,
+          "max_ms": 605.748,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.2941983683246594,
+      "previous_runtime_change_percent": -33.31936610260543,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "multiple",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 620.817,
+          "min_ms": 591.845,
+          "max_ms": 635.4,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 610.309,
+          "min_ms": 604.225,
+          "max_ms": 613.211,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 404.711,
+          "min_ms": 378.088,
+          "max_ms": 407.054,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 644.391,
+          "min_ms": 633.656,
+          "max_ms": 664.754,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.533976096523198,
+      "previous_runtime_change_percent": -33.68752549937818,
+      "kernel_coverage_percent": 99.95,
+      "builds": 17
+    },
+    {
+      "label": "input_compressor",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 533.399,
+          "min_ms": 525.271,
+          "max_ms": 560.8,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 563.572,
+          "min_ms": 513.09,
+          "max_ms": 587.498,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 330.113,
+          "min_ms": 307.608,
+          "max_ms": 339.222,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 605.821,
+          "min_ms": 548.075,
+          "max_ms": 607.869,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.6158073144650469,
+      "previous_runtime_change_percent": -41.424875614828274,
+      "kernel_coverage_percent": 99.95,
+      "builds": 16
+    },
+    {
+      "label": "sensitivity",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 551.129,
+          "min_ms": 529.778,
+          "max_ms": 618.249,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 564.395,
+          "min_ms": 530.428,
+          "max_ms": 603.139,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 361.482,
+          "min_ms": 354.021,
+          "max_ms": 369.08,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 647.707,
+          "min_ms": 595.522,
+          "max_ms": 751.193,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.5246374646593743,
+      "previous_runtime_change_percent": -35.95230290842406,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_critical",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 485.659,
+          "min_ms": 480.02,
+          "max_ms": 538.434,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 486.228,
+          "min_ms": 473.344,
+          "max_ms": 510.114,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 295.123,
+          "min_ms": 285.293,
+          "max_ms": 319.928,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 574.055,
+          "min_ms": 537.919,
+          "max_ms": 606.796,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.6456155569033928,
+      "previous_runtime_change_percent": -39.30357774541985,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_speed",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 421.925,
+          "min_ms": 402.856,
+          "max_ms": 546.018,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 410.761,
+          "min_ms": 404.312,
+          "max_ms": 531.987,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 245.117,
+          "min_ms": 219.61,
+          "max_ms": 247.488,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 463.682,
+          "min_ms": 448.319,
+          "max_ms": 515.028,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.7213208386199246,
+      "previous_runtime_change_percent": -40.32612638492944,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_sensitivity",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 457.547,
+          "min_ms": 427.437,
+          "max_ms": 476.527,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 436.299,
+          "min_ms": 346.706,
+          "max_ms": 440.641,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 242.199,
+          "min_ms": 210.618,
+          "max_ms": 246.03,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 379.226,
+          "min_ms": 359.504,
+          "max_ms": 452.622,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.8891366190611851,
+      "previous_runtime_change_percent": -44.48783976126464,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_completion",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 478.69,
+          "min_ms": 446.07,
+          "max_ms": 534.127,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 465.361,
+          "min_ms": 441.014,
+          "max_ms": 466.024,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 262.712,
+          "min_ms": 252.211,
+          "max_ms": 265.656,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 455.982,
+          "min_ms": 432.109,
+          "max_ms": 459.139,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.822109382137093,
+      "previous_runtime_change_percent": -43.54662294433784,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_auto",
+      "ticks": 3000,
+      "methods": {
+        "exact": {
+          "median_ms": 1166.359,
+          "min_ms": 1139.108,
+          "max_ms": 1210.638,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 1145.66,
+          "min_ms": 1110.873,
+          "max_ms": 1286.218,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 851.552,
+          "min_ms": 837.94,
+          "max_ms": 938.666,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 1203.668,
+          "min_ms": 1200.894,
+          "max_ms": 1343.182,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.3696861730111607,
+      "previous_runtime_change_percent": -25.671490669133956,
+      "kernel_coverage_percent": 99.96666666666667,
+      "builds": 11
+    },
+    {
+      "label": "essence_relics",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 538.414,
+          "min_ms": 511.328,
+          "max_ms": 539.193,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 552.074,
+          "min_ms": 505.852,
+          "max_ms": 561.546,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 321.974,
+          "min_ms": 321.973,
+          "max_ms": 344.917,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 575.242,
+          "min_ms": 559.323,
+          "max_ms": 583.138,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.6722281923385118,
+      "previous_runtime_change_percent": -41.67919518035625,
+      "kernel_coverage_percent": 99.95,
+      "builds": 16
+    },
+    {
+      "label": "nexum_relics",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 605.349,
+          "min_ms": 570.26,
+          "max_ms": 622.529,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 553.81,
+          "min_ms": 527.241,
+          "max_ms": 565.905,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 348.148,
+          "min_ms": 339.181,
+          "max_ms": 377.534,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 589.277,
+          "min_ms": 566.651,
+          "max_ms": 598.963,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.7387691441570827,
+      "previous_runtime_change_percent": -37.13584081183077,
+      "kernel_coverage_percent": 99.95,
+      "builds": 16
+    },
+    {
+      "label": "relic_heavy",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 707.895,
+          "min_ms": 684.473,
+          "max_ms": 741.906,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 633.355,
+          "min_ms": 627.788,
+          "max_ms": 641.818,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 388.838,
+          "min_ms": 383.09,
+          "max_ms": 421.998,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 660.669,
+          "min_ms": 658.941,
+          "max_ms": 676.978,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.820539659189688,
+      "previous_runtime_change_percent": -38.60662661540526,
+      "kernel_coverage_percent": 99.95,
+      "builds": 20
+    },
+    {
+      "label": "reached_one",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 2027.609,
+          "min_ms": 2023.84,
+          "max_ms": 2133.543,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2096.868,
+          "min_ms": 2047.831,
+          "max_ms": 2306.044,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 1758.738,
+          "min_ms": 1659.511,
+          "max_ms": 1845.999,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 2232.629,
+          "min_ms": 2036.956,
+          "max_ms": 2651.004,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.1528772335617925,
+      "previous_runtime_change_percent": -16.125478570897155,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "reached_multiple",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 2402.484,
+          "min_ms": 1995.986,
+          "max_ms": 2724.252,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2504.88,
+          "min_ms": 2308.044,
+          "max_ms": 3229.447,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2068.681,
+          "min_ms": 1979.22,
+          "max_ms": 2242.935,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 2912.608,
+          "min_ms": 2705.563,
+          "max_ms": 3053.289,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.1613603063981348,
+      "previous_runtime_change_percent": -17.41396793459168,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "equipment_changes",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 557.325,
+          "min_ms": 542.312,
+          "max_ms": 637.259,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 615.053,
+          "min_ms": 593.187,
+          "max_ms": 638.741,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 456.309,
+          "min_ms": 453.065,
+          "max_ms": 507.701,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.221376304214907,
+      "previous_runtime_change_percent": -25.809808260426337,
+      "kernel_coverage_percent": 99.95,
+      "builds": 101
+    },
+    {
+      "label": "crafting",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 513.959,
+          "min_ms": 509.023,
+          "max_ms": 520.421,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 515.289,
+          "min_ms": 502.704,
+          "max_ms": 608.904,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 521.47,
+          "min_ms": 516.693,
+          "max_ms": 570.8,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 520.511,
+          "min_ms": 518.999,
+          "max_ms": 557.386,
+          "samples": 3
+        }
+      },
+      "native_speedup": 0.985596486854469,
+      "previous_runtime_change_percent": 1.1995210454715854,
+      "kernel_coverage_percent": 0.0,
+      "builds": 1
+    }
+  ],
+  "initial_failed_reference_assertion": [
+    {
+      "label": "early",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 254.545,
+          "min_ms": 219.691,
+          "max_ms": 257.422,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 114.443,
+          "min_ms": 113.114,
+          "max_ms": 115.446,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 119.64,
+          "min_ms": 112.32,
+          "max_ms": 131.338,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 237.43,
+          "min_ms": 236.153,
+          "max_ms": 280.56,
+          "samples": 3
+        }
+      },
+      "native_speedup": 2.127591106653293,
+      "previous_runtime_change_percent": 4.541125276338431,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "early",
+      "ticks": 36000,
+      "methods": {
+        "exact": {
+          "median_ms": 4542.34,
+          "min_ms": 4160.884,
+          "max_ms": 4557.048,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2452.351,
+          "min_ms": 2317.045,
+          "max_ms": 2474.896,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2539.961,
+          "min_ms": 2478.191,
+          "max_ms": 2581.831,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 4992.048,
+          "min_ms": 4925.417,
+          "max_ms": 5320.093,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.7883502935675,
+      "previous_runtime_change_percent": 3.5724902348807097,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 308.792,
+          "min_ms": 288.126,
+          "max_ms": 386.687,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 187.578,
+          "min_ms": 185.942,
+          "max_ms": 244.86,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 194.091,
+          "min_ms": 188.603,
+          "max_ms": 254.035,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 328.544,
+          "min_ms": 307.992,
+          "max_ms": 348.586,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.59096506277983,
+      "previous_runtime_change_percent": 3.4721555832773587,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 1445.837,
+          "min_ms": 1436.697,
+          "max_ms": 1541.836,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 972.168,
+          "min_ms": 943.369,
+          "max_ms": 975.426,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 948.558,
+          "min_ms": 918.41,
+          "max_ms": 948.623,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 1567.307,
+          "min_ms": 1516.844,
+          "max_ms": 1601.042,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.524247331212219,
+      "previous_runtime_change_percent": -2.428592588935252,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "mid",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 248.643,
+          "min_ms": 241.243,
+          "max_ms": 249.647,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 170.328,
+          "min_ms": 162.42,
+          "max_ms": 179.036,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 171.499,
+          "min_ms": 165.486,
+          "max_ms": 177.265,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 257.514,
+          "min_ms": 250.953,
+          "max_ms": 275.356,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.449821864850524,
+      "previous_runtime_change_percent": 0.6874970644873413,
+      "kernel_coverage_percent": 99.9,
+      "builds": 3
+    },
+    {
+      "label": "mid",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 1408.897,
+          "min_ms": 1359.854,
+          "max_ms": 1413.925,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 962.265,
+          "min_ms": 955.256,
+          "max_ms": 999.144,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 987.571,
+          "min_ms": 926.342,
+          "max_ms": 1001.278,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 1438.357,
+          "min_ms": 1386.373,
+          "max_ms": 1466.598,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.4266285664524372,
+      "previous_runtime_change_percent": 2.629836895241966,
+      "kernel_coverage_percent": 99.98,
+      "builds": 3
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 722.996,
+          "min_ms": 668.659,
+          "max_ms": 740.237,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 531.415,
+          "min_ms": 495.479,
+          "max_ms": 531.848,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 510.639,
+          "min_ms": 498.416,
+          "max_ms": 515.452,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 698.028,
+          "min_ms": 650.857,
+          "max_ms": 711.094,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.4158652198519892,
+      "previous_runtime_change_percent": -3.909562206561723,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 3735.161,
+          "min_ms": 3604.603,
+          "max_ms": 3843.023,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2671.022,
+          "min_ms": 2544.358,
+          "max_ms": 2717.202,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2816.489,
+          "min_ms": 2464.56,
+          "max_ms": 2848.423,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 3689.464,
+          "min_ms": 3331.601,
+          "max_ms": 4128.989,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.3261763138432283,
+      "previous_runtime_change_percent": 5.446117628383451,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "earned_essence",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 3382.28,
+          "min_ms": 3361.953,
+          "max_ms": 3510.136,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2281.094,
+          "min_ms": 2145.403,
+          "max_ms": 2298.029,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2123.987,
+          "min_ms": 1960.408,
+          "max_ms": 2127.041,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 3445.65,
+          "min_ms": 3417.117,
+          "max_ms": 3620.88,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.5924202925912447,
+      "previous_runtime_change_percent": -6.887353173521127,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "earned_feedback",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 3260.84,
+          "min_ms": 3040.291,
+          "max_ms": 3410.118,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2178.627,
+          "min_ms": 2115.45,
+          "max_ms": 2400.913,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 2161.443,
+          "min_ms": 2043.05,
+          "max_ms": 2248.656,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 3386.708,
+          "min_ms": 3253.109,
+          "max_ms": 3393.592,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.5086402926193287,
+      "previous_runtime_change_percent": -0.7887536508085047,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "passive",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 546.548,
+          "min_ms": 495.626,
+          "max_ms": 547.545,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 539.139,
+          "min_ms": 503.288,
+          "max_ms": 552.506,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 313.177,
+          "min_ms": 292.599,
+          "max_ms": 349.657,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 532.041,
+          "min_ms": 525.486,
+          "max_ms": 611.269,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.7451728575214653,
+      "previous_runtime_change_percent": -41.911640597322766,
+      "kernel_coverage_percent": 99.95,
+      "builds": 16
+    },
+    {
+      "label": "one",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 588.735,
+          "min_ms": 507.197,
+          "max_ms": 618.361,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 550.871,
+          "min_ms": 498.371,
+          "max_ms": 638.883,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 346.98,
+          "min_ms": 323.157,
+          "max_ms": 392.733,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 537.161,
+          "min_ms": 510.252,
+          "max_ms": 689.716,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.6967404461352238,
+      "previous_runtime_change_percent": -37.01247660523062,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "multiple",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 629.265,
+          "min_ms": 526.823,
+          "max_ms": 677.254,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 659.175,
+          "min_ms": 531.455,
+          "max_ms": 678.051,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 413.67,
+          "min_ms": 342.423,
+          "max_ms": 424.178,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 630.163,
+          "min_ms": 573.708,
+          "max_ms": 710.793,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.5211762999492349,
+      "previous_runtime_change_percent": -37.244282626009785,
+      "kernel_coverage_percent": 99.95,
+      "builds": 17
+    },
+    {
+      "label": "input_compressor",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 570.832,
+          "min_ms": 542.009,
+          "max_ms": 603.759,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 574.459,
+          "min_ms": 499.851,
+          "max_ms": 584.983,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 341.109,
+          "min_ms": 312.45,
+          "max_ms": 357.988,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 637.867,
+          "min_ms": 596.403,
+          "max_ms": 683.598,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.6734592168485733,
+      "previous_runtime_change_percent": -40.620827596051235,
+      "kernel_coverage_percent": 99.95,
+      "builds": 16
+    },
+    {
+      "label": "sensitivity",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 559.818,
+          "min_ms": 498.643,
+          "max_ms": 566.475,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 569.818,
+          "min_ms": 531.525,
+          "max_ms": 571.996,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 351.112,
+          "min_ms": 349.233,
+          "max_ms": 357.503,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 565.932,
+          "min_ms": 564.283,
+          "max_ms": 580.75,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.5944143179384354,
+      "previous_runtime_change_percent": -38.38172890291286,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_critical",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 412.873,
+          "min_ms": 404.452,
+          "max_ms": 435.589,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 431.058,
+          "min_ms": 410.181,
+          "max_ms": 442.82,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 258.213,
+          "min_ms": 249.748,
+          "max_ms": 259.832,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 474.898,
+          "min_ms": 446.836,
+          "max_ms": 476.163,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.5989628717376738,
+      "previous_runtime_change_percent": -40.09785226118062,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_speed",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 447.449,
+          "min_ms": 404.569,
+          "max_ms": 457.732,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 432.943,
+          "min_ms": 420.774,
+          "max_ms": 444.463,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 245.359,
+          "min_ms": 232.866,
+          "max_ms": 269.152,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 458.799,
+          "min_ms": 440.596,
+          "max_ms": 500.882,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.8236502431131525,
+      "previous_runtime_change_percent": -43.32764359280552,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_sensitivity",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 432.21,
+          "min_ms": 374.026,
+          "max_ms": 483.932,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 449.006,
+          "min_ms": 373.146,
+          "max_ms": 449.98,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 262.297,
+          "min_ms": 223.17,
+          "max_ms": 271.173,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 450.909,
+          "min_ms": 390.527,
+          "max_ms": 465.584,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.647788575546041,
+      "previous_runtime_change_percent": -41.58274054244263,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_completion",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 441.622,
+          "min_ms": 391.792,
+          "max_ms": 446.727,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 429.398,
+          "min_ms": 393.319,
+          "max_ms": 436.673,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 261.584,
+          "min_ms": 223.688,
+          "max_ms": 264.825,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 452.198,
+          "min_ms": 409.659,
+          "max_ms": 492.003,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.6882607498929598,
+      "previous_runtime_change_percent": -39.08122534338773,
+      "kernel_coverage_percent": 99.95,
+      "builds": 2
+    },
+    {
+      "label": "forge_auto",
+      "ticks": 3000,
+      "methods": {
+        "exact": {
+          "median_ms": 1070.894,
+          "min_ms": 1045.466,
+          "max_ms": 1092.29,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 1092.153,
+          "min_ms": 981.963,
+          "max_ms": 1104.189,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 779.666,
+          "min_ms": 733.903,
+          "max_ms": 898.645,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 1098.886,
+          "min_ms": 996.961,
+          "max_ms": 1106.84,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.3735291778787326,
+      "previous_runtime_change_percent": -28.612016814493934,
+      "kernel_coverage_percent": 99.96666666666667,
+      "builds": 11
+    },
+    {
+      "label": "essence_relics",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 519.341,
+          "min_ms": 497.213,
+          "max_ms": 536.243,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 542.009,
+          "min_ms": 537.558,
+          "max_ms": 596.451,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 340.378,
+          "min_ms": 325.876,
+          "max_ms": 387.139,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 577.552,
+          "min_ms": 540.551,
+          "max_ms": 590.991,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.5257772241449212,
+      "previous_runtime_change_percent": -37.20067378954962,
+      "kernel_coverage_percent": 99.95,
+      "builds": 16
+    },
+    {
+      "label": "nexum_relics",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 571.06,
+          "min_ms": 513.753,
+          "max_ms": 577.052,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 569.211,
+          "min_ms": 560.173,
+          "max_ms": 569.645,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 328.782,
+          "min_ms": 328.388,
+          "max_ms": 340.105,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 553.892,
+          "min_ms": 518.867,
+          "max_ms": 591.096,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.7368955721420272,
+      "previous_runtime_change_percent": -42.23899397587188,
+      "kernel_coverage_percent": 99.95,
+      "builds": 16
+    },
+    {
+      "label": "relic_heavy",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 504.797,
+          "min_ms": 502.85,
+          "max_ms": 683.484,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 597.608,
+          "min_ms": 561.776,
+          "max_ms": 687.436,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 370.104,
+          "min_ms": 316.534,
+          "max_ms": 417.215,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 631.448,
+          "min_ms": 548.593,
+          "max_ms": 732.768,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.3639328404988869,
+      "previous_runtime_change_percent": -38.0691021539203,
+      "kernel_coverage_percent": 99.95,
+      "builds": 20
+    },
+    {
+      "label": "reached_one",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 2203.75,
+          "min_ms": 2184.445,
+          "max_ms": 2259.893,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2048.58,
+          "min_ms": 1788.905,
+          "max_ms": 2165.54,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 1741.864,
+          "min_ms": 1698.635,
+          "max_ms": 1825.191,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 2272.576,
+          "min_ms": 2245.57,
+          "max_ms": 2274.122,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.2651676594728405,
+      "previous_runtime_change_percent": -14.97212703433597,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "reached_multiple",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 2211.52,
+          "min_ms": 2189.526,
+          "max_ms": 2465.365,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 2263.072,
+          "min_ms": 2243.136,
+          "max_ms": 2448.985,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 1853.439,
+          "min_ms": 1767.98,
+          "max_ms": 1899.546,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 2624.585,
+          "min_ms": 2463.97,
+          "max_ms": 2642.358,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.1931981575870583,
+      "previous_runtime_change_percent": -18.100749777293878,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "equipment_changes",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 524.809,
+          "min_ms": 498.377,
+          "max_ms": 538.282,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 573.16,
+          "min_ms": 554.529,
+          "max_ms": 657.862,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 397.923,
+          "min_ms": 369.358,
+          "max_ms": 401.019,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.3188707362982284,
+      "previous_runtime_change_percent": -30.573836276083465,
+      "kernel_coverage_percent": 99.95,
+      "builds": 101
+    },
+    {
+      "label": "crafting",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 470.083,
+          "min_ms": 441.182,
+          "max_ms": 482.882,
+          "samples": 3
+        },
+        "previous": {
+          "median_ms": 480.835,
+          "min_ms": 456.454,
+          "max_ms": 485.719,
+          "samples": 3
+        },
+        "extended": {
+          "median_ms": 466.765,
+          "min_ms": 445.066,
+          "max_ms": 475.325,
+          "samples": 3
+        },
+        "adaptive": {
+          "median_ms": 480.848,
+          "min_ms": 464.686,
+          "max_ms": 532.087,
+          "samples": 3
+        }
+      },
+      "native_speedup": 1.0071085021370498,
+      "previous_runtime_change_percent": -2.9261597013528484,
+      "kernel_coverage_percent": 0.0,
+      "builds": 1
+    }
+  ],
+  "confirmation": [
+    {
+      "label": "early",
+      "ticks": 2000,
+      "methods": {
+        "exact": {
+          "median_ms": 201.622,
+          "min_ms": 191.097,
+          "max_ms": 232.926,
+          "samples": 6
+        },
+        "previous": {
+          "median_ms": 112.149,
+          "min_ms": 104.654,
+          "max_ms": 127.683,
+          "samples": 6
+        },
+        "extended": {
+          "median_ms": 116.661,
+          "min_ms": 106.521,
+          "max_ms": 143.235,
+          "samples": 6
+        },
+        "adaptive": {
+          "median_ms": 238.9135,
+          "min_ms": 228.386,
+          "max_ms": 261.947,
+          "samples": 6
+        }
+      },
+      "native_speedup": 1.728272516093639,
+      "previous_runtime_change_percent": 4.023219110290777,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 10000,
+      "methods": {
+        "exact": {
+          "median_ms": 3687.8509999999997,
+          "min_ms": 3443.277,
+          "max_ms": 3796.6,
+          "samples": 6
+        },
+        "previous": {
+          "median_ms": 2633.5705,
+          "min_ms": 2548.853,
+          "max_ms": 2803.627,
+          "samples": 6
+        },
+        "extended": {
+          "median_ms": 2693.4629999999997,
+          "min_ms": 2568.991,
+          "max_ms": 2857.428,
+          "samples": 6
+        },
+        "adaptive": {
+          "median_ms": 3770.3940000000002,
+          "min_ms": 3599.834,
+          "max_ms": 3927.161,
+          "samples": 6
+        }
+      },
+      "native_speedup": 1.3691856914314398,
+      "previous_runtime_change_percent": 2.2741939127887356,
+      "kernel_coverage_percent": 100.0,
+      "builds": 1
+    }
+  ]
+}

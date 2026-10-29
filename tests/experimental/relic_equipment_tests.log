@@ -1,0 +1,37 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+RELIC_DIFFERENTIAL passive 100
+RELIC_DIFFERENTIAL one 100
+RELIC_DIFFERENTIAL multiple 100
+RELIC_DIFFERENTIAL stacked 100
+RELIC_DIFFERENTIAL secondary 100
+RELIC_DIFFERENTIAL universal 100
+RELIC_DIFFERENTIAL specific 100
+RELIC_DIFFERENTIAL input_compressor 100
+RELIC_DIFFERENTIAL sensitivity 100
+RELIC_DIFFERENTIAL essence_relics 100
+RELIC_DIFFERENTIAL nexum_relics 100
+RELIC_DIFFERENTIAL expansion_relics 100
+RELIC_DIFFERENTIAL forge_critical 100
+RELIC_DIFFERENTIAL forge_speed 500
+RELIC_DIFFERENTIAL forge_sensitivity 500
+RELIC_DIFFERENTIAL forge_completion 100
+RELIC_DIFFERENTIAL forge_auto 3000
+RELIC_DIFFERENTIAL relic_heavy 100
+RELIC_DIFFERENTIAL crafting 100
+RELIC_DIFFERENTIAL machine_passive 100
+RELIC_DIFFERENTIAL effect/output_increase 100
+RELIC_DIFFERENTIAL effect/output_decrease 100
+RELIC_DIFFERENTIAL effect/input_draw_reduction 100
+RELIC_DIFFERENTIAL effect/input_draw_increase 100
+RELIC_DIFFERENTIAL effect/ash_contamination_sensitivity_reduction 100
+RELIC_DIFFERENTIAL effect/thermic_mass_sensitivity_reduction 100
+RELIC_DIFFERENTIAL effect/thermic_mass_sensitivity_increase 100
+RELIC_DIFFERENTIAL effect/crystallization_sensitivity_reduction 100
+RELIC_DIFFERENTIAL effect/heat_reservoir_boost 100
+RELIC_DIFFERENTIAL effect/matter_reservoir_boost 100
+RELIC_DIFFERENTIAL effect/cycle_speed_increase 100
+RELIC_DIFFERENTIAL effect/critical_chance 100
+RELIC_DIFFERENTIAL reached_multiple 2000
+RELIC_DIFFERENTIAL reached_one 2000
+RELIC_EQUIPMENT_TESTS failures=0

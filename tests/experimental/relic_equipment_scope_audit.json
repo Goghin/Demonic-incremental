@@ -1,0 +1,674 @@
+{
+	"effects": {
+		"ash_contamination_sensitivity_reduction": {
+			"affix_position": "prefix",
+			"affix_text": "Ashveil",
+			"description_label": "Ash Contamination",
+			"description_mode": "multiplier",
+			"roll_ranges": {
+				"1": [
+					0.96,
+					0.98
+				],
+				"2": [
+					0.93,
+					0.96
+				],
+				"3": [
+					0.88,
+					0.93
+				]
+			},
+			"secondary_weight": 16.0,
+			"sensitivity_targets": [
+				"ashen_contamination",
+				"ashen_contamination_cycle_speed"
+			],
+			"stat_group": "sensitivity",
+			"stat_type": "sensitivity",
+			"weight": 45.0
+		},
+		"critical_chance": {
+			"affix_position": "suffix",
+			"affix_text": "of Fortune",
+			"description_label": "Critical chance",
+			"description_mode": "percentage_points",
+			"modifier_type": "event_chance",
+			"roll_ranges": {
+				"1": [
+					0.01,
+					0.03
+				],
+				"2": [
+					0.03,
+					0.06
+				],
+				"3": [
+					0.06,
+					0.1
+				]
+			},
+			"secondary_weight": 4.0,
+			"stat_group": "event_chance",
+			"target_id": "critical_chance",
+			"weight": 8.0
+		},
+		"crystallization_sensitivity_reduction": {
+			"affix_position": "prefix",
+			"affix_text": "Essence-Touched",
+			"description_label": "Crystallization",
+			"description_mode": "multiplier",
+			"roll_ranges": {
+				"1": [
+					0.985,
+					0.995
+				],
+				"2": [
+					0.975,
+					0.99
+				],
+				"3": [
+					0.955,
+					0.98
+				]
+			},
+			"secondary_weight": 2.0,
+			"sensitivity_targets": [
+				"crystallization"
+			],
+			"stat_group": "sensitivity",
+			"stat_type": "sensitivity",
+			"weight": 8.0
+		},
+		"cycle_speed_increase": {
+			"affix_position": "suffix",
+			"affix_text": "of Acceleration",
+			"description_label": "Cycle speed",
+			"description_mode": "multiplier",
+			"modifier_type": "cycle_speed",
+			"roll_ranges": {
+				"1": [
+					1.05,
+					1.12
+				],
+				"2": [
+					1.15,
+					1.25
+				],
+				"3": [
+					1.3,
+					1.5
+				]
+			},
+			"secondary_weight": 10.0,
+			"stat_group": "cycle_speed",
+			"target_id": "",
+			"weight": 25.0
+		},
+		"heat_reservoir_boost": {
+			"affix_position": "prefix",
+			"affix_text": "Heat-Hungry",
+			"description_label": "Heat production",
+			"description_mode": "inverse_resource_boost",
+			"dynamic": true,
+			"dynamic_exponent": 1.5,
+			"dynamic_formula": "resource_inverse_boost",
+			"dynamic_resource_id": "heat",
+			"dynamic_threshold": 100000.0,
+			"modifier_type": "production",
+			"roll_ranges": {
+				"1": [
+					0.5,
+					0.8
+				],
+				"2": [
+					0.8,
+					1.2
+				],
+				"3": [
+					1.2,
+					1.8
+				]
+			},
+			"secondary_weight": 8.0,
+			"stat_group": "output",
+			"target_id": "heat",
+			"weight": 22.0
+		},
+		"input_draw_increase": {
+			"affix_position": "prefix",
+			"affix_text": "Voracious",
+			"description_label": "All input draw",
+			"description_mode": "multiplier",
+			"modifier_type": "input_draw",
+			"roll_ranges": {
+				"1": [
+					1.05,
+					1.12
+				],
+				"2": [
+					1.15,
+					1.25
+				],
+				"3": [
+					1.3,
+					1.5
+				]
+			},
+			"secondary_weight": 10.0,
+			"stat_group": "input_draw",
+			"target_id": "",
+			"target_options": [
+				{
+					"description_label": "All input draw",
+					"target_id": ""
+				},
+				{
+					"target_id": "heat"
+				},
+				{
+					"target_id": "matter"
+				},
+				{
+					"target_id": "ash"
+				}
+			],
+			"weight": 30.0
+		},
+		"input_draw_reduction": {
+			"affix_position": "prefix",
+			"affix_text": "Efficient",
+			"description_label": "All input draw",
+			"description_mode": "multiplier",
+			"modifier_type": "input_draw",
+			"roll_ranges": {
+				"1": [
+					0.9,
+					0.97
+				],
+				"2": [
+					0.75,
+					0.9
+				],
+				"3": [
+					0.6,
+					0.8
+				]
+			},
+			"secondary_weight": 20.0,
+			"stat_group": "input_draw",
+			"target_id": "",
+			"target_options": [
+				{
+					"description_label": "All input draw",
+					"target_id": ""
+				},
+				{
+					"target_id": "heat"
+				},
+				{
+					"target_id": "matter"
+				},
+				{
+					"target_id": "ash"
+				}
+			],
+			"weight": 55.0
+		},
+		"matter_reservoir_boost": {
+			"affix_position": "prefix",
+			"affix_text": "Matter-Hungry",
+			"description_label": "Matter production",
+			"description_mode": "inverse_resource_boost",
+			"dynamic": true,
+			"dynamic_exponent": 1.5,
+			"dynamic_formula": "resource_inverse_boost",
+			"dynamic_resource_id": "matter",
+			"dynamic_threshold": 10000.0,
+			"modifier_type": "production",
+			"roll_ranges": {
+				"1": [
+					0.5,
+					0.8
+				],
+				"2": [
+					0.8,
+					1.2
+				],
+				"3": [
+					1.2,
+					1.8
+				]
+			},
+			"secondary_weight": 8.0,
+			"stat_group": "output",
+			"target_id": "matter",
+			"weight": 22.0
+		},
+		"output_decrease": {
+			"affix_position": "prefix",
+			"affix_text": "Muted",
+			"description_label": "All output production",
+			"description_mode": "multiplier",
+			"modifier_type": "production",
+			"roll_ranges": {
+				"1": [
+					0.88,
+					0.97
+				],
+				"2": [
+					0.75,
+					0.9
+				],
+				"3": [
+					0.6,
+					0.8
+				]
+			},
+			"secondary_weight": 12.0,
+			"stat_group": "output",
+			"target_id": "",
+			"target_options": [
+				{
+					"description_label": "All output production",
+					"target_id": ""
+				},
+				{
+					"target_id": "heat"
+				},
+				{
+					"target_id": "matter"
+				},
+				{
+					"target_id": "ash"
+				}
+			],
+			"weight": 35.0
+		},
+		"output_increase": {
+			"affix_position": "prefix",
+			"affix_text": "Potent",
+			"description_label": "All output production",
+			"description_mode": "multiplier",
+			"modifier_type": "production",
+			"roll_ranges": {
+				"1": [
+					1.05,
+					1.12
+				],
+				"2": [
+					1.15,
+					1.25
+				],
+				"3": [
+					1.3,
+					1.5
+				]
+			},
+			"secondary_weight": 20.0,
+			"stat_group": "output",
+			"target_id": "",
+			"target_options": [
+				{
+					"description_label": "All output production",
+					"target_id": ""
+				},
+				{
+					"target_id": "heat"
+				},
+				{
+					"target_id": "matter"
+				},
+				{
+					"target_id": "ash"
+				}
+			],
+			"weight": 60.0
+		},
+		"thermic_mass_sensitivity_increase": {
+			"affix_position": "prefix",
+			"affix_text": "Volatile",
+			"description_label": "Thermic Mass",
+			"description_mode": "multiplier",
+			"roll_ranges": {
+				"1": [
+					1.02,
+					1.04
+				],
+				"2": [
+					1.04,
+					1.07
+				],
+				"3": [
+					1.08,
+					1.13
+				]
+			},
+			"secondary_weight": 8.0,
+			"sensitivity_targets": [
+				"thermic_mass"
+			],
+			"stat_group": "sensitivity",
+			"stat_type": "sensitivity",
+			"weight": 25.0
+		},
+		"thermic_mass_sensitivity_reduction": {
+			"affix_position": "prefix",
+			"affix_text": "Grounded",
+			"description_label": "Thermic Mass",
+			"description_mode": "multiplier",
+			"roll_ranges": {
+				"1": [
+					0.96,
+					0.98
+				],
+				"2": [
+					0.93,
+					0.96
+				],
+				"3": [
+					0.88,
+					0.93
+				]
+			},
+			"secondary_weight": 6.0,
+			"sensitivity_targets": [
+				"thermic_mass"
+			],
+			"stat_group": "sensitivity",
+			"stat_type": "sensitivity",
+			"weight": 18.0
+		}
+	},
+	"equipment_contract": {
+		"fallback": [
+			"external callbacks",
+			"active inventory crafting",
+			"recipe-bearing autobuyer",
+			"unknown relic semantics"
+		],
+		"interior_mutations": "no reviewed core path equips, moves, generates or consumes inventory",
+		"public_boundary": "release every packet; caller performs native equipment/rebuild APIs before reentry",
+		"reads": [
+			"existing native generator modifier/sensitivity arrays",
+			"live resources",
+			"native cycle events"
+		],
+		"writes": []
+	},
+	"failures": [],
+	"rows": [
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 821,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 22,
+				"kernel_ticks": 9,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [
+					"thermal_compressor"
+				],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [
+					"thermal_compressor"
+				],
+				"transfers_supported": true
+			},
+			"label": "transfer",
+			"ticks": 10
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 837,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 11,
+				"kernel_ticks": 9,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"label": "late_both",
+			"ticks": 10
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 2363,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 283,
+				"kernel_ticks": 9,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [
+					{
+						"id": "infernal_forge",
+						"rejection": ""
+					}
+				],
+				"essence_modifiers": [
+					"atomic_friction/essence_accumulation_penalty",
+					"molecular_agitation/essence_accumulation_penalty",
+					"lava_mite_colony/essence_lava_mite_ash",
+					"lava_mite_colony/essence_accumulation_penalty",
+					"thermal_furnace/essence_accumulation_penalty",
+					"matter_furnace/essence_accumulation_penalty",
+					"thermal_compressor/essence_accumulation_penalty",
+					"infernal_forge/essence_accumulation_penalty",
+					"relic_shard_extractor/essence_accumulation_penalty"
+				],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [
+					{
+						"id": "infernal_forge",
+						"rejection": ""
+					}
+				],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"label": "mixed",
+			"ticks": 10
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 1647,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 14,
+				"kernel_ticks": 9,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [],
+				"essence_modifiers": [
+					"atomic_friction/essence_accumulation_penalty",
+					"molecular_agitation/essence_accumulation_penalty",
+					"lava_mite_colony/essence_lava_mite_ash",
+					"lava_mite_colony/essence_accumulation_penalty",
+					"thermal_furnace/essence_accumulation_penalty",
+					"matter_furnace/essence_accumulation_penalty",
+					"thermal_compressor/essence_accumulation_penalty",
+					"infernal_forge/essence_accumulation_penalty",
+					"relic_shard_extractor/essence_accumulation_penalty"
+				],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"label": "essence",
+			"ticks": 10
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 611,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 10,
+				"fallback_usec": 0,
+				"invalidate_usec": 2,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"unsupported_cycle_contract": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [
+					{
+						"id": "infernal_forge",
+						"rejection": ""
+					},
+					{
+						"id": "relic_shard_extractor",
+						"rejection": "unsupported_cycle_contract"
+					}
+				],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 1,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [
+					{
+						"id": "infernal_forge",
+						"rejection": ""
+					},
+					{
+						"id": "relic_shard_extractor",
+						"rejection": "unsupported_cycle_contract"
+					}
+				],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 1,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"label": "cycles",
+			"ticks": 10
+		}
+	],
+	"tiers": {
+		"1": {
+			"display_color": "#61d97a",
+			"display_name": "Common",
+			"secondary_effect_count": 0,
+			"weight": 100.0
+		},
+		"2": {
+			"display_color": "#61b3ff",
+			"display_name": "Uncommon",
+			"secondary_effect_count": 1,
+			"weight": 35.0
+		},
+		"3": {
+			"display_color": "#c58aff",
+			"display_name": "Rare",
+			"secondary_effect_count": 2,
+			"weight": 12.0
+		}
+	}
+}

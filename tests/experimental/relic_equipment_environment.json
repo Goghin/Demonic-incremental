@@ -1,0 +1,43 @@
+{
+  "base_commit": "eeb85dce1c9d79ad0e65cbb8c5d1d7e351097478",
+  "branch": "feature/cycle-auto-run",
+  "host": {
+    "system": "Linux",
+    "release": "6.18.55",
+    "version": "#1 SMP Wed Oct 14 19:45:18 UTC 2026",
+    "machine": "x86_64",
+    "processor": "x86_64"
+  },
+  "engine": "4.6.1.stable.official.14d19694e",
+  "godot_binary_sha256": "1d732a7b56ff8d2951f2bf43698a91c46ff80014b065672c6af2f7ffd0e6545e",
+  "fixture_sha256": {
+    "core_progression.json": "eafc29d19c8133a582ce06bfd515446ef11b6b49e4c90b499451120eab63231c",
+    "core_event_fixture.json": "c6aa45cde11f68ca6f1a89a6824442ca63474939bce080e965d07ecc02bb724d",
+    "consumer_progression.json": "ef72516f33842ad74b9471eb88dcfbd960eea783942e8e8baae01755c291753f",
+    "automation_progression.json": "974be3520806ddd7c2aa83abc3a25c8ae6794713d708c1e69df163db57992567",
+    "cycle_progression.json": "814d14607266d6e88fbb829e14359cb52810bc8c23e4f5848387e41abb8e8354",
+    "essence_nexum_progression.json": "69dd64ffe0eaaf13e90292eb2af6b1d1e0cfdfb89614b72a534e29c2a3e4ea48",
+    "relic_equipment_progression.json": "6f2481d911283cfd799db3f30064f4333e74dc0f86c6fd9b93fa6f4bbea52122"
+  },
+  "unrelated_untracked_count": 19,
+  "validation_scope": "Linux script-mode; no Windows validation of these changes; no editor scan",
+  "benchmark_baseline": "Archived eeb85dc scripts, same host and deterministic fixtures; only archive preload paths remapped",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "earned_fixture_reproduced_byte_exact": true,
+  "unchanged_hot_path_source": {
+    "step": true,
+    "_can_start": true,
+    "_available_duration": true,
+    "rate_measurements": true,
+    "rate_classes": true
+  },
+  "regression_groups": 97,
+  "previous_groups_retained": 96,
+  "new_tick_endpoints_per_suite": 10900,
+  "new_exact_method_tick_comparisons_per_suite": 21800,
+  "main_exact_benchmark_comparisons": 216,
+  "confirmation_exact_benchmark_comparisons": 28,
+  "benchmark_exact_comparisons": 244,
+  "final_logs_clean": true,
+  "initial_benchmark_failure": "32 adaptive-reference-only full-graph assertions; raw failed run retained, corrected reference classification; no exact-kernel mismatches"
+}

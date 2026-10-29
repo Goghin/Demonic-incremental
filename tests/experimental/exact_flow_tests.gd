@@ -115,9 +115,7 @@ func _invalidation() -> void:
 		for tick: int in range(10):
 			control["simulation"].update(STEP, true)
 		check(oracle.fingerprint(candidate["simulation"], candidate["journal"]) == oracle.fingerprint(control["simulation"], control["journal"]), "Stale packet after " + change)
-		if change == "relic":
-			check(kernel.counters["fallback_ticks"] == 10, "Unsupported reentry did not fall back: " + change)
-		if change in ["mode", "mite", "automation"]:
+		if change in ["mode", "mite", "automation", "relic"]:
 			check(kernel.counters["kernel_ticks"] > 1 and kernel.counters["reasons"].is_empty(), "Supported reentry did not use the expanded kernel contract: " + change)
 		results.append({"invalidation": change, "counters": kernel.counters.duplicate(true)})
 
