@@ -1,5 +1,7 @@
 # Exact kernel: native Relic Crucible crafting
 
+For native coordinator/offline feasibility, see `EXACT_FLOW_TIMEMANAGER_INTEGRATION.md`; those headless pipeline results are separate from this historical core benchmark.
+
 Starting/inspected HEAD `182e562d4fddea47f405042e081893b82861e97f`, existing branch `feature/cycle-auto-run`. Initial tracked tree clean; unrelated untracked files are preserved. Changes stay under `tests/`.
 
 ## Authoritative architecture and lifecycle audit

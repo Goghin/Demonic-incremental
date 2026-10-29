@@ -1,0 +1,371 @@
+{
+	"cpu": "AMD EPYC 9V74 80-Core Processor",
+	"engine": {
+		"build": "official",
+		"hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+		"hex": 263681,
+		"major": 4,
+		"minor": 6,
+		"patch": 1,
+		"status": "stable",
+		"string": "4.6.1-stable (official)",
+		"timestamp": 0
+	},
+	"failures": [],
+	"first_progress_sample_is_warmup": true,
+	"intrusive_native_rows": [
+		{
+			"cycle_callbacks": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_usec": 0,
+				"completions": 0,
+				"crafting_active_ticks": 0,
+				"crafting_completions": 0,
+				"crafting_no_progress_ticks": 0,
+				"crafting_progress_ticks": 0,
+				"cycle_calls": 600,
+				"cycle_usec": 1371,
+				"forge_completions": 0
+			},
+			"fixture": "early",
+			"frame_wait_usec": 8742,
+			"generation": {
+				"generation_calls": 0,
+				"generation_usec": 0
+			},
+			"intrusive": true,
+			"inventory": {
+				"item_calls": 0,
+				"item_usec": 0,
+				"random_reward_calls": 0,
+				"random_reward_usec": 0,
+				"recipe_calls": 0,
+				"recipe_usec": 0
+			},
+			"native_phases": {
+				"call_counts": {
+					"automatic_upgrades": 600,
+					"available_operating_duration": 1800,
+					"cycle_generator_processing": 600,
+					"environmental_effects": 600,
+					"generator_automation": 600,
+					"generator_processing": 600,
+					"generator_start_checks": 1202,
+					"heat_leak": 600,
+					"input_consumption": 1800,
+					"input_rate_calculation": 600,
+					"matter_decay": 600,
+					"output_production": 1800,
+					"production_rate_calculation": 3000,
+					"upgrade_automation": 600
+				},
+				"totals_usec": {
+					"automatic_upgrades": 16804,
+					"available_operating_duration": 4886,
+					"cycle_generator_processing": 2614,
+					"environmental_effects": 5150,
+					"generator_automation": 1296,
+					"generator_processing": 86728,
+					"generator_start_checks": 1965,
+					"heat_leak": 2992,
+					"input_consumption": 7617,
+					"input_rate_calculation": 1485,
+					"matter_decay": 818,
+					"output_production": 50489,
+					"production_rate_calculation": 27327,
+					"upgrade_automation": 1049
+				}
+			},
+			"seconds": 60.0,
+			"wall_usec": 128243
+		},
+		{
+			"cycle_callbacks": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_usec": 0,
+				"completions": 0,
+				"crafting_active_ticks": 0,
+				"crafting_completions": 0,
+				"crafting_no_progress_ticks": 0,
+				"crafting_progress_ticks": 0,
+				"cycle_calls": 600,
+				"cycle_usec": 1286,
+				"forge_completions": 0
+			},
+			"fixture": "consumer_50000",
+			"frame_wait_usec": 15243,
+			"generation": {
+				"generation_calls": 0,
+				"generation_usec": 0
+			},
+			"intrusive": true,
+			"inventory": {
+				"item_calls": 0,
+				"item_usec": 0,
+				"random_reward_calls": 0,
+				"random_reward_usec": 0,
+				"recipe_calls": 0,
+				"recipe_usec": 0
+			},
+			"native_phases": {
+				"call_counts": {
+					"automatic_upgrades": 600,
+					"available_operating_duration": 1800,
+					"cycle_generator_processing": 600,
+					"environmental_effects": 600,
+					"generator_automation": 600,
+					"generator_processing": 600,
+					"generator_start_checks": 1203,
+					"heat_leak": 600,
+					"input_consumption": 1800,
+					"input_rate_calculation": 1200,
+					"matter_decay": 600,
+					"output_production": 1800,
+					"production_rate_calculation": 1800,
+					"upgrade_automation": 600
+				},
+				"totals_usec": {
+					"automatic_upgrades": 11887,
+					"available_operating_duration": 12202,
+					"cycle_generator_processing": 2710,
+					"environmental_effects": 12850,
+					"generator_automation": 2094,
+					"generator_processing": 144460,
+					"generator_start_checks": 1165,
+					"heat_leak": 9378,
+					"input_consumption": 21499,
+					"input_rate_calculation": 8998,
+					"matter_decay": 970,
+					"output_production": 73835,
+					"production_rate_calculation": 54978,
+					"upgrade_automation": 1987
+				}
+			},
+			"seconds": 60.0,
+			"wall_usec": 197623
+		},
+		{
+			"cycle_callbacks": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_usec": 614,
+				"completions": 1,
+				"crafting_active_ticks": 1,
+				"crafting_completions": 1,
+				"crafting_no_progress_ticks": 0,
+				"crafting_progress_ticks": 1,
+				"cycle_calls": 600,
+				"cycle_usec": 2279,
+				"forge_completions": 0
+			},
+			"fixture": "earned_craft_near_completion",
+			"frame_wait_usec": 18505,
+			"generation": {
+				"generation_calls": 1,
+				"generation_usec": 304
+			},
+			"intrusive": true,
+			"inventory": {
+				"item_calls": 0,
+				"item_usec": 0,
+				"random_reward_calls": 1,
+				"random_reward_usec": 562,
+				"recipe_calls": 0,
+				"recipe_usec": 0
+			},
+			"native_phases": {
+				"call_counts": {
+					"automatic_upgrades": 600,
+					"available_operating_duration": 2400,
+					"cycle_generator_processing": 600,
+					"environmental_effects": 600,
+					"generator_automation": 600,
+					"generator_automation_loop_checks": 600,
+					"generator_automation_purchase_attempts": 1,
+					"generator_automation_waiting_checks": 549,
+					"generator_processing": 600,
+					"generator_start_checks": 1802,
+					"heat_leak": 600,
+					"input_consumption": 2400,
+					"input_rate_calculation": 1800,
+					"matter_decay": 600,
+					"output_production": 2400,
+					"production_rate_calculation": 3000,
+					"upgrade_automation": 600
+				},
+				"totals_usec": {
+					"automatic_upgrades": 10713,
+					"available_operating_duration": 16897,
+					"cycle_generator_processing": 3565,
+					"environmental_effects": 5067,
+					"generator_automation": 9933,
+					"generator_automation_loop_checks": 3644,
+					"generator_automation_purchase_attempts": 96,
+					"generator_automation_waiting_checks": 3052,
+					"generator_processing": 153236,
+					"generator_start_checks": 6328,
+					"heat_leak": 2538,
+					"input_consumption": 32205,
+					"input_rate_calculation": 11541,
+					"matter_decay": 1233,
+					"output_production": 56106,
+					"production_rate_calculation": 28770,
+					"upgrade_automation": 43825
+				}
+			},
+			"seconds": 60.0,
+			"wall_usec": 251021
+		},
+		{
+			"cycle_callbacks": {
+				"auto_attempts": 302,
+				"auto_successes": 2,
+				"completion_usec": 2965,
+				"completions": 3,
+				"crafting_active_ticks": 2700,
+				"crafting_completions": 3,
+				"crafting_no_progress_ticks": 0,
+				"crafting_progress_ticks": 2700,
+				"cycle_calls": 3001,
+				"cycle_usec": 54780,
+				"forge_completions": 0
+			},
+			"fixture": "auto_standard",
+			"frame_wait_usec": 82293,
+			"generation": {
+				"generation_calls": 3,
+				"generation_usec": 2537
+			},
+			"intrusive": true,
+			"inventory": {
+				"item_calls": 0,
+				"item_usec": 0,
+				"random_reward_calls": 3,
+				"random_reward_usec": 2696,
+				"recipe_calls": 2,
+				"recipe_usec": 107
+			},
+			"native_phases": {
+				"call_counts": {
+					"automatic_upgrades": 3001,
+					"available_operating_duration": 12004,
+					"cycle_generator_processing": 3001,
+					"environmental_effects": 3001,
+					"generator_automation": 3001,
+					"generator_processing": 3001,
+					"generator_start_checks": 6006,
+					"heat_leak": 3001,
+					"input_consumption": 12004,
+					"input_rate_calculation": 9003,
+					"matter_decay": 3001,
+					"output_production": 12004,
+					"production_rate_calculation": 18006,
+					"upgrade_automation": 3001
+				},
+				"totals_usec": {
+					"automatic_upgrades": 38497,
+					"available_operating_duration": 118723,
+					"cycle_generator_processing": 63242,
+					"environmental_effects": 104616,
+					"generator_automation": 7301,
+					"generator_processing": 1061484,
+					"generator_start_checks": 4369,
+					"heat_leak": 40419,
+					"input_consumption": 166286,
+					"input_rate_calculation": 84722,
+					"matter_decay": 58167,
+					"output_production": 486120,
+					"production_rate_calculation": 340982,
+					"upgrade_automation": 5824
+				}
+			},
+			"seconds": 300.0,
+			"wall_usec": 1340461
+		},
+		{
+			"cycle_callbacks": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_usec": 0,
+				"completions": 0,
+				"crafting_active_ticks": 600,
+				"crafting_completions": 0,
+				"crafting_no_progress_ticks": 0,
+				"crafting_progress_ticks": 600,
+				"cycle_calls": 1200,
+				"cycle_usec": 8947,
+				"forge_completions": 0
+			},
+			"fixture": "late_mixed",
+			"frame_wait_usec": 19460,
+			"generation": {
+				"generation_calls": 0,
+				"generation_usec": 0
+			},
+			"intrusive": true,
+			"inventory": {
+				"item_calls": 0,
+				"item_usec": 0,
+				"random_reward_calls": 0,
+				"random_reward_usec": 0,
+				"recipe_calls": 0,
+				"recipe_usec": 0
+			},
+			"native_phases": {
+				"call_counts": {
+					"automatic_upgrades": 600,
+					"available_operating_duration": 2835,
+					"cycle_generator_processing": 1200,
+					"environmental_effects": 600,
+					"generator_automation": 600,
+					"generator_automation_loop_checks": 611,
+					"generator_automation_purchase_attempts": 11,
+					"generator_processing": 600,
+					"generator_start_checks": 1204,
+					"heat_leak": 600,
+					"input_consumption": 2835,
+					"input_rate_calculation": 2670,
+					"matter_decay": 600,
+					"output_production": 2835,
+					"production_rate_calculation": 4035,
+					"upgrade_automation": 600
+				},
+				"totals_usec": {
+					"automatic_upgrades": 5106,
+					"available_operating_duration": 31048,
+					"cycle_generator_processing": 11080,
+					"environmental_effects": 12892,
+					"generator_automation": 7796,
+					"generator_automation_loop_checks": 352,
+					"generator_automation_purchase_attempts": 2710,
+					"generator_processing": 236742,
+					"generator_start_checks": 3528,
+					"heat_leak": 10265,
+					"input_consumption": 44952,
+					"input_rate_calculation": 22471,
+					"matter_decay": 1325,
+					"output_production": 95511,
+					"production_rate_calculation": 65476,
+					"upgrade_automation": 1362
+				}
+			},
+			"seconds": 60.0,
+			"wall_usec": 291680
+		}
+	],
+	"progress_1000_calls_usec": [
+		5859,
+		3443,
+		4880,
+		3508,
+		3997,
+		5385,
+		3960,
+		3219,
+		3158,
+		3599,
+		4111
+	]
+}

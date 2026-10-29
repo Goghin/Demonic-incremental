@@ -1,0 +1,32 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+OFFLINE_PAIR early 60.0 isolated repeat=-1 failures=0
+OFFLINE_PAIR early 60.0 previous_packet repeat=-1 failures=0
+OFFLINE_PAIR early 60.0 per_tick_build repeat=-1 failures=0
+OFFLINE_PAIR early 60.0 diagnostic_idle_gate repeat=-1 failures=0
+OFFLINE_PAIR early 60.0 isolated repeat=0 failures=0
+OFFLINE_PAIR early 60.0 previous_packet repeat=0 failures=0
+OFFLINE_PAIR early 60.0 per_tick_build repeat=0 failures=0
+OFFLINE_PAIR early 60.0 diagnostic_idle_gate repeat=0 failures=0
+OFFLINE_PAIR early 60.0 isolated repeat=1 failures=0
+OFFLINE_PAIR early 60.0 previous_packet repeat=1 failures=0
+OFFLINE_PAIR early 60.0 per_tick_build repeat=1 failures=0
+OFFLINE_PAIR early 60.0 diagnostic_idle_gate repeat=1 failures=0
+OFFLINE_PAIR early 60.0 isolated repeat=2 failures=0
+OFFLINE_PAIR early 60.0 previous_packet repeat=2 failures=0
+OFFLINE_PAIR early 60.0 per_tick_build repeat=2 failures=0
+OFFLINE_PAIR early 60.0 diagnostic_idle_gate repeat=2 failures=0
+OFFLINE_PAIR early 60.0 isolated repeat=3 failures=0
+OFFLINE_PAIR early 60.0 previous_packet repeat=3 failures=0
+OFFLINE_PAIR early 60.0 per_tick_build repeat=3 failures=0
+OFFLINE_PAIR early 60.0 diagnostic_idle_gate repeat=3 failures=0
+OFFLINE_PAIR early 60.0 isolated repeat=4 failures=0
+OFFLINE_PAIR early 60.0 previous_packet repeat=4 failures=0
+OFFLINE_PAIR early 60.0 per_tick_build repeat=4 failures=0
+OFFLINE_PAIR early 60.0 diagnostic_idle_gate repeat=4 failures=0
+OFFLINE_PAIR early 60.0 isolated repeat=5 failures=0
+OFFLINE_PAIR early 60.0 previous_packet repeat=5 failures=0
+OFFLINE_PAIR early 60.0 per_tick_build repeat=5 failures=0
+OFFLINE_PAIR early 60.0 diagnostic_idle_gate repeat=5 failures=0
+OFFLINE_PAIR early 60.0 isolated repeat=0 failures=0
+OFFLINE_STUDY failures=0

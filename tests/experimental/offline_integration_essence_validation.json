@@ -1,0 +1,1234 @@
+{
+	"cases": [
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 1818,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 110,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 104,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 99
+			},
+			"initial_discovery": {
+				"ash": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "essence_only",
+			"produced": {
+				"essence": 1.06832576883352,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 2000,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 2082,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 287,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 19989,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 13993
+			},
+			"initial_discovery": {
+				"ash": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "essence_feedback",
+			"produced": {
+				"essence": 1.0,
+				"nexum": 0.0
+			},
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 1123,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 69,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 197,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 99
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "essence_threshold",
+			"produced": {
+				"essence": 0.969083605761307,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 3012,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 107,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 104,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 99
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "essence_tiny",
+			"produced": {
+				"essence": 1.06832576883352,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 1254,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 201,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 198,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 99
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "essence_large",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 135.633499002114,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 1480,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 391,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 6,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 1,
+				"tape_evaluations": 123
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"label": "compression",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 135.633499002114,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 3138,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 103,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 6,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 1,
+				"tape_evaluations": 123
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"label": "compression_low_ash",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 1.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.03,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 11343,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 60,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 1,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 1,
+				"tape_evaluations": 104
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"label": "compression_partial",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 783,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 60,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 100
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"label": "compression_empty",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 20.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 3647,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 85,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 0,
+				"empty_duration_checks": 1,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 100
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"label": "compression_exact",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 135.633499002114,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 2887,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 85,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 6,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 1,
+				"tape_evaluations": 123
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"label": "compression_phase",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 1.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 20.0
+			},
+			"counters": {
+				"build_usec": 3631,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 67,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 0,
+				"tape_evaluations": 0
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "expansion",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.03
+			},
+			"counters": {
+				"build_usec": 1451,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 75,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 0
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "expansion_partial",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 100.0
+			},
+			"counters": {
+				"build_usec": 1928,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 63,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 0
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "nexum_large",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 20.0
+			},
+			"counters": {
+				"build_usec": 1401,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 296,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 0,
+				"tape_evaluations": 0
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "transfer_modifiers",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 1331,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 264,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 0,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 0
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "transfer_no_input",
+			"produced": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 2000,
+			"consumed": {
+				"essence": 154.078394733589,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 33442,
+				"builds": 16,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 2784,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 14,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"dynamic_modifier_evaluations": 20914,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 2177,
+				"partial_operations": 2178,
+				"tape_evaluations": 19688
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "mixed_resources",
+			"produced": {
+				"essence": 5.1717534947971,
+				"nexum": 0.0
+			},
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 4.98312042209995,
+				"nexum": 20.0
+			},
+			"counters": {
+				"build_usec": 5493,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 438,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 405,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 1,
+				"partial_operations": 4,
+				"tape_evaluations": 333
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "sequential_feedback",
+			"produced": {
+				"essence": 0.585116490911496,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 25.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 8757,
+				"builds": 3,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 469,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 990,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 693
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "automation_resources",
+			"produced": {
+				"essence": 1.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 100,
+			"consumed": {
+				"essence": 136.697702252547,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 6721,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 112,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"Crystallized Flame": true,
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"dynamic_modifier_evaluations": 1243,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 122,
+				"partial_operations": 136,
+				"tape_evaluations": 1012
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "forge_resources",
+			"produced": {
+				"essence": 1.0,
+				"nexum": 0.0
+			},
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 2000,
+			"consumed": {
+				"essence": 154.71839473359,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 2651,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 531,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"flows": {
+				"controller_transitions": 1,
+				"dynamic_modifier_evaluations": 20946,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 2102,
+				"partial_operations": 2103,
+				"tape_evaluations": 19816
+			},
+			"initial_discovery": {
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true,
+				"nexum": true
+			},
+			"label": "feedback_stress",
+			"produced": {
+				"essence": 639.002344663749,
+				"nexum": 0.0
+			},
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 1523,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 114,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"Crystallized Flame": true,
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 18000,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 3638,
+				"partial_operations": 4000,
+				"tape_evaluations": 14000
+			},
+			"initial_discovery": {
+				"Crystallized Flame": true,
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"label": "earned_essence",
+			"produced": {
+				"essence": 1.0,
+				"nexum": 0.0
+			},
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 2000,
+			"consumed": {
+				"essence": 0.0,
+				"nexum": 0.0
+			},
+			"counters": {
+				"build_usec": 2017,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 168,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"final_discovery": {
+				"Crystallized Flame": true,
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 18000,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 4000,
+				"partial_operations": 4000,
+				"tape_evaluations": 14000
+			},
+			"initial_discovery": {
+				"Crystallized Flame": true,
+				"ash": true,
+				"essence": true,
+				"heat": true,
+				"matter": true
+			},
+			"label": "earned_feedback",
+			"produced": {
+				"essence": 1.0,
+				"nexum": 0.0
+			},
+			"ticks": 2000
+		},
+		{
+			"counters": {
+				"build_usec": 173104,
+				"builds": 65,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 6,
+				"fallback_usec": 0,
+				"invalidate_usec": 3053,
+				"kernel_ticks": 59,
+				"kernel_usec": 0,
+				"reasons": {
+					"instrumentation_or_prestige": 5
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"reentry_ticks": 65
+		}
+	],
+	"failures": []
+}

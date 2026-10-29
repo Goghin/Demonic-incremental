@@ -1,0 +1,7389 @@
+{
+  "bench": {
+    "engine": {
+      "build": "official",
+      "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+      "hex": 263681,
+      "major": 4,
+      "minor": 6,
+      "patch": 1,
+      "status": "stable",
+      "string": "4.6.1-stable (official)",
+      "timestamp": 0
+    },
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "failures": [],
+    "groups": [
+      {
+        "fixture": "early",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 113745,
+              "min": 113312,
+              "max": 136204
+            },
+            "runtime_usec": {
+              "median": 107108,
+              "min": 105053,
+              "max": 124520
+            },
+            "restore_usec": {
+              "median": 4322,
+              "min": 3552,
+              "max": 8032
+            },
+            "prepare_usec": {
+              "median": 404,
+              "min": 320,
+              "max": 530
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 14376,
+              "min": 13137,
+              "max": 16781
+            },
+            "achievement_usec": {
+              "median": 244,
+              "min": 237,
+              "max": 402
+            },
+            "result_data_usec": {
+              "median": 1367,
+              "min": 996,
+              "max": 1805
+            },
+            "finalization_usec": {
+              "median": 1507,
+              "min": 1082,
+              "max": 1749
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2952760,
+              "min": -2952760,
+              "max": -2952616
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              8,
+              9,
+              8
+            ],
+            "progress_events": [
+              9,
+              10,
+              9
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 71619,
+              "min": 43738,
+              "max": 76451
+            },
+            "runtime_usec": {
+              "median": 64233,
+              "min": 39175,
+              "max": 68082
+            },
+            "restore_usec": {
+              "median": 4692,
+              "min": 2962,
+              "max": 5090
+            },
+            "prepare_usec": {
+              "median": 370,
+              "min": 268,
+              "max": 1336
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 9578,
+              "min": 5013,
+              "max": 9894
+            },
+            "achievement_usec": {
+              "median": 241,
+              "min": 192,
+              "max": 331
+            },
+            "result_data_usec": {
+              "median": 254,
+              "min": 154,
+              "max": 254
+            },
+            "finalization_usec": {
+              "median": 1436,
+              "min": 979,
+              "max": 1724
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -1954920,
+              "min": -1955280,
+              "max": -1954920
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              3,
+              5,
+              5
+            ],
+            "progress_events": [
+              4,
+              6,
+              6
+            ],
+            "counters": [
+              {
+                "build_usec": 1486,
+                "builds": 3,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 4,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 5211,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 5886,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.5881958698110836,
+        "coordinator_speedup": 1.667491787710367
+      },
+      {
+        "fixture": "consumer_50000",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 159254,
+              "min": 97547,
+              "max": 171510
+            },
+            "runtime_usec": {
+              "median": 151587,
+              "min": 92056,
+              "max": 158487
+            },
+            "restore_usec": {
+              "median": 3100,
+              "min": 2689,
+              "max": 8850
+            },
+            "prepare_usec": {
+              "median": 449,
+              "min": 408,
+              "max": 1046
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 17652,
+              "min": 8125,
+              "max": 17707
+            },
+            "achievement_usec": {
+              "median": 319,
+              "min": 243,
+              "max": 388
+            },
+            "result_data_usec": {
+              "median": 1500,
+              "min": 946,
+              "max": 1686
+            },
+            "finalization_usec": {
+              "median": 1228,
+              "min": 1194,
+              "max": 2104
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3850988,
+              "min": -3851660,
+              "max": -3850700
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              7,
+              11,
+              12
+            ],
+            "progress_events": [
+              8,
+              12,
+              13
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 130972,
+              "min": 70192,
+              "max": 141971
+            },
+            "runtime_usec": {
+              "median": 122685,
+              "min": 65390,
+              "max": 134836
+            },
+            "restore_usec": {
+              "median": 3899,
+              "min": 2888,
+              "max": 5528
+            },
+            "prepare_usec": {
+              "median": 687,
+              "min": 419,
+              "max": 945
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 6
+            },
+            "frame_wait_usec": {
+              "median": 15868,
+              "min": 7001,
+              "max": 20164
+            },
+            "achievement_usec": {
+              "median": 317,
+              "min": 203,
+              "max": 380
+            },
+            "result_data_usec": {
+              "median": 161,
+              "min": 131,
+              "max": 391
+            },
+            "finalization_usec": {
+              "median": 1353,
+              "min": 1122,
+              "max": 1670
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2071916,
+              "min": -2072588,
+              "max": -2071772
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              5,
+              9,
+              10
+            ],
+            "progress_events": [
+              6,
+              10,
+              11
+            ],
+            "counters": [
+              {
+                "build_usec": 3144,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 10082,
+                "builds": 9,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 10,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 10307,
+                "builds": 10,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 11,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.2159392847326147,
+        "coordinator_speedup": 1.2355789216285609
+      },
+      {
+        "fixture": "mid",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 119636,
+              "min": 65275,
+              "max": 126779
+            },
+            "runtime_usec": {
+              "median": 108590,
+              "min": 59796,
+              "max": 116744
+            },
+            "restore_usec": {
+              "median": 5735,
+              "min": 3007,
+              "max": 6549
+            },
+            "prepare_usec": {
+              "median": 501,
+              "min": 197,
+              "max": 645
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 14045,
+              "min": 6182,
+              "max": 18335
+            },
+            "achievement_usec": {
+              "median": 317,
+              "min": 217,
+              "max": 363
+            },
+            "result_data_usec": {
+              "median": 1368,
+              "min": 935,
+              "max": 1556
+            },
+            "finalization_usec": {
+              "median": 1968,
+              "min": 1114,
+              "max": 2055
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4044248,
+              "min": -4044776,
+              "max": -4044104
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              5,
+              9,
+              8
+            ],
+            "progress_events": [
+              6,
+              10,
+              9
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 94004,
+              "min": 51789,
+              "max": 130914
+            },
+            "runtime_usec": {
+              "median": 84545,
+              "min": 46835,
+              "max": 120344
+            },
+            "restore_usec": {
+              "median": 6057,
+              "min": 3028,
+              "max": 6993
+            },
+            "prepare_usec": {
+              "median": 304,
+              "min": 247,
+              "max": 404
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 11382,
+              "min": 6400,
+              "max": 19133
+            },
+            "achievement_usec": {
+              "median": 350,
+              "min": 165,
+              "max": 413
+            },
+            "result_data_usec": {
+              "median": 216,
+              "min": 132,
+              "max": 269
+            },
+            "finalization_usec": {
+              "median": 1371,
+              "min": 1368,
+              "max": 3629
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -1915488,
+              "min": -1915848,
+              "max": -1914960
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              4,
+              9,
+              6
+            ],
+            "progress_events": [
+              5,
+              10,
+              7
+            ],
+            "counters": [
+              {
+                "build_usec": 3051,
+                "builds": 6,
+                "dispatch_usec": 0,
+                "event_invalidations": 2,
+                "fallback_ticks": 3,
+                "kernel_ticks": 597,
+                "partial_ticks": 1,
+                "progress_boundaries": 5,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 14514,
+                "builds": 11,
+                "dispatch_usec": 0,
+                "event_invalidations": 2,
+                "fallback_ticks": 3,
+                "kernel_ticks": 597,
+                "partial_ticks": 1,
+                "progress_boundaries": 10,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 7712,
+                "builds": 8,
+                "dispatch_usec": 0,
+                "event_invalidations": 2,
+                "fallback_ticks": 3,
+                "kernel_ticks": 597,
+                "partial_ticks": 1,
+                "progress_boundaries": 7,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.2726692481171014,
+        "coordinator_speedup": 1.2844047548642734
+      },
+      {
+        "fixture": "forge_competing",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 371980,
+              "min": 360568,
+              "max": 379057
+            },
+            "runtime_usec": {
+              "median": 364616,
+              "min": 350317,
+              "max": 367434
+            },
+            "restore_usec": {
+              "median": 5458,
+              "min": 2991,
+              "max": 5849
+            },
+            "prepare_usec": {
+              "median": 1070,
+              "min": 519,
+              "max": 1222
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 6
+            },
+            "frame_wait_usec": {
+              "median": 34802,
+              "min": 32629,
+              "max": 34861
+            },
+            "achievement_usec": {
+              "median": 425,
+              "min": 211,
+              "max": 583
+            },
+            "result_data_usec": {
+              "median": 1846,
+              "min": 1458,
+              "max": 1931
+            },
+            "finalization_usec": {
+              "median": 1961,
+              "min": 1181,
+              "max": 2499
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3813504,
+              "min": -3813984,
+              "max": -3813504
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              27,
+              26,
+              27
+            ],
+            "progress_events": [
+              28,
+              27,
+              28
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 364010,
+              "min": 336214,
+              "max": 402101
+            },
+            "runtime_usec": {
+              "median": 356212,
+              "min": 325872,
+              "max": 394757
+            },
+            "restore_usec": {
+              "median": 4772,
+              "min": 4175,
+              "max": 5688
+            },
+            "prepare_usec": {
+              "median": 934,
+              "min": 577,
+              "max": 973
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 38284,
+              "min": 31377,
+              "max": 50360
+            },
+            "achievement_usec": {
+              "median": 294,
+              "min": 204,
+              "max": 594
+            },
+            "result_data_usec": {
+              "median": 160,
+              "min": 153,
+              "max": 714
+            },
+            "finalization_usec": {
+              "median": 2185,
+              "min": 1627,
+              "max": 2400
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2155748,
+              "min": -2156036,
+              "max": -2155124
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              26,
+              28,
+              24
+            ],
+            "progress_events": [
+              27,
+              29,
+              25
+            ],
+            "counters": [
+              {
+                "build_usec": 36858,
+                "builds": 26,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 27,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 56400,
+                "builds": 28,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 29,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 36100,
+                "builds": 24,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 25,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.0218950028845362,
+        "coordinator_speedup": 1.023592691992409
+      },
+      {
+        "fixture": "reached_multiple",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 261038,
+              "min": 258431,
+              "max": 333258
+            },
+            "runtime_usec": {
+              "median": 248593,
+              "min": 248348,
+              "max": 315534
+            },
+            "restore_usec": {
+              "median": 6211,
+              "min": 5220,
+              "max": 9051
+            },
+            "prepare_usec": {
+              "median": 705,
+              "min": 534,
+              "max": 1828
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 30749,
+              "min": 25922,
+              "max": 65949
+            },
+            "achievement_usec": {
+              "median": 405,
+              "min": 282,
+              "max": 552
+            },
+            "result_data_usec": {
+              "median": 2221,
+              "min": 1692,
+              "max": 3372
+            },
+            "finalization_usec": {
+              "median": 2965,
+              "min": 2098,
+              "max": 3053
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4274696,
+              "min": -4274696,
+              "max": -4274408
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              18,
+              20,
+              18
+            ],
+            "progress_events": [
+              19,
+              21,
+              19
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 216020,
+              "min": 194639,
+              "max": 234461
+            },
+            "runtime_usec": {
+              "median": 208197,
+              "min": 185093,
+              "max": 224558
+            },
+            "restore_usec": {
+              "median": 5347,
+              "min": 5279,
+              "max": 6391
+            },
+            "prepare_usec": {
+              "median": 532,
+              "min": 369,
+              "max": 595
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 24257,
+              "min": 19739,
+              "max": 24291
+            },
+            "achievement_usec": {
+              "median": 250,
+              "min": 153,
+              "max": 458
+            },
+            "result_data_usec": {
+              "median": 261,
+              "min": 222,
+              "max": 430
+            },
+            "finalization_usec": {
+              "median": 2400,
+              "min": 1423,
+              "max": 3128
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2037228,
+              "min": -2037372,
+              "max": -2036940
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              14,
+              15,
+              17
+            ],
+            "progress_events": [
+              15,
+              16,
+              18
+            ],
+            "counters": [
+              {
+                "build_usec": 13315,
+                "builds": 14,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 15,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 14092,
+                "builds": 15,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 16,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 18967,
+                "builds": 16,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 18,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.208397370613832,
+        "coordinator_speedup": 1.1940277717738488
+      },
+      {
+        "fixture": "earned_craft_first_craft",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 260072,
+              "min": 206371,
+              "max": 267070
+            },
+            "runtime_usec": {
+              "median": 250736,
+              "min": 193020,
+              "max": 256894
+            },
+            "restore_usec": {
+              "median": 5515,
+              "min": 5339,
+              "max": 7437
+            },
+            "prepare_usec": {
+              "median": 918,
+              "min": 601,
+              "max": 1134
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 27297,
+              "min": 24520,
+              "max": 32481
+            },
+            "achievement_usec": {
+              "median": 215,
+              "min": 206,
+              "max": 377
+            },
+            "result_data_usec": {
+              "median": 1486,
+              "min": 1299,
+              "max": 2598
+            },
+            "finalization_usec": {
+              "median": 1871,
+              "min": 1821,
+              "max": 2010
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3979912,
+              "min": -3980848,
+              "max": -3979912
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              19,
+              14,
+              19
+            ],
+            "progress_events": [
+              20,
+              15,
+              20
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 235091,
+              "min": 216805,
+              "max": 240157
+            },
+            "runtime_usec": {
+              "median": 228449,
+              "min": 206091,
+              "max": 232899
+            },
+            "restore_usec": {
+              "median": 4801,
+              "min": 4047,
+              "max": 7618
+            },
+            "prepare_usec": {
+              "median": 475,
+              "min": 456,
+              "max": 551
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 23743,
+              "min": 20226,
+              "max": 26060
+            },
+            "achievement_usec": {
+              "median": 199,
+              "min": 189,
+              "max": 431
+            },
+            "result_data_usec": {
+              "median": 235,
+              "min": 221,
+              "max": 291
+            },
+            "finalization_usec": {
+              "median": 1619,
+              "min": 1579,
+              "max": 1868
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2009656,
+              "min": -2009800,
+              "max": -2009656
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              17,
+              17,
+              16
+            ],
+            "progress_events": [
+              18,
+              18,
+              17
+            ],
+            "counters": [
+              {
+                "build_usec": 18577,
+                "builds": 17,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 18,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 21493,
+                "builds": 17,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 18,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 16783,
+                "builds": 15,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 17,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.1062609797908045,
+        "coordinator_speedup": 1.0975578794391747
+      },
+      {
+        "fixture": "earned_craft_near_completion",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 239433,
+              "min": 237299,
+              "max": 367655
+            },
+            "runtime_usec": {
+              "median": 231094,
+              "min": 227576,
+              "max": 355478
+            },
+            "restore_usec": {
+              "median": 4886,
+              "min": 4412,
+              "max": 6048
+            },
+            "prepare_usec": {
+              "median": 502,
+              "min": 329,
+              "max": 564
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 27290,
+              "min": 24310,
+              "max": 68790
+            },
+            "achievement_usec": {
+              "median": 320,
+              "min": 310,
+              "max": 323
+            },
+            "result_data_usec": {
+              "median": 2184,
+              "min": 1416,
+              "max": 2469
+            },
+            "finalization_usec": {
+              "median": 1722,
+              "min": 1617,
+              "max": 3111
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3934072,
+              "min": -3934072,
+              "max": -3932848
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              17,
+              17,
+              24
+            ],
+            "progress_events": [
+              18,
+              18,
+              25
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 289456,
+              "min": 199805,
+              "max": 412930
+            },
+            "runtime_usec": {
+              "median": 278013,
+              "min": 191157,
+              "max": 397082
+            },
+            "restore_usec": {
+              "median": 8020,
+              "min": 4560,
+              "max": 11711
+            },
+            "prepare_usec": {
+              "median": 2009,
+              "min": 686,
+              "max": 2081
+            },
+            "elapsed_usec": {
+              "median": 4,
+              "min": 3,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 46064,
+              "min": 21594,
+              "max": 66789
+            },
+            "achievement_usec": {
+              "median": 298,
+              "min": 217,
+              "max": 443
+            },
+            "result_data_usec": {
+              "median": 214,
+              "min": 160,
+              "max": 225
+            },
+            "finalization_usec": {
+              "median": 1600,
+              "min": 1475,
+              "max": 2055
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2018912,
+              "min": -2019848,
+              "max": -2018048
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              14,
+              25,
+              19
+            ],
+            "progress_events": [
+              15,
+              26,
+              20
+            ],
+            "counters": [
+              {
+                "build_usec": 16134,
+                "builds": 14,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 15,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 42867,
+                "builds": 25,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 26,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 26227,
+                "builds": 19,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 20,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 0.8271827151622354,
+        "coordinator_speedup": 0.8312345106164101
+      },
+      {
+        "fixture": "auto_standard",
+        "requested_seconds": 300.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 1396324,
+              "min": 1371037,
+              "max": 1398185
+            },
+            "runtime_usec": {
+              "median": 1381696,
+              "min": 1362599,
+              "max": 1390656
+            },
+            "restore_usec": {
+              "median": 3075,
+              "min": 2887,
+              "max": 4038
+            },
+            "prepare_usec": {
+              "median": 553,
+              "min": 488,
+              "max": 798
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 126283,
+              "min": 121119,
+              "max": 127970
+            },
+            "achievement_usec": {
+              "median": 298,
+              "min": 211,
+              "max": 330
+            },
+            "result_data_usec": {
+              "median": 2063,
+              "min": 1666,
+              "max": 3317
+            },
+            "finalization_usec": {
+              "median": 2269,
+              "min": 2193,
+              "max": 6380
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3906716,
+              "min": -3906860,
+              "max": -3906428
+            },
+            "steps": [
+              3001,
+              3001,
+              3001
+            ],
+            "effective_requested_seconds": [
+              300.0,
+              300.0,
+              300.0
+            ],
+            "offline_seconds": [
+              300.0,
+              300.0,
+              300.0
+            ],
+            "game_seconds": [
+              300.0,
+              300.0,
+              300.0
+            ],
+            "yields": [
+              101,
+              103,
+              100
+            ],
+            "progress_events": [
+              102,
+              104,
+              101
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 1076915,
+              "min": 1039594,
+              "max": 1204394
+            },
+            "runtime_usec": {
+              "median": 1067768,
+              "min": 1031059,
+              "max": 1196579
+            },
+            "restore_usec": {
+              "median": 4806,
+              "min": 4422,
+              "max": 5021
+            },
+            "prepare_usec": {
+              "median": 774,
+              "min": 500,
+              "max": 1165
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 92023,
+              "min": 88540,
+              "max": 117814
+            },
+            "achievement_usec": {
+              "median": 244,
+              "min": 198,
+              "max": 326
+            },
+            "result_data_usec": {
+              "median": 252,
+              "min": 224,
+              "max": 463
+            },
+            "finalization_usec": {
+              "median": 1868,
+              "min": 1775,
+              "max": 3425
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2118384,
+              "min": -2118672,
+              "max": -2117376
+            },
+            "steps": [
+              3001,
+              3001,
+              3001
+            ],
+            "effective_requested_seconds": [
+              300.0,
+              300.0,
+              300.0
+            ],
+            "offline_seconds": [
+              300.0,
+              300.0,
+              300.0
+            ],
+            "game_seconds": [
+              300.0,
+              300.0,
+              300.0
+            ],
+            "yields": [
+              79,
+              86,
+              77
+            ],
+            "progress_events": [
+              80,
+              87,
+              78
+            ],
+            "counters": [
+              {
+                "build_usec": 103689,
+                "builds": 80,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 80,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 130824,
+                "builds": 87,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 87,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 116096,
+                "builds": 78,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 78,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.2965962959007906,
+        "coordinator_speedup": 1.2940039409309887
+      },
+      {
+        "fixture": "earned_feedback",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 325931,
+              "min": 310613,
+              "max": 332695
+            },
+            "runtime_usec": {
+              "median": 315625,
+              "min": 303660,
+              "max": 322252
+            },
+            "restore_usec": {
+              "median": 4116,
+              "min": 2765,
+              "max": 7034
+            },
+            "prepare_usec": {
+              "median": 717,
+              "min": 648,
+              "max": 1812
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 31694,
+              "min": 27591,
+              "max": 36081
+            },
+            "achievement_usec": {
+              "median": 437,
+              "min": 212,
+              "max": 443
+            },
+            "result_data_usec": {
+              "median": 1505,
+              "min": 1058,
+              "max": 2523
+            },
+            "finalization_usec": {
+              "median": 1582,
+              "min": 1187,
+              "max": 1631
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4315340,
+              "min": -4315484,
+              "max": -4315196
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              23,
+              24,
+              22
+            ],
+            "progress_events": [
+              24,
+              25,
+              23
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 246901,
+              "min": 214257,
+              "max": 327033
+            },
+            "runtime_usec": {
+              "median": 239399,
+              "min": 206705,
+              "max": 319770
+            },
+            "restore_usec": {
+              "median": 4450,
+              "min": 3824,
+              "max": 4532
+            },
+            "prepare_usec": {
+              "median": 715,
+              "min": 610,
+              "max": 813
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 26326,
+              "min": 19309,
+              "max": 37955
+            },
+            "achievement_usec": {
+              "median": 215,
+              "min": 205,
+              "max": 598
+            },
+            "result_data_usec": {
+              "median": 222,
+              "min": 154,
+              "max": 244
+            },
+            "finalization_usec": {
+              "median": 1940,
+              "min": 1630,
+              "max": 2131
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2106800,
+              "min": -2107304,
+              "max": -2106080
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              18,
+              23,
+              16
+            ],
+            "progress_events": [
+              19,
+              24,
+              17
+            ],
+            "counters": [
+              {
+                "build_usec": 18964,
+                "builds": 18,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 19,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 35517,
+                "builds": 23,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 24,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 16754,
+                "builds": 16,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 17,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.3200878084738417,
+        "coordinator_speedup": 1.3184056742091654
+      },
+      {
+        "fixture": "nexum_relics",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 331740,
+              "min": 310123,
+              "max": 451593
+            },
+            "runtime_usec": {
+              "median": 321277,
+              "min": 299752,
+              "max": 427764
+            },
+            "restore_usec": {
+              "median": 6493,
+              "min": 4349,
+              "max": 15899
+            },
+            "prepare_usec": {
+              "median": 1230,
+              "min": 884,
+              "max": 3699
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 29204,
+              "min": 28981,
+              "max": 54714
+            },
+            "achievement_usec": {
+              "median": 222,
+              "min": 198,
+              "max": 324
+            },
+            "result_data_usec": {
+              "median": 1994,
+              "min": 1198,
+              "max": 2000
+            },
+            "finalization_usec": {
+              "median": 1994,
+              "min": 1553,
+              "max": 2591
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4095968,
+              "min": -4095968,
+              "max": -4094480
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              22,
+              30,
+              22
+            ],
+            "progress_events": [
+              23,
+              31,
+              23
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 308602,
+              "min": 301575,
+              "max": 346931
+            },
+            "runtime_usec": {
+              "median": 298446,
+              "min": 293357,
+              "max": 339719
+            },
+            "restore_usec": {
+              "median": 5722,
+              "min": 3772,
+              "max": 6611
+            },
+            "prepare_usec": {
+              "median": 609,
+              "min": 579,
+              "max": 838
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 38865,
+              "min": 37258,
+              "max": 39027
+            },
+            "achievement_usec": {
+              "median": 291,
+              "min": 277,
+              "max": 321
+            },
+            "result_data_usec": {
+              "median": 203,
+              "min": 197,
+              "max": 297
+            },
+            "finalization_usec": {
+              "median": 2207,
+              "min": 1382,
+              "max": 2246
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2166120,
+              "min": -2166120,
+              "max": -2165976
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              21,
+              22,
+              21
+            ],
+            "progress_events": [
+              22,
+              23,
+              22
+            ],
+            "counters": [
+              {
+                "build_usec": 45767,
+                "builds": 32,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 22,
+                "reasons": {},
+                "structural_invalidations": 11
+              },
+              {
+                "build_usec": 51948,
+                "builds": 33,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 23,
+                "reasons": {},
+                "structural_invalidations": 11
+              },
+              {
+                "build_usec": 48753,
+                "builds": 30,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 22,
+                "reasons": {},
+                "structural_invalidations": 11
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.074976830999151,
+        "coordinator_speedup": 1.0764996012679011
+      },
+      {
+        "fixture": "automation",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 322366,
+              "min": 314763,
+              "max": 368712
+            },
+            "runtime_usec": {
+              "median": 310639,
+              "min": 304399,
+              "max": 357201
+            },
+            "restore_usec": {
+              "median": 5364,
+              "min": 3539,
+              "max": 5596
+            },
+            "prepare_usec": {
+              "median": 504,
+              "min": 471,
+              "max": 745
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 14
+            },
+            "frame_wait_usec": {
+              "median": 32695,
+              "min": 30190,
+              "max": 40011
+            },
+            "achievement_usec": {
+              "median": 333,
+              "min": 296,
+              "max": 377
+            },
+            "result_data_usec": {
+              "median": 2338,
+              "min": 1286,
+              "max": 4133
+            },
+            "finalization_usec": {
+              "median": 2893,
+              "min": 2704,
+              "max": 2982
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4337496,
+              "min": -4337496,
+              "max": -4337064
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              23,
+              26,
+              23
+            ],
+            "progress_events": [
+              24,
+              27,
+              24
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 261092,
+              "min": 247412,
+              "max": 339997
+            },
+            "runtime_usec": {
+              "median": 252134,
+              "min": 240221,
+              "max": 329786
+            },
+            "restore_usec": {
+              "median": 5392,
+              "min": 4460,
+              "max": 6896
+            },
+            "prepare_usec": {
+              "median": 519,
+              "min": 480,
+              "max": 1005
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 27553,
+              "min": 24310,
+              "max": 42937
+            },
+            "achievement_usec": {
+              "median": 210,
+              "min": 201,
+              "max": 242
+            },
+            "result_data_usec": {
+              "median": 210,
+              "min": 166,
+              "max": 346
+            },
+            "finalization_usec": {
+              "median": 2137,
+              "min": 1613,
+              "max": 2449
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2072424,
+              "min": -2072424,
+              "max": -2071704
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              18,
+              23,
+              18
+            ],
+            "progress_events": [
+              19,
+              24,
+              19
+            ],
+            "counters": [
+              {
+                "build_usec": 37236,
+                "builds": 29,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 19,
+                "reasons": {},
+                "structural_invalidations": 11
+              },
+              {
+                "build_usec": 52265,
+                "builds": 32,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 24,
+                "reasons": {},
+                "structural_invalidations": 11
+              },
+              {
+                "build_usec": 35069,
+                "builds": 29,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 19,
+                "reasons": {},
+                "structural_invalidations": 11
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.2346835598179953,
+        "coordinator_speedup": 1.2320393124291051
+      },
+      {
+        "fixture": "late_mixed",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 309339,
+              "min": 292809,
+              "max": 462384
+            },
+            "runtime_usec": {
+              "median": 293478,
+              "min": 283696,
+              "max": 449158
+            },
+            "restore_usec": {
+              "median": 4526,
+              "min": 3918,
+              "max": 7689
+            },
+            "prepare_usec": {
+              "median": 732,
+              "min": 717,
+              "max": 793
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 30399,
+              "min": 28969,
+              "max": 57702
+            },
+            "achievement_usec": {
+              "median": 388,
+              "min": 384,
+              "max": 980
+            },
+            "result_data_usec": {
+              "median": 1571,
+              "min": 1526,
+              "max": 2083
+            },
+            "finalization_usec": {
+              "median": 5440,
+              "min": 1901,
+              "max": 5522
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4223788,
+              "min": -4223932,
+              "max": -4222012
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              22,
+              32,
+              21
+            ],
+            "progress_events": [
+              23,
+              33,
+              22
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 240978,
+              "min": 233099,
+              "max": 358459
+            },
+            "runtime_usec": {
+              "median": 234269,
+              "min": 220705,
+              "max": 343057
+            },
+            "restore_usec": {
+              "median": 5031,
+              "min": 3548,
+              "max": 11833
+            },
+            "prepare_usec": {
+              "median": 946,
+              "min": 743,
+              "max": 954
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 25208,
+              "min": 22222,
+              "max": 48701
+            },
+            "achievement_usec": {
+              "median": 424,
+              "min": 180,
+              "max": 676
+            },
+            "result_data_usec": {
+              "median": 242,
+              "min": 185,
+              "max": 625
+            },
+            "finalization_usec": {
+              "median": 2244,
+              "min": 1740,
+              "max": 5049
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2201172,
+              "min": -2201172,
+              "max": -2199948
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              17,
+              24,
+              17
+            ],
+            "progress_events": [
+              18,
+              25,
+              18
+            ],
+            "counters": [
+              {
+                "build_usec": 32480,
+                "builds": 29,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 18,
+                "reasons": {},
+                "structural_invalidations": 11
+              },
+              {
+                "build_usec": 64678,
+                "builds": 36,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 25,
+                "reasons": {},
+                "structural_invalidations": 11
+              },
+              {
+                "build_usec": 29454,
+                "builds": 27,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 18,
+                "reasons": {},
+                "structural_invalidations": 11
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.2836814978960736,
+        "coordinator_speedup": 1.2527393722600941
+      },
+      {
+        "fixture": "diagnostic_multi_buyers",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 394807,
+              "min": 324611,
+              "max": 406725
+            },
+            "runtime_usec": {
+              "median": 385361,
+              "min": 317632,
+              "max": 397404
+            },
+            "restore_usec": {
+              "median": 4550,
+              "min": 3792,
+              "max": 5033
+            },
+            "prepare_usec": {
+              "median": 584,
+              "min": 432,
+              "max": 898
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 37481,
+              "min": 29858,
+              "max": 37544
+            },
+            "achievement_usec": {
+              "median": 190,
+              "min": 186,
+              "max": 220
+            },
+            "result_data_usec": {
+              "median": 1717,
+              "min": 1036,
+              "max": 2921
+            },
+            "finalization_usec": {
+              "median": 1369,
+              "min": 1313,
+              "max": 1469
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4385288,
+              "min": -4386200,
+              "max": -4385144
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              24,
+              28,
+              29
+            ],
+            "progress_events": [
+              25,
+              29,
+              30
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 359470,
+              "min": 326716,
+              "max": 803604
+            },
+            "runtime_usec": {
+              "median": 349231,
+              "min": 319683,
+              "max": 796653
+            },
+            "restore_usec": {
+              "median": 4100,
+              "min": 3637,
+              "max": 6738
+            },
+            "prepare_usec": {
+              "median": 806,
+              "min": 604,
+              "max": 1120
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 35529,
+              "min": 28655,
+              "max": 106878
+            },
+            "achievement_usec": {
+              "median": 188,
+              "min": 165,
+              "max": 562
+            },
+            "result_data_usec": {
+              "median": 345,
+              "min": 212,
+              "max": 672
+            },
+            "finalization_usec": {
+              "median": 1837,
+              "min": 1264,
+              "max": 1942
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2075388,
+              "min": -2075676,
+              "max": -2071380
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              24,
+              48,
+              26
+            ],
+            "progress_events": [
+              25,
+              49,
+              27
+            ],
+            "counters": [
+              {
+                "build_usec": 41560,
+                "builds": 40,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 25,
+                "reasons": {},
+                "structural_invalidations": 15
+              },
+              {
+                "build_usec": 176873,
+                "builds": 63,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 49,
+                "reasons": {},
+                "structural_invalidations": 15
+              },
+              {
+                "build_usec": 47570,
+                "builds": 40,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 598,
+                "partial_ticks": 1,
+                "progress_boundaries": 27,
+                "reasons": {},
+                "structural_invalidations": 15
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.0983030572787715,
+        "coordinator_speedup": 1.1034558787736484
+      },
+      {
+        "fixture": "diagnostic_high_ash",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 178843,
+              "min": 142493,
+              "max": 259860
+            },
+            "runtime_usec": {
+              "median": 170330,
+              "min": 134531,
+              "max": 250961
+            },
+            "restore_usec": {
+              "median": 3933,
+              "min": 3733,
+              "max": 3966
+            },
+            "prepare_usec": {
+              "median": 837,
+              "min": 645,
+              "max": 930
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 23896,
+              "min": 13748,
+              "max": 42474
+            },
+            "achievement_usec": {
+              "median": 364,
+              "min": 301,
+              "max": 417
+            },
+            "result_data_usec": {
+              "median": 1814,
+              "min": 1140,
+              "max": 1880
+            },
+            "finalization_usec": {
+              "median": 1740,
+              "min": 1660,
+              "max": 1983
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4382048,
+              "min": -4382480,
+              "max": -4381472
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              10,
+              16,
+              12
+            ],
+            "progress_events": [
+              11,
+              17,
+              13
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 115520,
+              "min": 98498,
+              "max": 136036
+            },
+            "runtime_usec": {
+              "median": 108170,
+              "min": 92162,
+              "max": 128995
+            },
+            "restore_usec": {
+              "median": 4199,
+              "min": 3837,
+              "max": 4836
+            },
+            "prepare_usec": {
+              "median": 671,
+              "min": 580,
+              "max": 1567
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 15063,
+              "min": 11972,
+              "max": 23785
+            },
+            "achievement_usec": {
+              "median": 209,
+              "min": 188,
+              "max": 303
+            },
+            "result_data_usec": {
+              "median": 249,
+              "min": 133,
+              "max": 381
+            },
+            "finalization_usec": {
+              "median": 1084,
+              "min": 1002,
+              "max": 1451
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2070932,
+              "min": -2071172,
+              "max": -2070788
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              7,
+              8,
+              9
+            ],
+            "progress_events": [
+              8,
+              9,
+              10
+            ],
+            "counters": [
+              {
+                "build_usec": 9040,
+                "builds": 7,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 8,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 8693,
+                "builds": 8,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 9,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 14549,
+                "builds": 9,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 10,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.548156163434903,
+        "coordinator_speedup": 1.574651012295461
+      },
+      {
+        "fixture": "earned_craft_first_craft",
+        "requested_seconds": 60.0,
+        "scope": "production_logger",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 241087,
+              "min": 235054,
+              "max": 249388
+            },
+            "runtime_usec": {
+              "median": 230907,
+              "min": 224448,
+              "max": 239630
+            },
+            "restore_usec": {
+              "median": 4848,
+              "min": 4759,
+              "max": 5382
+            },
+            "prepare_usec": {
+              "median": 549,
+              "min": 326,
+              "max": 904
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 26610,
+              "min": 24594,
+              "max": 30475
+            },
+            "achievement_usec": {
+              "median": 469,
+              "min": 245,
+              "max": 538
+            },
+            "result_data_usec": {
+              "median": 1666,
+              "min": 1622,
+              "max": 1668
+            },
+            "finalization_usec": {
+              "median": 2995,
+              "min": 1551,
+              "max": 2995
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -4061468,
+              "min": -4061468,
+              "max": -4061468
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              17,
+              17,
+              17
+            ],
+            "progress_events": [
+              18,
+              18,
+              18
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 246305,
+              "min": 206886,
+              "max": 294095
+            },
+            "runtime_usec": {
+              "median": 239573,
+              "min": 200349,
+              "max": 283935
+            },
+            "restore_usec": {
+              "median": 4022,
+              "min": 3794,
+              "max": 7697
+            },
+            "prepare_usec": {
+              "median": 321,
+              "min": 316,
+              "max": 386
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 26326,
+              "min": 20434,
+              "max": 35232
+            },
+            "achievement_usec": {
+              "median": 312,
+              "min": 237,
+              "max": 372
+            },
+            "result_data_usec": {
+              "median": 183,
+              "min": 157,
+              "max": 245
+            },
+            "finalization_usec": {
+              "median": 1801,
+              "min": 1572,
+              "max": 1984
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2008956,
+              "min": -2009604,
+              "max": -2008668
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              15,
+              18,
+              20
+            ],
+            "progress_events": [
+              16,
+              19,
+              21
+            ],
+            "counters": [
+              {
+                "build_usec": 959,
+                "builds": 15,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 16,
+                "reasons": {
+                  "external_logger_or_clock": 15
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 1665,
+                "builds": 18,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 19,
+                "reasons": {
+                  "external_logger_or_clock": 18
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 2538,
+                "builds": 20,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 21,
+                "reasons": {
+                  "external_logger_or_clock": 20
+                },
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 0.9788148839853028,
+        "coordinator_speedup": 0.9638273094213454
+      },
+      {
+        "fixture": "earned_craft_first_craft",
+        "requested_seconds": 60.0,
+        "scope": "observer",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 247911,
+              "min": 225365,
+              "max": 280564
+            },
+            "runtime_usec": {
+              "median": 239981,
+              "min": 216785,
+              "max": 264051
+            },
+            "restore_usec": {
+              "median": 5633,
+              "min": 5313,
+              "max": 10134
+            },
+            "prepare_usec": {
+              "median": 861,
+              "min": 362,
+              "max": 1486
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 27792,
+              "min": 24468,
+              "max": 30342
+            },
+            "achievement_usec": {
+              "median": 219,
+              "min": 209,
+              "max": 570
+            },
+            "result_data_usec": {
+              "median": 205,
+              "min": 171,
+              "max": 293
+            },
+            "finalization_usec": {
+              "median": 2004,
+              "min": 1513,
+              "max": 4020
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2950752,
+              "min": -2951256,
+              "max": -2950608
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              16,
+              18,
+              19
+            ],
+            "progress_events": [
+              17,
+              19,
+              20
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 266125,
+              "min": 236300,
+              "max": 269007
+            },
+            "runtime_usec": {
+              "median": 257242,
+              "min": 227453,
+              "max": 262688
+            },
+            "restore_usec": {
+              "median": 5554,
+              "min": 4024,
+              "max": 6256
+            },
+            "prepare_usec": {
+              "median": 582,
+              "min": 359,
+              "max": 585
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 27
+            },
+            "frame_wait_usec": {
+              "median": 23067,
+              "min": 22018,
+              "max": 25465
+            },
+            "achievement_usec": {
+              "median": 389,
+              "min": 345,
+              "max": 496
+            },
+            "result_data_usec": {
+              "median": 160,
+              "min": 147,
+              "max": 353
+            },
+            "finalization_usec": {
+              "median": 1422,
+              "min": 1254,
+              "max": 2053
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2105928,
+              "min": -2106432,
+              "max": -2105928
+            },
+            "steps": [
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              17,
+              19,
+              19
+            ],
+            "progress_events": [
+              18,
+              20,
+              20
+            ],
+            "counters": [
+              {
+                "build_usec": 6032,
+                "builds": 17,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 18,
+                "reasons": {
+                  "external_observer": 17
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 8945,
+                "builds": 19,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 20,
+                "reasons": {
+                  "external_observer": 19
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 9386,
+                "builds": 19,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 20,
+                "reasons": {
+                  "external_observer": 19
+                },
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 0.93155847815876,
+        "coordinator_speedup": 0.9328997597592928
+      },
+      {
+        "fixture": "early",
+        "requested_seconds": 600.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 1327701,
+              "min": 1277352,
+              "max": 1414888
+            },
+            "runtime_usec": {
+              "median": 1316146,
+              "min": 1263669,
+              "max": 1405067
+            },
+            "restore_usec": {
+              "median": 7010,
+              "min": 5431,
+              "max": 7597
+            },
+            "prepare_usec": {
+              "median": 611,
+              "min": 609,
+              "max": 750
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 129862,
+              "min": 126853,
+              "max": 141503
+            },
+            "achievement_usec": {
+              "median": 279,
+              "min": 221,
+              "max": 4656
+            },
+            "result_data_usec": {
+              "median": 180,
+              "min": 159,
+              "max": 208
+            },
+            "finalization_usec": {
+              "median": 2759,
+              "min": 1143,
+              "max": 3406
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3835820,
+              "min": -3836252,
+              "max": -3834956
+            },
+            "steps": [
+              6000,
+              6000,
+              6000
+            ],
+            "effective_requested_seconds": [
+              600.0,
+              600.0,
+              600.0
+            ],
+            "offline_seconds": [
+              600.0,
+              600.0,
+              600.0
+            ],
+            "game_seconds": [
+              600.0,
+              600.0,
+              600.0
+            ],
+            "yields": [
+              102,
+              96,
+              93
+            ],
+            "progress_events": [
+              103,
+              97,
+              94
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 817107,
+              "min": 703714,
+              "max": 1303655
+            },
+            "runtime_usec": {
+              "median": 799679,
+              "min": 697122,
+              "max": 1291753
+            },
+            "restore_usec": {
+              "median": 6428,
+              "min": 3488,
+              "max": 15227
+            },
+            "prepare_usec": {
+              "median": 471,
+              "min": 302,
+              "max": 836
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 88020,
+              "min": 62175,
+              "max": 177521
+            },
+            "achievement_usec": {
+              "median": 732,
+              "min": 193,
+              "max": 748
+            },
+            "result_data_usec": {
+              "median": 160,
+              "min": 158,
+              "max": 169
+            },
+            "finalization_usec": {
+              "median": 1884,
+              "min": 1000,
+              "max": 4090
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2043020,
+              "min": -2043884,
+              "max": -2038244
+            },
+            "steps": [
+              6000,
+              6000,
+              6000
+            ],
+            "effective_requested_seconds": [
+              600.0,
+              600.0,
+              600.0
+            ],
+            "offline_seconds": [
+              600.0,
+              600.0,
+              600.0
+            ],
+            "game_seconds": [
+              600.0,
+              600.0,
+              600.0
+            ],
+            "yields": [
+              52,
+              58,
+              86
+            ],
+            "progress_events": [
+              53,
+              59,
+              87
+            ],
+            "counters": [
+              {
+                "build_usec": 55231,
+                "builds": 51,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 5999,
+                "partial_ticks": 1,
+                "progress_boundaries": 53,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 80041,
+                "builds": 58,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 5999,
+                "partial_ticks": 1,
+                "progress_boundaries": 59,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 179844,
+                "builds": 86,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 5999,
+                "partial_ticks": 1,
+                "progress_boundaries": 87,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.6248802176459143,
+        "coordinator_speedup": 1.6458428944614025
+      },
+      {
+        "fixture": "early",
+        "requested_seconds": 3600.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 7533802,
+              "min": 7002570,
+              "max": 8505974
+            },
+            "runtime_usec": {
+              "median": 7525678,
+              "min": 6994528,
+              "max": 8499091
+            },
+            "restore_usec": {
+              "median": 5305,
+              "min": 5019,
+              "max": 5358
+            },
+            "prepare_usec": {
+              "median": 427,
+              "min": 361,
+              "max": 751
+            },
+            "elapsed_usec": {
+              "median": 3,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 689648,
+              "min": 587453,
+              "max": 878999
+            },
+            "achievement_usec": {
+              "median": 273,
+              "min": 216,
+              "max": 280
+            },
+            "result_data_usec": {
+              "median": 141,
+              "min": 140,
+              "max": 200
+            },
+            "finalization_usec": {
+              "median": 1644,
+              "min": 1139,
+              "max": 1765
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3756432,
+              "min": -3761040,
+              "max": -3747936
+            },
+            "steps": [
+              36001,
+              36001,
+              36001
+            ],
+            "effective_requested_seconds": [
+              3600.0,
+              3600.0,
+              3600.0
+            ],
+            "offline_seconds": [
+              3600.0,
+              3600.0,
+              3600.0
+            ],
+            "game_seconds": [
+              3600.0,
+              3600.0,
+              3600.0
+            ],
+            "yields": [
+              523,
+              555,
+              614
+            ],
+            "progress_events": [
+              524,
+              556,
+              615
+            ],
+            "counters": [
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 3,
+            "pipeline_usec": {
+              "median": 4503934,
+              "min": 4139961,
+              "max": 5636586
+            },
+            "runtime_usec": {
+              "median": 4496368,
+              "min": 4132708,
+              "max": 5619641
+            },
+            "restore_usec": {
+              "median": 4645,
+              "min": 3926,
+              "max": 13185
+            },
+            "prepare_usec": {
+              "median": 693,
+              "min": 568,
+              "max": 1396
+            },
+            "elapsed_usec": {
+              "median": 2,
+              "min": 2,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 382195,
+              "min": 329127,
+              "max": 559954
+            },
+            "achievement_usec": {
+              "median": 187,
+              "min": 180,
+              "max": 574
+            },
+            "result_data_usec": {
+              "median": 233,
+              "min": 141,
+              "max": 294
+            },
+            "finalization_usec": {
+              "median": 1924,
+              "min": 1584,
+              "max": 2192
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -1993584,
+              "min": -2000544,
+              "max": -1983072
+            },
+            "steps": [
+              36001,
+              36001,
+              36001
+            ],
+            "effective_requested_seconds": [
+              3600.0,
+              3600.0,
+              3600.0
+            ],
+            "offline_seconds": [
+              3600.0,
+              3600.0,
+              3600.0
+            ],
+            "game_seconds": [
+              3600.0,
+              3600.0,
+              3600.0
+            ],
+            "yields": [
+              311,
+              333,
+              406
+            ],
+            "progress_events": [
+              312,
+              334,
+              407
+            ],
+            "counters": [
+              {
+                "build_usec": 328995,
+                "builds": 311,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 36000,
+                "partial_ticks": 1,
+                "progress_boundaries": 312,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 368240,
+                "builds": 333,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 36000,
+                "partial_ticks": 1,
+                "progress_boundaries": 334,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 550556,
+                "builds": 406,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 36000,
+                "partial_ticks": 1,
+                "progress_boundaries": 407,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.6727158968137632,
+        "coordinator_speedup": 1.6737237699405387
+      },
+      {
+        "fixture": "early",
+        "requested_seconds": 21600.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 2,
+            "pipeline_usec": {
+              "median": 44820138.5,
+              "min": 43555707,
+              "max": 46084570
+            },
+            "runtime_usec": {
+              "median": 44811123.0,
+              "min": 43546424,
+              "max": 46075822
+            },
+            "restore_usec": {
+              "median": 5788.0,
+              "min": 5689,
+              "max": 5887
+            },
+            "prepare_usec": {
+              "median": 1213.5,
+              "min": 1025,
+              "max": 1402
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 3940282.5,
+              "min": 3668827,
+              "max": 4211738
+            },
+            "achievement_usec": {
+              "median": 213.0,
+              "min": 190,
+              "max": 236
+            },
+            "result_data_usec": {
+              "median": 287.5,
+              "min": 209,
+              "max": 366
+            },
+            "finalization_usec": {
+              "median": 1502.0,
+              "min": 1468,
+              "max": 1536
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3289488.0,
+              "min": -3299856,
+              "max": -3279120
+            },
+            "steps": [
+              216001,
+              216001
+            ],
+            "effective_requested_seconds": [
+              21600.0,
+              21600.0
+            ],
+            "offline_seconds": [
+              21600.0,
+              21600.0
+            ],
+            "game_seconds": [
+              21600.0,
+              21600.0
+            ],
+            "yields": [
+              3245,
+              3389
+            ],
+            "progress_events": [
+              3246,
+              3390
+            ],
+            "counters": [
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 2,
+            "pipeline_usec": {
+              "median": 32404541.0,
+              "min": 31870465,
+              "max": 32938617
+            },
+            "runtime_usec": {
+              "median": 32395948.5,
+              "min": 31860587,
+              "max": 32931310
+            },
+            "restore_usec": {
+              "median": 4802.0,
+              "min": 4105,
+              "max": 5499
+            },
+            "prepare_usec": {
+              "median": 1738.5,
+              "min": 1473,
+              "max": 2004
+            },
+            "elapsed_usec": {
+              "median": 3.5,
+              "min": 3,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 3134057.5,
+              "min": 3064324,
+              "max": 3203791
+            },
+            "achievement_usec": {
+              "median": 208.5,
+              "min": 207,
+              "max": 210
+            },
+            "result_data_usec": {
+              "median": 188.0,
+              "min": 157,
+              "max": 219
+            },
+            "finalization_usec": {
+              "median": 1643.0,
+              "min": 1292,
+              "max": 1994
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -1657472.0,
+              "min": -1662152,
+              "max": -1652792
+            },
+            "steps": [
+              216001,
+              216001
+            ],
+            "effective_requested_seconds": [
+              21600.0,
+              21600.0
+            ],
+            "offline_seconds": [
+              21600.0,
+              21600.0
+            ],
+            "game_seconds": [
+              21600.0,
+              21600.0
+            ],
+            "yields": [
+              2379,
+              2314
+            ],
+            "progress_events": [
+              2380,
+              2315
+            ],
+            "counters": [
+              {
+                "build_usec": 3453699,
+                "builds": 2379,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 216000,
+                "partial_ticks": 1,
+                "progress_boundaries": 2380,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 3068773,
+                "builds": 2314,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 216000,
+                "partial_ticks": 1,
+                "progress_boundaries": 2315,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.383143754450958,
+        "coordinator_speedup": 1.3832323199303764
+      },
+      {
+        "fixture": "early",
+        "requested_seconds": 86400.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 2,
+            "pipeline_usec": {
+              "median": 205097764.0,
+              "min": 177330089,
+              "max": 232865439
+            },
+            "runtime_usec": {
+              "median": 205085240.5,
+              "min": 177318434,
+              "max": 232852047
+            },
+            "restore_usec": {
+              "median": 5101.5,
+              "min": 4312,
+              "max": 5891
+            },
+            "prepare_usec": {
+              "median": 4557.5,
+              "min": 4330,
+              "max": 4785
+            },
+            "elapsed_usec": {
+              "median": 4.0,
+              "min": 4,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 20601816.0,
+              "min": 15522803,
+              "max": 25680829
+            },
+            "achievement_usec": {
+              "median": 370.0,
+              "min": 300,
+              "max": 440
+            },
+            "result_data_usec": {
+              "median": 336.5,
+              "min": 272,
+              "max": 401
+            },
+            "finalization_usec": {
+              "median": 2112.5,
+              "min": 1995,
+              "max": 2230
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -1277280.0,
+              "min": -1527984,
+              "max": -1026576
+            },
+            "steps": [
+              864000,
+              864000
+            ],
+            "effective_requested_seconds": [
+              86400.0,
+              86400.0
+            ],
+            "offline_seconds": [
+              86400.0,
+              86400.0
+            ],
+            "game_seconds": [
+              86400.0,
+              86400.0
+            ],
+            "yields": [
+              16602,
+              13120
+            ],
+            "progress_events": [
+              16603,
+              13121
+            ],
+            "counters": [
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 2,
+            "pipeline_usec": {
+              "median": 127480645.5,
+              "min": 125951613,
+              "max": 129009678
+            },
+            "runtime_usec": {
+              "median": 127465341.5,
+              "min": 125935526,
+              "max": 128995157
+            },
+            "restore_usec": {
+              "median": 4463.5,
+              "min": 3863,
+              "max": 5064
+            },
+            "prepare_usec": {
+              "median": 7706.0,
+              "min": 7142,
+              "max": 8270
+            },
+            "elapsed_usec": {
+              "median": 54.5,
+              "min": 4,
+              "max": 105
+            },
+            "frame_wait_usec": {
+              "median": 12154940.5,
+              "min": 11906175,
+              "max": 12403706
+            },
+            "achievement_usec": {
+              "median": 453.5,
+              "min": 261,
+              "max": 646
+            },
+            "result_data_usec": {
+              "median": 551.0,
+              "min": 167,
+              "max": 935
+            },
+            "finalization_usec": {
+              "median": 1973.0,
+              "min": 1645,
+              "max": 2301
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -425680.0,
+              "min": -439432,
+              "max": -411928
+            },
+            "steps": [
+              864000,
+              864000
+            ],
+            "effective_requested_seconds": [
+              86400.0,
+              86400.0
+            ],
+            "offline_seconds": [
+              86400.0,
+              86400.0
+            ],
+            "game_seconds": [
+              86400.0,
+              86400.0
+            ],
+            "yields": [
+              9375,
+              9184
+            ],
+            "progress_events": [
+              9376,
+              9185
+            ],
+            "counters": [
+              {
+                "build_usec": 12671714,
+                "builds": 9375,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 863999,
+                "partial_ticks": 1,
+                "progress_boundaries": 9376,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 12336871,
+                "builds": 9184,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 863999,
+                "partial_ticks": 1,
+                "progress_boundaries": 9185,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.6088541377836056,
+        "coordinator_speedup": 1.6089490530255237
+      }
+    ]
+  },
+  "overhead_variants": {
+    "engine": {
+      "build": "official",
+      "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+      "hex": 263681,
+      "major": 4,
+      "minor": 6,
+      "patch": 1,
+      "status": "stable",
+      "string": "4.6.1-stable (official)",
+      "timestamp": 0
+    },
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "failures": [],
+    "groups": [
+      {
+        "fixture": "early",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 119428.5,
+              "min": 87402,
+              "max": 130482
+            },
+            "runtime_usec": {
+              "median": 112617.5,
+              "min": 81979,
+              "max": 120654
+            },
+            "restore_usec": {
+              "median": 4824.0,
+              "min": 3483,
+              "max": 6559
+            },
+            "prepare_usec": {
+              "median": 438.5,
+              "min": 359,
+              "max": 736
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 12631.0,
+              "min": 8522,
+              "max": 15348
+            },
+            "achievement_usec": {
+              "median": 212.5,
+              "min": 196,
+              "max": 423
+            },
+            "result_data_usec": {
+              "median": 174.5,
+              "min": 134,
+              "max": 364
+            },
+            "finalization_usec": {
+              "median": 1511.5,
+              "min": 1198,
+              "max": 2302
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3850736.0,
+              "min": -3851048,
+              "max": -3850736
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              7,
+              8,
+              9,
+              9,
+              9,
+              9
+            ],
+            "progress_events": [
+              8,
+              9,
+              10,
+              10,
+              10,
+              10
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 71565.5,
+              "min": 67721,
+              "max": 76629
+            },
+            "runtime_usec": {
+              "median": 64707.0,
+              "min": 61780,
+              "max": 70556
+            },
+            "restore_usec": {
+              "median": 4238.5,
+              "min": 3723,
+              "max": 5144
+            },
+            "prepare_usec": {
+              "median": 445.0,
+              "min": 271,
+              "max": 583
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 3,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 9677.5,
+              "min": 8109,
+              "max": 10147
+            },
+            "achievement_usec": {
+              "median": 277.5,
+              "min": 186,
+              "max": 442
+            },
+            "result_data_usec": {
+              "median": 138.0,
+              "min": 123,
+              "max": 258
+            },
+            "finalization_usec": {
+              "median": 1213.5,
+              "min": 987,
+              "max": 1529
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2051572.0,
+              "min": -2051572,
+              "max": -2051572
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              5,
+              5,
+              5,
+              5,
+              5,
+              5
+            ],
+            "progress_events": [
+              6,
+              6,
+              6,
+              6,
+              6,
+              6
+            ],
+            "counters": [
+              {
+                "build_usec": 4809,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4318,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 3939,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 6037,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 5145,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4005,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.6687999105714346,
+        "coordinator_speedup": 1.7404222108890846
+      },
+      {
+        "fixture": "early",
+        "requested_seconds": 60.0,
+        "scope": "previous_packet",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 122120.0,
+              "min": 101619,
+              "max": 175959
+            },
+            "runtime_usec": {
+              "median": 114708.5,
+              "min": 95061,
+              "max": 168878
+            },
+            "restore_usec": {
+              "median": 4515.5,
+              "min": 3920,
+              "max": 6412
+            },
+            "prepare_usec": {
+              "median": 342.5,
+              "min": 279,
+              "max": 608
+            },
+            "elapsed_usec": {
+              "median": 2.5,
+              "min": 1,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 14897.0,
+              "min": 9967,
+              "max": 26379
+            },
+            "achievement_usec": {
+              "median": 336.5,
+              "min": 205,
+              "max": 566
+            },
+            "result_data_usec": {
+              "median": 269.0,
+              "min": 136,
+              "max": 331
+            },
+            "finalization_usec": {
+              "median": 1758.5,
+              "min": 1388,
+              "max": 2224
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3850532.0,
+              "min": -3850916,
+              "max": -3849956
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              7,
+              9,
+              8,
+              10,
+              12,
+              9
+            ],
+            "progress_events": [
+              8,
+              10,
+              9,
+              11,
+              13,
+              10
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 73370.5,
+              "min": 56891,
+              "max": 94276
+            },
+            "runtime_usec": {
+              "median": 65222.5,
+              "min": 50033,
+              "max": 84750
+            },
+            "restore_usec": {
+              "median": 4343.0,
+              "min": 3951,
+              "max": 6160
+            },
+            "prepare_usec": {
+              "median": 381.5,
+              "min": 270,
+              "max": 586
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 9674.5,
+              "min": 6267,
+              "max": 14483
+            },
+            "achievement_usec": {
+              "median": 198.0,
+              "min": 180,
+              "max": 468
+            },
+            "result_data_usec": {
+              "median": 193.0,
+              "min": 136,
+              "max": 600
+            },
+            "finalization_usec": {
+              "median": 1600.0,
+              "min": 1135,
+              "max": 3848
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2051572.0,
+              "min": -2051788,
+              "max": -2051428
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              4,
+              4,
+              6,
+              5,
+              6,
+              5
+            ],
+            "progress_events": [
+              5,
+              5,
+              7,
+              6,
+              7,
+              6
+            ],
+            "counters": [
+              {
+                "build_usec": 2396,
+                "builds": 4,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 5,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 2024,
+                "builds": 4,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 5,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4607,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 7,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4085,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 7229,
+                "builds": 6,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 7,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4160,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.6644291643099065,
+        "coordinator_speedup": 1.7587258998045152
+      },
+      {
+        "fixture": "early",
+        "requested_seconds": 60.0,
+        "scope": "per_tick_build",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 119878.0,
+              "min": 98605,
+              "max": 139835
+            },
+            "runtime_usec": {
+              "median": 112000.5,
+              "min": 92045,
+              "max": 132664
+            },
+            "restore_usec": {
+              "median": 4683.0,
+              "min": 4263,
+              "max": 5742
+            },
+            "prepare_usec": {
+              "median": 307.0,
+              "min": 269,
+              "max": 615
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 2,
+              "max": 106
+            },
+            "frame_wait_usec": {
+              "median": 13188.0,
+              "min": 8937,
+              "max": 20188
+            },
+            "achievement_usec": {
+              "median": 249.5,
+              "min": 209,
+              "max": 602
+            },
+            "result_data_usec": {
+              "median": 164.5,
+              "min": 134,
+              "max": 2846
+            },
+            "finalization_usec": {
+              "median": 1608.0,
+              "min": 1261,
+              "max": 2420
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3850704.0,
+              "min": -3851016,
+              "max": -3850632
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              9,
+              7,
+              8,
+              9,
+              8,
+              9
+            ],
+            "progress_events": [
+              10,
+              8,
+              9,
+              10,
+              9,
+              10
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 435007.5,
+              "min": 354255,
+              "max": 641233
+            },
+            "runtime_usec": {
+              "median": 428038.0,
+              "min": 348406,
+              "max": 625381
+            },
+            "restore_usec": {
+              "median": 4773.5,
+              "min": 3621,
+              "max": 8923
+            },
+            "prepare_usec": {
+              "median": 384.0,
+              "min": 293,
+              "max": 811
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 3,
+              "max": 5
+            },
+            "frame_wait_usec": {
+              "median": 39612.5,
+              "min": 27849,
+              "max": 81706
+            },
+            "achievement_usec": {
+              "median": 207.5,
+              "min": 164,
+              "max": 283
+            },
+            "result_data_usec": {
+              "median": 252.0,
+              "min": 132,
+              "max": 454
+            },
+            "finalization_usec": {
+              "median": 1379.0,
+              "min": 1307,
+              "max": 6071
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2047036.0,
+              "min": -2047948,
+              "max": -2044876
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              26,
+              42,
+              29,
+              32,
+              30,
+              36
+            ],
+            "progress_events": [
+              27,
+              43,
+              30,
+              33,
+              31,
+              37
+            ],
+            "counters": [
+              {
+                "build_usec": 228902,
+                "builds": 599,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 27,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 372986,
+                "builds": 599,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 43,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 248358,
+                "builds": 599,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 30,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 278998,
+                "builds": 599,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 33,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 278521,
+                "builds": 599,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 31,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 308326,
+                "builds": 599,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 37,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 0.2755768578702666,
+        "coordinator_speedup": 0.26166017970367117
+      },
+      {
+        "fixture": "early",
+        "requested_seconds": 60.0,
+        "scope": "diagnostic_idle_gate",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 117227.0,
+              "min": 99183,
+              "max": 218620
+            },
+            "runtime_usec": {
+              "median": 110020.5,
+              "min": 93253,
+              "max": 208661
+            },
+            "restore_usec": {
+              "median": 4657.5,
+              "min": 3655,
+              "max": 13013
+            },
+            "prepare_usec": {
+              "median": 331.0,
+              "min": 284,
+              "max": 456
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 12180.0,
+              "min": 8481,
+              "max": 36587
+            },
+            "achievement_usec": {
+              "median": 340.0,
+              "min": 221,
+              "max": 555
+            },
+            "result_data_usec": {
+              "median": 195.0,
+              "min": 142,
+              "max": 419
+            },
+            "finalization_usec": {
+              "median": 1496.5,
+              "min": 1262,
+              "max": 4770
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3850756.0,
+              "min": -3851068,
+              "max": -3849820
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              7,
+              8,
+              7,
+              11,
+              9,
+              14
+            ],
+            "progress_events": [
+              8,
+              9,
+              8,
+              12,
+              10,
+              15
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 80242.5,
+              "min": 61460,
+              "max": 90959
+            },
+            "runtime_usec": {
+              "median": 72461.0,
+              "min": 55884,
+              "max": 82975
+            },
+            "restore_usec": {
+              "median": 5137.0,
+              "min": 3544,
+              "max": 6053
+            },
+            "prepare_usec": {
+              "median": 323.0,
+              "min": 264,
+              "max": 455
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 10763.0,
+              "min": 7258,
+              "max": 14304
+            },
+            "achievement_usec": {
+              "median": 209.5,
+              "min": 184,
+              "max": 371
+            },
+            "result_data_usec": {
+              "median": 175.5,
+              "min": 139,
+              "max": 311
+            },
+            "finalization_usec": {
+              "median": 1653.5,
+              "min": 1308,
+              "max": 2108
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2051500.0,
+              "min": -2051788,
+              "max": -2051428
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              6,
+              4,
+              5,
+              6,
+              5,
+              6
+            ],
+            "progress_events": [
+              7,
+              5,
+              6,
+              7,
+              6,
+              7
+            ],
+            "counters": [
+              {
+                "build_usec": 7025,
+                "builds": 6,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 7,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 2743,
+                "builds": 4,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 5,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 3224,
+                "builds": 4,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 5751,
+                "builds": 6,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 7,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4531,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 5596,
+                "builds": 6,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 7,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.460909119232327,
+        "coordinator_speedup": 1.5183409006224038
+      }
+    ]
+  },
+  "confirm": {
+    "engine": {
+      "build": "official",
+      "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+      "hex": 263681,
+      "major": 4,
+      "minor": 6,
+      "patch": 1,
+      "status": "stable",
+      "string": "4.6.1-stable (official)",
+      "timestamp": 0
+    },
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "failures": [],
+    "groups": [
+      {
+        "fixture": "early",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 131461.0,
+              "min": 108726,
+              "max": 173580
+            },
+            "runtime_usec": {
+              "median": 119920.0,
+              "min": 98223,
+              "max": 155769
+            },
+            "restore_usec": {
+              "median": 5388.5,
+              "min": 4011,
+              "max": 10670
+            },
+            "prepare_usec": {
+              "median": 553.0,
+              "min": 291,
+              "max": 893
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 14740.5,
+              "min": 11567,
+              "max": 24705
+            },
+            "achievement_usec": {
+              "median": 263.0,
+              "min": 232,
+              "max": 479
+            },
+            "result_data_usec": {
+              "median": 2610.0,
+              "min": 2187,
+              "max": 4142
+            },
+            "finalization_usec": {
+              "median": 1594.0,
+              "min": 1123,
+              "max": 3211
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2506232.0,
+              "min": -2957576,
+              "max": -2056848
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              8,
+              9,
+              11,
+              9,
+              8,
+              10
+            ],
+            "progress_events": [
+              9,
+              10,
+              12,
+              10,
+              9,
+              11
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 77129.0,
+              "min": 64177,
+              "max": 108612
+            },
+            "runtime_usec": {
+              "median": 67173.0,
+              "min": 56312,
+              "max": 97676
+            },
+            "restore_usec": {
+              "median": 4698.5,
+              "min": 3697,
+              "max": 6271
+            },
+            "prepare_usec": {
+              "median": 404.5,
+              "min": 295,
+              "max": 572
+            },
+            "elapsed_usec": {
+              "median": 2.5,
+              "min": 2,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 9809.0,
+              "min": 7655,
+              "max": 17251
+            },
+            "achievement_usec": {
+              "median": 221.5,
+              "min": 199,
+              "max": 646
+            },
+            "result_data_usec": {
+              "median": 2909.0,
+              "min": 2221,
+              "max": 4255
+            },
+            "finalization_usec": {
+              "median": 1250.0,
+              "min": 1043,
+              "max": 1913
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2507354.0,
+              "min": -2958104,
+              "max": -2056100
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              4,
+              5,
+              7,
+              5,
+              5,
+              5
+            ],
+            "progress_events": [
+              5,
+              6,
+              8,
+              6,
+              6,
+              6
+            ],
+            "counters": [
+              {
+                "build_usec": 3095,
+                "builds": 4,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 5,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4684,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 10192,
+                "builds": 7,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 8,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4183,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 3494,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 4112,
+                "builds": 5,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 6,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.7044302402468592,
+        "coordinator_speedup": 1.785241093891891
+      },
+      {
+        "fixture": "forge_competing",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 368999.0,
+              "min": 286616,
+              "max": 449077
+            },
+            "runtime_usec": {
+              "median": 355536.0,
+              "min": 277105,
+              "max": 431835
+            },
+            "restore_usec": {
+              "median": 6984.0,
+              "min": 3954,
+              "max": 10097
+            },
+            "prepare_usec": {
+              "median": 622.0,
+              "min": 544,
+              "max": 1643
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 2,
+              "max": 107
+            },
+            "frame_wait_usec": {
+              "median": 32833.0,
+              "min": 21398,
+              "max": 47570
+            },
+            "achievement_usec": {
+              "median": 270.5,
+              "min": 212,
+              "max": 302
+            },
+            "result_data_usec": {
+              "median": 3157.5,
+              "min": 2802,
+              "max": 3664
+            },
+            "finalization_usec": {
+              "median": 1717.0,
+              "min": 1389,
+              "max": 1802
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3059308.0,
+              "min": -3851076,
+              "max": -2268404
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              21,
+              27,
+              31,
+              28,
+              26,
+              24
+            ],
+            "progress_events": [
+              22,
+              28,
+              32,
+              29,
+              27,
+              25
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 339018.5,
+              "min": 310021,
+              "max": 369331
+            },
+            "runtime_usec": {
+              "median": 325654.0,
+              "min": 297026,
+              "max": 356917
+            },
+            "restore_usec": {
+              "median": 5098.5,
+              "min": 3433,
+              "max": 6081
+            },
+            "prepare_usec": {
+              "median": 885.0,
+              "min": 583,
+              "max": 1158
+            },
+            "elapsed_usec": {
+              "median": 2.5,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 32955.0,
+              "min": 23134,
+              "max": 36923
+            },
+            "achievement_usec": {
+              "median": 291.5,
+              "min": 175,
+              "max": 541
+            },
+            "result_data_usec": {
+              "median": 3874.5,
+              "min": 2333,
+              "max": 6930
+            },
+            "finalization_usec": {
+              "median": 2142.5,
+              "min": 1212,
+              "max": 3257
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3058848.0,
+              "min": -3849656,
+              "max": -2267752
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              21,
+              25,
+              25,
+              23,
+              26,
+              22
+            ],
+            "progress_events": [
+              22,
+              26,
+              26,
+              24,
+              27,
+              23
+            ],
+            "counters": [
+              {
+                "build_usec": 65943,
+                "builds": 21,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 22,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 35280,
+                "builds": 24,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 26,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 34834,
+                "builds": 24,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 26,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 28668,
+                "builds": 23,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 24,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 41056,
+                "builds": 26,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 27,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 27317,
+                "builds": 22,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 23,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.0884332270952766,
+        "coordinator_speedup": 1.0917599660989885
+      },
+      {
+        "fixture": "earned_craft_near_completion",
+        "requested_seconds": 60.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 221867.0,
+              "min": 145087,
+              "max": 250504
+            },
+            "runtime_usec": {
+              "median": 211049.5,
+              "min": 134919,
+              "max": 240388
+            },
+            "restore_usec": {
+              "median": 5184.5,
+              "min": 3418,
+              "max": 7941
+            },
+            "prepare_usec": {
+              "median": 433.0,
+              "min": 321,
+              "max": 631
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 2,
+              "max": 28
+            },
+            "frame_wait_usec": {
+              "median": 21231.5,
+              "min": 11171,
+              "max": 27549
+            },
+            "achievement_usec": {
+              "median": 257.0,
+              "min": 209,
+              "max": 412
+            },
+            "result_data_usec": {
+              "median": 2491.5,
+              "min": 2103,
+              "max": 3444
+            },
+            "finalization_usec": {
+              "median": 1870.0,
+              "min": 1415,
+              "max": 2602
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3199366.0,
+              "min": -4277124,
+              "max": -2122112
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              13,
+              18,
+              17,
+              16,
+              11,
+              16
+            ],
+            "progress_events": [
+              14,
+              19,
+              18,
+              17,
+              12,
+              17
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 197453.5,
+              "min": 110875,
+              "max": 274929
+            },
+            "runtime_usec": {
+              "median": 185552.5,
+              "min": 104031,
+              "max": 263921
+            },
+            "restore_usec": {
+              "median": 4766.0,
+              "min": 3015,
+              "max": 5985
+            },
+            "prepare_usec": {
+              "median": 341.5,
+              "min": 304,
+              "max": 530
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 3,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 19959.0,
+              "min": 8692,
+              "max": 30998
+            },
+            "achievement_usec": {
+              "median": 249.0,
+              "min": 202,
+              "max": 362
+            },
+            "result_data_usec": {
+              "median": 3245.5,
+              "min": 1789,
+              "max": 4543
+            },
+            "finalization_usec": {
+              "median": 2547.5,
+              "min": 1490,
+              "max": 3110
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3198738.0,
+              "min": -4275560,
+              "max": -2120836
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              8,
+              17,
+              18,
+              13,
+              14,
+              12
+            ],
+            "progress_events": [
+              9,
+              18,
+              19,
+              14,
+              15,
+              13
+            ],
+            "counters": [
+              {
+                "build_usec": 5109,
+                "builds": 8,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 9,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 24260,
+                "builds": 17,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 18,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 22722,
+                "builds": 18,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 19,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 12835,
+                "builds": 13,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 14,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 17039,
+                "builds": 14,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 15,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 10916,
+                "builds": 12,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 1,
+                "kernel_ticks": 599,
+                "partial_ticks": 1,
+                "progress_boundaries": 13,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.12364176882152,
+        "coordinator_speedup": 1.1374112447959472
+      },
+      {
+        "fixture": "auto_standard",
+        "requested_seconds": 300.0,
+        "scope": "isolated",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 1485194.0,
+              "min": 1319888,
+              "max": 1584768
+            },
+            "runtime_usec": {
+              "median": 1473015.5,
+              "min": 1304191,
+              "max": 1566899
+            },
+            "restore_usec": {
+              "median": 7021.0,
+              "min": 3800,
+              "max": 10751
+            },
+            "prepare_usec": {
+              "median": 708.0,
+              "min": 484,
+              "max": 3531
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 2,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 146304.5,
+              "min": 106752,
+              "max": 155851
+            },
+            "achievement_usec": {
+              "median": 448.0,
+              "min": 299,
+              "max": 568
+            },
+            "result_data_usec": {
+              "median": 4211.0,
+              "min": 2501,
+              "max": 6745
+            },
+            "finalization_usec": {
+              "median": 2493.0,
+              "min": 1594,
+              "max": 4308
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3069756.0,
+              "min": -3912108,
+              "max": -2227260
+            },
+            "steps": [
+              3001,
+              3001,
+              3001,
+              3001,
+              3001,
+              3001
+            ],
+            "effective_requested_seconds": [
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0
+            ],
+            "offline_seconds": [
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0
+            ],
+            "game_seconds": [
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0
+            ],
+            "yields": [
+              105,
+              104,
+              105,
+              113,
+              97,
+              108
+            ],
+            "progress_events": [
+              106,
+              105,
+              106,
+              114,
+              98,
+              109
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 1055681.5,
+              "min": 981757,
+              "max": 1426806
+            },
+            "runtime_usec": {
+              "median": 1044144.0,
+              "min": 971642,
+              "max": 1409331
+            },
+            "restore_usec": {
+              "median": 4821.0,
+              "min": 4001,
+              "max": 5509
+            },
+            "prepare_usec": {
+              "median": 851.5,
+              "min": 527,
+              "max": 4268
+            },
+            "elapsed_usec": {
+              "median": 2.0,
+              "min": 2,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 103546.5,
+              "min": 82810,
+              "max": 159794
+            },
+            "achievement_usec": {
+              "median": 229.0,
+              "min": 197,
+              "max": 283
+            },
+            "result_data_usec": {
+              "median": 3421.0,
+              "min": 2270,
+              "max": 5871
+            },
+            "finalization_usec": {
+              "median": 1996.0,
+              "min": 1541,
+              "max": 2697
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3073568.0,
+              "min": -3915272,
+              "max": -2228432
+            },
+            "steps": [
+              3001,
+              3001,
+              3001,
+              3001,
+              3001,
+              3001
+            ],
+            "effective_requested_seconds": [
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0
+            ],
+            "offline_seconds": [
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0
+            ],
+            "game_seconds": [
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0,
+              300.0
+            ],
+            "yields": [
+              96,
+              82,
+              72,
+              77,
+              74,
+              74
+            ],
+            "progress_events": [
+              97,
+              83,
+              73,
+              78,
+              75,
+              75
+            ],
+            "counters": [
+              {
+                "build_usec": 165421,
+                "builds": 97,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 97,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 126517,
+                "builds": 83,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 83,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 89213,
+                "builds": 73,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 73,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 106921,
+                "builds": 78,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 78,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 85889,
+                "builds": 75,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 75,
+                "reasons": {},
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 107106,
+                "builds": 74,
+                "dispatch_usec": 0,
+                "event_invalidations": 1,
+                "fallback_ticks": 2,
+                "kernel_ticks": 2999,
+                "partial_ticks": 1,
+                "progress_boundaries": 75,
+                "reasons": {},
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 1.4068580343597952,
+        "coordinator_speedup": 1.4107398021728803
+      },
+      {
+        "fixture": "earned_craft_first_craft",
+        "requested_seconds": 60.0,
+        "scope": "production_logger",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 241013.5,
+              "min": 143666,
+              "max": 324057
+            },
+            "runtime_usec": {
+              "median": 229371.5,
+              "min": 136458,
+              "max": 309634
+            },
+            "restore_usec": {
+              "median": 4737.0,
+              "min": 3030,
+              "max": 8514
+            },
+            "prepare_usec": {
+              "median": 489.5,
+              "min": 319,
+              "max": 1296
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 2,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 22545.0,
+              "min": 10320,
+              "max": 32996
+            },
+            "achievement_usec": {
+              "median": 292.0,
+              "min": 207,
+              "max": 419
+            },
+            "result_data_usec": {
+              "median": 3306.0,
+              "min": 1881,
+              "max": 4478
+            },
+            "finalization_usec": {
+              "median": 1881.5,
+              "min": 1217,
+              "max": 3084
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3217954.0,
+              "min": -4322640,
+              "max": -2112692
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              19,
+              18,
+              18,
+              17,
+              15,
+              11
+            ],
+            "progress_events": [
+              20,
+              19,
+              19,
+              18,
+              16,
+              12
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 253065.5,
+              "min": 174664,
+              "max": 387481
+            },
+            "runtime_usec": {
+              "median": 242019.5,
+              "min": 159462,
+              "max": 365108
+            },
+            "restore_usec": {
+              "median": 6302.0,
+              "min": 3880,
+              "max": 11136
+            },
+            "prepare_usec": {
+              "median": 698.0,
+              "min": 637,
+              "max": 1352
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 27370.0,
+              "min": 15894,
+              "max": 49095
+            },
+            "achievement_usec": {
+              "median": 301.0,
+              "min": 211,
+              "max": 474
+            },
+            "result_data_usec": {
+              "median": 3264.0,
+              "min": 2293,
+              "max": 6168
+            },
+            "finalization_usec": {
+              "median": 1997.5,
+              "min": 1254,
+              "max": 3899
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -3214980.0,
+              "min": -4321456,
+              "max": -2110448
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              18,
+              26,
+              20,
+              15,
+              18,
+              12
+            ],
+            "progress_events": [
+              19,
+              27,
+              21,
+              16,
+              19,
+              13
+            ],
+            "counters": [
+              {
+                "build_usec": 1265,
+                "builds": 18,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 19,
+                "reasons": {
+                  "external_logger_or_clock": 18
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 2938,
+                "builds": 25,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 27,
+                "reasons": {
+                  "external_logger_or_clock": 25
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 1837,
+                "builds": 20,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 21,
+                "reasons": {
+                  "external_logger_or_clock": 20
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 646,
+                "builds": 15,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 16,
+                "reasons": {
+                  "external_logger_or_clock": 15
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 924,
+                "builds": 18,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 19,
+                "reasons": {
+                  "external_logger_or_clock": 18
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 603,
+                "builds": 12,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 13,
+                "reasons": {
+                  "external_logger_or_clock": 12
+                },
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 0.9523759659060599,
+        "coordinator_speedup": 0.9477397482434267
+      },
+      {
+        "fixture": "earned_craft_first_craft",
+        "requested_seconds": 60.0,
+        "scope": "observer",
+        "scale": 1.0,
+        "budget_ms": 12.0,
+        "methods": {
+          "native": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 239329.0,
+              "min": 169157,
+              "max": 260238
+            },
+            "runtime_usec": {
+              "median": 228682.0,
+              "min": 161892,
+              "max": 246118
+            },
+            "restore_usec": {
+              "median": 5491.5,
+              "min": 3189,
+              "max": 9918
+            },
+            "prepare_usec": {
+              "median": 400.5,
+              "min": 301,
+              "max": 644
+            },
+            "elapsed_usec": {
+              "median": 3.0,
+              "min": 3,
+              "max": 4
+            },
+            "frame_wait_usec": {
+              "median": 23756.5,
+              "min": 17146,
+              "max": 28992
+            },
+            "achievement_usec": {
+              "median": 282.5,
+              "min": 248,
+              "max": 740
+            },
+            "result_data_usec": {
+              "median": 2386.5,
+              "min": 1943,
+              "max": 5188
+            },
+            "finalization_usec": {
+              "median": 1699.5,
+              "min": 1324,
+              "max": 2565
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2534746.0,
+              "min": -2955928,
+              "max": -2112844
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              18,
+              12,
+              17,
+              15,
+              17,
+              18
+            ],
+            "progress_events": [
+              19,
+              13,
+              18,
+              16,
+              18,
+              19
+            ],
+            "counters": [
+              {},
+              {},
+              {},
+              {},
+              {},
+              {}
+            ]
+          },
+          "kernel": {
+            "samples": 6,
+            "pipeline_usec": {
+              "median": 249113.5,
+              "min": 147333,
+              "max": 329745
+            },
+            "runtime_usec": {
+              "median": 239799.5,
+              "min": 139790,
+              "max": 320593
+            },
+            "restore_usec": {
+              "median": 4190.0,
+              "min": 3305,
+              "max": 4877
+            },
+            "prepare_usec": {
+              "median": 565.0,
+              "min": 318,
+              "max": 888
+            },
+            "elapsed_usec": {
+              "median": 2.5,
+              "min": 2,
+              "max": 3
+            },
+            "frame_wait_usec": {
+              "median": 24091.0,
+              "min": 10982,
+              "max": 39838
+            },
+            "achievement_usec": {
+              "median": 212.5,
+              "min": 184,
+              "max": 350
+            },
+            "result_data_usec": {
+              "median": 2925.0,
+              "min": 2294,
+              "max": 3085
+            },
+            "finalization_usec": {
+              "median": 1619.0,
+              "min": 1376,
+              "max": 2581
+            },
+            "retained_memory_estimate_bytes": {
+              "median": -2532142.0,
+              "min": -2954980,
+              "max": -2110888
+            },
+            "steps": [
+              600,
+              600,
+              600,
+              600,
+              600,
+              600
+            ],
+            "effective_requested_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "offline_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "game_seconds": [
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0,
+              60.0
+            ],
+            "yields": [
+              18,
+              11,
+              17,
+              20,
+              16,
+              23
+            ],
+            "progress_events": [
+              19,
+              12,
+              18,
+              21,
+              17,
+              24
+            ],
+            "counters": [
+              {
+                "build_usec": 7716,
+                "builds": 18,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 19,
+                "reasons": {
+                  "external_observer": 18
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 2978,
+                "builds": 11,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 12,
+                "reasons": {
+                  "external_observer": 11
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 6295,
+                "builds": 17,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 18,
+                "reasons": {
+                  "external_observer": 17
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 10974,
+                "builds": 20,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 21,
+                "reasons": {
+                  "external_observer": 20
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 6036,
+                "builds": 16,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 17,
+                "reasons": {
+                  "external_observer": 16
+                },
+                "structural_invalidations": 0
+              },
+              {
+                "build_usec": 12678,
+                "builds": 23,
+                "dispatch_usec": 0,
+                "event_invalidations": 0,
+                "fallback_ticks": 600,
+                "kernel_ticks": 0,
+                "partial_ticks": 1,
+                "progress_boundaries": 24,
+                "reasons": {
+                  "external_observer": 23
+                },
+                "structural_invalidations": 0
+              }
+            ]
+          }
+        },
+        "pipeline_speedup": 0.96072272277496,
+        "coordinator_speedup": 0.9536383520399334
+      }
+    ]
+  }
+}

@@ -1,0 +1,424 @@
+{
+	"cases": [
+		{
+			"compared_ticks": 2000,
+			"counters": {
+				"build_usec": 2134,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 93,
+				"kernel_ticks": 1999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "critical_greater",
+			"rewards": [
+				{
+					"additional_secondary_stats": [
+						{
+							"affix_position": "suffix",
+							"affix_text": "of Acceleration",
+							"description_label": "Cycle speed",
+							"description_mode": "multiplier",
+							"effect_id": "cycle_speed_increase",
+							"modifier_type": "cycle_speed",
+							"rolled_value": 1.30828289895378,
+							"stat_group": "cycle_speed",
+							"target_id": ""
+						}
+					],
+					"critical_craft": true,
+					"definition_id": "generated_relic_tier_3",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Voracious",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Voracious Umbral Crystal",
+						"effect_id": "input_draw_increase",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#c58aff",
+						"rarity_name": "Rare",
+						"rolled_value": 1.37163942901707,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 3
+					},
+					"instance_id": "relic_2",
+					"requested_tier": 2,
+					"rolled_value": 1.37163942901707,
+					"secondary_stat": {
+						"affix_position": "prefix",
+						"affix_text": "Potent",
+						"description_label": "",
+						"description_mode": "multiplier",
+						"effect_id": "output_increase",
+						"modifier_type": "production",
+						"rolled_value": 1.31950959435695,
+						"stat_group": "output",
+						"target_id": "heat"
+					}
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"compared_ticks": 3000,
+			"counters": {
+				"build_usec": 2125,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 89,
+				"kernel_ticks": 2999,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "auto_standard",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Efficient",
+						"description_label": "All input draw",
+						"description_mode": "multiplier",
+						"display_name": "Efficient Molten Sigil",
+						"effect_id": "input_draw_reduction",
+						"family": "input_efficiency",
+						"generated": true,
+						"modifier_type": "input_draw",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.908775157940886,
+						"stat_group": "input_draw",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.908775157940886
+				},
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "suffix",
+						"affix_text": "of Acceleration",
+						"description_label": "Cycle speed",
+						"description_mode": "multiplier",
+						"display_name": "Emberstone of Acceleration",
+						"effect_id": "cycle_speed_increase",
+						"family": "cycle_speed",
+						"generated": true,
+						"modifier_type": "cycle_speed",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 1.11110583977683,
+						"stat_group": "cycle_speed",
+						"target_id": "",
+						"tier": 1
+					},
+					"instance_id": "relic_3",
+					"rolled_value": 1.11110583977683
+				},
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Volatile",
+						"description_label": "Thermic Mass",
+						"description_mode": "multiplier",
+						"display_name": "Volatile Ashglass Core",
+						"effect_id": "thermic_mass_sensitivity_increase",
+						"family": "sensitivity",
+						"generated": true,
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 1.0203742833104,
+						"sensitivity_targets": [
+							"thermic_mass"
+						],
+						"stat_group": "sensitivity",
+						"stat_type": "sensitivity",
+						"tier": 1
+					},
+					"instance_id": "relic_4",
+					"rolled_value": 1.0203742833104
+				}
+			],
+			"ticks": 3000
+		},
+		{
+			"compared_ticks": 100,
+			"counters": {
+				"build_usec": 3464,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 69,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "forge_together",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Potent",
+						"description_label": "",
+						"description_mode": "multiplier",
+						"display_name": "Potent Ashglass Core",
+						"effect_id": "output_increase",
+						"family": "production",
+						"generated": true,
+						"modifier_type": "production",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 1.11835251846355,
+						"stat_group": "output",
+						"target_id": "heat",
+						"tier": 1
+					},
+					"instance_id": "relic_3",
+					"rolled_value": 1.11835251846355
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"compared_ticks": 20,
+			"counters": {
+				"build_usec": 1610,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 65,
+				"kernel_ticks": 20,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"follow_on_rng_parity": [
+				true,
+				true
+			],
+			"label": "earned_craft_near_completion",
+			"rewards": [
+				{
+					"definition_id": "generated_relic_tier_1",
+					"generated_definition": {
+						"affix_position": "prefix",
+						"affix_text": "Heat-Hungry",
+						"description_label": "Heat production",
+						"description_mode": "inverse_resource_boost",
+						"display_name": "Heat-Hungry Emberstone",
+						"dynamic": true,
+						"dynamic_exponent": 1.5,
+						"dynamic_formula": "resource_inverse_boost",
+						"dynamic_resource_id": "heat",
+						"dynamic_threshold": 100000.0,
+						"effect_id": "heat_reservoir_boost",
+						"family": "production",
+						"generated": true,
+						"modifier_type": "production",
+						"rarity_color": "#61d97a",
+						"rarity_name": "Common",
+						"rolled_value": 0.548428246657463,
+						"stat_group": "output",
+						"target_id": "heat",
+						"tier": 1
+					},
+					"instance_id": "relic_2",
+					"rolled_value": 0.548428246657463
+				}
+			],
+			"ticks": 20
+		},
+		{
+			"boundary_graph_ticks": 45,
+			"counters": {
+				"build_usec": 50239,
+				"builds": 45,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 777,
+				"kernel_ticks": 45,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			}
+		},
+		{
+			"callback_ticks": 3,
+			"counters": {
+				"build_usec": 2052,
+				"builds": 4,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 3,
+				"fallback_usec": 0,
+				"invalidate_usec": 34,
+				"kernel_ticks": 5,
+				"kernel_usec": 0,
+				"reasons": {
+					"external_observer": 3
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"reentry_ticks": 5
+		},
+		{
+			"counters": {
+				"build_usec": 1845,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 46,
+				"kernel_ticks": 5,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"equipment_lock_ticks": 6
+		},
+		{
+			"counters": {
+				"build_usec": 3755,
+				"builds": 3,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 247,
+				"kernel_ticks": 1004,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"low_level_alias": false,
+			"rebuild_ticks": 5,
+			"startup_tick_comparisons": 1000
+		},
+		{
+			"counters": {
+				"build_usec": 4027,
+				"builds": 3,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 189,
+				"kernel_ticks": 1004,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"low_level_alias": true,
+			"rebuild_ticks": 5,
+			"startup_tick_comparisons": 1000
+		},
+		{
+			"generation_timings": {
+				"generation_calls": 3,
+				"generation_usec": 659
+			},
+			"instrumentation_tick_comparisons": 3000,
+			"inventory_timings": {
+				"item_calls": 0,
+				"item_usec": 0,
+				"random_reward_calls": 3,
+				"random_reward_usec": 741,
+				"recipe_calls": 2,
+				"recipe_usec": 56
+			},
+			"metrics": {
+				"auto_attempts": 302,
+				"auto_successes": 2,
+				"completion_usec": 905,
+				"completions": 3,
+				"crafting_active_ticks": 2700,
+				"crafting_completions": 3,
+				"crafting_no_progress_ticks": 0,
+				"crafting_progress_ticks": 2700,
+				"cycle_calls": 3000,
+				"cycle_usec": 106769,
+				"forge_completions": 0
+			}
+		}
+	],
+	"failures": []
+}

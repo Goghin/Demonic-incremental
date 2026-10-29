@@ -1,0 +1,33 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+OFFLINE_PAIR early 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR consumer_50000 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR mid 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR forge_competing 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR earned_craft_near_completion 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR auto_standard 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR earned_feedback 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR nexum_relics 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR automation 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR late_mixed 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR diagnostic_multi_buyers 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR diagnostic_high_ash 60.05 isolated repeat=0 failures=0
+OFFLINE_PAIR early 1.05 fractional_clock repeat=0 failures=0
+OFFLINE_PAIR consumer_50000 1.05 isolated repeat=0 failures=0
+OFFLINE_PAIR consumer_50000 1.05 isolated repeat=0 failures=0
+OFFLINE_PAIR consumer_50000 1.05 isolated repeat=0 failures=0
+OFFLINE_PAIR early 0.0 isolated repeat=0 failures=0
+OFFLINE_PAIR early -1.0 isolated repeat=0 failures=0
+OFFLINE_PAIR early 600.15 isolated repeat=0 failures=0
+OFFLINE_PAIR early 14400.05 isolated repeat=0 failures=0
+OFFLINE_PAIR earned_craft_near_completion 1.05 production_logger repeat=0 failures=0
+OFFLINE_PAIR earned_craft_near_completion 1.05 observer repeat=0 failures=0
+OFFLINE_PAIR consumer_50000 660.05 isolated repeat=0 failures=0
+OFFLINE_PAIR consumer_50000 660.05 recovery repeat=0 failures=0
+OFFLINE_PAIR consumer_50000 14400.0 recovery repeat=0 failures=0
+OFFLINE_PAIR auto_standard 300.05 isolated repeat=0 failures=0
+OFFLINE_PAIR early 181.0 legacy_stabilization repeat=0 failures=0
+OFFLINE_PAIR automation 20.05 frame_mutation repeat=0 failures=0
+OFFLINE_PAIR earned_craft_near_completion 20.05 observer_reentry repeat=0 failures=0
+OFFLINE_PAIR early 60.05 isolated repeat=0 failures=0
+OFFLINE_STUDY failures=0
