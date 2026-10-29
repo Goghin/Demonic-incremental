@@ -66,7 +66,7 @@ func _differential(label: String, ticks: int, prefix: int = 0) -> void:
 	if label in ["early", "mid"]:
 		check(kernel.counters["kernel_ticks"] > 0, "Supported representative fixture never entered the kernel: " + label)
 	if label == "forge_competing":
-		check(kernel.counters["kernel_ticks"] == 0, "Unsupported representative state accelerated")
+		check(kernel.counters["kernel_ticks"] > 0 and kernel.counters["reasons"].is_empty(), "Supported Forge fixture did not execute")
 	results.append({"label": label, "prefix": prefix, "ticks": ticks, "compared_ticks": compared, "counters": kernel.counters.duplicate(true)})
 
 

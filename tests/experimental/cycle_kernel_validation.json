@@ -1,0 +1,1936 @@
+{
+	"cases": [
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 2000,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 877,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 47,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"purchases": [],
+			"signals": [],
+			"ticks": 2000
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 10000,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 829,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 50,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "forge_competing",
+			"purchases": [],
+			"signals": [],
+			"ticks": 10000
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 694,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 38,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "real_completion",
+			"purchases": [],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 446,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 20,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "idle",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 472,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 20,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "manual",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 445,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 19,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "active",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 449,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 21,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "partial",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 458,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 20,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "empty",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 520,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "exact_boundary",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 852,
+				"builds": 2,
+				"cycle_invalidations": 1,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 30,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "critical",
+			"purchases": [],
+			"signals": [
+				{
+					"amount": 3.0,
+					"event": "normal"
+				},
+				{
+					"current": 2,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 3
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 446,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 20,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "auto",
+			"purchases": [],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 494,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 21,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "auto_disabled",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 552,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 19,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "paused",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 440,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 18,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "zero_speed",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 1330,
+				"builds": 3,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 51,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 2,
+				"writeback_usec": 0
+			},
+			"label": "completion_purchase",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 820320.567056741,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 61,
+							"old_level": 60
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1000791.09180922,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 62,
+							"old_level": 61
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 51
+				}
+			],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 957,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 29,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "cycle_upgrade",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "cycle_speed_autobuy",
+							"upgrade_name": "cycle_speed_autobuy"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				}
+			],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 433,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 21,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "auto_locked",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 775,
+				"builds": 2,
+				"cycle_invalidations": 1,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 32,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "level_dependency",
+			"purchases": [],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 517,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 41,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "ash_heavy",
+			"purchases": [],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 200,
+			"completion_ticks": [
+				1,
+				2,
+				3,
+				4,
+				5,
+				6,
+				7,
+				8,
+				9,
+				10,
+				11,
+				12,
+				13,
+				14,
+				15,
+				16,
+				17,
+				18,
+				20,
+				22,
+				24,
+				27,
+				30,
+				34,
+				40,
+				50,
+				62,
+				83,
+				111,
+				150
+			],
+			"counters": {
+				"build_usec": 1057,
+				"builds": 2,
+				"cycle_invalidations": 1,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 55,
+				"kernel_ticks": 200,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "completion_heavy",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 2
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 3
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 4
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 5
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 6
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 7
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 8
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 9
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 10
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 11
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 12
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 13
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 14
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 15
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 16
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 17
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 18
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 20
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 22
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 24
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 27
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 30
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 34
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 40
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 50
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 62
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 83
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 111
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1500000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 150
+				}
+			],
+			"signals": [
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				},
+				{
+					"amount": 2.0,
+					"event": "critical"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				}
+			],
+			"ticks": 200
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 504,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 27,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "auto_empty",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 661,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 27,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "auto_unfunded",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 476,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 23,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "auto_paused",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 507,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 43,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "paused_operating",
+			"purchases": [],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 515,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 23,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "mode_events",
+			"purchases": [],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 2185,
+				"builds": 2,
+				"cycle_invalidations": 1,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 35,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "reward_dependency",
+			"purchases": [],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				},
+				{
+					"current": 0,
+					"event": "downlevel",
+					"id": "infernal_forge",
+					"previous": 1
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [
+				2
+			],
+			"compared_ticks": 100,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 991,
+				"builds": 3,
+				"cycle_invalidations": 1,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 38,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "auto_header",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1000000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 1,
+							"old_level": 0
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 1
+				}
+			],
+			"signals": [],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 100,
+			"completion_ticks": [
+				1
+			],
+			"counters": {
+				"build_usec": 1155,
+				"builds": 3,
+				"cycle_invalidations": 1,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 46,
+				"kernel_ticks": 100,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 2,
+				"writeback_usec": 0
+			},
+			"label": "auto_competing",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 820320.567056741,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 61,
+							"old_level": 60
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1.0,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"new_level": 1,
+							"old_level": 0,
+							"upgrade_id": "competing_speed",
+							"upgrade_name": "competing_speed"
+						},
+						"event": "upgrade_purchased",
+						"source": "upgrade_autobuyer",
+						"tick": 0
+					},
+					"tick": 1
+				},
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 2000000.0,
+							"cost_resource_id": "heat",
+							"generator_id": "infernal_forge",
+							"generator_name": "Infernal Forge",
+							"new_level": 2,
+							"old_level": 1
+						},
+						"event": "generator_level_purchased",
+						"source": "cycle_auto_run",
+						"tick": 0
+					},
+					"tick": 2
+				}
+			],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				}
+			],
+			"ticks": 100
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 2000,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 704,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 38,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_manual_active",
+			"purchases": [],
+			"signals": [],
+			"ticks": 2000
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 2000,
+			"completion_ticks": [
+				5
+			],
+			"counters": {
+				"build_usec": 1272,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 74,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 1,
+				"writeback_usec": 0
+			},
+			"label": "reached_manual_near",
+			"purchases": [
+				{
+					"event": {
+						"category": "purchase",
+						"details": {
+							"cost": 1845898.12889293,
+							"cost_resource_id": "heat",
+							"generator_id": "atomic_friction",
+							"generator_name": "Atomic Friction",
+							"new_level": 69,
+							"old_level": 68
+						},
+						"event": "generator_level_purchased",
+						"source": "autobuyer",
+						"tick": 0
+					},
+					"tick": 1112
+				}
+			],
+			"signals": [
+				{
+					"amount": 1.0,
+					"event": "normal"
+				}
+			],
+			"ticks": 2000
+		},
+		{
+			"automatic_ticks": [],
+			"compared_ticks": 2000,
+			"completion_ticks": [],
+			"counters": {
+				"build_usec": 722,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 40,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"label": "reached_repeated",
+			"purchases": [],
+			"signals": [],
+			"ticks": 2000
+		},
+		{
+			"counters": {
+				"build_usec": 3603,
+				"builds": 12,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 5,
+				"fallback_usec": 0,
+				"invalidate_usec": 168,
+				"kernel_ticks": 55,
+				"kernel_usec": 0,
+				"reasons": {
+					"unsupported_cycle_inventory": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"reentry": true
+		},
+		{
+			"metrics": {
+				"auto_attempts": 127,
+				"auto_successes": 27,
+				"completion_level_changes": 1,
+				"completion_usec": 1670,
+				"completions": 28,
+				"cycle_calls": 100,
+				"cycle_usec": 6798,
+				"downlevels": 28,
+				"startup_level_changes": 0
+			},
+			"probe_parity_ticks": 100
+		}
+	],
+	"failures": []
+}

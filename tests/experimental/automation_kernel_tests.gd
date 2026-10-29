@@ -79,7 +79,7 @@ func _differential(label: String, ticks: int) -> void:
 		if event["event"]["category"] == "purchase":
 			purchases.append(event)
 	if label == "forge_competing":
-		check(kernel.counters["kernel_ticks"] == 0 and kernel.counters["reasons"].has("cycle_or_auto_run"), "Forge cycle blocker was not retained independently")
+		check(kernel.counters["kernel_ticks"] > 0 and kernel.counters["reasons"].is_empty(), "Forge did not use the native-cycle contract")
 	elif label == "unsupported":
 		check(kernel.counters["kernel_ticks"] == 1 and kernel.counters["fallback_ticks"] == ticks - 1 and kernel.counters["structural_invalidations"] == 1, "Unsupported purchase did not fall back on NEXT tick")
 	else:

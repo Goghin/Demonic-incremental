@@ -1,0 +1,2221 @@
+{
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "measured_samples_per_method": 3,
+  "non_native_binary_parity_samples_including_warmup": 256,
+  "individual_tick_comparisons": 20700,
+  "scenarios": [
+    {
+      "label": "early",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 250184,
+          "min_usec": 238855,
+          "max_usec": 258351
+        },
+        "extended": {
+          "median_usec": 116227,
+          "min_usec": 114017,
+          "max_usec": 123960
+        },
+        "isolated": {
+          "median_usec": 126098,
+          "min_usec": 114656,
+          "max_usec": 136248
+        },
+        "previous_isolated": {
+          "median_usec": 113915,
+          "min_usec": 109973,
+          "max_usec": 130425
+        },
+        "previous": {
+          "median_usec": 112268,
+          "min_usec": 107269,
+          "max_usec": 126636
+        },
+        "exact": {
+          "median_usec": 219090,
+          "min_usec": 206262,
+          "max_usec": 230816
+        }
+      },
+      "speedup": 1.8850181111101552,
+      "change_vs_previous_percent": 3.5263832971104803,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 384,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 6332,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 72,
+          "kernel_ticks": 2000,
+          "kernel_usec": 103270,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 2000,
+          "partial_operations": 2000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "early",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 6000,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 4002,
+            "heat_leak": 2000,
+            "input_consumption": 6000,
+            "input_rate_calculation": 2000,
+            "matter_decay": 2000,
+            "output_production": 6000,
+            "production_rate_calculation": 10000,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 34577,
+            "available_operating_duration": 10438,
+            "cycle_generator_processing": 2190,
+            "environmental_effects": 8008,
+            "generator_automation": 2174,
+            "generator_processing": 195708,
+            "generator_start_checks": 5173,
+            "heat_leak": 3564,
+            "input_consumption": 19719,
+            "input_rate_calculation": 3368,
+            "matter_decay": 1977,
+            "output_production": 117973,
+            "production_rate_calculation": 64189,
+            "upgrade_automation": 1882
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 23100,
+      "packet_retained_estimate_bytes": 20716
+    },
+    {
+      "label": "early",
+      "ticks": 36000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 4858062,
+          "min_usec": 4694157,
+          "max_usec": 5077990
+        },
+        "extended": {
+          "median_usec": 2569227,
+          "min_usec": 2365030,
+          "max_usec": 2603003
+        },
+        "isolated": {
+          "median_usec": 2712010,
+          "min_usec": 2516810,
+          "max_usec": 2797710
+        },
+        "previous_isolated": {
+          "median_usec": 2498753,
+          "min_usec": 2391628,
+          "max_usec": 2529638
+        },
+        "previous": {
+          "median_usec": 2455081,
+          "min_usec": 2320730,
+          "max_usec": 2670154
+        },
+        "exact": {
+          "median_usec": 4466263,
+          "min_usec": 4372284,
+          "max_usec": 4552718
+        }
+      },
+      "speedup": 1.7383683886242827,
+      "change_vs_previous_percent": 4.649378167156204,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 494,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 118217,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 80,
+          "kernel_ticks": 36000,
+          "kernel_usec": 2239770,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 32880,
+          "partial_operations": 36000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "early",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 36000,
+            "available_operating_duration": 108000,
+            "cycle_generator_processing": 36000,
+            "environmental_effects": 36000,
+            "generator_automation": 36000,
+            "generator_processing": 36000,
+            "generator_start_checks": 72002,
+            "heat_leak": 36000,
+            "input_consumption": 108000,
+            "input_rate_calculation": 36000,
+            "matter_decay": 36000,
+            "output_production": 108000,
+            "production_rate_calculation": 180000,
+            "upgrade_automation": 36000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 655162,
+            "available_operating_duration": 214024,
+            "cycle_generator_processing": 41515,
+            "environmental_effects": 529071,
+            "generator_automation": 42425,
+            "generator_processing": 3732945,
+            "generator_start_checks": 94701,
+            "heat_leak": 77553,
+            "input_consumption": 374077,
+            "input_rate_calculation": 63857,
+            "matter_decay": 401100,
+            "output_production": 2236222,
+            "production_rate_calculation": 1232111,
+            "upgrade_automation": 39388
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 36000
+      },
+      "previous_packet_retained_estimate_bytes": 23100,
+      "packet_retained_estimate_bytes": 20716
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 363328,
+          "min_usec": 326321,
+          "max_usec": 380401
+        },
+        "extended": {
+          "median_usec": 196318,
+          "min_usec": 194025,
+          "max_usec": 201631
+        },
+        "isolated": {
+          "median_usec": 205804,
+          "min_usec": 203368,
+          "max_usec": 223906
+        },
+        "previous_isolated": {
+          "median_usec": 209041,
+          "min_usec": 195372,
+          "max_usec": 213325
+        },
+        "previous": {
+          "median_usec": 196442,
+          "min_usec": 191126,
+          "max_usec": 201275
+        },
+        "exact": {
+          "median_usec": 317142,
+          "min_usec": 309366,
+          "max_usec": 323526
+        }
+      },
+      "speedup": 1.6154504426491711,
+      "change_vs_previous_percent": -0.06312295741236484,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 629,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 6517,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 81,
+          "kernel_ticks": 2000,
+          "kernel_usec": 189945,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "consumer_50000",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 6000,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 4003,
+            "heat_leak": 2000,
+            "input_consumption": 6000,
+            "input_rate_calculation": 4000,
+            "matter_decay": 2000,
+            "output_production": 6000,
+            "production_rate_calculation": 6000,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 23752,
+            "available_operating_duration": 31822,
+            "cycle_generator_processing": 2506,
+            "environmental_effects": 25291,
+            "generator_automation": 2856,
+            "generator_processing": 289913,
+            "generator_start_checks": 1783,
+            "heat_leak": 20365,
+            "input_consumption": 51221,
+            "input_rate_calculation": 23501,
+            "matter_decay": 2093,
+            "output_production": 128733,
+            "production_rate_calculation": 86707,
+            "upgrade_automation": 2085
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 19936,
+      "packet_retained_estimate_bytes": 17608
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 1686053,
+          "min_usec": 1657685,
+          "max_usec": 1780028
+        },
+        "extended": {
+          "median_usec": 1036998,
+          "min_usec": 967956,
+          "max_usec": 1041857
+        },
+        "isolated": {
+          "median_usec": 1011613,
+          "min_usec": 954862,
+          "max_usec": 1090548
+        },
+        "previous_isolated": {
+          "median_usec": 1028483,
+          "min_usec": 1000844,
+          "max_usec": 1137221
+        },
+        "previous": {
+          "median_usec": 1008064,
+          "min_usec": 990227,
+          "max_usec": 1055947
+        },
+        "exact": {
+          "median_usec": 1509656,
+          "min_usec": 1500541,
+          "max_usec": 1631870
+        }
+      },
+      "speedup": 1.4557945145506548,
+      "change_vs_previous_percent": 2.870254269570194,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 484,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 36445,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 73,
+          "kernel_ticks": 10000,
+          "kernel_usec": 1027587,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "consumer_50000",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 30000,
+            "cycle_generator_processing": 10000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_processing": 10000,
+            "generator_start_checks": 20003,
+            "heat_leak": 10000,
+            "input_consumption": 30000,
+            "input_rate_calculation": 20000,
+            "matter_decay": 10000,
+            "output_production": 30000,
+            "production_rate_calculation": 30000,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 125492,
+            "available_operating_duration": 173562,
+            "cycle_generator_processing": 12587,
+            "environmental_effects": 146412,
+            "generator_automation": 14063,
+            "generator_processing": 1648422,
+            "generator_start_checks": 10169,
+            "heat_leak": 119242,
+            "input_consumption": 283877,
+            "input_rate_calculation": 124245,
+            "matter_decay": 12963,
+            "output_production": 745611,
+            "production_rate_calculation": 496272,
+            "upgrade_automation": 14350
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 19936,
+      "packet_retained_estimate_bytes": 17608
+    },
+    {
+      "label": "mid",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 278655,
+          "min_usec": 257783,
+          "max_usec": 322522
+        },
+        "extended": {
+          "median_usec": 182944,
+          "min_usec": 169261,
+          "max_usec": 205954
+        },
+        "isolated": {
+          "median_usec": 170393,
+          "min_usec": 167427,
+          "max_usec": 227898
+        },
+        "previous_isolated": {
+          "median_usec": 163554,
+          "min_usec": 162567,
+          "max_usec": 179618
+        },
+        "previous": {
+          "median_usec": 171923,
+          "min_usec": 163533,
+          "max_usec": 184794
+        },
+        "exact": {
+          "median_usec": 233254,
+          "min_usec": 232266,
+          "max_usec": 254029
+        }
+      },
+      "speedup": 1.275002186461431,
+      "change_vs_previous_percent": 6.410427924128825,
+      "coverage_percent": 99.9,
+      "observations": {
+        "counters": {
+          "build_usec": 1438,
+          "builds": 3,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 7849,
+          "event_ticks": 2,
+          "fallback_ticks": 2,
+          "fallback_usec": 512,
+          "invalidate_usec": 160,
+          "kernel_ticks": 1998,
+          "kernel_usec": 160446,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 3255,
+          "partial_operations": 3363
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "mid",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 7396,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_automation_loop_checks": 2000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 1949,
+            "generator_processing": 2000,
+            "generator_start_checks": 5533,
+            "heat_leak": 2000,
+            "input_consumption": 7396,
+            "input_rate_calculation": 4958,
+            "matter_decay": 2000,
+            "output_production": 7396,
+            "production_rate_calculation": 9668,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 23723,
+            "available_operating_duration": 28502,
+            "cycle_generator_processing": 2201,
+            "environmental_effects": 9809,
+            "generator_automation": 17869,
+            "generator_automation_loop_checks": 6388,
+            "generator_automation_purchase_attempts": 25,
+            "generator_automation_waiting_checks": 5920,
+            "generator_processing": 234275,
+            "generator_start_checks": 9904,
+            "heat_leak": 4421,
+            "input_consumption": 52140,
+            "input_rate_calculation": 18011,
+            "matter_decay": 2375,
+            "output_production": 98750,
+            "production_rate_calculation": 40607,
+            "upgrade_automation": 2160
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 23172,
+      "packet_retained_estimate_bytes": 20724
+    },
+    {
+      "label": "mid",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 1516369,
+          "min_usec": 1410525,
+          "max_usec": 1571458
+        },
+        "extended": {
+          "median_usec": 1020308,
+          "min_usec": 1005860,
+          "max_usec": 1112639
+        },
+        "isolated": {
+          "median_usec": 1073628,
+          "min_usec": 1017757,
+          "max_usec": 1083377
+        },
+        "previous_isolated": {
+          "median_usec": 1072893,
+          "min_usec": 1037483,
+          "max_usec": 1107211
+        },
+        "previous": {
+          "median_usec": 995958,
+          "min_usec": 968108,
+          "max_usec": 1029493
+        },
+        "exact": {
+          "median_usec": 1335764,
+          "min_usec": 1299537,
+          "max_usec": 1378860
+        }
+      },
+      "speedup": 1.3091772288367827,
+      "change_vs_previous_percent": 2.444882213908617,
+      "coverage_percent": 99.98,
+      "observations": {
+        "counters": {
+          "build_usec": 1680,
+          "builds": 3,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 51087,
+          "event_ticks": 2,
+          "fallback_ticks": 2,
+          "fallback_usec": 526,
+          "invalidate_usec": 184,
+          "kernel_ticks": 9998,
+          "kernel_usec": 1133543,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 19255,
+          "partial_operations": 19363
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "mid",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 39396,
+            "cycle_generator_processing": 10000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_automation_loop_checks": 10000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 9949,
+            "generator_processing": 10000,
+            "generator_start_checks": 29533,
+            "heat_leak": 10000,
+            "input_consumption": 39396,
+            "input_rate_calculation": 28958,
+            "matter_decay": 10000,
+            "output_production": 39396,
+            "production_rate_calculation": 49668,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 107324,
+            "available_operating_duration": 167797,
+            "cycle_generator_processing": 10883,
+            "environmental_effects": 123918,
+            "generator_automation": 86286,
+            "generator_automation_loop_checks": 31465,
+            "generator_automation_purchase_attempts": 25,
+            "generator_automation_waiting_checks": 29904,
+            "generator_processing": 1216202,
+            "generator_start_checks": 48393,
+            "heat_leak": 22067,
+            "input_consumption": 292962,
+            "input_rate_calculation": 107547,
+            "matter_decay": 88901,
+            "output_production": 469640,
+            "production_rate_calculation": 193002,
+            "upgrade_automation": 10315
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 23172,
+      "packet_retained_estimate_bytes": 20724
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 815118,
+          "min_usec": 809433,
+          "max_usec": 820509
+        },
+        "extended": {
+          "median_usec": 617160,
+          "min_usec": 577552,
+          "max_usec": 657675
+        },
+        "isolated": {
+          "median_usec": 590282,
+          "min_usec": 547311,
+          "max_usec": 717465
+        },
+        "previous_isolated": {
+          "median_usec": 741963,
+          "min_usec": 695978,
+          "max_usec": 776820
+        },
+        "previous": {
+          "median_usec": 810007,
+          "min_usec": 723537,
+          "max_usec": 851396
+        },
+        "exact": {
+          "median_usec": 796557,
+          "min_usec": 706209,
+          "max_usec": 798624
+        }
+      },
+      "speedup": 1.2906815088469765,
+      "change_vs_previous_percent": -23.808065856220995,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 707,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 84030,
+          "event_check_usec": 7508,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 106,
+          "kernel_ticks": 2000,
+          "kernel_usec": 505944,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 2000,
+          "cycle_usec": 83884,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "forge_competing",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 10000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_automation_loop_checks": 2000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 1949,
+            "generator_processing": 2000,
+            "generator_start_checks": 5,
+            "heat_leak": 2000,
+            "input_consumption": 10000,
+            "input_rate_calculation": 12000,
+            "matter_decay": 2000,
+            "output_production": 10000,
+            "production_rate_calculation": 16000,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 20357,
+            "available_operating_duration": 82662,
+            "cycle_generator_processing": 93368,
+            "environmental_effects": 27600,
+            "generator_automation": 22481,
+            "generator_automation_loop_checks": 8792,
+            "generator_automation_purchase_attempts": 45,
+            "generator_automation_waiting_checks": 7501,
+            "generator_processing": 697483,
+            "generator_start_checks": 21,
+            "heat_leak": 22010,
+            "input_consumption": 121448,
+            "input_rate_calculation": 78352,
+            "matter_decay": 2575,
+            "output_production": 246277,
+            "production_rate_calculation": 162966,
+            "upgrade_automation": 2641
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 32620
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 3651975,
+          "min_usec": 3487480,
+          "max_usec": 3797542
+        },
+        "extended": {
+          "median_usec": 2527840,
+          "min_usec": 2506501,
+          "max_usec": 2738999
+        },
+        "isolated": {
+          "median_usec": 2638324,
+          "min_usec": 2503479,
+          "max_usec": 2735878
+        },
+        "previous_isolated": {
+          "median_usec": 3548059,
+          "min_usec": 3362259,
+          "max_usec": 3578358
+        },
+        "previous": {
+          "median_usec": 3599367,
+          "min_usec": 3548225,
+          "max_usec": 3618359
+        },
+        "exact": {
+          "median_usec": 3229802,
+          "min_usec": 3000059,
+          "max_usec": 3355697
+        }
+      },
+      "speedup": 1.2776924172415975,
+      "change_vs_previous_percent": -29.769873424966107,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 937,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 418336,
+          "event_check_usec": 38834,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 98,
+          "kernel_ticks": 10000,
+          "kernel_usec": 2315094,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 10000,
+          "cycle_usec": 472419,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 1,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 50,
+          "partial_operations": 53
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "forge_competing",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 50000,
+            "cycle_generator_processing": 20000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_automation_loop_checks": 10000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 9949,
+            "generator_processing": 10000,
+            "generator_start_checks": 58,
+            "heat_leak": 10000,
+            "heat_leak_integration": 1,
+            "input_consumption": 50000,
+            "input_rate_calculation": 60000,
+            "matter_decay": 10000,
+            "output_production": 50000,
+            "production_rate_calculation": 80000,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 107366,
+            "available_operating_duration": 441791,
+            "cycle_generator_processing": 498864,
+            "environmental_effects": 107760,
+            "generator_automation": 111113,
+            "generator_automation_loop_checks": 39349,
+            "generator_automation_purchase_attempts": 44,
+            "generator_automation_waiting_checks": 38829,
+            "generator_processing": 3457614,
+            "generator_start_checks": 209,
+            "heat_leak": 74871,
+            "heat_leak_integration": 24,
+            "input_consumption": 642246,
+            "input_rate_calculation": 409560,
+            "matter_decay": 16316,
+            "output_production": 1259155,
+            "production_rate_calculation": 836096,
+            "upgrade_automation": 13151
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 32620
+    },
+    {
+      "label": "real_completion",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 410238,
+          "min_usec": 373733,
+          "max_usec": 421533
+        },
+        "extended": {
+          "median_usec": 234215,
+          "min_usec": 183844,
+          "max_usec": 255746
+        },
+        "isolated": {
+          "median_usec": 194930,
+          "min_usec": 179338,
+          "max_usec": 202213
+        },
+        "previous_isolated": {
+          "median_usec": 389739,
+          "min_usec": 339806,
+          "max_usec": 450449
+        },
+        "previous": {
+          "median_usec": 375760,
+          "min_usec": 374793,
+          "max_usec": 379641
+        },
+        "exact": {
+          "median_usec": 375707,
+          "min_usec": 369801,
+          "max_usec": 422353
+        }
+      },
+      "speedup": 1.6041116068569476,
+      "change_vs_previous_percent": -37.66899084522035,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 475,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 103,
+          "event_check_usec": 7601,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 93,
+          "kernel_ticks": 2000,
+          "kernel_usec": 190242,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 49,
+          "completions": 1,
+          "cycle_calls": 2000,
+          "cycle_usec": 4086,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 1,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1983,
+          "partial_operations": 1999
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "real_completion",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 8000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 4002,
+            "heat_leak": 2000,
+            "heat_leak_integration": 1,
+            "input_consumption": 8000,
+            "input_rate_calculation": 6002,
+            "matter_decay": 2000,
+            "output_production": 8000,
+            "production_rate_calculation": 10001,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 19902,
+            "available_operating_duration": 45244,
+            "cycle_generator_processing": 4305,
+            "environmental_effects": 9302,
+            "generator_automation": 2947,
+            "generator_processing": 385254,
+            "generator_start_checks": 5825,
+            "heat_leak": 4135,
+            "heat_leak_integration": 29,
+            "input_consumption": 74686,
+            "input_rate_calculation": 33034,
+            "matter_decay": 2422,
+            "output_production": 200704,
+            "production_rate_calculation": 134612,
+            "upgrade_automation": 2322
+          }
+        },
+        "normal_completions": 1,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 25764
+    },
+    {
+      "label": "reached_manual_active",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 771214,
+          "min_usec": 722741,
+          "max_usec": 800861
+        },
+        "extended": {
+          "median_usec": 523007,
+          "min_usec": 472395,
+          "max_usec": 634673
+        },
+        "isolated": {
+          "median_usec": 557822,
+          "min_usec": 535293,
+          "max_usec": 588923
+        },
+        "previous_isolated": {
+          "median_usec": 720417,
+          "min_usec": 679162,
+          "max_usec": 763073
+        },
+        "previous": {
+          "median_usec": 766442,
+          "min_usec": 723686,
+          "max_usec": 797043
+        },
+        "exact": {
+          "median_usec": 787309,
+          "min_usec": 740095,
+          "max_usec": 828221
+        }
+      },
+      "speedup": 1.5053507888039739,
+      "change_vs_previous_percent": -31.76169886305813,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 662,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 98750,
+          "event_check_usec": 9239,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 83,
+          "kernel_ticks": 2000,
+          "kernel_usec": 553443,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 2000,
+          "cycle_usec": 94080,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "reached_manual_active",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 8000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_automation_loop_checks": 2000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 1949,
+            "generator_processing": 2000,
+            "generator_start_checks": 2004,
+            "heat_leak": 2000,
+            "input_consumption": 8000,
+            "input_rate_calculation": 10000,
+            "matter_decay": 2000,
+            "output_production": 8000,
+            "production_rate_calculation": 12000,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 22991,
+            "available_operating_duration": 103657,
+            "cycle_generator_processing": 109186,
+            "environmental_effects": 44114,
+            "generator_automation": 26699,
+            "generator_automation_loop_checks": 9315,
+            "generator_automation_purchase_attempts": 58,
+            "generator_automation_waiting_checks": 8586,
+            "generator_processing": 782863,
+            "generator_start_checks": 1517,
+            "heat_leak": 26959,
+            "input_consumption": 137669,
+            "input_rate_calculation": 100262,
+            "matter_decay": 13728,
+            "output_production": 263650,
+            "production_rate_calculation": 196612,
+            "upgrade_automation": 3317
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 25828
+    },
+    {
+      "label": "reached_manual_near",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 690624,
+          "min_usec": 685594,
+          "max_usec": 730078
+        },
+        "extended": {
+          "median_usec": 465170,
+          "min_usec": 413263,
+          "max_usec": 475044
+        },
+        "isolated": {
+          "median_usec": 482583,
+          "min_usec": 479746,
+          "max_usec": 489547
+        },
+        "previous_isolated": {
+          "median_usec": 697113,
+          "min_usec": 661469,
+          "max_usec": 733929
+        },
+        "previous": {
+          "median_usec": 668084,
+          "min_usec": 664534,
+          "max_usec": 705056
+        },
+        "exact": {
+          "median_usec": 716185,
+          "min_usec": 628159,
+          "max_usec": 727282
+        }
+      },
+      "speedup": 1.5396199238987898,
+      "change_vs_previous_percent": -30.372528005460385,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 1504,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 262,
+          "event_check_usec": 9738,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 199,
+          "kernel_ticks": 2000,
+          "kernel_usec": 472339,
+          "reasons": {},
+          "structural_invalidations": 1,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 47,
+          "completions": 1,
+          "cycle_calls": 2000,
+          "cycle_usec": 3358,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 2,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "reached_manual_near",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 8000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_automation_loop_checks": 2000,
+            "generator_automation_purchase_attempts": 2,
+            "generator_automation_waiting_checks": 1898,
+            "generator_processing": 2000,
+            "generator_start_checks": 2004,
+            "heat_leak": 2000,
+            "heat_leak_integration": 1,
+            "input_consumption": 8000,
+            "input_rate_calculation": 6010,
+            "matter_decay": 2000,
+            "output_production": 8000,
+            "production_rate_calculation": 10005,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 19025,
+            "available_operating_duration": 85207,
+            "cycle_generator_processing": 4101,
+            "environmental_effects": 50969,
+            "generator_automation": 26423,
+            "generator_automation_loop_checks": 7467,
+            "generator_automation_purchase_attempts": 111,
+            "generator_automation_waiting_checks": 6788,
+            "generator_processing": 612963,
+            "generator_start_checks": 1099,
+            "heat_leak": 23171,
+            "heat_leak_integration": 28,
+            "input_consumption": 122181,
+            "input_rate_calculation": 77268,
+            "matter_decay": 24951,
+            "output_production": 234249,
+            "production_rate_calculation": 161813,
+            "upgrade_automation": 2420
+          }
+        },
+        "normal_completions": 1,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 25764
+    },
+    {
+      "label": "reached_repeated",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 3644916,
+          "min_usec": 3644599,
+          "max_usec": 3914761
+        },
+        "extended": {
+          "median_usec": 2466976,
+          "min_usec": 2166944,
+          "max_usec": 2594741
+        },
+        "isolated": {
+          "median_usec": 2574342,
+          "min_usec": 2312270,
+          "max_usec": 2714015
+        },
+        "previous_isolated": {
+          "median_usec": 2368621,
+          "min_usec": 2282099,
+          "max_usec": 2504462
+        },
+        "previous": {
+          "median_usec": 2181027,
+          "min_usec": 2124143,
+          "max_usec": 2362581
+        },
+        "exact": {
+          "median_usec": 3526362,
+          "min_usec": 3077879,
+          "max_usec": 3657551
+        }
+      },
+      "speedup": 1.4294269583490071,
+      "change_vs_previous_percent": 13.110750119095261,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 548,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 37255,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 91,
+          "kernel_ticks": 10000,
+          "kernel_usec": 2014396,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 10000,
+          "cycle_usec": 14686,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 2,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "reached_repeated",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 40000,
+            "cycle_generator_processing": 20000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_automation_loop_checks": 10000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 9949,
+            "generator_processing": 10000,
+            "generator_start_checks": 10004,
+            "heat_leak": 10000,
+            "input_consumption": 40000,
+            "input_rate_calculation": 30000,
+            "matter_decay": 10000,
+            "output_production": 40000,
+            "production_rate_calculation": 50000,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 88234,
+            "available_operating_duration": 411611,
+            "cycle_generator_processing": 18630,
+            "environmental_effects": 227229,
+            "generator_automation": 89787,
+            "generator_automation_loop_checks": 33203,
+            "generator_automation_purchase_attempts": 67,
+            "generator_automation_waiting_checks": 30860,
+            "generator_processing": 2737268,
+            "generator_start_checks": 5040,
+            "heat_leak": 90555,
+            "input_consumption": 544801,
+            "input_rate_calculation": 350330,
+            "matter_decay": 123109,
+            "output_production": 1069354,
+            "production_rate_calculation": 753447,
+            "upgrade_automation": 11085
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 28100,
+      "packet_retained_estimate_bytes": 25828
+    },
+    {
+      "label": "active",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 149036,
+          "min_usec": 132516,
+          "max_usec": 167145
+        },
+        "extended": {
+          "median_usec": 96749,
+          "min_usec": 91169,
+          "max_usec": 97527
+        },
+        "isolated": {
+          "median_usec": 97915,
+          "min_usec": 94008,
+          "max_usec": 100752
+        },
+        "previous_isolated": {
+          "median_usec": 114557,
+          "min_usec": 106911,
+          "max_usec": 125699
+        },
+        "previous": {
+          "median_usec": 113086,
+          "min_usec": 108908,
+          "max_usec": 121287
+        },
+        "exact": {
+          "median_usec": 112208,
+          "min_usec": 110264,
+          "max_usec": 122794
+        }
+      },
+      "speedup": 1.1597845972568193,
+      "change_vs_previous_percent": -14.446527421608335,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 434,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 10763,
+          "event_check_usec": 6235,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 61,
+          "kernel_ticks": 2000,
+          "kernel_usec": 91445,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 2000,
+          "cycle_usec": 11507,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "active",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 10000,
+            "heat_leak": 2000,
+            "heat_leak_integration": 13,
+            "input_rate_calculation": 2,
+            "matter_decay": 2000,
+            "production_rate_calculation": 1,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 18674,
+            "cycle_generator_processing": 13100,
+            "environmental_effects": 23910,
+            "generator_automation": 1952,
+            "generator_processing": 81868,
+            "generator_start_checks": 3848,
+            "heat_leak": 19076,
+            "heat_leak_integration": 449,
+            "input_rate_calculation": 6,
+            "matter_decay": 2063,
+            "production_rate_calculation": 14,
+            "upgrade_automation": 2076
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 9756
+    },
+    {
+      "label": "auto",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 126338,
+          "min_usec": 122369,
+          "max_usec": 147950
+        },
+        "extended": {
+          "median_usec": 103860,
+          "min_usec": 97138,
+          "max_usec": 124521
+        },
+        "isolated": {
+          "median_usec": 105402,
+          "min_usec": 97404,
+          "max_usec": 106828
+        },
+        "previous_isolated": {
+          "median_usec": 118364,
+          "min_usec": 111435,
+          "max_usec": 127167
+        },
+        "previous": {
+          "median_usec": 115845,
+          "min_usec": 113734,
+          "max_usec": 119551
+        },
+        "exact": {
+          "median_usec": 118840,
+          "min_usec": 117195,
+          "max_usec": 119238
+        }
+      },
+      "speedup": 1.1442326208357405,
+      "change_vs_previous_percent": -10.345720574906125,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 384,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 16662,
+          "event_check_usec": 7494,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 79,
+          "kernel_ticks": 2000,
+          "kernel_usec": 100166,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 2000,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 40,
+          "completions": 1,
+          "cycle_calls": 2000,
+          "cycle_usec": 17886,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "auto",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 10000,
+            "heat_leak": 2000,
+            "input_rate_calculation": 2,
+            "matter_decay": 2000,
+            "production_rate_calculation": 1,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 17328,
+            "cycle_generator_processing": 18501,
+            "environmental_effects": 23338,
+            "generator_automation": 1986,
+            "generator_processing": 84390,
+            "generator_start_checks": 3878,
+            "heat_leak": 18490,
+            "input_rate_calculation": 4,
+            "matter_decay": 2227,
+            "production_rate_calculation": 14,
+            "upgrade_automation": 1674
+          }
+        },
+        "normal_completions": 1,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 9692
+    },
+    {
+      "label": "ash_heavy",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 112338,
+          "min_usec": 108052,
+          "max_usec": 113161
+        },
+        "extended": {
+          "median_usec": 86697,
+          "min_usec": 80626,
+          "max_usec": 89447
+        },
+        "isolated": {
+          "median_usec": 89625,
+          "min_usec": 82617,
+          "max_usec": 90195
+        },
+        "previous_isolated": {
+          "median_usec": 103422,
+          "min_usec": 98126,
+          "max_usec": 107506
+        },
+        "previous": {
+          "median_usec": 129123,
+          "min_usec": 96390,
+          "max_usec": 133173
+        },
+        "exact": {
+          "median_usec": 103378,
+          "min_usec": 97720,
+          "max_usec": 123218
+        }
+      },
+      "speedup": 1.1924057349158563,
+      "change_vs_previous_percent": -32.85704328431031,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 354,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 131,
+          "event_check_usec": 6320,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 66,
+          "kernel_ticks": 2000,
+          "kernel_usec": 80318,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 41,
+          "completions": 1,
+          "cycle_calls": 2000,
+          "cycle_usec": 2020,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "ash_heavy",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 10000,
+            "heat_leak": 2000,
+            "input_rate_calculation": 2,
+            "matter_decay": 2000,
+            "production_rate_calculation": 1,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 15899,
+            "cycle_generator_processing": 3383,
+            "environmental_effects": 20945,
+            "generator_automation": 1815,
+            "generator_processing": 68047,
+            "generator_start_checks": 3633,
+            "heat_leak": 16778,
+            "input_rate_calculation": 7,
+            "matter_decay": 1783,
+            "production_rate_calculation": 15,
+            "upgrade_automation": 1715
+          }
+        },
+        "normal_completions": 1,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 9692
+    },
+    {
+      "label": "completion_heavy",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 415048,
+          "min_usec": 407858,
+          "max_usec": 435006
+        },
+        "extended": {
+          "median_usec": 222721,
+          "min_usec": 222492,
+          "max_usec": 229874
+        },
+        "isolated": {
+          "median_usec": 225032,
+          "min_usec": 211402,
+          "max_usec": 229448
+        },
+        "previous_isolated": {
+          "median_usec": 401988,
+          "min_usec": 376577,
+          "max_usec": 402412
+        },
+        "previous": {
+          "median_usec": 376016,
+          "min_usec": 367469,
+          "max_usec": 396807
+        },
+        "exact": {
+          "median_usec": 403030,
+          "min_usec": 394975,
+          "max_usec": 420743
+        }
+      },
+      "speedup": 1.8095734124756984,
+      "change_vs_previous_percent": -40.76821199097911,
+      "coverage_percent": 100.0,
+      "observations": {
+        "counters": {
+          "build_usec": 1010,
+          "builds": 2,
+          "cycle_invalidations": 1,
+          "cycle_usec": 24842,
+          "event_check_usec": 8365,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 109,
+          "kernel_ticks": 2000,
+          "kernel_usec": 226539,
+          "reasons": {},
+          "structural_invalidations": 1,
+          "writeback_usec": 0
+        },
+        "critical_completions": 17,
+        "cycle_activity": {
+          "auto_attempts": 2031,
+          "auto_successes": 31,
+          "completion_level_changes": 1,
+          "completion_usec": 1713,
+          "completions": 32,
+          "cycle_calls": 2000,
+          "cycle_usec": 29048,
+          "downlevels": 32,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 978,
+          "partial_operations": 1121
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_modifiers": [],
+          "relic_inventory_entries": 0
+        },
+        "intrusive_untimed": true,
+        "label": "completion_heavy",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 6000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 5123,
+            "heat_leak": 2000,
+            "input_consumption": 6000,
+            "input_rate_calculation": 2064,
+            "matter_decay": 2000,
+            "output_production": 6000,
+            "production_rate_calculation": 10064,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 19445,
+            "available_operating_duration": 18333,
+            "cycle_generator_processing": 28167,
+            "environmental_effects": 32954,
+            "generator_automation": 2459,
+            "generator_processing": 353972,
+            "generator_start_checks": 4389,
+            "heat_leak": 4472,
+            "input_consumption": 27709,
+            "input_rate_calculation": 10840,
+            "matter_decay": 25725,
+            "output_production": 194735,
+            "production_rate_calculation": 129763,
+            "upgrade_automation": 2377
+          }
+        },
+        "normal_completions": 15,
+        "rng_words": 32,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 23580
+    }
+  ]
+}

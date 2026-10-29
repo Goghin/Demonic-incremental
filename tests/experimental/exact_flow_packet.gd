@@ -5,6 +5,7 @@ extends RefCounted
 const STEP: float = TimeManager.OFFLINE_MAX_GAME_STEP
 const PARTIAL_EPSILON: float = 0.000001
 const Automation = preload("res://tests/experimental/exact_flow_automation.gd")
+const Cycles = preload("res://tests/experimental/exact_flow_cycles.gd")
 const Controller = preload("res://tests/experimental/exact_flow_controller.gd")
 const Events = preload("res://tests/experimental/transaction_events.gd")
 var simulation: Simulation
@@ -12,6 +13,10 @@ var machines: Array = []
 var automatic_candidates: Array[Upgrade] = []
 var has_automation: bool = false
 var configuration_changed: bool = false
+var cycle_heat_multiplier: float = -1.0
+var measure_cycle_time: bool = false
+var cycle_usec: int = 0
+var cycle_invalidations: int = 0
 var initialized: bool = false
 var _built: bool = false
 var error: String = ""
@@ -48,7 +53,8 @@ class InputOperation extends RefCounted:
 class Machine extends RefCounted:
 	var generator: Generator
 	var can_start: bool
-	var inactive_cycle: bool
+	var cycle_based: bool
+	var native_cycle: bool = false
 	var inputs: Array[InputOperation] = []
 	var single_input: InputOperation
 	var multiple_inputs: bool = false
@@ -122,9 +128,15 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 				if mode.get_script() != preload("res://Generators/generator_operation_mode.gd"):
 					error = "unknown_automation_mode_contract"
 					return false
-		if generator.cycle_active or generator.auto_run_cycles:
-			error = "cycle_or_auto_run"
+		if (generator.cycle_active or generator.auto_run_cycles) and not generator.definition.cycle_based:
+			error = "non_cycle_runtime"
 			return false
+		var cycle_contract: String = ""
+		if generator.definition.cycle_based:
+			cycle_contract = Cycles.rejection(generator, state)
+			if cycle_contract != "" and (generator.cycle_active or generator.auto_run_cycles):
+				error = cycle_contract
+				return false
 		for modifier: Modifier in generator.modifiers:
 			if modifier.get_script() != preload("res://Game/modifier.gd") or (modifier.dynamic and modifier.dynamic_resource_id == ResourceIds.ESSENCE):
 				error = "unknown_or_essence_modifier"
@@ -137,10 +149,11 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 			continue
 		var machine := Machine.new()
 		machine.generator = generator
-		machine.inactive_cycle = generator.definition.cycle_based
-		machine.can_start = generator.level > 0 and not generator.manually_paused and not machine.inactive_cycle
+		machine.cycle_based = generator.definition.cycle_based
+		machine.native_cycle = machine.cycle_based and cycle_contract == ""
+		machine.can_start = generator.level > 0 and not generator.manually_paused and not machine.cycle_based
 		machines.append(machine)
-		if machine.inactive_cycle or (not machine.can_start and not generator.operating):
+		if machine.cycle_based or (not machine.can_start and not generator.operating):
 			continue
 		var mode: GeneratorOperationMode = generator.get_operation_mode()
 		if mode == null or mode.get_script() != preload("res://Generators/generator_operation_mode.gd") or mode.is_resource_transfer:
@@ -186,6 +199,7 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 				coefficient *= state.eternal_flame_upgrade_manager.get_effective_multiplier("eternal_furnace", state.eternal_flame_state)
 			operation.rate = _rate(coefficient, generator, ModifierTypes.PRODUCTION, output.resource_id)
 			machine.outputs.append(operation)
+	cycle_heat_multiplier = state.eternal_flame_upgrade_manager.get_effective_multiplier("eternal_furnace", state.eternal_flame_state)
 	# Non-resource requirement blockers cannot change during an uninterrupted
 	# packet; an eligible automatic action exits BEFORE any writes that tick.
 	for upgrade: Upgrade in state.upgrades.values():
@@ -261,7 +275,16 @@ func step() -> void:
 				flow_counts["controller_transitions"] += 1
 		else:
 			simulation._update_lava_mite_throttle_state(generator)
-		if machine.inactive_cycle:
+		if machine.cycle_based:
+			if machine.native_cycle and (generator.cycle_active or generator.auto_run_cycles):
+				var previous_level: int = generator.level
+				var cycle_started: int = Time.get_ticks_usec() if measure_cycle_time else 0
+				simulation.update_cycle_generator(generator, STEP, true, cycle_heat_multiplier)
+				if measure_cycle_time:
+					cycle_usec += Time.get_ticks_usec() - cycle_started
+				if generator.level != previous_level:
+					configuration_changed = true
+					cycle_invalidations += 1
 			continue
 		var duration: float = STEP
 		if machine.multiple_inputs:
@@ -349,7 +372,7 @@ func step() -> void:
 	state.generator_automation_manager.update(STEP, simulation, true)
 	state.upgrade_automation_manager.update(STEP, simulation, true)
 	if has_automation:
-		configuration_changed = Automation.changed(state, automation_mark)
+		configuration_changed = configuration_changed or Automation.changed(state, automation_mark)
 	if not simulation._gameplay_was_offline:
 		simulation._gameplay_snapshot_elapsed = 0.0
 		state.take_gameplay_interval_statistics()

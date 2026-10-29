@@ -1,0 +1,94 @@
+{
+  "base_commit": "b29c599381223a9a7238da1c90f96c5b0fd94f69",
+  "branch": "feature/cycle-auto-run",
+  "recorded_validation_utc": "2026-10-29T03:52:28.871734+00:00",
+  "benchmark": {
+    "engine": {
+      "build": "official",
+      "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+      "hex": 263681,
+      "major": 4,
+      "minor": 6,
+      "patch": 1,
+      "status": "stable",
+      "string": "4.6.1-stable (official)",
+      "timestamp": 0
+    },
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "platform": "Linux x86_64",
+    "matched_run_preserved_across_runtime_restart": true,
+    "stdout_log_unavailable_after_restart": true,
+    "all_methods_same_run_environment": true,
+    "rows": 384,
+    "binary_parity_samples_including_warmup": 256
+  },
+  "refreshed_validation": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "godot_version": "4.6.1.stable.official.14d19694e",
+    "passing_groups": 95,
+    "previous_groups_retained": 94,
+    "failures": 0,
+    "warnings": 0,
+    "runtime_errors": 0,
+    "dedicated_named_tick_comparisons": 20700,
+    "scope_endpoint_pairs": 5,
+    "no_benchmarks_repeated_on_recovery": true
+  },
+  "windows_godot_4_7_2_validated": false,
+  "editor_import_executed": false,
+  "production_sha256_unchanged_from_base": {
+    "simulation/simulation.gd": "2fb9f861c9d673aef50192119c84b248a82709f14abad483035d883d90aa7738",
+    "game_state.gd": "3d1c83da895e8ade889bafca90d12a184324d366f33516a2056a465adc7d3484",
+    "game.gd": "c271b40f8f38cf2577a300e5493e83cacb844154d030cbd70a1a4246b7c424c1",
+    "Game/GeneratorAutomationManager.gd": "35e16ab69359bfc404cd2b480a999d78f9fcedb760992b46a66317acb95454c4",
+    "Game/UpgradeAutomationManager.gd": "d76dc0d194d5d29d20f90bf21fbbd80cba0469528c1353b3632ee15ef58d4397",
+    "Game/save_manager.gd": "5525535f29fa15af7d70f01e8011103915fdc9aae28accc2749e5337beda09ce",
+    "Game/modifier.gd": "e46c2e0e0f5d8bda0ad9da4aa7682a037780d1ca5ae84b2983b90a391a60b299",
+    "Generators/generator.gd": "d87dad85e18035df4674b94ca74d7e0d49e74e605b535ab27bf813e00f7e48cb",
+    "Generators/GeneratorDefinitions/InfernalForge.gd": "e12d46cd2411fa62a439a4a4d9c513feec136a37b85b706ecaebc22573c0c870",
+    "Upgrades/UpgradeRegistry.gd": "360ca827fc93f1c01b8ec875ed20aff620799fad0e23f000008aedab2f974689",
+    "Upgrades/upgrade_effect.gd": "d0cb39fa331e4772e11c88e64e9f0a6b4d89f35de99ff27873dfe584ae0b4edb"
+  },
+  "baseline_archives": {
+    "tests/experimental/baselines/exact_flow_b29c599_packet.gd": {
+      "sha256": "4b7c5e73e5d7eb79eff81d2578b3cab02e04c0f712aa94b2a7816febfb3c108d",
+      "normalized_matches_base": true
+    },
+    "tests/experimental/baselines/exact_flow_b29c599_kernel.gd": {
+      "sha256": "3604edce890777ca397c89ecf200838c00e7056749118c44b2c2ac48d56322c3",
+      "normalized_matches_base": true
+    }
+  },
+  "core_source_sha256": {
+    "tests/experimental/exact_flow_packet.gd": "41862b980f196adba2209b26c9bfb565b9f964345493f9c3205bbb4a0ebd09fb",
+    "tests/experimental/exact_flow_kernel.gd": "a5c6e80b405fd504cf7858b70827986e46301d7f59ba3445c4ae6fdf0888651e",
+    "tests/experimental/exact_flow_cycles.gd": "dfea8b36435974d521bd58ee8fca9b663f92e062ccb160851fa156880fc004f9",
+    "tests/experimental/cycle_kernel_benchmark.gd": "a2d9a2704c88545079b8a920b9e3d68f704c44cb1daa3b092c8a33466887236c",
+    "tests/experimental/cycle_kernel_tests.gd": "3fb3c3a68300b85e850cc492d366e97265c79571184aba91e2c155681f188d81",
+    "tests/experimental/cycle_kernel_fixtures.gd": "af1360601048bc5d680d8996f276a47073730f7b783bf1b3e9ae7c86e1b80abd"
+  },
+  "raw_sha256": {
+    "cycle_kernel_benchmark_results.json": "709837222498b8cc6158a2614ec8d013c656265f12d03e7470c5ba32e70ae41e",
+    "cycle_kernel_validation.json": "b66b3d390785b2877c44341c02c0ec0b19e2a3599ef15da45b22a0d808b06f8b",
+    "cycle_scope_audit.json": "c05b729732f5fbf011e37efb63bfb7f3eaec99fecd55141217d5d1b6d3cd3af9",
+    "cycle_progression.json": "814d14607266d6e88fbb829e14359cb52810bc8c23e4f5848387e41abb8e8354",
+    "cycle_auto_unlock_exploration.json": "a7d9218f412f8c66a7452fd9a3b8908c4ab0c62c12a1614985eee37df42b478b",
+    "cycle_kernel_regression.log": "f46c837c9e5d1c0ac50809b2b02a2385728dd33a53c2115d4d64dc5c539ff0b5",
+    "cycle_kernel_tests.log": "4bbce7c2cfe9882fbf1015fed4b791552a0a96d11d1b00625474d1a29228c12a",
+    "cycle_kernel_scope.log": "ca6df0d7b841011b5b862102295f525aa1bd2d9e4f95312808cfd0a34dcb17b1"
+  },
+  "optional_auto_unlock_exploration": {
+    "ticks": 600000,
+    "target_reached": false,
+    "used_for_performance_or_parity": false
+  },
+  "commands": [
+    "python tests/experimental/run_cycle_kernel.py --godot /path/to/godot --mode fixtures",
+    "python tests/experimental/run_cycle_kernel.py --godot /path/to/godot --mode tests",
+    "python tests/experimental/run_cycle_kernel.py --godot /path/to/godot --mode benchmark",
+    "python tests/experimental/run_cycle_kernel.py --godot /path/to/godot --mode regression",
+    "python tests/experimental/run_cycle_kernel.py --godot /path/to/godot --mode scope",
+    "python tests/experimental/summarize_cycle_kernel.py"
+  ]
+}

@@ -1,5 +1,7 @@
 # Exact ordered kernel: native generator and upgrade automation
 
+Historical automation-milestone results below retain the `b29c599` cycle restriction. [EXACT_FLOW_CYCLES.md](EXACT_FLOW_CYCLES.md) documents the later native Forge-cycle capability and its separate measurements.
+
 Base: `caadfe6360795b2f294777a9b0c3d4ecda501ef9`, branch `feature/cycle-auto-run`. All implementation changes are under `tests/`; production mechanics, costs, cooldowns and offline entry points are unchanged. This is an opt-in synchronous simulation-core experiment, not a production offline runner.
 
 ## 1. Authoritative tick order and automation semantics

@@ -153,6 +153,7 @@ func _run_tests() -> void:
 	_run_test("Compact exact kernel preserves ordered tick state and invalidation", _test_exact_flow_kernel)
 	_run_test("Exact consumers preserve sequential inputs, exhaustion and Mite hysteresis", _test_exact_flow_consumers)
 	_run_test("Exact kernel preserves native automation and purchase invalidation", _test_exact_flow_automation)
+	_run_test("Exact Forge cycles preserve completion, auto-run and RNG order", _test_exact_flow_cycles)
 	_run_test("Core fixtures preserve dense event parity and restricted-checkpoint contracts", _test_core_investigation)
 
 
@@ -2707,6 +2708,13 @@ func _test_exact_flow_consumers() -> void:
 
 func _test_exact_flow_automation() -> void:
 	var test: RefCounted = preload("res://tests/experimental/automation_kernel_tests.gd").new()
+	test.run_all()
+	for failure: String in test.failures:
+		_expect(false, failure)
+
+
+func _test_exact_flow_cycles() -> void:
+	var test: RefCounted = preload("res://tests/experimental/cycle_kernel_tests.gd").new()
 	test.run_all()
 	for failure: String in test.failures:
 		_expect(false, failure)

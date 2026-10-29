@@ -12,7 +12,7 @@ var measure_phases: bool = false
 var collect_flow_counters: bool = false
 var flow_counts: Dictionary = {}
 var _running: bool = false
-var counters: Dictionary = {"build_usec": 0, "invalidate_usec": 0, "kernel_usec": 0, "fallback_usec": 0, "builds": 0, "kernel_ticks": 0, "fallback_ticks": 0, "event_ticks": 0, "structural_invalidations": 0, "event_check_usec": 0, "reasons": {}, "writeback_usec": 0}
+var counters: Dictionary = {"build_usec": 0, "invalidate_usec": 0, "kernel_usec": 0, "fallback_usec": 0, "builds": 0, "kernel_ticks": 0, "fallback_ticks": 0, "event_ticks": 0, "structural_invalidations": 0, "event_check_usec": 0, "reasons": {}, "writeback_usec": 0, "cycle_usec": 0, "cycle_invalidations": 0}
 
 
 func _init(target: Simulation, events: RefCounted = null) -> void:
@@ -34,6 +34,7 @@ func run(ticks: int, record_trace: bool = false) -> bool:
 			var started: int = Time.get_ticks_usec()
 			packet = Packet.new()
 			packet.measure_flows = collect_flow_counters
+			packet.measure_cycle_time = measure_phases
 			var supported: bool = packet.build(simulation, journal)
 			counters["build_usec"] += Time.get_ticks_usec() - started
 			counters["builds"] += 1
@@ -83,6 +84,9 @@ func run(ticks: int, record_trace: bool = false) -> bool:
 
 
 func _collect_packet(packet: RefCounted) -> void:
+	if packet != null:
+		counters["cycle_usec"] += packet.cycle_usec
+		counters["cycle_invalidations"] += packet.cycle_invalidations
 	if not collect_flow_counters or packet == null:
 		return
 	for key: String in packet.flow_counts:

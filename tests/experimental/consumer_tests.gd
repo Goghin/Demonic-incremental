@@ -77,7 +77,7 @@ func _differential(label: String, ticks: int) -> void:
 		compared += 1
 	check(oracle.fingerprint(candidate["simulation"], candidate["journal"]) == oracle.fingerprint(control["simulation"], control["journal"]), label + ": full graph differs")
 	check(oracle.failures.is_empty(), label + ": oracle failed")
-	if label in ["forge_competing", "transfer"]:
+	if label == "transfer":
 		check(kernel.counters["kernel_ticks"] == 0 and kernel.counters["fallback_ticks"] == ticks, label + ": unsafe optimization")
 	else:
 		check(kernel.counters["kernel_ticks"] > 0, label + ": no kernel execution")
