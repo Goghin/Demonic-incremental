@@ -15,6 +15,7 @@ var visual_effects_enabled: bool:
 	get:
 		return visual_effect_quality > VISUAL_EFFECT_OFF
 var ui_sounds_enabled: bool = true
+var gameplay_logging_enabled: bool = false
 var master_volume_percent: float = 70.0
 var ui_click_player: AudioStreamPlayer
 var ui_purchase_player: AudioStreamPlayer
@@ -107,6 +108,7 @@ func _ready() -> void:
 	visual_quality_picker.select(visual_effect_quality)
 	$OptionsPanel/OptionsContent/UISoundsCheckBox.set_pressed_no_signal(ui_sounds_enabled)
 	$OptionsPanel/OptionsContent/AmbientAudioCheckBox.set_pressed_no_signal(ambient_enabled)
+	$OptionsPanel/OptionsContent/GameplayLoggingCheckBox.set_pressed_no_signal(gameplay_logging_enabled)
 	$OptionsPanel/OptionsContent/MasterVolumeSlider.set_value_no_signal(master_volume_percent)
 	_update_master_volume_label()
 	_apply_master_volume()
@@ -122,6 +124,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	
 	state = GameState.new()
+	state.gameplay_log.enabled = gameplay_logging_enabled
 	prestige_animation = $PrestigeAnimation
 	
 	_create_realm_view()
@@ -592,7 +595,8 @@ func _style_options_panel() -> void:
 
 	for node_path in [
 		"OptionsPanel/OptionsContent/UISoundsCheckBox",
-		"OptionsPanel/OptionsContent/AmbientAudioCheckBox"
+		"OptionsPanel/OptionsContent/AmbientAudioCheckBox",
+		"OptionsPanel/OptionsContent/GameplayLoggingCheckBox"
 	]:
 		var checkbox := get_node(node_path) as CheckBox
 		checkbox.add_theme_font_size_override("font_size", 10)
@@ -768,7 +772,7 @@ func _create_generator_panel(
 	generator_panel.selection_requested.connect(
 		_on_generator_panel_selection_requested
 	)
-		generator_panel.upgrade_automation_changed.connect(
+	generator_panel.upgrade_automation_changed.connect(
 		_on_upgrade_automation_settings_changed
 	)
 	generator_panel.generator_purchased.connect(
@@ -1843,6 +1847,20 @@ func _on_ui_sounds_toggled(enabled: bool) -> void:
 	_save_ui_sound_settings()
 
 
+func _on_gameplay_logging_toggled(enabled: bool) -> void:
+	gameplay_logging_enabled = enabled
+	if state != null:
+		state.gameplay_log.enabled = enabled
+		state.take_gameplay_interval_statistics()
+
+	var config := ConfigFile.new()
+	config.load("user://settings.cfg")
+	config.set_value("debug", "gameplay_logging_enabled", enabled)
+	var error: Error = config.save("user://settings.cfg")
+	if error != OK:
+		push_warning("Could not save gameplay logging settings: %s" % error)
+
+
 func _on_ambient_audio_toggled(enabled: bool) -> void:
 	ambient_enabled = enabled
 
@@ -2201,6 +2219,7 @@ func _load_visual_settings() -> void:
 			100.0
 		)
 		ambient_enabled = bool(config.get_value("audio", "ambient_enabled", true))
+		gameplay_logging_enabled = bool(config.get_value("debug", "gameplay_logging_enabled", false))
 
 
 func _save_visual_settings() -> void:

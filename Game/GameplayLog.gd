@@ -7,6 +7,7 @@ const MAX_MEMORY_EVENTS: int = 2000
 const MAX_LOG_BYTES: int = 2 * 1024 * 1024
 
 
+var enabled: bool = true
 var events: Array[Dictionary] = []
 var _file_warning_reported: bool = false
 
@@ -17,6 +18,9 @@ func record_event(
 	details: Dictionary = {},
 	source: String = "game"
 ) -> void:
+	if not enabled:
+		return
+
 	var entry: Dictionary = {
 		"timestamp": Time.get_datetime_string_from_system(),
 		"unix_time": int(Time.get_unix_time_from_system()),
