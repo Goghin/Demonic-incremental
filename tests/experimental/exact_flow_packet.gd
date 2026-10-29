@@ -34,6 +34,15 @@ class Rate extends RefCounted:
 			result *= factor if factor is float else factor.get_effective_multiplier(state, generator)
 		return result * final_scale
 
+# Selected only for separate intrusive diagnostics. Normal Rate has no counters
+# or per-evaluation measurement branch.
+class MeasuredRate extends Rate:
+	var evaluations: int = 0
+	var dynamic_factors: int = 0
+	func evaluate(state: GameState, generator: Generator) -> float:
+		evaluations += 1
+		return super.evaluate(state, generator)
+
 class Output extends RefCounted:
 	var resource_id: String
 	var resource: ResourceState
@@ -138,12 +147,12 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 				error = cycle_contract
 				return false
 		for modifier: Modifier in generator.modifiers:
-			if modifier.get_script() != preload("res://Game/modifier.gd") or (modifier.dynamic and modifier.dynamic_resource_id == ResourceIds.ESSENCE):
-				error = "unknown_or_essence_modifier"
+			if modifier.get_script() != preload("res://Game/modifier.gd"):
+				error = "unknown_modifier"
 				return false
 		for sensitivity: ModifierSensitivity in generator.modifier_sensitivities:
-			if sensitivity.get_script() != preload("res://Game/modifiersensitivity.gd") or (sensitivity.dynamic and sensitivity.dynamic_resource_id == ResourceIds.ESSENCE):
-				error = "dynamic_or_unknown_sensitivity"
+			if sensitivity.get_script() != preload("res://Game/modifiersensitivity.gd"):
+				error = "unknown_sensitivity"
 				return false
 		if not generator.unlocked:
 			continue
@@ -156,8 +165,8 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 		if machine.cycle_based or (not machine.can_start and not generator.operating):
 			continue
 		var mode: GeneratorOperationMode = generator.get_operation_mode()
-		if mode == null or mode.get_script() != preload("res://Generators/generator_operation_mode.gd") or mode.is_resource_transfer:
-			error = "unsupported_transfer_mode"
+		if mode == null or mode.get_script() != preload("res://Generators/generator_operation_mode.gd"):
+			error = "unknown_operation_mode"
 			return false
 		var scale: int = generator.level if generator.definition.scale_rates_with_level else 1
 		for input: GeneratorIO in mode.inputs:
@@ -168,7 +177,12 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 			operation.definition = input
 			operation.resource_id = input.resource_id
 			operation.resource = state.resources[input.resource_id]
-			if not Controller.needs_native_input_rates(generator):
+			if mode.is_resource_transfer:
+				# Native input: (raw * mode multiplier), then level. No modifiers.
+				operation.rate = Rate.new()
+				operation.rate.prefix = input.amount_per_second * mode.input_multiplier
+				operation.rate.final_scale = scale
+			elif not Controller.needs_native_input_rates(generator):
 				operation.rate = _rate(input.amount_per_second * mode.input_multiplier, generator, ModifierTypes.INPUT_DRAW, input.resource_id)
 				operation.rate.final_scale = scale
 			machine.inputs.append(operation)
@@ -181,13 +195,22 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 				return false
 			if not output.unlocked:
 				continue
-			if output.resource_id not in [ResourceIds.HEAT, ResourceIds.MATTER, ResourceIds.ASH]:
+			if not state.resources.has(output.resource_id):
 				error = "unsupported_output/" + output.resource_id
 				return false
 			var operation := Output.new()
 			operation.resource_id = output.resource_id
 			operation.resource = state.resources[output.resource_id]
 			operation.discrete = output.discrete
+			if mode.is_resource_transfer:
+				# Native output: (first raw input * level) * mode multiplier.
+				# In particular expansion does NOT use output.amount_per_second,
+				# production_multiplier, realm bonuses or production caches.
+				operation.rate = Rate.new()
+				operation.rate.prefix = 0.0 if mode.inputs.is_empty() else (mode.inputs[0].amount_per_second * scale * mode.input_multiplier)
+				operation.cache_initialized = true
+				machine.outputs.append(operation)
+				continue
 			operation.cache_initialized = generator._production_modifier_cache.has(output.resource_id)
 			# Same left-associated sequence as Generator.get_production_rate.
 			var coefficient: float = output.amount_per_second * scale
@@ -215,7 +238,7 @@ func build(target: Simulation, journal: RefCounted = null) -> bool:
 
 
 func _rate(coefficient: float, generator: Generator, kind: String, resource_id: String) -> Rate:
-	var result := Rate.new()
+	var result: Rate = MeasuredRate.new() if measure_flows else Rate.new()
 	result.prefix = coefficient
 	var modifiers: Array = generator.modifiers
 	var use_cache: bool = kind == ModifierTypes.PRODUCTION and generator._production_modifier_cache.has(resource_id)
@@ -235,6 +258,8 @@ func _rate(coefficient: float, generator: Generator, kind: String, resource_id: 
 		if dynamic_factor:
 			dynamic_seen = true
 			result.suffix.append(modifier)
+			if result is MeasuredRate:
+				result.dynamic_factors += 1
 		else:
 			var factor: float = modifier.get_effective_multiplier(simulation.state, generator)
 			if dynamic_seen:
@@ -398,3 +423,18 @@ func _available_duration(machine: Machine, state: GameState) -> float:
 			return 0.0
 		duration = min(duration, input.resource.amount / rate)
 	return max(duration, 0.0)
+
+
+func rate_measurements() -> Dictionary:
+	# Definition/reference inspection and aggregation only at packet release.
+	var result: Dictionary = {"tape_evaluations": 0, "dynamic_modifier_evaluations": 0}
+	for machine: Machine in machines:
+		for operation: InputOperation in machine.inputs:
+			if operation.rate is MeasuredRate:
+				result["tape_evaluations"] += operation.rate.evaluations
+				result["dynamic_modifier_evaluations"] += operation.rate.evaluations * operation.rate.dynamic_factors
+		for operation: Output in machine.outputs:
+			if operation.rate is MeasuredRate:
+				result["tape_evaluations"] += operation.rate.evaluations
+				result["dynamic_modifier_evaluations"] += operation.rate.evaluations * operation.rate.dynamic_factors
+	return result

@@ -1,0 +1,11 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+RESOURCE_PROGRESSION 0 essence=0.0 matter=0.0 compressor=0
+RESOURCE_PROGRESSION 50000 essence=0.0 matter=225.185349101562 compressor=0
+RESOURCE_PROGRESSION 100000 essence=0.0 matter=507.921692649482 compressor=0
+RESOURCE_PROGRESSION 150000 essence=11.0 matter=2253.31359443727 compressor=0
+RESOURCE_PROGRESSION 200000 essence=7.0 matter=9264.74996201601 compressor=0
+RESOURCE_PROGRESSION 250000 essence=3.0 matter=9265.01972589182 compressor=0
+RESOURCE_PROGRESSION 300000 essence=25.0 matter=9265.24679799154 compressor=0
+RESOURCE_PROGRESSION 350000 essence=43.0 matter=9264.472926691 compressor=0
+RESOURCE_PROGRESSION failures=0

@@ -1,0 +1,120 @@
+{
+  "measured_samples_per_method": 5,
+  "non_native_binary_parity_samples_including_warmup": 72,
+  "scenarios": [
+    {
+      "label": "early",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 345072,
+          "min_usec": 325991,
+          "max_usec": 364145
+        },
+        "extended": {
+          "median_usec": 158263,
+          "min_usec": 150667,
+          "max_usec": 205666
+        },
+        "isolated": {
+          "median_usec": 161984,
+          "min_usec": 155743,
+          "max_usec": 174258
+        },
+        "previous_isolated": {
+          "median_usec": 161753,
+          "min_usec": 155475,
+          "max_usec": 255209
+        },
+        "previous": {
+          "median_usec": 161857,
+          "min_usec": 160856,
+          "max_usec": 162759
+        },
+        "exact": {
+          "median_usec": 308627,
+          "min_usec": 299302,
+          "max_usec": 343906
+        }
+      },
+      "speedup": 1.9500894081370883,
+      "change_vs_previous_percent": -2.22047857059009
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 457252,
+          "min_usec": 451873,
+          "max_usec": 476711
+        },
+        "extended": {
+          "median_usec": 270562,
+          "min_usec": 267575,
+          "max_usec": 283586
+        },
+        "isolated": {
+          "median_usec": 279110,
+          "min_usec": 268419,
+          "max_usec": 292353
+        },
+        "previous_isolated": {
+          "median_usec": 272851,
+          "min_usec": 267530,
+          "max_usec": 307357
+        },
+        "previous": {
+          "median_usec": 275605,
+          "min_usec": 266874,
+          "max_usec": 347543
+        },
+        "exact": {
+          "median_usec": 441142,
+          "min_usec": 426657,
+          "max_usec": 508490
+        }
+      },
+      "speedup": 1.6304654755656744,
+      "change_vs_previous_percent": -1.829792638014549
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 2348355,
+          "min_usec": 2301027,
+          "max_usec": 2541897
+        },
+        "extended": {
+          "median_usec": 1369565,
+          "min_usec": 1358976,
+          "max_usec": 2392777
+        },
+        "isolated": {
+          "median_usec": 1377431,
+          "min_usec": 1363783,
+          "max_usec": 2258552
+        },
+        "previous_isolated": {
+          "median_usec": 1377634,
+          "min_usec": 1344499,
+          "max_usec": 1936746
+        },
+        "previous": {
+          "median_usec": 1354261,
+          "min_usec": 1340338,
+          "max_usec": 1612556
+        },
+        "exact": {
+          "median_usec": 2156720,
+          "min_usec": 2131325,
+          "max_usec": 2239750
+        }
+      },
+      "speedup": 1.5747481864679662,
+      "change_vs_previous_percent": 1.1300628165471727
+    }
+  ]
+}

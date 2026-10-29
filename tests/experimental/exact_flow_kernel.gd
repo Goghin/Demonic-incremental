@@ -91,3 +91,6 @@ func _collect_packet(packet: RefCounted) -> void:
 		return
 	for key: String in packet.flow_counts:
 		flow_counts[key] = int(flow_counts.get(key, 0)) + int(packet.flow_counts[key])
+	var rates: Dictionary = packet.rate_measurements()
+	for key: String in rates:
+		flow_counts[key] = int(flow_counts.get(key, 0)) + int(rates[key])

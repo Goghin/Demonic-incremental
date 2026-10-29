@@ -1,0 +1,4282 @@
+{
+	"cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+	"engine": {
+		"build": "official",
+		"hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+		"hex": 263681,
+		"major": 4,
+		"minor": 6,
+		"patch": 1,
+		"status": "stable",
+		"string": "4.6.1-stable (official)",
+		"timestamp": 0
+	},
+	"failures": [],
+	"observations": [
+		{
+			"counters": {
+				"build_usec": 483,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 11223,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 89,
+				"kernel_ticks": 2000,
+				"kernel_usec": 153642,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"critical_completions": 0,
+			"cycle_activity": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_level_changes": 0,
+				"completion_usec": 0,
+				"completions": 0,
+				"cycle_calls": 0,
+				"cycle_usec": 0,
+				"downlevels": 0,
+				"startup_level_changes": 0
+			},
+			"final_blockers": {
+				"active_or_auto_cycles": [],
+				"automation_is_supported": true,
+				"cycle_contract_supported": true,
+				"enabled_automation": [],
+				"essence_is_supported": true,
+				"essence_modifiers": [],
+				"nexum_is_supported": true,
+				"relic_inventory_entries": 0,
+				"transfer_is_supported": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 14000,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 2000,
+				"partial_operations": 2000,
+				"tape_evaluations": 12000
+			},
+			"initial_blockers": {
+				"active_or_auto_cycles": [],
+				"automation_is_supported": true,
+				"cycle_contract_supported": true,
+				"enabled_automation": [],
+				"essence_is_supported": true,
+				"essence_modifiers": [],
+				"nexum_is_supported": true,
+				"relic_inventory_entries": 0,
+				"transfer_is_supported": true
+			},
+			"intrusive_untimed": true,
+			"label": "early",
+			"native_profile": {
+				"call_counts": {
+					"automatic_upgrades": 2000,
+					"available_operating_duration": 6000,
+					"cycle_generator_processing": 2000,
+					"environmental_effects": 2000,
+					"generator_automation": 2000,
+					"generator_processing": 2000,
+					"generator_start_checks": 4002,
+					"heat_leak": 2000,
+					"input_consumption": 6000,
+					"input_rate_calculation": 2000,
+					"matter_decay": 2000,
+					"output_production": 6000,
+					"production_rate_calculation": 10000,
+					"upgrade_automation": 2000
+				},
+				"totals_usec": {
+					"automatic_upgrades": 49716,
+					"available_operating_duration": 16572,
+					"cycle_generator_processing": 3186,
+					"environmental_effects": 12950,
+					"generator_automation": 3199,
+					"generator_processing": 276884,
+					"generator_start_checks": 7993,
+					"heat_leak": 6498,
+					"input_consumption": 25861,
+					"input_rate_calculation": 4692,
+					"matter_decay": 3074,
+					"output_production": 167800,
+					"production_rate_calculation": 96978,
+					"upgrade_automation": 2949
+				}
+			},
+			"normal_completions": 0,
+			"rng_words": 0,
+			"ticks": 2000
+		},
+		{
+			"counters": {
+				"build_usec": 1729,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 14798,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 84,
+				"kernel_ticks": 2000,
+				"kernel_usec": 473025,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"critical_completions": 0,
+			"cycle_activity": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_level_changes": 0,
+				"completion_usec": 0,
+				"completions": 0,
+				"cycle_calls": 0,
+				"cycle_usec": 0,
+				"downlevels": 0,
+				"startup_level_changes": 0
+			},
+			"final_blockers": {
+				"active_or_auto_cycles": [],
+				"automation_is_supported": true,
+				"cycle_contract_supported": true,
+				"enabled_automation": [],
+				"essence_is_supported": true,
+				"essence_modifiers": [],
+				"nexum_is_supported": true,
+				"relic_inventory_entries": 0,
+				"transfer_is_supported": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 10000,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 6000
+			},
+			"initial_blockers": {
+				"active_or_auto_cycles": [],
+				"automation_is_supported": true,
+				"cycle_contract_supported": true,
+				"enabled_automation": [],
+				"essence_is_supported": true,
+				"essence_modifiers": [],
+				"nexum_is_supported": true,
+				"relic_inventory_entries": 0,
+				"transfer_is_supported": true
+			},
+			"intrusive_untimed": true,
+			"label": "consumer_50000",
+			"native_profile": {
+				"call_counts": {
+					"automatic_upgrades": 2000,
+					"available_operating_duration": 6000,
+					"cycle_generator_processing": 2000,
+					"environmental_effects": 2000,
+					"generator_automation": 2000,
+					"generator_processing": 2000,
+					"generator_start_checks": 4003,
+					"heat_leak": 2000,
+					"input_consumption": 6000,
+					"input_rate_calculation": 4000,
+					"matter_decay": 2000,
+					"output_production": 6000,
+					"production_rate_calculation": 6000,
+					"upgrade_automation": 2000
+				},
+				"totals_usec": {
+					"automatic_upgrades": 32502,
+					"available_operating_duration": 45187,
+					"cycle_generator_processing": 3140,
+					"environmental_effects": 36567,
+					"generator_automation": 4911,
+					"generator_processing": 404854,
+					"generator_start_checks": 2657,
+					"heat_leak": 30093,
+					"input_consumption": 68018,
+					"input_rate_calculation": 29268,
+					"matter_decay": 2906,
+					"output_production": 187305,
+					"production_rate_calculation": 131261,
+					"upgrade_automation": 2888
+				}
+			},
+			"normal_completions": 0,
+			"rng_words": 0,
+			"ticks": 2000
+		},
+		{
+			"counters": {
+				"build_usec": 659,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 55673,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 90,
+				"kernel_ticks": 10000,
+				"kernel_usec": 1355500,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"critical_completions": 0,
+			"cycle_activity": {
+				"auto_attempts": 0,
+				"auto_successes": 0,
+				"completion_level_changes": 0,
+				"completion_usec": 0,
+				"completions": 0,
+				"cycle_calls": 0,
+				"cycle_usec": 0,
+				"downlevels": 0,
+				"startup_level_changes": 0
+			},
+			"final_blockers": {
+				"active_or_auto_cycles": [],
+				"automation_is_supported": true,
+				"cycle_contract_supported": true,
+				"enabled_automation": [],
+				"essence_is_supported": true,
+				"essence_modifiers": [],
+				"nexum_is_supported": true,
+				"relic_inventory_entries": 0,
+				"transfer_is_supported": true
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 50000,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 30000
+			},
+			"initial_blockers": {
+				"active_or_auto_cycles": [],
+				"automation_is_supported": true,
+				"cycle_contract_supported": true,
+				"enabled_automation": [],
+				"essence_is_supported": true,
+				"essence_modifiers": [],
+				"nexum_is_supported": true,
+				"relic_inventory_entries": 0,
+				"transfer_is_supported": true
+			},
+			"intrusive_untimed": true,
+			"label": "consumer_50000",
+			"native_profile": {
+				"call_counts": {
+					"automatic_upgrades": 10000,
+					"available_operating_duration": 30000,
+					"cycle_generator_processing": 10000,
+					"environmental_effects": 10000,
+					"generator_automation": 10000,
+					"generator_processing": 10000,
+					"generator_start_checks": 20003,
+					"heat_leak": 10000,
+					"input_consumption": 30000,
+					"input_rate_calculation": 20000,
+					"matter_decay": 10000,
+					"output_production": 30000,
+					"production_rate_calculation": 30000,
+					"upgrade_automation": 10000
+				},
+				"totals_usec": {
+					"automatic_upgrades": 165289,
+					"available_operating_duration": 210943,
+					"cycle_generator_processing": 17308,
+					"environmental_effects": 175104,
+					"generator_automation": 19632,
+					"generator_processing": 2011694,
+					"generator_start_checks": 13990,
+					"heat_leak": 139814,
+					"input_consumption": 344149,
+					"input_rate_calculation": 152908,
+					"matter_decay": 15346,
+					"output_production": 917403,
+					"production_rate_calculation": 626731,
+					"upgrade_automation": 16542
+				}
+			},
+			"normal_completions": 0,
+			"rng_words": 0,
+			"ticks": 10000
+		}
+	],
+	"runs": [
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 432212,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 656,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 310,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 168377,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 627,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 249202,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 686,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 213276,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 559,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 105,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 172172,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2736,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 8321,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 359313,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 347266,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 371069,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 3794,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7094,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 352386,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 340971,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 364145,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 641,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 113,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 205666,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 583,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 174258,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 514,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 161753,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 477,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 57,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 162759,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 308627,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 299302,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 488,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 61,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 162438,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 522,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 255209,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 593,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 155743,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 520,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 60,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 160441,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2265,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 6595,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 316053,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 306413,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 325991,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2337,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 6858,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 337377,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 326720,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 347223,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 538,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 93,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 158263,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 512,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 161984,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 479,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 156798,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 514,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 57,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 161857,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 331016,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 343906,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 739,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 62,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 161564,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 607,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 155475,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 488,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 163484,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 501,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 76,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 150667,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2705,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7566,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 334151,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 321196,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 345072,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2444,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7481,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 330325,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 320098,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 340895,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 504,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 52,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 155380,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 497,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 156503,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 770,
+			"packet_retained_allocation_estimate_bytes": 23604,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 167787,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 1523,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 160856,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "early",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 308330,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 442223,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 577,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 54,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 275927,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 497,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 274102,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 559,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 279853,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 520,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 57,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 295396,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2220,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7485,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 449750,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 439643,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 460155,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2693,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7232,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 459772,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 449114,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 470345,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 561,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 56,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 283586,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 731,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 292353,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 1497,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 307357,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 902,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 87,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 347543,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 426657,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 433558,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 507,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 55,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 273985,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 520,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 273378,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 513,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 281946,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 663,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 60,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 269000,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2418,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7233,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 441528,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 431830,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 451873,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2400,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 6953,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 443999,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 433736,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 453988,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 765,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 84,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 267575,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 763,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 274844,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 534,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 267530,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 482,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 131,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 266874,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 441142,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 508490,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 509,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 275605,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 1756,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 269141,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 510,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 279110,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 490,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 59,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 280041,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2214,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7247,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 447088,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 436580,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 457252,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 2636,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 2000,
+				"event_detection_usec": 7415,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 2000
+				},
+				"fallback_ticks": 2000,
+				"fallback_usec": 465992,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 455254,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 2000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 476711,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 1281,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 54,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 270562,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 498,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 268419,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 623,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 272851,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 511,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 2000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 2000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 280702,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 2000,
+			"wall_usec": 475803,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2159084,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 547,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1469263,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 487,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1407684,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 518,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1416561,
+			"warmup": true
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 511,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 2911,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1663235,
+			"warmup": true
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 24208,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 45260,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 2415409,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 2358605,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 576.736912614899,
+				"resource_rel": 0.00651745864276156,
+				"statistics_abs": 14255.5948536545,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 0,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2488685,
+			"warmup": true
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 11231,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 37119,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 2263874,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 2209808,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 576.736912614899,
+				"resource_rel": 0.00651745864276156,
+				"statistics_abs": 14255.5948536545,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2315313,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 674,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 61,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1369565,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 533,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1370989,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 542,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1367032,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 507,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 59,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1370632,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 1,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2156720,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2131325,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 683,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1354261,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 540,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1344499,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 608,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1363783,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 503,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 60,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1364648,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 10753,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 36485,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 2298228,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 2243201,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 576.736912614899,
+				"resource_rel": 0.00651745864276156,
+				"statistics_abs": 14255.5948536545,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 2,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2348355,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 12055,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 37090,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 2248844,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 2197208,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 576.736912614899,
+				"resource_rel": 0.00651745864276156,
+				"statistics_abs": 14255.5948536545,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2301027,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 564,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 61,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1392532,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 563,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1377431,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 589,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1377634,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 623,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 58,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1351545,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 3,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2192095,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2143890,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 613,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 54,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1340338,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 535,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1490816,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 513,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1484274,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 504,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 59,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1358976,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 10106,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 38444,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 2335303,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 2278472,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 576.736912614899,
+				"resource_rel": 0.00651745864276156,
+				"statistics_abs": 14255.5948536545,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 4,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2386813,
+			"warmup": false
+		},
+		{
+			"binary_parity": false,
+			"counters": {
+				"accepted": 0,
+				"all_capture_usec": 0,
+				"all_restore_usec": 0,
+				"audit_capture_usec": 21707,
+				"capture_calls": 0,
+				"checkpoint_usec": 0,
+				"evaluations": 10000,
+				"event_detection_usec": 40268,
+				"fallback_fraction": 1.0,
+				"fallback_reasons": {
+					"flow/controller/unmodelled_throttle/lava_mite_colony": 10000
+				},
+				"fallback_ticks": 10000,
+				"fallback_usec": 2475844,
+				"initial_checkpoint_bytes": 0,
+				"map_operator_usec": 0,
+				"numerical_usec": 2420724,
+				"proven_margin_bypasses": 0,
+				"rejected": 0,
+				"rejected_usec": 0,
+				"rejection_fields": {
+
+				},
+				"rejection_reasons": {
+
+				},
+				"restore_calls": 0,
+				"strict_failure": "",
+				"trial_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 10000,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "adaptive",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 2608695.65217391,
+				"resource_abs": 576.736912614899,
+				"resource_rel": 0.00651745864276156,
+				"statistics_abs": 14255.5948536545,
+				"statistics_rel": 2608695.65217391,
+				"worst_key": "dormancy"
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2541897,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 862,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 1770,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "extended",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2392777,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 1144,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2258552,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous_isolated",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 1419,
+			"packet_retained_allocation_estimate_bytes": 20496,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1936746,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 704,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 0,
+				"fallback_usec": 0,
+				"invalidate_usec": 57,
+				"kernel_ticks": 10000,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 10000,
+			"kind": "previous",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 1612556,
+			"warmup": false
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+
+			},
+			"discrete_parity": true,
+			"fallback_ticks": 0,
+			"isolated_rebuilds": 0,
+			"kernel_ticks": 0,
+			"kind": "exact",
+			"label": "consumer_50000",
+			"numeric_error": {
+				"normalized": 0.0,
+				"resource_abs": 0.0,
+				"resource_rel": 0.0,
+				"statistics_abs": 0.0,
+				"statistics_rel": 0.0,
+				"worst_key": ""
+			},
+			"packet_build_usec": 0,
+			"packet_retained_allocation_estimate_bytes": 0,
+			"repeat": 5,
+			"rng_parity": true,
+			"ticks": 10000,
+			"wall_usec": 2239750,
+			"warmup": false
+		}
+	]
+}

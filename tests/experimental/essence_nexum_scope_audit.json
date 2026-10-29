@@ -1,0 +1,257 @@
+{
+	"failures": [],
+	"rows": [
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 1017,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 22,
+				"kernel_ticks": 9,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [
+					"thermal_compressor"
+				],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [
+					"thermal_compressor"
+				],
+				"transfers_supported": true
+			},
+			"label": "transfer",
+			"ticks": 10
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 2284,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 19,
+				"kernel_ticks": 9,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"label": "late_both",
+			"ticks": 10
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 2128,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 63,
+				"kernel_ticks": 9,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [
+					{
+						"id": "infernal_forge",
+						"rejection": ""
+					}
+				],
+				"essence_modifiers": [
+					"atomic_friction/essence_accumulation_penalty",
+					"molecular_agitation/essence_accumulation_penalty",
+					"lava_mite_colony/essence_lava_mite_ash",
+					"lava_mite_colony/essence_accumulation_penalty",
+					"thermal_furnace/essence_accumulation_penalty",
+					"matter_furnace/essence_accumulation_penalty",
+					"thermal_compressor/essence_accumulation_penalty",
+					"infernal_forge/essence_accumulation_penalty",
+					"relic_shard_extractor/essence_accumulation_penalty"
+				],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [
+					{
+						"id": "infernal_forge",
+						"rejection": ""
+					}
+				],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"label": "mixed",
+			"ticks": 10
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 1158,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 20,
+				"kernel_ticks": 9,
+				"kernel_usec": 0,
+				"reasons": {
+
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [],
+				"essence_modifiers": [
+					"atomic_friction/essence_accumulation_penalty",
+					"molecular_agitation/essence_accumulation_penalty",
+					"lava_mite_colony/essence_lava_mite_ash",
+					"lava_mite_colony/essence_accumulation_penalty",
+					"thermal_furnace/essence_accumulation_penalty",
+					"matter_furnace/essence_accumulation_penalty",
+					"thermal_compressor/essence_accumulation_penalty",
+					"infernal_forge/essence_accumulation_penalty",
+					"relic_shard_extractor/essence_accumulation_penalty"
+				],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 0,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"label": "essence",
+			"ticks": 10
+		},
+		{
+			"binary_parity": true,
+			"counters": {
+				"build_usec": 1246,
+				"builds": 1,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 0,
+				"fallback_ticks": 10,
+				"fallback_usec": 0,
+				"invalidate_usec": 2,
+				"kernel_ticks": 0,
+				"kernel_usec": 0,
+				"reasons": {
+					"relic_inventory": 1
+				},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"diagnostic_save_load": true,
+			"final": {
+				"cycles": [
+					{
+						"id": "infernal_forge",
+						"rejection": ""
+					},
+					{
+						"id": "relic_shard_extractor",
+						"rejection": "unsupported_cycle_contract"
+					}
+				],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 1,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"initial": {
+				"cycles": [
+					{
+						"id": "infernal_forge",
+						"rejection": ""
+					},
+					{
+						"id": "relic_shard_extractor",
+						"rejection": "unsupported_cycle_contract"
+					}
+				],
+				"essence_modifiers": [],
+				"essence_nexum_supported": true,
+				"inventory_entries": 1,
+				"transfers": [],
+				"transfers_supported": true
+			},
+			"label": "cycles",
+			"ticks": 10
+		}
+	]
+}

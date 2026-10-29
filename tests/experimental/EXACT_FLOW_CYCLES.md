@@ -2,6 +2,8 @@
 
 Base `b29c599381223a9a7238da1c90f96c5b0fd94f69`, branch `feature/cycle-auto-run`.
 
+Subsequent Essence/Nexum and transfer capability changes are documented in [EXACT_FLOW_ESSENCE_NEXUM.md](EXACT_FLOW_ESSENCE_NEXUM.md); restrictions and timings below describe this historical cycle milestone.
+
 ## Audited lifecycle and dependencies (before implementation)
 
 Sources: `simulation/simulation.gd` update, buy_generator, update_cycle_generator, offline auto-run, complete_cycle and completion-event helpers; `Generators/generator.gd`, generator/mode/IO definitions, InfernalForge factory; UpgradeRegistry Ash/event upgrades; both native automation managers; GameState resource/accounting methods; SaveManager cycle serialization; existing transaction, exact, consumer and automation tests and reports.

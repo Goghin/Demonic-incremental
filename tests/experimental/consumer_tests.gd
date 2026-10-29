@@ -77,10 +77,7 @@ func _differential(label: String, ticks: int) -> void:
 		compared += 1
 	check(oracle.fingerprint(candidate["simulation"], candidate["journal"]) == oracle.fingerprint(control["simulation"], control["journal"]), label + ": full graph differs")
 	check(oracle.failures.is_empty(), label + ": oracle failed")
-	if label == "transfer":
-		check(kernel.counters["kernel_ticks"] == 0 and kernel.counters["fallback_ticks"] == ticks, label + ": unsafe optimization")
-	else:
-		check(kernel.counters["kernel_ticks"] > 0, label + ": no kernel execution")
+	check(kernel.counters["kernel_ticks"] > 0, label + ": no kernel execution")
 	if label == "mite_entry":
 		check(int(kernel.flow_counts.get("controller_transitions", 0)) > 0, "No throttle entry observed")
 	if label == "mite_recovery":
@@ -142,7 +139,7 @@ func _reentry() -> void:
 	var candidate: Dictionary = context("multi_dynamic")
 	var control: Dictionary = context("multi_dynamic")
 	var kernel: RefCounted = Kernel.new(candidate["simulation"], candidate["journal"])
-	for boundary: String in ["initial", "reverse", "level", "draw", "zero_level", "resume", "transfer", "ordinary"]:
+	for boundary: String in ["initial", "reverse", "level", "draw", "zero_level", "resume", "transfer", "ordinary", "unsupported", "reenter"]:
 		for item: Dictionary in [candidate, control]:
 			var state: GameState = item["simulation"].state
 			var generator: Generator = state.get_generator("diagnostic_consumer")
@@ -156,9 +153,11 @@ func _reentry() -> void:
 				"resume": generator.level = 1
 				"transfer": generator.get_operation_mode().is_resource_transfer = true
 				"ordinary": generator.get_operation_mode().is_resource_transfer = false
+				"unsupported": state.prestige_planning = true
+				"reenter": state.prestige_planning = false
 		kernel.run(5, true)
 		for tick: int in range(5):
 			control["simulation"].update(STEP, true)
 			check(View.capture(control["simulation"], control["journal"]) == kernel.trace[tick], "Consumer reconstruction differs after " + boundary)
-	check(kernel.counters["fallback_ticks"] == 5 and kernel.counters["kernel_ticks"] == 35, "Fallback/resumption coverage incorrect")
+	check(kernel.counters["fallback_ticks"] == 5 and kernel.counters["kernel_ticks"] == 45, "Fallback/resumption coverage incorrect")
 	cases.append({"reentry": true, "counters": kernel.counters.duplicate(true)})

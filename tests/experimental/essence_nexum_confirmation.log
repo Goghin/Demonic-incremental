@@ -1,0 +1,6 @@
+Godot Engine v4.6.1.stable.official.14d19694e - https://godotengine.org
+
+RESOURCE_BENCH_SCENARIO early 2000
+RESOURCE_BENCH_SCENARIO consumer_50000 2000
+RESOURCE_BENCH_SCENARIO consumer_50000 10000
+ESSENCE_NEXUM_BENCHMARK failures=0

@@ -154,6 +154,7 @@ func _run_tests() -> void:
 	_run_test("Exact consumers preserve sequential inputs, exhaustion and Mite hysteresis", _test_exact_flow_consumers)
 	_run_test("Exact kernel preserves native automation and purchase invalidation", _test_exact_flow_automation)
 	_run_test("Exact Forge cycles preserve completion, auto-run and RNG order", _test_exact_flow_cycles)
+	_run_test("Exact Essence and Nexum flows preserve feedback and transfers", _test_exact_flow_essence_nexum)
 	_run_test("Core fixtures preserve dense event parity and restricted-checkpoint contracts", _test_core_investigation)
 
 
@@ -2716,5 +2717,15 @@ func _test_exact_flow_automation() -> void:
 func _test_exact_flow_cycles() -> void:
 	var test: RefCounted = preload("res://tests/experimental/cycle_kernel_tests.gd").new()
 	test.run_all()
+	for failure: String in test.failures:
+		_expect(false, failure)
+
+
+func _test_exact_flow_essence_nexum() -> void:
+	var test: RefCounted = preload("res://tests/experimental/essence_nexum_tests.gd").new()
+	var result: Dictionary = test.run_all()
+	# Preserve the exact differential evidence from the full-suite execution.
+	var output := FileAccess.open("res://tests/experimental/essence_nexum_validation.json", FileAccess.WRITE)
+	output.store_string(JSON.stringify(result, "\t") + "\n")
 	for failure: String in test.failures:
 		_expect(false, failure)

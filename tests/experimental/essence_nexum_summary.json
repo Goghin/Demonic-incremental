@@ -1,0 +1,3513 @@
+{
+  "engine": {
+    "build": "official",
+    "hash": "14d19694e0c88a3f9e82d899a0400f27a24c176e",
+    "hex": 263681,
+    "major": 4,
+    "minor": 6,
+    "patch": 1,
+    "status": "stable",
+    "string": "4.6.1-stable (official)",
+    "timestamp": 0
+  },
+  "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "measured_samples_per_method": 3,
+  "non_native_binary_parity_samples_including_warmup": 344,
+  "individual_tick_comparisons": 11800,
+  "scenarios": [
+    {
+      "label": "early",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 353594,
+          "min_usec": 345929,
+          "max_usec": 368624
+        },
+        "extended": {
+          "median_usec": 166728,
+          "min_usec": 161384,
+          "max_usec": 174993
+        },
+        "isolated": {
+          "median_usec": 194585,
+          "min_usec": 184605,
+          "max_usec": 196543
+        },
+        "previous_isolated": {
+          "median_usec": 179582,
+          "min_usec": 170036,
+          "max_usec": 251362
+        },
+        "previous": {
+          "median_usec": 173147,
+          "min_usec": 161648,
+          "max_usec": 178060
+        },
+        "exact": {
+          "median_usec": 339046,
+          "min_usec": 322345,
+          "max_usec": 352819
+        }
+      },
+      "speedup": 2.03352766182045,
+      "change_vs_previous_percent": -3.7072545293883263,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 603,
+      "public_release_median_usec": 53,
+      "observations": {
+        "counters": {
+          "build_usec": 645,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 10701,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 81,
+          "kernel_ticks": 2000,
+          "kernel_usec": 162117,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 14000,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 2000,
+          "partial_operations": 2000,
+          "tape_evaluations": 12000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "early",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 6000,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 4002,
+            "heat_leak": 2000,
+            "input_consumption": 6000,
+            "input_rate_calculation": 2000,
+            "matter_decay": 2000,
+            "output_production": 6000,
+            "production_rate_calculation": 10000,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 51247,
+            "available_operating_duration": 17129,
+            "cycle_generator_processing": 3967,
+            "environmental_effects": 14451,
+            "generator_automation": 3968,
+            "generator_processing": 292422,
+            "generator_start_checks": 8570,
+            "heat_leak": 6349,
+            "input_consumption": 26926,
+            "input_rate_calculation": 4771,
+            "matter_decay": 4165,
+            "output_production": 171789,
+            "production_rate_calculation": 94933,
+            "upgrade_automation": 3255
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 23604,
+      "packet_retained_estimate_bytes": 23604
+    },
+    {
+      "label": "early",
+      "ticks": 36000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 7083646,
+          "min_usec": 7077828,
+          "max_usec": 7148261
+        },
+        "extended": {
+          "median_usec": 3662237,
+          "min_usec": 3585317,
+          "max_usec": 3693988
+        },
+        "isolated": {
+          "median_usec": 3637100,
+          "min_usec": 3573908,
+          "max_usec": 4772818
+        },
+        "previous_isolated": {
+          "median_usec": 3561579,
+          "min_usec": 3535979,
+          "max_usec": 3665846
+        },
+        "previous": {
+          "median_usec": 3740425,
+          "min_usec": 3603410,
+          "max_usec": 3867643
+        },
+        "exact": {
+          "median_usec": 6643209,
+          "min_usec": 6629895,
+          "max_usec": 6717663
+        }
+      },
+      "speedup": 1.813975720304284,
+      "change_vs_previous_percent": -2.0903506954423667,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 546,
+      "public_release_median_usec": 60,
+      "observations": {
+        "counters": {
+          "build_usec": 1222,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 203863,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 88,
+          "kernel_ticks": 36000,
+          "kernel_usec": 3460171,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 252000,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 32880,
+          "partial_operations": 36000,
+          "tape_evaluations": 216000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "early",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 36000,
+            "available_operating_duration": 108000,
+            "cycle_generator_processing": 36000,
+            "environmental_effects": 36000,
+            "generator_automation": 36000,
+            "generator_processing": 36000,
+            "generator_start_checks": 72002,
+            "heat_leak": 36000,
+            "input_consumption": 108000,
+            "input_rate_calculation": 36000,
+            "matter_decay": 36000,
+            "output_production": 108000,
+            "production_rate_calculation": 180000,
+            "upgrade_automation": 36000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 1154654,
+            "available_operating_duration": 367715,
+            "cycle_generator_processing": 78434,
+            "environmental_effects": 851319,
+            "generator_automation": 81115,
+            "generator_processing": 6184660,
+            "generator_start_checks": 180756,
+            "heat_leak": 137268,
+            "input_consumption": 632016,
+            "input_rate_calculation": 110411,
+            "matter_decay": 639520,
+            "output_production": 3574785,
+            "production_rate_calculation": 2016820,
+            "upgrade_automation": 67018
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 36000
+      },
+      "previous_packet_retained_estimate_bytes": 23604,
+      "packet_retained_estimate_bytes": 23604
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 501269,
+          "min_usec": 497155,
+          "max_usec": 889172
+        },
+        "extended": {
+          "median_usec": 340610,
+          "min_usec": 303344,
+          "max_usec": 610597
+        },
+        "isolated": {
+          "median_usec": 321839,
+          "min_usec": 320973,
+          "max_usec": 323025
+        },
+        "previous_isolated": {
+          "median_usec": 321976,
+          "min_usec": 292857,
+          "max_usec": 344345
+        },
+        "previous": {
+          "median_usec": 296471,
+          "min_usec": 295498,
+          "max_usec": 316593
+        },
+        "exact": {
+          "median_usec": 471531,
+          "min_usec": 466814,
+          "max_usec": 542227
+        }
+      },
+      "speedup": 1.3843721558380553,
+      "change_vs_previous_percent": 14.888134083940763,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 863,
+      "public_release_median_usec": 59,
+      "observations": {
+        "counters": {
+          "build_usec": 540,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 12069,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 108,
+          "kernel_ticks": 2000,
+          "kernel_usec": 291386,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 10000,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0,
+          "tape_evaluations": 6000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "consumer_50000",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 6000,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 4003,
+            "heat_leak": 2000,
+            "input_consumption": 6000,
+            "input_rate_calculation": 4000,
+            "matter_decay": 2000,
+            "output_production": 6000,
+            "production_rate_calculation": 6000,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 35570,
+            "available_operating_duration": 44412,
+            "cycle_generator_processing": 3986,
+            "environmental_effects": 40456,
+            "generator_automation": 4817,
+            "generator_processing": 419340,
+            "generator_start_checks": 2514,
+            "heat_leak": 33254,
+            "input_consumption": 69576,
+            "input_rate_calculation": 30469,
+            "matter_decay": 3281,
+            "output_production": 191496,
+            "production_rate_calculation": 132717,
+            "upgrade_automation": 3896
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 20496,
+      "packet_retained_estimate_bytes": 20496
+    },
+    {
+      "label": "consumer_50000",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 2501431,
+          "min_usec": 2466525,
+          "max_usec": 2579330
+        },
+        "extended": {
+          "median_usec": 1579777,
+          "min_usec": 1489477,
+          "max_usec": 1745445
+        },
+        "isolated": {
+          "median_usec": 1480590,
+          "min_usec": 1463342,
+          "max_usec": 1929455
+        },
+        "previous_isolated": {
+          "median_usec": 1453518,
+          "min_usec": 1451181,
+          "max_usec": 1946656
+        },
+        "previous": {
+          "median_usec": 1469826,
+          "min_usec": 1458182,
+          "max_usec": 1563918
+        },
+        "exact": {
+          "median_usec": 2338332,
+          "min_usec": 2318606,
+          "max_usec": 2354032
+        }
+      },
+      "speedup": 1.480165871512245,
+      "change_vs_previous_percent": 7.48054531624831,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 560,
+      "public_release_median_usec": 56,
+      "observations": {
+        "counters": {
+          "build_usec": 572,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 61466,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 140,
+          "kernel_ticks": 10000,
+          "kernel_usec": 1458501,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 50000,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0,
+          "tape_evaluations": 30000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "consumer_50000",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 30000,
+            "cycle_generator_processing": 10000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_processing": 10000,
+            "generator_start_checks": 20003,
+            "heat_leak": 10000,
+            "input_consumption": 30000,
+            "input_rate_calculation": 20000,
+            "matter_decay": 10000,
+            "output_production": 30000,
+            "production_rate_calculation": 30000,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 178470,
+            "available_operating_duration": 229861,
+            "cycle_generator_processing": 17821,
+            "environmental_effects": 198437,
+            "generator_automation": 21271,
+            "generator_processing": 2172288,
+            "generator_start_checks": 15453,
+            "heat_leak": 158550,
+            "input_consumption": 372999,
+            "input_rate_calculation": 167829,
+            "matter_decay": 18460,
+            "output_production": 969716,
+            "production_rate_calculation": 669393,
+            "upgrade_automation": 16612
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 20496,
+      "packet_retained_estimate_bytes": 20496
+    },
+    {
+      "label": "mid",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 407582,
+          "min_usec": 398342,
+          "max_usec": 450820
+        },
+        "extended": {
+          "median_usec": 268940,
+          "min_usec": 268482,
+          "max_usec": 274795
+        },
+        "isolated": {
+          "median_usec": 261537,
+          "min_usec": 259529,
+          "max_usec": 279625
+        },
+        "previous_isolated": {
+          "median_usec": 257244,
+          "min_usec": 254974,
+          "max_usec": 259999
+        },
+        "previous": {
+          "median_usec": 262497,
+          "min_usec": 258788,
+          "max_usec": 265945
+        },
+        "exact": {
+          "median_usec": 370102,
+          "min_usec": 368040,
+          "max_usec": 376346
+        }
+      },
+      "speedup": 1.376150814308024,
+      "change_vs_previous_percent": 2.454504241953237,
+      "coverage_percent": 99.9,
+      "public_build_median_usec": 1781,
+      "public_release_median_usec": 114,
+      "observations": {
+        "counters": {
+          "build_usec": 1748,
+          "builds": 3,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 14312,
+          "event_ticks": 2,
+          "fallback_ticks": 2,
+          "fallback_usec": 564,
+          "invalidate_usec": 254,
+          "kernel_ticks": 1998,
+          "kernel_usec": 252532,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 13604,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 3255,
+          "partial_operations": 3363,
+          "tape_evaluations": 11658
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "mid",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 7396,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_automation_loop_checks": 2000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 1949,
+            "generator_processing": 2000,
+            "generator_start_checks": 5533,
+            "heat_leak": 2000,
+            "input_consumption": 7396,
+            "input_rate_calculation": 4958,
+            "matter_decay": 2000,
+            "output_production": 7396,
+            "production_rate_calculation": 9668,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 36108,
+            "available_operating_duration": 42151,
+            "cycle_generator_processing": 3620,
+            "environmental_effects": 13677,
+            "generator_automation": 28864,
+            "generator_automation_loop_checks": 10765,
+            "generator_automation_purchase_attempts": 24,
+            "generator_automation_waiting_checks": 9945,
+            "generator_processing": 335022,
+            "generator_start_checks": 14502,
+            "heat_leak": 6357,
+            "input_consumption": 74996,
+            "input_rate_calculation": 24783,
+            "matter_decay": 3477,
+            "output_production": 137566,
+            "production_rate_calculation": 58523,
+            "upgrade_automation": 3730
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 23676,
+      "packet_retained_estimate_bytes": 23676
+    },
+    {
+      "label": "mid",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 2247470,
+          "min_usec": 2234208,
+          "max_usec": 2257284
+        },
+        "extended": {
+          "median_usec": 1547664,
+          "min_usec": 1543154,
+          "max_usec": 1567533
+        },
+        "isolated": {
+          "median_usec": 1553420,
+          "min_usec": 1518117,
+          "max_usec": 1555597
+        },
+        "previous_isolated": {
+          "median_usec": 1534196,
+          "min_usec": 1521578,
+          "max_usec": 1558079
+        },
+        "previous": {
+          "median_usec": 1551457,
+          "min_usec": 1517489,
+          "max_usec": 1553959
+        },
+        "exact": {
+          "median_usec": 2171242,
+          "min_usec": 2158972,
+          "max_usec": 2227343
+        }
+      },
+      "speedup": 1.4029156199278396,
+      "change_vs_previous_percent": -0.2444798663449932,
+      "coverage_percent": 99.98,
+      "public_build_median_usec": 1622,
+      "public_release_median_usec": 126,
+      "observations": {
+        "counters": {
+          "build_usec": 2321,
+          "builds": 3,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 62463,
+          "event_ticks": 2,
+          "fallback_ticks": 2,
+          "fallback_usec": 615,
+          "invalidate_usec": 392,
+          "kernel_ticks": 9998,
+          "kernel_usec": 1525259,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 69604,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 19255,
+          "partial_operations": 19363,
+          "tape_evaluations": 59658
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "mid",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 39396,
+            "cycle_generator_processing": 10000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_automation_loop_checks": 10000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 9949,
+            "generator_processing": 10000,
+            "generator_start_checks": 29533,
+            "heat_leak": 10000,
+            "input_consumption": 39396,
+            "input_rate_calculation": 28958,
+            "matter_decay": 10000,
+            "output_production": 39396,
+            "production_rate_calculation": 49668,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 178148,
+            "available_operating_duration": 257400,
+            "cycle_generator_processing": 19729,
+            "environmental_effects": 194689,
+            "generator_automation": 154407,
+            "generator_automation_loop_checks": 54858,
+            "generator_automation_purchase_attempts": 23,
+            "generator_automation_waiting_checks": 57432,
+            "generator_processing": 1915155,
+            "generator_start_checks": 85967,
+            "heat_leak": 35143,
+            "input_consumption": 444235,
+            "input_rate_calculation": 155931,
+            "matter_decay": 137232,
+            "output_production": 744682,
+            "production_rate_calculation": 314269,
+            "upgrade_automation": 19998
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 23676,
+      "packet_retained_estimate_bytes": 23676
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 1134285,
+          "min_usec": 1089211,
+          "max_usec": 1277088
+        },
+        "extended": {
+          "median_usec": 793898,
+          "min_usec": 785435,
+          "max_usec": 1327040
+        },
+        "isolated": {
+          "median_usec": 788741,
+          "min_usec": 787993,
+          "max_usec": 791119
+        },
+        "previous_isolated": {
+          "median_usec": 790878,
+          "min_usec": 777823,
+          "max_usec": 805019
+        },
+        "previous": {
+          "median_usec": 800688,
+          "min_usec": 789620,
+          "max_usec": 1188500
+        },
+        "exact": {
+          "median_usec": 1057149,
+          "min_usec": 1050842,
+          "max_usec": 1166774
+        }
+      },
+      "speedup": 1.3315929754200162,
+      "change_vs_previous_percent": -0.8480207021961061,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 770,
+      "public_release_median_usec": 246,
+      "observations": {
+        "counters": {
+          "build_usec": 1331,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 131097,
+          "event_check_usec": 13034,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 238,
+          "kernel_ticks": 2000,
+          "kernel_usec": 814851,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 2000,
+          "cycle_usec": 175891,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 26000,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0,
+          "tape_evaluations": 18000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "forge_competing",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 10000,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_automation_loop_checks": 2000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 1949,
+            "generator_processing": 2000,
+            "generator_start_checks": 5,
+            "heat_leak": 2000,
+            "input_consumption": 10000,
+            "input_rate_calculation": 12000,
+            "matter_decay": 2000,
+            "output_production": 10000,
+            "production_rate_calculation": 16000,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 32566,
+            "available_operating_duration": 124368,
+            "cycle_generator_processing": 132880,
+            "environmental_effects": 43621,
+            "generator_automation": 34364,
+            "generator_automation_loop_checks": 12330,
+            "generator_automation_purchase_attempts": 53,
+            "generator_automation_waiting_checks": 12192,
+            "generator_processing": 1035917,
+            "generator_start_checks": 24,
+            "heat_leak": 35434,
+            "input_consumption": 178285,
+            "input_rate_calculation": 113756,
+            "matter_decay": 3778,
+            "output_production": 367224,
+            "production_rate_calculation": 245659,
+            "upgrade_automation": 3858
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 35508,
+      "packet_retained_estimate_bytes": 35508
+    },
+    {
+      "label": "forge_competing",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 7097223,
+          "min_usec": 6478680,
+          "max_usec": 8009234
+        },
+        "extended": {
+          "median_usec": 4806875,
+          "min_usec": 3851600,
+          "max_usec": 5528677
+        },
+        "isolated": {
+          "median_usec": 6078343,
+          "min_usec": 5199388,
+          "max_usec": 7123808
+        },
+        "previous_isolated": {
+          "median_usec": 5081136,
+          "min_usec": 4955844,
+          "max_usec": 5513069
+        },
+        "previous": {
+          "median_usec": 4830001,
+          "min_usec": 4796534,
+          "max_usec": 4877625
+        },
+        "exact": {
+          "median_usec": 6596813,
+          "min_usec": 6346614,
+          "max_usec": 6816444
+        }
+      },
+      "speedup": 1.3723704069691847,
+      "change_vs_previous_percent": -0.4787990727124103,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 1670,
+      "public_release_median_usec": 155,
+      "observations": {
+        "counters": {
+          "build_usec": 828,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 1069658,
+          "event_check_usec": 97327,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 4355,
+          "kernel_ticks": 10000,
+          "kernel_usec": 5578200,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 10000,
+          "cycle_usec": 1285513,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 1,
+          "dynamic_modifier_evaluations": 130000,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 50,
+          "partial_operations": 53,
+          "tape_evaluations": 90000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "forge_competing",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 50000,
+            "cycle_generator_processing": 20000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_automation_loop_checks": 10000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 9949,
+            "generator_processing": 10000,
+            "generator_start_checks": 58,
+            "heat_leak": 10000,
+            "heat_leak_integration": 1,
+            "input_consumption": 50000,
+            "input_rate_calculation": 60000,
+            "matter_decay": 10000,
+            "output_production": 50000,
+            "production_rate_calculation": 80000,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 1643815,
+            "available_operating_duration": 3018996,
+            "cycle_generator_processing": 3162615,
+            "environmental_effects": 714166,
+            "generator_automation": 1446173,
+            "generator_automation_loop_checks": 128425,
+            "generator_automation_purchase_attempts": 51,
+            "generator_automation_waiting_checks": 817224,
+            "generator_processing": 18951753,
+            "generator_start_checks": 272,
+            "heat_leak": 631521,
+            "heat_leak_integration": 84,
+            "input_consumption": 3245190,
+            "input_rate_calculation": 1086744,
+            "matter_decay": 54342,
+            "output_production": 7070541,
+            "production_rate_calculation": 5127141,
+            "upgrade_automation": 63063
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 35508,
+      "packet_retained_estimate_bytes": 35508
+    },
+    {
+      "label": "essence_only",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 342871,
+          "min_usec": 340642,
+          "max_usec": 496828
+        },
+        "extended": {
+          "median_usec": 209280,
+          "min_usec": 209094,
+          "max_usec": 276383
+        },
+        "isolated": {
+          "median_usec": 226157,
+          "min_usec": 202606,
+          "max_usec": 266751
+        },
+        "previous_isolated": {
+          "median_usec": 329477,
+          "min_usec": 312926,
+          "max_usec": 448818
+        },
+        "previous": {
+          "median_usec": 339106,
+          "min_usec": 311127,
+          "max_usec": 476008
+        },
+        "exact": {
+          "median_usec": 421405,
+          "min_usec": 371585,
+          "max_usec": 683201
+        }
+      },
+      "speedup": 2.013594227828746,
+      "change_vs_previous_percent": -38.284784108803734,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 892,
+      "public_release_median_usec": 89,
+      "observations": {
+        "counters": {
+          "build_usec": 945,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 2047,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 532,
+          "invalidate_usec": 113,
+          "kernel_ticks": 1999,
+          "kernel_usec": 209902,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 3904,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 0,
+          "partial_operations": 0,
+          "tape_evaluations": 1999
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "essence_only",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 2000,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 10001,
+            "heat_leak": 2000,
+            "input_consumption": 2000,
+            "matter_decay": 2000,
+            "output_production": 2000,
+            "production_rate_calculation": 2000,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 26049,
+            "available_operating_duration": 4036,
+            "cycle_generator_processing": 3884,
+            "environmental_effects": 70006,
+            "generator_automation": 4151,
+            "generator_processing": 239656,
+            "generator_start_checks": 6049,
+            "heat_leak": 29067,
+            "input_consumption": 3215,
+            "matter_decay": 37165,
+            "output_production": 92261,
+            "production_rate_calculation": 69548,
+            "upgrade_automation": 3415
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 15084
+    },
+    {
+      "label": "essence_feedback",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 3713927,
+          "min_usec": 3708070,
+          "max_usec": 3835201
+        },
+        "extended": {
+          "median_usec": 2177487,
+          "min_usec": 2133609,
+          "max_usec": 2232028
+        },
+        "isolated": {
+          "median_usec": 2133385,
+          "min_usec": 2131454,
+          "max_usec": 2192455
+        },
+        "previous_isolated": {
+          "median_usec": 3579300,
+          "min_usec": 3464643,
+          "max_usec": 3804697
+        },
+        "previous": {
+          "median_usec": 3520522,
+          "min_usec": 3502673,
+          "max_usec": 3621808
+        },
+        "exact": {
+          "median_usec": 3503851,
+          "min_usec": 3503618,
+          "max_usec": 3564010
+        }
+      },
+      "speedup": 1.6091260246329828,
+      "change_vs_previous_percent": -38.14874612344419,
+      "coverage_percent": 99.99,
+      "public_build_median_usec": 1094,
+      "public_release_median_usec": 73,
+      "observations": {
+        "counters": {
+          "build_usec": 1734,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 7898,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 522,
+          "invalidate_usec": 149,
+          "kernel_ticks": 9999,
+          "kernel_usec": 2202634,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 1,
+          "dynamic_modifier_evaluations": 99989,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 4025,
+          "partial_operations": 4182,
+          "tape_evaluations": 69993
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "essence_feedback",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 40000,
+            "cycle_generator_processing": 10000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_processing": 10000,
+            "generator_start_checks": 24185,
+            "heat_leak": 10000,
+            "heat_leak_integration": 1,
+            "input_consumption": 40000,
+            "input_rate_calculation": 30000,
+            "matter_decay": 10000,
+            "output_production": 40000,
+            "production_rate_calculation": 60000,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 409476,
+            "available_operating_duration": 565797,
+            "cycle_generator_processing": 25278,
+            "environmental_effects": 398902,
+            "generator_automation": 31333,
+            "generator_processing": 4488621,
+            "generator_start_checks": 35677,
+            "heat_leak": 117376,
+            "heat_leak_integration": 247,
+            "input_consumption": 744765,
+            "input_rate_calculation": 368299,
+            "matter_decay": 246387,
+            "output_production": 2294029,
+            "production_rate_calculation": 1675378,
+            "upgrade_automation": 28540
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 30996
+    },
+    {
+      "label": "compression",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 244028,
+          "min_usec": 233996,
+          "max_usec": 324112
+        },
+        "extended": {
+          "median_usec": 165143,
+          "min_usec": 158297,
+          "max_usec": 217135
+        },
+        "isolated": {
+          "median_usec": 153393,
+          "min_usec": 144034,
+          "max_usec": 220300
+        },
+        "previous_isolated": {
+          "median_usec": 213786,
+          "min_usec": 201482,
+          "max_usec": 283697
+        },
+        "previous": {
+          "median_usec": 201940,
+          "min_usec": 188769,
+          "max_usec": 243988
+        },
+        "exact": {
+          "median_usec": 202772,
+          "min_usec": 199210,
+          "max_usec": 211495
+        }
+      },
+      "speedup": 1.2278570693277946,
+      "change_vs_previous_percent": -18.221749034366642,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 665,
+      "public_release_median_usec": 64,
+      "observations": {
+        "counters": {
+          "build_usec": 919,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 981,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 1014,
+          "invalidate_usec": 129,
+          "kernel_ticks": 1999,
+          "kernel_usec": 163135,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 6,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1,
+          "partial_operations": 1,
+          "tape_evaluations": 2023
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "compression",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 7,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 11994,
+            "heat_leak": 2000,
+            "input_consumption": 7,
+            "input_rate_calculation": 14,
+            "matter_decay": 2000,
+            "output_production": 7,
+            "production_rate_calculation": 7,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 33504,
+            "available_operating_duration": 59,
+            "cycle_generator_processing": 7511,
+            "environmental_effects": 45939,
+            "generator_automation": 5260,
+            "generator_processing": 214140,
+            "generator_start_checks": 23337,
+            "heat_leak": 37482,
+            "input_consumption": 211,
+            "input_rate_calculation": 40,
+            "matter_decay": 3237,
+            "output_production": 94,
+            "production_rate_calculation": 58,
+            "upgrade_automation": 3081
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 19444
+    },
+    {
+      "label": "compression_low_ash",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 230639,
+          "min_usec": 220342,
+          "max_usec": 291380
+        },
+        "extended": {
+          "median_usec": 163255,
+          "min_usec": 161268,
+          "max_usec": 169816
+        },
+        "isolated": {
+          "median_usec": 178538,
+          "min_usec": 154902,
+          "max_usec": 182827
+        },
+        "previous_isolated": {
+          "median_usec": 267657,
+          "min_usec": 203610,
+          "max_usec": 328454
+        },
+        "previous": {
+          "median_usec": 228803,
+          "min_usec": 204767,
+          "max_usec": 311282
+        },
+        "exact": {
+          "median_usec": 255512,
+          "min_usec": 215223,
+          "max_usec": 307677
+        }
+      },
+      "speedup": 1.5651097975559707,
+      "change_vs_previous_percent": -28.648225766270553,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 1206,
+      "public_release_median_usec": 71,
+      "observations": {
+        "counters": {
+          "build_usec": 1115,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 1010,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 384,
+          "invalidate_usec": 124,
+          "kernel_ticks": 1999,
+          "kernel_usec": 158334,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 6,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1,
+          "partial_operations": 1,
+          "tape_evaluations": 2023
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "compression_low_ash",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 7,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 11994,
+            "heat_leak": 2000,
+            "input_consumption": 7,
+            "input_rate_calculation": 14,
+            "matter_decay": 2000,
+            "output_production": 7,
+            "production_rate_calculation": 7,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 26358,
+            "available_operating_duration": 67,
+            "cycle_generator_processing": 3560,
+            "environmental_effects": 40962,
+            "generator_automation": 3285,
+            "generator_processing": 157236,
+            "generator_start_checks": 23725,
+            "heat_leak": 34220,
+            "input_consumption": 291,
+            "input_rate_calculation": 41,
+            "matter_decay": 3105,
+            "output_production": 84,
+            "production_rate_calculation": 42,
+            "upgrade_automation": 2899
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 19444
+    },
+    {
+      "label": "compression_phase",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 229879,
+          "min_usec": 225534,
+          "max_usec": 267754
+        },
+        "extended": {
+          "median_usec": 158481,
+          "min_usec": 158364,
+          "max_usec": 165424
+        },
+        "isolated": {
+          "median_usec": 163366,
+          "min_usec": 144838,
+          "max_usec": 165282
+        },
+        "previous_isolated": {
+          "median_usec": 209046,
+          "min_usec": 208432,
+          "max_usec": 212951
+        },
+        "previous": {
+          "median_usec": 212129,
+          "min_usec": 204174,
+          "max_usec": 213003
+        },
+        "exact": {
+          "median_usec": 212472,
+          "min_usec": 195449,
+          "max_usec": 236350
+        }
+      },
+      "speedup": 1.3406780623544778,
+      "change_vs_previous_percent": -25.290271485746885,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 939,
+      "public_release_median_usec": 67,
+      "observations": {
+        "counters": {
+          "build_usec": 1229,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 1156,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 1952,
+          "invalidate_usec": 122,
+          "kernel_ticks": 1999,
+          "kernel_usec": 148106,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 6,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1,
+          "partial_operations": 1,
+          "tape_evaluations": 2023
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "compression_phase",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 7,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 11994,
+            "heat_leak": 2000,
+            "input_consumption": 7,
+            "input_rate_calculation": 14,
+            "matter_decay": 2000,
+            "output_production": 7,
+            "production_rate_calculation": 7,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 24734,
+            "available_operating_duration": 61,
+            "cycle_generator_processing": 3668,
+            "environmental_effects": 39181,
+            "generator_automation": 3111,
+            "generator_processing": 146743,
+            "generator_start_checks": 20862,
+            "heat_leak": 32799,
+            "input_consumption": 152,
+            "input_rate_calculation": 35,
+            "matter_decay": 3016,
+            "output_production": 96,
+            "production_rate_calculation": 50,
+            "upgrade_automation": 2643
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 19444
+    },
+    {
+      "label": "expansion",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 276769,
+          "min_usec": 268015,
+          "max_usec": 296419
+        },
+        "extended": {
+          "median_usec": 188631,
+          "min_usec": 178732,
+          "max_usec": 189673
+        },
+        "isolated": {
+          "median_usec": 201089,
+          "min_usec": 194041,
+          "max_usec": 204922
+        },
+        "previous_isolated": {
+          "median_usec": 245149,
+          "min_usec": 238092,
+          "max_usec": 253563
+        },
+        "previous": {
+          "median_usec": 244072,
+          "min_usec": 240607,
+          "max_usec": 260417
+        },
+        "exact": {
+          "median_usec": 246645,
+          "min_usec": 242077,
+          "max_usec": 248683
+        }
+      },
+      "speedup": 1.3075528412615105,
+      "change_vs_previous_percent": -22.715018519125508,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 1107,
+      "public_release_median_usec": 63,
+      "observations": {
+        "counters": {
+          "build_usec": 1424,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 1848,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 573,
+          "invalidate_usec": 119,
+          "kernel_ticks": 1999,
+          "kernel_usec": 187315,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 0,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1,
+          "partial_operations": 0,
+          "tape_evaluations": 0
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "expansion",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 21,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 11980,
+            "heat_leak": 2000,
+            "input_consumption": 20,
+            "input_rate_calculation": 20,
+            "matter_decay": 2000,
+            "output_production": 20,
+            "production_rate_calculation": 20,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 25216,
+            "available_operating_duration": 98,
+            "cycle_generator_processing": 3079,
+            "environmental_effects": 73762,
+            "generator_automation": 3359,
+            "generator_processing": 151281,
+            "generator_start_checks": 20422,
+            "heat_leak": 29022,
+            "input_consumption": 531,
+            "input_rate_calculation": 34,
+            "matter_decay": 40612,
+            "output_production": 231,
+            "production_rate_calculation": 37,
+            "upgrade_automation": 3175
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 17252
+    },
+    {
+      "label": "mixed_resources",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 3801274,
+          "min_usec": 3636768,
+          "max_usec": 3925865
+        },
+        "extended": {
+          "median_usec": 1979367,
+          "min_usec": 1930507,
+          "max_usec": 2046464
+        },
+        "isolated": {
+          "median_usec": 1990105,
+          "min_usec": 1943978,
+          "max_usec": 2076924
+        },
+        "previous_isolated": {
+          "median_usec": 3599300,
+          "min_usec": 3397231,
+          "max_usec": 3601662
+        },
+        "previous": {
+          "median_usec": 3811091,
+          "min_usec": 3510744,
+          "max_usec": 4947807
+        },
+        "exact": {
+          "median_usec": 3934980,
+          "min_usec": 3525606,
+          "max_usec": 4210763
+        }
+      },
+      "speedup": 1.9879991936816164,
+      "change_vs_previous_percent": -48.06298248979098,
+      "coverage_percent": 99.99,
+      "public_build_median_usec": 12208,
+      "public_release_median_usec": 633,
+      "observations": {
+        "counters": {
+          "build_usec": 10155,
+          "builds": 16,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 7938,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 681,
+          "invalidate_usec": 995,
+          "kernel_ticks": 9999,
+          "kernel_usec": 2010464,
+          "reasons": {},
+          "structural_invalidations": 14,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 1,
+          "dynamic_modifier_evaluations": 102387,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 10796,
+          "partial_operations": 11651,
+          "tape_evaluations": 89580
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "mixed_resources",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 42398,
+            "cycle_generator_processing": 10000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_automation_loop_checks": 10014,
+            "generator_automation_purchase_attempts": 15,
+            "generator_automation_waiting_checks": 9249,
+            "generator_processing": 10000,
+            "generator_start_checks": 29256,
+            "heat_leak": 10000,
+            "heat_leak_integration": 1,
+            "input_consumption": 42398,
+            "input_rate_calculation": 34796,
+            "matter_decay": 10000,
+            "output_production": 42398,
+            "production_rate_calculation": 62398,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 128677,
+            "available_operating_duration": 439397,
+            "cycle_generator_processing": 19536,
+            "environmental_effects": 84419,
+            "generator_automation": 159310,
+            "generator_automation_loop_checks": 57898,
+            "generator_automation_purchase_attempts": 1448,
+            "generator_automation_waiting_checks": 52623,
+            "generator_processing": 3312819,
+            "generator_start_checks": 119723,
+            "heat_leak": 45379,
+            "heat_leak_integration": 27,
+            "input_consumption": 646862,
+            "input_rate_calculation": 306623,
+            "matter_decay": 17400,
+            "output_production": 1624827,
+            "production_rate_calculation": 1136666,
+            "upgrade_automation": 18409
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 37628
+    },
+    {
+      "label": "forge_resources",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 703606,
+          "min_usec": 694169,
+          "max_usec": 732202
+        },
+        "extended": {
+          "median_usec": 377492,
+          "min_usec": 375367,
+          "max_usec": 399519
+        },
+        "isolated": {
+          "median_usec": 366184,
+          "min_usec": 360147,
+          "max_usec": 370843
+        },
+        "previous_isolated": {
+          "median_usec": 660061,
+          "min_usec": 658503,
+          "max_usec": 676502
+        },
+        "previous": {
+          "median_usec": 665980,
+          "min_usec": 653891,
+          "max_usec": 671771
+        },
+        "exact": {
+          "median_usec": 660886,
+          "min_usec": 654147,
+          "max_usec": 677490
+        }
+      },
+      "speedup": 1.7507284922594386,
+      "change_vs_previous_percent": -43.317817351872435,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 1169,
+      "public_release_median_usec": 79,
+      "observations": {
+        "counters": {
+          "build_usec": 1497,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 107,
+          "event_check_usec": 1506,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 810,
+          "invalidate_usec": 175,
+          "kernel_ticks": 1999,
+          "kernel_usec": 383642,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 49,
+          "completions": 1,
+          "cycle_calls": 2000,
+          "cycle_usec": 5328,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 1,
+          "dynamic_modifier_evaluations": 24675,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 2654,
+          "partial_operations": 2668,
+          "tape_evaluations": 18740
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [
+            "infernal_forge"
+          ],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "forge_resources",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 8688,
+            "cycle_generator_processing": 4000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 5983,
+            "heat_leak": 2000,
+            "heat_leak_integration": 1,
+            "input_consumption": 8688,
+            "input_rate_calculation": 7380,
+            "matter_decay": 2000,
+            "output_production": 8688,
+            "production_rate_calculation": 12690,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 21242,
+            "available_operating_duration": 89331,
+            "cycle_generator_processing": 6577,
+            "environmental_effects": 17122,
+            "generator_automation": 5849,
+            "generator_processing": 701811,
+            "generator_start_checks": 23206,
+            "heat_leak": 8535,
+            "heat_leak_integration": 74,
+            "input_consumption": 146372,
+            "input_rate_calculation": 67148,
+            "matter_decay": 4397,
+            "output_production": 346206,
+            "production_rate_calculation": 247765,
+            "upgrade_automation": 3465
+          }
+        },
+        "normal_completions": 1,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 39080
+    },
+    {
+      "label": "sequential_feedback",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 371548,
+          "min_usec": 366085,
+          "max_usec": 382444
+        },
+        "extended": {
+          "median_usec": 221213,
+          "min_usec": 218989,
+          "max_usec": 227023
+        },
+        "isolated": {
+          "median_usec": 225355,
+          "min_usec": 223480,
+          "max_usec": 235063
+        },
+        "previous_isolated": {
+          "median_usec": 343566,
+          "min_usec": 339192,
+          "max_usec": 352270
+        },
+        "previous": {
+          "median_usec": 341252,
+          "min_usec": 336856,
+          "max_usec": 368046
+        },
+        "exact": {
+          "median_usec": 353414,
+          "min_usec": 339974,
+          "max_usec": 398940
+        }
+      },
+      "speedup": 1.5976185848028823,
+      "change_vs_previous_percent": -35.176057576219335,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 871,
+      "public_release_median_usec": 73,
+      "observations": {
+        "counters": {
+          "build_usec": 1152,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 1216,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 526,
+          "invalidate_usec": 150,
+          "kernel_ticks": 1999,
+          "kernel_usec": 223659,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor",
+            "ordered_resource_probe",
+            "ordered_resource_probe",
+            "ordered_resource_probe"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 6105,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1,
+          "partial_operations": 4,
+          "tape_evaluations": 4133
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "ordered_resource_probe",
+            "ordered_resource_probe"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "sequential_feedback",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 2028,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 11977,
+            "heat_leak": 2000,
+            "input_consumption": 2028,
+            "input_rate_calculation": 56,
+            "matter_decay": 2000,
+            "output_production": 2028,
+            "production_rate_calculation": 2056,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 24692,
+            "available_operating_duration": 4414,
+            "cycle_generator_processing": 3757,
+            "environmental_effects": 73075,
+            "generator_automation": 5100,
+            "generator_processing": 272525,
+            "generator_start_checks": 26589,
+            "heat_leak": 31244,
+            "input_consumption": 4273,
+            "input_rate_calculation": 231,
+            "matter_decay": 38159,
+            "output_production": 96591,
+            "production_rate_calculation": 72754,
+            "upgrade_automation": 3082
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 25424
+    },
+    {
+      "label": "feedback_stress",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 739352,
+          "min_usec": 730406,
+          "max_usec": 743150
+        },
+        "extended": {
+          "median_usec": 396196,
+          "min_usec": 394935,
+          "max_usec": 397916
+        },
+        "isolated": {
+          "median_usec": 396169,
+          "min_usec": 383254,
+          "max_usec": 398002
+        },
+        "previous_isolated": {
+          "median_usec": 701862,
+          "min_usec": 684846,
+          "max_usec": 706480
+        },
+        "previous": {
+          "median_usec": 692343,
+          "min_usec": 683202,
+          "max_usec": 725518
+        },
+        "exact": {
+          "median_usec": 701866,
+          "min_usec": 700076,
+          "max_usec": 708113
+        }
+      },
+      "speedup": 1.7715120798796555,
+      "change_vs_previous_percent": -42.77460738391231,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 1124,
+      "public_release_median_usec": 147,
+      "observations": {
+        "counters": {
+          "build_usec": 1443,
+          "builds": 2,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 1714,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 771,
+          "invalidate_usec": 171,
+          "kernel_ticks": 1999,
+          "kernel_usec": 408516,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 1,
+          "dynamic_modifier_evaluations": 20946,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 2102,
+          "partial_operations": 2103,
+          "tape_evaluations": 19816
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "feedback_stress",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 8957,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 5149,
+            "heat_leak": 2000,
+            "heat_leak_integration": 1,
+            "input_consumption": 8957,
+            "input_rate_calculation": 7914,
+            "matter_decay": 2000,
+            "output_production": 8957,
+            "production_rate_calculation": 12957,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 26110,
+            "available_operating_duration": 87813,
+            "cycle_generator_processing": 3559,
+            "environmental_effects": 24932,
+            "generator_automation": 4003,
+            "generator_processing": 691180,
+            "generator_start_checks": 22137,
+            "heat_leak": 16406,
+            "heat_leak_integration": 26,
+            "input_consumption": 137430,
+            "input_rate_calculation": 63405,
+            "matter_decay": 3850,
+            "output_production": 326331,
+            "production_rate_calculation": 228067,
+            "upgrade_automation": 3448
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 37628
+    },
+    {
+      "label": "compression_partial",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 246245,
+          "min_usec": 241429,
+          "max_usec": 282367
+        },
+        "extended": {
+          "median_usec": 165665,
+          "min_usec": 164449,
+          "max_usec": 174315
+        },
+        "isolated": {
+          "median_usec": 156075,
+          "min_usec": 155291,
+          "max_usec": 164639
+        },
+        "previous_isolated": {
+          "median_usec": 219043,
+          "min_usec": 212646,
+          "max_usec": 224512
+        },
+        "previous": {
+          "median_usec": 218013,
+          "min_usec": 214063,
+          "max_usec": 218036
+        },
+        "exact": {
+          "median_usec": 215070,
+          "min_usec": 206502,
+          "max_usec": 219074
+        }
+      },
+      "speedup": 1.2982223161198805,
+      "change_vs_previous_percent": -24.01141216349484,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 416,
+      "public_release_median_usec": 57,
+      "observations": {
+        "counters": {
+          "build_usec": 1427,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 11133,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 134,
+          "kernel_ticks": 2000,
+          "kernel_usec": 165851,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 1,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1,
+          "partial_operations": 1,
+          "tape_evaluations": 2004
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "compression_partial",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 1,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_processing": 2000,
+            "generator_start_checks": 12000,
+            "heat_leak": 2000,
+            "input_consumption": 1,
+            "input_rate_calculation": 2,
+            "matter_decay": 2000,
+            "output_production": 1,
+            "production_rate_calculation": 1,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 32196,
+            "available_operating_duration": 11,
+            "cycle_generator_processing": 3367,
+            "environmental_effects": 70825,
+            "generator_automation": 4074,
+            "generator_processing": 122863,
+            "generator_start_checks": 20070,
+            "heat_leak": 27637,
+            "input_consumption": 35,
+            "input_rate_calculation": 5,
+            "matter_decay": 38928,
+            "output_production": 31,
+            "production_rate_calculation": 21,
+            "upgrade_automation": 3507
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 19444
+    },
+    {
+      "label": "mode_changes",
+      "ticks": 2000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 13121,
+          "min_usec": 10461,
+          "max_usec": 15031
+        },
+        "extended": {
+          "median_usec": 518269,
+          "min_usec": 510062,
+          "max_usec": 794781
+        },
+        "previous": {
+          "median_usec": 929341,
+          "min_usec": 733898,
+          "max_usec": 1051058
+        },
+        "exact": {
+          "median_usec": 731235,
+          "min_usec": 699708,
+          "max_usec": 863677
+        }
+      },
+      "speedup": 1.4109178824124151,
+      "change_vs_previous_percent": -44.23263366191742,
+      "coverage_percent": 99.95,
+      "public_build_median_usec": 73777,
+      "public_release_median_usec": 4149,
+      "observations": {
+        "counters": {
+          "build_usec": 79860,
+          "builds": 117,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 1616,
+          "event_ticks": 1,
+          "fallback_ticks": 1,
+          "fallback_usec": 2269,
+          "invalidate_usec": 6886,
+          "kernel_ticks": 1999,
+          "kernel_usec": 443900,
+          "reasons": {},
+          "structural_invalidations": 16,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 1,
+          "dynamic_modifier_evaluations": 20491,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 1606,
+          "partial_operations": 1669,
+          "tape_evaluations": 16996
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "mode_changes",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 2000,
+            "available_operating_duration": 8522,
+            "cycle_generator_processing": 2000,
+            "environmental_effects": 2000,
+            "generator_automation": 2000,
+            "generator_automation_loop_checks": 2016,
+            "generator_automation_purchase_attempts": 17,
+            "generator_automation_waiting_checks": 1149,
+            "generator_processing": 2000,
+            "generator_start_checks": 5150,
+            "heat_leak": 2000,
+            "heat_leak_integration": 1,
+            "input_consumption": 8522,
+            "input_rate_calculation": 7024,
+            "matter_decay": 2000,
+            "output_production": 8522,
+            "production_rate_calculation": 12522,
+            "upgrade_automation": 2000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 26351,
+            "available_operating_duration": 84753,
+            "cycle_generator_processing": 3702,
+            "environmental_effects": 24566,
+            "generator_automation": 29531,
+            "generator_automation_loop_checks": 6963,
+            "generator_automation_purchase_attempts": 1369,
+            "generator_automation_waiting_checks": 7425,
+            "generator_processing": 680978,
+            "generator_start_checks": 19646,
+            "heat_leak": 17604,
+            "heat_leak_integration": 26,
+            "input_consumption": 130206,
+            "input_rate_calculation": 63194,
+            "matter_decay": 3337,
+            "output_production": 328256,
+            "production_rate_calculation": 229223,
+            "upgrade_automation": 4263
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 2000
+      },
+      "previous_packet_retained_estimate_bytes": null,
+      "packet_retained_estimate_bytes": null
+    },
+    {
+      "label": "earned_essence",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 4713235,
+          "min_usec": 4692478,
+          "max_usec": 4795334
+        },
+        "extended": {
+          "median_usec": 3111584,
+          "min_usec": 3071630,
+          "max_usec": 3205355
+        },
+        "isolated": {
+          "median_usec": 3165607,
+          "min_usec": 3024182,
+          "max_usec": 3486387
+        },
+        "previous_isolated": {
+          "median_usec": 4659781,
+          "min_usec": 4509794,
+          "max_usec": 6429091
+        },
+        "previous": {
+          "median_usec": 4669397,
+          "min_usec": 4602813,
+          "max_usec": 6282136
+        },
+        "exact": {
+          "median_usec": 4732263,
+          "min_usec": 4513980,
+          "max_usec": 4834593
+        }
+      },
+      "speedup": 1.5208533660026533,
+      "change_vs_previous_percent": -33.362187879933956,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 794,
+      "public_release_median_usec": 111,
+      "observations": {
+        "counters": {
+          "build_usec": 965,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 8844,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 106,
+          "kernel_ticks": 10000,
+          "kernel_usec": 3144950,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction",
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 90000,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 18390,
+          "partial_operations": 20000,
+          "tape_evaluations": 70000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction",
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "earned_essence",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 40000,
+            "cycle_generator_processing": 10000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_automation_loop_checks": 10000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 9949,
+            "generator_processing": 10000,
+            "generator_start_checks": 30002,
+            "heat_leak": 10000,
+            "input_consumption": 40000,
+            "input_rate_calculation": 30000,
+            "matter_decay": 10000,
+            "output_production": 40000,
+            "production_rate_calculation": 60000,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 117053,
+            "available_operating_duration": 520661,
+            "cycle_generator_processing": 22148,
+            "environmental_effects": 207206,
+            "generator_automation": 167659,
+            "generator_automation_loop_checks": 61228,
+            "generator_automation_purchase_attempts": 34,
+            "generator_automation_waiting_checks": 60213,
+            "generator_processing": 3550105,
+            "generator_start_checks": 88290,
+            "heat_leak": 42570,
+            "input_consumption": 719124,
+            "input_rate_calculation": 411916,
+            "matter_decay": 142728,
+            "output_production": 1432048,
+            "production_rate_calculation": 920867,
+            "upgrade_automation": 871345
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 29512
+    },
+    {
+      "label": "earned_feedback",
+      "ticks": 10000,
+      "timings": {
+        "adaptive": {
+          "median_usec": 4923000,
+          "min_usec": 4847268,
+          "max_usec": 5016352
+        },
+        "extended": {
+          "median_usec": 3232048,
+          "min_usec": 3200418,
+          "max_usec": 3279697
+        },
+        "isolated": {
+          "median_usec": 3261819,
+          "min_usec": 3203718,
+          "max_usec": 3274305
+        },
+        "previous_isolated": {
+          "median_usec": 4725771,
+          "min_usec": 4663272,
+          "max_usec": 5564401
+        },
+        "previous": {
+          "median_usec": 5188684,
+          "min_usec": 4827444,
+          "max_usec": 5980570
+        },
+        "exact": {
+          "median_usec": 4693653,
+          "min_usec": 4635053,
+          "max_usec": 4842913
+        }
+      },
+      "speedup": 1.4522225536254412,
+      "change_vs_previous_percent": -37.709677444222855,
+      "coverage_percent": 100.0,
+      "public_build_median_usec": 831,
+      "public_release_median_usec": 74,
+      "observations": {
+        "counters": {
+          "build_usec": 1164,
+          "builds": 1,
+          "cycle_invalidations": 0,
+          "cycle_usec": 0,
+          "event_check_usec": 9353,
+          "event_ticks": 0,
+          "fallback_ticks": 0,
+          "fallback_usec": 0,
+          "invalidate_usec": 107,
+          "kernel_ticks": 10000,
+          "kernel_usec": 3247516,
+          "reasons": {},
+          "structural_invalidations": 0,
+          "writeback_usec": 0
+        },
+        "critical_completions": 0,
+        "cycle_activity": {
+          "auto_attempts": 0,
+          "auto_successes": 0,
+          "completion_level_changes": 0,
+          "completion_usec": 0,
+          "completions": 0,
+          "cycle_calls": 0,
+          "cycle_usec": 0,
+          "downlevels": 0,
+          "startup_level_changes": 0
+        },
+        "final_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction",
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "flows": {
+          "controller_transitions": 0,
+          "dynamic_modifier_evaluations": 90000,
+          "empty_duration_checks": 0,
+          "input_exhaustions": 20000,
+          "partial_operations": 20000,
+          "tape_evaluations": 70000
+        },
+        "initial_blockers": {
+          "active_or_auto_cycles": [],
+          "automation_is_supported": true,
+          "cycle_contract_supported": true,
+          "enabled_automation": [
+            "atomic_friction",
+            "atomic_friction"
+          ],
+          "essence_is_supported": true,
+          "essence_modifiers": [
+            "atomic_friction",
+            "molecular_agitation",
+            "lava_mite_colony",
+            "lava_mite_colony",
+            "thermal_furnace",
+            "matter_furnace",
+            "thermal_compressor",
+            "infernal_forge",
+            "relic_shard_extractor"
+          ],
+          "nexum_is_supported": true,
+          "relic_inventory_entries": 0,
+          "transfer_is_supported": true
+        },
+        "intrusive_untimed": true,
+        "label": "earned_feedback",
+        "native_profile": {
+          "call_counts": {
+            "automatic_upgrades": 10000,
+            "available_operating_duration": 40000,
+            "cycle_generator_processing": 10000,
+            "environmental_effects": 10000,
+            "generator_automation": 10000,
+            "generator_automation_loop_checks": 10000,
+            "generator_automation_purchase_attempts": 1,
+            "generator_automation_waiting_checks": 9949,
+            "generator_processing": 10000,
+            "generator_start_checks": 30002,
+            "heat_leak": 10000,
+            "input_consumption": 40000,
+            "input_rate_calculation": 30000,
+            "matter_decay": 10000,
+            "output_production": 40000,
+            "production_rate_calculation": 60000,
+            "upgrade_automation": 10000
+          },
+          "totals_usec": {
+            "automatic_upgrades": 186700,
+            "available_operating_duration": 746595,
+            "cycle_generator_processing": 28770,
+            "environmental_effects": 335246,
+            "generator_automation": 206185,
+            "generator_automation_loop_checks": 75485,
+            "generator_automation_purchase_attempts": 93,
+            "generator_automation_waiting_checks": 75269,
+            "generator_processing": 4799703,
+            "generator_start_checks": 107105,
+            "heat_leak": 50561,
+            "input_consumption": 866542,
+            "input_rate_calculation": 483638,
+            "matter_decay": 259158,
+            "output_production": 1893099,
+            "production_rate_calculation": 1228744,
+            "upgrade_automation": 1671062
+          }
+        },
+        "normal_completions": 0,
+        "rng_words": 0,
+        "ticks": 10000
+      },
+      "previous_packet_retained_estimate_bytes": 0,
+      "packet_retained_estimate_bytes": 29512
+    }
+  ],
+  "confirmation": {
+    "measured_samples_per_method": 5,
+    "non_native_binary_parity_samples_including_warmup": 72,
+    "scenarios": [
+      {
+        "label": "early",
+        "ticks": 2000,
+        "timings": {
+          "adaptive": {
+            "median_usec": 345072,
+            "min_usec": 325991,
+            "max_usec": 364145
+          },
+          "extended": {
+            "median_usec": 158263,
+            "min_usec": 150667,
+            "max_usec": 205666
+          },
+          "isolated": {
+            "median_usec": 161984,
+            "min_usec": 155743,
+            "max_usec": 174258
+          },
+          "previous_isolated": {
+            "median_usec": 161753,
+            "min_usec": 155475,
+            "max_usec": 255209
+          },
+          "previous": {
+            "median_usec": 161857,
+            "min_usec": 160856,
+            "max_usec": 162759
+          },
+          "exact": {
+            "median_usec": 308627,
+            "min_usec": 299302,
+            "max_usec": 343906
+          }
+        },
+        "speedup": 1.9500894081370883,
+        "change_vs_previous_percent": -2.22047857059009
+      },
+      {
+        "label": "consumer_50000",
+        "ticks": 2000,
+        "timings": {
+          "adaptive": {
+            "median_usec": 457252,
+            "min_usec": 451873,
+            "max_usec": 476711
+          },
+          "extended": {
+            "median_usec": 270562,
+            "min_usec": 267575,
+            "max_usec": 283586
+          },
+          "isolated": {
+            "median_usec": 279110,
+            "min_usec": 268419,
+            "max_usec": 292353
+          },
+          "previous_isolated": {
+            "median_usec": 272851,
+            "min_usec": 267530,
+            "max_usec": 307357
+          },
+          "previous": {
+            "median_usec": 275605,
+            "min_usec": 266874,
+            "max_usec": 347543
+          },
+          "exact": {
+            "median_usec": 441142,
+            "min_usec": 426657,
+            "max_usec": 508490
+          }
+        },
+        "speedup": 1.6304654755656744,
+        "change_vs_previous_percent": -1.829792638014549
+      },
+      {
+        "label": "consumer_50000",
+        "ticks": 10000,
+        "timings": {
+          "adaptive": {
+            "median_usec": 2348355,
+            "min_usec": 2301027,
+            "max_usec": 2541897
+          },
+          "extended": {
+            "median_usec": 1369565,
+            "min_usec": 1358976,
+            "max_usec": 2392777
+          },
+          "isolated": {
+            "median_usec": 1377431,
+            "min_usec": 1363783,
+            "max_usec": 2258552
+          },
+          "previous_isolated": {
+            "median_usec": 1377634,
+            "min_usec": 1344499,
+            "max_usec": 1936746
+          },
+          "previous": {
+            "median_usec": 1354261,
+            "min_usec": 1340338,
+            "max_usec": 1612556
+          },
+          "exact": {
+            "median_usec": 2156720,
+            "min_usec": 2131325,
+            "max_usec": 2239750
+          }
+        },
+        "speedup": 1.5747481864679662,
+        "change_vs_previous_percent": 1.1300628165471727
+      }
+    ]
+  }
+}

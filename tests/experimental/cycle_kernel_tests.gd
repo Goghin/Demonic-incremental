@@ -178,7 +178,7 @@ func _probe_parity() -> void:
 
 
 func _unsupported() -> void:
-	for kind: String in ["other_cycle", "inventory", "recipe", "essence"]:
+	for kind: String in ["other_cycle", "inventory", "recipe", "missing_resource"]:
 		var item: Dictionary = context("active")
 		var state: GameState = item["simulation"].state
 		var forge: Generator = state.get_generator("infernal_forge")
@@ -186,7 +186,7 @@ func _unsupported() -> void:
 			"other_cycle": state.get_generator("relic_shard_extractor").cycle_active = true
 			"inventory": forge.get_operation_mode().completion_item_outputs.append({"item_id": "relic_shard", "quantity": 1})
 			"recipe": forge.get_operation_mode().crafting_input_requirements.append({"item_id": "relic_shard", "quantity": 1})
-			"essence": forge.get_operation_mode().completion_outputs.append(GeneratorIO.new(ResourceIds.ESSENCE, 1.0))
+			"missing_resource": forge.get_operation_mode().completion_outputs.append(GeneratorIO.new("unregistered_probe", 1.0))
 		var before: PackedByteArray = Oracle.new().fingerprint(item["simulation"], item["journal"])
 		var packet: RefCounted = Packet.new()
 		check(not packet.build(item["simulation"], item["journal"]), "Unsupported cycle accepted: " + kind)

@@ -22,10 +22,10 @@ static func rejection(generator: Generator, state: GameState) -> String:
 		if not mode.crafting_input_requirements.is_empty() or not mode.completion_item_outputs.is_empty() or mode.completion_random_relic_tier != 0:
 			return "unsupported_cycle_inventory"
 		for input: GeneratorIO in mode.inputs:
-			if input.get_script() != preload("res://Generators/generator_io.gd") or not state.resources.has(input.resource_id) or input.resource_id == ResourceIds.ESSENCE:
+			if input.get_script() != preload("res://Generators/generator_io.gd") or not state.resources.has(input.resource_id):
 				return "unsupported_cycle_input"
 		for output: GeneratorIO in mode.outputs + mode.completion_outputs:
-			if output.get_script() != preload("res://Generators/generator_io.gd") or output.resource_id not in [ResourceIds.HEAT, ResourceIds.MATTER, ResourceIds.ASH, ResourceIds.CRYSTALLIZED_FLAME]:
+			if output.get_script() != preload("res://Generators/generator_io.gd") or not state.resources.has(output.resource_id):
 				return "unsupported_cycle_output"
 	for effect: UpgradeEffect in generator.event_effects:
 		if effect.get_script() != preload("res://Upgrades/upgrade_effect.gd") or effect.event_action not in [UpgradeEffectTypes.EVENT_ACTION_TRIGGER, UpgradeEffectTypes.EVENT_ACTION_MULTIPLY_COMPLETION_OUTPUT, UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL]:

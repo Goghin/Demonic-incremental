@@ -81,7 +81,7 @@ func _differential(label: String, ticks: int) -> void:
 	if label == "forge_competing":
 		check(kernel.counters["kernel_ticks"] > 0 and kernel.counters["reasons"].is_empty(), "Forge did not use the native-cycle contract")
 	elif label == "unsupported":
-		check(kernel.counters["kernel_ticks"] == 1 and kernel.counters["fallback_ticks"] == ticks - 1 and kernel.counters["structural_invalidations"] == 1, "Unsupported purchase did not fall back on NEXT tick")
+		check(kernel.counters["kernel_ticks"] == ticks and kernel.counters["structural_invalidations"] == 1, "Newly supported Essence unlock did not reconstruct on NEXT tick")
 	else:
 		check(kernel.counters["kernel_ticks"] > 0, label + ": no actual kernel ticks")
 	if label in ["reached_entry", "effects", "automatic", "activation", "initial", "production", "decay", "competition", "registry", "cost_refresh", "general", "purchase_heavy", "upgrade_initial"]:
@@ -136,9 +136,9 @@ func _wait_and_reentry() -> void:
 					state.upgrade_automation_manager.set_exclusive_preference("external_choice", true)
 					state.set_resource_amount(ResourceIds.HEAT, 2.0)
 				"fallback":
-					state.get_generator("atomic_friction").get_operation_mode().is_resource_transfer = true
+					state.prestige_planning = true
 					state.get_generator("atomic_friction").manually_paused = false
-				"resume": state.get_generator("atomic_friction").get_operation_mode().is_resource_transfer = false
+				"resume": state.prestige_planning = false
 		kernel.run(5, true)
 		for tick: int in range(5):
 			control["simulation"].update(STEP, true)
