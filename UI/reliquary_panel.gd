@@ -219,8 +219,8 @@ func _style_reliquary_tab(button: Button, selected: bool) -> void:
 	if button == null:
 		return
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color(0.22, 0.12, 0.085, 1.0) if selected else Color(0.075, 0.06, 0.075, 0.98)
-	normal.border_color = Color(0.85, 0.43, 0.2, 1.0) if selected else Color(0.28, 0.2, 0.19, 1.0)
+	normal.bg_color = Color(0.19, 0.105, 0.075, 1.0) if selected else Color(0.075, 0.06, 0.075, 0.98)
+	normal.border_color = Color(0.85, 0.43, 0.20, 1.0) if selected else Color(0.28, 0.2, 0.19, 1.0)
 	normal.set_border_width_all(1)
 	normal.set_corner_radius_all(4)
 	normal.content_margin_left = 6.0
@@ -229,6 +229,7 @@ func _style_reliquary_tab(button: Button, selected: bool) -> void:
 	normal.content_margin_bottom = 3.0
 	button.add_theme_stylebox_override("normal", normal)
 	button.add_theme_color_override("font_color", Color(1.0, 0.82, 0.67) if selected else Color(0.88, 0.80, 0.70))
+	button.add_theme_color_override("font_disabled_color", Color(0.61, 0.55, 0.52))
 	var hover := normal.duplicate() as StyleBoxFlat
 	hover.bg_color = Color(0.24, 0.13, 0.10, 1.0)
 	hover.border_color = Color(0.62, 0.34, 0.22, 1.0)
