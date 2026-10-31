@@ -94,6 +94,7 @@ var realm_view: RealmView
 func _ready() -> void:
 	_update_navigation_buttons("GeneratorsButton")
 	_style_options_panel()
+	_setup_resolution_setting()
 	_add_tutorial_archive_button()
 	$OfflineResultsPanel.results_closed.connect(
 		_on_offline_results_closed
@@ -556,6 +557,79 @@ func _on_tutorial_archive_button_pressed() -> void:
 	if tutorial_manager == null or assistant_popup == null:
 		return
 	assistant_popup.show_archive(tutorial_manager.get_archive_entries())
+
+
+const WINDOW_RESOLUTIONS: Array[Vector2i] = [
+	Vector2i(1280, 720),
+	Vector2i(1600, 900),
+	Vector2i(1920, 1080),
+	Vector2i(2560, 1440)
+]
+
+
+func _setup_resolution_setting() -> void:
+	var options_content := $OptionsPanel/OptionsContent as VBoxContainer
+	var label := Label.new()
+	label.name = "ResolutionLabel"
+	label.text = "DISPLAY RESOLUTION"
+	label.add_theme_font_size_override("font_size", 10)
+	label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.68))
+	options_content.add_child(label)
+	var picker := OptionButton.new()
+	picker.name = "ResolutionOption"
+	picker.add_theme_font_size_override("font_size", 10)
+	picker.add_theme_color_override("font_color", Color(0.88, 0.80, 0.75))
+	picker.add_theme_stylebox_override("normal", _create_options_button_style(
+		Color(0.095, 0.065, 0.065, 1.0), Color(0.34, 0.23, 0.20, 1.0)
+	))
+	options_content.add_child(picker)
+	for resolution in WINDOW_RESOLUTIONS:
+		picker.add_item("%d × %d" % [resolution.x, resolution.y])
+	picker.add_item("Fullscreen")
+	var config := ConfigFile.new()
+	config.load("user://settings.cfg")
+	var saved_fullscreen: bool = bool(config.get_value("graphics", "fullscreen", false))
+	var saved_size: Vector2i = Vector2i(
+		int(config.get_value("graphics", "window_width", 1280)),
+		int(config.get_value("graphics", "window_height", 720))
+	)
+	var selected_index: int = WINDOW_RESOLUTIONS.find(saved_size)
+	if saved_fullscreen:
+		picker.select(WINDOW_RESOLUTIONS.size())
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	else:
+		if selected_index < 0:
+			picker.add_item("%d × %d (Custom)" % [saved_size.x, saved_size.y])
+			selected_index = picker.item_count - 1
+		picker.select(selected_index)
+		# Only restore a saved size. Keep Godot's initial window size otherwise.
+		if config.has_section_key("graphics", "window_width"):
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_size(saved_size)
+	picker.item_selected.connect(_on_resolution_selected)
+
+
+func _on_resolution_selected(index: int) -> void:
+	var picker := $OptionsPanel/OptionsContent/ResolutionOption as OptionButton
+	var fullscreen: bool = index == WINDOW_RESOLUTIONS.size()
+	var selected_size: Vector2i = DisplayServer.window_get_size()
+	if not fullscreen:
+		if index < WINDOW_RESOLUTIONS.size():
+			selected_size = WINDOW_RESOLUTIONS[index]
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		DisplayServer.window_set_size(selected_size)
+		var screen_rect: Rect2i = DisplayServer.screen_get_usable_rect()
+		DisplayServer.window_set_position(screen_rect.position + (screen_rect.size - selected_size) / 2)
+	else:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	var config := ConfigFile.new()
+	config.load("user://settings.cfg")
+	config.set_value("graphics", "fullscreen", fullscreen)
+	config.set_value("graphics", "window_width", selected_size.x)
+	config.set_value("graphics", "window_height", selected_size.y)
+	var error: Error = config.save("user://settings.cfg")
+	if error != OK:
+		push_warning("Could not save display settings: %s" % error)
 
 
 func _style_options_panel() -> void:
