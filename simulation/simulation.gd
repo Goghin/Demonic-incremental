@@ -971,10 +971,15 @@ func get_effective_relic_critical_chance(
 		generator.level - generator.definition.starting_level,
 		0
 	)
-	var chance := base_chance + levels_above_start * generator.definition.level_critical_chance_bonus
-	# Respect explicitly configured mode chances above the progression cap.
-	var effective_cap := maxf(generator.definition.level_critical_chance_cap, base_chance)
-	return clampf(chance, 0.0, effective_cap)
+	var level_chance := base_chance + levels_above_start * generator.definition.level_critical_chance_bonus
+	# The progression cap limits levels only. Relics and upgrades can still
+	# improve the final chance after level progression reaches its cap.
+	var progression_cap := maxf(generator.definition.level_critical_chance_cap, base_chance)
+	var chance := clampf(level_chance, 0.0, progression_cap)
+	for modifier in generator.modifiers:
+		if modifier.applies_to(ModifierTypes.EVENT_CHANCE, "critical_chance"):
+			chance += modifier.get_effective_additive(state, generator)
+	return clampf(chance, 0.0, 1.0)
 
 
 func buy_generator_level(generator_id: String, source: String = "manual") -> bool:
