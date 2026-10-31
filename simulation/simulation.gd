@@ -674,6 +674,17 @@ func complete_cycle(
 			var effect_level: int = source_upgrade.level if source_upgrade != null else 1
 			amount *= 1.0 + effect.event_value * effect_level
 		
+		# Preserve the Forge's upgrade-defined critical multiplier at 200% power.
+		# Additional critical power scales only the critical bonus, not the
+		# ordinary completion output. This avoids multiplying the base twice.
+		if triggered_events.get("forge_critical", false) and output.resource_id == ResourceIds.CRYSTALLIZED_FLAME:
+			var critical_power := generator.cycle_critical_power_snapshot
+			if critical_power < 0.0:
+				var active_mode := generator.get_operation_mode()
+				critical_power = get_effective_critical_power(generator, active_mode)
+			var critical_bonus := amount - (output.amount_per_second * (generator.level if generator.definition.scale_rates_with_level else 1))
+			amount += critical_bonus * (critical_power / 2.0 - 1.0)
+
 		var current_amount := state.get_resource_amount(output.resource_id)
 		state.set_resource_amount(output.resource_id, current_amount + amount)
 		state.record_resource_produced(output.resource_id, amount)
