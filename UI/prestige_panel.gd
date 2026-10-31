@@ -316,7 +316,7 @@ func _apply_compact_style() -> void:
 		label.add_theme_font_size_override("font_size", 12)
 
 	# Compact prestige action button.
-	smash_button.custom_minimum_size = Vector2(0, 25)
+	smash_button.custom_minimum_size = Vector2(0, 30)
 	smash_button.add_theme_font_size_override(
 		"font_size",
 		12
@@ -340,7 +340,7 @@ func _apply_compact_style() -> void:
 		if button != null:
 			# Equal minimum widths prevent the disabled/selected theme
 			# from changing the layout when a tab is clicked.
-			button.custom_minimum_size = Vector2(200, 24)
+			button.custom_minimum_size = Vector2(200, 28)
 			button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 			button.add_theme_font_size_override(
 				"font_size",
