@@ -61,7 +61,7 @@ func _run_tests() -> void:
 	_run_test("Gameplay RNG replay ignores cosmetics and is shared by normal/offline cycles", _test_gameplay_rng_replay)
 	_run_test("Gameplay RNG survives JSON save/load without 64-bit rounding", _test_gameplay_rng_save_sequence)
 	_run_test("Mixed gameplay rolls continue identically after save/load", _test_gameplay_rng_save_actions)
-	_run_test("Active crafting critical snapshots survive JSON save/load", _test_gameplay_rng_critical_snapshot)
+	_run_test("Active crafting uses completion-time critical chance after save/load", _test_gameplay_rng_critical_snapshot)
 	_run_test("Version 8 saves migrate without RNG state or critical snapshots", _test_gameplay_rng_legacy_save)
 	_run_test("Gameplay event RNG preserves roll order and probability-edge draw counts", _test_gameplay_rng_event_order)
 	_run_test("Explicit relic RNG preserves deterministic rolls and configured ranges", _test_gameplay_rng_relic_ranges)
@@ -2202,7 +2202,6 @@ func _rng_actions(state: GameState, count: int, noisy: bool, offline: bool) -> A
 		crucible.cycle_active = true
 		crucible.operating = false
 		crucible.cycle_progress = crucible.get_cycle_duration() - 0.1
-		crucible.cycle_critical_chance_snapshot = 0.25
 		simulation.update_cycle_generator(crucible, 0.1, offline)
 	return criticals
 
@@ -2281,16 +2280,19 @@ func _test_gameplay_rng_critical_snapshot() -> void:
 	var entry: Dictionary = state.relic_manager.get_inventory_entry_at_slot(0)
 	_expect(state.relic_manager.move_inventory_entry_to_machine_slot(str(entry["instance_id"]), crucible.definition.id, 0), "Could not stock the active-craft fixture.")
 	state.set_resource_amount(ResourceIds.MATTER, 100.0)
-	_expect(simulation.buy_generator(crucible.definition.id), "Could not activate the snapshot craft.")
-	var activation_chance: float = crucible.cycle_critical_chance_snapshot
+	_expect(simulation.buy_generator(crucible.definition.id), "Could not activate the craft.")
+	var activation_chance: float = simulation.get_effective_relic_critical_chance(crucible, crucible.get_operation_mode())
 	crucible.level = 20
 	crucible.cycle_progress = 12.5
+	var completion_chance: float = simulation.get_effective_relic_critical_chance(crucible, crucible.get_operation_mode())
+	_expect(completion_chance > activation_chance, "Fixture must increase critical chance during the cycle.")
 	var restored := _new_test_state()
-	_expect(SaveManager.new().dictionary_to_state(restored, _json_rng_save(state), SaveManager.SAVE_VERSION), "Active-craft save failed to load.")
+	var saved: Dictionary = _json_rng_save(state)
+	_expect(not saved["generators"][crucible.definition.id].has("cycle_critical_chance_snapshot"), "New saves must not serialize obsolete critical snapshots.")
+	_expect(SaveManager.new().dictionary_to_state(restored, saved, SaveManager.SAVE_VERSION), "Active-craft save failed to load.")
 	var loaded: Generator = restored.get_generator(crucible.definition.id)
 	_expect(loaded.cycle_active and loaded.cycle_progress == 12.5, "Loading changed active cycle progress.")
-	_expect(loaded.cycle_critical_chance_snapshot == activation_chance, "Loading lost or rounded the activation-time critical chance.")
-	_expect(activation_chance != Simulation.new(restored).get_effective_relic_critical_chance(loaded, loaded.get_operation_mode()), "Snapshot fixture must differ from current-level critical chance.")
+	_expect(Simulation.new(restored).get_effective_relic_critical_chance(loaded, loaded.get_operation_mode()) == completion_chance, "Loading changed completion-time critical chance.")
 	simulation.complete_cycle(crucible)
 	Simulation.new(restored).complete_cycle(loaded)
 	_expect(restored.relic_manager.get_save_data() == state.relic_manager.get_save_data(), "Loaded active craft produced a different relic.")
@@ -2311,7 +2313,7 @@ func _test_gameplay_rng_legacy_save() -> void:
 	_expect(migrated.gameplay_rng.state == initial_state, "Legacy loading unnecessarily reseeded or consumed gameplay RNG.")
 	var craft: Generator = migrated.get_generator("relic_shard_extractor")
 	_expect(craft.cycle_active and craft.cycle_progress == 7.5, "Legacy cycle progress changed.")
-	_expect(craft.cycle_critical_chance_snapshot == -1.0, "Legacy load fabricated an unknown activation probability.")
+	_expect(not _json_rng_save(migrated)["generators"]["relic_shard_extractor"].has("cycle_critical_chance_snapshot"), "Migrated saves retained obsolete critical snapshots.")
 	var upgraded: Dictionary = _json_rng_save(migrated)
 	_expect(upgraded.has("gameplay_rng"), "Migrated save did not acquire persistent RNG state.")
 	var restored := _new_test_state()
