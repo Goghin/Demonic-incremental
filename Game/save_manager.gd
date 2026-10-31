@@ -214,7 +214,6 @@ func state_to_dictionary(
 			"manually_paused": generator.manually_paused,
 			"cycle_active": generator.cycle_active,
 			"cycle_progress": generator.cycle_progress,
-			"cycle_critical_chance_snapshot": _encode_chance_snapshot(generator.cycle_critical_chance_snapshot if generator.cycle_active else -1.0),
 			"operation_mode_id": generator.operation_mode_id,
 			"auto_run_cycles": generator.auto_run_cycles
 		}
@@ -501,22 +500,6 @@ func dictionary_to_state(
 			generator.cycle_progress = float(
 				generator_data["cycle_progress"]
 			)
-		generator.cycle_critical_chance_snapshot = -1.0
-		if generator.cycle_active and generator_data.has("cycle_critical_chance_snapshot"):
-			var snapshot: Variant = generator_data["cycle_critical_chance_snapshot"]
-			if snapshot is String:
-				if not snapshot.begins_with("f64:") or snapshot.length() != 20:
-					return false
-				for character in snapshot.substr(4):
-					if not "0123456789abcdef".contains(character):
-						return false
-				snapshot = snapshot.substr(4).hex_decode().decode_double(0)
-			if not (snapshot is float or snapshot is int):
-				return false
-			var chance_snapshot: float = float(snapshot)
-			if not is_finite(chance_snapshot) or (chance_snapshot != -1.0 and (chance_snapshot < 0.0 or chance_snapshot > 1.0)):
-				return false
-			generator.cycle_critical_chance_snapshot = chance_snapshot
 		if generator_data.has("auto_run_cycles"):
 			generator.auto_run_cycles = bool(generator_data["auto_run_cycles"])
 			
