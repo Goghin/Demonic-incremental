@@ -39,11 +39,11 @@ func setup(
 	input_handler = game_input_handler
 	display_mode = requested_display_mode
 	focused_generator_id = target_generator_id
-	add_theme_constant_override("separation", 4)
+	add_theme_constant_override("separation", 6)
 
 	var title := Label.new()
 	title.text = "GENERATOR RELICS" if display_mode == DISPLAY_FOCUSED_GENERATOR_RELICS else "THE RELIQUARY"
-	title.add_theme_font_size_override("font_size", 13)
+	title.add_theme_font_size_override("font_size", 14)
 	title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	add_child(title)
 
@@ -59,11 +59,13 @@ func setup(
 	inventory_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inventory_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	inventory_section.custom_minimum_size.x = 220.0
-	inventory_section.add_theme_constant_override("separation", 3)
+	inventory_section.add_theme_constant_override("separation", 5)
 	sections.add_child(inventory_section)
 
 	inventory_title = Label.new()
 	inventory_title.name = "RelicInventoryLabel"
+	inventory_title.add_theme_font_size_override("font_size", 12)
+	inventory_title.add_theme_color_override("font_color", Color(0.94, 0.82, 0.68))
 	inventory_section.add_child(inventory_title)
 
 	inventory_scroll = ScrollContainer.new()
@@ -86,7 +88,7 @@ func setup(
 	generator_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	generator_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	generator_section.custom_minimum_size.x = 0.0
-	generator_section.add_theme_constant_override("separation", 4)
+	generator_section.add_theme_constant_override("separation", 5)
 	sections.add_child(generator_section)
 
 	generator_navigation = HBoxContainer.new()
@@ -128,12 +130,12 @@ func setup(
 	crafting_section.name = "ReliquaryCraftingSection"
 	crafting_section.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	crafting_section.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	crafting_section.add_theme_constant_override("separation", 3)
+	crafting_section.add_theme_constant_override("separation", 5)
 	generator_section.add_child(crafting_section)
 
 	var crafting_title := Label.new()
 	crafting_title.text = "RELIC CRAFTING"
-	crafting_title.add_theme_font_size_override("font_size", 11)
+	crafting_title.add_theme_font_size_override("font_size", 12)
 	crafting_title.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 	crafting_section.add_child(crafting_title)
 
