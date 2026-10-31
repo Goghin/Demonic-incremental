@@ -737,6 +737,7 @@ func complete_cycle(
 	generator.operating = false
 	generator.cycle_progress = 0.0
 	generator.cycle_critical_chance_snapshot = -1.0
+	generator.cycle_critical_power_snapshot = -1.0
 
 
 func _event_effect_source_id(effect: UpgradeEffect) -> String:
@@ -982,6 +983,19 @@ func get_effective_relic_critical_chance(
 	return clampf(chance, 0.0, 1.0)
 
 
+func get_effective_critical_power(
+	generator: Generator,
+	operation_mode: GeneratorOperationMode
+) -> float:
+	if generator == null or operation_mode == null:
+		return 2.0
+	var power := operation_mode.completion_critical_power
+	for modifier in generator.modifiers:
+		if modifier.applies_to(ModifierTypes.EVENT_CHANCE, "critical_power"):
+			power += modifier.get_effective_additive(state, generator)
+	return maxf(1.0, power)
+
+
 func buy_generator_level(generator_id: String, source: String = "manual") -> bool:
 	var generator: Generator = state.get_generator(generator_id)
 	if not can_buy_generator_level(generator_id):
@@ -1095,6 +1109,10 @@ func buy_generator(
 	if generator.definition.cycle_based:
 		generator.cycle_progress = 0.0
 		generator.cycle_critical_chance_snapshot = get_effective_relic_critical_chance(
+			generator,
+			operation_mode
+		)
+		generator.cycle_critical_power_snapshot = get_effective_critical_power(
 			generator,
 			operation_mode
 		)
