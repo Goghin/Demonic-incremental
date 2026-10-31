@@ -699,6 +699,12 @@ func get_effect_status(definition_id: String, generator_id: String, state: GameS
 		ModifierTypes.EVENT_CHANCE:
 			if not generator.definition.cycle_based:
 				return "Inactive: no cycle"
+			if target_id == "critical_chance":
+				var mode := generator.get_operation_mode()
+				if mode != null and (mode.completion_critical_chance > 0.0
+					or not mode.completion_item_outputs.is_empty()
+					or mode.completion_random_relic_tier > 0):
+					return "Active"
 			for effect in generator.event_effects:
 				if target_id == "critical_chance" and effect.event_id == "forge_critical":
 					return "Active"
