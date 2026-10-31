@@ -22,6 +22,8 @@ var completion_item_outputs: Array[Dictionary]
 var completion_random_relic_tier: int = 0
 # Chance for a relic craft to critically promote its reward by one configured tier.
 var completion_critical_chance: float = 0.0
+# 2.0 represents 200% critical power; modifiers contribute additively.
+var completion_critical_power: float = 2.0
 # Each entry describes one visible machine input slot and its accepted ingredients.
 # Supported keys can include item_id, relic, item_type, and quantity.
 var crafting_input_requirements: Array[Dictionary]
