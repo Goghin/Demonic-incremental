@@ -582,14 +582,6 @@ func dictionary_to_state(
 	return true
 
 
-func _encode_chance_snapshot(chance: float) -> String:
-	# Avoid JSON decimal parsing roundoff in the activation-time probability.
-	var encoded := PackedByteArray()
-	encoded.resize(8)
-	encoded.encode_double(0, chance)
-	return "f64:" + encoded.hex_encode()
-
-
 func _is_rng_integer(value: Variant) -> bool:
 	# Require the canonical integer strings written above; reject overflow,
 	# fractional values and already-rounded JSON numbers instead of reseeding.
