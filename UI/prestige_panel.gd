@@ -532,7 +532,7 @@ func _create_prestige_stats_panel() -> void:
 
 	var heading: Label = prestige_panel.get_node("TitleLabel")
 	heading.text = "PRESTIGE STATS & SCORE"
-	heading.add_theme_font_size_override("font_size", 12)
+	heading.add_theme_font_size_override("font_size", 13)
 	heading.add_theme_color_override("font_color", Color(1.0, 0.72, 0.38))
 
 
