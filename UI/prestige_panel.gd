@@ -915,7 +915,7 @@ func _show_shop_panel() -> void:
 func _show_distribution_panel() -> void:
 	if distribution_panel == null or state == null:
 		return
-	if not state.prestige_planning or not _is_brazier_unlocked("stability"):
+	if not _is_brazier_unlocked("stability"):
 		return
 
 	prestige_panel.visible = false
@@ -1129,7 +1129,7 @@ func refresh() -> void:
 	# The shop unlocks after the first Smash; distribution unlocks with Brazier I.
 	shop_button.visible = state.eternal_flame_state.prestige_count > 0
 	distribution_button.visible = _is_brazier_unlocked("stability")
-	distribution_button.disabled = not state.prestige_planning or distribution_panel.visible
+	distribution_button.disabled = distribution_panel.visible
 
 	_update_overflow_bonus_ui()
 	_refresh_realm_ui()
