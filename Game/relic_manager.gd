@@ -706,7 +706,7 @@ func get_effect_status(definition_id: String, generator_id: String, state: GameS
 					or mode.completion_random_relic_tier > 0):
 					return "Active"
 			for effect in generator.event_effects:
-				if target_id == "critical_chance" and effect.event_id == "forge_critical":
+				if (target_id == "critical_chance" or target_id == "critical_power") and effect.event_id == "forge_critical":
 					return "Active"
 				if target_id == "downlevel_chance" and effect.event_action == UpgradeEffectTypes.EVENT_ACTION_DECREASE_GENERATOR_LEVEL:
 					return "Active"
