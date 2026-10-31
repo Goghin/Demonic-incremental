@@ -82,6 +82,7 @@ func setup(
 	inventory_grid.add_theme_constant_override("v_separation", 5)
 	inventory_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	inventory_scroll.add_child(inventory_grid)
+	inventory_scroll.resized.connect(_update_responsive_grid_columns)
 
 	generator_section = VBoxContainer.new()
 	generator_section.name = "GeneratorEquipmentSection"
@@ -125,6 +126,7 @@ func setup(
 	generator_list.add_theme_constant_override("h_separation", 5)
 	generator_list.add_theme_constant_override("v_separation", 5)
 	generator_list_scroll.add_child(generator_list)
+	generator_list_scroll.resized.connect(_update_responsive_grid_columns)
 
 	crafting_section = VBoxContainer.new()
 	crafting_section.name = "ReliquaryCraftingSection"
@@ -273,6 +275,21 @@ func _get_slot_counts() -> Dictionary:
 	return counts
 
 
+# Keep slot and card dimensions unchanged so drag-and-drop hit targets remain stable.
+# Reserve room for the vertical scrollbar when calculating available width.
+func _update_responsive_grid_columns() -> void:
+	if inventory_grid != null and inventory_scroll != null:
+		var inventory_width: float = maxf(0.0, inventory_scroll.size.x - 16.0)
+		var inventory_columns: int = clampi(int(floor((inventory_width + 5.0) / 39.0)), 1, 5)
+		if inventory_grid.columns != inventory_columns:
+			inventory_grid.columns = inventory_columns
+	if generator_list != null and generator_list_scroll != null:
+		var equipment_width: float = maxf(0.0, generator_list_scroll.size.x - 16.0)
+		var equipment_columns: int = clampi(int(floor((equipment_width + 5.0) / 100.0)), 1, 3)
+		if generator_list.columns != equipment_columns:
+			generator_list.columns = equipment_columns
+
+
 func refresh() -> void:
 	if state == null or inventory_grid == null or generator_list == null:
 		return
@@ -282,6 +299,7 @@ func refresh() -> void:
 	_refresh_inventory()
 	_refresh_generator_list()
 	_update_t3_craft_button()
+	_update_responsive_grid_columns()
 
 
 func _refresh_inventory() -> void:
