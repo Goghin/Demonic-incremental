@@ -54,7 +54,7 @@ func _style_stats_panel() -> void:
 		var title := get_node_or_null(node_path) as Label
 		if title == null:
 			continue
-		title.add_theme_font_size_override("font_size", 11)
+		title.add_theme_font_size_override("font_size", 12)
 		title.add_theme_color_override("font_color", Color(1.0, 0.66, 0.36))
 
 	for node_path in [
@@ -67,7 +67,7 @@ func _style_stats_panel() -> void:
 	]:
 		var value_label := get_node_or_null(node_path) as Label
 		if value_label != null:
-			value_label.add_theme_font_size_override("font_size", 10)
+			value_label.add_theme_font_size_override("font_size", 11)
 			value_label.add_theme_color_override("font_color", Color(0.84, 0.78, 0.74))
 
 	var separator_style := StyleBoxLine.new()
@@ -118,15 +118,15 @@ func _set_active_section(section_id: String) -> void:
 		var button := $PanelContent/SectionNavigation.get_node(button_name) as Button
 		var button_section: String = button_name.trim_suffix("Button").to_lower()
 		button.button_pressed = button_section == section_id
-		button.add_theme_font_size_override("font_size", 9)
+		button.add_theme_font_size_override("font_size", 10)
 		button.focus_mode = Control.FOCUS_NONE
 		var button_style := StyleBoxFlat.new()
 		button_style.bg_color = Color(0.19, 0.105, 0.075, 1.0) if button.button_pressed else Color(0.075, 0.06, 0.075, 0.98)
 		button_style.border_color = Color(0.95, 0.48, 0.20, 1.0) if button.button_pressed else Color(0.28, 0.20, 0.19, 1.0)
 		button_style.set_border_width_all(2 if button.button_pressed else 1)
 		button_style.set_corner_radius_all(3)
-		button_style.content_margin_left = 3.0
-		button_style.content_margin_right = 3.0
+		button_style.content_margin_left = 5.0
+		button_style.content_margin_right = 5.0
 		button_style.content_margin_top = 4.0
 		button_style.content_margin_bottom = 4.0
 		button.add_theme_stylebox_override("normal", button_style)
