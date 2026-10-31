@@ -1099,18 +1099,18 @@ func refresh() -> void:
 	)
 
 	crystallized_flame_label.text = (
-		"Crystallized Flame: %.0f"
-		% crystallized_flame
+		"Crystallized Flame: %s"
+		% NumberFormatter.format(crystallized_flame)
 	)
 
 	eternal_flame_label.text = (
-		"Eternal Flame: %.0f"
-		% eternal_flame
+		"Eternal Flame: %s"
+		% NumberFormatter.format(eternal_flame)
 	)
 
 	gain_label.text = (
-		"Eternal Flame on Smash: +%.0f"
-		% eternal_flame_gain
+		"Eternal Flame on Smash: +%s"
+		% NumberFormatter.format(eternal_flame_gain)
 	)
 
 	smash_button.disabled = eternal_flame_gain <= 0.0 or state.prestige_planning
@@ -1157,19 +1157,19 @@ func _update_overflow_bonus_ui() -> void:
 
 	var environmental_contribution: int = max(0, final_gain - base_gain)
 	overflow_bonus_label.text = (
-		"Base Gain: %d\n"
-		+ "Heat Overflow: %.0f (x%.2f)\n"
-		+ "Matter Decayed: %.0f (x%.2f)\n"
+		"Base Gain: %s\n"
+		+ "Heat Overflow: %s (x%.2f)\n"
+		+ "Matter Decayed: %s (x%.2f)\n"
 		+ "Combined Environmental Multiplier: x%.2f\n"
-		+ "Environmental Bonus Contribution: +%d"
+		+ "Environmental Bonus Contribution: +%s"
 	) % [
-		base_gain,
-		state.total_overflow_this_prestige,
+		NumberFormatter.format(base_gain),
+		NumberFormatter.format(state.total_overflow_this_prestige),
 		heat_multiplier,
-		state.total_matter_decayed_this_prestige,
+		NumberFormatter.format(state.total_matter_decayed_this_prestige),
 		matter_multiplier,
 		combined_multiplier,
-		environmental_contribution
+		NumberFormatter.format(environmental_contribution)
 	]
 
 func _is_brazier_unlocked(stat_name: String) -> bool:
@@ -1203,15 +1203,15 @@ func _refresh_realm_ui() -> void:
 	)
 
 	realm_available_label.text = (
-		"Unassigned Eternal Flames: %d"
-		% available
+		"Unassigned Eternal Flames: %s"
+		% NumberFormatter.format(available)
 	)
 
 	realm_assigned_label.text = (
-		"Assigned to Realm: %d / %d"
+		"Assigned to Realm: %s / %s"
 		% [
-			assigned,
-			total
+			NumberFormatter.format(assigned),
+			NumberFormatter.format(total)
 		]
 	)
 
@@ -1224,7 +1224,7 @@ func _refresh_realm_ui() -> void:
 
 		var row = realm_rows[stat_name]
 
-		row["value_label"].text = str(value)
+		row["value_label"].text = NumberFormatter.format(value)
 
 		row["effect_label"].text = (
 			_get_realm_effect_text(stat_name)
