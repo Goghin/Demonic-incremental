@@ -24,6 +24,7 @@ var current_section: String = "overview"
 var last_generator_id: String = ""
 
 func _ready() -> void:
+	$PanelContent/ScrollContainer.resized.connect(_update_resource_column_widths)
 	_style_stats_panel()
 	_set_active_section("overview")
 
@@ -88,6 +89,7 @@ func setup(
 	_setup_resource_statistics()
 	_setup_pressure_rows()
 	_update_discovery_visibility()
+	_update_resource_column_widths()
 
 func _process(_delta: float) -> void:
 	if stats == null or time_manager == null:
@@ -305,6 +307,45 @@ func _setup_resource_stats() -> void:
 			"consumption": consumption_label,
 			"net": net_label
 		}
+
+# Fit the resource table to the visible Stats area without removing metrics.
+# At narrow widths, reduce column allocations before allowing overflow.
+func _update_resource_column_widths() -> void:
+	var container := $PanelContent/ScrollContainer/VBoxContainer/ResourceStatsContainer as VBoxContainer
+	if container == null or container.get_child_count() == 0:
+		return
+	var available_width: float = maxf(0.0, $PanelContent/ScrollContainer.size.x - 24.0)
+	var base_widths: Array[float] = [100.0, 85.0, 100.0, 105.0, 80.0]
+	var minimum_widths: Array[float] = [82.0, 65.0, 80.0, 85.0, 65.0]
+	var total_base: float = 470.0
+	var total_minimum: float = 377.0
+	var factor: float = clampf(
+		(available_width - total_minimum) / (total_base - total_minimum),
+		0.0,
+		1.0
+	)
+	var widths: Array[float] = []
+	for i in range(base_widths.size()):
+		widths.append(lerpf(minimum_widths[i], base_widths[i], factor))
+	for row in container.get_children():
+		if not row is HBoxContainer:
+			continue
+		if row.get_child_count() != 5:
+			continue
+		for i in range(5):
+			var cell := row.get_child(i) as Control
+			if cell == null:
+				continue
+			cell.custom_minimum_size.x = widths[i]
+			if i == 0 and row != container.get_child(0):
+				var resource_name := cell.get_child(1) as Label
+				if resource_name != null:
+					resource_name.custom_minimum_size.x = maxf(0.0, widths[i] - 18.0)
+			elif cell is Label:
+				var label := cell as Label
+				label.clip_text = true
+				label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+
 
 func _setup_resource_statistics() -> void:
 	var container = (
