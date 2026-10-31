@@ -216,6 +216,18 @@ const EFFECT_DEFINITIONS: Dictionary = {
 		"affix_text": "of Fortune",
 		"description_label": "Critical chance",
 		"description_mode": "percentage_points"
+	},
+	"critical_power": {
+		"stat_group": "event_chance",
+		"modifier_type": ModifierTypes.EVENT_CHANCE,
+		"target_id": "critical_power",
+		"weight": 8.0,
+		"secondary_weight": 4.0,
+		"roll_ranges": {1: [0.10, 0.20], 2: [0.20, 0.35], 3: [0.35, 0.50]},
+		"affix_position": "suffix",
+		"affix_text": "of Potency",
+		"description_label": "Critical power",
+		"description_mode": "percentage_points"
 	}
 }
 
