@@ -32,6 +32,7 @@ var shop_panel: VBoxContainer
 var reliquary_panel: ReliquaryPanel
 var planning_container: VBoxContainer
 var planning_report_label: Label
+var planning_bonus_label: Label
 var begin_next_realm_button: Button
 
 
@@ -185,7 +186,7 @@ func _create_planning_ui() -> void:
 		return
 	planning_container = VBoxContainer.new()
 	planning_container.name = "PrestigePlanningContainer"
-	planning_container.add_theme_constant_override("separation", 5)
+	planning_container.add_theme_constant_override("separation", 9)
 	content_container.add_child(planning_container)
 	content_container.move_child(planning_container, 0)
 
@@ -199,7 +200,16 @@ func _create_planning_ui() -> void:
 	planning_report_label.name = "PrestigeReportLabel"
 	planning_report_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	planning_report_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	planning_report_label.add_theme_font_size_override("font_size", 12)
+	planning_report_label.add_theme_color_override("font_color", Color(0.86, 0.80, 0.73))
 	planning_container.add_child(planning_report_label)
+
+	planning_bonus_label = Label.new()
+	planning_bonus_label.name = "PrestigeBonusLabel"
+	planning_bonus_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	planning_bonus_label.add_theme_font_size_override("font_size", 12)
+	planning_bonus_label.add_theme_color_override("font_color", Color(1.0, 0.77, 0.43))
+	planning_container.add_child(planning_bonus_label)
 
 	begin_next_realm_button = Button.new()
 	begin_next_realm_button.name = "BeginNextRealmButton"
@@ -223,26 +233,27 @@ func _refresh_planning_ui() -> void:
 	var report: Dictionary = state.last_prestige_report
 	var generators: Array = report.get("generators_reached", [])
 	var generators_text: String = ", ".join(PackedStringArray(generators)) if not generators.is_empty() else "None"
-	var first_prestige_bonus_text: String = ""
-	if int(report.get("prestige_count", 0)) == 1:
-		first_prestige_bonus_text = "\nFirst-prestige bonuses: Eternal Furnace and Accelerated Friction (free)."
+
 	planning_report_label.text = (
-		"Eternal Flames earned: +%d\n" % int(report.get("eternal_flames_gained", 0.0))
+		"REWARDS\n"
+		+ "Eternal Flames earned: +%s\n\n" % NumberFormatter.format(int(report.get("eternal_flames_gained", 0.0)))
+		+ "REALM PERFORMANCE\n"
 		+ "Survival time: %s\n" % _format_report_duration(float(report.get("survival_seconds", 0.0)))
-		+ "Peak Heat: %.0f   |   Peak Matter: %.0f\n" % [
-			float(report.get("peak_heat", 0.0)),
-			float(report.get("peak_matter", 0.0))
-		]
-		+ "Crystallized Flame: %.0f   |   Heat Overflow: %.0f\n" % [
-			float(report.get("crystallized_flame", 0.0)),
-			float(report.get("total_overflow", 0.0))
-		]
-		+ "Matter Decayed: %.0f   |   Environmental Bonus: x%.2f\n" % [
-			float(report.get("total_matter_decayed", 0.0)),
-			float(report.get("environmental_multiplier", 1.0))
-		]
+		+ "Peak Heat: %s\n" % NumberFormatter.format(float(report.get("peak_heat", 0.0)))
+		+ "Peak Matter: %s\n" % NumberFormatter.format(float(report.get("peak_matter", 0.0)))
+		+ "Crystallized Flame: %s\n" % NumberFormatter.format(float(report.get("crystallized_flame", 0.0)))
+		+ "Heat Overflow: %s\n" % NumberFormatter.format(float(report.get("total_overflow", 0.0)))
+		+ "Matter Decayed: %s\n" % NumberFormatter.format(float(report.get("total_matter_decayed", 0.0)))
+		+ "Environmental Bonus: x%.2f\n\n" % float(report.get("environmental_multiplier", 1.0))
+		+ "PROGRESSION\n"
 		+ "Generators reached: " + generators_text
-		+ first_prestige_bonus_text
+	)
+	var first_prestige: bool = int(report.get("prestige_count", 0)) == 1
+	planning_bonus_label.visible = first_prestige
+	if first_prestige:
+		planning_bonus_label.text = (
+			"FIRST-PRESTIGE BONUSES\n"
+			+ "Eternal Furnace and Accelerated Friction (free)"
 	)
 
 
