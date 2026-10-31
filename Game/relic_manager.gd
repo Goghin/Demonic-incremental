@@ -110,7 +110,7 @@ func _describe_relic_stat(stat: Dictionary, value: float, label_prefix: String) 
 	if bool(stat.get("dynamic", false)):
 		return "%sEffect coefficient ×%.4f" % [label_prefix, value]
 	if modifier_type == ModifierTypes.EVENT_CHANCE:
-		var stat_name := "Critical chance" if target_id == "critical_chance" else "Downleveling chance"
+		var stat_name := "Critical chance" if target_id == "critical_chance" else ("Critical power" if target_id == "critical_power" else "Downleveling chance")
 		return "%s%s +%.1f percentage points" % [label_prefix, stat_name, value * 100.0]
 	if modifier_type == ModifierTypes.CYCLE_SPEED:
 		return "%sCycle speed %s%.1f%%" % [label_prefix, direction, percent]
@@ -699,7 +699,7 @@ func get_effect_status(definition_id: String, generator_id: String, state: GameS
 		ModifierTypes.EVENT_CHANCE:
 			if not generator.definition.cycle_based:
 				return "Inactive: no cycle"
-			if target_id == "critical_chance":
+			if target_id == "critical_chance" or target_id == "critical_power":
 				var mode := generator.get_operation_mode()
 				if mode != null and (mode.completion_critical_chance > 0.0
 					or not mode.completion_item_outputs.is_empty()
