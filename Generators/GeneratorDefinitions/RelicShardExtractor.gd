@@ -6,10 +6,10 @@ static func create() -> Generator:
 	var extraction_mode := GeneratorOperationMode.new(
 		"normal",
 		"Extraction",
-		"Consumes 100 Matter over one minute to extract one Relic Shard.",
+		"Consumes 100 Matter over one minute to extract one Relic Shard. Critical cycles yield bonus shards.",
 		1.0,
 		1.0,
-		1.0,
+		10.0,
 		60.0,
 		[
 			GeneratorIO.new(
@@ -24,6 +24,8 @@ static func create() -> Generator:
 			{"item_id": "relic_shard", "quantity": 1, "scale_with_generator_level": false}
 		]
 	)
+
+	extraction_mode.completion_critical_chance = 0.05
 
 	var recycle_mode := _make_crafting_mode(
 		"recycle_relic",
@@ -44,14 +46,14 @@ static func create() -> Generator:
 	var forge_standard_mode := _make_crafting_mode(
 		"forge_relic",
 		"Forge Relic",
-		"Consumes 10 Relic Shards to forge a random standard-tier relic.",
+		"Consumes 3 Relic Shards to forge a random standard-tier relic.",
 		90.0,
-		[{"item_type": "stackable", "item_id": "relic_shard", "quantity": 10}],
+		[{"item_type": "stackable", "item_id": "relic_shard", "quantity": 3}],
 		[]
 	)
 	forge_standard_mode.completion_random_relic_tier = 1
 	forge_standard_mode.completion_critical_chance = 0.05
-	forge_standard_mode.description = "Consumes 10 Relic Shards to forge a random standard-tier relic. " + str(roundi(forge_standard_mode.completion_critical_chance * 100.0)) + "% critical chance to promote the result."
+	forge_standard_mode.description = "Consumes 3 Relic Shards to forge a random standard-tier relic. " + str(roundi(forge_standard_mode.completion_critical_chance * 100.0)) + "% critical chance to promote the result."
 
 	var forge_greater_mode := _make_crafting_mode(
 		"forge_greater_relic",
@@ -65,6 +67,11 @@ static func create() -> Generator:
 	forge_greater_mode.completion_critical_chance = 0.05
 	forge_greater_mode.description = "Consumes 5 Greater Relic Shards to forge a random higher-tier relic. " + str(roundi(forge_greater_mode.completion_critical_chance * 100.0)) + "% critical chance to promote the result."
 
+	# All crafting modes use the same base critical chance; the reward
+	# interpretation depends on whether the mode produces items or a relic.
+	recycle_mode.completion_critical_chance = 0.05
+	combine_mode.completion_critical_chance = 0.05
+
 	var modes: Array[GeneratorOperationMode] = [
 		extraction_mode,
 		recycle_mode,
@@ -75,9 +82,9 @@ static func create() -> Generator:
 	var definition := GeneratorDefinition.new(
 		"relic_shard_extractor",
 		"Relic Shard Extractor",
-		10.0,
 		1.0,
-		ResourceIds.MATTER,
+		1.0,
+		ResourceIds.CRYSTALLIZED_FLAME,
 		true,
 		"",
 		modes
