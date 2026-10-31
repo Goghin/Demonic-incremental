@@ -660,6 +660,7 @@ func complete_cycle(
 			if modifier.applies_to(ModifierTypes.PRODUCTION, output.resource_id):
 				amount = modifier.apply(amount, state, generator)
 		
+		var noncritical_amount := amount
 		for effect in generator.event_effects:
 			if not _event_effect_applies_to_mode(effect, generator):
 				continue
@@ -673,6 +674,8 @@ func complete_cycle(
 			var source_upgrade: Upgrade = state.get_upgrade(source_upgrade_id)
 			var effect_level: int = source_upgrade.level if source_upgrade != null else 1
 			amount *= 1.0 + effect.event_value * effect_level
+			if effect.event_condition_id != "forge_critical":
+				noncritical_amount *= 1.0 + effect.event_value * effect_level
 		
 		# Preserve the Forge's upgrade-defined critical multiplier at 200% power.
 		# Additional critical power scales only the critical bonus, not the
@@ -682,7 +685,7 @@ func complete_cycle(
 			if critical_power < 0.0:
 				var active_mode := generator.get_operation_mode()
 				critical_power = get_effective_critical_power(generator, active_mode)
-			var critical_bonus := amount - (output.amount_per_second * (generator.level if generator.definition.scale_rates_with_level else 1))
+			var critical_bonus := amount - noncritical_amount
 			amount += critical_bonus * (critical_power / 2.0 - 1.0)
 
 		var current_amount := state.get_resource_amount(output.resource_id)
