@@ -692,13 +692,24 @@ func complete_cycle(
 	# separate from resource outputs so persistent items never enter run resources.
 	var operation_mode := generator.get_operation_mode()
 	if operation_mode != null and state.relic_manager != null:
+		# Stackable-output modes award twice their normal quantity on a critical
+		# cycle. Relic-forging modes use their existing tier-promotion critical.
+		var item_critical := false
+		if not operation_mode.completion_item_outputs.is_empty():
+			var item_critical_chance := operation_mode.completion_critical_chance
+			if generator.cycle_critical_chance_snapshot >= 0.0:
+				item_critical_chance = generator.cycle_critical_chance_snapshot
+			item_critical = item_critical_chance >= 1.0 or (
+				item_critical_chance > 0.0
+				and GameplayRandom.sample_unit(state.gameplay_rng) < item_critical_chance
+			)
 		for item_output in operation_mode.completion_item_outputs:
 			var item_id := str(item_output.get("item_id", ""))
 			var quantity := maxi(0, int(item_output.get("quantity", 0)))
 			if item_id != "" and quantity > 0:
 				if bool(item_output.get("scale_with_generator_level", true)):
 					quantity *= generator.level
-				state.relic_manager.add_stackable_item(item_id, quantity)
+				state.relic_manager.add_stackable_item(item_id, quantity * (2 if item_critical else 1))
 		if operation_mode.completion_random_relic_tier > 0:
 			var critical_chance := operation_mode.completion_critical_chance
 			if generator.cycle_critical_chance_snapshot >= 0.0:
@@ -956,8 +967,6 @@ func get_effective_relic_critical_chance(
 	if generator == null or operation_mode == null:
 		return 0.0
 	var base_chance := operation_mode.completion_critical_chance
-	if operation_mode.completion_random_relic_tier <= 0:
-		return clampf(base_chance, 0.0, 1.0)
 	var levels_above_start := maxi(
 		generator.level - generator.definition.starting_level,
 		0
