@@ -56,10 +56,36 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/CycleAutoRunButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
+	_apply_generator_card_readability()
 	_setup_relic_slots_ui()
 	_setup_level_upgrade_ui()
 	if reliquary_compact_mode:
 		_apply_reliquary_compact_layout()
+
+
+# Shared styling for the standard generator list. Reliquary cards retain
+# their own compact spacing and typography.
+func _apply_generator_card_readability() -> void:
+	if reliquary_compact_mode:
+		return
+
+	var content: VBoxContainer = $HBoxContainer/VBoxContainer
+	content.add_theme_constant_override("separation", 5)
+	$HBoxContainer.add_theme_constant_override("separation", 9)
+	$HBoxContainer/VBoxContainer/BuyButtons.add_theme_constant_override("separation", 6)
+	$HBoxContainer/VBoxContainer/BottomButtons.add_theme_constant_override("separation", 6)
+	$HBoxContainer/VBoxContainer/Header/GeneratorLabel.add_theme_color_override(
+		"font_color", Color(0.94, 0.88, 0.80)
+	)
+	$HBoxContainer/VBoxContainer/Header/LevelLabel.add_theme_color_override(
+		"font_color", Color(0.80, 0.73, 0.68)
+	)
+	$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.add_theme_color_override(
+		"font_color", Color(0.84, 0.78, 0.72)
+	)
+	$HBoxContainer/VBoxContainer/ContaminationLabel.add_theme_color_override(
+		"font_color", Color(0.79, 0.72, 0.68)
+	)
 
 
 func _apply_reliquary_compact_layout() -> void:
@@ -781,7 +807,7 @@ func _style_action_button(button: Button) -> void:
 	button.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
 	button.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.75))
 	button.add_theme_color_override("font_pressed_color", Color(1.0, 0.88, 0.75))
-	button.add_theme_color_override("font_disabled_color", Color(0.43, 0.38, 0.38))
+	button.add_theme_color_override("font_disabled_color", Color(0.61, 0.55, 0.52))
 	var hover := normal.duplicate() as StyleBoxFlat
 	hover.bg_color = Color(0.20, 0.12, 0.105, 1.0)
 	hover.border_color = Color(0.62, 0.34, 0.22, 1.0)
@@ -810,7 +836,7 @@ func _style_operation_mode_dropdown() -> void:
 	option_button.add_theme_stylebox_override("normal", normal)
 	option_button.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
 	option_button.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.75))
-	option_button.add_theme_color_override("font_disabled_color", Color(0.43, 0.38, 0.38))
+	option_button.add_theme_color_override("font_disabled_color", Color(0.61, 0.55, 0.52))
 	var hover := normal.duplicate() as StyleBoxFlat
 	hover.bg_color = Color(0.20, 0.12, 0.105, 1.0)
 	hover.border_color = Color(0.62, 0.34, 0.22, 1.0)
@@ -841,20 +867,20 @@ func _style_operation_mode_dropdown() -> void:
 	popup.add_theme_stylebox_override("hover", popup_hover)
 	popup.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
 	popup.add_theme_color_override("font_hover_color", Color(1.0, 0.88, 0.75))
-	popup.add_theme_color_override("font_disabled_color", Color(0.43, 0.38, 0.38))
-	popup.add_theme_color_override("font_accelerator_color", Color(0.66, 0.59, 0.57))
+	popup.add_theme_color_override("font_disabled_color", Color(0.61, 0.55, 0.52))
+	popup.add_theme_color_override("font_accelerator_color", Color(0.77, 0.69, 0.65))
 	popup.add_theme_color_override("font_separator_color", Color(0.32, 0.22, 0.20))
 
 
 func _update_toggle_button_style(button: Button, enabled: bool) -> void:
 	var style := StyleBoxFlat.new()
 	style.bg_color = (
-		Color(0.105, 0.19, 0.12, 1.0)
+		Color(0.105, 0.145, 0.115, 1.0)
 		if enabled
 		else Color(0.12, 0.085, 0.095, 1.0)
 	)
 	style.border_color = (
-		Color(0.34, 0.52, 0.34, 1.0)
+		Color(0.29, 0.43, 0.30, 1.0)
 		if enabled
 		else Color(0.32, 0.22, 0.20, 0.95)
 	)
@@ -867,7 +893,7 @@ func _update_toggle_button_style(button: Button, enabled: bool) -> void:
 	button.add_theme_stylebox_override("normal", style)
 	button.add_theme_color_override(
 		"font_color",
-		Color(0.68, 0.83, 0.67) if enabled else Color(0.88, 0.80, 0.70)
+		Color(0.76, 0.87, 0.75) if enabled else Color(0.88, 0.80, 0.70)
 	)
 	var hover_style := style.duplicate() as StyleBoxFlat
 	hover_style.bg_color = style.bg_color.lightened(0.08)
