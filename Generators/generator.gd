@@ -4,8 +4,6 @@ extends RefCounted
 
 var definition: GeneratorDefinition
 var level: int = 0
-var cycle_critical_chance_snapshot: float = -1.0
-var cycle_critical_power_snapshot: float = -1.0
 var modifiers: Array[Modifier] = []
 # Cache the production modifiers relevant to each output resource. Upgrade effects
 # can add modifiers during play, so those changes explicitly invalidate this cache.
@@ -63,8 +61,6 @@ func invalidate_production_modifier_cache() -> void:
 
 func reset() -> void:
 	level = definition.starting_level
-	cycle_critical_chance_snapshot = -1.0
-	cycle_critical_power_snapshot = -1.0
 	modifiers.clear()
 	invalidate_production_modifier_cache()
 	event_effects.clear()
