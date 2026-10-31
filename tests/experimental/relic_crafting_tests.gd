@@ -172,16 +172,16 @@ func _boundaries() -> void:
 					check(generator.set_operation_mode("forge_relic"), "Recipe mode locked after completion")
 					Fixtures.ingredient(state, "relic_shard", 20)
 					check(simulation.buy_generator(Fixtures.ID, "crafting_boundary"), "Recipe startup failed")
-					check(generator.cycle_critical_chance_snapshot == 0.05, "Native critical snapshot missing")
+					check(is_equal_approx(simulation.get_effective_relic_critical_chance(generator, generator.get_operation_mode()), 0.05), "Native initial critical chance differs")
 				"level":
 					state.set_resource_amount(ResourceIds.MATTER, 500.0)
 					check(simulation.buy_generator_level(Fixtures.ID, "crafting_boundary"), "Native active level purchase failed")
-					check(generator.cycle_critical_chance_snapshot == 0.05, "Active level purchase changed snapshot")
+					check(simulation.get_effective_relic_critical_chance(generator, generator.get_operation_mode()) > 0.05, "Active level purchase did not increase completion-time critical chance")
 					check(not generator.set_operation_mode("normal"), "Native mode lock bypassed")
 					check(not state.relic_manager.equip_relic(Fixtures.ID, str(state.relic_manager.inventory[0]["instance_id"]), state), "Native Crucible equipment rejection bypassed")
 				"move_leftover":
 					check(state.relic_manager.move_machine_entry_to_inventory(Fixtures.ID, 0), "Native active ingredient return failed")
-					check(generator.cycle_critical_chance_snapshot == 0.05, "Ingredient transfer changed active snapshot")
+					check(simulation.get_effective_relic_critical_chance(generator, generator.get_operation_mode()) > 0.05, "Ingredient transfer unexpectedly reset completion-time critical chance")
 				"autorestart":
 					Fixtures.enable_auto(state)
 					generator.cycle_progress = generator.get_cycle_duration() - 0.000001
