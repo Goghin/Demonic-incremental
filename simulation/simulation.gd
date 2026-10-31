@@ -692,8 +692,11 @@ func complete_cycle(
 	# separate from resource outputs so persistent items never enter run resources.
 	var operation_mode := generator.get_operation_mode()
 	if operation_mode != null and state.relic_manager != null:
-		# Stackable-output modes award twice their normal quantity on a critical
-		# cycle. Relic-forging modes use their existing tier-promotion critical.
+		# Critical power scales stackable rewards. Preserve the legacy 2x
+		# outcome and RNG sequence when power is at its default value.
+		var critical_power := operation_mode.completion_critical_power
+		if generator.cycle_critical_power_snapshot >= 0.0:
+			critical_power = generator.cycle_critical_power_snapshot
 		var item_critical := false
 		if not operation_mode.completion_item_outputs.is_empty():
 			var item_critical_chance := operation_mode.completion_critical_chance
@@ -709,7 +712,14 @@ func complete_cycle(
 			if item_id != "" and quantity > 0:
 				if bool(item_output.get("scale_with_generator_level", true)):
 					quantity *= generator.level
-				state.relic_manager.add_stackable_item(item_id, quantity * (2 if item_critical else 1))
+				var reward_quantity := quantity
+				if item_critical:
+					var scaled_quantity := float(quantity) * critical_power
+					reward_quantity = int(floor(scaled_quantity))
+					var remainder := scaled_quantity - float(reward_quantity)
+					if remainder > 0.0 and GameplayRandom.sample_unit(state.gameplay_rng) < remainder:
+						reward_quantity += 1
+				state.relic_manager.add_stackable_item(item_id, reward_quantity)
 		if operation_mode.completion_random_relic_tier > 0:
 			var critical_chance := operation_mode.completion_critical_chance
 			if generator.cycle_critical_chance_snapshot >= 0.0:
