@@ -70,9 +70,8 @@ func smash(state: GameState, run_duration: float = 0.0) -> float:
 	# The old realm is gone. Preserve its data only until the player chooses
 	# to continue, while pausing simulation in the planning state.
 	state.prestige_planning = true
-	# Every Smash starts a fresh allocation phase. Flames are re-assigned
-	# after the irreversible reset, not carried over from the previous realm.
-	state.realm_configuration.reset()
+	# Preserve the previous realm allocation as the default for the next realm.
+	# Planning unlocks editing so newly earned flames can be distributed.
 	state.realm_configuration.unlock()
 	state.realm_stabilized = true
 	state.realm_effects.rebuild(
