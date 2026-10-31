@@ -681,10 +681,7 @@ func complete_cycle(
 		# Additional critical power scales only the critical bonus, not the
 		# ordinary completion output. This avoids multiplying the base twice.
 		if triggered_events.get("forge_critical", false) and output.resource_id == ResourceIds.CRYSTALLIZED_FLAME:
-			var critical_power := generator.cycle_critical_power_snapshot
-			if critical_power < 0.0:
-				var active_mode := generator.get_operation_mode()
-				critical_power = get_effective_critical_power(generator, active_mode)
+			var critical_power := get_effective_critical_power(generator, generator.get_operation_mode())
 			var critical_bonus := amount - noncritical_amount
 			amount += critical_bonus * (critical_power / 2.0 - 1.0)
 
@@ -708,14 +705,10 @@ func complete_cycle(
 	if operation_mode != null and state.relic_manager != null:
 		# Critical power scales stackable rewards. Preserve the legacy 2x
 		# outcome and RNG sequence when power is at its default value.
-		var critical_power := operation_mode.completion_critical_power
-		if generator.cycle_critical_power_snapshot >= 0.0:
-			critical_power = generator.cycle_critical_power_snapshot
+		var critical_power := get_effective_critical_power(generator, operation_mode)
 		var item_critical := false
 		if not operation_mode.completion_item_outputs.is_empty():
-			var item_critical_chance := operation_mode.completion_critical_chance
-			if generator.cycle_critical_chance_snapshot >= 0.0:
-				item_critical_chance = generator.cycle_critical_chance_snapshot
+			var item_critical_chance := get_effective_relic_critical_chance(generator, operation_mode)
 			item_critical = item_critical_chance >= 1.0 or (
 				item_critical_chance > 0.0
 				and GameplayRandom.sample_unit(state.gameplay_rng) < item_critical_chance
@@ -735,9 +728,7 @@ func complete_cycle(
 						reward_quantity += 1
 				state.relic_manager.add_stackable_item(item_id, reward_quantity)
 		if operation_mode.completion_random_relic_tier > 0:
-			var critical_chance := operation_mode.completion_critical_chance
-			if generator.cycle_critical_chance_snapshot >= 0.0:
-				critical_chance = generator.cycle_critical_chance_snapshot
+			var critical_chance := get_effective_relic_critical_chance(generator, operation_mode)
 			var relic_instance_id := state.relic_manager.add_random_relic_for_tier(
 				operation_mode.completion_random_relic_tier,
 				critical_chance
@@ -760,8 +751,6 @@ func complete_cycle(
 	generator.cycle_active = false
 	generator.operating = false
 	generator.cycle_progress = 0.0
-	generator.cycle_critical_chance_snapshot = -1.0
-	generator.cycle_critical_power_snapshot = -1.0
 
 
 func _event_effect_source_id(effect: UpgradeEffect) -> String:
@@ -812,10 +801,6 @@ func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 			effect,
 			effect.event_chance * effect_level
 		)
-		# Forge critical chance is fixed when the cycle starts, just like
-		# Crucible critical chance. Other event chances retain live behavior.
-		if effect.event_id == "forge_critical" and generator.cycle_critical_chance_snapshot >= 0.0:
-			chance = generator.cycle_critical_chance_snapshot
 		if chance >= 1.0 or (chance > 0.0 and GameplayRandom.sample_unit(state.gameplay_rng) < chance):
 			triggered_events[effect.event_id] = true
 	return triggered_events
@@ -1136,29 +1121,6 @@ func buy_generator(
 	
 	if generator.definition.cycle_based:
 		generator.cycle_progress = 0.0
-		generator.cycle_critical_chance_snapshot = get_effective_relic_critical_chance(
-			generator,
-			operation_mode
-		)
-		# Forge critical chance comes from its event upgrades, not the
-		# Crucible's mode-based progression formula.
-		for effect in generator.event_effects:
-			if effect.event_id != "forge_critical":
-				continue
-			if not _event_effect_applies_to_mode(effect, generator):
-				continue
-			if effect.event_trigger != UpgradeEffectTypes.EVENT_CYCLE_COMPLETED or effect.event_action != UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
-				continue
-			var source_upgrade: Upgrade = state.get_upgrade(_event_effect_source_id(effect))
-			var effect_level: int = source_upgrade.level if source_upgrade != null else 1
-			generator.cycle_critical_chance_snapshot = _get_effective_event_chance(
-				generator, effect, effect.event_chance * effect_level
-			)
-			break
-		generator.cycle_critical_power_snapshot = get_effective_critical_power(
-			generator,
-			operation_mode
-		)
 		generator.cycle_active = true
 
 	state.gameplay_log.record_event(
