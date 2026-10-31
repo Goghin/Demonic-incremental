@@ -706,12 +706,12 @@ func complete_cycle(
 		# Critical power scales stackable rewards. Preserve the legacy 2x
 		# outcome and RNG sequence when power is at its default value.
 		var critical_power := get_effective_critical_power(generator, operation_mode)
+		var critical_chance := get_effective_relic_critical_chance(generator, operation_mode)
 		var item_critical := false
 		if not operation_mode.completion_item_outputs.is_empty():
-			var item_critical_chance := get_effective_relic_critical_chance(generator, operation_mode)
-			item_critical = item_critical_chance >= 1.0 or (
-				item_critical_chance > 0.0
-				and GameplayRandom.sample_unit(state.gameplay_rng) < item_critical_chance
+			item_critical = critical_chance >= 1.0 or (
+				critical_chance > 0.0
+				and GameplayRandom.sample_unit(state.gameplay_rng) < critical_chance
 			)
 		for item_output in operation_mode.completion_item_outputs:
 			var item_id := str(item_output.get("item_id", ""))
@@ -728,7 +728,6 @@ func complete_cycle(
 						reward_quantity += 1
 				state.relic_manager.add_stackable_item(item_id, reward_quantity)
 		if operation_mode.completion_random_relic_tier > 0:
-			var critical_chance := get_effective_relic_critical_chance(generator, operation_mode)
 			var relic_instance_id := state.relic_manager.add_random_relic_for_tier(
 				operation_mode.completion_random_relic_tier,
 				critical_chance
