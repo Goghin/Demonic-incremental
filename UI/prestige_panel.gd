@@ -43,6 +43,7 @@ var begin_next_realm_button: Button
 var realm_container: VBoxContainer
 var realm_available_label: Label
 var realm_assigned_label: Label
+var realm_mode_label: Label
 var stabilize_button: Button
 
 var realm_rows: Dictionary = {}
@@ -642,6 +643,12 @@ func _create_realm_ui() -> void:
 		realm_assigned_label
 	)
 
+	realm_mode_label = Label.new()
+	realm_mode_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	realm_mode_label.add_theme_font_size_override("font_size", 10)
+	realm_mode_label.add_theme_color_override("font_color", Color(0.85, 0.65, 0.45))
+	realm_container.add_child(realm_mode_label)
+
 
 	_create_realm_stat_row(
 		"stability",
@@ -706,6 +713,7 @@ func _create_realm_stat_row(
 	var label := Label.new()
 	label.text = display_name.to_upper()
 	label.custom_minimum_size = Vector2(82, 0)
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_font_size_override("font_size", 10)
 	label.add_theme_color_override("font_color", Color(0.86, 0.73, 0.64))
@@ -734,6 +742,9 @@ func _create_realm_stat_row(
 		HORIZONTAL_ALIGNMENT_CENTER
 	)
 	value_label.custom_minimum_size = Vector2(45, 30)
+	value_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	value_label.add_theme_font_size_override("font_size", 12)
+	value_label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.62))
 
 	assignment_row.add_child(
 		value_label
@@ -763,6 +774,7 @@ func _create_realm_stat_row(
 	effect_label.add_theme_font_size_override("font_size", 10)
 	effect_label.add_theme_color_override("font_color", Color(0.70, 0.72, 0.72))
 	effect_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	effect_label.custom_minimum_size.x = 0.0
 
 	row.add_child(effect_label)
 
@@ -1195,6 +1207,12 @@ func _refresh_realm_ui() -> void:
 	if realm_container == null:
 		return
 
+	realm_mode_label.text = (
+		"PLANNING — Reassign flames before beginning the next realm."
+		if state.prestige_planning else
+		"LOCKED — Assignments carry over and can be changed after your next Smash."
+	)
+
 	var configuration = state.realm_configuration
 
 	var assigned = (
@@ -1236,6 +1254,7 @@ func _refresh_realm_ui() -> void:
 		var row = realm_rows[stat_name]
 
 		row["value_label"].text = NumberFormatter.format(value)
+		row["value_label"].tooltip_text = "%s Eternal Flames assigned" % NumberFormatter.format(value)
 
 		row["effect_label"].text = (
 			_get_realm_effect_text(stat_name)
@@ -1249,6 +1268,9 @@ func _refresh_realm_ui() -> void:
 		row["plus_button"].disabled = not can_edit or available <= 0
 		row["minus_10_button"].disabled = not can_edit or value <= 0
 		row["plus_10_button"].disabled = not can_edit or available <= 0
+		for button_key in ["minus_button", "plus_button", "minus_10_button", "plus_10_button"]:
+			var button := row[button_key] as Button
+			button.tooltip_text = "Assignments can be changed during prestige planning." if not state.prestige_planning else ""
 
 
 
