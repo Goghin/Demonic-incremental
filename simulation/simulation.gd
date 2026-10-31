@@ -812,6 +812,10 @@ func _resolve_cycle_completion_events(generator: Generator) -> Dictionary:
 			effect,
 			effect.event_chance * effect_level
 		)
+		# Forge critical chance is fixed when the cycle starts, just like
+		# Crucible critical chance. Other event chances retain live behavior.
+		if effect.event_id == "forge_critical" and generator.cycle_critical_chance_snapshot >= 0.0:
+			chance = generator.cycle_critical_chance_snapshot
 		if chance >= 1.0 or (chance > 0.0 and GameplayRandom.sample_unit(state.gameplay_rng) < chance):
 			triggered_events[effect.event_id] = true
 	return triggered_events
@@ -1136,6 +1140,21 @@ func buy_generator(
 			generator,
 			operation_mode
 		)
+		# Forge critical chance comes from its event upgrades, not the
+		# Crucible's mode-based progression formula.
+		for effect in generator.event_effects:
+			if effect.event_id != "forge_critical":
+				continue
+			if not _event_effect_applies_to_mode(effect, generator):
+				continue
+			if effect.event_trigger != UpgradeEffectTypes.EVENT_CYCLE_COMPLETED or effect.event_action != UpgradeEffectTypes.EVENT_ACTION_TRIGGER:
+				continue
+			var source_upgrade: Upgrade = state.get_upgrade(_event_effect_source_id(effect))
+			var effect_level: int = source_upgrade.level if source_upgrade != null else 1
+			generator.cycle_critical_chance_snapshot = _get_effective_event_chance(
+				generator, effect, effect.event_chance * effect_level
+			)
+			break
 		generator.cycle_critical_power_snapshot = get_effective_critical_power(
 			generator,
 			operation_mode
