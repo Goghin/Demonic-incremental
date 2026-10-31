@@ -119,9 +119,7 @@ func _create_resource_card(resource_id: String) -> void:
 	amount_label.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	amount_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL | Control.SIZE_SHRINK_BEGIN
 	amount_label.add_theme_font_size_override("font_size", 14)
-	amount_label.text = NumberFormatter.format(
-		state.get_resource_amount(resource_id)
-	)
+	amount_label.text = _format_resource_amount(state.get_resource_amount(resource_id))
 	amount_row.add_child(amount_label)
 
 	var net_rate_label := Label.new()
@@ -152,9 +150,7 @@ func _create_resource_card(resource_id: String) -> void:
 func _update_resource_amounts() -> void:
 	for resource_id in resource_cards:
 		var amount_label: Label = resource_cards[resource_id]["amount_label"]
-		amount_label.text = NumberFormatter.format(
-			state.get_resource_amount(resource_id)
-		)
+		amount_label.text = _format_resource_amount(state.get_resource_amount(resource_id))
 		_update_resource_card_rate(resource_id)
 
 
@@ -169,20 +165,25 @@ func _update_resource_card_rate(resource_id: String) -> void:
 	var is_ash := resource_id == ResourceIds.ASH
 
 	if net > 0.0:
-		net_rate_label.text = "(+%s/s)" % _format_net_rate(absf(net))
+		net_rate_label.text = "+%s/s" % _format_net_rate(absf(net))
 		net_rate_label.add_theme_color_override(
 			"font_color",
 			Color(0.95, 0.48, 0.40) if is_ash else Color(0.55, 0.85, 0.58)
 		)
 	elif net < 0.0:
-		net_rate_label.text = "(-%s/s)" % _format_net_rate(absf(net))
+		net_rate_label.text = "-%s/s" % _format_net_rate(absf(net))
 		net_rate_label.add_theme_color_override(
 			"font_color",
 			Color(0.55, 0.85, 0.58) if is_ash else Color(0.95, 0.48, 0.40)
 		)
 	else:
-		net_rate_label.text = "(0/s)"
+		net_rate_label.text = "0/s"
 		net_rate_label.add_theme_color_override("font_color", Color(0.68, 0.65, 0.64))
+
+
+func _format_resource_amount(amount: float) -> String:
+	# Use the shared formatter, but keep abbreviated suffix spacing consistent.
+	return NumberFormatter.format(amount).replace(" ", "")
 
 
 func _format_net_rate(rate: float) -> String:
@@ -193,7 +194,7 @@ func _format_net_rate(rate: float) -> String:
 	elif rate < 1.0:
 		step = 0.01
 
-	return NumberFormatter.format(snappedf(rate, step))
+	return NumberFormatter.format(snappedf(rate, step)).replace(" ", "")
 
 
 func _clear_resource_cards() -> void:
