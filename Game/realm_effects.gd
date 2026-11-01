@@ -85,7 +85,7 @@ func rebuild(
 		* (
 			1.0
 			+ stability_bonus
-			+ unassigned_stability_bonus
+
 		)
 	)
 	
@@ -134,7 +134,7 @@ func rebuild(
 		* (
 			1.0
 			+ matter_decay_threshold_bonus
-			+ unassigned_matter_decay_threshold_bonus
+
 		)
 	)
 	
