@@ -23,6 +23,8 @@ var _last_crafting_signature: String = ""
 const CRAFTING_SLOT_REFRESH_INTERVAL: float = 0.2
 var _crafting_slot_refresh_elapsed: float = CRAFTING_SLOT_REFRESH_INTERVAL
 var _locked_card_cleared: bool = false
+var _operation_mode_description_label: Label
+var _operation_mode_options_signature: String = ""
 var _relic_slot_controls: Array[RelicSlotControl] = []
 var _relic_slot_count: int = -1
 var _last_relic_slot_signature: String = ""
@@ -62,6 +64,7 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/BuyButtons/CycleAutoRunButton)
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
+	_setup_operation_mode_description()
 	_apply_generator_card_readability()
 	_setup_cycle_feedback()
 	_setup_relic_slots_ui()
@@ -153,6 +156,21 @@ func _update_operating_status(generator: Generator) -> void:
 		color = Color(0.95, 0.66, 0.43)
 	label.text = description
 	label.add_theme_color_override("font_color", color)
+
+
+func _setup_operation_mode_description() -> void:
+	if reliquary_compact_mode:
+		return
+	var content: VBoxContainer = $HBoxContainer/VBoxContainer
+	var dropdown: OptionButton = content.get_node("OperationModeOptionButton") as OptionButton
+	_operation_mode_description_label = Label.new()
+	_operation_mode_description_label.name = "OperationModeDescription"
+	_operation_mode_description_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_operation_mode_description_label.add_theme_font_size_override("font_size", 10)
+	_operation_mode_description_label.add_theme_color_override("font_color", Color(0.76, 0.70, 0.65))
+	_operation_mode_description_label.visible = false
+	content.add_child(_operation_mode_description_label)
+	content.move_child(_operation_mode_description_label, dropdown.get_index() + 1)
 
 
 func _apply_reliquary_compact_layout() -> void:
@@ -500,58 +518,42 @@ func _get_small_resource_icon(resource_id: String) -> Texture2D:
 	_resource_icon_cache[resource_id] = small_texture
 	return small_texture
 
-func update_operation_mode_ui(
-	generator: Generator
-	) -> void:
-	
-	var option_button: OptionButton = (
-		$HBoxContainer/VBoxContainer/OperationModeOptionButton
-	)
-	
-	var modes = generator.definition.operation_modes
+func update_operation_mode_ui(generator: Generator) -> void:
+	var option_button: OptionButton = $HBoxContainer/VBoxContainer/OperationModeOptionButton
 	var unlocked_modes: Array[GeneratorOperationMode] = []
-	
-	for mode in modes:
-		if mode.unlocked:
-			unlocked_modes.append(mode)
-	
-	if unlocked_modes.size() <= 1:
-		option_button.visible = false
+	var signature := ""
+	for mode in generator.definition.operation_modes:
+		if not mode.unlocked:
+			continue
+		unlocked_modes.append(mode)
+		signature += "%s:%s:%s;" % [mode.id, mode.display_name, mode.description]
+
+	var show_dropdown := unlocked_modes.size() > 1
+	option_button.visible = show_dropdown
+	if _operation_mode_description_label != null:
+		var selected_mode: GeneratorOperationMode = generator.get_operation_mode()
+		var description := selected_mode.description if selected_mode != null else ""
+		_operation_mode_description_label.text = description
+		_operation_mode_description_label.visible = show_dropdown and not description.is_empty()
+
+	if not show_dropdown:
 		return
-	
-	option_button.visible = true
-	option_button.disabled = (
-		not generator.can_change_operation_mode()
-	)
-	
-	var selected_index := 0
-	
-	if option_button.item_count != unlocked_modes.size():
+
+	option_button.disabled = not generator.can_change_operation_mode()
+	if signature != _operation_mode_options_signature or option_button.item_count != unlocked_modes.size():
+		_operation_mode_options_signature = signature
 		option_button.clear()
-		
-		for i in range(unlocked_modes.size()):
-			option_button.add_item(
-				unlocked_modes[i].display_name
-			)
-			option_button.set_item_metadata(
-				i,
-				unlocked_modes[i].id
-			)
-			if unlocked_modes[i].id == generator.operation_mode_id:
-				selected_index = i
-		
-		option_button.select(selected_index)
-	else:
-		for i in range(unlocked_modes.size()):
-			option_button.set_item_metadata(
-				i,
-				unlocked_modes[i].id
-			)
-			if unlocked_modes[i].id == generator.operation_mode_id:
-				selected_index = i
-		
-		if option_button.selected != selected_index:
-			option_button.select(selected_index)
+		for mode in unlocked_modes:
+			option_button.add_item(mode.display_name)
+			var index := option_button.item_count - 1
+			option_button.set_item_metadata(index, mode.id)
+			option_button.get_popup().set_item_tooltip(index, mode.description)
+
+	for i in range(unlocked_modes.size()):
+		if unlocked_modes[i].id == generator.operation_mode_id:
+			if option_button.selected != i:
+				option_button.select(i)
+			break
 
 
 func _on_operation_mode_option_button_item_selected(
