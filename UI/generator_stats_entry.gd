@@ -498,30 +498,24 @@ func _get_effective_relic_critical_chance(
 	if generator == null or mode == null:
 		return 0.0
 
-	var base_chance := mode.completion_critical_chance
-	if mode.completion_random_relic_tier <= 0:
-		return clampf(base_chance, 0.0, 1.0)
-
-	var levels_above_start := maxi(
+	var base_chance: float = mode.completion_critical_chance
+	var levels_above_start: int = maxi(
 		generator.level - generator.definition.starting_level,
 		0
 	)
-	var chance := base_chance + levels_above_start * generator.definition.level_critical_chance_bonus
-	var effective_cap := maxf(
+	var progression_cap: float = maxf(
 		generator.definition.level_critical_chance_cap,
 		base_chance
 	)
-	chance = clampf(chance, 0.0, effective_cap)
-
-	if (
-		mode.id == generator.operation_mode_id
-		and generator.cycle_active
-		and generator.cycle_critical_chance_snapshot >= 0.0
-	):
-		return generator.cycle_critical_chance_snapshot
-
-	return chance
-
+	var chance: float = clampf(
+		base_chance + levels_above_start * generator.definition.level_critical_chance_bonus,
+		0.0,
+		progression_cap
+	)
+	for modifier in generator.modifiers:
+		if modifier.applies_to(ModifierTypes.EVENT_CHANCE, "critical_chance"):
+			chance += modifier.get_effective_additive(state, generator)
+	return clampf(chance, 0.0, 1.0)
 
 func _get_event_display_name(generator: Generator, event_id: String) -> String:
 	if event_id == UpgradeEffectTypes.EVENT_CYCLE_COMPLETED:
