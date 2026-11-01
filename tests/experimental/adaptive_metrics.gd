@@ -37,7 +37,7 @@ static func discrete(state: GameState, include_projected_reward: bool = true) ->
 				unlocks.append(io.unlocked)
 		generators[id] = [g.level, g.unlocked, g.operating, g.manually_paused, g.is_throttled,
 			g.cycle_active, g.operation_mode_id, g.auto_run_cycles, g.production_progress,
-			g.cycle_critical_chance_snapshot, unlocks]
+			unlocks]
 	var upgrades: Dictionary = {}
 	for id in state.upgrades:
 		upgrades[id] = state.upgrades[id].level
