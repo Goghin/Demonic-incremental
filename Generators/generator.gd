@@ -254,7 +254,8 @@ func get_cost(state: GameState) -> float:
 	if operation_mode != null:
 		cost *= operation_mode.activation_cost_multiplier
 	
-	cost *= state.realm_effects.generator_cost_multiplier
+	if definition.affected_by_realm_cost_reduction:
+		cost *= state.realm_effects.generator_cost_multiplier
 	
 	cost *= pow(
 		scaling,
