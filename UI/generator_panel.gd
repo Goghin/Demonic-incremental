@@ -22,6 +22,8 @@ var _last_crafting_signature: String = ""
 var _relic_slot_controls: Array[RelicSlotControl] = []
 var _relic_slot_count: int = -1
 var _last_relic_slot_signature: String = ""
+var _cycle_reward_label: Label
+var _cycle_penalty_label: Label
 
 signal selection_requested(generator_id: String)
 signal details_requested(generator_id: String)
@@ -57,6 +59,7 @@ func _ready() -> void:
 	_style_action_button($HBoxContainer/VBoxContainer/BottomButtons/UpgradeAutomationButton)
 	_style_operation_mode_dropdown()
 	_apply_generator_card_readability()
+	_setup_cycle_feedback()
 	_setup_relic_slots_ui()
 	_setup_level_upgrade_ui()
 	if reliquary_compact_mode:
@@ -86,6 +89,58 @@ func _apply_generator_card_readability() -> void:
 	$HBoxContainer/VBoxContainer/ContaminationLabel.add_theme_color_override(
 		"font_color", Color(0.79, 0.72, 0.68)
 	)
+
+
+func _setup_cycle_feedback() -> void:
+	if reliquary_compact_mode:
+		return
+	var content: VBoxContainer = $HBoxContainer/VBoxContainer
+	var anchor: Label = $HBoxContainer/VBoxContainer/ContaminationLabel
+	_cycle_reward_label = Label.new()
+	_cycle_reward_label.name = "CycleRewardLabel"
+	_cycle_reward_label.add_theme_font_size_override("font_size", 10)
+	_cycle_reward_label.add_theme_color_override("font_color", Color(0.74, 0.84, 0.69))
+	_cycle_reward_label.visible = false
+	content.add_child(_cycle_reward_label)
+	content.move_child(_cycle_reward_label, anchor.get_index() + 1)
+	_cycle_penalty_label = Label.new()
+	_cycle_penalty_label.name = "CyclePenaltyLabel"
+	_cycle_penalty_label.add_theme_font_size_override("font_size", 10)
+	_cycle_penalty_label.add_theme_color_override("font_color", Color(0.95, 0.66, 0.43))
+	_cycle_penalty_label.visible = false
+	content.add_child(_cycle_penalty_label)
+	content.move_child(_cycle_penalty_label, _cycle_reward_label.get_index() + 1)
+
+
+func _set_cycle_feedback(reward: String, penalty: String) -> void:
+	if _cycle_reward_label != null:
+		_cycle_reward_label.text = reward
+		_cycle_reward_label.visible = not reward.is_empty()
+	if _cycle_penalty_label != null:
+		_cycle_penalty_label.text = penalty
+		_cycle_penalty_label.visible = not penalty.is_empty()
+
+
+func _update_operating_status(generator: Generator) -> void:
+	var label: Label = $HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel
+	var status: String = str(generator.get_status())
+	var color := Color(0.84, 0.78, 0.72)
+	var description: String = status
+	if generator.level <= 0:
+		description = "Not purchased"
+	elif generator.manually_paused:
+		description = "Stopped manually"
+	elif generator.is_throttled:
+		description = "Throttled"
+		color = Color(0.95, 0.66, 0.43)
+	elif generator.is_operating():
+		description = "Processing cycle" if generator.definition.cycle_based else "Operating"
+		color = Color(0.65, 0.84, 0.66)
+	else:
+		# Preserve the authoritative status for resource waits and other idle states.
+		color = Color(0.95, 0.66, 0.43)
+	label.text = description
+	label.add_theme_color_override("font_color", color)
 
 
 func _apply_reliquary_compact_layout() -> void:
@@ -248,12 +303,7 @@ func _process(_delta: float) -> void:
 		% generator.level
 	)
 	
-	var status = generator.get_status()
-	
-	$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.text = (
-		"Status: %s"
-		% status
-	)
+	_update_operating_status(generator)
 	
 	$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.text = (
 		"Start"
@@ -273,6 +323,7 @@ func _process(_delta: float) -> void:
 	else:
 		$HBoxContainer/VBoxContainer/ProgressBar.visible = false
 	
+	_set_cycle_feedback("", "")
 	var contamination_label: Label = $HBoxContainer/VBoxContainer/ContaminationLabel
 	contamination_label.visible = false
 	if generator_id == "infernal_forge":
@@ -303,12 +354,11 @@ func _process(_delta: float) -> void:
 		contamination_label.text = "Cycle: ~%s%s" % [remaining_time_text, cycle_time_suffix]
 		if show_contamination_status:
 			if ash_speed_multiplier < 0.9999:
-				contamination_label.text += " · Ash: -%s%% speed (x%s)" % [
+				var penalty_text: String = "Ash slowdown: -%s%% (x%s)" % [
 					NumberFormatter.format((1.0 - ash_speed_multiplier) * 100.0),
 					NumberFormatter.format(ash_speed_multiplier),
 				]
-			else:
-				contamination_label.text += " · Ash: no slowdown (x%s)" % NumberFormatter.format(ash_speed_multiplier)
+				_set_cycle_feedback("", penalty_text)
 		contamination_label.visible = true
 	elif generator.definition.cycle_based:
 		# All cycle generators show their duration, even when idle. Only show
@@ -336,11 +386,12 @@ func _process(_delta: float) -> void:
 				]
 		if operation_mode != null and operation_mode.completion_random_relic_tier > 0:
 			reward_summary += " · +1 random Tier %d Relic" % operation_mode.completion_random_relic_tier
-		contamination_label.text = "Cycle: ~%s%s%s" % [
+		contamination_label.text = "Cycle: ~%s%s" % [
 			_format_duration(remaining_seconds),
-			cycle_time_suffix,
-			reward_summary
+			cycle_time_suffix
 		]
+		if not reward_summary.is_empty():
+			_set_cycle_feedback("Expected reward:" + reward_summary.trim_prefix(" ·"), "")
 		contamination_label.visible = true
 
 	var operating = generator.is_operating()
