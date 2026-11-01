@@ -9,6 +9,8 @@ var base_cost: float
 var cost_multiplier: float
 var cost_resource_id: String
 
+var affected_by_realm_cost_reduction: bool = true
+
 var cycle_based: bool
 
 var operation_modes: Array[GeneratorOperationMode]
