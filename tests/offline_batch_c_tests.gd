@@ -40,7 +40,7 @@ func fingerprint(state: GameState) -> String:
 			io_unlocks.append(mode.unlocked)
 			for io in mode.inputs + mode.outputs + mode.completion_outputs:
 				io_unlocks.append(io.unlocked)
-		runtime[id] = [g.operating, g.is_throttled, g.cycle_critical_chance_snapshot, io_unlocks]
+		runtime[id] = [g.operating, g.is_throttled, io_unlocks]
 	return var_to_bytes([data, runtime, state.generator_automation_manager.automation_states,
 		state.upgrade_automation_manager.automation_states, state.get_lava_mite_dormancy_penalty(),
 		state.gameplay_log.events, state.simulation_statistics.to_dictionary() if state.simulation_statistics != null else {}]).hex_encode().sha256_text()
