@@ -19,6 +19,9 @@ var _crafting_slots_label: Label
 var _crafting_slot_controls: Array[RelicSlotControl] = []
 var _crafting_slot_count: int = -1
 var _last_crafting_signature: String = ""
+# Slot contents are event-driven; periodically reconcile external state changes.
+const CRAFTING_SLOT_REFRESH_INTERVAL: float = 0.2
+var _crafting_slot_refresh_elapsed: float = CRAFTING_SLOT_REFRESH_INTERVAL
 var _relic_slot_controls: Array[RelicSlotControl] = []
 var _relic_slot_count: int = -1
 var _last_relic_slot_signature: String = ""
@@ -205,7 +208,7 @@ func setup(
 	generator_id = game_generator_id
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if state == null:
 		return
 	
@@ -280,7 +283,10 @@ func _process(_delta: float) -> void:
 
 	update_illustration(generator)
 	_update_relic_slots_ui()
-	_update_crafting_slots_ui(generator)
+	_crafting_slot_refresh_elapsed += delta
+	if _crafting_slot_refresh_elapsed >= CRAFTING_SLOT_REFRESH_INTERVAL:
+		_crafting_slot_refresh_elapsed = 0.0
+		_update_crafting_slots_ui(generator)
 	update_operation_mode_ui(generator)
 	_update_level_upgrade_ui(generator)
 
@@ -578,8 +584,6 @@ func _update_crafting_slots_ui(generator: Generator) -> void:
 	var slots: Dictionary = state.relic_manager.machine_slots.get(generator_id, {})
 	var signature := "%s:%s" % [generator.operation_mode_id, JSON.stringify(slots)]
 	if signature == _last_crafting_signature and slot_count == _crafting_slot_count:
-		for slot in _crafting_slot_controls:
-			slot.refresh_slot()
 		return
 	_last_crafting_signature = signature
 	if slot_count != _crafting_slot_count:
