@@ -8,6 +8,8 @@ var simulation_tick: int = 0
 var simulation_total_ticks: int = 0
 
 var offline_simulation_active: bool = false
+# Debug-only coarse stepping. Never used by normal gameplay or saved.
+var offline_debug_step_multiplier: float = 1.0
 
 
 signal offline_simulation_progress(
@@ -131,12 +133,7 @@ func simulate_offline(seconds: float) -> void:
 
 	# Progress represents REAL/OFFLINE time, not game time.
 	# Calculate the expected number of steps using the offline step limits.
-	var real_step_limit = OFFLINE_MAX_REAL_STEP
-	if time_scale > 0.0:
-		real_step_limit = min(
-			real_step_limit,
-			OFFLINE_MAX_GAME_STEP / time_scale
-		)
+	var real_step_limit: float = _get_offline_real_step_limit()
 
 	simulation_tick = 0
 	simulation_total_ticks = ceili(
@@ -158,10 +155,10 @@ func simulate_offline(seconds: float) -> void:
 	while remaining > 0.0:
 		# Bound both real time and game time. This keeps the offline
 		# stepper independent from advance(), which is used in normal play.
-		var step = min(
-			remaining,
-			real_step_limit
-		)
+		# Read the debug setting each iteration so the loading-screen control
+		# can change speed while catch-up is running.
+		real_step_limit = _get_offline_real_step_limit()
+		var step: float = min(remaining, real_step_limit)
 
 		# These values represent real/offline time.
 		offline_time += step
@@ -179,6 +176,8 @@ func simulate_offline(seconds: float) -> void:
 			_advance_offline_step(game_seconds)
 
 		simulation_tick += 1
+		# Re-estimate remaining work when the debug multiplier changes.
+		simulation_total_ticks = simulation_tick + ceili(maxf(0.0, remaining - step) / real_step_limit)
 		offline_steps_processed += 1
 		remaining = max(0.0, remaining - step)
 
@@ -210,6 +209,16 @@ func simulate_offline(seconds: float) -> void:
 	await Engine.get_main_loop().process_frame
 	offline_frame_wait_usec += Time.get_ticks_usec() - final_yield_start_usec
 	offline_simulation_active = false
+
+
+func _get_offline_real_step_limit() -> float:
+	var multiplier: float = offline_debug_step_multiplier
+	if multiplier != 10.0 and multiplier != 50.0:
+		multiplier = 1.0
+	var limit: float = OFFLINE_MAX_REAL_STEP * multiplier
+	if time_scale > 0.0:
+		limit = minf(limit, OFFLINE_MAX_GAME_STEP * multiplier / time_scale)
+	return limit
 
 
 func advance(game_seconds: float) -> void:
