@@ -90,6 +90,8 @@ static func create() -> Generator:
 		modes
 	)
 
+	definition.affected_by_realm_cost_reduction = false
+
 	var generator := Generator.new(definition)
 	generator.unlocked = true
 	generator.initial_unlocked = true
