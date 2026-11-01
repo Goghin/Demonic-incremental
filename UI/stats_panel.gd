@@ -174,8 +174,7 @@ func open_generator_stats(generator_id: String) -> void:
 	var entry := $PanelContent/ScrollContainer/VBoxContainer/GeneratorStatsContainer.get_node_or_null(generator_id) as GeneratorStatsEntry
 	if entry == null:
 		return
-	entry.expanded = true
-	entry.update_display()
+	entry.set_expanded(true)
 	await get_tree().process_frame
 	$PanelContent/ScrollContainer.ensure_control_visible(entry)
 
