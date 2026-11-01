@@ -321,6 +321,7 @@ func _startup_and_aliases() -> void:
 			check(not simulation.buy_generator(Fixtures.ID, "crafting_startup"), "Unaffordable craft started")
 			check(before == var_to_bytes(state.relic_manager.get_save_data()), "Failed startup spent ingredients")
 			state.set_resource_amount(ResourceIds.MATTER, 100.0)
+			state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
 			check(simulation.buy_generator(Fixtures.ID, "crafting_startup"), "Funded craft did not start")
 			check(not simulation.buy_generator(Fixtures.ID, "crafting_startup"), "Active craft started twice")
 		var runner: RefCounted = Kernel.new(candidate["simulation"], candidate["journal"])
