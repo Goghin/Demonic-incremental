@@ -190,7 +190,6 @@ func _rng_actions(simulation: Simulation) -> void:
 			var generator: Generator = simulation.state.get_generator(id)
 			generator.level = maxi(1, generator.level)
 			generator.cycle_active = true
-			generator.cycle_critical_chance_snapshot = 0.25
 			# Dedicated core completion adapter probe. Real timed advancement is
 			# separately covered by the reached first-Forge completion witness.
 			simulation.complete_cycle(generator)
