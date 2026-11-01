@@ -700,6 +700,7 @@ func _test_prestige_planning_transition() -> void:
 	forge.level = 1
 	state.realm_stabilized = false
 	state.realm_configuration.assign_flame("stability")
+	var assigned_before_smash: int = state.realm_configuration.get_assigned_flames()
 	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
 	state.set_resource_amount(ResourceIds.HEAT, 1234.0)
 	state.set_resource_amount(ResourceIds.MATTER, 56.0)
@@ -710,7 +711,7 @@ func _test_prestige_planning_transition() -> void:
 	var gain: float = prestige.smash(state, 42.0)
 	_expect_approx(gain, 1.0, "Smash did not award the expected Eternal Flame.")
 	_expect(state.prestige_planning, "Smash did not enter prestige planning.")
-	_expect(state.realm_configuration.get_assigned_flames() == 0, "Smash did not clear the previous realm allocation.")
+	_expect(state.realm_configuration.get_assigned_flames() == assigned_before_smash, "Smash changed the existing brazier allocation.")
 	_expect(not state.realm_configuration.locked, "Realm configuration should be editable during planning.")
 	_expect(state.eternal_flame_state.prestige_count == 1, "Prestige count did not increment.")
 	_expect(state.gameplay_realm_run_index == previous_run_index, "Smash reset the run before planning.")
@@ -984,7 +985,8 @@ func _test_relic_shard_extractor_modes() -> void:
 	for entry in state.relic_manager.inventory:
 		if str(entry.get("item_id", "")) == "relic_shard":
 			shards_after += int(entry.get("quantity", 0))
-	_expect(shards_after - shards_before == 3, "Recycling should produce exactly 3 shards regardless of generator level.")
+	var recycled_shard_reward: int = shards_after - shards_before
+	_expect(recycled_shard_reward == 3 or recycled_shard_reward == 6, "Recycling should produce 3 shards normally or 6 on a 200% critical cycle.")
 
 	_expect(state.relic_manager.add_random_relic_for_tier(2) != "", "Tier 2 random relic generation failed.")
 	var produced_relic: Dictionary = state.relic_manager.inventory.back()
