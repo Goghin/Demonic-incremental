@@ -76,6 +76,8 @@ func _apply_generator_card_readability() -> void:
 	content.add_theme_constant_override("separation", 5)
 	$HBoxContainer.add_theme_constant_override("separation", 9)
 	$HBoxContainer/VBoxContainer/BuyButtons.add_theme_constant_override("separation", 6)
+	_style_primary_buy_button($HBoxContainer/VBoxContainer/BuyButtons/BuyButton)
+	_style_secondary_action_button($HBoxContainer/VBoxContainer/HBoxContainer/PauseButton)
 	$HBoxContainer/VBoxContainer/BottomButtons.add_theme_constant_override("separation", 6)
 	$HBoxContainer/VBoxContainer/Header/GeneratorLabel.add_theme_color_override(
 		"font_color", Color(0.94, 0.88, 0.80)
@@ -403,7 +405,7 @@ func _process(_delta: float) -> void:
 			input_rate = generator.get_input_consumption_per_second(input, state)
 		input_rows.append({
 			"resource_id": input.resource_id,
-			"prefix": "Consumes:",
+			"prefix": "INPUT",
 			"amount": "%s/s" % NumberFormatter.format(input_rate),
 		})
 	_update_resource_rows($HBoxContainer/VBoxContainer/InputLabel, input_rows)
@@ -413,7 +415,7 @@ func _process(_delta: float) -> void:
 		var production := output.amount_per_second if operating else 0.0
 		production_rows.append({
 			"resource_id": output.resource_id,
-			"prefix": "Produces:",
+			"prefix": "OUTPUT",
 			"amount": "%s/s" % NumberFormatter.format(production),
 		})
 	_update_resource_rows($HBoxContainer/VBoxContainer/ProductionLabel, production_rows)
@@ -844,6 +846,43 @@ func _update_upgrade_automation_button_style(button: Button, enabled: bool) -> v
 	_update_toggle_button_style(button, enabled)
 
 
+func _style_primary_buy_button(button: Button) -> void:
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.27, 0.125, 0.075, 1.0)
+	normal.border_color = Color(0.70, 0.36, 0.17, 1.0)
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(4)
+	normal.set_content_margin_all(5)
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_color_override("font_color", Color(1.0, 0.88, 0.72))
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color(0.36, 0.17, 0.085, 1.0)
+	button.add_theme_stylebox_override("hover", hover)
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color(0.19, 0.09, 0.055, 1.0)
+	button.add_theme_stylebox_override("pressed", pressed)
+	var disabled := normal.duplicate() as StyleBoxFlat
+	disabled.bg_color = Color(0.085, 0.07, 0.08, 1.0)
+	disabled.border_color = Color(0.20, 0.16, 0.16, 1.0)
+	button.add_theme_stylebox_override("disabled", disabled)
+
+
+func _style_secondary_action_button(button: Button) -> void:
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = Color(0.09, 0.075, 0.085, 1.0)
+	normal.border_color = Color(0.25, 0.20, 0.20, 1.0)
+	normal.set_border_width_all(1)
+	normal.set_corner_radius_all(4)
+	normal.set_content_margin_all(3)
+	button.add_theme_stylebox_override("normal", normal)
+	var hover := normal.duplicate() as StyleBoxFlat
+	hover.bg_color = Color(0.16, 0.10, 0.09, 1.0)
+	button.add_theme_stylebox_override("hover", hover)
+	var pressed := normal.duplicate() as StyleBoxFlat
+	pressed.bg_color = Color(0.20, 0.12, 0.09, 1.0)
+	button.add_theme_stylebox_override("pressed", pressed)
+
+
 func _style_action_button(button: Button) -> void:
 	var normal := StyleBoxFlat.new()
 	normal.bg_color = Color(0.12, 0.085, 0.095, 1.0)
@@ -1020,12 +1059,12 @@ func _update_resource_rows(container: Node, rows: Array[Dictionary]) -> void:
 		var resource_id := str(row_data.get("resource_id", ""))
 		var is_ash := resource_id == "ash"
 
-		if prefix == "Produces:":
+		if prefix == "OUTPUT":
 			value_label.add_theme_color_override(
 				"font_color",
 				Color(0.88, 0.57, 0.50) if is_ash else Color(0.55, 0.85, 0.58)
 			)
-		elif prefix == "Consumes:":
+		elif prefix == "INPUT":
 			value_label.add_theme_color_override(
 				"font_color",
 				Color(0.55, 0.85, 0.58) if is_ash else Color(0.88, 0.57, 0.50)
