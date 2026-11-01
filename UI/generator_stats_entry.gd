@@ -35,12 +35,17 @@ var expanded: bool = false
 
 var detail_structure_signature: String = ""
 var detail_rows: Array[Dictionary] = []
+var modifier_summary_container: VBoxContainer
 
 
 func _ready() -> void:
 	header_button.pressed.connect(_on_header_pressed)
 	_style_entry()
-	detail_container.visible = false
+	detail_container.visible = expanded
+	modifier_summary_container = VBoxContainer.new()
+	modifier_summary_container.add_theme_constant_override("separation", 3)
+	detail_container.get_parent().add_child(modifier_summary_container)
+	detail_container.get_parent().move_child(modifier_summary_container, detail_container.get_index())
 
 
 func _style_entry() -> void:
@@ -110,6 +115,7 @@ func update_display() -> void:
 		generator,
 		stats_data
 	)
+	_update_modifier_summary(generator, stats_data)
 	
 	if not expanded:
 		return
@@ -130,6 +136,64 @@ func update_display() -> void:
 		generator,
 		stats_data
 	)
+
+
+func _update_modifier_summary(generator: Generator, stats_data: Dictionary) -> void:
+	if modifier_summary_container == null:
+		return
+	for child in modifier_summary_container.get_children():
+		modifier_summary_container.remove_child(child)
+		child.queue_free()
+	for resource_value in stats_data["production"].keys():
+		var resource_id: String = str(resource_value)
+		var positive: float = 1.0
+		var negative: float = 1.0
+		for effect in stats_data["realm_effects"].get(resource_id, []):
+			var factor: float = float(effect.get("multiplier", 1.0))
+			if factor >= 1.0:
+				positive *= factor
+			else:
+				negative *= factor
+		for modifier in stats.get_generator_production_modifiers(generator.definition.id, resource_id):
+			var factor: float = float(modifier.get("effective_multiplier", 1.0))
+			if factor >= 1.0:
+				positive *= factor
+			else:
+				negative *= factor
+		_add_modifier_summary_row(resource_id, "Production", positive, negative)
+	for resource_value in stats_data["consumption"].keys():
+		var resource_id: String = str(resource_value)
+		var positive: float = 1.0
+		var negative: float = 1.0
+		for modifier in stats.get_generator_input_modifiers(generator.definition.id, resource_id):
+			if _is_modifier_inactive_due_to_throttling(modifier):
+				continue
+			var factor: float = float(modifier.get("effective_multiplier", 1.0))
+			if factor >= 1.0:
+				positive *= factor
+			else:
+				negative *= factor
+		_add_modifier_summary_row(resource_id, "Input draw", positive, negative)
+
+
+func _add_modifier_summary_row(resource_id: String, effect_name: String, positive: float, negative: float) -> void:
+	var row := HBoxContainer.new()
+	var label := Label.new()
+	label.text = "%s %s  " % [state.get_resource_display_name(resource_id), effect_name]
+	label.add_theme_font_size_override("font_size", 10)
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(label)
+	var positive_label := Label.new()
+	positive_label.text = "+ ×%s" % NumberFormatter.format(positive)
+	positive_label.add_theme_color_override("font_color", Color(0.45, 0.82, 0.53))
+	positive_label.add_theme_font_size_override("font_size", 10)
+	row.add_child(positive_label)
+	var negative_label := Label.new()
+	negative_label.text = "  − ×%s" % NumberFormatter.format(negative)
+	negative_label.add_theme_color_override("font_color", Color(0.95, 0.48, 0.40))
+	negative_label.add_theme_font_size_override("font_size", 10)
+	row.add_child(negative_label)
+	modifier_summary_container.add_child(row)
 
 
 func _get_minimum_size() -> Vector2:
@@ -1278,38 +1342,15 @@ func get_modifier_type_name(
 	return modifier_type
 
 
-func _on_header_pressed() -> void:
-	expanded = not expanded
+func set_expanded(value: bool) -> void:
+	expanded = value
+	if not is_node_ready():
+		return
 	detail_container.visible = expanded
-	
-	if expanded:
-		var generator = state.get_generator(
-			generator_id
-		)
-		
-		if generator == null:
-			return
-		
-		var stats_data = stats.get_generator_stats(
-			generator_id
-		)
-		
-		var structure_signature = (
-			get_detail_structure_signature(
-				generator,
-				stats_data
-			)
-		)
-		
-		rebuild_details(
-			generator,
-			stats_data,
-			structure_signature
-		)
-		
-		update_detail_values(
-			generator,
-			stats_data
-		)
-	
+	if expanded and state != null and stats != null:
+		update_display()
 	update_minimum_size()
+
+
+func _on_header_pressed() -> void:
+	set_expanded(not expanded)
