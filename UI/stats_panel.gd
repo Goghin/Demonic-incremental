@@ -175,8 +175,13 @@ func open_generator_stats(generator_id: String) -> void:
 	if entry == null:
 		return
 	entry.set_expanded(true)
+	# Let the expanded entry and its parent VBox settle before scrolling.
+	entry.update_minimum_size()
+	$PanelContent/ScrollContainer/VBoxContainer/GeneratorStatsContainer.queue_sort()
 	await get_tree().process_frame
-	$PanelContent/ScrollContainer.ensure_control_visible(entry)
+	await get_tree().process_frame
+	if is_instance_valid(entry):
+		$PanelContent/ScrollContainer.ensure_control_visible(entry)
 
 
 func _setup_resource_stats() -> void:
