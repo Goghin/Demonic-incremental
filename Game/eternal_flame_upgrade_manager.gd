@@ -47,19 +47,6 @@ func _initialize_upgrades() -> void:
 	
 	_add_upgrade(
 		EternalFlameUpgrade.new(
-			"infernal_foundation",
-			"Infernal Foundation",
-			"Strengthens the latent power provided by Eternal Flames left unassigned.",
-			EternalFlameUpgrade.EFFECT_UNASSIGNED_FLAME,
-			0.05,
-			10,
-			3,
-			2.0
-		)
-	)
-	
-	_add_upgrade(
-		EternalFlameUpgrade.new(
 			"essence_extraction",
 			"Essence Extraction",
 			"Unlocks the ability to research and extract the valuable Essence produced by Lava Mites.",
