@@ -35,7 +35,6 @@ var expanded: bool = false
 
 var detail_structure_signature: String = ""
 var detail_rows: Array[Dictionary] = []
-var modifier_summary_container: VBoxContainer
 
 
 func _ready() -> void:
@@ -115,7 +114,6 @@ func update_display() -> void:
 		generator,
 		stats_data
 	)
-	_update_modifier_summary(generator, stats_data)
 	
 	if not expanded:
 		return
@@ -138,62 +136,70 @@ func update_display() -> void:
 	)
 
 
-func _update_modifier_summary(generator: Generator, stats_data: Dictionary) -> void:
-	if modifier_summary_container == null:
-		return
-	for child in modifier_summary_container.get_children():
-		modifier_summary_container.remove_child(child)
-		child.queue_free()
-	for resource_value in stats_data["production"].keys():
-		var resource_id: String = str(resource_value)
-		var positive: float = 1.0
-		var negative: float = 1.0
+func _get_modifier_totals(generator: Generator, resource_id: String, production: bool, stats_data: Dictionary) -> Dictionary:
+	var increased: float = 1.0
+	var decreased: float = 1.0
+	var factors: Array = []
+	if production:
 		for effect in stats_data["realm_effects"].get(resource_id, []):
-			var factor: float = float(effect.get("multiplier", 1.0))
-			if factor >= 1.0:
-				positive *= factor
-			else:
-				negative *= factor
+			factors.append(float(effect.get("multiplier", 1.0)))
 		for modifier in stats.get_generator_production_modifiers(generator.definition.id, resource_id):
-			var factor: float = float(modifier.get("effective_multiplier", 1.0))
-			if factor >= 1.0:
-				positive *= factor
-			else:
-				negative *= factor
-		_add_modifier_summary_row(resource_id, "Production", positive, negative)
-	for resource_value in stats_data["consumption"].keys():
-		var resource_id: String = str(resource_value)
-		var positive: float = 1.0
-		var negative: float = 1.0
+			factors.append(float(modifier.get("effective_multiplier", 1.0)))
+	else:
 		for modifier in stats.get_generator_input_modifiers(generator.definition.id, resource_id):
 			if _is_modifier_inactive_due_to_throttling(modifier):
 				continue
-			var factor: float = float(modifier.get("effective_multiplier", 1.0))
-			if factor >= 1.0:
-				positive *= factor
-			else:
-				negative *= factor
-		_add_modifier_summary_row(resource_id, "Input draw", positive, negative)
+			factors.append(float(modifier.get("effective_multiplier", 1.0)))
+	for factor in factors:
+		if factor >= 1.0:
+			increased *= factor
+		else:
+			decreased *= factor
+	return {"increased": increased, "decreased": decreased}
 
 
-func _add_modifier_summary_row(resource_id: String, effect_name: String, positive: float, negative: float) -> void:
-	var row := HBoxContainer.new()
-	var label := Label.new()
-	label.text = "%s %s  " % [state.get_resource_display_name(resource_id), effect_name]
-	label.add_theme_font_size_override("font_size", 10)
-	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	row.add_child(label)
-	var positive_label := Label.new()
-	positive_label.text = "+ ×%s" % NumberFormatter.format(positive)
-	positive_label.add_theme_color_override("font_color", Color(0.45, 0.82, 0.53))
-	positive_label.add_theme_font_size_override("font_size", 10)
-	row.add_child(positive_label)
-	var negative_label := Label.new()
-	negative_label.text = "  − ×%s" % NumberFormatter.format(negative)
-	negative_label.add_theme_color_override("font_color", Color(0.95, 0.48, 0.40))
-	negative_label.add_theme_font_size_override("font_size", 10)
-	row.add_child(negative_label)
-	modifier_summary_container.add_child(row)
+func _update_summary_rows(container: VBoxContainer, generator: Generator, stats_data: Dictionary, production: bool) -> void:
+	var rates: Dictionary = stats_data["production"] if production else stats_data["consumption"]
+	var resource_ids: Array = rates.keys()
+	var rebuild: bool = container.get_child_count() != resource_ids.size()
+	if not rebuild:
+		for index in range(resource_ids.size()):
+			var existing: HBoxContainer = container.get_child(index) as HBoxContainer
+			if existing == null or str(existing.get_meta("resource_id", "")) != str(resource_ids[index]):
+				rebuild = true
+				break
+	if rebuild:
+		for child in container.get_children():
+			container.remove_child(child)
+			child.queue_free()
+		for resource_value in resource_ids:
+			var resource_id: String = str(resource_value)
+			var row := HBoxContainer.new()
+			row.set_meta("resource_id", resource_id)
+			row.add_theme_constant_override("separation", 4)
+			container.add_child(row)
+			var label := Label.new()
+			label.name = "SummaryLabel"
+			label.add_theme_font_size_override("font_size", 10)
+			label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			row.add_child(label)
+	for resource_value in resource_ids:
+		var resource_id: String = str(resource_value)
+		var row: HBoxContainer = container.get_child(resource_ids.find(resource_value)) as HBoxContainer
+		var label: Label = row.get_node("SummaryLabel") as Label
+		var totals: Dictionary = _get_modifier_totals(generator, resource_id, production, stats_data)
+		var increased: float = totals["increased"]
+		var decreased: float = totals["decreased"]
+		var net: float = increased * decreased
+		label.text = "%s %s: ↑×%s  ↓×%s  =×%s" % [
+			state.get_resource_display_name(resource_id),
+			"output" if production else "draw",
+			NumberFormatter.format(increased),
+			NumberFormatter.format(decreased),
+			NumberFormatter.format(net)
+		]
+		# Increased draw is a cost, while reduced draw is beneficial.
+		label.add_theme_color_override("font_color", Color(0.83, 0.77, 0.71))
 
 
 func _get_minimum_size() -> Vector2:
@@ -217,70 +223,8 @@ func update_header(
 	
 	level_label.text = "Level %d" % stats_data["level"]
 	
-	_update_header_rate_rows(
-		production_label,
-		stats_data["production"],
-		"+"
-	)
-	_update_header_rate_rows(
-		consumption_label,
-		stats_data["consumption"],
-		"-"
-	)
-
-
-func _update_header_rate_rows(
-	container: VBoxContainer,
-	rates: Dictionary,
-	prefix: String
-) -> void:
-	var resource_ids: Array = rates.keys()
-	var rebuild := container.get_child_count() != resource_ids.size()
-
-	if not rebuild:
-		for i in range(resource_ids.size()):
-			var existing_row := container.get_child(i) as HBoxContainer
-			if (
-				existing_row == null
-				or str(existing_row.get_meta("resource_id", "")) != str(resource_ids[i])
-			):
-				rebuild = true
-				break
-
-	if rebuild:
-		for child in container.get_children():
-			container.remove_child(child)
-			child.queue_free()
-
-		for resource_value in resource_ids:
-			var resource_id: String = str(resource_value)
-			var row := HBoxContainer.new()
-			row.add_theme_constant_override("separation", 3)
-			row.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			row.set_meta("resource_id", resource_id)
-			container.add_child(row)
-
-			var icon := ResourceIcon.new()
-			icon.name = "ResourceIcon"
-			icon.setup(resource_id, Vector2(12.0, 12.0))
-			icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-			row.add_child(icon)
-
-			var value_label := Label.new()
-			value_label.name = "RateLabel"
-			value_label.add_theme_font_size_override("font_size", 10)
-			value_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			row.add_child(value_label)
-
-	for i in range(resource_ids.size()):
-		var resource_id: String = str(resource_ids[i])
-		var row := container.get_child(i) as HBoxContainer
-		var label := row.get_node("RateLabel") as Label
-		label.text = "%s%s %s/s" % [
-			prefix,
-			NumberFormatter.format(float(rates[resource_ids[i]])),
-			state.get_resource_display_name(resource_id)
-		]
+	_update_summary_rows(production_label, generator, stats_data, true)
+	_update_summary_rows(consumption_label, generator, stats_data, false)
 
 
 func get_detail_structure_signature(
@@ -1350,6 +1294,7 @@ func set_expanded(value: bool) -> void:
 	if expanded and state != null and stats != null:
 		update_display()
 	update_minimum_size()
+	minimum_size_changed()
 
 
 func _on_header_pressed() -> void:
