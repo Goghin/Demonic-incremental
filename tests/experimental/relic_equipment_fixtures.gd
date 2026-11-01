@@ -115,6 +115,7 @@ static func make_state(label: String) -> GameState:
 			crucible.manually_paused = false
 			assert(crucible.set_operation_mode("forge_relic"))
 			assert(state.relic_manager.move_inventory_entry_to_machine_slot(str(entry["instance_id"]), crucible.definition.id, 0))
+			state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
 			assert(Simulation.new(state).buy_generator(crucible.definition.id, "relic_diagnostic"))
 			crucible.cycle_progress = crucible.get_cycle_duration() - 0.000001
 	return state
