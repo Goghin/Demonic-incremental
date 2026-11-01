@@ -23,6 +23,7 @@ static func make_state(label: String) -> GameState:
 	var simulation := Simulation.new(state)
 	crucible.manually_paused = false
 	state.set_resource_amount(ResourceIds.MATTER, 500.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 100.0)
 	if label == "idle":
 		return state
 	var mode: String = "normal"
