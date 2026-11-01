@@ -22,6 +22,7 @@ var _last_crafting_signature: String = ""
 # Slot contents are event-driven; periodically reconcile external state changes.
 const CRAFTING_SLOT_REFRESH_INTERVAL: float = 0.2
 var _crafting_slot_refresh_elapsed: float = CRAFTING_SLOT_REFRESH_INTERVAL
+var _locked_card_cleared: bool = false
 var _relic_slot_controls: Array[RelicSlotControl] = []
 var _relic_slot_count: int = -1
 var _last_relic_slot_signature: String = ""
@@ -119,11 +120,17 @@ func _setup_cycle_feedback() -> void:
 
 func _set_cycle_feedback(reward: String, penalty: String) -> void:
 	if _cycle_reward_label != null:
-		_cycle_reward_label.text = reward
-		_cycle_reward_label.visible = not reward.is_empty()
+		if _cycle_reward_label.text != reward:
+			_cycle_reward_label.text = reward
+		var show_reward := not reward.is_empty()
+		if _cycle_reward_label.visible != show_reward:
+			_cycle_reward_label.visible = show_reward
 	if _cycle_penalty_label != null:
-		_cycle_penalty_label.text = penalty
-		_cycle_penalty_label.visible = not penalty.is_empty()
+		if _cycle_penalty_label.text != penalty:
+			_cycle_penalty_label.text = penalty
+		var show_penalty := not penalty.is_empty()
+		if _cycle_penalty_label.visible != show_penalty:
+			_cycle_penalty_label.visible = show_pen
 
 
 func _update_operating_status(generator: Generator) -> void:
@@ -291,16 +298,20 @@ func _process(delta: float) -> void:
 	_update_level_upgrade_ui(generator)
 
 	if not generator.unlocked:
-		$HBoxContainer/VBoxContainer/Header/LevelLabel.text = "Locked"
-		$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.text = ""
-		$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.disabled = true
-		$HBoxContainer/VBoxContainer/ProgressBar.visible = false
-		_clear_resource_rows($HBoxContainer/VBoxContainer/InputLabel)
-		_clear_resource_rows($HBoxContainer/VBoxContainer/ProductionLabel)
-		_clear_resource_rows($HBoxContainer/VBoxContainer/CostLabel)
-		$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = true
-		$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.text = "LOCKED"
+		# Locked cards need to clear their resource controls only on transition.
+		if not _locked_card_cleared:
+			$HBoxContainer/VBoxContainer/Header/LevelLabel.text = "Locked"
+			$HBoxContainer/VBoxContainer/HBoxContainer/StatusLabel.text = ""
+			$HBoxContainer/VBoxContainer/HBoxContainer/PauseButton.disabled = true
+			$HBoxContainer/VBoxContainer/ProgressBar.visible = false
+			_clear_resource_rows($HBoxContainer/VBoxContainer/InputLabel)
+			_clear_resource_rows($HBoxContainer/VBoxContainer/ProductionLabel)
+			_clear_resource_rows($HBoxContainer/VBoxContainer/CostLabel)
+			$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.disabled = true
+			$HBoxContainer/VBoxContainer/BuyButtons/BuyButton.text = "LOCKED"
+			_locked_card_cleared = true
 		return
+	_locked_card_cleared = false
 	
 	$HBoxContainer/VBoxContainer/Header/GeneratorLabel.text = (
 		generator.definition.display_name
