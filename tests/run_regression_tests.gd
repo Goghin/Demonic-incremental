@@ -61,7 +61,7 @@ func _run_tests() -> void:
 	_run_test("Gameplay RNG replay ignores cosmetics and is shared by normal/offline cycles", _test_gameplay_rng_replay)
 	_run_test("Gameplay RNG survives JSON save/load without 64-bit rounding", _test_gameplay_rng_save_sequence)
 	_run_test("Mixed gameplay rolls continue identically after save/load", _test_gameplay_rng_save_actions)
-	_run_test("Active crafting uses completion-time critical chance after save/load", _test_gameplay_rng_critical_snapshot)
+	_run_test("Active crafting uses completion-time critical chance after save/load", _test_gameplay_rng_completion_chance_save)
 	_run_test("Version 8 saves migrate without RNG state or critical snapshots", _test_gameplay_rng_legacy_save)
 	_run_test("Gameplay event RNG preserves roll order and probability-edge draw counts", _test_gameplay_rng_event_order)
 	_run_test("Explicit relic RNG preserves deterministic rolls and configured ranges", _test_gameplay_rng_relic_ranges)
@@ -2269,7 +2269,7 @@ func _test_gameplay_rng_save_actions() -> void:
 	_expect(restored.relic_manager.inventory.slice(existing_count) == original.relic_manager.inventory.slice(existing_count), "New post-load relic rolls must match exactly, not approximately.")
 
 
-func _test_gameplay_rng_critical_snapshot() -> void:
+func _test_gameplay_rng_completion_chance_save() -> void:
 	var state := _new_test_state()
 	state.gameplay_rng.seed = 7654321
 	var simulation := Simulation.new(state)
@@ -2302,8 +2302,9 @@ func _test_gameplay_rng_critical_snapshot() -> void:
 func _test_gameplay_rng_legacy_save() -> void:
 	var legacy: Dictionary = _json_rng_save(_rng_state())
 	legacy.erase("gameplay_rng")
-	for generator_data in legacy["generators"].values():
-		generator_data.erase("cycle_critical_chance_snapshot")
+	# Old saves may still contain activation-time snapshots. They are ignored:
+	# critical chance is always resolved using completion-time stats.
+	legacy["generators"]["relic_shard_extractor"]["cycle_critical_chance_snapshot"] = "f64:000000000000e03f"
 	legacy["generators"]["relic_shard_extractor"]["cycle_active"] = true
 	legacy["generators"]["relic_shard_extractor"]["cycle_progress"] = 7.5
 	var migrated := _new_test_state()
