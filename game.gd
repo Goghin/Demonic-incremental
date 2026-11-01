@@ -188,6 +188,10 @@ func _ready() -> void:
 	time_manager.offline_simulation_progress.connect(
 		_on_offline_simulation_progress
 	)
+	loading_screen.debug_step_multiplier_changed.connect(
+		func(multiplier: float) -> void:
+			time_manager.offline_debug_step_multiplier = multiplier
+	)
 	loading_screen.set_status(
 		"Preparing controls..."
 	)
@@ -255,6 +259,7 @@ func _ready() -> void:
 		simulation.rebuild_upgrade_effects()
 
 	if loaded and not state.prestige_planning:
+		loading_screen.set_debug_step_controls_visible(true)
 		loading_screen.set_status(
 			"Simulating time lost to the void..."
 		)
@@ -268,6 +273,7 @@ func _ready() -> void:
 			_on_offline_achievement_unlocked
 		)
 		var offline_seconds = await time_manager.process_offline_time()
+		loading_screen.set_debug_step_controls_visible(false)
 		state.achievement_manager.update(state)
 		state.achievement_manager.achievement_unlocked.disconnect(
 			_on_offline_achievement_unlocked
