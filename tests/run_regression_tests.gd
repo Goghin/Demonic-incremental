@@ -366,6 +366,7 @@ func _test_relic_crucible_level_upgrades() -> void:
 
 	# Cycle inputs and shard outputs remain fixed as the Crucible levels up.
 	state.set_resource_amount(ResourceIds.MATTER, 110.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 10.0)
 	crucible.set_operation_mode("normal")
 	var level_before_cycle := crucible.level
 	_expect(simulation.buy_generator("relic_shard_extractor", "regression_test"), "Crucible extraction cycle failed to start.")
@@ -971,6 +972,7 @@ func _test_relic_shard_extractor_modes() -> void:
 		"Could not load the selected relic into the extractor."
 	)
 	state.set_resource_amount(ResourceIds.MATTER, 100.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
 	_expect(simulation.buy_generator("relic_shard_extractor"), "Recycling cycle did not start with a valid relic.")
 	_expect(state.relic_manager.get_inventory_entry_by_instance_id(recycled_relic_id).is_empty(), "Recycled relic was not consumed at cycle start.")
 	var shards_before := 0
@@ -1078,6 +1080,7 @@ func _test_data_driven_relic_generation_and_critical_promotion() -> void:
 		"Could not load ingredients for the critical crafting cycle."
 	)
 	state.set_resource_amount(ResourceIds.MATTER, 10.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
 	extractor.set_operation_mode("forge_relic")
 	extractor.get_operation_mode().completion_critical_chance = 1.0
 	_expect(simulation.buy_generator("relic_shard_extractor"), "Could not start guaranteed critical crafting.")
@@ -1101,9 +1104,10 @@ func _test_relic_shard_extractor_cycle() -> void:
 	_expect(extractor.definition.cycle_based, "Relic Shard Extractor should use the cycle system.")
 	_expect_approx(extractor.get_cycle_duration(), 60.0, "Relic Shard Extractor cycle should last 60 seconds.")
 
-	state.set_resource_amount(ResourceIds.MATTER, 110.0)
-	_expect(simulation.buy_generator("relic_shard_extractor"), "Could not purchase the test extractor.")
-	_expect_approx(state.get_resource_amount(ResourceIds.MATTER), 100.0, "Extractor purchase cost should be 10 Matter.")
+	state.set_resource_amount(ResourceIds.MATTER, 100.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 10.0)
+	_expect(simulation.buy_generator("relic_shard_extractor"), "Could not activate the test extractor.")
+	_expect_approx(state.get_resource_amount(ResourceIds.CRYSTALLIZED_FLAME), 0.0, "Extractor activation should cost 10 Crystallized Flame.")
 	_expect(state.relic_manager.get_inventory_entry_at_slot(0).is_empty(), "Extractor should not grant a shard before its cycle completes.")
 
 	simulation.update(30.0)
@@ -1537,6 +1541,7 @@ func _test_crafting_cycle_start() -> void:
 		"Test ingredients could not be loaded into the extractor."
 	)
 	state.set_resource_amount(ResourceIds.MATTER, 10.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
 	_expect(simulation.can_buy_generator("relic_shard_extractor"), "A valid crafting recipe did not enable cycle start.")
 	_expect(simulation.buy_generator("relic_shard_extractor"), "A valid crafting cycle could not start.")
 	_expect(extractor.cycle_active, "Crafting cycle did not become active after purchase.")
@@ -2280,6 +2285,7 @@ func _test_gameplay_rng_completion_chance_save() -> void:
 	var entry: Dictionary = state.relic_manager.get_inventory_entry_at_slot(0)
 	_expect(state.relic_manager.move_inventory_entry_to_machine_slot(str(entry["instance_id"]), crucible.definition.id, 0), "Could not stock the active-craft fixture.")
 	state.set_resource_amount(ResourceIds.MATTER, 100.0)
+	state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
 	_expect(simulation.buy_generator(crucible.definition.id), "Could not activate the craft.")
 	var activation_chance: float = simulation.get_effective_relic_critical_chance(crucible, crucible.get_operation_mode())
 	crucible.level = 20
