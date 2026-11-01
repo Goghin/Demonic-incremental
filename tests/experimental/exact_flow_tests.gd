@@ -165,7 +165,6 @@ func _rng_fallback() -> void:
 			generator.cycle_active = true
 			generator.operating = false
 			generator.cycle_progress = generator.get_cycle_duration() - 0.00000001
-			generator.cycle_critical_chance_snapshot = 0.25
 		var simulation := Simulation.new(state)
 		var journal: RefCounted = Events.new()
 		journal.attach(simulation)
