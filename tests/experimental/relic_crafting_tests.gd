@@ -316,6 +316,7 @@ func _startup_and_aliases() -> void:
 				check(generator.set_operation_mode("forge_relic"), "Native recipe mode unavailable")
 				Fixtures.ingredient(state, "relic_shard", 10)
 			state.set_resource_amount(ResourceIds.MATTER, 0.0)
+			state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 0.0)
 			var before: PackedByteArray = var_to_bytes(state.relic_manager.get_save_data())
 			check(not simulation.buy_generator(Fixtures.ID, "crafting_startup"), "Unaffordable craft started")
 			check(before == var_to_bytes(state.relic_manager.get_save_data()), "Failed startup spent ingredients")
