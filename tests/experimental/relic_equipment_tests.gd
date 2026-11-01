@@ -134,6 +134,7 @@ func _boundaries() -> void:
 					crucible.manually_paused = false
 					crucible.set_operation_mode("forge_relic")
 					state.set_resource_amount(ResourceIds.MATTER, 100.0)
+					state.set_resource_amount(ResourceIds.CRYSTALLIZED_FLAME, 1.0)
 					var entry: Dictionary = state.relic_manager.inventory[-1]
 					check(state.relic_manager.move_inventory_entry_to_machine_slot(str(entry["instance_id"]), crucible.definition.id, 0), "Ingredient slot move failed")
 					check(item["simulation"].buy_generator(crucible.definition.id, "equipment_boundary"), "Native craft startup failed")
