@@ -981,7 +981,3 @@ func _update_resource_rows(container: Node, rows: Array[Dictionary]) -> void:
 			)
 		else:
 			value_label.add_theme_color_override("font_color", Color(0.88, 0.80, 0.70))
-
-
-
-

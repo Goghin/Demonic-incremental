@@ -3,7 +3,7 @@
 		{
 			"compared_ticks": 2000,
 			"counters": {
-				"build_usec": 1490,
+				"build_usec": 1062,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -11,12 +11,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 54,
+				"invalidate_usec": 49,
 				"kernel_ticks": 1999,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -80,7 +78,7 @@
 		{
 			"compared_ticks": 3000,
 			"counters": {
-				"build_usec": 1656,
+				"build_usec": 1037,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -88,12 +86,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 67,
+				"invalidate_usec": 44,
 				"kernel_ticks": 2999,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -129,23 +125,23 @@
 					"definition_id": "generated_relic_tier_1",
 					"generated_definition": {
 						"affix_position": "suffix",
-						"affix_text": "of Acceleration",
-						"description_label": "Cycle speed",
-						"description_mode": "multiplier",
-						"display_name": "Emberstone of Acceleration",
-						"effect_id": "cycle_speed_increase",
-						"family": "cycle_speed",
+						"affix_text": "of Fortune",
+						"description_label": "Critical chance",
+						"description_mode": "percentage_points",
+						"display_name": "Emberstone of Fortune",
+						"effect_id": "critical_chance",
+						"family": "event_chance",
 						"generated": true,
-						"modifier_type": "cycle_speed",
+						"modifier_type": "event_chance",
 						"rarity_color": "#61d97a",
 						"rarity_name": "Common",
-						"rolled_value": 1.11110583977683,
-						"stat_group": "cycle_speed",
-						"target_id": "",
+						"rolled_value": 0.0274588113648077,
+						"stat_group": "event_chance",
+						"target_id": "critical_chance",
 						"tier": 1
 					},
 					"instance_id": "relic_3",
-					"rolled_value": 1.11110583977683
+					"rolled_value": 0.0274588113648077
 				},
 				{
 					"definition_id": "generated_relic_tier_1",
@@ -177,7 +173,7 @@
 		{
 			"compared_ticks": 100,
 			"counters": {
-				"build_usec": 1670,
+				"build_usec": 977,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -185,12 +181,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 52,
+				"invalidate_usec": 35,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -228,7 +222,7 @@
 		{
 			"compared_ticks": 20,
 			"counters": {
-				"build_usec": 765,
+				"build_usec": 525,
 				"builds": 1,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -236,12 +230,10 @@
 				"event_ticks": 0,
 				"fallback_ticks": 0,
 				"fallback_usec": 0,
-				"invalidate_usec": 29,
+				"invalidate_usec": 20,
 				"kernel_ticks": 20,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -255,16 +247,16 @@
 					"definition_id": "generated_relic_tier_1",
 					"generated_definition": {
 						"affix_position": "prefix",
-						"affix_text": "Heat-Hungry",
-						"description_label": "Heat production",
+						"affix_text": "Matter-Hungry",
+						"description_label": "Matter production",
 						"description_mode": "inverse_resource_boost",
-						"display_name": "Heat-Hungry Emberstone",
+						"display_name": "Matter-Hungry Emberstone",
 						"dynamic": true,
 						"dynamic_exponent": 1.5,
 						"dynamic_formula": "resource_inverse_boost",
-						"dynamic_resource_id": "heat",
-						"dynamic_threshold": 100000.0,
-						"effect_id": "heat_reservoir_boost",
+						"dynamic_resource_id": "matter",
+						"dynamic_threshold": 10000.0,
+						"effect_id": "matter_reservoir_boost",
 						"family": "production",
 						"generated": true,
 						"modifier_type": "production",
@@ -272,7 +264,7 @@
 						"rarity_name": "Common",
 						"rolled_value": 0.548428246657463,
 						"stat_group": "output",
-						"target_id": "heat",
+						"target_id": "matter",
 						"tier": 1
 					},
 					"instance_id": "relic_2",
@@ -284,7 +276,7 @@
 		{
 			"boundary_graph_ticks": 45,
 			"counters": {
-				"build_usec": 63423,
+				"build_usec": 30937,
 				"builds": 45,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -292,12 +284,10 @@
 				"event_ticks": 0,
 				"fallback_ticks": 0,
 				"fallback_usec": 0,
-				"invalidate_usec": 1080,
+				"invalidate_usec": 787,
 				"kernel_ticks": 45,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			}
@@ -305,7 +295,7 @@
 		{
 			"callback_ticks": 3,
 			"counters": {
-				"build_usec": 2963,
+				"build_usec": 3004,
 				"builds": 4,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -313,7 +303,7 @@
 				"event_ticks": 0,
 				"fallback_ticks": 3,
 				"fallback_usec": 0,
-				"invalidate_usec": 29,
+				"invalidate_usec": 60,
 				"kernel_ticks": 5,
 				"kernel_usec": 0,
 				"reasons": {
@@ -326,7 +316,7 @@
 		},
 		{
 			"counters": {
-				"build_usec": 1638,
+				"build_usec": 2433,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -334,12 +324,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 102,
+				"invalidate_usec": 96,
 				"kernel_ticks": 5,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -347,7 +335,7 @@
 		},
 		{
 			"counters": {
-				"build_usec": 4805,
+				"build_usec": 3363,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -355,12 +343,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 89,
+				"invalidate_usec": 120,
 				"kernel_ticks": 1004,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -370,7 +356,7 @@
 		},
 		{
 			"counters": {
-				"build_usec": 2522,
+				"build_usec": 1917,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -378,12 +364,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 249,
+				"invalidate_usec": 68,
 				"kernel_ticks": 1004,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -394,28 +378,28 @@
 		{
 			"generation_timings": {
 				"generation_calls": 3,
-				"generation_usec": 704
+				"generation_usec": 863
 			},
 			"instrumentation_tick_comparisons": 3000,
 			"inventory_timings": {
 				"item_calls": 0,
 				"item_usec": 0,
 				"random_reward_calls": 3,
-				"random_reward_usec": 762,
-				"recipe_calls": 2,
-				"recipe_usec": 46
+				"random_reward_usec": 975,
+				"recipe_calls": 3,
+				"recipe_usec": 97
 			},
 			"metrics": {
-				"auto_attempts": 302,
-				"auto_successes": 2,
-				"completion_usec": 935,
+				"auto_attempts": 3,
+				"auto_successes": 3,
+				"completion_usec": 1225,
 				"completions": 3,
-				"crafting_active_ticks": 2700,
+				"crafting_active_ticks": 3000,
 				"crafting_completions": 3,
 				"crafting_no_progress_ticks": 0,
-				"crafting_progress_ticks": 2700,
+				"crafting_progress_ticks": 3000,
 				"cycle_calls": 3000,
-				"cycle_usec": 87389,
+				"cycle_usec": 154204,
 				"forge_completions": 0
 			}
 		}

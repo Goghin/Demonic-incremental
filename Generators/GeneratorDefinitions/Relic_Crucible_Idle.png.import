@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b7emopeyh0no8"
-path="res://.godot/imported/Lava_Mite_Colony.png-ca13307b0d3847007c30a029026d9f60.ctex"
+uid="uid://di5jewwjtouil"
+path="res://.godot/imported/Relic_Crucible_Idle.png-e5e2039eab0d4b84e1e607a1712ad1ac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generators/GeneratorDefinitions/Lava_Mite_Colony.png"
-dest_files=["res://.godot/imported/Lava_Mite_Colony.png-ca13307b0d3847007c30a029026d9f60.ctex"]
+source_file="res://Generators/GeneratorDefinitions/Relic_Crucible_Idle.png"
+dest_files=["res://.godot/imported/Relic_Crucible_Idle.png-e5e2039eab0d4b84e1e607a1712ad1ac.ctex"]
 
 [params]
 

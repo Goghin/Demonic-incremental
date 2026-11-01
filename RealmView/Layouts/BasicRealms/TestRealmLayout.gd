@@ -507,7 +507,8 @@ func _init() -> void:
 		"thermal_compressor": Vector2(0.622798, 0.269348),
 		"lava_mite_colony": Vector2(0.682057, 0.468204),
 		"matter_furnace": Vector2(0.539374, 0.071535),
-		"infernal_forge": Vector2(0.232122, 0.306813)
+		"infernal_forge": Vector2(0.232122, 0.306813),
+		"relic_shard_extractor": Vector2(0.790000, 0.300000)
 
 	}
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbudn2b7f82t6"
-path="res://.godot/imported/Infernal_Forge_1.png-c5479a6b55d71ab95484ffe55c6b89de.ctex"
+uid="uid://2oq8pkd0ak2p"
+path="res://.godot/imported/brazier_.png-074b969a0816ebf0c6ea4b33d8099cd7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Generators/GeneratorDefinitions/Infernal_Forge_1.png"
-dest_files=["res://.godot/imported/Infernal_Forge_1.png-c5479a6b55d71ab95484ffe55c6b89de.ctex"]
+source_file="res://RealmView/brazier_.png"
+dest_files=["res://.godot/imported/brazier_.png-074b969a0816ebf0c6ea4b33d8099cd7.ctex"]
 
 [params]
 

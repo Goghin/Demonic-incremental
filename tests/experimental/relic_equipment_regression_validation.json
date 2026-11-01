@@ -4,7 +4,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2615,
+				"build_usec": 4479,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -12,12 +12,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 151,
+				"invalidate_usec": 309,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
@@ -36,7 +34,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1133,
+				"build_usec": 2688,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -44,12 +42,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 76,
+				"invalidate_usec": 199,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -68,7 +64,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2098,
+				"build_usec": 6704,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -76,12 +72,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 125,
+				"invalidate_usec": 430,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
@@ -100,7 +94,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1240,
+				"build_usec": 2905,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -108,12 +102,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 84,
+				"invalidate_usec": 238,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -132,7 +124,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2041,
+				"build_usec": 6119,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -140,12 +132,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 141,
+				"invalidate_usec": 428,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
@@ -164,7 +154,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1123,
+				"build_usec": 2903,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -172,12 +162,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 82,
+				"invalidate_usec": 197,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -196,7 +184,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1341,
+				"build_usec": 3277,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -204,12 +192,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 86,
+				"invalidate_usec": 171,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -228,7 +214,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2257,
+				"build_usec": 2190,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -236,12 +222,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 127,
+				"invalidate_usec": 132,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
@@ -260,7 +244,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1522,
+				"build_usec": 943,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -268,12 +252,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 83,
+				"invalidate_usec": 74,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -292,7 +274,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2039,
+				"build_usec": 1627,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -300,12 +282,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 143,
+				"invalidate_usec": 115,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
@@ -324,7 +304,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1962,
+				"build_usec": 1631,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -332,12 +312,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 117,
+				"invalidate_usec": 103,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
@@ -356,7 +334,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2043,
+				"build_usec": 1677,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -364,12 +342,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 127,
+				"invalidate_usec": 109,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
@@ -388,7 +364,7 @@
 			"compared_ticks": 100,
 			"completions": 1,
 			"counters": {
-				"build_usec": 1274,
+				"build_usec": 993,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -396,12 +372,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 96,
+				"invalidate_usec": 61,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -420,7 +394,7 @@
 			"compared_ticks": 500,
 			"completions": 1,
 			"counters": {
-				"build_usec": 1355,
+				"build_usec": 979,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -428,12 +402,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 73,
+				"invalidate_usec": 63,
 				"kernel_ticks": 499,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -452,7 +424,7 @@
 			"compared_ticks": 500,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1371,
+				"build_usec": 1061,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -460,12 +432,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 132,
+				"invalidate_usec": 63,
 				"kernel_ticks": 499,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -484,7 +454,7 @@
 			"compared_ticks": 100,
 			"completions": 1,
 			"counters": {
-				"build_usec": 1201,
+				"build_usec": 1018,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -492,12 +462,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 72,
+				"invalidate_usec": 63,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -514,23 +482,21 @@
 		},
 		{
 			"compared_ticks": 3000,
-			"completions": 10,
+			"completions": 11,
 			"counters": {
-				"build_usec": 6459,
-				"builds": 11,
-				"cycle_invalidations": 9,
+				"build_usec": 5465,
+				"builds": 12,
+				"cycle_invalidations": 10,
 				"cycle_usec": 0,
 				"event_check_usec": 0,
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 488,
+				"invalidate_usec": 413,
 				"kernel_ticks": 2999,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
-				"structural_invalidations": 9,
+				"reasons": {},
+				"structural_invalidations": 10,
 				"writeback_usec": 0
 			},
 			"flows": {
@@ -548,7 +514,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2157,
+				"build_usec": 1871,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -556,21 +522,19 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 156,
+				"invalidate_usec": 129,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
 			"flows": {
 				"controller_transitions": 0,
-				"dynamic_modifier_evaluations": 1089,
+				"dynamic_modifier_evaluations": 1188,
 				"empty_duration_checks": 0,
-				"input_exhaustions": 1,
-				"partial_operations": 91,
+				"input_exhaustions": 94,
+				"partial_operations": 94,
 				"tape_evaluations": 1188
 			},
 			"label": "relic_heavy",
@@ -580,25 +544,28 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 886,
-				"builds": 1,
+				"build_usec": 1548,
+				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
 				"event_check_usec": 0,
-				"event_ticks": 0,
-				"fallback_ticks": 100,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 3,
-				"kernel_ticks": 0,
+				"invalidate_usec": 117,
+				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-					"unsupported_cycle_contract": 1
-				},
-				"structural_invalidations": 0,
+				"reasons": {},
+				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
 			"flows": {
-
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 1069,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 73,
+				"partial_operations": 74,
+				"tape_evaluations": 1108
 			},
 			"label": "crafting",
 			"ticks": 100
@@ -607,7 +574,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2116,
+				"build_usec": 1541,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -615,12 +582,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 148,
+				"invalidate_usec": 1478,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 1,
 				"writeback_usec": 0
 			},
@@ -639,7 +604,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1371,
+				"build_usec": 1092,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -647,12 +612,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 87,
+				"invalidate_usec": 79,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -671,7 +634,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1432,
+				"build_usec": 981,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -679,12 +642,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 86,
+				"invalidate_usec": 69,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -703,7 +664,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2340,
+				"build_usec": 1067,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -711,12 +672,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 226,
+				"invalidate_usec": 76,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -735,7 +694,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1192,
+				"build_usec": 1071,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -743,12 +702,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 112,
+				"invalidate_usec": 94,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -767,7 +724,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1318,
+				"build_usec": 2839,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -775,12 +732,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 90,
+				"invalidate_usec": 190,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -799,7 +754,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1357,
+				"build_usec": 3372,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -807,12 +762,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 99,
+				"invalidate_usec": 178,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -831,7 +784,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1260,
+				"build_usec": 2559,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -839,12 +792,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 85,
+				"invalidate_usec": 191,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -863,7 +814,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 2052,
+				"build_usec": 3491,
 				"builds": 3,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -871,12 +822,10 @@
 				"event_ticks": 2,
 				"fallback_ticks": 2,
 				"fallback_usec": 0,
-				"invalidate_usec": 110,
+				"invalidate_usec": 249,
 				"kernel_ticks": 98,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -895,7 +844,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1429,
+				"build_usec": 2844,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -903,12 +852,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 78,
+				"invalidate_usec": 246,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -927,7 +874,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1291,
+				"build_usec": 2305,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -935,12 +882,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 80,
+				"invalidate_usec": 239,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -959,7 +904,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1395,
+				"build_usec": 1076,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -967,12 +912,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 83,
+				"invalidate_usec": 73,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -991,7 +934,7 @@
 			"compared_ticks": 100,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1260,
+				"build_usec": 1004,
 				"builds": 2,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -999,12 +942,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 132,
+				"invalidate_usec": 75,
 				"kernel_ticks": 99,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -1020,10 +961,40 @@
 			"ticks": 100
 		},
 		{
+			"compared_ticks": 100,
+			"completions": 0,
+			"counters": {
+				"build_usec": 968,
+				"builds": 2,
+				"cycle_invalidations": 0,
+				"cycle_usec": 0,
+				"event_check_usec": 0,
+				"event_ticks": 1,
+				"fallback_ticks": 1,
+				"fallback_usec": 0,
+				"invalidate_usec": 95,
+				"kernel_ticks": 99,
+				"kernel_usec": 0,
+				"reasons": {},
+				"structural_invalidations": 0,
+				"writeback_usec": 0
+			},
+			"flows": {
+				"controller_transitions": 0,
+				"dynamic_modifier_evaluations": 989,
+				"empty_duration_checks": 0,
+				"input_exhaustions": 0,
+				"partial_operations": 0,
+				"tape_evaluations": 693
+			},
+			"label": "effect/critical_power",
+			"ticks": 100
+		},
+		{
 			"compared_ticks": 2000,
 			"completions": 0,
 			"counters": {
-				"build_usec": 729,
+				"build_usec": 806,
 				"builds": 1,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -1031,12 +1002,10 @@
 				"event_ticks": 0,
 				"fallback_ticks": 0,
 				"fallback_usec": 0,
-				"invalidate_usec": 54,
+				"invalidate_usec": 32,
 				"kernel_ticks": 2000,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -1055,7 +1024,7 @@
 			"compared_ticks": 2000,
 			"completions": 0,
 			"counters": {
-				"build_usec": 1207,
+				"build_usec": 459,
 				"builds": 1,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -1063,12 +1032,10 @@
 				"event_ticks": 0,
 				"fallback_ticks": 0,
 				"fallback_usec": 0,
-				"invalidate_usec": 44,
+				"invalidate_usec": 29,
 				"kernel_ticks": 2000,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},
@@ -1086,27 +1053,25 @@
 		{
 			"boundary_graph_ticks": 36,
 			"counters": {
-				"build_usec": 29666,
+				"build_usec": 20904,
 				"builds": 36,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
 				"event_check_usec": 0,
 				"event_ticks": 1,
-				"fallback_ticks": 2,
+				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 670,
-				"kernel_ticks": 34,
+				"invalidate_usec": 645,
+				"kernel_ticks": 35,
 				"kernel_usec": 0,
-				"reasons": {
-					"unsupported_cycle_contract": 1
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			}
 		},
 		{
 			"counters": {
-				"build_usec": 871,
+				"build_usec": 823,
 				"builds": 4,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -1114,7 +1079,7 @@
 				"event_ticks": 0,
 				"fallback_ticks": 3,
 				"fallback_usec": 0,
-				"invalidate_usec": 18,
+				"invalidate_usec": 17,
 				"kernel_ticks": 5,
 				"kernel_usec": 0,
 				"reasons": {
@@ -1144,7 +1109,7 @@
 		},
 		{
 			"counters": {
-				"build_usec": 3961,
+				"build_usec": 2845,
 				"builds": 5,
 				"cycle_invalidations": 0,
 				"cycle_usec": 0,
@@ -1152,12 +1117,10 @@
 				"event_ticks": 1,
 				"fallback_ticks": 1,
 				"fallback_usec": 0,
-				"invalidate_usec": 92,
+				"invalidate_usec": 101,
 				"kernel_ticks": 4,
 				"kernel_usec": 0,
-				"reasons": {
-
-				},
+				"reasons": {},
 				"structural_invalidations": 0,
 				"writeback_usec": 0
 			},

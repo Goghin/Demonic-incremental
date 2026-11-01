@@ -466,7 +466,8 @@ func _init() -> void:
 		"thermal_compressor": Vector2(0.615829, 0.254067),
 		"lava_mite_colony": Vector2(0.452036, 0.247374),
 		"matter_furnace": Vector2(0.540720, 0.057103),
-		"infernal_forge": Vector2(0.310010, 0.290895)
+		"infernal_forge": Vector2(0.310010, 0.290895),
+		"relic_shard_extractor": Vector2(0.750000, 0.550000)
 	}
 	brazier_layout_positions = {
 		"stability": Vector2(0.283637, 0.122570),

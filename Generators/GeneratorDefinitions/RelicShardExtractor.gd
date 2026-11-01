@@ -86,7 +86,7 @@ static func create() -> Generator:
 		1.0,
 		ResourceIds.CRYSTALLIZED_FLAME,
 		true,
-		"",
+		"res://Generators/GeneratorDefinitions/Relic_Crucible_Idle.png",
 		modes
 	)
 
