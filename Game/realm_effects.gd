@@ -3,28 +3,20 @@ extends RefCounted
 
 
 const STABILITY_THRESHOLD_BONUS: float = 0.1
-const UNASSIGNED_STABILITY_BONUS: float = 0.02
 
 const DENSITY_THERMAL_MASS_BONUS: float = 0.05
-const UNASSIGNED_DENSITY_THERMAL_MASS_BONUS: float = 0.01
 
 const DENSITY_MATTER_PRODUCTION_BONUS: float = 0.05
-const UNASSIGNED_DENSITY_MATTER_PRODUCTION_BONUS: float = 0.01
 
 const DENSITY_MATTER_DECAY_THRESHOLD_BONUS: float = 0.05
-const UNASSIGNED_DENSITY_MATTER_DECAY_THRESHOLD_BONUS: float = 0.01
 
 const INTENSITY_HEAT_PRODUCTION_BONUS: float = 0.05
-const UNASSIGNED_HEAT_PRODUCTION_BONUS: float = 0.01
 
 const INTEGRITY_GENERATOR_COST_BONUS: float = 0.05
-const UNASSIGNED_INTEGRITY_GENERATOR_COST_BONUS: float = 0.01
 
 const INTEGRITY_ASHEN_CONTAMINATION_BONUS: float = 0.05
-const UNASSIGNED_INTEGRITY_ASHEN_CONTAMINATION_BONUS: float = 0.01
 
 const ASSIGNED_FLAME_UPGRADE_ID: String = "realm_attunement"
-const UNASSIGNED_FLAME_UPGRADE_ID: String = "infernal_foundation"
 const HEAT_PRODUCTION_UPGRADE_ID: String = "eternal_furnace"
 const FLAME_DIMINISHING_RETURNS_EXPONENT: float = 0.35
 
@@ -57,22 +49,9 @@ func rebuild(
 	var integrity = realm_configuration.integrity
 	var intensity = realm_configuration.intensity
 	
-	var unassigned_flames = (
-		eternal_flame_state.get_unassigned_flames(
-			realm_configuration
-		)
-	)
-	
 	var assigned_flame_multiplier = (
 		eternal_flame_upgrade_manager.get_effective_multiplier(
 			ASSIGNED_FLAME_UPGRADE_ID,
-			eternal_flame_state
-		)
-	)
-	
-	var unassigned_flame_multiplier = (
-		eternal_flame_upgrade_manager.get_effective_multiplier(
-			UNASSIGNED_FLAME_UPGRADE_ID,
 			eternal_flame_state
 		)
 	)
@@ -86,15 +65,9 @@ func rebuild(
 		* pow(integrity, FLAME_DIMINISHING_RETURNS_EXPONENT)
 	)
 	
-	var unassigned_integrity_cost_bonus = (
-		UNASSIGNED_INTEGRITY_GENERATOR_COST_BONUS
-		* pow(unassigned_flames, FLAME_DIMINISHING_RETURNS_EXPONENT)
-	)
-	
 	generator_cost_multiplier = 1.0 / (
 		1.0
 		+ integrity_cost_bonus
-		+ unassigned_integrity_cost_bonus
 	)
 	
 	# ---------------------------------------------------------------
@@ -105,12 +78,6 @@ func rebuild(
 		pow(stability, FLAME_DIMINISHING_RETURNS_EXPONENT)
 		* STABILITY_THRESHOLD_BONUS
 		* assigned_flame_multiplier
-	)
-	
-	var unassigned_stability_bonus = (
-		pow(unassigned_flames, FLAME_DIMINISHING_RETURNS_EXPONENT)
-		* UNASSIGNED_STABILITY_BONUS
-		* unassigned_flame_multiplier
 	)
 	
 	heat_leak_threshold = (
@@ -132,16 +99,9 @@ func rebuild(
 		* assigned_flame_multiplier
 	)
 	
-	var unassigned_thermal_mass_bonus = (
-		pow(unassigned_flames, FLAME_DIMINISHING_RETURNS_EXPONENT)
-		* UNASSIGNED_DENSITY_THERMAL_MASS_BONUS
-		* unassigned_flame_multiplier
-	)
-	
 	thermal_mass_multiplier = (
 		1.0
 		+ thermal_mass_bonus
-		+ unassigned_thermal_mass_bonus
 	)
 	
 	# ---------------------------------------------------------------
@@ -154,16 +114,9 @@ func rebuild(
 		* assigned_flame_multiplier
 	)
 	
-	var unassigned_matter_production_bonus = (
-		pow(unassigned_flames, FLAME_DIMINISHING_RETURNS_EXPONENT)
-		* UNASSIGNED_DENSITY_MATTER_PRODUCTION_BONUS
-		* unassigned_flame_multiplier
-	)
-	
 	matter_production_multiplier = (
 		1.0
 		+ matter_production_bonus
-		+ unassigned_matter_production_bonus
 	)
 	
 	# ---------------------------------------------------------------
@@ -174,12 +127,6 @@ func rebuild(
 		pow(density, FLAME_DIMINISHING_RETURNS_EXPONENT)
 		* DENSITY_MATTER_DECAY_THRESHOLD_BONUS
 		* assigned_flame_multiplier
-	)
-	
-	var unassigned_matter_decay_threshold_bonus = (
-		pow(unassigned_flames, FLAME_DIMINISHING_RETURNS_EXPONENT)
-		* UNASSIGNED_DENSITY_MATTER_DECAY_THRESHOLD_BONUS
-		* unassigned_flame_multiplier
 	)
 	
 	matter_decay_threshold = (
@@ -201,16 +148,9 @@ func rebuild(
 		* assigned_flame_multiplier
 	)
 	
-	var unassigned_heat_production_bonus = (
-		pow(unassigned_flames, FLAME_DIMINISHING_RETURNS_EXPONENT)
-		* UNASSIGNED_HEAT_PRODUCTION_BONUS
-		* unassigned_flame_multiplier
-	)
-	
 	heat_production_realm_multiplier = (
 		1.0
 		+ heat_production_bonus
-		+ unassigned_heat_production_bonus
 	)
 	
 	heat_production_upgrade_multiplier = (
@@ -235,14 +175,7 @@ func rebuild(
 		* assigned_flame_multiplier
 	)
 	
-	var unassigned_contamination_bonus = (
-		UNASSIGNED_INTEGRITY_ASHEN_CONTAMINATION_BONUS
-		* pow(unassigned_flames, FLAME_DIMINISHING_RETURNS_EXPONENT)
-		* unassigned_flame_multiplier
-	)
-	
 	ashen_contamination_multiplier = (
 		1.0
 		+ integrity_contamination_bonus
-		+ unassigned_contamination_bonus
 	)
