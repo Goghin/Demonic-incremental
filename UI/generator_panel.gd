@@ -133,7 +133,7 @@ func _set_cycle_feedback(reward: String, penalty: String) -> void:
 			_cycle_penalty_label.text = penalty
 		var show_penalty := not penalty.is_empty()
 		if _cycle_penalty_label.visible != show_penalty:
-			_cycle_penalty_label.visible = show_pen
+			_cycle_penalty_label.visible = show_penalty
 
 
 func _update_operating_status(generator: Generator) -> void:
