@@ -41,10 +41,6 @@ func _ready() -> void:
 	header_button.pressed.connect(_on_header_pressed)
 	_style_entry()
 	detail_container.visible = expanded
-	modifier_summary_container = VBoxContainer.new()
-	modifier_summary_container.add_theme_constant_override("separation", 3)
-	detail_container.get_parent().add_child(modifier_summary_container)
-	detail_container.get_parent().move_child(modifier_summary_container, detail_container.get_index())
 
 
 func _style_entry() -> void:
