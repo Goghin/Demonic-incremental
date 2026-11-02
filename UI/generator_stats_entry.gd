@@ -1290,7 +1290,7 @@ func set_expanded(value: bool) -> void:
 	if expanded and state != null and stats != null:
 		update_display()
 	update_minimum_size()
-	minimum_size_changed()
+	update_minimum_size()
 
 
 func _on_header_pressed() -> void:
