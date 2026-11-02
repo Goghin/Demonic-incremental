@@ -172,11 +172,11 @@ func _update_summary_rows(container: VBoxContainer, generator: Generator, stats_
 			var resource_id: String = str(resource_value)
 			var item := VBoxContainer.new()
 			item.set_meta("resource_id", resource_id)
-			item.add_theme_constant_override("separation", 2)
+			item.add_theme_constant_override("separation", 3)
 			item.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			container.add_child(item)
 			var heading := HBoxContainer.new()
-			heading.add_theme_constant_override("separation", 4)
+			heading.add_theme_constant_override("separation", 5)
 			heading.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			item.add_child(heading)
 			var resource_icon := ResourceIcon.new()
@@ -189,16 +189,32 @@ func _update_summary_rows(container: VBoxContainer, generator: Generator, stats_
 			resource_name.add_theme_color_override("font_color", Color(0.94, 0.84, 0.72))
 			resource_name.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			heading.add_child(resource_name)
+			var kind := Label.new()
+			kind.text = "OUTPUT" if production else "INPUT DRAW"
+			kind.add_theme_font_size_override("font_size", 9)
+			kind.add_theme_color_override("font_color", Color(0.58, 0.54, 0.52))
+			kind.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			heading.add_child(kind)
 			var metrics := HBoxContainer.new()
-			metrics.add_theme_constant_override("separation", 10)
+			metrics.add_theme_constant_override("separation", 16)
 			metrics.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			item.add_child(metrics)
 			for label_name in ["Increase", "Decrease", "Combined"]:
+				var metric := VBoxContainer.new()
+				metric.add_theme_constant_override("separation", 1)
+				metric.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				metrics.add_child(metric)
+				var caption := Label.new()
+				caption.text = label_name
+				caption.add_theme_font_size_override("font_size", 9)
+				caption.add_theme_color_override("font_color", Color(0.63, 0.59, 0.56))
+				caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				metric.add_child(caption)
 				var value_label := Label.new()
 				value_label.name = label_name
 				value_label.add_theme_font_size_override("font_size", 11)
 				value_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				metrics.add_child(value_label)
+				metric.add_child(value_label)
 	for index in range(resource_ids.size()):
 		var resource_id: String = str(resource_ids[index])
 		var item: VBoxContainer = container.get_child(index) as VBoxContainer
@@ -207,18 +223,25 @@ func _update_summary_rows(container: VBoxContainer, generator: Generator, stats_
 		var increased: float = totals["increased"]
 		var decreased: float = totals["decreased"]
 		var combined: float = increased * decreased
-		var increase_label: Label = metrics.get_node("Increase") as Label
-		var decrease_label: Label = metrics.get_node("Decrease") as Label
-		var combined_label: Label = metrics.get_node("Combined") as Label
-		increase_label.text = "↑ ×%s" % NumberFormatter.format(increased)
-		decrease_label.text = "↓ ×%s" % NumberFormatter.format(decreased)
-		combined_label.text = "= ×%s" % NumberFormatter.format(combined)
-		# More input draw is detrimental; more production is beneficial.
+		var increase_label: Label = metrics.get_child(0).get_node("Increase") as Label
+		var decrease_label: Label = metrics.get_child(1).get_node("Decrease") as Label
+		var combined_label: Label = metrics.get_child(2).get_node("Combined") as Label
+		increase_label.text = "×%s" % NumberFormatter.format(increased)
+		decrease_label.text = "×%s" % NumberFormatter.format(decreased)
+		combined_label.text = "×%s" % NumberFormatter.format(combined)
 		var good := Color(0.48, 0.84, 0.57)
 		var bad := Color(0.96, 0.54, 0.46)
 		increase_label.add_theme_color_override("font_color", good if production else bad)
 		decrease_label.add_theme_color_override("font_color", bad if production else good)
 		combined_label.add_theme_color_override("font_color", Color(0.98, 0.86, 0.69))
+
+
+func _sync_header_height() -> void:
+	var header_content: VBoxContainer = header_button.get_node("HeaderContainer") as VBoxContainer
+	var required_height: float = maxf(64.0, header_content.get_combined_minimum_size().y + 14.0)
+	if not is_equal_approx(header_button.custom_minimum_size.y, required_height):
+		header_button.custom_minimum_size.y = required_height
+		update_minimum_size()
 
 
 func _get_minimum_size() -> Vector2:
@@ -244,6 +267,7 @@ func update_header(
 	
 	_update_summary_rows(production_label, generator, stats_data, true)
 	_update_summary_rows(consumption_label, generator, stats_data, false)
+	_sync_header_height()
 
 
 func get_detail_structure_signature(
@@ -1314,6 +1338,7 @@ func set_expanded(value: bool) -> void:
 	detail_container.visible = expanded
 	if expanded and state != null and stats != null:
 		update_display()
+	_sync_header_height()
 	update_minimum_size()
 	minimum_size_changed.emit()
 	var parent_container := get_parent() as Container
