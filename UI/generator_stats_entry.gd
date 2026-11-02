@@ -160,7 +160,7 @@ func _update_summary_rows(container: VBoxContainer, generator: Generator, stats_
 	var rebuild: bool = container.get_child_count() != resource_ids.size()
 	if not rebuild:
 		for index in range(resource_ids.size()):
-			var existing: HBoxContainer = container.get_child(index) as HBoxContainer
+			var existing: VBoxContainer = container.get_child(index) as VBoxContainer
 			if existing == null or str(existing.get_meta("resource_id", "")) != str(resource_ids[index]):
 				rebuild = true
 				break
@@ -170,32 +170,55 @@ func _update_summary_rows(container: VBoxContainer, generator: Generator, stats_
 			child.queue_free()
 		for resource_value in resource_ids:
 			var resource_id: String = str(resource_value)
-			var row := HBoxContainer.new()
-			row.set_meta("resource_id", resource_id)
-			row.add_theme_constant_override("separation", 4)
-			container.add_child(row)
-			var label := Label.new()
-			label.name = "SummaryLabel"
-			label.add_theme_font_size_override("font_size", 10)
-			label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-			row.add_child(label)
-	for resource_value in resource_ids:
-		var resource_id: String = str(resource_value)
-		var row: HBoxContainer = container.get_child(resource_ids.find(resource_value)) as HBoxContainer
-		var label: Label = row.get_node("SummaryLabel") as Label
+			var item := VBoxContainer.new()
+			item.set_meta("resource_id", resource_id)
+			item.add_theme_constant_override("separation", 2)
+			item.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			container.add_child(item)
+			var heading := HBoxContainer.new()
+			heading.add_theme_constant_override("separation", 4)
+			heading.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			item.add_child(heading)
+			var resource_icon := ResourceIcon.new()
+			resource_icon.setup(resource_id, Vector2(14.0, 14.0))
+			resource_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			heading.add_child(resource_icon)
+			var resource_name := Label.new()
+			resource_name.text = state.get_resource_display_name(resource_id)
+			resource_name.add_theme_font_size_override("font_size", 11)
+			resource_name.add_theme_color_override("font_color", Color(0.94, 0.84, 0.72))
+			resource_name.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			heading.add_child(resource_name)
+			var metrics := HBoxContainer.new()
+			metrics.add_theme_constant_override("separation", 10)
+			metrics.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			item.add_child(metrics)
+			for label_name in ["Increase", "Decrease", "Combined"]:
+				var value_label := Label.new()
+				value_label.name = label_name
+				value_label.add_theme_font_size_override("font_size", 11)
+				value_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				metrics.add_child(value_label)
+	for index in range(resource_ids.size()):
+		var resource_id: String = str(resource_ids[index])
+		var item: VBoxContainer = container.get_child(index) as VBoxContainer
+		var metrics: HBoxContainer = item.get_child(1) as HBoxContainer
 		var totals: Dictionary = _get_modifier_totals(generator, resource_id, production, stats_data)
 		var increased: float = totals["increased"]
 		var decreased: float = totals["decreased"]
-		var net: float = increased * decreased
-		label.text = "%s %s: ↑×%s  ↓×%s  =×%s" % [
-			state.get_resource_display_name(resource_id),
-			"output" if production else "draw",
-			NumberFormatter.format(increased),
-			NumberFormatter.format(decreased),
-			NumberFormatter.format(net)
-		]
-		# Increased draw is a cost, while reduced draw is beneficial.
-		label.add_theme_color_override("font_color", Color(0.83, 0.77, 0.71))
+		var combined: float = increased * decreased
+		var increase_label: Label = metrics.get_node("Increase") as Label
+		var decrease_label: Label = metrics.get_node("Decrease") as Label
+		var combined_label: Label = metrics.get_node("Combined") as Label
+		increase_label.text = "↑ ×%s" % NumberFormatter.format(increased)
+		decrease_label.text = "↓ ×%s" % NumberFormatter.format(decreased)
+		combined_label.text = "= ×%s" % NumberFormatter.format(combined)
+		# More input draw is detrimental; more production is beneficial.
+		var good := Color(0.48, 0.84, 0.57)
+		var bad := Color(0.96, 0.54, 0.46)
+		increase_label.add_theme_color_override("font_color", good if production else bad)
+		decrease_label.add_theme_color_override("font_color", bad if production else good)
+		combined_label.add_theme_color_override("font_color", Color(0.98, 0.86, 0.69))
 
 
 func _get_minimum_size() -> Vector2:
@@ -348,6 +371,8 @@ func rebuild_details(
 		generator
 	)
 	build_special_effect_details(generator)
+	# Notify the parent container when expanded content changes its minimum height.
+	update_minimum_size()
 
 
 func build_special_effect_details(generator: Generator) -> void:
@@ -1290,7 +1315,10 @@ func set_expanded(value: bool) -> void:
 	if expanded and state != null and stats != null:
 		update_display()
 	update_minimum_size()
-	update_minimum_size()
+	minimum_size_changed.emit()
+	var parent_container := get_parent() as Container
+	if parent_container != null:
+		parent_container.queue_sort()
 
 
 func _on_header_pressed() -> void:
